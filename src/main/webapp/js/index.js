@@ -246,6 +246,7 @@ var table  = JSON.parse(
 		        '"iAmUsually" : ["Calm","Free"],' +
 		        '"creditCardType" : ["Amex","Master Card","Visa"],' +
 		        '"apartamentType" : ["Studio","1 bedroom","2 bedroomm"],' +
+		        '"peopleQuantity" : ["1","2","3","4","5"],' +
 		        '"specialDiet" : ["Vegetarian", "Halla", "Regular"]' +
 		  '}' +
 		'}'

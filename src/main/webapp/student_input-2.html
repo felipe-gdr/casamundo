@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+
+		<title> Casamundo </title>
+		<meta name="description" content="">
+		<meta name="author" content="">
+			
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Basic Styles -->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
+
+		<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production-plugins.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.min.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.min.css">
+
+		<!-- SmartAdmin RTL Support  -->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css">
+
+		<!-- We recommend you use "your_style.css" to override SmartAdmin
+		     specific styles this will also ensure you retrain your customization with each SmartAdmin update.-->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> 
+
+		<!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/demo.min.css">
+
+		<!-- FAVICONS -->
+		<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+
+		<!-- GOOGLE FONT -->
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+		<!-- Specifying a Webpage Icon for Web Clip 
+			 Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+		<link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+		
+		<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		
+		<!-- Startup image for web apps -->
+		<link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+		<link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+		<link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+		<!-- css customizado -->
+		<link href="css/your_style.css" rel="stylesheet" type="text/css"/>
+
+	</head>
+	
+	<!--
+
+	TABLE OF CONTENTS.
+	
+	Use search to find needed section.
+	
+	===================================================================
+	
+	|  01. #CSS Links                |  all CSS links and file paths  |
+	|  02. #FAVICONS                 |  Favicon links and file paths  |
+	|  03. #GOOGLE FONT              |  Google font link              |
+	|  04. #APP SCREEN / ICONS       |  app icons, screen backdrops   |
+	|  05. #BODY                     |  body tag                      |
+	|  06. #HEADER                   |  header tag                    |
+	|  07. #PROJECTS                 |  project lists                 |
+	|  08. #TOGGLE LAYOUT BUTTONS    |  layout buttons and actions    |
+	|  09. #MOBILE                   |  mobile view dropdown          |
+	|  10. #SEARCH                   |  search field                  |
+	|  11. #NAVIGATION               |  left panel & navigation       |
+	|  12. #RIGHT PANEL              |  right panel userlist          |
+	|  13. #MAIN PANEL               |  main panel                    |
+	|  14. #MAIN CONTENT             |  content holder                |
+	|  15. #PAGE FOOTER              |  page footer                   |
+	|  16. #SHORTCUT AREA            |  dropdown shortcuts area       |
+	|  17. #PLUGINS                  |  all scripts and plugins       |
+	
+	===================================================================
+	
+	-->
+	
+	<!-- #BODY -->
+	<!-- Possible Classes
+
+		* 'smart-style-{SKIN#}'
+		* 'smart-rtl'         - Switch theme mode to RTL
+		* 'menu-on-top'       - Switch to top navigation (no DOM change required)
+		* 'no-menu'			  - Hides the menu completely
+		* 'hidden-menu'       - Hides the main menu but still accessable by hovering over left edge
+		* 'fixed-header'      - Fixes the header
+		* 'fixed-navigation'  - Fixes the main menu
+		* 'fixed-ribbon'      - Fixes breadcrumb
+		* 'fixed-page-footer' - Fixes footer
+		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
+	-->
+	<body class="smart-style-3">
+  
+  <!-- Cabeçalho-->
+		<!-- HEADER -->
+		<header id="header">
+			<div id="logo-group">
+
+				<!-- PLACE YOUR LOGO HERE -->
+				<span id="logo"> Logo Casamundo</span>
+				<!-- END LOGO PLACEHOLDER -->
+
+				<!-- Note: The activity badge color changes when clicked and resets the number to 0
+				Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
+				<span id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
+
+				<!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
+				<div class="ajax-dropdown">
+
+					<!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
+					<div class="btn-group btn-group-justified" data-toggle="buttons">
+						<label class="btn btn-default">
+							<input type="radio" name="activity" id="ajax/notify/mail.html">
+							Msgs (14) </label>
+						<label class="btn btn-default">
+							<input type="radio" name="activity" id="ajax/notify/notifications.html">
+							notify (3) </label>
+						<label class="btn btn-default">
+							<input type="radio" name="activity" id="ajax/notify/tasks.html">
+							Tasks (4) </label>
+					</div>
+
+					<!-- notification content -->
+					<div class="ajax-notifications custom-scroll">
+
+						<div class="alert alert-transparent">
+							<h4>Click a button to show messages here</h4>
+							This blank page message helps protect your privacy, or you can show the first message here automatically.
+						</div>
+
+						<i class="fa fa-lock fa-4x fa-border"></i>
+
+					</div>
+					<!-- end notification content -->
+
+					<!-- footer: refresh area -->
+					<span> Last updated on: 12/12/2013 9:43AM
+						<button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
+							<i class="fa fa-refresh"></i>
+						</button> 
+					</span>
+					<!-- end footer -->
+
+				</div>
+				<!-- END AJAX-DROPDOWN -->
+			</div>
+
+
+			<!-- pulled right: nav area -->
+			<div class="pull-right">
+				
+				<!-- collapse menu button -->
+				<div id="hide-menu" class="btn-header pull-right">
+					<span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+				</div>
+				<!-- end collapse menu -->
+				
+				<!-- #MOBILE -->
+				<!-- Top menu profile link : this shows only when top menu is active -->
+				<ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+					<li class="">
+						<a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown"> 
+							<img src="img/avatars/photo.png" alt="John Doe" class="online" />  
+						</a>
+						<ul class="dropdown-menu pull-right">
+							<li>
+								<a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> Setting</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="profile.html" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> <u>P</u>rofile</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="toggleShortcut"><i class="fa fa-arrow-down"></i> <u>S</u>hortcut</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i> Full <u>S</u>creen</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+				<!-- logout button -->
+				<div id="logout" class="btn-header transparent pull-right">
+					<span> <a href="login.html" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+				</div>
+				<!-- end logout button -->
+
+				<!-- search mobile button (this is hidden till mobile view port) -->
+				<div id="search-mobile" class="btn-header transparent pull-right">
+					<span> <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> </span>
+				</div>
+				<!-- end search mobile button -->
+
+				<!-- input: search field -->
+				<form action="search.html" class="header-search pull-right">
+					<input id="search-fld"  type="text" name="param" placeholder="Find reports and more" data-autocomplete='[
+					"Student"]'>
+					<button type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+					<a href="javascript:void(0);" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
+				</form>
+				<!-- end input: search field -->
+
+				<!-- fullscreen button -->
+				<div id="fullscreen" class="btn-header transparent pull-right">
+					<span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+				</div>
+				<!-- end fullscreen button -->
+				
+				<!-- #Voice Command: Start Speech -->
+				<div id="speech-btn" class="btn-header transparent pull-right hidden-sm hidden-xs">
+					<div> 
+						<a href="javascript:void(0)" title="Voice Command" data-action="voiceCommand"><i class="fa fa-microphone"></i></a> 
+						<div class="popover bottom"><div class="arrow"></div>
+							<div class="popover-content">
+								<h4 class="vc-title">Voice command activated <br><small>Please speak clearly into the mic</small></h4>
+								<h4 class="vc-title-error text-center">
+									<i class="fa fa-microphone-slash"></i> Voice command failed
+									<br><small class="txt-color-red">Must <strong>"Allow"</strong> Microphone</small>
+									<br><small class="txt-color-red">Must have <strong>Internet Connection</strong></small>
+								</h4>
+								<a href="javascript:void(0);" class="btn btn-success" onclick="commands.help()">See Commands</a> 
+								<a href="javascript:void(0);" class="btn bg-color-purple txt-color-white" onclick="$('#speech-btn .popover').fadeOut(50);">Close Popup</a> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end voice command -->
+
+				<!-- multiple lang dropdown : find all flags in the flags page -->
+				<ul class="header-dropdown-list hidden-xs">
+					<li>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="img/blank.gif" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
+						<ul class="dropdown-menu pull-right">
+							<li class="active">
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-es" alt="Spanish"> Español</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-de" alt="German"> Deutsch</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-jp" alt="Japan"> 日本語</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-cn" alt="China"> 中文</a>
+							</li>	
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-it" alt="Italy"> Italiano</a>
+							</li>	
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-pt" alt="Portugal"> Portugal</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-ru" alt="Russia"> Русский язык</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-kr" alt="Korea"> 한국어</a>
+							</li>						
+							
+						</ul>
+					</li>
+				</ul>
+				<!-- end multiple lang -->
+
+			</div>
+			<!-- end pulled right: nav area -->
+
+		</header>
+		<!-- END HEADER -->
+
+
+  <!-- Menu lateral -->
+		<!-- Left panel : Navigation area -->
+		<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+		<aside id="left-panel">
+
+			<!-- User info -->
+			<div class="login-info">
+				<span> <!-- User image size is adjusted inside CSS, it should stay as it --> 
+					
+					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+						<img src="img/avatars/photo.png" alt="me" class="online" /> 
+						<span>
+							Grenne 
+						</span>
+						<i class="fa fa-angle-down"></i>
+					</a> 
+					
+				</span>
+			</div>
+			<!-- end user info -->
+
+			<!-- NAVIGATION : This navigation is also responsive-->
+			<nav>
+				<!-- 
+				NOTE: Notice the gaps after each icon usage <i></i>..
+				Please note that these links work a bit different than
+				traditional href="" links. See documentation for details.
+				-->
+
+				<ul>
+					<li class="active">
+						<a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+						<ul>
+							<li class="">
+								<a href="index.html" title="Dashboard"><span class="menu-item-parent">Caretaker</span></a>
+							</li>
+							<li class="active">
+								<a href="students.html" title="Dashboard"><span class="menu-item-parent">Students</span></a>
+							</li>
+							<li class="">
+								<a href="agency.html" title="Dashboard"><span class="menu-item-parent">Agency</span></a>
+							</li>
+							<li class="">
+								<a href="family.html" title="Dashboard"><span class="menu-item-parent">Family</span></a>
+							</li>
+							<li class="">
+								<a href="administrator.html" title="Dashboard"><span class="menu-item-parent">Administrator</span></a>
+							</li>
+						</ul>	
+					</li>
+				</ul>
+			</nav>
+			
+
+			<span class="minifyme" data-action="minifyMenu"> 
+				<i class="fa fa-arrow-circle-left hit"></i> 
+			</span>
+
+		</aside>
+		<!-- END NAVIGATION -->
+  <!-- Paineis -->
+		<!-- MAIN PANEL -->
+		<div id="main" role="main">
+
+			<!-- RIBBON -->
+			<div id="ribbon">
+
+				<span class="ribbon-button-alignment"> 
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+						<i class="fa fa-refresh"></i>
+					</span> 
+				</span>
+				<!-- breadcrumb -->
+				<ol class="breadcrumb">
+					<li>Home</li><li>Students</li><li>Student_Input</li>
+				</ol>
+				<!-- end breadcrumb -->
+
+				<!-- You can also add more buttons to the
+				ribbon for further usability
+
+				Example below:
+
+				<span class="ribbon-button-alignment pull-right">
+				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
+				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
+				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
+				</span> -->
+
+			</div>
+			<!-- END RIBBON -->
+
+			<!-- MAIN CONTENT -->
+			<div id="content">
+					
+				<!-- widget grid -->
+				<section id="widget-grid" class="">
+
+
+					<!-- panel student -->
+					<!-- row -->
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						
+						<form id="checkout-form" class="smart-form" novalidate="novalidate">
+	
+							<div class="row">
+		
+								<article class="col-sm-12 col-md-12 col-lg-12">
+		
+									<div class="row">
+									
+										<div class="col-sm-12">
+																
+												<div class="well well-sm">
+									
+													<div class="row">				
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<div class="well well-light well-sm no-margin no-padding">
+																<div class="row">							
+																	<div class="col-sm-12">				
+																		<div class="row">
+																			<div class="col-sm-3 profile-pic">
+<!-- 																				<img src="img/avatars/photo_20.png" -->	
+																			</div>
+																			<div class="col-sm-9">
+																				<h1><span  class="semi-bold"></span>
+																					<br>
+																				<small>Contact</small></h1>																				
+																				<div class="row">							
+																					<section class="col-sm-4">								
+																						<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
+																							<input type="email" id="mailStudentaa" name="mailStudent" placeholder="E-mail">
+																						</label>
+																					</section>
+																				</div>
+																				<div class="row">							
+																					<section class="col-sm-4">								
+																						<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>
+																							<input type="tel" id="celPhoneStudent" name="celPhoneStudent" placeholder="Cel Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
+																						</label>
+																					</section>
+																				</div>
+																				<div class="row">							
+																					<section class="col-sm-4">								
+																						<label class="input"> <i class="icon-prepend fa fa-phone"></i>
+																							<input type="tel" id="phoneStudent" name="phoneStudent" placeholder="Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
+																						</label>
+																					</section>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-sm-1"></div>
+																		<div class="col-sm-11">
+																			<div class="row">
+																				<div class="col-xs-11">
+																					<legend>
+																					<h7>Personal Data</h7>
+																					</legend>
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="col-xs-4">
+																					<section class="col-xs-10">							
+																						<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																							<input type="text" id="lastNameStudent" name="lastNameStudent" placeholder="Last name" ">
+																						</label>
+																					</section>
+																					<section class="col-xs-10">							
+																						<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																							<input type="text" id="firstNameStudent" name="firstNameStudent" placeholder="First name" ">
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
+																							<input id="birthDayStudent" type="text" name="birthDayStudent" placeholder="Birthday" class="datepicker" data-dateformat='dd/mm/yy'>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">		
+																						<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																							<input type="text" id="professionStudent" name="professionStudent" placeholder="Profession" ">
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="select ">
+																							<select id="genderStudent" name="genderStudent">
+																								<option value="0" selected="" disabled="">Gender</option>
+																								<option value="Male">Male</option>
+																								<option value="Female">Female</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="select">
+																							<select id="nationalityStudent" name="nationalityStudent">
+																								<option value="0" selected="" disabled="">Nationality</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="select ">
+																							<select id="firstLanguageStudent" name="firstLanguageStudent">
+																								<option value="0" selected="" disabled="">First Language</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="select ">
+																							<select id="englishLevelStudent" name="englishLevelStudent">
+																								<option value="0" selected="" disabled="">English Level</option>
+																							</select>
+																						</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-7">
+																					<section class="col-xs-3">		
+																						<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
+																							<input type="text" id="streetNumberStudent" name="streetNumberStudent" placeholder="Address number" ">
+																						</label>
+																					</section>
+																					<section class="col-xs-8">		
+																						<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
+																							<input type="text" id="streetNameStudent" name="streetNameStudent" placeholder="Street name" ">
+																						</label>
+																					</section><br>
+																					<section class="col-xs-3">		
+																						<label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
+																							<input type="text" id="postalCodeStudent" name="postalCodeStudent" placeholder="ZIP" data-mask="99999-9999" data-mask-placeholder= "X">
+																						</label>
+																					</section><br>
+																					<section class="col-xs-2">
+																						<label class="select ">
+																							<select id="stateStudent" name="stateStudent">
+																								<option value="0" selected="" disabled="">State</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-3">
+																						<label class="select ">
+																							<select id="cityStudent" name="cityStudent">
+																								<option value="0" selected="" disabled="">City</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-3">
+																						<label class="select ">
+																							<select id="countryStudent" name="countryStudent">
+																								<option value="0" selected="" disabled="">Country</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">								
+																						<label class="input"> <i class="icon-prepend fa fa-phone"></i>
+																							<input type="tel" id="secondaryTelephoneStudent" name="secondaryTelephoneStudent" placeholder="Secondary Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
+																						</label>
+																					</section>
+																					<section class="col-xs-5">							
+																						<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																							<input type="text" id="emergencyContactNameStudent" name="emergencyContactNameStudent" placeholder="Emergency Contact" ">
+																						</label>
+																					</section>
+																					<section class="col-xs-5">								
+																						<label class="input"> <i class="icon-prepend fa fa-phone"></i>
+																							<input type="tel" id="emergencyContactPhoneStudent" name="emergencyContactPhoneStudent" placeholder="Emergency Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
+																						</label>
+																					</section>
+																					<section class="col-xs-5">								
+																						<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
+																							<input type="text" id="emergencyContactMailStudent" name="emergencyContactMailStudent" placeholder="Emergency Mail">
+																						</label>
+																					</section>
+																				</div>
+										
+																			</div>
+																			<div class="row">
+																				<div class="col-xs-12">
+																					<legend>
+																					<h7>Trip</h7>
+																					</legend>
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="col-xs-4">
+																					<section class="col-xs-5">
+																						<label class="select ">
+																							<select id="status" name="status">
+																								<option value="0" selected="" disabled="">Status</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="select ">
+																							<select id="destination" name="destination">
+																								<option value="0" selected="" disabled="">Country</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
+																							<input id="start" type="text" name="start" placeholder="Start" class="datepicker" data-dateformat='dd/mm/yy'>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
+																							<input id="end" type="text" name="end" placeholder="End" class="datepicker" data-dateformat='dd/mm/yy'>
+																						</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-4">
+																					<section class="col-xs-5">
+																						<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
+																							<input id="arrivalDate" type="text" name="arrivalDate" placeholder="Arrival date" class="datepicker" data-dateformat='dd/mm/yy'>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="input"> 
+																							<div class="input-group">
+																								<span class="input-group-addon"> <i class="fa fa-clock-o"></i></span>
+																								<input class="form-control" id="arrivalTime" name="arrivalTime" type="text" placeholder="Arrival time">
+																								
+																							</div>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">								
+																						<label class="input"> <i class="icon-prepend fa fa-plane"></i>
+																							<input type="text" id="airline" name="airline" placeholder="Airline">
+																						</label>
+																					</section>
+																					<section class="col-xs-5">								
+																						<label class="input"> <i class="icon-prepend fa fa-plane"></i>
+																							<input type="text" id="flightNumber" name="flightNumber" placeholder="Flight Number">
+																						</label>
+																					</section>
+																					<br>
+																					<section class="col-xs-5">
+																						<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
+																							<input id="flightDate" type="text" name="flightDate" placeholder="Flight date" class="datepicker" data-dateformat='dd/mm/yy'>
+																						</label>
+																					</section>
+																					<section class="col-xs-5">
+																						<label class="input"> 
+																							<div class="input-group">
+																								<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+																								<input class="form-control" id="flightTime" name="flightTime" type="text" placeholder="Flight time">
+																							</div>
+																						</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-2">
+																					<section class="col col-10">
+																						<label class="toggle">
+																							<input id="extend" type="radio" name="extend" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Extend</label>
+																					</section>
+																					<section class="col col-10">
+																						<label class="toggle">
+																							<input id="pickup" type="radio" name="pickup" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Pickup</label>
+																					</section>
+																					<section class="col col-10">
+																						<label class="toggle">
+																							<input id="dropoff" type="radio" name="dropoff" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Dropoff</label>
+																					</section>
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="col-xs-12">
+																					<legend>
+																					<h7>Accommodation</h7>
+																					</legend>
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="col-xs-2"></div>
+																				<div class="col-xs-8">
+																					<section class="col-xs-12" ">
+																						<label class="label">Type</label>
+																						<div class="inline-group" id="accommodation_group">
+																						</div>
+																					</section>
+																				</div>
+																				<div class="col-xs-2"></div>
+																			</div>
+																			<br>
+																			<div class="row">
+																				<div class="col-xs-4 hide homestay dorms">
+																					<section class="col-xs-8">
+																						<label class="select ">
+																							<select id="occupancy" name="occupancy">
+																								<option value="0" selected="" disabled="">Occupancy</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-8 hide guest">								
+																						<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																							<input type="text" id="guestName" name="guestName" placeholder="Guest name">
+																						</label>
+																					</section>
+																					<section class="col-xs-8 hide guest">
+																						<label class="select ">
+																							<select id="relationship" name="relationship">
+																								<option value="0" selected="" disabled="">Relationship</option>
+																							</select>
+																						</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-4 hide suite">
+																					<section class="col-xs-8">
+																						<label class="select ">
+																							<select id="apartamentType" name="apartamentType">
+																								<option value="0" selected="" disabled="">Apartament Type</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-8">								
+																						<label class="input"> <i class="icon-prepend fa fa-bug"></i>
+																							<input type="text" id="petsQuantity" name="petsQuantity" placeholder="Pets Quantity">
+																						</label>
+																					</section>
+																					<section class="col-xs-8">								
+																						<label class="input"> <i class="icon-prepend fa fa-bug"></i>
+																							<input type="text" id="petType" name="petType" placeholder="Pet Type">
+																						</label>
+																					</section>
+																					<section class="col-xs-8">
+																						<label class="toggle">
+																							<input id="parking" type="radio" name="parking" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Parking</label>
+																					</section>
+																					<section class="col-xs-8">
+																						<label class="toggle">
+																							<input id="wifi" type="radio" name="wifi" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Dedicated wifi</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-4 hide suite">
+																					<section class="col-xs-5">
+																						<label class="select ">
+																							<select id="peopleQuantity" name="peopleQuantity">
+																								<option value="0" selected="" disabled="">People Quantity</option>
+																							</select>
+																						</label>
+																					</section>
+																					<section class="col-xs-10">								
+																						<label class="input g5 g4 g3 g2 g1 hide"> <i class="icon-prepend fa fa-user"></i>
+																							<input  id="guest_01" type="text"  name="guest_01" placeholder="Guest name">
+																						</label>
+																					</section>
+																					<section class="col-xs-10 ">								
+																						<label class="input g5 g4 g3 g2 hide"> <i class="icon-prepend fa fa-user"></i>
+																							<input  id="guest_01" type="text"  name="guest_02" placeholder="Guest name">
+																						</label>
+																					</section>
+																					<section class="col-xs-10">								
+																						<label class="input g5 g4 g3 hide"> <i class="icon-prepend fa fa-user"></i>
+																							<input  id="guest_01" type="text"  name="guest_03" placeholder="Guest name">
+																						</label>
+																					</section>
+																					<section class="col-xs-10">								
+																						<label class="input g5 g4 hide"> <i class="icon-prepend fa fa-user"></i>
+																							<input  id="guest_01" type="text"  name="guest_04" placeholder="Guest name">
+																						</label>
+																					</section>
+																					<section class="col-xs-10">								
+																						<label class="input g5 hide"> <i class="icon-prepend fa fa-user"></i>
+																							<input  id="guest_01" type="text"  name="guest_05" placeholder="Guest name">
+																						</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-4 hide homestay">
+																					<div class="col-xs-3">
+																				        <small class='text-muted'>Meal Plan: </small>
+																				    </div>
+																					<section id="mealPlan_section" class="col-xs-8">
+																					</section>
+																				    <br>
+																					<div class="col-xs-3 ">
+																				        <small class='text-muted hide homestay'>Special diet: </small><br>
+																				    </div>
+																					<section id="specialDiet_section" class="col-xs-8">
+																					</section>
+																					<br>
+																				</div>
+																				<div class="col-xs-4 hide dorms">
+																				        <small class='text-muted hide dorms'>I usualliy study: </small><a href="form-x-editable.html#" class='dorms hide' id="usuallyStudy" data-type="select2" data-original-title="I usually study"></a><br>
+																				        <small class='text-muted hide dorms'>I usualliy keep my bedroom: </small><a href="form-x-editable.html#" class='dorms hide' id="keepBedroom" data-type="select2" data-original-title="I usualliy keep my bedroom"></a><br>
+																				        <small class='text-muted hide dorms'>I am usually: </small><a href="form-x-editable.html#" class='dorms hide' id="iAmUsually" data-type="select2" data-original-title="I am usually"></a><br>
+																				</div>
+																				<div class="col-xs-4 hide homestay">
+																					<section class="col col-8">
+																						<label class="toggle text-muted">
+																							<input id="liveDogs" type="radio" name="liveDogs" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Live with dogs</label>
+																					</section>
+																					<section class="col col-8">
+																						<label class="toggle text-muted">
+																							<input id="liveCats" type="radio" name="liveCats" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Live with cats</label>
+																					</section>
+																					<section class="col col-8">
+																						<label class="toggle text-muted">
+																							<input id="privateWashroom" type="radio" name="privateWashroom">
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Private washroom</label>
+																					</section>
+																					<section class="col col-8">
+																						<label class="toggle text-muted">
+																							<input id="smoke" type="radio" name="smoke" >
+																							<i data-swchon-text="Yes" data-swchoff-text="No"></i>Smoke</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-4 hide dorms suite">
+																						<section class="col-xs-9">
+																							<label class="select ">
+																								<select id="creditCardType" name="creditCardType">
+																									<option value="0" selected="" disabled="">Credit Card</option>
+																								</select>
+																							</label>
+																						</section>
+																						<section class="col-xs-9">								
+																							<label class="input"> <i class="icon-prepend fa fa-credit-card"></i>
+																								<input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="Number" data-mask="9999-9999-9999-9999" data-mask-placeholder= "*">
+																							</label>
+																						</section>
+																						<section class="col-xs-4">
+																							<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
+																								<input type="text" id="creditCardExpire" name="creditCardExpire" placeholder="Expire" data-mask="99/9999" data-mask-placeholder= "-">
+																							</label>
+																						</section>
+																						<section class="col-xs-4">								
+																							<label class="input"> <i class="icon-prepend fa fa-lock"></i>
+																								<input type="text" id="creditCardCVC" name="creditCardCVC" placeholder="CVC" data-mask="999" data-mask-placeholder= "*">
+																							</label>
+																						</section>
+																				        
+																				</div>
+																			</div>
+																			<br>
+																			<div class="row  hide homestay">
+																				<section class="col col-4">
+																					<label class="label">Hobbies/Interest</label>
+																					<label class="textarea textarea-resizable state-disabled"> 										
+																					<textarea rows="3" id="hobbies" name="hobbies"class="custom-scroll"></textarea> </label>
+																				</section>
+																				<section class="col col-4">
+																					<label class="label">Alergies or Medical Concern</label>
+																					<label class="textarea textarea-resizable state-disabled"> 										
+																					<textarea rows="3" id="medical" name="medical"class="custom-scroll"></textarea> </label>
+																				</section>
+																				<section class="col col-4">
+																					<label class="label">Comments</label>
+																					<label class="textarea textarea-resizable state-disabled"> 										
+																					<textarea rows="3" id="comments" name="comments"class="custom-scroll"></textarea> </label>
+																				</section>
+																			</div>
+																			<br>
+																			<div class="row">
+																				<div class="col-xs-12 homestay hide">
+																					<section class="col col-12">
+																						<label class="checkbox state-disabled">
+																							<input type="checkbox" id="agreeTerm" name="agreeTerm" >
+																							<i></i>I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Homestay Terms and Conditions</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-12 dorms hide">
+																					<section class="col col-12">
+																						<label class="checkbox state-disabled">
+																							<input type="checkbox" id="agreeDebit" name="agreeDebit" >
+																							<i></i>I authorize the charge of $200 regarding the security deposit of my shared Accommodation</label>
+																					</section>
+																				</div>
+																				<div class="col-xs-12 suite hide">
+																					<section class="col col-12">
+																						<label class="checkbox state-disabled">
+																							<input type="checkbox" id="agreeDebitSuite" name="agreeDebitSuite" >
+																							<i></i>I authorize the charge of $500 regarding the security deposit of apartment</label>
+																					</section>
+																					<section class="col col-12">
+																						<label class="checkbox state-disabled">
+																							<input type="checkbox" id="agreeSuite" name="agreeSuite" >
+																							<i></i>I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Suites Terms and Conditions</label>
+																					</section>
+																				</div>
+																				<br>							
+																			</div>
+																			<br>
+																		</div>
+																	</div>
+									
+																</div>
+									
+															</div>
+									
+														</div>
+													</div>
+									
+												</div>			
+										</div>
+									
+									</div>
+									
+									<!-- end row -->
+		
+								</article>
+							</div>
+						</form>
+					</div>
+					<!-- end row -->
+
+					<!-- another panels -->
+
+					<!-- row -->
+	
+					<div class="row">
+
+					</div>
+
+					<!-- end row -->
+
+				</section>
+				<!-- end widget grid -->
+
+			</div>
+			<!-- END MAIN CONTENT -->
+
+		</div>
+		<!-- END MAIN PANEL -->
+
+		<!-- PAGE FOOTER -->
+		<div class="page-footer">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<span class="txt-color-white">Casamundo<span class="hidden-xs"> - Web Application</span></span>
+				</div>
+
+				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
+					<div class="txt-color-white inline-block">
+						<i class="txt-color-blueLight hidden-mobile">Last account activity <i class="fa fa-clock-o"></i> <strong>52 mins ago &nbsp;</strong> </i>
+						<div class="btn-group dropup">
+							<button class="btn btn-xs dropdown-toggle bg-color-blue txt-color-white" data-toggle="dropdown">
+								<i class="fa fa-link"></i> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right text-left">
+								<li>
+									<div class="padding-5">
+										<p class="txt-color-darken font-sm no-margin">Download Progress</p>
+										<div class="progress progress-micro no-margin">
+											<div class="progress-bar progress-bar-success" style="width: 50%;"></div>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="padding-5">
+										<p class="txt-color-darken font-sm no-margin">Server Load</p>
+										<div class="progress progress-micro no-margin">
+											<div class="progress-bar progress-bar-success" style="width: 20%;"></div>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="padding-5">
+										<p class="txt-color-darken font-sm no-margin">Memory Load <span class="text-danger">*critical*</span></p>
+										<div class="progress progress-micro no-margin">
+											<div class="progress-bar progress-bar-danger" style="width: 70%;"></div>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="padding-5">
+										<button class="btn btn-block btn-default">refresh</button>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PAGE FOOTER -->
+
+		<!-- SHORTCUT AREA : With large tiles (activated via clicking user name tag)
+		Note: These tiles are completely responsive,
+		you can add as many as you like
+		-->
+		<div id="shortcut">
+			<ul>
+				<li>
+					<a href="inbox.html" class="jarvismetro-tile big-cubes bg-color-blue"> <span class="iconbox"> <i class="fa fa-envelope fa-4x"></i> <span>Mail <span class="label pull-right bg-color-darken">14</span></span> </span> </a>
+				</li>
+				<li>
+					<a href="calendar.html" class="jarvismetro-tile big-cubes bg-color-orangeDark"> <span class="iconbox"> <i class="fa fa-calendar fa-4x"></i> <span>Calendar</span> </span> </a>
+				</li>
+				<li>
+					<a href="gmap-xml.html" class="jarvismetro-tile big-cubes bg-color-purple"> <span class="iconbox"> <i class="fa fa-map-marker fa-4x"></i> <span>Maps</span> </span> </a>
+				</li>
+				<li>
+					<a href="invoice.html" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-book fa-4x"></i> <span>Invoice <span class="label pull-right bg-color-darken">99</span></span> </span> </a>
+				</li>
+				<li>
+					<a href="gallery.html" class="jarvismetro-tile big-cubes bg-color-greenLight"> <span class="iconbox"> <i class="fa fa-picture-o fa-4x"></i> <span>Gallery </span> </span> </a>
+				</li>
+				<li>
+					<a href="profile.html" class="jarvismetro-tile big-cubes selected bg-color-pinkDark"> <span class="iconbox"> <i class="fa fa-user fa-4x"></i> <span>My Profile </span> </span> </a>
+				</li>
+			</ul>
+		</div>
+		<!-- END SHORTCUT AREA -->
+
+		<!--================================================== -->
+
+		<!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
+		<script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
+
+		<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script>
+			if (!window.jQuery) {
+				document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
+			}
+		</script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script>
+			if (!window.jQuery.ui) {
+				document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+			}
+		</script>
+
+		<!-- IMPORTANT: APP CONFIG -->
+		<script src="js/app.config.js"></script>
+
+		<!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+		<script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> 
+
+		<!-- BOOTSTRAP JS -->
+		<script src="js/bootstrap/bootstrap.min.js"></script>
+
+		<!-- CUSTOM NOTIFICATION -->
+		<script src="js/notification/SmartNotification.min.js"></script>
+
+		<!-- JARVIS WIDGETS -->
+		<script src="js/smartwidgets/jarvis.widget.min.js"></script>
+
+		<!-- EASY PIE CHARTS -->
+		<script src="js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+		<!-- SPARKLINES -->
+		<script src="js/plugin/sparkline/jquery.sparkline.min.js"></script>
+
+		<!-- JQUERY VALIDATE -->
+		<script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+		<!-- JQUERY MASKED INPUT -->
+		<script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+		<!-- JQUERY SELECT2 INPUT -->
+		<script src="js/plugin/select2/select2.min.js"></script>
+
+		<!-- JQUERY UI + Bootstrap Slider -->
+		<script src="js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+		<!-- browser msie issue fix -->
+		<script src="js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+		<!-- FastClick: For mobile devices -->
+		<script src="js/plugin/fastclick/fastclick.min.js"></script>
+
+		<!--[if IE 8]>
+
+		<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+		<![endif]-->
+
+		<!-- MAIN APP JS FILE -->
+		<script src="js/app.min.js"></script>
+
+		<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
+		<!-- Voice command : plugin -->
+		<script src="js/speech/voicecommand.min.js"></script>
+
+		<!-- SmartChat UI : plugin -->
+		<script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
+		<script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
+		
+
+		<!-- Datatables --> 
+
+		<script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
+		<script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
+		<script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
+		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+
+		<!-- PAGE RELATED GRAPHS 
+		<script src="..."></script>-->
+		<script src="js/plugin/highChartCore/highcharts-custom.min.js"></script>
+		<script src="js/plugin/highchartTable/jquery.highchartTable.min.js"></script>
+
+		<!-- Plugin timeslider -->
+		<script src="js-timeline/timeslider.js"></script>
+
+		<!-- Plugin carrega imagem -->
+		<script src="js/plugin/dropzone/dropzone.min.js"></script>
+
+		<!-- Plugin editable -->
+		<script src="js/plugin/x-editable/moment.min.js"></script>
+		<script src="js/plugin/x-editable/jquery.mockjax.min.js"></script>
+		<script src="js/plugin/x-editable/x-editable.min.js"></script>
+
+
+		<!-- plugin timepicker -->
+		<script src="js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+		<!-- out scripts -->
+		<script src="js/main.js"></script>
+		<script src="js/student.js"></script>
+		<script src="js/student_input.js"></script>
+		<script src="js/plugin/maxlength/bootstrap-maxlength.min.js"></script>
+		<script src="js/plugin/clockpicker/clockpicker.min.js"></script>
+		<script src="js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js"></script>
+		<script src="js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>		
+		<script src="js/plugin/colorpicker/bootstrap-colorpicker.min.js"></script>
+		<script src="js/plugin/knob/jquery.knob.min.js"></script>
+		<script src="js/plugin/typeahead/typeahead.min.js"></script>
+		<script src="js/plugin/typeahead/typeaheadjs.min.js"></script>
+
+		<script>
+			$(document).ready(function() {
+
+				// DO NOT REMOVE : GLOBAL FUNCTIONS!
+				pageSetUp();
+
+			
+			
+				/*
+				 * carrega logo
+				 */		
+
+				Dropzone.autoDiscover = false;
+				$("#fotostudent").dropzone({
+					//url: "/file/post",
+					addRemoveLinks : true,
+					maxFilesize: 5.5,
+					dictDefaultMessage: '<span class="text-center cargalogo">Foto</span><br><span class="text-center cargalogo">Drag or Click</span>',
+					dictResponseError: 'Error uploading file!'
+				});
+
+				//
+			    // custom toolbar colocar o logo da Casamundo
+			    //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+				
+			});		
+		</script>
+
+		<!-- Your GOOGLE ANALYTICS CODE Below -->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+
+		</script>
+		
+		
+
+	</body>
+
+</html>

@@ -70,13 +70,9 @@
 		    , function (i, optionValue) {
     			$("#apartamentType").append( $(option(optionValue)));
 		    });
-    $.each(table.documento.apartamentType
+    $.each(table.documento.peopleQuantity
 		    , function (i, optionValue) {
-    			$("#apartamentType").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.apartamentType
-		    , function (i, optionValue) {
-    			$("#apartamentType").append( $(option(optionValue)));
+    			$("#peopleQuantity").append( $(option(optionValue)));
 		    });
 	$('#birthDayStudent').datepicker({
 		dateFormat : 'dd.mm.yy',
@@ -117,6 +113,11 @@
 		onSelect : function(selectedDate) {
 //			$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
+	});
+
+	$('#peopleQuantity').change(function() {
+		$('.g5').addClass("hide");
+		$('.g' + $(this).val()).removeClass("hide");
 	});
 
 	$('#occupancy').change(function() {
