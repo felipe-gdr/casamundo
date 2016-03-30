@@ -1,0 +1,61 @@
+{
+    "data": 
+
+   [     
+     {
+            "name": "<div class='login-info'><a data-toggle='modal' data-target='#student-consult'><img src='img/avatars/photo_2.png' alt='me' class='online' /><span>Amanda Ferreira</span><i class='fa fa-angle-down'></i></a></span></div><br><small class='text-muted'><i>Age: 24<i></small><br><small class='text-muted'><i>Phone: +55114523-4212<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: chico@gmail.com<i></small><br>",
+            "period": "05-20-2016 to 05-30-2016<br><small class='text-muted'><i>Days: 10<i></small>",
+            "status": "<span class='label label-avaliable'>Avaliable</span>",
+            "gender": "<span class='label label-female'>Female</span>",
+            "alergies": "<span class='label label-success'>No</span>",
+            "smoke": "<span class='label label-danger'>Yes</span>",
+            "agency": "Canada Destino<br><small class='text-muted'><i>Consult:Ana Cristina<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: anacris@gmail.com<i></small><br>",
+            "school": "UFT<br><small class='text-muted'><i>Contact:Paulo Frundise<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: frundse@gmail.com<i></small><br>",
+            "filters": "<span class='label label-primary'>Single</span><span class='label label-primary'>Vegetarian</span><span class='label label-primary'>Live with pets</span><span class='label label-warning'>Cardiac , High Pressure</span><span class='label label-danger'> I don't what halla is</span>",
+            "accommodation": "<span class='label label-warning'>Not yet acomodate</span><br>Comments<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small>",
+            "informations": "Agency<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small><br>School<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small>",
+            "comments": "<small class='text-muted'><i>Praesent in mauris eu tortor porttitor accumsan. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Aenean fermentum risus id tortor. Integer imperdiet lectus quis justo. Integer tempor. Vivamus ac urna vel leo pretium faucibus. Mauris elementum mauris vitae tortor. In dapibus augue non sapien. Aliquam ante. Curabitur bibendum justo non orci. Praesent<i></small>",
+            "actions": "<div class='btn-group'><button class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown' >Action <span class='caret'></span></button><ul class='dropdown-menu'><li><a  id='dorms_1' data-toggle='modal' data-target='#accommodation_dorms'>Looking for dorms</a></li></ul></div>"
+     },   
+     {
+            "name": "<div class='login-info'><a data-toggle='modal' data-target='#student-consult'><img src='img/avatars/sunny.png' alt='me' class='online' /><span>Francisco Barros</span><i class='fa fa-angle-down'></i></a></span></div><br><small class='text-muted'><i>Age: 24<i></small><br><small class='text-muted'><i>Phone: +55114523-4212<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: chico@gmail.com<i></small><br>",
+            "period": "06-15-2016 to 06-30-2016<br><small class='text-muted'><i>Days: 15<i></small>",
+            "status": "<span class='label label-confirmed'>Confirmed</span>",
+            "gender": "<span class='label label-male'>Male</span>",
+            "alergies": "<span class='label label-success'>No</span>",
+            "smoke": "<span class='label label-warning'>No</span>",
+            "agency": "Canada Destino<br><small class='text-muted'><i>Consult:Ana Cristina<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: anacris@gmail.com<i></small><br>",
+            "school": "UFT<br><small class='text-muted'><i>Contact:Paulo Frundise<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: frundse@gmail.com<i></small><br>",
+            "filters": "<span class='label label-primary'>Single</span><span class='label label-warning'>Vegetarian</span><span class='label label-danger'>Don't live with pets</span><span class='label label-primary'>Don't have medical concerns</span><span class='label label-primary'> I don't what halla is</span>",
+            "accommodation": "Address<br><small class='text-muted'><i>2343, new york avenue, zip 23232<i><br>Family<div class='login-info'><a href='javascript:void(0);' id='show-shortcutStudent' data-action='toggleShortcut'><img src='img/avatars/sunny.png' alt='me' class='online' /><span>Paul Jordan</span><i class='fa fa-angle-down'></i></a></span></div><br><small class='text-muted'><i>Phone: +55114523-4212<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: jordan@gmail.com<i></small><br>Comments<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small>",
+            "informations": "Agency<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small><br>School<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small>",
+            "comments": "<small class='text-muted'><i>Praesent in mauris eu tortor porttitor accumsan. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Aenean fermentum risus id tortor. Integer imperdiet lectus quis justo. Integer tempor. Vivamus ac urna vel leo pretium faucibus. Mauris elementum mauris vitae tortor. In dapibus augue non sapien. Aliquam ante. Curabitur bibendum justo non orci. Praesent<i></small>",
+            "actions": "<div class='btn-group'><button class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'>Action <span class='caret'></span></button><ul class='dropdown-menu'><li><a href='javascript:void(0);'>Looking for a extension</a></li></ul></div>"
+
+     },
+          {
+            "name": "<div class='login-info'><a data-toggle='modal' data-target='#student-consult'><img src='img/avatars/photo_4.png' alt='me' class='online' /><span>Gilberto Prudente</span><i class='fa fa-angle-down'></i></a></span></div><br><small class='text-muted'><i>Age: 28<i></small><br><small class='text-muted'><i>Phone: +55114523-4212<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: giba@gmail.com<i></small><br><div class='login-info'><a data-toggle='modal' data-target='#student-consult'><img src='img/avatars/photo_3.png' alt='me' class='online' /><span>Tereza Prudente</span><i class='fa fa-angle-down'></i></a></span></div><br><small class='text-muted'><i>Age: 24<i></small><br><small class='text-muted'><i>Phone: +55114523-4212<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: tereza@gmail.com<i></small><br>",
+            "period": "06-10-2016 to 06-25-2016<br><small class='text-muted'><i>Days: 15<i></small>",
+            "status": "<span class='label label-placement-offered'>Placement offered</span>",
+            "gender": "<span class='label label-female'>Female</span><span class='label label-male'>Male</span>",
+            "alergies": "<span class='label label-success'>No</span>",
+            "smoke": "<span class='label label-danger'>Yes</span>",
+            "agency": "Canada Destino<br><small class='text-muted'><i>Consult:Ana Cristina<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: anacris@gmail.com<i></small><br>",
+            "school": "UFT<br><small class='text-muted'><i>Contact:Paulo Frundise<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: frundse@gmail.com<i></small><br>",
+            "filters": "<span class='label label-primary'>Couple</span><span class='label label-primary'>Vegetarian</span><span class='label label-primary'>Live with pets</span><span class='label label-warning'>Cardiac , High Pressure</span><span class='label label-danger'> I don't what halla is</span>",
+            "accommodation": "Address<br><small class='text-muted'><i>2343, new york avenue, zip 23232<i><br>Family<div class='login-info'><a href='javascript:void(0);' id='show-shortcutStudent' data-action='toggleShortcut'><img src='img/avatars/sunny.png' alt='me' class='online' /><span>Paul Jordan</span><i class='fa fa-angle-down'></i></a></span></div><br><small class='text-muted'><i>Phone: +55114523-4212<i></small><br><small class='text-muted'><i>Cel Phone: +551199545-2323<i></small><br><small class='text-muted'><i>Email: jordan@gmail.com<i></small><br>Comments<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small>",
+            "informations": "Agency<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small><br>School<br><small class='text-muted'><i>In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. Pellentesque habitant morbi tristique senectus<i></small>",
+            "comments": "<small class='text-muted'><i>Praesent in mauris eu tortor porttitor accumsan. Mauris suscipit, ligula sit amet pharetra semper, nibh ante cursus purus, vel sagittis velit mauris vel metus. Aenean fermentum risus id tortor. Integer imperdiet lectus quis justo. Integer tempor. Vivamus ac urna vel leo pretium faucibus. Mauris elementum mauris vitae tortor. In dapibus augue non sapien. Aliquam ante. Curabitur bibendum justo non orci. Praesent<i></small>",
+            "actions": "<div class='btn-group'><button class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown'>Action <span class='caret'></span></button><ul class='dropdown-menu'><li><a href='javascript:void(0);'>Looking for another accommodation</a></li><li><a href='javascript:void(0);'>Cancel accommodation</a></li><li><a href='javascript:void(0);'>Confirm accommodation</a></li></ul></div>"
+            
+
+     }   
+
+
+
+     ]
+    
+     
+     
+          
+          }
