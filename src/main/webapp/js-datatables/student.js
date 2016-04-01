@@ -60,7 +60,7 @@
 				
 			    });
 		        var objJson = JSON.parse(localStorage.getItem("student"));
-			    $.each(objJson.documento.trip, function (i, trip) {
+			    $.each(objJson.documento.trips, function (i, trip) {
 				    trip_table.row.add( {
 			            'status':'<span class="label label-avaliable">' + trip.status + '</span>',
 			            'destination':'<small class="text-muted">' + trip.destination + '</small>',

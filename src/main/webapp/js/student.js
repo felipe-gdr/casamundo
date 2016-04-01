@@ -96,195 +96,195 @@ function getValueStudent (field, actualTrip) {
 	};
 	if (field == "status"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].status;		
+        return objJson.documento.trips[actualTrip].status;		
 	};
 	if (field == "destination"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].destination;		
+        return objJson.documento.trips[actualTrip].destination;		
 	};
 	if (field == "start"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].start;		
+        return objJson.documento.trips[actualTrip].start;		
 	};
 	if (field == "end"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].end;		
+        return objJson.documento.trips[actualTrip].end;		
 	};
 	if (field == "arrivalDate"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].arrivalDate;		
+        return objJson.documento.trips[actualTrip].arrivalDate;		
 	};
 	if (field == "arrivalTime"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].arrivalTime;		
+        return objJson.documento.trips[actualTrip].arrivalTime;		
 	};
 	if (field == "flightDate"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].flightDate;		
+        return objJson.documento.trips[actualTrip].flightDate;		
 	};
 	if (field == "flightNumber"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].flightNumber;		
+        return objJson.documento.trips[actualTrip].flightNumber;		
 	};
 	if (field == "flightTime"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].flightTime;		
+        return objJson.documento.trips[actualTrip].flightTime;		
 	};
 	if (field == "airline"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].airline;			
+        return objJson.documento.trips[actualTrip].airline;			
 	};
 	if (field == "extend"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].extend;		
+        return objJson.documento.trips[actualTrip].extend;		
 	};
 	if (field == "pickup"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].pickup;		
+        return objJson.documento.trips[actualTrip].pickup;		
 	};
 	if (field == "dropoff"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].dropoff;		
+        return objJson.documento.trips[actualTrip].dropoff;		
 	};
 	if (field == "accommodation"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].accommodation;		
+        return objJson.documento.trips[actualTrip].accommodation;		
 	};
 	if (field == "occupancy"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].occupancy;		
+        return objJson.documento.trips[actualTrip].occupancy;		
 	};
 	if (field == "guestName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].guestName;		
+        return objJson.documento.trips[actualTrip].guestName;		
 	};
 	if (field == "relationship"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].relationship;		
+        return objJson.documento.trips[actualTrip].relationship;		
 	};
 	if (field == "mealPlan"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].mealPlan;		
+        return objJson.documento.trips[actualTrip].mealPlan;		
 	};
 	if (field == "specialDiet"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].specialDiet;		
+        return objJson.documento.trips[actualTrip].specialDiet;		
 	};
 	if (field == "privateWashroom"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].privateWashroom;		
+        return objJson.documento.trips[actualTrip].privateWashroom;		
 	};
 	if (field == "smoke"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].smoke;		
+        return objJson.documento.trips[actualTrip].smoke;		
 	};
 	if (field == "liveDogs"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].liveDogs;		
+        return objJson.documento.trips[actualTrip].liveDogs;		
 	};
 	if (field == "liveCats"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].liveCats;		
+        return objJson.documento.trips[actualTrip].liveCats;		
 	};
 	if (field == "hobbies"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].hobbies;		
+        return objJson.documento.trips[actualTrip].hobbies;		
 	};
 	if (field == "medical"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].medical;		
+        return objJson.documento.trips[actualTrip].medical;		
 	};
 	if (field == "comments"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].comments;		
+        return objJson.documento.trips[actualTrip].comments;		
 	};
 	if (field == "agreeTerm"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].agreeTerm;		
+        return objJson.documento.trips[actualTrip].agreeTerm;		
 	};
 	if (field == "usuallyStudy"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].usuallyStudy;		
+        return objJson.documento.trips[actualTrip].usuallyStudy;		
 	};
 	if (field == "keepBedroom"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].keepBedroom;		
+        return objJson.documento.trips[actualTrip].keepBedroom;		
 	};
 	if (field == "iAmUsually"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].iAmUsually;		
+        return objJson.documento.trips[actualTrip].iAmUsually;		
 	};
 	if (field == "creditCardType"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].creditCardType;		
+        return objJson.documento.trips[actualTrip].creditCardType;		
 	};
 	if (field == "creditCardNumber"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].creditCardNumber;		
+        return objJson.documento.trips[actualTrip].creditCardNumber;		
 	};
 	if (field == "creditCardExpire"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].creditCardExpire;		
+        return objJson.documento.trips[actualTrip].creditCardExpire;		
 	};
 	if (field == "creditCardCVC"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].creditCardCVC;		
+        return objJson.documento.trips[actualTrip].creditCardCVC;		
 	};
 	if (field == "agreeDebit"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].agreeDebit;		
+        return objJson.documento.trips[actualTrip].agreeDebit;		
 	};
 	if (field == "apartamentType"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].apartamentType;		
+        return objJson.documento.trips[actualTrip].apartamentType;		
 	};
 	if (field == "petQuantity"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].petQuantity;		
+        return objJson.documento.trips[actualTrip].petQuantity;		
 	};
 	if (field == "petType"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].petType;		
+        return objJson.documento.trips[actualTrip].petType;		
 	};
 	if (field == "parking"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].parking;		
+        return objJson.documento.trips[actualTrip].parking;		
 	};
 	if (field == "wifi"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].wifi;		
+        return objJson.documento.trips[actualTrip].wifi;		
 	};
 	if (field == "peopleQuantity"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].peopleQuantity;		
+        return objJson.documento.trips[actualTrip].peopleQuantity;		
 	};
 	if (field == "guest_01"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].guest_01;		
+        return objJson.documento.trips[actualTrip].guest_01;		
 	};
 	if (field == "guest_02"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].guest_02;		
+        return objJson.documento.trips[actualTrip].guest_02;		
 	};
 	if (field == "guest_03"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].guest_03;		
+        return objJson.documento.trips[actualTrip].guest_03;		
 	};
 	if (field == "guest_04"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].guest_04;		
+        return objJson.documento.trips[actualTrip].guest_04;		
 	};
 	if (field == "guest_05"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].guest_05;		
+        return objJson.documento.trips[actualTrip].guest_05;		
 	};
 	if (field == "agreeDebitSuite"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].agreeDebitSuite;		
+        return objJson.documento.trips[actualTrip].agreeDebitSuite;		
 	};
 	if (field == "agreeSuite"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trip[actualTrip].agreeSuite;		
+        return objJson.documento.trips[actualTrip].agreeSuite;		
 	};
 					
 	return "##erro";
@@ -295,10 +295,10 @@ function setValueStudent (field, value, actualTrip) {
 	var objJson = JSON.parse(localStorage.getItem("student"));
 	
 	if (field == "celPhone"){
-        objJson.documento.celPhone = value;
+        objJson.documento.celPhone = limpaData(value);
 	};
 	if (field == "phone"){
-        objJson.documento.phone = value;
+        objJson.documento.phone = limpaData(value);
 	};
 	if (field == "mail"){
         objJson.documento.mail = value;
@@ -346,163 +346,252 @@ function setValueStudent (field, value, actualTrip) {
         objJson.documento.country = value;
 	};
 	if (field == "secondaryTelephone"){
-        objJson.documento.secondaryTelephone = value;
+        objJson.documento.secondaryTelephone = limpaData(value);
 	};
 	if (field == "emergencyContactName"){
         objJson.documento.emergencyContactName = value;
 	};
 	if (field == "emergencyContactPhone"){
-        objJson.documento.emergencyContactPhone = value;
+        objJson.documento.emergencyContactPhone = limpaData(value);
 	};
 	if (field == "emergencyContactMail"){
         objJson.documento.emergencyContactMail = value;
 	};
 	if (field == "status"){
-        objJson.documento.trip[actualTrip].status = value;
+        objJson.documento.trips[actualTrip].status = value;
 	};
 	if (field == "destination"){
-        objJson.documento.trip[actualTrip].destination = value;
+        objJson.documento.trips[actualTrip].destination = value;
 	};
 	if (field == "start"){
-        objJson.documento.trip[actualTrip].start = limpaData(value);
+        objJson.documento.trips[actualTrip].start = limpaData(value);
 	};
 	if (field == "end"){
-        objJson.documento.trip[actualTrip].end = limpaData(value);
+        objJson.documento.trips[actualTrip].end = limpaData(value);
 	};
 	if (field == "arrivalDate"){
-        objJson.documento.trip[actualTrip].arrivalDate = limpaData(value);
+        objJson.documento.trips[actualTrip].arrivalDate = limpaData(value);
 	};
 	if (field == "arrivalTime"){
-        objJson.documento.trip[actualTrip].arrivalTime = limpaData(value);
+        objJson.documento.trips[actualTrip].arrivalTime = limpaData(value);
 	};
 	if (field == "flightNumber"){
-        objJson.documento.trip[actualTrip].flightNumber = value;
+        objJson.documento.trips[actualTrip].flightNumber = value;
 	};
 	if (field == "flightDate"){
-        objJson.documento.trip[actualTrip].flightDate = limpaData(value);
+        objJson.documento.trips[actualTrip].flightDate = limpaData(value);
 	};
 	if (field == "flightTime"){
-        objJson.documento.trip[actualTrip].flightTime = limpaData(value);
+        objJson.documento.trips[actualTrip].flightTime = limpaData(value);
 	};
 	if (field == "airline"){
-        objJson.documento.trip[actualTrip].airline = value;
+        objJson.documento.trips[actualTrip].airline = value;
 	};
 	if (field == "extend"){
-        objJson.documento.trip[actualTrip].extend = value;
+        objJson.documento.trips[actualTrip].extend = value;
 	};
 	if (field == "pickup"){
-        objJson.documento.trip[actualTrip].pickup = value;
+        objJson.documento.trips[actualTrip].pickup = value;
 	};
 	if (field == "dropoff"){
-        objJson.documento.trip[actualTrip].dropoff = value;
+        objJson.documento.trips[actualTrip].dropoff = value;
 	};
 	if (field == "accommodation"){
-        objJson.documento.trip[actualTrip].accommodation = value;
+        objJson.documento.trips[actualTrip].accommodation = value;
 	};
 	if (field == "occupancy"){
-        objJson.documento.trip[actualTrip].occupancy = value;
+        objJson.documento.trips[actualTrip].occupancy = value;
 	};
 	if (field == "guestName"){
-        objJson.documento.trip[actualTrip].guestName = value;
+        objJson.documento.trips[actualTrip].guestName = value;
 	};
 	if (field == "relationship"){
-        objJson.documento.trip[actualTrip].relationship = value;
+        objJson.documento.trips[actualTrip].relationship = value;
 	};
 	if (field == "mealPlan"){
-        objJson.documento.trip[actualTrip].mealPlan = value;
+        objJson.documento.trips[actualTrip].mealPlan = value;
 	};
 	if (field == "specialDiet"){
-        objJson.documento.trip[actualTrip].specialDiet = value;
+        objJson.documento.trips[actualTrip].specialDiet = value;
 	};
 	if (field == "privateWashroom"){
-        objJson.documento.trip[actualTrip].privateWashroom = value;
+        objJson.documento.trips[actualTrip].privateWashroom = value;
 	};
 	if (field == "smoke"){
-        objJson.documento.trip[actualTrip].smoke = value;
+        objJson.documento.trips[actualTrip].smoke = value;
 	};
 	if (field == "liveDogs"){
-        objJson.documento.trip[actualTrip].liveDogs = value;
+        objJson.documento.trips[actualTrip].liveDogs = value;
 	};
 	if (field == "liveCats"){
-        objJson.documento.trip[actualTrip].liveCats = value;
+        objJson.documento.trips[actualTrip].liveCats = value;
 	};
 	if (field == "hobbies"){
-        objJson.documento.trip[actualTrip].hobbies = value;
+        objJson.documento.trips[actualTrip].hobbies = value;
 	};
 	if (field == "medical"){
-        objJson.documento.trip[actualTrip].medical = value;
+        objJson.documento.trips[actualTrip].medical = value;
 	};
 	if (field == "comments"){
-        objJson.documento.trip[actualTrip].comments = value;
+        objJson.documento.trips[actualTrip].comments = value;
 	};
 	if (field == "agreeTerm"){
-        objJson.documento.trip[actualTrip].agreeTerm = value;
+        objJson.documento.trips[actualTrip].agreeTerm = value;
 	};
 	if (field == "usuallyStudy"){
-        objJson.documento.trip[actualTrip].usuallyStudy = value;
+        objJson.documento.trips[actualTrip].usuallyStudy = value;
 	};
 	if (field == "keepBedroom"){
-        objJson.documento.trip[actualTrip].keepBedroom = value;
+        objJson.documento.trips[actualTrip].keepBedroom = value;
 	};
 	if (field == "iAmUsually"){
-        objJson.documento.trip[actualTrip].iAmUsually = value;
+        objJson.documento.trips[actualTrip].iAmUsually = value;
 	};
 	if (field == "creditCardType"){
-        objJson.documento.trip[actualTrip].creditCardType = value;
+        objJson.documento.trips[actualTrip].creditCardType = value;
 	};
 	if (field == "creditCardNumber"){
-        objJson.documento.trip[actualTrip].creditCardNumber = value;
+        objJson.documento.trips[actualTrip].creditCardNumber = value;
 	};
 	if (field == "creditCardExpire"){
-        objJson.documento.trip[actualTrip].creditCardExpire = value;
+        objJson.documento.trips[actualTrip].creditCardExpire = value;
 	};
 	if (field == "creditCardCVC"){
-        objJson.documento.trip[actualTrip].creditCardCVC = value;
+        objJson.documento.trips[actualTrip].creditCardCVC = value;
 	};
 	if (field == "agreeDebit"){
-        objJson.documento.trip[actualTrip].agreeDebit = value;
+        objJson.documento.trips[actualTrip].agreeDebit = value;
 	};
 	if (field == "apartamentType"){
-        objJson.documento.trip[actualTrip].apartamentType = value;
+        objJson.documento.trips[actualTrip].apartamentType = value;
 	};
 	if (field == "petQuantity"){
-        objJson.documento.trip[actualTrip].petQuantity = value;
+        objJson.documento.trips[actualTrip].petQuantity = value;
 	};
 	if (field == "petType"){
-        objJson.documento.trip[actualTrip].petType = value;
+        objJson.documento.trips[actualTrip].petType = value;
 	};
 	if (field == "parking"){
-        objJson.documento.trip[actualTrip].parking = value;
+        objJson.documento.trips[actualTrip].parking = value;
 	};
 	if (field == "wifi"){
-        objJson.documento.trip[actualTrip].wifi = value;
+        objJson.documento.trips[actualTrip].wifi = value;
 	};
 	if (field == "peopleQuantity"){
-        objJson.documento.trip[actualTrip].peopleQuantity = value;
+        objJson.documento.trips[actualTrip].peopleQuantity = value;
 	};
 	if (field == "guest_01"){
-        objJson.documento.trip[actualTrip].guest_01 = value;
+        objJson.documento.trips[actualTrip].guest_01 = value;
 	};
 	if (field == "guest_02"){
-        objJson.documento.trip[actualTrip].guest_02 = value;
+        objJson.documento.trips[actualTrip].guest_02 = value;
 	};
 	if (field == "guest_03"){
-        objJson.documento.trip[actualTrip].guest_03 = value;
+        objJson.documento.trips[actualTrip].guest_03 = value;
 	};
 	if (field == "guest_04"){
-        objJson.documento.trip[actualTrip].guest_04 = value;
+        objJson.documento.trips[actualTrip].guest_04 = value;
 	};
 	if (field == "guest_05"){
-        objJson.documento.trip[actualTrip].guest_05 = value;
+        objJson.documento.trips[actualTrip].guest_05 = value;
 	};
 	if (field == "agrreeDebitSuite"){
-        objJson.documento.trip[actualTrip].agrreeDebitSuite = value;
+        objJson.documento.trips[actualTrip].agrreeDebitSuite = value;
 	};
 	if (field == "agrreeSuite"){
-        objJson.documento.trip[actualTrip].agrreeSuite = value;
+        objJson.documento.trips[actualTrip].agrreeSuite = value;
 	};
 
 	localStorage.setItem("student", JSON.stringify(objJson));
+};		
+
+function limpaStorageStudent () {
+	
+	var data  = JSON.parse(
+			'{' +
+			  '"documento" :' + 
+			  	'{' +
+				    '"lastDestination" : "",' +
+				    '"mail" : "",' +
+				    '"celPhone" : "",' +
+				    '"phone" : "",' +
+				    '"lastName" : "",' +
+				    '"firstName" : "",' +
+				    '"birthDay" : "",' +
+				    '"gender" : "",' +
+				    '"nationality" : "",' +
+				    '"firstLanguage" : "",' +
+				    '"profession" : "",' +
+				    '"englishLevel" : "",' +
+				    '"streetNumber" : "",' +
+				    '"streetName" : "",' +
+				    '"state" : "",' +
+				    '"postalCode" : "",' +
+				    '"city" : "",' +
+				    '"country" : "",' +
+				    '"secondaryTelephone" : "",' +
+				    '"emergencyContactName" : "",' +
+				    '"emergencyContactPhone" : "",' +
+				    '"emergencyContactMail" : "",' +
+				    '"actualTrip" : 0,' +
+				    '"trips":' +
+				    	'[' +
+					    	'{' +
+					    		'"status":"",' +
+					    		'"destination":"",' +
+					    		'"start":"",' +
+					    		'"end":"",' +
+					    		'"extend":"",' +
+					    		'"arrivalDate":"",' +
+					    		'"arrivalTime":"",' +
+					    		'"flightNumber":"",' +
+					    		'"flightDate":"",' +
+					    		'"flightTime":"",' +
+					    		'"airline":"",' +
+					    		'"pickup":"",' +
+					    		'"dropoff":"",' +
+					    		'"accommodation":"",' +
+					    		'"occupancy":"",' +
+					    		'"guestName":"",' +
+					    		'"relationship":"",' +
+					    		'"mealPlan":"",' +
+					    		'"specialDiet":"",' +
+					    		'"privateWashroom":"",' +
+					    		'"smoke":"",' +
+					    		'"liveDogs":"",' +
+					    		'"liveCats":"",' +
+					    		'"hobbies":"",' +
+					    		'"comments":"",' +
+					    		'"medical":"",' +
+					    		'"agreeTerm":"",' +
+					    		'"usuallyStudy":"",' +
+					    		'"keepBedroom":"",' +
+					    		'"iAmUsually":"",' +
+					    		'"creditCardType":"",' +
+					    		'"creditCardNumber":"",' +
+					    		'"creditCardExpire":"",' +
+					    		'"creditCardCVC":"",' +
+					    		'"agreeDebit":"",' +
+					    		'"apartamentType":"",' +
+					    		'"petsQuantity":"",' +
+					    		'"petType":"",' +
+					    		'"parking":"",' +
+					    		'"wifi":"",' +
+					    		'"peopleQuantity":"",' +
+					    		'"guest_01":"",' +
+					    		'"guest_02":"",' +
+					    		'"guest_03":"",' +
+					    		'"guest_04":"",' +
+					    		'"guest_05":"",' +
+					    		'"agreeDebitSuite":"",' +
+					    		'"agreeSuite":""' +
+					    	'}' +
+					    ']' +
+				'}' +
+			'}'
+	);
+
+	localStorage.setItem("student", JSON.stringify(data));
 };		
 
 
@@ -510,7 +599,7 @@ function limpaData(campo){
 	var campoNovo = "";
 	i = 0;
 	while (i < campo.length) {
-		if (campo.substring(i, (i + 1)) != "." && campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":"){
+		if (campo.substring(i, (i + 1)) != "." && campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":" && campo.substring(i, (i + 1)) != ")" && campo.substring(i, (i + 1)) != "(" && campo.substring(i, (i + 1)) != "-"){
 			campoNovo = campoNovo.toString() + campo.substring(i, (i + 1)).toString() 
 		};
 	    i++;

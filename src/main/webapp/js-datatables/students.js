@@ -70,9 +70,9 @@
 				    			"<small class='text-muted'><i>Phone: " + student.phoneStudent +  "<i></small><br>" + 
 				    			"<small class='text-muted'><i>Cel Phone: " + student.phoneStudent +  "<i></small><br>" + 
 				    			"<small class='text-muted'><i>Mail: " + student.mailStudent +  "<i></small><br></a>",
-			            "start":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>" + separaData(student.trip.start, "/") + "</small>",
-			            "end":"<small class='hide'>" + converteAnoMesDia(student.trip.end) + "</small><small class='text-muted'>" + separaData(student.trip.end, "/") + "</small>",
-				    	"status": "<span class='label label-avaliable'>" + student.trip.status +  "</span>",
+			            "start":"<small class='hide'>" + converteAnoMesDia(student.trips.start) + "</small><small class='text-muted'>" + separaData(student.trips.start, "/") + "</small>",
+			            "end":"<small class='hide'>" + converteAnoMesDia(student.trips.end) + "</small><small class='text-muted'>" + separaData(student.trips.end, "/") + "</small>",
+				    	"status": "<span class='label label-avaliable'>" + student.trips.status +  "</span>",
 				    	"gender":"<small class='text-muted'>" + student.genderStudent + "</small>",
 				    	"agency":student.agency.name + "<br>" +
 				    				"<small class='text-muted'>Consult: " + student.agency.nameConsult + "</small><br>" +

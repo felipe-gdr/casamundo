@@ -12,7 +12,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -32,14 +34,14 @@ import com.mongodb.MongoException;
 
 public class Rest_Student {
 
-	@Path("/obter")	
+	@Path("/obterEmail")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterStudent(@QueryParam("email") String email) throws UnknownHostException, MongoException {
+	public JSONObject ObterEmail(@QueryParam("email") String email) throws UnknownHostException, MongoException {
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("diagrams");
-		BasicDBObject searchQuery = new BasicDBObject("documento.email", email);
+		DBCollection collection = db.getCollection("student");
+		BasicDBObject searchQuery = new BasicDBObject("documento.mail", email);
 		DBObject cursor = collection.findOne(searchQuery);
 		JSONObject documento = new JSONObject();
 		BasicDBObject obj = (BasicDBObject) cursor.get("documento");
@@ -50,7 +52,7 @@ public class Rest_Student {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String IncluirStudent(Student student)  {
+	public Response IncluirStudent(Student student)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -66,7 +68,7 @@ public class Rest_Student {
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
 			mongo.close();
-			return insert.get("_id").toString();
+			return Response.status(200).entity(documento).build();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			System.out.println("UnknownHostException");
@@ -75,17 +77,44 @@ public class Rest_Student {
 			// TODO Auto-generated catch block
 			System.out.println("MongoException");
 			e.printStackTrace();
-		} catch (JsonParseException e) {
+		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
-			System.out.println("JsonParseException");
+			System.out.println("JsonMappingException");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("IOException");
 			e.printStackTrace();
 		}
-		return "fail";
+		return Response.status(500).build();
 		
+	};
+	@Path("/atualizar")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response AtualizarDocumento(Student doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+		String mail = doc.documento.mail;
+		Mongo mongo = new Mongo();
+		DB db = (DB) mongo.getDB("documento");
+		DBCollection collection = db.getCollection("student");
+		Gson gson = new Gson();
+		String jsonDocumento = gson.toJson(doc);
+		Map<String,String> mapJson = new HashMap<String,String>();
+		ObjectMapper mapper = new ObjectMapper();
+		mapJson = mapper.readValue(jsonDocumento, HashMap.class);
+		JSONObject documento = new JSONObject();
+		documento.putAll(mapJson);
+		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
+		BasicDBObject searchQuery = new BasicDBObject("mail", mail);
+		DBObject cursor = collection.findAndModify(searchQuery,
+                null,
+                null,
+                false,
+                update,
+                true,
+                false);
+		mongo.close();
+		return Response.status(200).entity(doc).build();
 	};
 
 

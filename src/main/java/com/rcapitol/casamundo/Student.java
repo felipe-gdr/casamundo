@@ -167,6 +167,10 @@ public class Student {
     		public String guest_05;        
     		public String agreeDebitSuite; 
     		public String agreeSuite;      
+
+    		public Trips() {
+
+			}
    
             @JsonCreator
             public Trips(

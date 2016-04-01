@@ -9,7 +9,7 @@ var data  = JSON.parse(
 		  	'{' +
 			    '"lastDestination" : "Toronto",' +
 			    '"mail" : "amanda@gmail.com",' +
-			    '"celPhone" : "(011)99456.4584",' +
+			    '"celPhone" : "01199456.4584",' +
 			    '"phone" : "011994564584",' +
 			    '"lastName" : "Ferreira",' +
 			    '"firstName" : "Amanda",' +
@@ -30,7 +30,7 @@ var data  = JSON.parse(
 			    '"emergencyContactPhone" : "",' +
 			    '"emergencyContactMail" : "",' +
 			    '"actualTrip" : 0,' +
-			    '"trip":' +
+			    '"trips":' +
 			    	'[' +
 				    	'{' +
 				    		'"status":"Confirmed",' +
@@ -65,7 +65,7 @@ var data  = JSON.parse(
 				    		'"iAmUsually":"SleepEarly",' +
 				    		'"creditCardType":"Amex",' +
 				    		'"creditCardNumber":"123112311231",' +
-				    		'"creditCardExpire":"03/2016",' +
+				    		'"creditCardExpire":"032016",' +
 				    		'"creditCardCVC":"356",' +
 				    		'"agreeDebit":"Yes",' +
 				    		'"apartamentType":"Studio",' +
@@ -81,87 +81,7 @@ var data  = JSON.parse(
 				    		'"guest_05":"",' +
 				    		'"agreeDebitSuite":"Yes",' +
 				    		'"agreeSuite":"Yes"' +
-				    	'},' +
-				    	'{' +
-			    		'"status":"Confirmed",' +
-			    		'"destination":"Toronto",' +
-			    		'"start":"01042016",' +
-			    		'"end":"10042016",' +
-			    		'"extend":"No",' +
-			    		'"arrivalDate":"01042016",' +
-			    		'"arrivalTime":"1145",' +
-			    		'"flightNumber":"0564",' +
-			    		'"flightDate":"01042016",' +
-			    		'"flightTime":"1145",' +
-			    		'"airline":"Air Canadian",' +
-			    		'"pickup":"Yes",' +
-			    		'"dropoff":"No",' +
-			    		'"accommodation":"Homestay"' +
-				    	'},' +
-				    	'{' +
-			    		'"status":"Confirmed",' +
-			    		'"destination":"Toronto",' +
-			    		'"start":"01042016",' +
-			    		'"end":"10042016",' +
-			    		'"extend":"No",' +
-			    		'"arrivalDate":"01042016",' +
-			    		'"arrivalTime":"1145",' +
-			    		'"flightNumber":"0564",' +
-			    		'"flightDate":"01042016",' +
-			    		'"flightTime":"1145",' +
-			    		'"airline":"Air Canadian",' +
-			    		'"pickup":"Yes",' +
-			    		'"dropoff":"No",' +
-			    		'"accommodation":"Homestay"' +
-				    	'},' +
-				    	'{' +
-			    		'"status":"Confirmed",' +
-			    		'"destination":"Toronto",' +
-			    		'"start":"01042016",' +
-			    		'"end":"10042016",' +
-			    		'"extend":"No",' +
-			    		'"arrivalDate":"01042016",' +
-			    		'"arrivalTime":"1145",' +
-			    		'"flightNumber":"0564",' +
-			    		'"flightDate":"01042016",' +
-			    		'"flightTime":"1145",' +
-			    		'"airline":"Air Canadian",' +
-			    		'"pickup":"Yes",' +
-			    		'"dropoff":"No",' +
-			    		'"accommodation":"Homestay"' +
-				    	'},' +
-				    	'{' +
-			    		'"status":"Confirmed",' +
-			    		'"destination":"Toronto",' +
-			    		'"start":"01042016",' +
-			    		'"end":"10042016",' +
-			    		'"extend":"No",' +
-			    		'"arrivalDate":"01042016",' +
-			    		'"arrivalTime":"1145",' +
-			    		'"flightNumber":"0564",' +
-			    		'"flightDate":"01042016",' +
-			    		'"flightTime":"1145",' +
-			    		'"airline":"Air Canadian",' +
-			    		'"pickup":"Yes",' +
-			    		'"dropoff":"No",' +
-			    		'"accommodation":"Homestay"' +
-				    	'},' +
-				    	'{' +
-						'"status":"Confirmed",' +
-						'"destination":"Toronto",' +
-						'"start":"01042016",' +
-						'"end":"10042016",' +
-						'"extend":"No",' +
-						'"arrivalDate":"01042016",' +
-						'"arrivalTime":"1145",' +
-						'"flightNumber":"0564",' +
-						'"flightDate":"01042016",' +
-						'"flightTime":"1145",' +
-						'"airline":"Air Canadian",' +
-						'"pickup":"Yes",' +
-						'"dropoff":"No",' +
-						'"accommodation":"Homestay"' +
-						'}' +
+				    	'}' +
 				    ']' +
 			'}' +
 		'}'
@@ -191,7 +111,7 @@ var students  = JSON.parse(
 		    '"emergencyContactNameStudent": "",' +
 		    '"emergencyContactPhoneStudent": "",' +
 		    '"emergencyContactMailStudent": "",' +
-		    '"trip": {' +
+		    '"trips": {' +
 		      '"status": "Confirmed",' +
 		      '"destination": "Toronto",' +
 		      '"start": "01042016",' +
