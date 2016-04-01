@@ -1,6 +1,205 @@
+
+	localStorage.urlServidor = window.location.hostname;
+
+
+
 /**
- * 
- */
+*          valida formulário   
+*/
+
+	var $studentForm = $("#student-form").validate({
+		// Rules for form validation
+		rules : {
+			mail : {
+				required : true,
+				email : true
+			},
+			celPhone : {
+				required : true,
+			},
+			phone : {
+				required : true,
+			},
+			lastName : {
+				required : true,
+			},
+			firstName : {
+				required : true,
+			},
+			birthDay : {
+				required : true,
+			},
+			gender : {
+				required : true,
+			},
+			nationality : {
+				required : true,
+			},
+			firstLanguage : {
+				required : true,
+			},
+			englishLevel : {
+				required : true,
+			},
+			streetNumber : {
+				required : true,
+			},
+			streetName : {
+				required : true,
+			},
+			postalCode : {
+				required : true,
+			},
+			state : {
+				required : true,
+			},
+			city : {
+				required : true,
+			},
+			country : {
+				required : true,
+			},
+			emergencyContactMail : {
+				email : true
+			}
+		},
+
+		// Messages for form validation
+		messages : {
+			mail : {
+				required : 'Please enter student email',
+				email : 'Please enter a VALID email address'
+			},
+			celPhone : {
+				required : 'Please enter student cel phone',
+				minlength : 'Fill area code',
+				maxlength : 'Number too long',
+			},
+			phone : {
+				required : 'Please enter student phone',
+				minlength : 'Fill area code',
+				maxlength : 'Number too long',
+			},
+			lastName : {
+				required : 'Please enter student last name',
+				minlength : 2
+			},
+			firstName : {
+				required : 'Please enter student first name',
+				minlength : 2
+			},
+			birthDay : {
+				required : 'Please enter student birthday'
+			},
+			gender : {
+				required : 'Please enter student gender'
+			},
+			nationality : {
+				required : 'Please enter student nationality'
+			},
+			firstLanguage : {
+				required : 'Please enter student first language'
+			},
+			englishLevel : {
+				required : 'Please enter student english level'
+			},
+			streetNumber : {
+				required : 'Please enter address number'
+			},
+			streetName : {
+				required : 'Please enter address street name'
+			},
+			postalCode : {
+				required : 'Please enter address ZIP code'
+			},
+			state : {
+				required : 'Please enter address state'
+			},
+			city : {
+				required : 'Please enter address city'
+			},
+			country : {
+				required : 'Please enter address country'
+			},
+			secondaryTelephone : {
+				minlength : 'Fill area code',
+				maxlength : 'Number too long',
+			},
+			emergencyContactName : {
+				minlength : 'Minimum 2 caracters',
+				maxlength : 'Maximum 42 caracters'
+			},
+			emergencyContactMail : {
+				email : 'Please enter a VALID email address'
+			}
+		},
+		// form submition
+		submitHandler : function(form) {
+			$.each(form
+			    , function (i, field) {
+					var value = field.value;
+					if (field.type == "radio" || field.type == "checkbox") {
+						if (field.checked){
+							value = "Yes"
+						}else{
+							value = "No"
+						}
+					}
+					if (field.type == "select-multiple") {
+						value = "";
+						var first = true;
+					    $.each(field.children, function (i, optionValue) {
+					    	if (optionValue.selected){
+					    		if (first){
+					    			value = optionValue.label;
+					    			first = false;
+					    		}else{
+					    			value = value + "," + optionValue.label;
+					    		}
+					    	}				    			
+					    });
+					};
+					setValueStudent (field.id, value, 0)
+			});
+			if (localStorage.student.existente){
+				atualizaStudent(JSON.parse(localStorage.getItem("student")));
+				$.smallBox({
+					title : "Ok",
+					content : "<i class='fa fa-clock-o'></i> <i>You atualized a new Student</i>",
+					color : "#659265",
+					iconSmall : "fa fa-check fa-2x fadeInRight animated",
+					timeout : 4000
+				});
+			}else{
+				incluiStudent(JSON.parse(localStorage.getItem("student")));
+				
+				$.smallBox({
+					title : "Ok",
+					content : "<i class='fa fa-clock-o'></i> <i>You included a new Student</i>",
+					color : "#659265",
+					iconSmall : "fa fa-check fa-2x fadeInRight animated",
+					timeout : 4000
+				});
+			}
+			setTimeout("$(window.document.location).attr('href','students.html')",200);
+//			$(form).ajaxSubmit({
+//			success : function() {
+//					console.log ("submit");
+//				}
+//			});
+		},	
+		// Do not change code below
+		errorPlacement : function(error, element) {
+			error.insertAfter(element.parent());
+			$.smallBox({
+				title : "Error",
+				content : "<i class='fa fa-clock-o'></i> <i>There is a error</i>",
+				color : "#ff8080",
+				iconSmall : "fa fa-check fa-2x fadeInRight animated",
+				timeout : 4000
+			});
+		}
+	});
 
 
     // **** carrega select
@@ -8,31 +207,31 @@
 
     $.each(table.documento.firstLanguage
 		    , function (i, optionValue) {
-    			$("#firstLanguageStudent").append( $(option(optionValue)));
+    			$("#firstLanguage").append( $(option(optionValue)));
 		    });
     $.each(table.documento.nationality
 		    , function (i, optionValue) {
-    			$("#nationalityStudent").append( $(option(optionValue)));
+    			$("#nationality").append( $(option(optionValue)));
 		    });
     $.each(table.documento.mainPurposeTrip
 		    , function (i, optionValue) {
-    			$("#mainPurposeTripStudent").append( $(option(optionValue)));
+    			$("#mainPurposeTrip").append( $(option(optionValue)));
 		    });
     $.each(table.documento.englishLevel
 		    , function (i, optionValue) {
-    			$("#englishLevelStudent").append( $(option(optionValue)));
+    			$("#englishLevel").append( $(option(optionValue)));
 		    });
     $.each(table.documento.state
 		    , function (i, optionValue) {
-    			$("#stateStudent").append( $(option(optionValue)));
+    			$("#state").append( $(option(optionValue)));
 		    });
     $.each(table.documento.city
 		    , function (i, optionValue) {
-    			$("#cityStudent").append( $(option(optionValue)));
+    			$("#city").append( $(option(optionValue)));
 		    });
     $.each(table.documento.country
 		    , function (i, optionValue) {
-    			$("#countryStudent").append( $(option(optionValue)));
+    			$("#country").append( $(option(optionValue)));
 		    });
     $.each(table.documento.status
 		    , function (i, optionValue) {
@@ -56,11 +255,11 @@
 		    });
     $.each(table.documento.mealPlan
 		    , function (i, optionValue) {
-    			$("#mealPlan_section").append( $(checkbox(optionValue, "mealPlan")));
+    			$("#mealPlan").append( $(option(optionValue)));
 		    });
     $.each(table.documento.specialDiet
 		    , function (i, optionValue) {
-				$("#specialDiet_section").append( $(checkbox(optionValue, "specialDiet")));
+				$("#specialDiet").append( $(option(optionValue)));
 		    });
     $.each(table.documento.creditCardType
 		    , function (i, optionValue) {
@@ -73,6 +272,18 @@
     $.each(table.documento.peopleQuantity
 		    , function (i, optionValue) {
     			$("#peopleQuantity").append( $(option(optionValue)));
+		    });
+    $.each(table.documento.usuallyStudy
+		    , function (i, optionValue) {
+    			$("#usuallyStudy").append( $(option(optionValue)));
+		    });
+    $.each(table.documento.keepBedroom
+		    , function (i, optionValue) {
+    			$("#keepBedroom").append( $(option(optionValue)));
+		    });
+    $.each(table.documento.iAmUsually
+		    , function (i, optionValue) {
+    			$("#iAmUsually").append( $(option(optionValue)));
 		    });
 	$('#birthDayStudent').datepicker({
 		dateFormat : 'dd.mm.yy',
@@ -148,37 +359,18 @@
 		$(".dorms").addClass("hide");
 		$(".suite").removeClass("hide");
 	});
-    $('#usuallyStudy').editable({
-        inputclass: 'input-large',
-        select2: {
-            tags: table.documento.usuallyStudy,
-            tokenSeparators: [",", " "]
-        },
-    	value:"",
+    $('#profession2').editable({
+//        url: '/post',
+        type: 'text',
+        pk: 1,
+        name: 'profession',
+        title: 'Profession',
+        placeholder: 'Profession',
+//		value: "teste",
         validate: function (value) {
-        },
+            console.log ("xx");
+        }
     });
-    $('#keepBedroom').editable({
-        inputclass: 'input-large',
-        select2: {
-            tags: table.documento.keepBedroom,
-            tokenSeparators: [",", " "]
-        },
-    	value:"",
-        validate: function (value) {
-        },
-    });
-    $('#iAmUsually').editable({
-        inputclass: 'input-large',
-        select2: {
-            tags: table.documento.iAmUsually,
-            tokenSeparators: [",", " "]
-        },
-    	value:"",
-        validate: function (value) {
-        },
-    });
-
 
 	function option(value) {
     	return '<option value="' + value +'">' + value +'</option>';

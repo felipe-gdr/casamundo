@@ -9,90 +9,90 @@
             //
             //    *** personal data
             //
-		    $('#celPhoneStudent').editable({
+		    $('#celPhone').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
 		        name: 'celularcontato',
 		        title: 'Cel Phone ',
 		        viewformat: '(999)99999.9999',
-		        value: getValueStudent("celPhoneStudent"),
+		        value: getValueStudent("celPhone"),
 		        placeholder: 'Nome',
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("celPhoneStudent", value);
+		            setValueStudent("celPhone", value);
 		        }
 		    });
 
-		    $('#phoneStudent').editable({
+		    $('#phone').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'phoneStudent',
+		        name: 'phone',
 		        title: 'Phone',
-				value: getValueStudent("phoneStudent"),
+				value: getValueStudent("phone"),
 		        placeholder: 'Phone',
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("phoneStudent", value);
+		            setValueStudent("phone", value);
 		        }
 		    });
-		    $('#mailStudent').editable({
+		    $('#mail').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'mailStudent',
+		        name: 'mail',
 		        title: 'Mail',
-				value: getValueStudent("mailStudent"),
+				value: getValueStudent("mail"),
 		        placeholder: 'Mail',
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("mailStudent", value);
+		            setValueStudent("mail", value);
 		        }
 		    });
 
-		    $('#lastNameStudent').editable({
+		    $('#lastName').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'lastNameStudent',
+		        name: 'lastName',
 		        title: 'Last Name',
 		        placeholder: 'Last name',
-				value: getValueStudent("lastNameStudent"),
+				value: getValueStudent("lastName"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("lastNameStudent", value);
+		            setValueStudent("lastName", value);
 		        }
 		    });
-		    $('#firstNameStudent').editable({
+		    $('#firstName').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'firstNameStudent',
+		        name: 'firstName',
 		        title: 'First name',
 		        placeholder: 'First name',
-				value: getValueStudent("firstNameStudent"),
+				value: getValueStudent("firstName"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("firstNameStudent", value);
+		            setValueStudent("firstName", value);
 		        }
 		    });
-		    $('#birthDayStudent').editable({
+		    $('#birthDay').editable({
 //		        url: '/post',
 		        type: 'text',
 		        datepicker: {
 		            todayBtn: 'linked'
 		        },
 		        pk: 1,
-		        name: 'birthDayStudent',
+		        name: 'birthDay',
 		        title: 'Birthday',
 		        placeholder: 'Birthday',
-				value: getValueStudent("birthDayStudent"),
+				value: getValueStudent("birthDay"),
 		        validate: function (value) {
 		            if (value == ''){
 		                return 'Required!';
@@ -106,23 +106,23 @@
 			            if (value.date() < 10){
 			            	day = '0' + day;
 			            };
-			            setValueStudent("birthDayStudent", day + month + year, actualTrip);
-		            	$("#ageStudent").html(calculaIdade(capturaData(value, "/")));
+			            setValueStudent("birthDay", day + month + year, actualTrip);
+		            	$("#age").html(calculaIdade(capturaData(value, "/")));
 		            }
 		        }
 		    });
-		    $("#birthDayStudent").html(separaData(getValueStudent("birthDayStudent"), "/"));
+		    $("#birthDay").html(separaData(getValueStudent("birthDay"), "/"));
 		    
-		    $('#ageStudent').editable({
+		    $('#age').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'ageStudent',
+		        name: 'age',
 		        title: 'Age',
 		        placeholder: 'Age',
-				value: calculaIdade(separaData(getValueStudent("birthDayStudent"), "/")),
+				value: calculaIdade(separaData(getValueStudent("birthDay"), "/")),
 		        validate: function (value) {
-		            setValueStudent("ageStudent", value);
+		            setValueStudent("age", value);
 		        }
 		    });
 		    var gender_source = [];
@@ -135,18 +135,18 @@
 		            text: v
 		        });
 		    });
-		    $('#genderStudent').editable({
+		    $('#gender').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'genderStudent',
+		        name: 'gender',
 		        title: 'Gender',
 		        placeholder: 'Gnder',
-				value: getValueStudent("genderStudent"),
+				value: getValueStudent("gender"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("genderStudent", value);
+		            setValueStudent("gender", value);
 		        },
 		        source: gender_source,
 		        select2: {
@@ -161,18 +161,18 @@
 		            text: v
 		        });
 		    });
-		    $('#nationalityStudent').editable({
+		    $('#nationality').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'nationalityStudent',
+		        name: 'nationality',
 		        title: 'Nationality',
 		        placeholder: 'Nationality',
-				value: getValueStudent("nationalityStudent"),
+				value: getValueStudent("nationality"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("nationalityStudent", value);
+		            setValueStudent("nationality", value);
 		        },
 		        source: nationality_source,
 		        select2: {
@@ -187,34 +187,34 @@
 		            text: v
 		        });
 		    });
-		    $('#firstLanguageStudent').editable({
+		    $('#firstLanguage').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'firstLanguageStudent',
+		        name: 'firstLanguage',
 		        title: 'First Language Student',
 		        placeholder: 'First Language Student',
-				value: getValueStudent("firstLanguageStudent"),
+				value: getValueStudent("firstLanguage"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("firstLanguageStudent", value);
+		            setValueStudent("firstLanguage", value);
 		        },
 		        source: firstLanguageStudent_source,
 		        select2: {
 		            width: 200
 		        }
 		    });
-		    $('#professionStudent').editable({
+		    $('#profession').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'professionStudent',
+		        name: 'profession',
 		        title: 'Profession',
 		        placeholder: 'Profession',
-				value: getValueStudent("professionStudent"),
+				value: getValueStudent("profession"),
 		        validate: function (value) {
-		            setValueStudent("professionStudent", value);
+		            setValueStudent("profession", value);
 		        }
 		    });
 		    var mainPurposeTripStudent_source = [];
@@ -225,18 +225,18 @@
 		            text: v
 		        });
 		    });
-		    $('#mainPurposeTripStudent').editable({
+		    $('#mainPurposeTrip').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'mainPurposeTripStudent',
+		        name: 'mainPurposeTrip',
 		        title: 'Main Purpose Trip',
 		        placeholder: 'Main Purpose Trip',
-				value: getValueStudent("mainPurposeTripStudent"),
+				value: getValueStudent("mainPurposeTrip"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("mainPurposeTripStudent", value);
+		            setValueStudent("mainPurposeTrip", value);
 		        },
 		        source: mainPurposeTripStudent_source,
 		        select2: {
@@ -251,50 +251,50 @@
 		            text: v
 		        });
 		    });
-		    $('#englishLevelStudent').editable({
+		    $('#englishLevel').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'englishLevelStudent',
+		        name: 'englishLevel',
 		        title: 'English Level',
 		        placeholder: 'English Level',
-				value: getValueStudent("englishLevelStudent"),
+				value: getValueStudent("englishLevel"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("englishLevelStudent", value);
+		            setValueStudent("englishLevel", value);
 		        },
 		        source: englishLevelStudent_source,
 		        select2: {
 		            width: 200
 		        }
 		    });
-		    $('#streetNumberStudent').editable({
+		    $('#streetNumber').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'streetNumberStudent',
+		        name: 'streetNumber',
 		        title: 'Street Number',
 		        placeholder: 'Street Number',
-				value: getValueStudent("streetNumberStudent"),
+				value: getValueStudent("streetNumber"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("englishLevelStudent", value);
+		            setValueStudent("englishLevel", value);
 		        }
 		    });
-		    $('#streetNameStudent').editable({
+		    $('#streetName').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'streetNameStudent',
+		        name: 'streetName',
 		        title: 'Street name',
 		        placeholder: 'Street name',
-				value: getValueStudent("streetNameStudent"),
+				value: getValueStudent("streetName"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("streetNameStudent", value);
+		            setValueStudent("streetName", value);
 		        }
 		    });
 		    var stateStudent_source = [];
@@ -305,36 +305,36 @@
 		            text: v
 		        });
 		    });
-		    $('#stateStudent').editable({
+		    $('#state').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'stateStudent',
+		        name: 'state',
 		        title: 'State',
 		        placeholder: 'State',
-				value: getValueStudent("stateStudent"),
+				value: getValueStudent("state"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("stateStudent", value);
+		            setValueStudent("state", value);
 		        },
 		        source: stateStudent_source,
 		        select2: {
 		            width: 200
 		        }
 		    });
-		    $('#postalCodeStudent').editable({
+		    $('#postalCode').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'postalCodeStudent',
+		        name: 'postalCode',
 		        title: 'ZIP',
 		        placeholder: 'ZIP',
-				value: getValueStudent("postalCodeStudent"),
+				value: getValueStudent("postalCode"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("postalCodeStudent", value);
+		            setValueStudent("postalCode", value);
 		        }
 		    });
 		    var cityStudent_source = [];
@@ -345,18 +345,18 @@
 		            text: v
 		        });
 		    });
-		    $('#cityStudent').editable({
+		    $('#city').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'cityStudent',
+		        name: 'city',
 		        title: 'City',
 		        placeholder: 'City',
-				value: getValueStudent("cityStudent"),
+				value: getValueStudent("city"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("cityStudent", value);
+		            setValueStudent("city", value);
 		        },
 		        source: cityStudent_source,
 		        select2: {
@@ -371,70 +371,70 @@
 		            text: v
 		        });
 		    });
-		    $('#countryStudent').editable({
+		    $('#country').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'countryStudent',
+		        name: 'country',
 		        title: 'Country',
 		        placeholder: 'Country',
-				value: getValueStudent("countryStudent"),
+				value: getValueStudent("country"),
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("countryStudent", value);
+		            setValueStudent("country", value);
 		        },
 		        source: countryStudent_source,
 		        select2: {
 		            width: 200
 		        }
 		    });
-		    $('#secondaryTelephoneStudent').editable({
+		    $('#secondaryTelephone').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'secondaryTelephoneStudent',
+		        name: 'secondaryTelephone',
 		        title: 'Secondary Phone',
 		        placeholder: 'Secondary Phone',
-				value: getValueStudent("secondaryTelephoneStudent"),
+				value: getValueStudent("secondaryTelephone"),
 		        validate: function (value) {
-		            setValueStudent("secondaryTelephoneStudent", value);
+		            setValueStudent("secondaryTelephone", value);
 		        }
 		    });
-		    $('#emergencyContactNameStudent').editable({
+		    $('#emergencyContactName').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'emergencyContactNameStudent',
+		        name: 'emergencyContactName',
 		        title: 'Emergency Contact Name',
 		        placeholder: 'Emergency Contact Name',
-				value: getValueStudent("emergencyContactNameStudent"),
+				value: getValueStudent("emergencyContactName"),
 		        validate: function (value) {
-		            setValueStudent("emergencyContactNameStudent", value);
+		            setValueStudent("emergencyContactName", value);
 		        }
 		    });
-		    $('#emergencyContactPhoneStudent').editable({
+		    $('#emergencyContactPhone').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'emergencyContactPhoneStudent',
+		        name: 'emergencyContactPhone',
 		        title: 'Emergency Contact Phone',
 		        placeholder: 'Emergency Contact Phone',
-				value: getValueStudent("emergencyContactPhoneStudent"),
+				value: getValueStudent("emergencyContactPhone"),
 		        validate: function (value) {
-		            setValueStudent("emergencyContactPhoneStudent", value);
+		            setValueStudent("emergencyContactPhone", value);
 		        }
 		    });
-		    $('#emergencyContactMailStudent').editable({
+		    $('#emergencyContactMail').editable({
 //		        url: '/post',
 		        type: 'text',
 		        pk: 1,
-		        name: 'emergencyContactMailStudent',
+		        name: 'emergencyContactMail',
 		        title: 'Emergency Contact Mail',
 		        placeholder: 'Emergency Contact Mail',
-				value: getValueStudent("emergencyContactMailStudent"),
+				value: getValueStudent("emergencyContactMail"),
 		        validate: function (value) {
-		            setValueStudent("emergencyContactMailStudent", value);
+		            setValueStudent("emergencyContactMail", value);
 		        }
 		    });
             //

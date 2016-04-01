@@ -8,27 +8,27 @@ var data  = JSON.parse(
 		  '"documento" :' + 
 		  	'{' +
 			    '"lastDestination" : "Toronto",' +
-			    '"mailStudent" : "amanda@gmail.com",' +
-			    '"celPhoneStudent" : "(011)99456.4584",' +
-			    '"phoneStudent" : "011994564584",' +
-			    '"lastNameStudent" : "Ferreira",' +
-			    '"firstNameStudent" : "Amanda",' +
-			    '"birthDayStudent" : "24031985",' +
-			    '"genderStudent" : "Female",' +
-			    '"nationalityStudent" : "Brasilian",' +
-			    '"firstLanguageStudent" : "Portuguese",' +
-			    '"professionStudent" : "Student",' +
-			    '"englishLevelStudent" : "Beginner",' +
-			    '"streetNumberStudent" : "2133",' +
-			    '"streetNameStudent" : "Rua 12 de Maio",' +
-			    '"stateStudent" : "SP",' +
-			    '"postalCodeStudent" : "04752200",' +
-			    '"cityStudent" : "São Paulo",' +
-			    '"countryStudent" : "Brasil",' +
-			    '"secondaryTelephoneStudent" : "",' +
-			    '"emergencyContactNameStudent" : "",' +
-			    '"emergencyContactPhoneStudent" : "",' +
-			    '"emergencyContactMailStudent" : "",' +
+			    '"mail" : "amanda@gmail.com",' +
+			    '"celPhone" : "(011)99456.4584",' +
+			    '"phone" : "011994564584",' +
+			    '"lastName" : "Ferreira",' +
+			    '"firstName" : "Amanda",' +
+			    '"birthDay" : "24031985",' +
+			    '"gender" : "Female",' +
+			    '"nationality" : "Brasilian",' +
+			    '"firstLanguage" : "Portuguese",' +
+			    '"profession" : "Student",' +
+			    '"englishLevel" : "Beginner",' +
+			    '"streetNumber" : "2133",' +
+			    '"streetName" : "Rua 12 de Maio",' +
+			    '"state" : "SP",' +
+			    '"postalCode" : "04752200",' +
+			    '"city" : "São Paulo",' +
+			    '"country" : "Brasil",' +
+			    '"secondaryTelephone" : "",' +
+			    '"emergencyContactName" : "",' +
+			    '"emergencyContactPhone" : "",' +
+			    '"emergencyContactMail" : "",' +
 			    '"actualTrip" : 0,' +
 			    '"trip":' +
 			    	'[' +

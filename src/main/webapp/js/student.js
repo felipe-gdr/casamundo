@@ -2,93 +2,93 @@
  * 
  */
 		    
-$("#studentCompleteName").html(getValueStudent("firstNameStudent") + " " + getValueStudent("lastNameStudent"));
+$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
 
 
 function getValueStudent (field, actualTrip) {
-	if (field == "celPhoneStudent"){
+	if (field == "celPhone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.celPhoneStudent;			
+        return objJson.documento.celPhone;			
 	};
-	if (field == "phoneStudent"){
+	if (field == "phone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.phoneStudent;			
+        return objJson.documento.phone;			
 	};
-	if (field == "mailStudent"){
+	if (field == "mail"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.mailStudent;			
+        return objJson.documento.mail;			
 	};
-	if (field == "lastNameStudent"){
+	if (field == "lastName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.lastNameStudent;			
+        return objJson.documento.lastName;			
 	};
-	if (field == "firstNameStudent"){
+	if (field == "firstName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.firstNameStudent;			
+        return objJson.documento.firstName;			
 	};
-	if (field == "birthDayStudent"){
+	if (field == "birthDay"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.birthDayStudent;			
+        return objJson.documento.birthDay;			
 	};
-	if (field == "genderStudent"){
+	if (field == "gender"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.genderStudent;			
+        return objJson.documento.gender;			
 	};
-	if (field == "nationalityStudent"){
+	if (field == "nationality"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.nationalityStudent;			
+        return objJson.documento.nationality;			
 	};
-	if (field == "firstLanguageStudent"){
+	if (field == "firstLanguage"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.firstLanguageStudent;			
+        return objJson.documento.firstLanguage;			
 	};
-	if (field == "professionStudent"){
+	if (field == "profession"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.professionStudent;			
+        return objJson.documento.profession;			
 	};
-	if (field == "englishLevelStudent"){
+	if (field == "englishLevel"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.englishLevelStudent;			
+        return objJson.documento.englishLevel;			
 	};
-	if (field == "streetNumberStudent"){
+	if (field == "streetNumber"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.streetNumberStudent;			
+        return objJson.documento.streetNumber;			
 	};
-	if (field == "streetNameStudent"){
+	if (field == "streetName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.streetNameStudent;			
+        return objJson.documento.streetName;			
 	};
-	if (field == "stateStudent"){
+	if (field == "state"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.stateStudent;			
+        return objJson.documento.state;			
 	};
-	if (field == "postalCodeStudent"){
+	if (field == "postalCode"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.postalCodeStudent;			
+        return objJson.documento.postalCode;			
 	};
-	if (field == "cityStudent"){
+	if (field == "city"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.cityStudent;			
+        return objJson.documento.city;			
 	};
-	if (field == "countryStudent"){
+	if (field == "country"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.countryStudent;			
+        return objJson.documento.country;			
 	};
-	if (field == "secondaryTelephoneStudent"){
+	if (field == "secondaryTelephone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.secondaryTelephoneStudent;			
+        return objJson.documento.secondaryTelephone;			
 	};
-	if (field == "emergencyContactNameStudent"){
+	if (field == "emergencyContactName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.emergencyContactNameStudent;			
+        return objJson.documento.emergencyContactName;			
 	};
-	if (field == "emergencyContactPhoneStudent"){
+	if (field == "emergencyContactPhone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.emergencyContactPhoneStudent;			
+        return objJson.documento.emergencyContactPhone;			
 	};
-	if (field == "emergencyContactMailStudent"){
+	if (field == "emergencyContactMail"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.emergencyContactMailStudent;			
+        return objJson.documento.emergencyContactMail;			
 	};
 	if (field == "actualTrip"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -291,70 +291,71 @@ function getValueStudent (field, actualTrip) {
 };				
 
 function setValueStudent (field, value, actualTrip) {
-
-    var objJson = JSON.parse(localStorage.getItem("student"));
-	if (field == "celPhoneStudent"){
-        objJson.documento. celPhoneStudent = value;
+	
+	var objJson = JSON.parse(localStorage.getItem("student"));
+	
+	if (field == "celPhone"){
+        objJson.documento.celPhone = value;
 	};
-	if (field == "phoneStudent"){
-        objJson.documento.phoneStudent = value;
+	if (field == "phone"){
+        objJson.documento.phone = value;
 	};
-	if (field == "mailStudent"){
-        objJson.documento.mailStudent = value;
+	if (field == "mail"){
+        objJson.documento.mail = value;
 	};
-	if (field == "lastNameStudent"){
-        objJson.documento.lastNameStudent = value;
+	if (field == "lastName"){
+        objJson.documento.lastName = value;
 	};
-	if (field == "firstNameStudent"){
-        objJson.documento.firstNameStudent = value;
+	if (field == "firstName"){
+        objJson.documento.firstName = value;
 	};
-	if (field == "birthDayStudent"){
-        objJson.documento.birthDayStudent = value;
+	if (field == "birthDay"){
+        objJson.documento.birthDay = limpaData(value);
 	};
-	if (field == "genderStudent"){
-        objJson.documento.genderStudent = value;
+	if (field == "gender"){
+        objJson.documento.gender = value;
 	};
-	if (field == "nationalityStudent"){
-        objJson.documento.nationalityStudent = value;
+	if (field == "nationality"){
+        objJson.documento.nationality = value;
 	};
-	if (field == "firstLanguageStudent"){
-        objJson.documento.firstLanguageStudent = value;
+	if (field == "firstLanguage"){
+        objJson.documento.firstLanguage = value;
 	};
-	if (field == "professionStudent"){
-        objJson.documento.professionStudent = value;
+	if (field == "profession"){
+        objJson.documento.profession = value;
 	};
-	if (field == "englishLevelStudent"){
-        objJson.documento.englishLevelStudent = value;
+	if (field == "englishLevel"){
+        objJson.documento.englishLevel = value;
 	};
-	if (field == "streetNumberStudent"){
-        objJson.documento.streetNumberStudent = value;
+	if (field == "streetNumber"){
+        objJson.documento.streetNumber = value;
 	};
-	if (field == "streetNameStudent"){
-        objJson.documento.streetNameStudent = value;
+	if (field == "streetName"){
+        objJson.documento.streetName = value;
 	};
-	if (field == "stateStudent"){
-        objJson.documento.stateStudent = value;
+	if (field == "state"){
+        objJson.documento.state = value;
 	};
-	if (field == "postalCodeStudent"){
-        objJson.documento.postalCodeStudent = value;
+	if (field == "postalCode"){
+        objJson.documento.postalCode = value;
 	};
-	if (field == "cityStudent"){
-        objJson.documento.cityStudent = value;
+	if (field == "city"){
+        objJson.documento.city = value;
 	};
-	if (field == "countryStudent"){
-        objJson.documento.countryStudent = value;
+	if (field == "country"){
+        objJson.documento.country = value;
 	};
-	if (field == "secondaryTelephoneStudent"){
-        objJson.documento.secondaryTelephoneStudent = value;
+	if (field == "secondaryTelephone"){
+        objJson.documento.secondaryTelephone = value;
 	};
-	if (field == "emergencyContactNameStudent"){
-        objJson.documento.emergencyContactNameStudent = value;
+	if (field == "emergencyContactName"){
+        objJson.documento.emergencyContactName = value;
 	};
-	if (field == "emergencyContactPhoneStudent"){
-        objJson.documento.emergencyContactPhoneStudent = value;
+	if (field == "emergencyContactPhone"){
+        objJson.documento.emergencyContactPhone = value;
 	};
-	if (field == "emergencyContactMailStudent"){
-        objJson.documento.emergencyContactMailStudent = value;
+	if (field == "emergencyContactMail"){
+        objJson.documento.emergencyContactMail = value;
 	};
 	if (field == "status"){
         objJson.documento.trip[actualTrip].status = value;
@@ -363,25 +364,25 @@ function setValueStudent (field, value, actualTrip) {
         objJson.documento.trip[actualTrip].destination = value;
 	};
 	if (field == "start"){
-        objJson.documento.trip[actualTrip].start = value;
+        objJson.documento.trip[actualTrip].start = limpaData(value);
 	};
 	if (field == "end"){
-        objJson.documento.trip[actualTrip].end = value;
+        objJson.documento.trip[actualTrip].end = limpaData(value);
 	};
 	if (field == "arrivalDate"){
-        objJson.documento.trip[actualTrip].arrivalDate = value;
+        objJson.documento.trip[actualTrip].arrivalDate = limpaData(value);
 	};
 	if (field == "arrivalTime"){
-        objJson.documento.trip[actualTrip].arrivalTime = value;
+        objJson.documento.trip[actualTrip].arrivalTime = limpaData(value);
 	};
 	if (field == "flightNumber"){
         objJson.documento.trip[actualTrip].flightNumber = value;
 	};
 	if (field == "flightDate"){
-        objJson.documento.trip[actualTrip].flightDate = value;
+        objJson.documento.trip[actualTrip].flightDate = limpaData(value);
 	};
 	if (field == "flightTime"){
-        objJson.documento.trip[actualTrip].flightTime = value;
+        objJson.documento.trip[actualTrip].flightTime = limpaData(value);
 	};
 	if (field == "airline"){
         objJson.documento.trip[actualTrip].airline = value;
@@ -502,4 +503,17 @@ function setValueStudent (field, value, actualTrip) {
 	};
 
 	localStorage.setItem("student", JSON.stringify(objJson));
-};				
+};		
+
+
+function limpaData(campo){
+	var campoNovo = "";
+	i = 0;
+	while (i < campo.length) {
+		if (campo.substring(i, (i + 1)) != "." && campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":"){
+			campoNovo = campoNovo.toString() + campo.substring(i, (i + 1)).toString() 
+		};
+	    i++;
+	};
+	return campoNovo;
+}
