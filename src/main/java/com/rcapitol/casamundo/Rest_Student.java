@@ -105,7 +105,7 @@ public class Rest_Student {
 		JSONObject documento = new JSONObject();
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-		BasicDBObject searchQuery = new BasicDBObject("mail", mail);
+		BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,
@@ -114,7 +114,7 @@ public class Rest_Student {
                 true,
                 false);
 		mongo.close();
-		return Response.status(200).entity(doc).build();
+		return Response.status(200).build();
 	};
 
 

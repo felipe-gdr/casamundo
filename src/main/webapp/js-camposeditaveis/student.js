@@ -21,7 +21,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("celPhone", value);
+		            setValueStudent("celPhone", value, actualTrip, true);
 		        }
 		    });
 
@@ -36,7 +36,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("phone", value);
+		            setValueStudent("phone", value, actualTrip, true);
 		        }
 		    });
 		    $('#mail').editable({
@@ -50,7 +50,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("mail", value);
+		            setValueStudent("mail", value, actualTrip, true);
 		        }
 		    });
 
@@ -65,7 +65,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("lastName", value);
+		            setValueStudent("lastName", value, actualTrip, true);
 		        }
 		    });
 		    $('#firstName').editable({
@@ -79,7 +79,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("firstName", value);
+		            setValueStudent("firstName", value, actualTrip, true);
 		        }
 		    });
 		    $('#birthDay').editable({
@@ -106,7 +106,7 @@
 			            if (value.date() < 10){
 			            	day = '0' + day;
 			            };
-			            setValueStudent("birthDay", day + month + year, actualTrip);
+			            setValueStudent("birthDay", day + month + year, actualTrip, true);
 		            	$("#age").html(calculaIdade(capturaData(value, "/")));
 		            }
 		        }
@@ -122,7 +122,7 @@
 		        placeholder: 'Age',
 				value: calculaIdade(separaData(getValueStudent("birthDay"), "/")),
 		        validate: function (value) {
-		            setValueStudent("age", value);
+		            setValueStudent("age", value, actualTrip, true);
 		        }
 		    });
 		    var gender_source = [];
@@ -146,7 +146,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("gender", value);
+		            setValueStudent("gender", value, actualTrip, true);
 		        },
 		        source: gender_source,
 		        select2: {
@@ -172,7 +172,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("nationality", value);
+		            setValueStudent("nationality", value, actualTrip, true);
 		        },
 		        source: nationality_source,
 		        select2: {
@@ -198,7 +198,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("firstLanguage", value);
+		            setValueStudent("firstLanguage", value, actualTrip, true);
 		        },
 		        source: firstLanguageStudent_source,
 		        select2: {
@@ -214,7 +214,7 @@
 		        placeholder: 'Profession',
 				value: getValueStudent("profession"),
 		        validate: function (value) {
-		            setValueStudent("profession", value);
+		            setValueStudent("profession", value, actualTrip, true);
 		        }
 		    });
 		    var mainPurposeTripStudent_source = [];
@@ -236,7 +236,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("mainPurposeTrip", value);
+		            setValueStudent("mainPurposeTrip", value, actualTrip, true);
 		        },
 		        source: mainPurposeTripStudent_source,
 		        select2: {
@@ -262,7 +262,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("englishLevel", value);
+		            setValueStudent("englishLevel", value, actualTrip, true);
 		        },
 		        source: englishLevelStudent_source,
 		        select2: {
@@ -280,7 +280,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("englishLevel", value);
+		            setValueStudent("englishLevel", value, actualTrip, true);
 		        }
 		    });
 		    $('#streetName').editable({
@@ -294,7 +294,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("streetName", value);
+		            setValueStudent("streetName", value, actualTrip, true);
 		        }
 		    });
 		    var stateStudent_source = [];
@@ -316,7 +316,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("state", value);
+		            setValueStudent("state", value, actualTrip, true);
 		        },
 		        source: stateStudent_source,
 		        select2: {
@@ -334,7 +334,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("postalCode", value);
+		            setValueStudent("postalCode", value, actualTrip, true);
 		        }
 		    });
 		    var cityStudent_source = [];
@@ -356,7 +356,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("city", value);
+		            setValueStudent("city", value, actualTrip, true);
 		        },
 		        source: cityStudent_source,
 		        select2: {
@@ -382,7 +382,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("country", value);
+		            setValueStudent("country", value, actualTrip, true);
 		        },
 		        source: countryStudent_source,
 		        select2: {
@@ -398,7 +398,7 @@
 		        placeholder: 'Secondary Phone',
 				value: getValueStudent("secondaryTelephone"),
 		        validate: function (value) {
-		            setValueStudent("secondaryTelephone", value);
+		            setValueStudent("secondaryTelephone", value, actualTrip, true);
 		        }
 		    });
 		    $('#emergencyContactName').editable({
@@ -410,7 +410,7 @@
 		        placeholder: 'Emergency Contact Name',
 				value: getValueStudent("emergencyContactName"),
 		        validate: function (value) {
-		            setValueStudent("emergencyContactName", value);
+		            setValueStudent("emergencyContactName", value, actualTrip, true);
 		        }
 		    });
 		    $('#emergencyContactPhone').editable({
@@ -422,7 +422,7 @@
 		        placeholder: 'Emergency Contact Phone',
 				value: getValueStudent("emergencyContactPhone"),
 		        validate: function (value) {
-		            setValueStudent("emergencyContactPhone", value);
+		            setValueStudent("emergencyContactPhone", value, actualTrip, true);
 		        }
 		    });
 		    $('#emergencyContactMail').editable({
@@ -434,7 +434,7 @@
 		        placeholder: 'Emergency Contact Mail',
 				value: getValueStudent("emergencyContactMail"),
 		        validate: function (value) {
-		            setValueStudent("emergencyContactMail", value);
+		            setValueStudent("emergencyContactMail", value, actualTrip, true);
 		        }
 		    });
             //
@@ -459,7 +459,7 @@
 		        validate: function (value) {
 		            if (value == '')
 		                return 'Required!';
-		            setValueStudent("status", value);
+		            setValueStudent("status", value, actualTrip, true);
 		        },
 		        source: status_source,
 		        select2: {

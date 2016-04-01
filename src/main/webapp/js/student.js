@@ -290,7 +290,7 @@ function getValueStudent (field, actualTrip) {
 	return "##erro";
 };				
 
-function setValueStudent (field, value, actualTrip) {
+function setValueStudent (field, value, actualTrip, grava) {
 	
 	var objJson = JSON.parse(localStorage.getItem("student"));
 	
@@ -503,6 +503,10 @@ function setValueStudent (field, value, actualTrip) {
 	};
 
 	localStorage.setItem("student", JSON.stringify(objJson));
+	
+	if (grava){
+		rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoCampoEfetuada, atualizacaoCampoNaoEfetuada);
+	}
 };		
 
 function limpaStorageStudent () {
