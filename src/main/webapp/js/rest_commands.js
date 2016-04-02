@@ -38,6 +38,22 @@
     	});
     };
     
+    
+    function rest_obterStudents(action_ok) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista?destination="  + destination,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data);
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+    	});
+    };
 	function rest_atualizaStudent(objJson, action_ok, action_not_ok) {
 		$.ajax({
 			type: "POST",
