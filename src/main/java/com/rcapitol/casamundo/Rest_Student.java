@@ -37,11 +37,11 @@ public class Rest_Student {
 	@Path("/obterEmail")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterEmail(@QueryParam("email") String email) throws UnknownHostException, MongoException {
+	public JSONObject ObterEmail(@QueryParam("mail") String mail) throws UnknownHostException, MongoException {
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection("student");
-		BasicDBObject searchQuery = new BasicDBObject("documento.mail", email);
+		BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
 		DBObject cursor = collection.findOne(searchQuery);
 		JSONObject documento = new JSONObject();
 		BasicDBObject obj = (BasicDBObject) cursor.get("documento");

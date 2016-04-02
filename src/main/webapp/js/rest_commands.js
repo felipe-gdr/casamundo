@@ -22,15 +22,15 @@
        	});
     };
     
-    function rest_obterStudent(email) {
+    function rest_obterStudent(email, action_ok) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?email="  + email,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail="  + email,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
     	})
     	.done(function( data ) {
-    		carregaTela(data);
+    		action_ok(data);
     	})
     	.fail(function(data) {
     	})

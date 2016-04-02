@@ -7,14 +7,51 @@ function capturaData (data, separador) {
 	return data.day() + separador + (data.month() + 1) + separador + data.year();
 	 
 };				
+function capturaDataStandard (data, separador) {
+	var dataBase = new Date(data);
+	dataBase.setDate(dataBase.getDate() + 1);
+	var dataBase = dataBase.getDate()  + "/" + dataBase.getMonth() + "/"  + dataBase.getFullYear();
+	var dia = dataBase.split("/")[0];
+	if (dia < 10 ){
+		dia = "0" + dia.toString();
+	};
+	var mes = parseInt(dataBase.split("/")[1]) + 1;
+	if (mes < 10 ){
+		mes = "0" + mes.toString();
+	}
+	return (dia + separador + mes + separador + dataBase.split("/")[2]);
+	 
+};				
+function capturaHoraStandard (data, separador) {
+	var dataBase = new Date(data);
+	var horaBase = dataBase.getHours()  + "/" + dataBase.getMinutes();
+	var hora = horaBase.split("/")[0];
+	if (hora < 10 ){
+		hora = "0" + hora.toString();
+	};
+	var minuto = parseInt(horaBase.split("/")[1]);
+	if (minuto < 10 ){
+		minuto = "0" + minuto.toString();
+	}
+	return (hora + separador + minuto);
+	 
+};				
 function separaData ( data, separador) {
+	if (data){
+		return data.slice(0,2) + separador + data.slice(2,4) + separador + data.slice(4,8);
+	}else{
+		return "Empty";
+	}
 
-	return data.slice(0,2) + separador + data.slice(2,4) + separador + data.slice(4,8);
 	 
 };				
 function separaHora ( hora, separador) {
+	if (hora){
+		return hora.slice(0,2) + separador + hora.slice(2,4);		
+	}else{
+		return "Empty";
+	}
 
-	return hora.slice(0,2) + separador + hora.slice(2,4);
 	 
 };				
 function converteAnoMesDia (data) {
@@ -124,7 +161,7 @@ function calculaIdade ( dataNascimento ) {
     	$("#emergencyContactName").val(data.documento.emergencyContactName);
     	$("#emergencyContactPhone").val(data.documento.emergencyContactPhone);
     	$("#emergencyContactMail").val(data.documento.emergencyContactMail);
-/*    	$("#status").val(data.documento.trips[actualTrip].status);
+    	$("#status").val(data.documento.trips[actualTrip].status);
     	$("#destination").val(data.documento.trips[actualTrip].destination);
     	$("#start").val(data.documento.trips[actualTrip].start);
     	$("#end").val(data.documento.trips[actualTrip].end);
@@ -172,7 +209,7 @@ function calculaIdade ( dataNascimento ) {
     	$("#guest_05").val(data.documento.trips[actualTrip].guest_05);
     	$("#agrreeDebitSuite").val(data.documento.trips[actualTrip].agrreeDebitSuite);
     	$("#agrreeSuite").val(data.documento.trips[actualTrip].agrreeSuite);
-*/    	
+    	
     	localStorage.setItem("student", JSON.stringify(data));
     	localStorage.studentExistente = true;
     };    
