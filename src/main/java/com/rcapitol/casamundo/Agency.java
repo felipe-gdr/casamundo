@@ -69,7 +69,7 @@ public class Agency {
 		public void setEmail(String email) {
 			this.email = email;
 		}
-		public String getEail() {
+		public String getEmail() {
 			return this.email;
 		}
 		public void setCelPhone(String celPhone) {
