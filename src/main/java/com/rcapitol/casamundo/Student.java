@@ -250,6 +250,12 @@ public class Student {
 		public String getActualTrip() {
 			return this.actualTrip;
 		}
+		public void setTrips(Trips[] trips) {
+			this.trips = trips;
+		}
+		public Trips[] getTrips() {
+			return this.trips;
+		}
 
 		@Override
 		public String toString() {
