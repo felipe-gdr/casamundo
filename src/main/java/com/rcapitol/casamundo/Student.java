@@ -112,6 +112,144 @@ public class Student {
 						this.trips = trips;
 		}
 
+		public void setLastDestination(String lastDestination) {
+			this.lastDestination = lastDestination;
+		}
+		public String getLastDestination() {
+			return this.lastDestination;
+		}
+		public void setMail(String mail) {
+			this.mail = mail;
+		}
+		public String getMail() {
+			return this.mail;
+		}
+		public void setCelPhone(String celPhone) {
+			this.celPhone = celPhone;
+		}
+		public String getCelPhone() {
+			return this.celPhone;
+		}
+		public void setPhone(String phone) {
+			this.phone = phone;
+		}
+		public String getPhone() {
+			return this.celPhone;
+		}
+		public void setLastName(String lastName) {
+			this.lastName = lastName;
+		}
+		public String getLastName() {
+			return this.lastName;
+		}
+		public void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
+		public String getFirstName() {
+			return this.firstName;
+		}
+		public void setBirthDay(String birthDay) {
+			this.birthDay = birthDay;
+		}
+		public String getBirthDay() {
+			return this.birthDay;
+		}
+		public void setGender(String gender) {
+			this.gender = gender;
+		}
+		public String getGender() {
+			return this.gender;
+		}
+		public void setNationality(String nationality) {
+			this.nationality = nationality;
+		}
+		public String getNationality() {
+			return this.nationality;
+		}
+		public void setFirstLanguage(String firstLanguage) {
+			this.firstLanguage = firstLanguage;
+		}
+		public String getFirstLanguage() {
+			return this.firstLanguage;
+		}
+		public void setProfession(String profession) {
+			this.profession = profession;
+		}
+		public String getProfession() {
+			return this.profession;
+		}
+		public void setEnglishLevel(String englishLevel) {
+			this.englishLevel = englishLevel;
+		}
+		public String getEnglishLevel() {
+			return this.englishLevel;
+		}
+		public void setStreetNumber(String streetNumber) {
+			this.streetNumber = streetNumber;
+		}
+		public String getStreetNumber() {
+			return this.streetNumber;
+		}
+		public void setStreetName(String streetName) {
+			this.streetName = streetName;
+		}
+		public String getStreetName() {
+			return this.streetName;
+		}
+		public void setState(String state) {
+			this.state = state;
+		}
+		public String getState() {
+			return this.state;
+		}
+		public void setPostalCode(String postalCode) {
+			this.postalCode = postalCode;
+		}
+		public String getPostalCode() {
+			return this.postalCode;
+		}
+		public void setCity(String city) {
+			this.city = city;
+		}
+		public String getCity() {
+			return this.city;
+		}
+		public void setCountry(String country) {
+			this.country = country;
+		}
+		public String getCountry() {
+			return this.country;
+		}
+		public void setSecondaryTelephone(String secondaryTelephone) {
+			this.secondaryTelephone = secondaryTelephone;
+		}
+		public String getSecondaryTelephone() {
+			return this.secondaryTelephone;
+		}
+		public void setEmergencyContactName(String emergencyContactName) {
+			this.emergencyContactName = emergencyContactName;
+		}
+		public String getEmergencyContactName() {
+			return this.emergencyContactName;
+		}
+		public void setEmergencyContactPhone(String emergencyContactPhone) {
+			this.emergencyContactPhone = emergencyContactPhone;
+		}
+		public String getEmergencyContactPhone() {
+			return this.emergencyContactPhone;
+		}
+		public void setEmergencyContactMail(String emergencyContactMail) {
+			this.emergencyContactMail = emergencyContactMail;
+		}
+		public String getEmergencyContactMail() {
+			return this.emergencyContactMail;
+		}
+		public void setActualTrip(String actualTrip) {
+			this.actualTrip = actualTrip;
+		}
+		public String getActualTrip() {
+			return this.actualTrip;
+		}
 
 		@Override
 		public String toString() {
@@ -167,6 +305,8 @@ public class Student {
     		public String guest_05;        
     		public String agreeDebitSuite; 
     		public String agreeSuite;      
+    		public String agencyId; 
+    		public String schoolId;      
 
     		public Trips() {
 
@@ -221,7 +361,9 @@ public class Student {
         	    		String guest_04,        
         	    		String guest_05,        
         	    		String agreeDebitSuite, 
-        	    		String agreeSuite
+        	    		String agreeSuite,
+        	    		String agencyId,
+        	    		String schoolId
             		)
             {
 	    		this.status = status;           
@@ -272,6 +414,8 @@ public class Student {
 	    		this.guest_05 = guest_05;         
 	    		this.agreeDebitSuite = agreeDebitSuite;  
 	    		this.agreeSuite = agreeSuite;
+	    		this.agencyId = agencyId;  
+	    		this.schoolId = schoolId;
             }
 
 		}
