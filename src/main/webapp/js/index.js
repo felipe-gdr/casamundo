@@ -81,6 +81,8 @@ var data  = JSON.parse(
 				    		'"guest_05":"",' +
 				    		'"agreeDebitSuite":"Yes",' +
 				    		'"agreeSuite":"Yes"' +
+				    		'"agencyId":"57003362506862044074260a"' +
+				    		'"schoolId":"570033c4506862044074260b"' +
 				    	'}' +
 				    ']' +
 			'}' +
