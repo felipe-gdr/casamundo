@@ -187,15 +187,10 @@
 					setValueStudent (field.id, value, 0)
 			});
 			if (localStorage.studentExistente == "true"){
-				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoEfetuada, atualizacaoNaoEfetuada);;
+				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoEfetuada, atualizacaoNaoEfetuada);
 			}else{
 				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), inclusaoEfetuada, inclusaoNaoEfetuada);
 			}
-//			$(form).ajaxSubmit({
-//			success : function() {
-//					console.log ("submit");
-//				}
-//			});
 		},	
 		// Do not change code below
 		errorPlacement : function(error, element) {

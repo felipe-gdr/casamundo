@@ -174,10 +174,10 @@ function calculaIdade ( dataNascimento ) {
     	
     	localStorage.studentExistente = "false";
     };    
-	function inclusaoEfetuada() {
+	function inclusaoEfetuada(mensagem) {
 		$.smallBox({
 			title : "Ok",
-			content : "<i class='fa fa-clock-o'></i> <i>You included a new Student</i>",
+			content : "<i class='fa fa-clock-o'></i> <i>" + mensagem + "</i>",
 			color : "#659265",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
@@ -199,7 +199,7 @@ function calculaIdade ( dataNascimento ) {
 			content : "<i class='fa fa-clock-o'></i> <i>Student data atualized</i>",
 			color : "#659265",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 40000
+			timeout : 4000
 		});
 		$(window.document.location).attr('href','students.html');
     };
@@ -209,7 +209,7 @@ function calculaIdade ( dataNascimento ) {
 			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
 			color : "#ff8080",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 40000
+			timeout : 4000
 		});
     };
 
@@ -217,4 +217,4 @@ function calculaIdade ( dataNascimento ) {
     };
     function atualizacaoCampoNaoEfetuada() {
     };
-
+    

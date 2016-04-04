@@ -71,10 +71,32 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok ();
+        		action_ok ("You included a new Student");
         	}else{
         		actio_not_ok()
         	};
     	});
 
+    };
+	function rest_atualizaTable(objJson, action_ok, action_not_ok) {
+/*		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+    		action_ok ("You atualized the tables");
+        	}else{
+        		actio_not_ok()
+        	};
+    	});
+*/
     };
