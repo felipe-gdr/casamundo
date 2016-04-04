@@ -157,7 +157,7 @@ var table  = JSON.parse(
 		        '"city" : ["São Paulo", "Campinas","Rio de Janeiro"],' +
 		        '"country" : ["Brasil", "Colombia","Venezuela"],' +
 		        '"firstLanguage" : ["Portuguese", "English","Spanish"],' +
-		        '"status" : ["Available", "Confirmed","Placement offered"],' +
+		        '"status" : ["Available", "Confirmed","Placement offered","Terminated"],' +
 		        '"destination" : ["Toronto", "Vancouver"],' +
 		        '"accommodation" : ["Homestay", "Dorms","Suite"],' +
 		        '"occupancy" : ["Single", "Twin", "Couple"],' +

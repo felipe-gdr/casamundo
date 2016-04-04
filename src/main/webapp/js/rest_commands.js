@@ -22,7 +22,7 @@
        	});
     };
     
-    function rest_obterStudent(email, action_ok) {
+    function rest_obterStudent(email, action_ok, action_not_ok) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail="  + email,
             contentType: "application/json; charset=utf-8",
@@ -33,15 +33,16 @@
     		action_ok(data);
     	})
     	.fail(function(data) {
+    		action_not_ok
     	})
     	.always(function(data) {
     	});
     };
     
     
-    function rest_obterStudents(action_ok) {
+    function rest_obterStudentsAll(action_ok) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista?destination="  + destination,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false

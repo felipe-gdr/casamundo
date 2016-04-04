@@ -422,7 +422,7 @@
 						<div class="col-sm-8"></div>
 						<div class="col-sm-4">
 							<div class="col-sm-1 profile-pic">
-								<a href="student_input.html" class="glyphicon glyphicon-plus"></a>
+								<a href="student_input.html" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
 							</div>
 						</div>
 					</div>
@@ -478,6 +478,9 @@
 														<input type="text" class="form-control" placeholder="Student" />
 													</th>
 													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Destination" />
+													</th>
+													<th class="hasinput" >
 														<input type="text" class="form-control" placeholder="Start" />
 													</th>
 													<th class="hasinput" >
@@ -499,6 +502,7 @@
 									            <tr>
 									                <th></th>
 									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Student</th>
+									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Destination</th>
 									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Start</th>
 									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>End</th>
 									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs">Status</th>
@@ -708,15 +712,7 @@
 		<script src="js/plugin/flot/jquery.flot.cust.min.js"></script>
 		<script src="js/plugin/flot/jquery.flot.resize.min.js"></script>
 		<script src="js/plugin/flot/jquery.flot.time.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>
-		
-		<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
-		<script src="js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-		<script src="js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-		
-		<!-- Full Calendar -->
-		<script src="js/plugin/moment/moment.min.js"></script>
-		<script src="js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+		<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>		
 
 		<!-- Datatables --> 
 
@@ -726,21 +722,10 @@
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
-		<!-- PAGE RELATED GRAPHS 
-		<script src="..."></script>-->
-		<script src="js/plugin/highChartCore/highcharts-custom.min.js"></script>
-		<script src="js/plugin/highchartTable/jquery.highchartTable.min.js"></script>
-
-
-		<!-- PAGE RELATED ckeditor -->
-		<script src="js/plugin/ckeditor/ckeditor.js"></script>
-
-		<!-- Plugin timeslider -->
-		<script src="js-timeline/timeslider.js"></script>
-
 		<!-- out scripts -->
 		<script src="js/main.js"></script>
 		<script src="js/students.js"></script>
+		<script src="js/rest_commands.js"></script>
 		<script src="js-datatables/students.js"></script>
 
 		<script>

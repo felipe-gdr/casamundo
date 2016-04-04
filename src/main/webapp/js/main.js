@@ -95,49 +95,6 @@ function calculaIdade ( dataNascimento ) {
 
 	 return idade;
 	};				
-	function inclusaoEfetuada() {
-		$.smallBox({
-			title : "Ok",
-			content : "<i class='fa fa-clock-o'></i> <i>You included a new Student</i>",
-			color : "#659265",
-			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
-		});
-		$(window.document.location).attr('href','students.html');
-    };
-	function inclusaoNaoEfetuada() {
-		$.smallBox({
-			title : "Error",
-			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
-			color : "#ff8080",
-			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
-		});
-    };
-	function atualizacaoEfetuada() {
-		$.smallBox({
-			title : "Ok",
-			content : "<i class='fa fa-clock-o'></i> <i>Student data atualized</i>",
-			color : "#659265",
-			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
-		});
-		$(window.document.location).attr('href','students.html');
-    };
-	function atualizacaoNaoEfetuada() {
-		$.smallBox({
-			title : "Error",
-			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
-			color : "#ff8080",
-			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
-		});
-    };
-	function atualizacaoCampoEfetuada() {
-    };
-	function atualizacaoCampoNaoEfetuada() {
-    };
-
     function carregaTela(data) {
     	
     	$("#celPhone").val(data.documento.celPhone);
@@ -211,5 +168,53 @@ function calculaIdade ( dataNascimento ) {
     	$("#agrreeSuite").val(data.documento.trips[actualTrip].agrreeSuite);
     	
     	localStorage.setItem("student", JSON.stringify(data));
-    	localStorage.studentExistente = true;
+    	localStorage.studentExistente = "true";
     };    
+    function carregaInclusao(data) { 	
+    	
+    	localStorage.studentExistente = "false";
+    };    
+	function inclusaoEfetuada() {
+		$.smallBox({
+			title : "Ok",
+			content : "<i class='fa fa-clock-o'></i> <i>You included a new Student</i>",
+			color : "#659265",
+			iconSmall : "fa fa-check fa-2x fadeInRight animated",
+			timeout : 4000
+		});
+		$(window.document.location).attr('href','students.html');
+    };
+	function inclusaoNaoEfetuada() {
+		$.smallBox({
+			title : "Error",
+			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
+			color : "#ff8080",
+			iconSmall : "fa fa-check fa-2x fadeInRight animated",
+			timeout : 4000
+		});
+    };
+	function atualizacaoEfetuada() {
+		$.smallBox({
+			title : "Ok",
+			content : "<i class='fa fa-clock-o'></i> <i>Student data atualized</i>",
+			color : "#659265",
+			iconSmall : "fa fa-check fa-2x fadeInRight animated",
+			timeout : 40000
+		});
+		$(window.document.location).attr('href','students.html');
+    };
+	function atualizacaoNaoEfetuada() {
+		$.smallBox({
+			title : "Error",
+			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
+			color : "#ff8080",
+			iconSmall : "fa fa-check fa-2x fadeInRight animated",
+			timeout : 40000
+		});
+    };
+
+    function atualizacaoCampoEfetuada() {
+    };
+    function atualizacaoCampoNaoEfetuada() {
+    };
+

@@ -5,7 +5,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterStudents(carregaLocalStorageStudents);
+	rest_obterStudentsAll(carregaLocalStorageStudents);
 
 
 	/* BASIC datatables*/
@@ -48,6 +48,7 @@
 		                "defaultContent": ''
 		            },
 		            { "data": "student" },
+		            { "data": "destination" },
 		            { "data": "start" },
 		            { "data": "end" },
 		            { "data": "status" },
@@ -67,18 +68,45 @@
     });
     var objJson = JSON.parse(localStorage.getItem("students"));
     $.each(objJson, function (i, student) {
-    	var ageStudent = calculaIdade(separaData(student.birthDayStudent, "/"));
-	    student_table.row.add( {
-	    	"student": "<a href='student.html?mail=" + student.mailStudent + "'>" +
-	    			"<span>" + student.firstNameStudent +  " " + student.lastNameStudent + "</span><br>" + 
-	    			"<small class='text-muted'><i>Age: " + ageStudent + "<i></small><br>" + 
-	    			"<small class='text-muted'><i>Phone: " + student.phoneStudent +  "<i></small><br>" + 
-	    			"<small class='text-muted'><i>Cel Phone: " + student.phoneStudent +  "<i></small><br>" + 
-	    			"<small class='text-muted'><i>Mail: " + student.mailStudent +  "<i></small><br></a>",
-            "start":"<small class='hide'>" + converteAnoMesDia(student.trips.start) + "</small><small class='text-muted'>" + separaData(student.trips.start, "/") + "</small>",
-            "end":"<small class='hide'>" + converteAnoMesDia(student.trips.end) + "</small><small class='text-muted'>" + separaData(student.trips.end, "/") + "</small>",
-	    	"status": "<span class='label label-avaliable'>" + student.trips.status +  "</span>",
-	    	"gender":"<small class='text-muted'>" + student.genderStudent + "</small>",
+    	var age = calculaIdade(separaData(student.birthDay, "/"));
+    	switch (student.trip.status) {
+    	case "Available":
+    		statusCollor = "label-avaliable"
+            break;
+        case "Confirmed":
+        	statusCollor = "label-confirmed"
+            break;
+        case "Placement offered":
+        	statusCollor = "label-placement-offered"
+            break;
+        case "Terminated":
+        	statusCollor = "label-terminated"
+            break;
+        default: 
+    		statusCollor = "label-avaliable"
+        };	    
+    	switch (student.gender) {
+    	case "Male":
+    		genderCollor = "label-male"
+            break;
+        case "Female":
+        	genderCollor = "label-female"
+            break;
+        default: 
+    		genderCollor = "label-male"
+        };	    
+    	student_table.row.add( {
+	    	"student": "<a href='student.html?mail=" + student.mail + "'>" +
+	    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
+	    			"<small class='text-muted'><i>Age: " + age + "<i></small><br>" + 
+	    			"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" + 
+	    			"<small class='text-muted'><i>Cel Phone: " + student.phone +  "<i></small><br>" + 
+	    			"<small class='text-muted'><i>Mail: " + student.mail +  "<i></small><br></a>",
+            "destination":"<small class='text-muted'>" + student.trip.destination + "</small>",
+            "start":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>" + separaData(student.trip.start, "/") + "</small>",
+            "end":"<small class='hide'>" + converteAnoMesDia(student.trip.end) + "</small><small class='text-muted'>" + separaData(student.trip.end, "/") + "</small>",
+	    	"status": "<span class='label " + statusCollor + " '>" + student.trip.status +  "</span>",
+	    	"gender":"<small class='label " + genderCollor + " '>" + student.gender + "</small>",
 	    	"agency":student.agency.name + "<br>" +
 	    				"<small class='text-muted'>Consult: " + student.agency.nameConsult + "</small><br>" +
 	    				"<small class='text-muted'>Cel Phone: " + student.agency.celPhone + "</small><br>" +

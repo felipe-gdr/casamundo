@@ -62,6 +62,18 @@
 			},
 			emergencyContactMail : {
 				email : true
+			},
+			status : {
+				required : true,
+			},
+			destination : {
+				required : true,
+			},
+			start : {
+				required : true,
+			},
+			end : {
+				required : true,
 			}
 		},
 
@@ -132,6 +144,18 @@
 			},
 			emergencyContactMail : {
 				email : 'Please enter a VALID email address'
+			},
+			status : {
+				required : 'Please enter status'
+			},
+			destination : {
+				required : 'Please enter destination'
+			},
+			start : {
+				required : 'Please enter trip start'
+			},
+			end : {
+				required : 'Please enter trip end'
 			}
 		},
 		// form submition
@@ -162,7 +186,7 @@
 					};
 					setValueStudent (field.id, value, 0)
 			});
-			if (localStorage.studentExistente){
+			if (localStorage.studentExistente == "true"){
 				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoEfetuada, atualizacaoNaoEfetuada);;
 			}else{
 				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), inclusaoEfetuada, inclusaoNaoEfetuada);
@@ -188,8 +212,8 @@
 
 	// **** testa existencia do email
 	$("#mail").blur(function(){
-		localStorage.studentExistente = false;
-		var data = rest_obterStudent(this.value, carregaTela);
+		localStorage.studentExistente = "false";
+		var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
 	});	
 
     // **** carrega select

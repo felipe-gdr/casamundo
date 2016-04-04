@@ -177,38 +177,67 @@ public class Rest_Student {
 				    jsonDocumento.put("actualTrip", jsonObject.get("actualTrip"));
 				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 				    String agencyId = null;
+				    String schoolId = null;
 				    if (tripIndex != null){
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
-						jsonDocumento.put("trip", jsonTrip.toJSONString());
+						jsonDocumento.put("trip", jsonTrip);
 						agencyId = (String) jsonTrip.get("agencyId");
+						schoolId = (String) jsonTrip.get("schoolId");
 				    };
 					if (agencyId != null){
-						ObjectId _agencyId = new ObjectId(agencyId);
-				    	// obter agency
-						BasicDBObject setQueryAgency = new BasicDBObject();
-						setQueryAgency.put("_id", _agencyId);
-						Mongo mongoAgency;
+/*						Mongo mongoAgency;
 						mongoAgency = new Mongo();
 						DB dbAgency = (DB) mongoAgency.getDB("documento");
-						DBCollection agencyCollection = dbAgency.getCollection("agency");
-						DBObject agencyCursor = agencyCollection.findOne(setQueryAgency);
-						BasicDBObject objAgency = (BasicDBObject) agencyCursor.get("documento");
-						String docAgency = objAgency.getString("documento");
-						JSONObject jsonAgency; 
-						jsonAgency = (JSONObject) parser.parse(docAgency);
-						jsonDocumento.put("agency.name", jsonAgency.get("name"));
-					    jsonDocumento.put("agency.nameConsult", jsonAgency.get("nameConsult"));
-					    jsonDocumento.put("agency.celPhone", jsonAgency.get("celPhone"));
-					    jsonDocumento.put("agency.phone", jsonAgency.get("phone"));
-					    jsonDocumento.put("agency.email", jsonAgency.get("email"));
-					    mongoAgency.close();
+						ObjectId _agencyId = new ObjectId(agencyId);
+				    	// obter agency
+	        			DBCollection docCollection = dbAgency.getCollection("student");
+	        			BasicDBObject searchQuery = new BasicDBObject("_id",_agencyId);
+	        			DBObject docCursorAgency = docCollection.findOne(searchQuery);
+	        			BasicDBObject docAgency = (BasicDBObject) docCursorAgency.get("documento");
+*/	        			JSONObject docAgency = new JSONObject();
+						docAgency.put("name", "Canada Destino");
+						docAgency.put("nameConsult", "Saulo Oliveira");
+						docAgency.put("celPhone", "011994564584");
+						docAgency.put("phone", "011994564584");
+						docAgency.put("email", "soliveira@canadadestino.com.br");						
+						jsonDocumento.put("agency", docAgency);
+//						mongoAgency.close();
 					}else{
-						jsonDocumento.put("agency.name", "");
-					    jsonDocumento.put("agency.nameConsult", "");
-					    jsonDocumento.put("agency.celPhone", "");
-					    jsonDocumento.put("agency.phone", "");
-					    jsonDocumento.put("agency.email", "");						
+	        			JSONObject docAgency = new JSONObject();
+						docAgency.put("name", "");
+						docAgency.put("nameConsult", "");
+						docAgency.put("celPhone", "");
+						docAgency.put("phone", "");
+						docAgency.put("email", "");						
+						jsonDocumento.put("agency", docAgency);
+					};
+					if (schoolId != null){
+/*						Mongo mongoSchool;
+						mongoSchool = new Mongo();
+						DB dbSchool = (DB) mongoSchool.getDB("documento");
+						ObjectId _schoolId = new ObjectId(schoolId);
+				    	// obter school
+	        			DBCollection docCollection = dbSchool.getCollection("student");
+	        			BasicDBObject searchQuery = new BasicDBObject("_id",_schoolId);
+	        			DBObject docCursorSchool = docCollection.findOne(searchQuery);
+	        			BasicDBObject docSchool = (BasicDBObject) docCursorSchool.get("documento");
+*/	        			JSONObject docSchool = new JSONObject();
+						docSchool.put("name", "UTC");
+						docSchool.put("nameContact", "John Andrews");
+						docSchool.put("celPhone", "011994564584");
+						docSchool.put("phone", "011994564584");
+						docSchool.put("email", "andrews@uft.com.can");						
+						jsonDocumento.put("school", docSchool);
+//						mongoSchool.close();
+					}else{
+	        			JSONObject docSchool = new JSONObject();
+						docSchool.put("name", "");
+						docSchool.put("nameContact", "");
+						docSchool.put("celPhone", "");
+						docSchool.put("phone", "");
+						docSchool.put("email", "");						
+						jsonDocumento.put("school", docSchool);
 					};
 					documentos.add(jsonDocumento);
 					mongo.close();
