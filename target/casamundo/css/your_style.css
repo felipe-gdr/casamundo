@@ -33,6 +33,9 @@
  .label-confirmed {
 	background-color: #0080ff
 }
+ .label-terminated {
+	background-color: #c0c0c0
+}
  .label-unavaliable {
 	background-color: #ff8000
 }
