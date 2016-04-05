@@ -80,9 +80,9 @@
 
     };
 
-    function rest_obterStudent(email, action_ok, action_not_ok) {
+    function rest_obterTable(action_ok, action_not_ok) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/tabele/obter",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/obter",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
@@ -103,8 +103,7 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/atualizar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson),
-            async:false
+            data : JSON.stringify(objJson)
 		})        	
 		.done(function( data ) {
     	})

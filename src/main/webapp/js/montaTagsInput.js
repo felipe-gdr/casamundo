@@ -1,7 +1,7 @@
 	/**
-	 * 		carrega selects
+	 * 		carrega tabelas
 	 */
 
-	rest_obterTable(email, carregaTable, obtencaoNaoEfetuada);
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 	
 

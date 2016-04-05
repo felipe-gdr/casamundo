@@ -178,10 +178,15 @@ function calculaIdade ( dataNascimento ) {
     	
     	localStorage.setItem("table", JSON.stringify(data));
     	localStorage.carragendoTags = true;
+    };
+    function carregaTelaTabelas(data) { 	
+    	
+    	localStorage.setItem("table", JSON.stringify(data));
+    	localStorage.carragendoTags = true;
     	
     	var table = JSON.parse(localStorage.getItem("table"));
     	
-        $.each(table.documento.nationality
+    	$.each(table.documento.nationality
     		    , function (i, optionValue) {
         			$("#nationality").append( $(option(optionValue)));
     		    });
@@ -315,5 +320,7 @@ function calculaIdade ( dataNascimento ) {
     function atualizacaoCampoEfetuada() {
     };
     function atualizacaoCampoNaoEfetuada() {
+    };
+    function semAcao() {
     };
     

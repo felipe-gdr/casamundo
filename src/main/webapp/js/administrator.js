@@ -16,7 +16,7 @@
 			    , function (i, field) {
 					setValueTable (field.id)
 			});
-			rest_atualizaTable(JSON.parse(localStorage.getItem("table")), inclusaoEfetuada, inclusaoNaoEfetuada);
+			rest_atualizaTable(JSON.parse(localStorage.getItem("table")), semAcao, semAcao);
 		},	
 		// Do not change code below
 		errorPlacement : function(error, element) {
