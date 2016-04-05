@@ -140,7 +140,7 @@
     // Apply the filter
     $("#students_list thead th input[type=text]").on( 'keyup change', function () {
     	
-        student_tstudent
+    	student_table
             .column( $(this).parent().index()+':visible' )
             .search( this.value )
             .draw();

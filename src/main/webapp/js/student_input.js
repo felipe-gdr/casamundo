@@ -1,5 +1,4 @@
 
-	localStorage.urlServidor = window.location.hostname;
 	limpaStorageStudent ();
 
 

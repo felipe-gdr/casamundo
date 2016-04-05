@@ -12,7 +12,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterStudent(email, carregaLocalStorageStudent);
+	rest_obterStudent(email, carregaLocalStorageStudent, obtencaoNaoEfetuada);
     
 	var table = JSON.parse(localStorage.getItem("table"));
     var actualTrip = getValueStudent("actualTrip");

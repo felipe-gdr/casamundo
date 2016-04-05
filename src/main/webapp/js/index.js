@@ -1,9 +1,11 @@
 /**
- * 
+ *	carrega variaveis do sistema 
  */
 
-// 	*** inicializar dados
-var data  = JSON.parse(
+	localStorage.urlServidor = window.location.hostname;
+
+	// 	*** inicializar dados
+	var data  = JSON.parse(
 		'{' +
 		  '"documento" :' + 
 		  	'{' +
@@ -113,7 +115,7 @@ var students  = JSON.parse(
 		    '"emergencyContactNameStudent": "",' +
 		    '"emergencyContactPhoneStudent": "",' +
 		    '"emergencyContactMailStudent": "",' +
-		    '"trips": {' +
+		    '"trip": {' +
 		      '"status": "Confirmed",' +
 		      '"destination": "Toronto",' +
 		      '"start": "01042016",' +
@@ -175,5 +177,5 @@ var table  = JSON.parse(
 );
 
 localStorage.setItem("student", JSON.stringify(data));
-localStorage.setItem("students", JSON.stringify(students));
-localStorage.setItem("table", JSON.stringify(table));
+//localStorage.setItem("students", JSON.stringify(students));
+//localStorage.setItem("table", JSON.stringify(table));

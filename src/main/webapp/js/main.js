@@ -174,6 +174,96 @@ function calculaIdade ( dataNascimento ) {
     	
     	localStorage.studentExistente = "false";
     };    
+    function carregaTabelas(data) { 	
+    	
+    	localStorage.setItem("table", JSON.stringify(data));
+    	localStorage.carragendoTags = true;
+    	
+    	var table = JSON.parse(localStorage.getItem("table"));
+    	
+        $.each(table.documento.nationality
+    		    , function (i, optionValue) {
+        			$("#nationality").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.mainPurposeTrip
+    		    , function (i, optionValue) {
+        			$("#mainPurposeTrip").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.englishLevel
+    		    , function (i, optionValue) {
+        			$("#englishLevel").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.state
+    		    , function (i, optionValue) {
+        			$("#state").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.city
+    		    , function (i, optionValue) {
+        			$("#city").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.country
+    		    , function (i, optionValue) {
+        			$("#country").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.firstLanguage
+    		    , function (i, optionValue) {
+        			$("#firstLanguage").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.status
+    		    , function (i, optionValue) {
+        			$("#status").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.destination
+    		    , function (i, optionValue) {
+        			$("#destination").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.accommodation
+    		    , function (i, optionValue) {
+        			$("#accommodation").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.occupancy
+    		    , function (i, optionValue) {
+        			$("#occupancy").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.relationship
+    		    , function (i, optionValue) {
+        			$("#relationship").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.mealPlan
+    		    , function (i, optionValue) {
+        			$("#mealPlan").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.usuallyStudy
+    		    , function (i, optionValue) {
+        			$("#usuallyStudy").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.keepBedroom
+    		    , function (i, optionValue) {
+        			$("#keepBedroom").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.iAmUsually
+    		    , function (i, optionValue) {
+        			$("#iAmUsually").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.creditCardType
+    		    , function (i, optionValue) {
+        			$("#creditCardType").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.apartamentType
+    		    , function (i, optionValue) {
+        			$("#apartamentType").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.specialDiet
+    		    , function (i, optionValue) {
+        			$("#specialDiet").append( $(option(optionValue)));
+    		    });
+        
+        localStorage.carragendoTags = false;
+        
+    	function option(value) {
+        	return '<option value="' + value + '" selected="selected">' + value +'</option>';
+        };
+    };    
 	function inclusaoEfetuada(mensagem) {
 		$.smallBox({
 			title : "Ok",
@@ -188,6 +278,15 @@ function calculaIdade ( dataNascimento ) {
 		$.smallBox({
 			title : "Error",
 			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
+			color : "#ff8080",
+			iconSmall : "fa fa-check fa-2x fadeInRight animated",
+			timeout : 4000
+		});
+    };
+	function obtencaoNaoEfetuada() {
+		$.smallBox({
+			title : "Error",
+			content : "<i class='fa fa-clock-o'></i> <i>Record not found</i>",
 			color : "#ff8080",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000

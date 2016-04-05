@@ -1,11 +1,6 @@
 
 	/**
 	 * 		setup dos input do form
-	$( "#nationality" ).bind( "blur", function() {
-		setValueTable ('nationality', $("#nationality").tagsinput('items'))
-	});
-	/**
-	 * 		setup dos input do form
 	 */
 	var $tablesForm = $("#tables-form").validate({
 		// Rules for form validation
@@ -19,7 +14,7 @@
 		submitHandler : function(form) {
 			$.each(form
 			    , function (i, field) {
-					setValueTable (field.id, field.value)
+					setValueTable (field.id)
 			});
 			rest_atualizaTable(JSON.parse(localStorage.getItem("table")), inclusaoEfetuada, inclusaoNaoEfetuada);
 		},	
@@ -36,7 +31,10 @@
 		}
 	});
 
-	
+	$('.item-table').on('itemRemoved', function(event) {
+		setValueTable (event.currentTarget.id)
+	})
+		
 	function putValueTable (field) {
 		
 		var objJson = JSON.parse(localStorage.getItem("table"));
@@ -47,7 +45,7 @@
 		});
 	};				
 
-	function setValueTable (field, value) {
+	function setValueTable (field) {
 		
 		var objJson = JSON.parse(localStorage.getItem("table"));
 		
@@ -56,5 +54,6 @@
 		};
 
 		localStorage.setItem("table", JSON.stringify(objJson));
+		rest_atualizaTable(JSON.parse(localStorage.getItem("table")), atualizacaoCampoEfetuada, atualizacaoCampoNaoEfetuada);
 		
 	};		

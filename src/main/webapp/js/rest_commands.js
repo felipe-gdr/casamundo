@@ -55,7 +55,8 @@
     	.always(function(data) {
     	});
     };
-	function rest_atualizaStudent(objJson, action_ok, action_not_ok) {
+
+    function rest_atualizaStudent(objJson, action_ok, action_not_ok) {
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",
@@ -78,8 +79,26 @@
     	});
 
     };
-	function rest_atualizaTable(objJson, action_ok, action_not_ok) {
-/*		$.ajax({
+
+    function rest_obterStudent(email, action_ok, action_not_ok) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/tabele/obter",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data);
+    	})
+    	.fail(function(data) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
+
+    function rest_atualizaTable(objJson, action_ok, action_not_ok) {
+		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/atualizar",
             contentType: "application/json; charset=utf-8",
@@ -98,5 +117,4 @@
         		actio_not_ok()
         	};
     	});
-*/
     };
