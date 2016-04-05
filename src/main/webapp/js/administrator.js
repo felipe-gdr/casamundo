@@ -1,6 +1,11 @@
 
 	/**
 	 * 		setup dos input do form
+	$( "#nationality" ).bind( "blur", function() {
+		setValueTable ('nationality', $("#nationality").tagsinput('items'))
+	});
+	/**
+	 * 		setup dos input do form
 	 */
 	var $tablesForm = $("#tables-form").validate({
 		// Rules for form validation
@@ -47,7 +52,7 @@
 		var objJson = JSON.parse(localStorage.getItem("table"));
 		
 		if (objJson.documento[field]){
-	        objJson.documento[field] = value;
+	        objJson.documento[field] = $("#" + field).tagsinput('items');
 		};
 
 		localStorage.setItem("table", JSON.stringify(objJson));
