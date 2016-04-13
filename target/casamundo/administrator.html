@@ -33,6 +33,9 @@
 		<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
 
+		<!-- tags -->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-tags/bootstrap-tagsinput.css"> 
+
 		<!-- GOOGLE FONT -->
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
@@ -98,626 +101,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-3">
-
-  <!-- Modal Student-->
-  <div class="modal fade" id="student" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content animated flipInY">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Student</h4>
-        </div>
-        <div class="modal-body">
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<img src="img/avatars/photo.png" alt="Amanda Ferreira">
-				<header>
-					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-					<h2>Profile</h2>				
-					
-				</header>
-
-				<!-- widget div-->
-				<div>
-					
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-						
-					</div>
-					<!-- end widget edit box -->
-					
-					<!-- widget content -->
-					<div class="widget-body no-padding">
-						
-						<form id="order-form" class="smart-form" novalidate="novalidate">
-							<fieldset>
-								<legend>
-								<h7>Personal data</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-user"></i>
-											<input type="text" name="name" placeholder="Name">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="select input">
-											<select name="interested">
-												<option value="0" selected="" disabled="">Gender</option>
-												<option value="Male">Male</option>
-												<option value="Female">Female</option>
-											</select> <i></i> </label>
-									</section>
-								</div>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-calendar"></i>
-											<input type="text" name="birthdate" id="birthdate" placeholder="birthdate">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-											<input type="email" name="email" placeholder="E-mail">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="phone" name="phone" placeholder="Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="mobilephonr" name="mobilephone" placeholder="Mobile Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Profession type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="System Analyst">System Analyst</option>
-													<option value="Doctor">Doctor</option>
-													<option value="Engineer">Engineer</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-								</div>
-
-							</fieldset>
-
-							<fieldset>
-								<legend>
-								<h7>Address</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Country type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">Brazil</option>
-													<option value="Angola">Angola</option>
-													<option value="Zambia">Zambia</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Province type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Rio de Janeiro</option>
-													<option value="Zambia">Goias</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="City type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Campinas</option>
-													<option value="Zambia">São Bernardo do Campo</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="zipcode" name="zipcode" placeholder="Zip code" data-mask="99999-99">
-										</label>
-									</section>
-								</div>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="street" name="street" placeholder="Street" >
-										</label>
-									</section>
-								</div>
-							</fieldset>
-						</form>
-
-					</div>
-					<!-- end widget content -->
-					
-				</div>
-				<!-- end widget div -->
-				
-			</div>
-			<!-- end widget -->				
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- Modal Family-->
-  <div class="modal fade" id="family" role="dialog" style="z-index: 99999;>
-    <div class="modal-dialog modal-sm">
-    
-      <!-- Modal content-->
-      <div class="modal-content animated flipInY">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Family</h4>
-        </div>
-        <div class="modal-body">
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<header>
-					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-					<h2>Profile</h2>				
-					
-				</header>
-
-				<!-- widget div-->
-				<div>
-					
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-						
-					</div>
-					<!-- end widget edit box -->
-					
-					<!-- widget content -->
-					<div class="widget-body no-padding">
-				
-					<!-- start row -->
-					<div class="row">
-				
-						<h3 class="row-seperator-header">Images</h3>
-				
-						<div class="col-sm-12">
-				
-							<div class="row">
-				
-								<div class="col-sm-12 col-md-12 col-lg-4 center-block">
-				
-									<!-- well -->
-									<div class="well">
-										<div id="myCarousel-2" class="carousel slide">
-											<ol class="carousel-indicators">
-												<li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-												<li data-target="#myCarousel-2" data-slide-to="1" class=""></li>
-												<li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
-												<li data-target="#myCarousel-2" data-slide-to="3" class=""></li>
-											</ol>
-											<div class="carousel-inner">
-												<!-- Slide 1 -->
-												<div class="item active">
-													<img src="img/casas/home.jpg" alt="">
-												</div>
-												<!-- Slide 2 -->
-												<div class="item">
-													<img src="img/casas/room.jpg" alt="">
-												</div>
-												<!-- Slide 3 -->
-												<div class="item">
-													<img src="img/casas/bathroom.jpg" alt="">
-												</div>
-												<!-- Slide 4 -->
-												<div class="item">
-													<img src="img/casas/family.jpg" alt="">
-												</div>
-											</div>
-											<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-											<a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
-										</div>
-				
-									</div>
-									<!-- end well-->
-				
-								</div>
-				
-							</div>
-				
-						</div>
-				
-					</div>
-					<!-- end row -->
-						
-						<form id="order-form" class="smart-form" novalidate="novalidate">
-							<fieldset>
-								<legend>
-								<h7>Data</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-user"></i>
-											<input type="text" name="name" placeholder="Name">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-											<input type="email" name="email" placeholder="E-mail">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="phone" name="phone" placeholder="Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="mobilephonr" name="mobilephone" placeholder="Mobile Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-								</div>
-
-							</fieldset>
-
-							<fieldset>
-								<legend>
-								<h7>Address</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Country type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">Brazil</option>
-													<option value="Angola">Angola</option>
-													<option value="Zambia">Zambia</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Province type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Rio de Janeiro</option>
-													<option value="Zambia">Goias</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="City type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Campinas</option>
-													<option value="Zambia">São Bernardo do Campo</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="zipcode" name="zipcode" placeholder="Zip code" data-mask="99999-99">
-										</label>
-									</section>
-								</div>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="street" name="street" placeholder="Street" >
-										</label>
-									</section>
-								</div>
-							</fieldset>
-						</form>
-
-					</div>
-					<!-- end widget content -->
-					
-				</div>
-				<!-- end widget div -->
-				
-			</div>
-			<!-- end widget -->				
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- Modal Acomodation-->
-  <div class="modal fade" id="acomodation" role="dialog">
-    <div class="modal-dialog modal-lg">
-    
-      <!-- Modal content-->
-      <div class="modal-content animated flipInY">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Candidates</h4>
-        </div>
-        <div class="modal-body">
-				<div class="row">
-				
-					<div class="col-sm-12">
-				
-				
-							<div class="well well-sm">
-				
-								<div class="row">				
-									<div class="col-sm-12 col-md-12 col-lg-12">
-										<div class="well well-light well-sm no-margin no-padding">
-				
-											<div class="row">							
-												<div class="col-sm-12">				
-													<div class="row">
-														<div class="col-sm-3 profile-pic">
-															<img src="img/avatars/photo.png" alt="demo user">
-														</div>
-				
-														<div class="col-sm-6">
-															<h1>Amanda <span class="semi-bold">Ferreira</span>
-															<br>
-															<small>Systems Analyst</small></h1>
-				
-															<ul class="list-unstyled">
-																<li>
-																	<p class="text-muted">
-																		<i class="fa fa-phone"></i>&nbsp;&nbsp;(<span class="txt-color-darken">011</span>) <span class="txt-color-darken">98122</span> - <span class="txt-color-darken">6473</span>
-																	</p>
-																</li>
-																<li>
-																	<p class="text-muted">
-																		<i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:simmons@smartadmin">amanda@gmail.com</a>
-																	</p>
-																</li>
-															</ul>
-															<br>
-															<p class="font-md">
-																<i>Medical concerns:</i>
-															<i class="font-xs">No medical concerns</i>
-															</p>
-															<p class="font-md">
-																<i>Gender:</i><i class="font-xs">Single</i>
-															</p>
-															<p class="font-md">
-																<i>Alergies:</i><i class="font-xs">Pollen, Dust, Insect stings</i>
-															</p>
-															<p class="font-md">
-																<i>Smoke:</i><i class="font-xs">Yes</i>
-															</p>
-															<p class="font-md">
-																<i>Vegetarian:</i><i class="font-xs">Yes</i>
-															</p>
-															<p class="font-md">
-																<i>Live with pets:</i><i class="font-xs">Yes</i>
-															</p>
-															<p class="font-md">
-																<i>Halla:</i><i class="font-xs">Yes</i>
-															</p>
-															<br>
-															<p class="font-md">
-																<i>A little about me...</i>
-															</p>
-															<p>
-				
-																Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
-																cumque nihil impedit quo minus id quod maxime placeat facere
-				
-															</p>
-															<br>
-															<a href="javascript:void(0);" class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Send Message</a>
-															<br>
-															<br>
-				
-														</div>
-				
-													</div>
-				
-												</div>
-				
-											</div>
-				
-										</div>
-				
-									</div>
-								</div>
-				
-							</div>			
-					</div>
-				
-				</div>
-				
-				<!-- end row -->
-
-				<div class="row">
-				  
-				  <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-					<header>
-						<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-						<h2>Acomodations</h2>
-						<div class="widget-toolbar">
-							<!-- add: non-hidden - to disable auto hide -->
-						</div>
-					</header>
-					<div class="row">
-
-						<div class="col-sm-12">
-							<h2><span class="semi-bold">Filters</span>
-							</h2>
-
-							<tr>
-								<td><a id="filter_single" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_single_check" class="fa fa-check hide"></i>Acomodation</a></td>
-								<td><a id="filter_alergies" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_alergies_check" class="fa fa-check hide"></i>Alergies</a></td>
-								<td><a id="filter_smoke" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_smoke_check" class="fa fa-check hide"></i>Smoke</a></td>
-								<td><a id="filter_vegetarian" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_vegetarian_check" class="fa fa-check hide"></i>Vegetarian</a></td>
-								<td><a id="filter_pets" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_pets_check" class="fa fa-check hide"></i>Pets</a></td>
-								<td><a id="filter_halla" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_halla_check" class="fa fa-check hide"></i>Halla</a></td>
-							</tr>
-						</div>
-
-					</div>
-				
-					<div class="col-sm-12">
-
-								<!-- widget div-->
-								<div>
-									
-									<!-- widget edit box -->
-									<div class="jarviswidget-editbox">
-										<!-- This area used as dropdown edit box -->
-										<input class="form-control" type="text">	
-									</div>
-									<!-- end widget edit box -->
-									
-									<!-- widget content -->
-									<div class="widget-body no-padding">
-										
-										<table id="families_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-									        <thead>
-												<tr>
-													<th class="hasinput" >
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Filter Family" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Status" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Gender" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Alergies" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Smoke" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Vegetarian" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Pets" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Halla" />
-													</th>
-												</tr>
-									            <tr>
-									                <th></th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
-									                <th>Status</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Gender</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Alergies</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Smoke</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Vegetarian</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Pets</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Halla</th>
-									            </tr>
-									        </thead>
-									    </table>
-
-									</div>
-									<!-- end widget content -->
-									
-								</div>
-								<!-- end widget div -->
-					</div>
-					<!-- end widget content -->
-				  </div>
-				</div>
-				<!-- end row -->
-				
-		</div>
-		<!-- end modal body -->				
-
-       </div>
-       <!-- end modal content -->	
-       <div class="modal-footer">
-         <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-       </div>
-      </div>
-      <!-- end modal dialog -->	
-    </div>
-    <!-- end modal -->	
-  
+	<body class="">
 
 		<!-- HEADER -->
 		<header id="header">
@@ -941,7 +325,7 @@
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
 						<img src="img/avatars/photo.png" alt="me" class="online" /> 
 						<span>
-							Amanda 
+							Grenne 
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 
@@ -1024,37 +408,419 @@
 			<!-- MAIN CONTENT -->
 			<div id="content">
 
+				<div class="row">
+					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+						<h1 class="page-title txt-color-blueDark">
+							<i class="fa fa-pencil-square-o fa-fw "></i> 
+								Administrator
+							</span>
+						</h1>
+					</div>
+				</div>
+				
 				<!-- widget grid -->
 				<section id="widget-grid" class="">
-					<!-- row -->
-
+				
+				
+					<!-- START ROW -->
+				
 					<div class="row">
-
-						<article class="col-sm-12 col-md-12 col-lg-12">
-
-							<!-- new widget -->
-			<div class="jarviswidget" id="wid-id-22" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<!-- end row -->
-			</div>
+				
+						<!-- NEW COL START -->
+						<article class="col-sm-12 col-md-12 col-lg-6">
+				
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget" id="wid-id-3" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false">
+								<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+				
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+				
+								-->
+								<header>
+									<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+									<h2>Tables </h2>
+				
+								</header>
+				
+								<!-- widget div-->
+								<div>
+				
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+				
+									</div>
+									<!-- end widget edit box -->
+				
+									<!-- widget content -->
+									<div class="widget-body">
+										<div class="form-group">
+											<label class="label label-warning">Type and enter to include a new item</label>
+										</div>
+										<form id="tables-form" class="" >				
+											<fieldset>
+												<legend>
+													Nationality
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="nationality" name="nationality" class = "item-table" multiple data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Main Purpose Trip
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="mainPurposeTrip" name="mainPurposeTrip" class = "item-table" multiple data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													English Level
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="englishLevel" name="englishLevel" class = "item-table" multiple data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													State
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="state" name="state" class = "item-table" multiple data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													City
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="city" name="city" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Country
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="country" name="country" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													First Language
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="firstLanguage" name="firstLanguage" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Status
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="status" name="status" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Destination
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="destination" name="destination" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Accommodation
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="accommodation" name="accommodation" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Occupancy
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="occupancy" name="occupancy" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Relationship
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="relationship" name="relationship" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Meal Plan
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="mealPlan" name="mealPlan" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Usually Study
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="usuallyStudy" name="usuallyStudy" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Keep Bedroom
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="keepBedroom" name="keepBedroom" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													I Am Usually
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="iAmUsually" name="iAmUsually" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Credit Card Type
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="creditCardType" name="creditCardType" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Apartament Type
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="apartamentType" name="apartamentType" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>
+											<fieldset>
+												<legend>
+													Special Diet
+												</legend>
+				
+												<div class="row">
+													
+													<div class="col-sm-12">
+														<div class="form-group">
+															<select id="specialDiet" name="specialDiet" multiple class = "item-table" data-role="tagsinput">
+															</select>
+														</div>
+													</div>
+													
+												</div>
+				
+											</fieldset>											
+											<div class="form-actions">
+												<div class="row">
+													<div class="col-md-12">
+														<button class="btn btn-default" type="submit">
+															Cancel
+														</button>
+														<button class="btn btn-primary" type="submit">
+															<i class="fa fa-save"></i>
+															Submit
+														</button>
+													</div>
+												</div>
+											</div>
+				
+										</form>
+				
+									</div>
+									<!-- end widget content -->
+				
+								</div>
+								<!-- end widget div -->
+				
+							</div>
 							<!-- end widget -->
+				
 						</article>
+						<!-- END COL -->
+				
 					</div>
-
-					<!-- end row -->
-
+				
+					<!-- END ROW -->
+				
 				</section>
 				<!-- end widget grid -->
 
@@ -1068,7 +834,7 @@
 		<div class="page-footer">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<span class="txt-color-white">Casa Mundo<span class="hidden-xs"> - Web Application</span></span>
+					<span class="txt-color-white">SmartAdmin 1.8.0 <span class="hidden-xs"> - Web Application Framework</span> © 2014-2015</span>
 				</div>
 
 				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
@@ -1154,6 +920,7 @@
 
 		<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 		<script>
 			if (!window.jQuery) {
 				document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');
@@ -1222,602 +989,54 @@
 		<!-- Voice command : plugin -->
 		<script src="js/speech/voicecommand.min.js"></script>
 
+
+		<!-- relacionados com a pagina, devem ficar antes da biblioteca tagsinpu -->
+		<script src="js/main.js"></script>
+		<script src="js/rest_commands.js"></script>
+		<script src="js/montaTagsInput.js"></script>
+
 		<!-- SmartChat UI : plugin -->
 		<script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
 		<script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
-		
+
 		<!-- PAGE RELATED PLUGIN(S) -->
+		<script src="js/plugin/maxlength/bootstrap-maxlength.min.js"></script>
+		<script src="js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+		<script src="js/plugin/clockpicker/clockpicker.min.js"></script>
+		<script src="js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js"></script>
+		<script src="js/plugin/noUiSlider/jquery.nouislider.min.js"></script>
+		<script src="js/plugin/ion-slider/ion.rangeSlider.min.js"></script>
+		<script src="js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>		
+		<script src="js/plugin/colorpicker/bootstrap-colorpicker.min.js"></script>
+		<script src="js/plugin/knob/jquery.knob.min.js"></script>
+		<script src="js/plugin/x-editable/moment.min.js"></script>
+		<script src="js/plugin/x-editable/jquery.mockjax.min.js"></script>
+		<script src="js/plugin/x-editable/x-editable.min.js"></script>
+		<script src="js/plugin/typeahead/typeahead.min.js"></script>
+		<script src="js/plugin/typeahead/typeaheadjs.min.js"></script>
+
+		<!-- relacionados com a pagina -->
+		<script src="js/administrator.js"></script>
+
+
+		<script type="text/javascript">
 		
-		<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
-		<script src="js/plugin/flot/jquery.flot.cust.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.resize.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.time.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>
+		// DO NOT REMOVE : GLOBAL FUNCTIONS!
 		
-		<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
-		<script src="js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-		<script src="js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-		
-		<!-- Full Calendar -->
-		<script src="js/plugin/moment/moment.min.js"></script>
-		<script src="js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
-
-		<!-- Datatables --> 
-
-		<script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
-		<script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
-		<script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
-		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-
-		<script>
-			$(document).ready(function() {
-
-				// DO NOT REMOVE : GLOBAL FUNCTIONS!
-				pageSetUp();
-				/*
-				 * Autostart Carousel
-				 */
-				$('.carousel.slide').carousel({
-					interval : 0,
-					cycle : true
-				});
-				
-
-				/*
-				 * PAGE RELATED SCRIPTS
-				 */
-
-				$(".js-status-update a").click(function() {
-					var selText = $(this).text();
-					var $this = $(this);
-					$this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-					$this.parents('.dropdown-menu').find('li').removeClass('active');
-					$this.parent().addClass('active');
-				});
-
-				/*
-				* TODO: add a way to add more todo's to list
-				*/
-
-				// initialize sortable
-				$(function() {
-					$("#sortable1, #sortable2").sortable({
-						handle : '.handle',
-						connectWith : ".todo",
-						update : countTasks
-					}).disableSelection();
-				});
-
-				// check and uncheck
-				$('.todo .checkbox > input[type="checkbox"]').click(function() {
-					var $this = $(this).parent().parent().parent();
-
-					if ($(this).prop('checked')) {
-						$this.addClass("complete");
-
-						// remove this if you want to undo a check list once checked
-						//$(this).attr("disabled", true);
-						$(this).parent().hide();
-
-						// once clicked - add class, copy to memory then remove and add to sortable3
-						$this.slideUp(500, function() {
-							$this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
-							$this.remove();
-							countTasks();
-						});
-					} else {
-						// insert undo code here...
-					}
-
-				})
-				// count tasks
-				function countTasks() {
-
-					$('.todo-group-title').each(function() {
-						var $this = $(this);
-						$this.find(".num-of-tasks").text($this.next().find("li").size());
-					});
-
-				}
-
-				/*
-				* RUN PAGE GRAPHS
-				*/
-
-				/* TAB 1: UPDATING CHART */
-				// For the demo we use generated data, but normally it would be coming from the server
-
-				var data = [], totalPoints = 200, $UpdatingChartColors = $("#updating-chart").css('color');
-
-				function getRandomData() {
-					if (data.length > 0)
-						data = data.slice(1);
-
-					// do a random walk
-					while (data.length < totalPoints) {
-						var prev = data.length > 0 ? data[data.length - 1] : 50;
-						var y = prev + Math.random() * 10 - 5;
-						if (y < 0)
-							y = 0;
-						if (y > 100)
-							y = 100;
-						data.push(y);
-					}
-
-					// zip the generated y values with the x values
-					var res = [];
-					for (var i = 0; i < data.length; ++i)
-						res.push([i, data[i]])
-					return res;
-				}
-
-				// setup control widget
-				var updateInterval = 1500;
-				$("#updating-chart").val(updateInterval).change(function() {
-
-					var v = $(this).val();
-					if (v && !isNaN(+v)) {
-						updateInterval = +v;
-						$(this).val("" + updateInterval);
-					}
-
-				});
-
-				// setup plot
-				var options = {
-					yaxis : {
-						min : 0,
-						max : 100
-					},
-					xaxis : {
-						min : 0,
-						max : 100
-					},
-					colors : [$UpdatingChartColors],
-					series : {
-						lines : {
-							lineWidth : 1,
-							fill : true,
-							fillColor : {
-								colors : [{
-									opacity : 0.4
-								}, {
-									opacity : 0
-								}]
-							},
-							steps : false
-
-						}
-					}
-				};
-
-				/* live switch */
-				$('input[type="checkbox"]#start_interval').click(function() {
-					if ($(this).prop('checked')) {
-						$on = true;
-						updateInterval = 1500;
-						update();
-					} else {
-						clearInterval(updateInterval);
-						$on = false;
-					}
-				});
-
-				function update() {
-					if ($on == true) {
-						plot.setData([getRandomData()]);
-						plot.draw();
-						setTimeout(update, updateInterval);
-
-					} else {
-						clearInterval(updateInterval)
-					}
-
-				}
-
-				var $on = false;
-
-				/*end updating chart*/
-
-
-				// TAB THREE GRAPH //
-				/* TAB 3: Revenew  */
-
-				$(function() {
-
-					var trgt = [[1354586000000, 153], [1364587000000, 658], [1374588000000, 198], [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080], [1414592000000, 353], [1424593000000, 749], [1434594000000, 523], [1444595000000, 258], [1454596000000, 688], [1464597000000, 364]], prft = [[1354586000000, 53], [1364587000000, 65], [1374588000000, 98], [1384589000000, 83], [1394590000000, 980], [1404591000000, 808], [1414592000000, 720], [1424593000000, 674], [1434594000000, 23], [1444595000000, 79], [1454596000000, 88], [1464597000000, 36]], sgnups = [[1354586000000, 647], [1364587000000, 435], [1374588000000, 784], [1384589000000, 346], [1394590000000, 487], [1404591000000, 463], [1414592000000, 479], [1424593000000, 236], [1434594000000, 843], [1444595000000, 657], [1454596000000, 241], [1464597000000, 341]], toggles = $("#rev-toggles"), target = $("#flotcontainer");
-
-					var data = [{
-						label : "Target Profit",
-						data : trgt,
-						bars : {
-							show : true,
-							align : "center",
-							barWidth : 30 * 30 * 60 * 1000 * 80
-						}
-					}, {
-						label : "Actual Profit",
-						data : prft,
-						color : '#3276B1',
-						lines : {
-							show : true,
-							lineWidth : 3
-						},
-						points : {
-							show : true
-						}
-					}, {
-						label : "Accommodated",
-						data : sgnups,
-						color : '#71843F',
-						lines : {
-							show : true,
-							lineWidth : 1
-						},
-						points : {
-							show : true
-						}
-					}]
-
-					var options = {
-						grid : {
-							hoverable : true
-						},
-						tooltip : true,
-						tooltipOpts : {
-							//content: '%x - %y',
-							//dateFormat: '%b %y',
-							defaultTheme : false
-						},
-						xaxis : {
-							mode : "time"
-						},
-						yaxes : {
-							tickFormatter : function(val, axis) {
-								return "$" + val;
-							},
-							max : 1200
-						}
-
-					};
-
-					plot2 = null;
-
-					function plotNow() {
-						var d = [];
-						toggles.find(':checkbox').each(function() {
-							if ($(this).is(':checked')) {
-								d.push(data[$(this).attr("name").substr(4, 1)]);
-							}
-						});
-						if (d.length > 0) {
-							if (plot2) {
-								plot2.setData(d);
-								plot2.draw();
-							} else {
-								plot2 = $.plot(target, d, options);
-							}
-						}
-
-					};
-
-					toggles.find(':checkbox').on('change', function() {
-						plotNow();
-					});
-					plotNow()
-
-				});
-
-				/*
-				 * VECTOR MAP
-				 */
-
-				data_array = {
-					"US" : 232,
-					"AU" : 4873,
-					"IN" : 3671,
-					"BR" : 2476,
-					"TR" : 1476,
-					"CN" : 146,
-					"CA" : 134,
-					"BD" : 100
-				};
-
-				$('#vector-map').vectorMap({
-					map : 'world_mill_en',
-					backgroundColor : '#fff',
-					regionStyle : {
-						initial : {
-							fill : '#c4c4c4'
-						},
-						hover : {
-							"fill-opacity" : 1
-						}
-					},
-					series : {
-						regions : [{
-							values : data_array,
-							scale : ['#85a8b6', '#4d7686'],
-							normalizeFunction : 'polynomial'
-						}]
-					},
-					onRegionLabelShow : function(e, el, code) {
-						if ( typeof data_array[code] == 'undefined') {
-							e.preventDefault();
-						} else {
-							var countrylbl = data_array[code];
-							el.html(el.html() + ': ' + countrylbl + ' accommodated');
-						}
-					}
-				});
-
-				/*
-				 * FULL CALENDAR JS
-				 */
-
-				if ($("#calendar").length) {
-					var date = new Date();
-					var d = date.getDate();
-					var m = date.getMonth();
-					var y = date.getFullYear();
-
-					var calendar = $('#calendar').fullCalendar({
-
-						editable : true,
-						draggable : true,
-						selectable : false,
-						selectHelper : true,
-						unselectAuto : false,
-						disableResizing : false,
-
-						header : {
-							left : 'title', //,today
-							center : 'prev, next, today',
-							right : 'month, agendaWeek, agenDay' //month, agendaDay,
-						},
-
-						select : function(start, end, allDay) {
-							var title = prompt('Event Title:');
-							if (title) {
-								calendar.fullCalendar('renderEvent', {
-									title : title,
-									start : start,
-									end : end,
-									allDay : allDay
-								}, true // make the event "stick"
-								);
-							}
-							calendar.fullCalendar('unselect');
-						},
-
-						events : [{
-							title : 'All Day Event',
-							start : new Date(y, m, 1),
-							description : 'long description',
-							className : ["event", "bg-color-greenLight"],
-							icon : 'fa-check'
-						}, {
-							title : 'Long Event',
-							start : new Date(y, m, d - 5),
-							end : new Date(y, m, d - 2),
-							className : ["event", "bg-color-red"],
-							icon : 'fa-lock'
-						}, {
-							id : 999,
-							title : 'Repeating Event',
-							start : new Date(y, m, d - 3, 16, 0),
-							allDay : false,
-							className : ["event", "bg-color-blue"],
-							icon : 'fa-clock-o'
-						}, {
-							id : 999,
-							title : 'Repeating Event',
-							start : new Date(y, m, d + 4, 16, 0),
-							allDay : false,
-							className : ["event", "bg-color-blue"],
-							icon : 'fa-clock-o'
-						}, {
-							title : 'Meeting',
-							start : new Date(y, m, d, 10, 30),
-							allDay : false,
-							className : ["event", "bg-color-darken"]
-						}, {
-							title : 'Lunch',
-							start : new Date(y, m, d, 12, 0),
-							end : new Date(y, m, d, 14, 0),
-							allDay : false,
-							className : ["event", "bg-color-darken"]
-						}, {
-							title : 'Birthday Party',
-							start : new Date(y, m, d + 1, 19, 0),
-							end : new Date(y, m, d + 1, 22, 30),
-							allDay : false,
-							className : ["event", "bg-color-darken"]
-						}, {
-							title : 'Smartadmin Open Day',
-							start : new Date(y, m, 28),
-							end : new Date(y, m, 29),
-							className : ["event", "bg-color-darken"]
-						}],
-
-						eventRender : function(event, element, icon) {
-							if (!event.description == "") {
-								element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-							}
-							if (!event.icon == "") {
-								element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-							}
-						}
-					});
-
-				};
-				// control modal
-				$("#modal_family").click(function(){
-			        $("#acomodation").modal('hide');
-			    });				
-			    // set filters
-				$('#filter_single').click(function() {
-					console.log ("hasclass - " + $( "#filter_single" ).hasClass( "btn-primary"))
-					if ($( "#filter_single" ).hasClass( "btn-primary")){
-						$('#filter_single').removeClass( "btn-primary" );
-						$('#filter_single').addClass( "btn-success" );
-						$('#filter_single_check').removeClass( "hide" );
-					}else{
-						$('#filter_single').removeClass( "btn-success" );
-						$('#filter_single').addClass( "btn-primary" );
-						$('#filter_single_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_alergies').click(function() {
-					console.log ("hasclass - " + $( "#filter_alergies" ).hasClass( "btn-primary"))
-					if ($( "#filter_alergies" ).hasClass( "btn-primary")){
-						$('#filter_alergies').removeClass( "btn-primary" );
-						$('#filter_alergies').addClass( "btn-success" );
-						$('#filter_alergies_check').removeClass( "hide" );
-					}else{
-						$('#filter_alergies').removeClass( "btn-success" );
-						$('#filter_alergies').addClass( "btn-primary" );
-						$('#filter_alergies_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_smoke').click(function() {
-					console.log ("hasclass - " + $( "#filter_smoke" ).hasClass( "btn-primary"))
-					if ($( "#filter_smoke" ).hasClass( "btn-primary")){
-						$('#filter_smoke').removeClass( "btn-primary" );
-						$('#filter_smoke').addClass( "btn-success" );
-						$('#filter_smoke_check').removeClass( "hide" );
-					}else{
-						$('#filter_smoke').removeClass( "btn-success" );
-						$('#filter_smoke').addClass( "btn-primary" );
-						$('#filter_smoke_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_vegetarian').click(function() {
-					console.log ("hasclass - " + $( "#filter_vegetarian" ).hasClass( "btn-primary"))
-					if ($( "#filter_vegetarian" ).hasClass( "btn-primary")){
-						$('#filter_vegetarian').removeClass( "btn-primary" );
-						$('#filter_vegetarian').addClass( "btn-success" );
-						$('#filter_vegetarian_check').removeClass( "hide" );
-					}else{
-						$('#filter_vegetarian').removeClass( "btn-success" );
-						$('#filter_vegetarian').addClass( "btn-primary" );
-						$('#filter_vegetarian_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_pets').click(function() {
-					console.log ("hasclass - " + $( "#filter_pets" ).hasClass( "btn-primary"))
-					if ($( "#filter_pets" ).hasClass( "btn-primary")){
-						$('#filter_pets').removeClass( "btn-primary" );
-						$('#filter_pets').addClass( "btn-success" );
-						$('#filter_pets_check').removeClass( "hide" );
-					}else{
-						$('#filter_pets').removeClass( "btn-success" );
-						$('#filter_pets').addClass( "btn-primary" );
-						$('#filter_pets_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_halla').click(function() {
-					console.log ("hasclass - " + $( "#filter_halla" ).hasClass( "btn-primary"))
-					if ($( "#filter_halla" ).hasClass( "btn-primary")){
-						$('#filter_halla').removeClass( "btn-primary" );
-						$('#filter_halla').addClass( "btn-success" );
-						$('#filter_halla_check').removeClass( "hide" );
-					}else{
-						$('#filter_halla').removeClass( "btn-success" );
-						$('#filter_halla').addClass( "btn-primary" );
-						$('#filter_halla_check').addClass( "hide" );						
-					}
-				});
-
-			    // custom toolbar colocar o logo da Casa Mundo
-			    //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-
-				/* hide default buttons */
-				$('.fc-header-right, .fc-header-center').hide();
-
-				// calendar prev
-				$('#calendar-buttons #btn-prev').click(function() {
-					$('.fc-button-prev').click();
-					return false;
-				});
-
-				// calendar next
-				$('#calendar-buttons #btn-next').click(function() {
-					$('.fc-button-next').click();
-					return false;
-				});
-
-				// calendar today
-				$('#calendar-buttons #btn-today').click(function() {
-					$('.fc-button-today').click();
-					return false;
-				});
-
-				// calendar month
-				$('#mt').click(function() {
-					$('#calendar').fullCalendar('changeView', 'month');
-				});
-
-				// calendar agenda week
-				$('#ag').click(function() {
-					$('#calendar').fullCalendar('changeView', 'agendaWeek');
-				});
-
-				// calendar agenda day
-				$('#td').click(function() {
-					$('#calendar').fullCalendar('changeView', 'agendaDay');
-				});
-
-				// iniialize date
-				$('#birthdate').datepicker({
-					dateFormat : 'dd.mm.yy',
-					prevText : '<i class="fa fa-chevron-left"></i>',
-					nextText : '<i class="fa fa-chevron-right"></i>',
-					onSelect : function(selectedDate) {
-						$('#birthdate').datepicker('option', 'minDate', selectedDate);
-					}
-				});
-
-				/* Formatting function for row details - modify as you need */
-				function format ( d ) {
-				    // `d` is the original data object for the row
-				    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-				        '<tr>'+
-				            '<td style="width:100px">Another filters:</td>'+
-				            '<td>'+d.filters+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td style="width:100px">Acomodation:</td>'+
-				            '<td>'+d.acomodation+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td>Important informations:</td>'+
-				            '<td>'+d.informations+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td>Comments:</td>'+
-				            '<td>'+d.comments+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td>Action:</td>'+
-				            '<td>'+d.actions+'</td>'+
-				        '</tr>'+
-				    '</table>';
-				}
-
-			    
-
-			});
+		$(document).ready(function() {
+			
+			pageSetUp();
+
+		})
 
 		</script>
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
-			_gaq.push(['_trackPageview']);
-
+				_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+				_gaq.push(['_trackPageview']);
+			
 			(function() {
 				var ga = document.createElement('script');
 				ga.type = 'text/javascript';

@@ -1,3 +1,18 @@
+	// 
+	//**    carrega dados url
+	//
+
+	var url   = window.location.search.replace();
+	var parametrosDaUrl = url.split("?")[1];
+	if (parametrosDaUrl){
+		var mailUrl = parametrosDaUrl.split("=")[1];
+	};
+
+	if (mailUrl){
+		localStorage.studentExistente = "true";
+		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
+	};	
+
 	/**
 	 * 		carrega tabelas
 	 */
@@ -5,8 +20,6 @@
 	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
 
 	limpaStorageStudent ();
-
-
 
 /**
 *          valida formulário   
@@ -306,6 +319,32 @@
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
+	$(".homestay").removeClass("hide");
+	
+	$('#accommodation').change(function() {
+		if ($(this).val() == "Homestay"){
+			$(".dorms").addClass("hide");
+			$(".suite").addClass("hide");
+			$(".homestay").removeClass("hide");
+		}else{
+			if ($(this).val() == "Dorms"){
+				$(".homestay").addClass("hide");
+				$(".suite").addClass("hide");
+				$(".dorms").removeClass("hide");
+			}else{
+				$(".homestay").addClass("hide");
+				$(".dorms").addClass("hide");
+				$(".suite").removeClass("hide");				
+			}
+		};
+	});
+	$('#occupancy').change(function() {
+		if ($(this).val() == "Twin" || $(this).val() == "Couple"){
+			$(".guest").removeClass("hide");
+		}else{
+			$(".guest").addClass("hide");
+		};
+	})
 	$('#start').datepicker({
 		dateFormat : 'dd.mm.yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
@@ -344,34 +383,11 @@
 		$('.g' + $(this).val()).removeClass("hide");
 	});
 
-	$('#occupancy').change(function() {
-		if ($(this).val() == "Twin" || $(this).val() == "Couple"){
-			$(".guest").removeClass("hide");
-		}else{
-			$(".guest").addClass("hide");
-		};
-	})
 
 	$('#arrivalTime').timepicker();
 	$('#flightTime').timepicker();
 	
-	$(".homestay").removeClass("hide");
-	
-	$("#accommodation0").click(function() {
-		$(".dorms").addClass("hide");
-		$(".suite").addClass("hide");
-		$(".homestay").removeClass("hide");
-	});
-	$("#accommodation1").click(function() {
-		$(".homestay").addClass("hide");
-		$(".suite").addClass("hide");
-		$(".dorms").removeClass("hide");
-	});
-	$("#accommodation2").click(function() {
-		$(".homestay").addClass("hide");
-		$(".dorms").addClass("hide");
-		$(".suite").removeClass("hide");
-	});
+
     $('#profession2').editable({
 //        url: '/post',
         type: 'text',
