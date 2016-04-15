@@ -1,3 +1,12 @@
+//
+//*** 	botão genérico para voltar uma pagina
+//
+	$( ".getback" ).bind( "click", function() {
+		parent.history.back();
+		return false;
+	});
+
+
 /**
  * 
  */
@@ -807,7 +816,6 @@ function calculaIdade ( dataNascimento ) {
     	$("#pickup").val(data.documento.trips[actualTrip].pickup);
     	$("#dropoff").val(data.documento.trips[actualTrip].dropoff);
     	$("#accommodation").val(data.documento.trips[actualTrip].accommodation);
-    	$(".homestay").removeClass("hide");
    		if (data.documento.trips[actualTrip].accommodation == "Homestay"){
 			$(".dorms").addClass("hide");
 			$(".suite").addClass("hide");
@@ -824,7 +832,7 @@ function calculaIdade ( dataNascimento ) {
 			}
 		};
     	$("#occupancy").val(data.documento.trips[actualTrip].occupancy);
-		if (data.documento.trips[actualTrip].occupancy == "Twin" || $(this).val() == "Couple"){
+		if (data.documento.trips[actualTrip].occupancy == "Twin" || data.documento.trips[actualTrip].occupancy == "Couple"){
 			$(".guest").removeClass("hide");
 		}else{
 			$(".guest").addClass("hide");

@@ -5,14 +5,18 @@
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("=")[1];
-	 
-	 
+	 	 
 	/**
 	 * 		carrega tabelas
 	 */
-
 	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
-
+	//
+	//***   chamar tela de alteração com o student da pagina
+	//
+	$( "#alteracaoButton" ).bind( "click", function() {
+		$(window.document.location).attr('href','student_input.html?mail=' + mailUrl );
+	});
+	
 /**
  * 
  */

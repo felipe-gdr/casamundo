@@ -319,7 +319,9 @@
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
-	$(".homestay").removeClass("hide");
+	if (!mailUrl){
+		$(".homestay").removeClass("hide");
+	};
 	
 	$('#accommodation').change(function() {
 		if ($(this).val() == "Homestay"){
