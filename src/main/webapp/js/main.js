@@ -839,7 +839,7 @@ function calculaIdade ( dataNascimento ) {
 		};
     	$("#guestName").val(data.documento.trips[actualTrip].guestName);
     	$("#relationship").val(data.documento.trips[actualTrip].relationship);
-    	$("#mealPlan").val(data.documento.trips[actualTrip].mealPlan);
+    	$('#mealPlan').multiselect('select', ['3 meals', '3 meals']);    	
     	$("#specialDiet").val(data.documento.trips[actualTrip].specialDiet);
     	$("#privateWashroom").val(data.documento.trips[actualTrip].privateWashroom);
     	$("#smoke").val(data.documento.trips[actualTrip].smoke);

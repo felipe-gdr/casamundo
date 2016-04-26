@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-		<title> Casa Mundo </title>
+		<title> Casamundo </title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 			
@@ -51,6 +51,11 @@
 		<link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
 		<link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 		<link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+		<!-- css customizado -->
+		<link href="css/your_style.css" rel="stylesheet" type="text/css"/>
+		<!-- Time Slider -->
+		<link href="css-timeline/timeslider.css" rel="stylesheet" type="text/css"/>
 
 	</head>
 	
@@ -99,632 +104,14 @@
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
 	<body class="smart-style-3">
-
-  <!-- Modal Student-->
-  <div class="modal fade" id="student" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content animated flipInY">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Student</h4>
-        </div>
-        <div class="modal-body">
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-8" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<img src="img/avatars/photo_7.png" alt="Amanda Ferreira">
-				<header>
-					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-					<h2>Profile</h2>				
-					
-				</header>
-
-				<!-- widget div-->
-				<div>
-					
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-						
-					</div>
-					<!-- end widget edit box -->
-					
-					<!-- widget content -->
-					<div class="widget-body no-padding">
-						
-						<form id="order-form" class="smart-form" novalidate="novalidate">
-							<fieldset>
-								<legend>
-								<h7>Personal data</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-user"></i>
-											<input type="text" name="name" placeholder="Name">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="select input">
-											<select name="interested">
-												<option value="0" selected="" disabled="">Gender</option>
-												<option value="Male">Male</option>
-												<option value="Female">Female</option>
-											</select> <i></i> </label>
-									</section>
-								</div>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-calendar"></i>
-											<input type="text" name="birthdate" id="birthdate" placeholder="birthdate">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-											<input type="email" name="email" placeholder="E-mail">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="phone" name="phone" placeholder="Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="mobilephonr" name="mobilephone" placeholder="Mobile Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Profession type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="System Analyst">System Analyst</option>
-													<option value="Doctor">Doctor</option>
-													<option value="Engineer">Engineer</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-								</div>
-
-							</fieldset>
-
-							<fieldset>
-								<legend>
-								<h7>Address</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Country type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">Brazil</option>
-													<option value="Angola">Angola</option>
-													<option value="Zambia">Zambia</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Province type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Rio de Janeiro</option>
-													<option value="Zambia">Goias</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="City type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Campinas</option>
-													<option value="Zambia">São Bernardo do Campo</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="zipcode" name="zipcode" placeholder="Zip code" data-mask="99999-99">
-										</label>
-									</section>
-								</div>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="street" name="street" placeholder="Street" >
-										</label>
-									</section>
-								</div>
-							</fieldset>
-						</form>
-
-					</div>
-					<!-- end widget content -->
-					
-				</div>
-				<!-- end widget div -->
-				
-			</div>
-			<!-- end widget -->				
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- Modal Family-->
-  <div class="modal fade" id="family" role="dialog" style="z-index: 99999;>
-    <div class="modal-dialog modal-sm">
-    
-      <!-- Modal content-->
-      <div class="modal-content animated flipInY">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Family</h4>
-        </div>
-        <div class="modal-body">
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<header>
-					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-					<h2>Profile</h2>				
-					
-				</header>
-
-				<!-- widget div-->
-				<div>
-					
-					<!-- widget edit box -->
-					<div class="jarviswidget-editbox">
-						<!-- This area used as dropdown edit box -->
-						
-					</div>
-					<!-- end widget edit box -->
-					
-					<!-- widget content -->
-					<div class="widget-body no-padding">
-				
-					<!-- start row -->
-					<div class="row">
-				
-						<h3 class="row-seperator-header">Images</h3>
-				
-						<div class="col-sm-12">
-				
-							<div class="row">
-				
-								<div class="col-sm-12 col-md-12 col-lg-4 center-block">
-				
-									<!-- well -->
-									<div class="well">
-										<div id="myCarousel-2" class="carousel slide">
-											<ol class="carousel-indicators">
-												<li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-												<li data-target="#myCarousel-2" data-slide-to="1" class=""></li>
-												<li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
-												<li data-target="#myCarousel-2" data-slide-to="3" class=""></li>
-											</ol>
-											<div class="carousel-inner">
-												<!-- Slide 1 -->
-												<div class="item active">
-													<img src="img/casas/home.jpg" alt="">
-												</div>
-												<!-- Slide 2 -->
-												<div class="item">
-													<img src="img/casas/room.jpg" alt="">
-												</div>
-												<!-- Slide 3 -->
-												<div class="item">
-													<img src="img/casas/bathroom.jpg" alt="">
-												</div>
-												<!-- Slide 4 -->
-												<div class="item">
-													<img src="img/casas/family.jpg" alt="">
-												</div>
-											</div>
-											<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-											<a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
-										</div>
-				
-									</div>
-									<!-- end well-->
-				
-								</div>
-				
-							</div>
-				
-						</div>
-				
-					</div>
-					<!-- end row -->
-						
-						<form id="order-form" class="smart-form" novalidate="novalidate">
-							<fieldset>
-								<legend>
-								<h7>Data</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-user"></i>
-											<input type="text" name="name" placeholder="Name">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-											<input type="email" name="email" placeholder="E-mail">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="phone" name="phone" placeholder="Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-phone"></i>
-											<input type="mobilephonr" name="mobilephone" placeholder="Mobile Phone" data-mask="(999) 99999-9999">
-										</label>
-									</section>
-								</div>
-
-								<div class="row">
-								</div>
-
-							</fieldset>
-
-							<fieldset>
-								<legend>
-								<h7>Address</h7>
-								</legend>
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Country type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">Brazil</option>
-													<option value="Angola">Angola</option>
-													<option value="Zambia">Zambia</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="Province type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Rio de Janeiro</option>
-													<option value="Zambia">Goias</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-								</div>
-
-								<div class="row">
-									<section class="col col-6">
-										<div class="form-group">
-											<div class="col-md-10">
-												<input class="form-control" placeholder="City type something..." type="text"  list="list">
-												<datalist id="list">
-													<option value="Brazil">São Paulo</option>
-													<option value="Angola">Campinas</option>
-													<option value="Zambia">São Bernardo do Campo</option>
-												</datalist>
-											</div>
-										</div>
-									</section>
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="zipcode" name="zipcode" placeholder="Zip code" data-mask="99999-99">
-										</label>
-									</section>
-								</div>
-								<div class="row">
-									<section class="col col-6">
-										<label class="input"> <i class="icon-append fa fa-home"></i>
-											<input type="street" name="street" placeholder="Street" >
-										</label>
-									</section>
-								</div>
-							</fieldset>
-						</form>
-
-					</div>
-					<!-- end widget content -->
-					
-				</div>
-				<!-- end widget div -->
-				
-			</div>
-			<!-- end widget -->				
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- Modal Acomodation-->
-  <div class="modal fade" id="acomodation" role="dialog">
-    <div class="modal-dialog modal-lg">
-    
-      <!-- Modal content-->
-      <div class="modal-content animated flipInY">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Candidates</h4>
-        </div>
-        <div class="modal-body">
-				<div class="row">
-				
-					<div class="col-sm-12">
-				
-				
-							<div class="well well-sm">
-				
-								<div class="row">				
-									<div class="col-sm-12 col-md-12 col-lg-12">
-										<div class="well well-light well-sm no-margin no-padding">
-				
-											<div class="row">							
-												<div class="col-sm-12">				
-													<div class="row">
-														<div class="col-sm-3 profile-pic">
-															<img src="img/avatars/photo_7.png" alt="demo user">
-														</div>
-				
-														<div class="col-sm-6">
-															<h1>Amanda <span class="semi-bold">Ferreira</span>
-															<br>
-															<small>Systems Analyst</small></h1>
-				
-															<ul class="list-unstyled">
-																<li>
-																	<p class="text-muted">
-																		<i class="fa fa-phone"></i>&nbsp;&nbsp;(<span class="txt-color-darken">011</span>) <span class="txt-color-darken">98122</span> - <span class="txt-color-darken">6473</span>
-																	</p>
-																</li>
-																<li>
-																	<p class="text-muted">
-																		<i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:simmons@smartadmin">amanda@gmail.com</a>
-																	</p>
-																</li>
-															</ul>
-															<br>
-															<p class="font-md">
-																<i>Medical concerns:</i>
-															<i class="font-xs">No medical concerns</i>
-															</p>
-															<p class="font-md">
-																<i>Gender:</i><i class="font-xs">Single</i>
-															</p>
-															<p class="font-md">
-																<i>Alergies:</i><i class="font-xs">Pollen, Dust, Insect stings</i>
-															</p>
-															<p class="font-md">
-																<i>Smoke:</i><i class="font-xs">Yes</i>
-															</p>
-															<p class="font-md">
-																<i>Vegetarian:</i><i class="font-xs">Yes</i>
-															</p>
-															<p class="font-md">
-																<i>Live with pets:</i><i class="font-xs">Yes</i>
-															</p>
-															<p class="font-md">
-																<i>Halla:</i><i class="font-xs">Yes</i>
-															</p>
-															<br>
-															<p class="font-md">
-																<i>A little about me...</i>
-															</p>
-															<p>
-				
-																Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
-																cumque nihil impedit quo minus id quod maxime placeat facere
-				
-															</p>
-															<br>
-															<a href="javascript:void(0);" class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Send Message</a>
-															<br>
-															<br>
-				
-														</div>
-				
-													</div>
-				
-												</div>
-				
-											</div>
-				
-										</div>
-				
-									</div>
-								</div>
-				
-							</div>			
-					</div>
-				
-				</div>
-				
-				<!-- end row -->
-
-				<div class="row">
-				  
-				  <div class="jarviswidget jarviswidget-color-blue" id="wid-id-1" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-					<header>
-						<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-						<h2>Acomodations</h2>
-						<div class="widget-toolbar">
-							<!-- add: non-hidden - to disable auto hide -->
-						</div>
-					</header>
-					<div class="row">
-
-						<div class="col-sm-12">
-							<h2><span class="semi-bold">Filters</span>
-							</h2>
-
-							<tr>
-								<td><a id="filter_single" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_single_check" class="fa fa-check hide"></i>Acomodation</a></td>
-								<td><a id="filter_alergies" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_alergies_check" class="fa fa-check hide"></i>Alergies</a></td>
-								<td><a id="filter_smoke" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_smoke_check" class="fa fa-check hide"></i>Smoke</a></td>
-								<td><a id="filter_vegetarian" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_vegetarian_check" class="fa fa-check hide"></i>Vegetarian</a></td>
-								<td><a id="filter_pets" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_pets_check" class="fa fa-check hide"></i>Pets</a></td>
-								<td><a id="filter_halla" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_halla_check" class="fa fa-check hide"></i>Halla</a></td>
-							</tr>
-						</div>
-
-					</div>
-				
-					<div class="col-sm-12">
-
-								<!-- widget div-->
-								<div>
-									
-									<!-- widget edit box -->
-									<div class="jarviswidget-editbox">
-										<!-- This area used as dropdown edit box -->
-										<input class="form-control" type="text">	
-									</div>
-									<!-- end widget edit box -->
-									
-									<!-- widget content -->
-									<div class="widget-body no-padding">
-										
-										<table id="families_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-									        <thead>
-												<tr>
-													<th class="hasinput" >
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Filter Family" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Status" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Gender" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Alergies" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Smoke" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Vegetarian" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Pets" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Halla" />
-													</th>
-												</tr>
-									            <tr>
-									                <th></th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
-									                <th>Status</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Gender</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Alergies</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Smoke</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Vegetarian</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Pets</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Halla</th>
-									            </tr>
-									        </thead>
-									    </table>
-
-									</div>
-									<!-- end widget content -->
-									
-								</div>
-								<!-- end widget div -->
-					</div>
-					<!-- end widget content -->
-				  </div>
-				</div>
-				<!-- end row -->
-				
-		</div>
-		<!-- end modal body -->				
-
-       </div>
-       <!-- end modal content -->	
-       <div class="modal-footer">
-         <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-       </div>
-      </div>
-      <!-- end modal dialog -->	
-    </div>
-    <!-- end modal -->	
   
-
+  <!-- Cabeçalho-->
 		<!-- HEADER -->
 		<header id="header">
 			<div id="logo-group">
 
 				<!-- PLACE YOUR LOGO HERE -->
-				<span id="logo"> Logo Casa Mundo</span>
+				<span id="logo"> Logo Casamundo</span>
 				<!-- END LOGO PLACEHOLDER -->
 
 				<!-- Note: The activity badge color changes when clicked and resets the number to 0
@@ -787,7 +174,7 @@
 				<ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
 					<li class="">
 						<a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown"> 
-							<img src="img/avatars/photo_7.png" alt="John Doe" class="online" />  
+							<img src="img/avatars/photo.png" alt="John Doe" class="online" />  
 						</a>
 						<ul class="dropdown-menu pull-right">
 							<li>
@@ -828,28 +215,7 @@
 				<!-- input: search field -->
 				<form action="search.html" class="header-search pull-right">
 					<input id="search-fld"  type="text" name="param" placeholder="Find reports and more" data-autocomplete='[
-					"ActionScript",
-					"AppleScript",
-					"Asp",
-					"BASIC",
-					"C",
-					"C++",
-					"Clojure",
-					"COBOL",
-					"ColdFusion",
-					"Erlang",
-					"Fortran",
-					"Groovy",
-					"Haskell",
-					"Java",
-					"JavaScript",
-					"Lisp",
-					"Perl",
-					"PHP",
-					"Python",
-					"Ruby",
-					"Scala",
-					"Scheme"]'>
+					"Student"]'>
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -930,6 +296,8 @@
 		</header>
 		<!-- END HEADER -->
 
+
+  <!-- Menu lateral -->
 		<!-- Left panel : Navigation area -->
 		<!-- Note: This width of the aside area can be adjusted through LESS variables -->
 		<aside id="left-panel">
@@ -939,9 +307,9 @@
 				<span> <!-- User image size is adjusted inside CSS, it should stay as it --> 
 					
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
-						<img src="img/avatars/photo_7.png" alt="me" class="online" /> 
+						<img src="img/avatars/photo.png" alt="me" class="online" /> 
 						<span>
-							Ann 
+							Grenne 
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 
@@ -968,10 +336,13 @@
 							<li class="">
 								<a href="students.html" title="Dashboard"><span class="menu-item-parent">Students</span></a>
 							</li>
+							<li class="active">
+								<a href="families.html" title="Dashboard"><span class="menu-item-parent">Families</span></a>
+							</li>
 							<li class="">
 								<a href="agency.html" title="Dashboard"><span class="menu-item-parent">Agency</span></a>
 							</li>
-							<li class="active">
+							<li class="">
 								<a href="family.html" title="Dashboard"><span class="menu-item-parent">Family</span></a>
 							</li>
 							<li class="">
@@ -989,7 +360,7 @@
 
 		</aside>
 		<!-- END NAVIGATION -->
-
+  <!-- Paineis -->
 		<!-- MAIN PANEL -->
 		<div id="main" role="main">
 
@@ -1003,7 +374,7 @@
 				</span>
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Family</li>
+					<li>Home</li><li>Students</li><li>Student</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -1026,418 +397,351 @@
 
 				<!-- widget grid -->
 				<section id="widget-grid" class="">
-					<!-- row -->
 
+
+					<!-- row -->
+	
+					<div class="row">
+						<div class="col-sm-9"></div>
+						<div class="col-sm-1">
+							<div class="col-sm-1 profile-pic">
+								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new student."></i></a>
+							</div>
+						</div>
+						<div class="col-sm-1">
+							<div class="col-sm-1 profile-pic">
+								<a id="alteracaoButton" name="alteracaoButton" class="btn btn-primary btn-circle"><i class="glyphicon .glyphicon glyphicon-edit" title="Click to change the current student."></i></a>
+							</div>
+						</div>
+						<div class="col-sm-1">
+							<div class="col-sm-1 profile-pic">
+								<a href="student_input.html" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus" title="Click to insert a new student."></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- end row -->
+
+					<!-- panel student -->
+					<!-- row -->
+	
 					<div class="row">
 
 						<article class="col-sm-12 col-md-12 col-lg-12">
 
-							<!-- new widget -->
-			<div class="jarviswidget" id="wid-id-23" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<div class="row">
-					<div class="col-sm-12">				
-							<div class="well well-sm">
-								<div class="row">				
-									<div class="col-sm-12 col-md-12 col-lg-12">
-										<div class="well well-light well-sm no-margin no-padding">
-				
-											<div class="row">							
-												<div class="col-sm-12">				
-													<div class="row">
-				
-														<div class="col-sm-6">
-															<h1>Ann <span class="semi-bold">Tokersen</span>
-															<br>
-															<small></small></h1>
-				
-															<ul class="list-unstyled">
-																<li>
-																	<p class="text-muted">
-																		<i class="fa fa-phone"></i>&nbsp;&nbsp;(<span class="txt-color-darken">011</span>) <span class="txt-color-darken">98122</span> - <span class="txt-color-darken">6473</span>
-																	</p>
-																</li>
-																<li>
-																	<p class="text-muted">
-																		<i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:simmons@smartadmin">ann@gmail.com</a>
-																	</p>
-																</li>
-															</ul>
-															<br>
-															<p class="font-md">
-																<i>About the family...</i>
-															</p>
-															<p>
-				
-																Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
-																cumque nihil impedit quo minus id quod maxime placeat facere
-				
-															</p>
-															<br>
-															<a href="javascript:void(0);" class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Send Message</a>
-															<br>
-															<br>
-				
+							<div class="row">
+							
+								<div class="col-sm-12">
+														
+										<div class="well well-sm">
+							
+											<div class="row">				
+												<div class="col-sm-12 col-md-12 col-lg-12">
+													<div class="well well-light well-sm no-margin no-padding">
+							
+														<div class="row">							
+															<div class="col-sm-12">				
+																<div class="row">
+																	<div class="col-sm-3 profile-pic">
+<!--																		<img src="img/avatars/photo_2.png" alt="Amanda Ferreira"> -->
+																	</div>
+							
+																	<div class="col-sm-9">
+																		<h1><span id="studentCompleteName" class="semi-bold"></span>
+																		<br>
+																		<small>Contact</small></h1>
+							
+																		<ul class="list-unstyled">
+																			<li>
+																				<p class="text-muted">
+																					<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="celPhone" data-mask="(999) 99999-9999"  data-original-title="Cel Phonr"></small></span>
+																				</p>
+																			</li>
+																			<li>
+																				<p class="text-muted">
+																					<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small  class='text-primary' id="phone" data-mask="(999) 9999-9999"  data-original-title="Phone"></small></span>
+																				</p>
+																			</li>
+																			<li>
+																				<p class="text-muted">
+																					<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mail"  data-original-title="Email"></small>
+																				</p>
+																			</li>
+																		</ul>
+																		<br>
+																	</div>
+																</div>
+																<div class="col-sm-1"></div>
+																<div class="col-sm-11">
+																	<div class="row">
+																		<div class="col-xs-11">
+																			<legend>
+																			<h7>Personal Data</h7>
+																			</legend>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-xs-3">
+																		      	<small class='text-muted'>Birth: </small><small  class='text-primary' id="birthDay"  data-viewformat="DD/MM/YYYY" data-original-title="Date of birth"></small>
+																		        <small class='text-muted'> - Age: </small><small  class='text-primary' id="age"  data-original-title="Age"></small><br>
+																		      	<small class='text-muted'>Gender: </small><small  class='text-primary' id="gender"   data-original-title="Gender"></small><br>
+																		        <small class='text-muted'>Nationality: </small><small  class='text-primary' id="nationality"   data-original-title="Nationality"></small><br>
+																		</div>
+																		<div class="col-xs-3">
+																		      	<small class='text-muted'>First Language: </small><small  class='text-primary' id="firstLanguage"  data-original-title="First Language"></small><br>
+																		        <small class='text-muted'>Profession:</small><small  class='text-primary' id="profession"  data-original-title="Profession"></small><br>
+																		        <small class='text-muted'>English Level:</small><small  class='text-primary' id="englishLevel"   data-original-title="English level"></small><br>
+																		</div>
+																		<div class="col-xs-3">
+																		      	<small class='text-muted'>Address: </small><small  class='text-primary' id="streetNumber"  data-original-title="Street number"></small>
+																		        <small class='text-muted'> - </small><small  class='text-primary' id="streetName"  data-original-title="Street name"></small>
+																		        <small class='text-muted'> - </small><small  class='text-primary' id="state"   data-original-title="Province/State"></small><br>
+																		      	<small class='text-muted'>ZIP: </small><small  class='text-primary' id="postalCode"  data-original-title="Postal code"></small>
+																		        <small class='text-muted'> - </small><small  class='text-primary' id="city"   data-original-title="City"></small>
+																		        <small class='text-muted'> - </small><small  class='text-primary' id="country"   data-original-title="Country"></small><br>
+																		</div>
+																		<div class="col-xs-3">
+																		        <small class='text-muted'>Secondary Phone:</small><small  class='text-primary' id="secondaryTelephone"  data-original-title="Secondary telephone"></small><br>
+																		        <small class='text-muted'>Emergency Contact:</small><small  class='text-primary' id="emergencyContactName"  data-original-title="Emergency contact name"></small><br>
+																		        <small class='text-muted'>Emergency Phone:</small><small  class='text-primary' id="emergencyContactPhone"  data-original-title="Emergency Contact Phone"></small><br>
+																		        <small class='text-muted'>Emergency Mail:</small><small  class='text-primary' id="emergencyContactMail"  data-original-title="Emergency Contact Mail"></small><br>
+																		</div>
+								
+																	</div>
+																	<div class="row">
+																		<div class="col-xs-12">
+																			<legend>
+																			<h7>Actual Trip</h7>
+																			</legend>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-xs-4">
+																		      	<small class='text-muted'>Status: </small><small  class='text-primary' id="status"   data-original-title="Status"></small><br>
+																		      	<small class='text-muted'>Destination</small><small  class='text-primary' id="destination"   data-original-title="Destination"></small><br>
+																		      	<small class='text-muted'>Start: </small><small  class='text-primary' id="start" data-viewformat="DD/MM/YYYY" data-original-title="Start"></small><br>
+																		      	<small class='text-muted'>End: </small><small  class='text-primary' id="end" data-viewformat="DD/MM/YYYY" data-original-title="End"></small><br>
+																		</div>
+																		<div class="col-xs-4">
+																		        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDate" data-viewformat="DD/MM/YYYY" data-original-title="Arrival Date"></small>
+																		        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTime"  data-original-title="Arrival Time"></small><br>
+																		        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="flightNumber"  data-original-title="flight Number"></small><br>
+																		        <small class='text-muted'>Flight Date: </small><small  class='text-primary' id="flightDate" data-viewformat="DD/MM/YYYY" data-original-title="Flight Date"></small>
+																		        <small class='text-muted'> Time: </small><small  class='text-primary' id="flightTime"  data-original-title="Arrival Time"></small><br>
+																		        <small class='text-muted'>Airline: </small><small  class='text-primary' id="airline"  data-original-title="Airline"></small><br>
+																		</div>
+																		<div class="col-xs-4">
+																		      	<small class='text-muted'>Extend: </small><small  class='text-primary' id="extend"   data-original-title="Extend"></small><br>
+																		      	<small class='text-muted'>Pickup: </small><small  class='text-primary' id="pickup"   data-original-title="Pickup"></small><br>
+																		        <small class='text-muted'>Dropoff: </small><small  class='text-primary' id="dropoff"   data-original-title="Dropoff"></small><br>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-xs-12">
+																			<legend>
+																			<h7>Accommodation</h7>
+																			</legend>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-xs-4"></div>
+																		<div class="col-xs-4">
+																		        <small class='text-muted'>Type: </small><small  class='text-primary' id="accommodation"   data-original-title="Accommodation"></small><br>
+																		</div>
+																		<div class="col-xs-4"></div>
+																	</div>
+																	<br>
+																	<div class="row">
+																		<div class="col-xs-4 hide homestay dorms">
+																				<small class='text-muted hide homestay dorms'>Occupancy: </small><small class='homestay dorms text-primary' id="occupancy"   data-original-title="Occupancy"></small><br>
+																				<small class='text-muted guest hide homestay dorms'>Guest name: </small><small class='guest hide homestay dorms text-primary' id="guestName"  data-original-title="Guest Name"></small><br>
+																		        <small class='text-muted guest hide homestay dorms'>Relationship: </small><small class='guest hide homestay dorms text-primary' id="relationship"   data-original-title="Relationship"></small><br>
+																		        <small class='text-muted hide homestay dorms'>Smoke: </small><small class='homestay dorms hide text-primary' id="smoke"   data-original-title="Do yhou smoke?"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide suite">
+																				<small class='text-muted '>Apartament Type: </small><small class='suite text-primary' id="apartamentType"   data-original-title="Apartartament Type"></small><br>
+																				<small class='text-muted '>Pets Quantity: </small><small class='suite text-primary' id="petsQuantity"  data-original-title="Pets quantity"></small><br>
+																				<small class='text-muted '>Pet Type: </small><small class='suite text-primary' id="petType"  data-original-title="Pet type"></small><br>
+																		        <small class='text-muted '>Parking: </small><small class='suite text-primary' id="parking"   data-original-title="Parking?"></small><br>
+																		        <small class='text-muted '>Dedicated WiFi: </small><small class='suite text-primary' id="wifi"   data-original-title="Dedicated wifi?"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide suite">
+																				<small class='text-muted '>People Quantity: </small><small class='suite' id="peopleQuantity" data-original-title="People quantity"></small><br>
+																				<small class='g5 g4 g3 g2 g1 hide text-primary' id="guest_01"  data-original-title="Guest name"></small><br>
+																				<small class='g5 g4 g3 g2 hide text-primary' id="guest_02"  data-original-title="Guest name"></small><br>
+																				<small class='g5 g4 g3 hide text-primary' id="guest_03"  data-original-title="Guest name"></small><br>
+																				<small class='g5 g4 hide text-primary' id="guest_04"  data-original-title="Guest name"></small><br>
+																				<small class='g5 hide text-primary' id="guest_05"  data-original-title="Guest name"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide homestay">
+																			<div class="col-xs-4 ">
+																		        <small class='text-muted hide homestay'>Meal Plan: </small>
+																		    </div>
+																			<div class="col-xs-8 ">
+																		        <small class='homestay hide text-primary' id="mealPlan" data-type="checklist" data-original-title="Meal Plan"></small>
+																		    </div>
+																		    <br>
+																			<div class="col-xs-4 ">
+																		        <small class='text-muted hide homestay'>Special diet: </small><br>
+																		    </div>
+																			<div class="col-xs-8 ">
+																				<small class='homestay hide text-primary' id="specialDiet" data-type="checklist" ] data-original-title="Special Diet"></small>
+																			</div>
+																			<br>
+																		</div>
+																		<div class="col-xs-4 hide dorms">
+																		        <small class='text-muted hide dorms'>I usualliy study: </small><small class='dorms hide text-primary' id="usuallyStudy" data-type="select2" data-original-title="I usually study"></small><br>
+																		        <small class='text-muted hide dorms'>I usualliy keep my bedroom: </small><small class='dorms hide text-primary' id="keepBedroom" data-type="select2" data-original-title="I usualliy keep my bedroom"></small><br>
+																		        <small class='text-muted hide dorms'>I am usually: </small><small class='dorms hide text-primary' id="iAmUsually" data-type="select2" data-original-title="I am usually"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide homestay">
+																		        <small class='text-muted hide homestay'>Live with dogs: </small><small class='homestay hide  text-primary' id="liveDogs"   data-original-title="Live with dogs"></small><br>
+																		        <small class='text-muted hide homestay'>Live with cats: </small><small class='homestay hide  text-primary' id="liveCats"   data-original-title="Live with cats"></small><br>
+																		    	<small class='text-muted hide homestay'>Private washroom: </small><small class='homestay hide  text-primary' id="privateWashroom"   data-original-title="Private Washroom"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide dorms suite">
+																		        <small class='text-muted '>Credit Card: </small><small class='text-primary' id="creditCardType"   data-original-title="Credit Card"></small><br>
+																		        <small class='text-muted '>Number: </small><small class='text-primary' id="creditCardNumber" data-type="text" data-mask="9999.9999.9999.9999" data-pk="1" data-original-title="Credit Card Number"></small><br>
+																		        <small class='text-muted'>Expire: </small><small  class='text-primary' id="creditCardExpire" data-type="combodate" data-format="MMYYYY" data-viewformat="MM/YYYY" data-template="MMM/YYYY" data-pk="1"  data-placement="right data-pk="1" data-original-title="Expire"></small><br>
+																		        <small class='text-muted '>CVC: </small><small class='text-primary' id="creditCardCVC"  data-original-title="Credit Card Security Number"></small><br>
+																		        
+																		</div>
+																	</div>
+																	<br>
+																	<div class="row">
+																		<div class="col-xs-4 hide homestay">
+																		        <small class='text-muted hide homestay'>Hobbies/Interest: </small><small class='homestay hide  text-primary' id="hobbies" data-type="textarea" data-pk="1" data-placeholder="Your hobbies..." data-original-title="Hobbies/Interest"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide homestay">
+																		        <small class='text-muted hide homestay'>Alergies or Medical Concern: </small><small class='homestay hide  text-primary' id="medical" data-type="textarea" data-pk="1" data-placeholder="Alergies or medical concerns" data-original-title="Alergies or medical concerns"></small><br>
+																		</div>
+																		<div class="col-xs-4 hide homestay">
+																		        <small class='text-muted'>Comments: </small><small  class='text-primary' id="comments" data-type="textarea" data-pk="1" data-placeholder="Comments...." data-original-title="Comments"></small><br>
+																		</div>
+																	</div>
+																	<br>
+																	<div class="row">
+																		<div class="col-xs-12 homestay hide">
+																		        <small class='text-muted homestay hide'>I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Homestay Terms and Conditions:</small><small class='homestay hide  text-primary' id="agreeTerm" data-type="checklist"  data-original-title="I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Homestay Terms and Conditions "></small><br>
+																		</div>
+																		<div class="col-xs-12 dorms hide">
+																		        <small class='text-muted dorms hide'>I authorize the charge of $200 regarding the security deposit of my shared Accommodation:</small><small class='dorms hide text-primary' id="agreeDebit" data-type="checklist" data-original-title="I authorize the charge of $200 regarding the security deposit of my shared Accommodation"></small><br>
+																		</div>
+																		<div class="col-xs-12 suite hide">
+																		        <small class='text-muted suite hide'>I authorize the charge of $500 regarding the security deposit of apartment:</small><small class='suite hide text-primary' id="agreeDebitSuite" data-type="checklist" data-original-title="I authorize the charge of $500 regarding the security deposit of apartment"></small><br>
+																		        <small class='text-muted suite hide'>I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Suites Terms and Conditions:</small><small class='suite hide text-primary' id="agreeSuite" data-type="checklist" data-original-title="I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Suites Terms and Conditions "></small><br>
+																		</div>
+																		<br>							
+																	</div>
+																	<br>
+																</div>
+															</div>
+							
 														</div>
-				
+							
 													</div>
-				
+							
 												</div>
-				
 											</div>
 							
-											<div class="row">
-												
-										        <div class="col-xs-12 col-sm-6 col-md-5">
-										            <div class="panel panel-darken">
-										            	
-										                <div class="panel-heading">
-										                    <h3 class="panel-title">
-										                        Family members</h3>
-										                </div>
-										                <div class="panel-body no-padding text-align-center">
-										                    <div class="the-price">
-										                    </div>
-										                    <table class="table">
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            John Albert</span>
-												                        <small> male, 38 years, husband, doctor</small>
-										                            </td>
-										                        </tr>
-										                        <tr class="active">
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Any Albert</span>
-												                        <small> female, 35 years, spouse, nurse</small>
-										                            </td>
-										                        </tr>
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Iris Albert</span>
-												                        <small> male, 5 years, sun</small>
-										                            </td>
-										                        </tr>
-										                    </table>
-										                </div>
-										            </div>
-										        </div>
-										        <div class="col-xs-12 col-sm-6 col-md-3">
-										            <div class="panel panel-primary">
-										                <div class="panel-heading">
-										                    <h3 class="panel-title">
-										                        Hobbies</h3>
-										                </div>
-										                <div class="panel-body no-padding text-align-center">
-										                    <div class="the-price">
-										                    </div>
-										                    <table class="table">
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Music</span>
-										                            </td>
-										                        </tr>
-										                        <tr class="active">
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Theater</span>
-										                            </td>
-										                        </tr>
-										                    </table>
-										                </div>
-										            </div>
-										        </div>		       
-										        <div class="col-xs-12 col-sm-6 col-md-4">
-										            <div class="panel panel-orange">
-										                <div class="panel-heading">
-										                    <h3 class="panel-title">
-										                        Other languages family speak</h3>
-										                </div>
-										                <div class="panel-body no-padding text-align-center">
-										                    <div class="the-price">
-										                    </div>
-										                    <table class="table">
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Portuguese</span>
-										                            </td>
-										                        </tr>
-										                    </table>
-										                </div>
-										            </div>
-										        </div>		       
-										    			    	
-								    		</div>
-											<div class="row">
-												
-										        <div class="col-xs-12 col-sm-6 col-md-5">
-										            <div class="panel panel-purple">
-										            	
-										                <div class="panel-heading">
-										                    <h3 class="panel-title">
-										                        Rooms</h3>
-										                </div>
-										                <div class="panel-body no-padding text-align-center">
-										                    <div class="the-price">
-										                    </div>
-										                    <table class="table">
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Upper Level</span>
-												                        <small> private washroom, two single beds</small>
-										                            </td>
-										                        </tr>
-										                        <tr class="active">
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Low level</span>
-												                        <small> no private washroom, four single beds</small>
-										                            </td>
-										                        </tr>
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Upper Level</span>
-												                        <small> private washroom, one double bed</small>
-										                            </td>
-										                        </tr>
-										                    </table>
-										                </div>
-										            </div>
-										        </div>
-										        <div class="col-xs-12 col-sm-6 col-md-3">
-										            <div class="panel panel-greenLight">
-										                <div class="panel-heading">
-										                    <h3 class="panel-title">
-										                        Meat plan</h3>
-										                </div>
-										                <div class="panel-body no-padding text-align-center">
-										                    <div class="the-price">
-										                    </div>
-										                    <table class="table">
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Breakfast</span>
-										                            </td>
-										                        </tr>
-										                        <tr class="active">
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Lunch</span>
-										                            </td>
-										                        </tr>
-										                        <tr class="active">
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            Dinner</span>
-										                            </td>
-										                        </tr>
-										                    </table>
-										                </div>
-										            </div>
-										        </div>		       
-										        <div class="col-xs-12 col-sm-6 col-md-4">
-										            <div class="panel panel-blue">
-										                <div class="panel-heading">
-										                    <h3 class="panel-title">
-										                        Nationally restriction</h3>
-										                </div>
-										                <div class="panel-body no-padding text-align-center">
-										                    <div class="the-price">
-										                    </div>
-										                    <table class="table">
-										                        <tr>
-										                            <td class="text-left">
-												                        <span class="txt-color-blueLight font-md text-left">
-												                            no nationally restriction</span>
-										                            </td>
-										                        </tr>
-										                    </table>
-										                </div>
-										            </div>
-										        </div>		       
-										    			    	
-								    		</div>
-											<!-- FAQ -->
-											<article class="col-sm-12 col-md-12 col-lg-12">
-									
-												<!-- Widget ID (each widget will need unique ID)-->
-												<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-24" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false">
-													<!-- widget options:
-													usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-									
-													data-widget-colorbutton="false"
-													data-widget-editbutton="false"
-													data-widget-togglebutton="false"
-													data-widget-deletebutton="false"
-													data-widget-fullscreenbutton="false"
-													data-widget-custombutton="false"
-													data-widget-collapsed="true"
-													data-widget-sortable="false"
-									
-													-->
-													<header>
-														<span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
-														<h2>FAQ</h2>
-																		
-													</header>
-									
-													<!-- widget div-->
-													<div>
-									
-														<!-- widget edit box -->
-														<div class="jarviswidget-editbox">
-															<!-- This area used as dropdown edit box -->
-									
-														</div>
-														<!-- end widget edit box -->
-									
-														<!-- widget content -->
-														<div class="widget-body no-padding">
-									
-															<div class="panel-group smart-accordion-default" id="accordion-2">
-																<div class="panel panel-default">
-																	<div class="panel-heading">
-																		<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseOne-1"  class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green" ></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i>Some questions</a></h4>
-																	</div>
-																	<div id="collapseOne-1" class="panel-collapse collapse in">
-																		<div class="panel-body">
-																			<ul class="list-unstyled">
-																				<li>
-																					<p class="text-muted">
-																						<span class="txt-color-greenDark font-md">Walking time to subway station - </span><small class="txt-color-greenLight">10:00</small>
-																					</p>
-																				</li>
-																				<li>
-																					<p class="text-muted">
-																						<span class="txt-color-greenDark font-md">First language speak - </span><small class="txt-color-greenLight">English</small>
-																					</p>
-																				</li>
-																				<li>
-																					<p class="text-muted">
-																						<span class="txt-color-greenDark font-md">Prefered age of student - </span><small class="txt-color-greenLight">from 15 to 20</small>
-																					</p>
-																				</li>
-																				<li>
-																					<p class="text-muted">
-																						<span class="txt-color-greenDark font-md">Provide a Lactose free meal - </span><small class="txt-color-greenLight">Yes</small>
-																					</p>
-																				</li>
-																			</ul>
-																		</div>
-																	</div>
-																</div>
-															</div>
-									
-														</div>
-														<!-- end widget content -->
-									
-													</div>
-													<!-- end widget div -->
-									
-												</div>
-												<!-- end widget -->
-									
-											</article>
-											<!-- WIDGET END -->
-
-											<!-- NEW WIDGET START -->
-											<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-									
-									
-												<div class="col-sm-6">
-										
-													<div class="row">
-										
-														<div class="col-sm-12 col-md-12 col-lg-12 center-block">
-															<h3 class="row-seperator-header">Images</h3>
-										
-															<!-- well -->
-															<div class="well">
-																<div id="myCarousel-2" class="carousel slide">
-																	<ol class="carousel-indicators">
-																		<li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-																		<li data-target="#myCarousel-2" data-slide-to="1" class=""></li>
-																		<li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
-																		<li data-target="#myCarousel-2" data-slide-to="3" class=""></li>
-																	</ol>
-																	<div class="carousel-inner">
-																		<!-- Slide 1 -->
-																		<div class="item active">
-																			<img src="img/casas/home.jpg" alt="">
-																		</div>
-																		<!-- Slide 2 -->
-																		<div class="item">
-																			<img src="img/casas/room.jpg" alt="">
-																		</div>
-																		<!-- Slide 3 -->
-																		<div class="item">
-																			<img src="img/casas/bathroom.jpg" alt="">
-																		</div>
-																		<!-- Slide 4 -->
-																		<div class="item">
-																			<img src="img/casas/family.jpg" alt="">
-																		</div>
-																	</div>
-																	<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-																	<a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
-																</div>
-										
-															</div>
-															<!-- end well-->
-										
-														</div>
-										
-													</div>
-										
-												</div>
-					
-												<div class="col-sm-6">
-													<header>
-														<h2>Map </h2>
-													</header>
-													<div>
-														<div class="jarviswidget-editbox">
-														</div>
-														<div class="widget-body no-padding">
-															<div id="map_canvas7" class="google_maps"></div>
-														</div>
-													</div>
-												</div>
-											</article>
-											<!-- WIDGET END -->
-				
-										</div>
-				
-									</div>
+										</div>			
 								</div>
-				
-							</div>			
-					</div>
-				
-				</div>			
-				<!-- end row -->
-			</div>
+							
+							</div>
+							
+							<!-- end row -->
+
+							<!-- new widget -->
+							<div class="jarviswidget jarviswidget-color-blue" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+
+								<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+
+								-->
+
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2>Trips</h2>
+									<div class="widget-toolbar">
+										<!-- add: non-hidden - to disable auto hide -->
+									</div>
+								</header>
+
+								<!-- widget div-->
+								<div>
+									
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+										<input class="form-control" type="text">	
+									</div>
+									<!-- end widget edit box -->
+									
+									<!-- widget content -->
+									<div class="widget-body no-padding">
+										
+										<table id="trip_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									        <thead>
+												<tr>
+													<th class="hasinput" >
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Status" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Destination" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Start" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="End" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Arrival" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Accommodation" />
+													</th>
+												</tr>
+									            <tr>
+									                <th></th>
+									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
+									                <th><i class="fa fa-fw fa-calendar hidden-md hidden-sm hidden-xs"></i>Destination</th>
+									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Start</th>
+									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>End</th>
+									                <th><i class="fa fa-fw fa-plane text-muted hidden-md hidden-sm hidden-xs"></i>Arrival</th>
+									                <th><i class="fa fa-fw fa-bank text-muted hidden-md hidden-sm hidden-xs"></i>Accommodation</th>
+									            </tr>
+									        </thead>
+									    </table>
+
+									</div>
+									<!-- end widget content -->
+									
+								</div>
+								<!-- end widget div -->
+
+							</div>
 							<!-- end widget -->
 						</article>
+					</div>
+					<!-- end row -->
+
+					<!-- another panels -->
+
+					<!-- row -->
+	
+					<div class="row">
+
 					</div>
 
 					<!-- end row -->
@@ -1455,7 +759,7 @@
 		<div class="page-footer">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<span class="txt-color-white">Casa Mundo<span class="hidden-xs"> - Web Application</span></span>
+					<span class="txt-color-white">Casamundo<span class="hidden-xs"> - Web Application</span></span>
 				</div>
 
 				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
@@ -1637,566 +941,66 @@
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
+		<!-- PAGE RELATED GRAPHS 
+		<script src="..."></script>-->
+		<script src="js/plugin/highChartCore/highcharts-custom.min.js"></script>
+		<script src="js/plugin/highchartTable/jquery.highchartTable.min.js"></script>
+
+		<!-- Plugin timeslider -->
+		<script src="js-timeline/timeslider.js"></script>
+
+		<!-- Plugin carrega imagem -->
+		<script src="js/plugin/dropzone/dropzone.min.js"></script>
+
+		<!-- Plugin editable -->
+		<script src="js/plugin/x-editable/moment.min.js"></script>
+		<script src="js/plugin/x-editable/jquery.mockjax.min.js"></script>
+		<script src="js/plugin/x-editable/x-editable.min.js"></script>
+
+		<!-- grid jquery grid -->
+		<script src="js/plugin/jqgrid/jquery.jqGrid.min.js"></script>
+		<script src="js/plugin/jqgrid/grid.locale-en.min.js"></script>
+
+
+		<!-- plugin wizard -->
+		<script src="js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+		<script src="js/plugin/fuelux/wizard/wizard.min.js"></script>
+
+		<!-- rest commands -->
+		<script src="js/rest_commands.js"></script>
+
+		<!-- out scripts -->
+		<script src="js/main.js"></script>
+		<script src="js/student.js"></script>
+		<script src="js/student-commons.js"></script>
+		<script src="js-datatables/student.js"></script>
+
 		<script>
 			$(document).ready(function() {
 
 				// DO NOT REMOVE : GLOBAL FUNCTIONS!
 				pageSetUp();
+
+			
+			
 				/*
-				 * Autostart Carousel
-				 */
-				$('.carousel.slide').carousel({
-					interval : 0,
-					cycle : true
-				});
-				
+				 * carrega logo
+				 */		
 
-				/*
-				 * PAGE RELATED SCRIPTS
-				 */
-
-				$(".js-status-update a").click(function() {
-					var selText = $(this).text();
-					var $this = $(this);
-					$this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-					$this.parents('.dropdown-menu').find('li').removeClass('active');
-					$this.parent().addClass('active');
+				Dropzone.autoDiscover = false;
+				$("#fotostudent").dropzone({
+					//url: "/file/post",
+					addRemoveLinks : true,
+					maxFilesize: 5.5,
+					dictDefaultMessage: '<span class="text-center cargalogo">Foto</span><br><span class="text-center cargalogo">Drag or Click</span>',
+					dictResponseError: 'Error uploading file!'
 				});
 
-				/*
-				* TODO: add a way to add more todo's to list
-				*/
-
-				// initialize sortable
-				$(function() {
-					$("#sortable1, #sortable2").sortable({
-						handle : '.handle',
-						connectWith : ".todo",
-						update : countTasks
-					}).disableSelection();
-				});
-
-				// check and uncheck
-				$('.todo .checkbox > input[type="checkbox"]').click(function() {
-					var $this = $(this).parent().parent().parent();
-
-					if ($(this).prop('checked')) {
-						$this.addClass("complete");
-
-						// remove this if you want to undo a check list once checked
-						//$(this).attr("disabled", true);
-						$(this).parent().hide();
-
-						// once clicked - add class, copy to memory then remove and add to sortable3
-						$this.slideUp(500, function() {
-							$this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
-							$this.remove();
-							countTasks();
-						});
-					} else {
-						// insert undo code here...
-					}
-
-				})
-				// count tasks
-				function countTasks() {
-
-					$('.todo-group-title').each(function() {
-						var $this = $(this);
-						$this.find(".num-of-tasks").text($this.next().find("li").size());
-					});
-
-				}
-
-				/*
-				* RUN PAGE GRAPHS
-				*/
-
-				/* TAB 1: UPDATING CHART */
-				// For the demo we use generated data, but normally it would be coming from the server
-
-				var data = [], totalPoints = 200, $UpdatingChartColors = $("#updating-chart").css('color');
-
-				function getRandomData() {
-					if (data.length > 0)
-						data = data.slice(1);
-
-					// do a random walk
-					while (data.length < totalPoints) {
-						var prev = data.length > 0 ? data[data.length - 1] : 50;
-						var y = prev + Math.random() * 10 - 5;
-						if (y < 0)
-							y = 0;
-						if (y > 100)
-							y = 100;
-						data.push(y);
-					}
-
-					// zip the generated y values with the x values
-					var res = [];
-					for (var i = 0; i < data.length; ++i)
-						res.push([i, data[i]])
-					return res;
-				}
-
-				// setup control widget
-				var updateInterval = 1500;
-				$("#updating-chart").val(updateInterval).change(function() {
-
-					var v = $(this).val();
-					if (v && !isNaN(+v)) {
-						updateInterval = +v;
-						$(this).val("" + updateInterval);
-					}
-
-				});
-
-				// setup plot
-				var options = {
-					yaxis : {
-						min : 0,
-						max : 100
-					},
-					xaxis : {
-						min : 0,
-						max : 100
-					},
-					colors : [$UpdatingChartColors],
-					series : {
-						lines : {
-							lineWidth : 1,
-							fill : true,
-							fillColor : {
-								colors : [{
-									opacity : 0.4
-								}, {
-									opacity : 0
-								}]
-							},
-							steps : false
-
-						}
-					}
-				};
-
-				/* live switch */
-				$('input[type="checkbox"]#start_interval').click(function() {
-					if ($(this).prop('checked')) {
-						$on = true;
-						updateInterval = 1500;
-						update();
-					} else {
-						clearInterval(updateInterval);
-						$on = false;
-					}
-				});
-
-				function update() {
-					if ($on == true) {
-						plot.setData([getRandomData()]);
-						plot.draw();
-						setTimeout(update, updateInterval);
-
-					} else {
-						clearInterval(updateInterval)
-					}
-
-				}
-
-				var $on = false;
-
-				/*end updating chart*/
-
-
-				// TAB THREE GRAPH //
-				/* TAB 3: Revenew  */
-
-				$(function() {
-
-					var trgt = [[1354586000000, 153], [1364587000000, 658], [1374588000000, 198], [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080], [1414592000000, 353], [1424593000000, 749], [1434594000000, 523], [1444595000000, 258], [1454596000000, 688], [1464597000000, 364]], prft = [[1354586000000, 53], [1364587000000, 65], [1374588000000, 98], [1384589000000, 83], [1394590000000, 980], [1404591000000, 808], [1414592000000, 720], [1424593000000, 674], [1434594000000, 23], [1444595000000, 79], [1454596000000, 88], [1464597000000, 36]], sgnups = [[1354586000000, 647], [1364587000000, 435], [1374588000000, 784], [1384589000000, 346], [1394590000000, 487], [1404591000000, 463], [1414592000000, 479], [1424593000000, 236], [1434594000000, 843], [1444595000000, 657], [1454596000000, 241], [1464597000000, 341]], toggles = $("#rev-toggles"), target = $("#flotcontainer");
-
-					var data = [{
-						label : "Target Profit",
-						data : trgt,
-						bars : {
-							show : true,
-							align : "center",
-							barWidth : 30 * 30 * 60 * 1000 * 80
-						}
-					}, {
-						label : "Actual Profit",
-						data : prft,
-						color : '#3276B1',
-						lines : {
-							show : true,
-							lineWidth : 3
-						},
-						points : {
-							show : true
-						}
-					}, {
-						label : "Accommodated",
-						data : sgnups,
-						color : '#71843F',
-						lines : {
-							show : true,
-							lineWidth : 1
-						},
-						points : {
-							show : true
-						}
-					}]
-
-					var options = {
-						grid : {
-							hoverable : true
-						},
-						tooltip : true,
-						tooltipOpts : {
-							//content: '%x - %y',
-							//dateFormat: '%b %y',
-							defaultTheme : false
-						},
-						xaxis : {
-							mode : "time"
-						},
-						yaxes : {
-							tickFormatter : function(val, axis) {
-								return "$" + val;
-							},
-							max : 1200
-						}
-
-					};
-
-					plot2 = null;
-
-					function plotNow() {
-						var d = [];
-						toggles.find(':checkbox').each(function() {
-							if ($(this).is(':checked')) {
-								d.push(data[$(this).attr("name").substr(4, 1)]);
-							}
-						});
-						if (d.length > 0) {
-							if (plot2) {
-								plot2.setData(d);
-								plot2.draw();
-							} else {
-								plot2 = $.plot(target, d, options);
-							}
-						}
-
-					};
-
-					toggles.find(':checkbox').on('change', function() {
-						plotNow();
-					});
-					plotNow()
-
-				});
-
-				/*
-				 * VECTOR MAP
-				 */
-
-				data_array = {
-					"US" : 232,
-					"AU" : 4873,
-					"IN" : 3671,
-					"BR" : 2476,
-					"TR" : 1476,
-					"CN" : 146,
-					"CA" : 134,
-					"BD" : 100
-				};
-
-				$('#vector-map').vectorMap({
-					map : 'world_mill_en',
-					backgroundColor : '#fff',
-					regionStyle : {
-						initial : {
-							fill : '#c4c4c4'
-						},
-						hover : {
-							"fill-opacity" : 1
-						}
-					},
-					series : {
-						regions : [{
-							values : data_array,
-							scale : ['#85a8b6', '#4d7686'],
-							normalizeFunction : 'polynomial'
-						}]
-					},
-					onRegionLabelShow : function(e, el, code) {
-						if ( typeof data_array[code] == 'undefined') {
-							e.preventDefault();
-						} else {
-							var countrylbl = data_array[code];
-							el.html(el.html() + ': ' + countrylbl + ' accommodated');
-						}
-					}
-				});
-
-				/*
-				 * FULL CALENDAR JS
-				 */
-
-				if ($("#calendar").length) {
-					var date = new Date();
-					var d = date.getDate();
-					var m = date.getMonth();
-					var y = date.getFullYear();
-
-					var calendar = $('#calendar').fullCalendar({
-
-						editable : true,
-						draggable : true,
-						selectable : false,
-						selectHelper : true,
-						unselectAuto : false,
-						disableResizing : false,
-
-						header : {
-							left : 'title', //,today
-							center : 'prev, next, today',
-							right : 'month, agendaWeek, agenDay' //month, agendaDay,
-						},
-
-						select : function(start, end, allDay) {
-							var title = prompt('Event Title:');
-							if (title) {
-								calendar.fullCalendar('renderEvent', {
-									title : title,
-									start : start,
-									end : end,
-									allDay : allDay
-								}, true // make the event "stick"
-								);
-							}
-							calendar.fullCalendar('unselect');
-						},
-
-						events : [{
-							title : 'All Day Event',
-							start : new Date(y, m, 1),
-							description : 'long description',
-							className : ["event", "bg-color-greenLight"],
-							icon : 'fa-check'
-						}, {
-							title : 'Long Event',
-							start : new Date(y, m, d - 5),
-							end : new Date(y, m, d - 2),
-							className : ["event", "bg-color-red"],
-							icon : 'fa-lock'
-						}, {
-							id : 999,
-							title : 'Repeating Event',
-							start : new Date(y, m, d - 3, 16, 0),
-							allDay : false,
-							className : ["event", "bg-color-blue"],
-							icon : 'fa-clock-o'
-						}, {
-							id : 999,
-							title : 'Repeating Event',
-							start : new Date(y, m, d + 4, 16, 0),
-							allDay : false,
-							className : ["event", "bg-color-blue"],
-							icon : 'fa-clock-o'
-						}, {
-							title : 'Meeting',
-							start : new Date(y, m, d, 10, 30),
-							allDay : false,
-							className : ["event", "bg-color-darken"]
-						}, {
-							title : 'Lunch',
-							start : new Date(y, m, d, 12, 0),
-							end : new Date(y, m, d, 14, 0),
-							allDay : false,
-							className : ["event", "bg-color-darken"]
-						}, {
-							title : 'Birthday Party',
-							start : new Date(y, m, d + 1, 19, 0),
-							end : new Date(y, m, d + 1, 22, 30),
-							allDay : false,
-							className : ["event", "bg-color-darken"]
-						}, {
-							title : 'Smartadmin Open Day',
-							start : new Date(y, m, 28),
-							end : new Date(y, m, 29),
-							className : ["event", "bg-color-darken"]
-						}],
-
-						eventRender : function(event, element, icon) {
-							if (!event.description == "") {
-								element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-							}
-							if (!event.icon == "") {
-								element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-							}
-						}
-					});
-
-				};
-				// control modal
-				$("#modal_family").click(function(){
-			        $("#acomodation").modal('hide');
-			    });				
-			    // set filters
-				$('#filter_single').click(function() {
-					console.log ("hasclass - " + $( "#filter_single" ).hasClass( "btn-primary"))
-					if ($( "#filter_single" ).hasClass( "btn-primary")){
-						$('#filter_single').removeClass( "btn-primary" );
-						$('#filter_single').addClass( "btn-success" );
-						$('#filter_single_check').removeClass( "hide" );
-					}else{
-						$('#filter_single').removeClass( "btn-success" );
-						$('#filter_single').addClass( "btn-primary" );
-						$('#filter_single_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_alergies').click(function() {
-					console.log ("hasclass - " + $( "#filter_alergies" ).hasClass( "btn-primary"))
-					if ($( "#filter_alergies" ).hasClass( "btn-primary")){
-						$('#filter_alergies').removeClass( "btn-primary" );
-						$('#filter_alergies').addClass( "btn-success" );
-						$('#filter_alergies_check').removeClass( "hide" );
-					}else{
-						$('#filter_alergies').removeClass( "btn-success" );
-						$('#filter_alergies').addClass( "btn-primary" );
-						$('#filter_alergies_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_smoke').click(function() {
-					console.log ("hasclass - " + $( "#filter_smoke" ).hasClass( "btn-primary"))
-					if ($( "#filter_smoke" ).hasClass( "btn-primary")){
-						$('#filter_smoke').removeClass( "btn-primary" );
-						$('#filter_smoke').addClass( "btn-success" );
-						$('#filter_smoke_check').removeClass( "hide" );
-					}else{
-						$('#filter_smoke').removeClass( "btn-success" );
-						$('#filter_smoke').addClass( "btn-primary" );
-						$('#filter_smoke_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_vegetarian').click(function() {
-					console.log ("hasclass - " + $( "#filter_vegetarian" ).hasClass( "btn-primary"))
-					if ($( "#filter_vegetarian" ).hasClass( "btn-primary")){
-						$('#filter_vegetarian').removeClass( "btn-primary" );
-						$('#filter_vegetarian').addClass( "btn-success" );
-						$('#filter_vegetarian_check').removeClass( "hide" );
-					}else{
-						$('#filter_vegetarian').removeClass( "btn-success" );
-						$('#filter_vegetarian').addClass( "btn-primary" );
-						$('#filter_vegetarian_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_pets').click(function() {
-					console.log ("hasclass - " + $( "#filter_pets" ).hasClass( "btn-primary"))
-					if ($( "#filter_pets" ).hasClass( "btn-primary")){
-						$('#filter_pets').removeClass( "btn-primary" );
-						$('#filter_pets').addClass( "btn-success" );
-						$('#filter_pets_check').removeClass( "hide" );
-					}else{
-						$('#filter_pets').removeClass( "btn-success" );
-						$('#filter_pets').addClass( "btn-primary" );
-						$('#filter_pets_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_halla').click(function() {
-					console.log ("hasclass - " + $( "#filter_halla" ).hasClass( "btn-primary"))
-					if ($( "#filter_halla" ).hasClass( "btn-primary")){
-						$('#filter_halla').removeClass( "btn-primary" );
-						$('#filter_halla').addClass( "btn-success" );
-						$('#filter_halla_check').removeClass( "hide" );
-					}else{
-						$('#filter_halla').removeClass( "btn-success" );
-						$('#filter_halla').addClass( "btn-primary" );
-						$('#filter_halla_check').addClass( "hide" );						
-					}
-				});
-
-			    // custom toolbar colocar o logo da Casa Mundo
+				//
+			    // custom toolbar colocar o logo da Casamundo
 			    //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-
-				/* hide default buttons */
-				$('.fc-header-right, .fc-header-center').hide();
-
-				// calendar prev
-				$('#calendar-buttons #btn-prev').click(function() {
-					$('.fc-button-prev').click();
-					return false;
-				});
-
-				// calendar next
-				$('#calendar-buttons #btn-next').click(function() {
-					$('.fc-button-next').click();
-					return false;
-				});
-
-				// calendar today
-				$('#calendar-buttons #btn-today').click(function() {
-					$('.fc-button-today').click();
-					return false;
-				});
-
-				// calendar month
-				$('#mt').click(function() {
-					$('#calendar').fullCalendar('changeView', 'month');
-				});
-
-				// calendar agenda week
-				$('#ag').click(function() {
-					$('#calendar').fullCalendar('changeView', 'agendaWeek');
-				});
-
-				// calendar agenda day
-				$('#td').click(function() {
-					$('#calendar').fullCalendar('changeView', 'agendaDay');
-				});
-
-				// iniialize date
-				$('#birthdate').datepicker({
-					dateFormat : 'dd.mm.yy',
-					prevText : '<i class="fa fa-chevron-left"></i>',
-					nextText : '<i class="fa fa-chevron-right"></i>',
-					onSelect : function(selectedDate) {
-						$('#birthdate').datepicker('option', 'minDate', selectedDate);
-					}
-				});
-
-				/* Formatting function for row details - modify as you need */
-				function format ( d ) {
-				    // `d` is the original data object for the row
-				    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-				        '<tr>'+
-				            '<td style="width:100px">Another filters:</td>'+
-				            '<td>'+d.filters+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td style="width:100px">Acomodation:</td>'+
-				            '<td>'+d.acomodation+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td>Important informations:</td>'+
-				            '<td>'+d.informations+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td>Comments:</td>'+
-				            '<td>'+d.comments+'</td>'+
-				        '</tr>'+
-				        '<tr>'+
-				            '<td>Action:</td>'+
-				            '<td>'+d.actions+'</td>'+
-				        '</tr>'+
-				    '</table>';
-				}
-
-			    
-
-			});
-
+				
+			});		
 		</script>
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
@@ -2215,6 +1019,8 @@
 			})();
 
 		</script>
+		
+		
 
 	</body>
 
