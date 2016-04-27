@@ -39,7 +39,6 @@
     	});
     };
     
-    
     function rest_obterStudentsAll(action_ok) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista",
@@ -117,3 +116,37 @@
         	};
     	});
     };
+
+    function rest_obterFamiliesAll(action_ok) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/lista",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data);
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+    	});
+    };
+
+    function rest_obterFamily(familyName, action_ok, action_not_ok) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/obterFamilyName?familyName="  + familyName,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data);
+    	})
+    	.fail(function(data) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
+    

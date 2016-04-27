@@ -393,7 +393,7 @@
 				</span>
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Students</li>
+					<li>Home</li><li>Families</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -425,7 +425,7 @@
 						<div class="col-sm-8"></div>
 						<div class="col-sm-4">
 							<div class="col-sm-1 profile-pic">
-								<a href="student_input.html" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+								<a href="family_input.html" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
 							</div>
 						</div>
 					</div>
@@ -453,7 +453,7 @@
 
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Students</h2>
+									<h2>Families</h2>
 									<div class="widget-toolbar">
 										<!-- add: non-hidden - to disable auto hide -->
 									</div>
@@ -472,46 +472,30 @@
 									<!-- widget content -->
 									<div class="widget-body no-padding">
 										
-										<table id="students_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<table id="families_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									        <thead>
 												<tr>
 													<th class="hasinput" >
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Student" />
+														<input type="text" class="form-control" placeholder="Family" />
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Destination" />
+														<input type="text" class="form-control" placeholder="Address" />
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Start" />
+														<input type="text" class="form-control" placeholder="Address Info" />
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="End" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Status" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Gender" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Agency" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="School" />
+														<input type="text" class="form-control" placeholder="Rooms" />
 													</th>
 												</tr>
 									            <tr>
 									                <th></th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Student</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Destination</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Start</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>End</th>
-									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs">Status</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Gender</th>
-									                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Agency</th>
-									                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>School</th>
+									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Familty</th>
+									                <th><i class="fa fa-fw fa-map-marker text-muted hidden-md hidden-sm hidden-xs"></i>Address</th>
+									                <th><i class="fa fa-fw fa-map-marker text-muted hidden-md hidden-sm hidden-xs"></i>Address Info</th>
+									                <th><i class="fa fa-fw fa-home text-muted hidden-md hidden-sm hidden-xs"></i>Rooms</th>
 									            </tr>
 									        </thead>
 									    </table>
@@ -728,8 +712,8 @@
 		<!-- out scripts -->
 		<script src="js/main.js"></script>
 		<script src="js/rest_commands.js"></script>
-		<script src="js-datatables/students.js"></script>
-		<script src="js/student-commons.js"></script>
+		<script src="js-datatables/families.js"></script>
+		<script src="js/family-commons.js"></script>
 
 		<script>
 			$(document).ready(function() {
