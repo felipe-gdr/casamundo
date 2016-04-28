@@ -17,7 +17,7 @@
 	 * 		carrega tabelas
 	 */
 
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
 	limpaStorageStudent ();
 

@@ -22,7 +22,7 @@
        	});
     };
     
-    function rest_obterStudent(email, action_ok, action_not_ok) {
+    function rest_obterStudent(email, action_ok, action_not_ok, tipo) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail="  + email,
             contentType: "application/json; charset=utf-8",
@@ -30,7 +30,7 @@
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data);
+    		action_ok(data, tipo);
     	})
     	.fail(function(data) {
     		action_not_ok
@@ -71,7 +71,7 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok ("You included a new Student");
+        		action_ok ("Student updated");
         	}else{
         		actio_not_ok()
         	};
@@ -104,13 +104,13 @@
             dataType: 'json',
             data : JSON.stringify(objJson)
 		})        	
-		.done(function( data ) {
+		.done(function(data) {
     	})
     	.fail(function(data) {
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-    		action_ok ("You atualized the tables");
+    		action_ok ("Tabels updated");
         	}else{
         		actio_not_ok()
         	};
@@ -133,20 +133,65 @@
     	});
     };
 
-    function rest_obterFamily(familyName, action_ok, action_not_ok) {
+    function rest_obterFamily(familyName, action_ok, action_not_ok, tipo) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/obterFamilyName?familyName="  + familyName,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
     	})
-    	.done(function( data ) {
-    		action_ok(data);
+    	.done(function(data) {
+    		action_ok(data, tipo);
     	})
     	.fail(function(data) {
     		action_not_ok
     	})
     	.always(function(data) {
     	});
+    };
+
+    function rest_incluiFamily(objJson, action_ok, action_not_ok) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok ();
+        	}else{
+        		actio_not_ok()
+        	};
+       	});
+    };
+
+    function rest_atualizaFamily(objJson, action_ok, action_not_ok) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok ("Family updated");
+        	}else{
+        		actio_not_ok()
+        	};
+    	});
+
     };
     

@@ -42,7 +42,7 @@ public class Family {
 		public String acceptSmokeStudent;
 		public String preferAgeStudent;
 		public String preferGenderStudent;
-		public String mealPlan [];
+		public String mealPlan;
 		public String hostVegetarianStudent;
 		public String hostAnyNationalityStudent;
 		public String acceptSmokeInsideHome;
@@ -69,7 +69,7 @@ public class Family {
 						String acceptSmokeStudent,
 						String preferAgeStudent,
 						String preferGenderStudent,
-						String mealPlan [],
+						String mealPlan,
 						String hostVegetarianStudent,
 						String hostAnyNationalityStudent,
 						String acceptSmokeInsideHome,

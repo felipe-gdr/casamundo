@@ -21,7 +21,7 @@
  * 
  */
 	
-	var data = rest_obterFamily(familyName, carregaTelaFamily, obtencaoNaoEfetuada);
+	var data = rest_obterFamily(familyName, carregaTelaFamily, obtencaoNaoEfetuada, "consulta");
 	var table = JSON.parse(localStorage.getItem("table"));
 		    
     

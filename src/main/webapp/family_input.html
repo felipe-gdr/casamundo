@@ -227,7 +227,7 @@
 				<!-- input: search field -->
 				<form action="search.html" class="header-search pull-right">
 					<input id="search-fld"  type="text" name="param" placeholder="Find reports and more" data-autocomplete='[
-					"Student"]'>
+					"Family"]'>
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -387,7 +387,7 @@
 
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Students</li><li>New Student</li>
+					<li>Home</li><li>Families</li><li>New Family</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -412,13 +412,13 @@
 						<div class="col-sm-9"></div>
 						<div class="col-sm-1">
 							<div class="col-sm-1 profile-pic">
-								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new student."></i></a>
+								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new family."></i></a>
 							</div>
 						</div>
 					</div>
 					<!-- end row -->
 						
-						<form id="student-form" class="smart-form" novalidate="novalidate">
+						<form id="family-form" class="smart-form" novalidate="novalidate">
 	
 							<div class="well well-light well-sm no-margin no-padding">
 								<div class="row">							
@@ -430,25 +430,41 @@
 											<div class="col-sm-9">
 												<h1><span  class="semi-bold"></span>
 													<br>
-												<small>Contact</small></h1>																				
+												<small>Family Contact</small></h1>
 												<div class="row">							
 													<section class="col-sm-4">								
-														<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
-															<input type="email" id="mail" name="mail" placeholder="E-mail">
+														<label class="input"> <i class="icon-prepend fa fa-home"></i>
+															<input type="text" id="familyName" name="familyName" placeholder="Family Name">
+														</label>
+													</section>
+												</div>																																
+												<div class="row">							
+													<section class="col-sm-4">								
+														<label class="select">
+															<select id="type" name="type">
+																<option value="" selected="" disabled="">Type</option>
+															</select><i></i>
+														</label>
+													</section>
+												</div>																																
+												<div class="row">							
+													<section class="col-sm-4">								
+														<label class="input"> <i class="icon-prepend fa fa-phone"></i>
+															<input type="text" id="contact_phoneNumber" name="contact_phoneNumber" placeholder="Phone"  data-mask-placeholder= "x">
 														</label>
 													</section>
 												</div>
 												<div class="row">							
 													<section class="col-sm-4">								
 														<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>
-															<input type="tel" id="celPhone" name="celPhone" placeholder="Cel Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
+															<input type="text" id="contact_mobilePhoneNumber" name="contact_mobilePhoneNumber" placeholder="Cel Phone"  data-mask-placeholder= "x">
 														</label>
 													</section>
 												</div>
 												<div class="row">							
 													<section class="col-sm-4">								
-														<label class="input"> <i class="icon-prepend fa fa-phone"></i>
-															<input type="tel" id="phone" name="phone" placeholder="Phone" data-mask="(999) 9999-9999" data-mask-placeholder= "x">
+														<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
+															<input type="email" id="contact_email" name="contact_email" placeholder="E-mail">
 														</label>
 													</section>
 												</div>
@@ -459,60 +475,38 @@
 											<div class="row">
 												<div class="col-xs-11">
 													<legend>
-													<h7>Personal Data</h7>
+													<h7>Contact Data</h7>
 													</legend>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-xs-4">
 													<fieldset>					
-														<section class="col-xs-10">							
+														<section class="col-xs-10">
+															<label class="label">Last name</label>							
 															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input type="text" id="lastName" name="lastName" placeholder="Last name">
+																<input type="text" id="contact_lastName" name="contact_lastName" placeholder="">
 															</label>
 														</section>
 														<section class="col-xs-10">							
+															<label class="label">First name</label>
 															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input type="text" id="firstName" name="firstName" placeholder="First name">
+																<input type="text" id="contact_firstName" name="contact_firstName" placeholder="">
 															</label>
 														</section>
 														<section class="col-xs-5">
+															<label class="label">Birthdate</label>
 															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input id="birthDay" type="text" name="birthDay" placeholder="Birthday" class="datepicker" data-dateformat='dd/mm/yy' data-mask="99/99/9999">
-															</label>
-														</section>
-														<section class="col-xs-5">		
-															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input type="text" id="profession" name="profession" placeholder="Profession">
+																<input id="contact_birthDate" type="text" name="contact_birthDate" placeholder="" class="datepicker" data-dateformat='dd/mm/yy' data-mask="99/99/9999">
 															</label>
 														</section>
 														<section class="col-xs-5">
+															<label class="label">Gender</label>
 															<label class="select ">
-																<select id="gender" name="gender">
-																	<option value="0" selected="" disabled="">Gender</option>
+																<select id="contact_gender" name="contact_gender">
+																	<option value="" selected="" disabled=""></option>
 																	<option value="Male">Male</option>
 																	<option value="Female">Female</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-5">
-															<label class="select">
-																<select id="nationality" name="nationality">
-																	<option value="0" selected="" disabled="">Nationality</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-5">
-															<label class="select ">
-																<select id="firstLanguage" name="firstLanguage">
-																	<option value="0" selected="" disabled="">First Language</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-5">
-															<label class="select ">
-																<select id="englishLevel" name="englishLevel">
-																	<option value="0" selected="" disabled="">English Level</option>
 																</select><i></i>
 															</label>
 														</section>
@@ -520,60 +514,22 @@
 												</div>
 												<div class="col-xs-7">
 													<fieldset>					
-														<section class="col-xs-3">		
-															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
-																<input type="text" id="streetNumber" name="streetNumber" placeholder="Address number" >
-															</label>
-														</section>
 														<section class="col-xs-8">		
-															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
-																<input type="text" id="streetName" name="streetName" placeholder="Street name">
-															</label>
-														</section><br>
-														<section class="col-xs-3">		
-															<label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
-																<input type="text" id="postalCode" name="postalCode" placeholder="ZIP" data-mask="99999-999" data-mask-placeholder= "X">
-															</label>
-														</section><br>
-														<section class="col-xs-2">
-															<label class="select ">
-																<select id="state" name="state">
-																	<option value="0" selected="" disabled="">State</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-3">
-															<label class="select ">
-																<select id="city" name="city">
-																	<option value="0" selected="" disabled="">City</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-3">
-															<label class="select ">
-																<select id="country" name="country">
-																	<option value="0" selected="" disabled="">Country</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-5">								
+															<label class="label">Work Phone Number</label>
 															<label class="input"> <i class="icon-prepend fa fa-phone"></i>
-																<input type="tel" id="secondaryTelephone" name="secondaryTelephone" placeholder="Secondary Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
+																<input type="tel" id="contact_workPhoneNumber" name="contact_workPhoneNumber" placeholder="" data-mask-placeholder= "x">
 															</label>
 														</section>
-														<section class="col-xs-5">							
+														<section class="col-xs-10">		
+															<label class="label">Ocuppation</label>
 															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input type="text" id="emergencyContactName" name="emergencyContactName" placeholder="Emergency Contact" >
+																<input type="text" id="contact_ocuppation" name="contact_ocuppation" placeholder="">
 															</label>
 														</section>
-														<section class="col-xs-5">								
-															<label class="input"> <i class="icon-prepend fa fa-phone"></i>
-																<input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" placeholder="Emergency Phone" data-mask="(999) 99999-9999" data-mask-placeholder= "x">
-															</label>
-														</section>
-														<section class="col-xs-5">								
-															<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
-																<input type="text" id="emergencyContactMail" name="emergencyContactMail" placeholder="Emergency Mail">
+														<section class="col-xs-10">		
+															<label class="label">Employer</label>
+															<label class="input"> <i class="icon-prepend fa fa-institution"></i>
+																<input type="text" id="contact_employer" name="contact_employer" placeholder="">
 															</label>
 														</section>
 													</fieldset>
@@ -582,97 +538,80 @@
 											<div class="row">
 												<div class="col-xs-11">
 													<legend>
-													<h7>Trip</h7>
+													<h7>Address</h7>
 													</legend>
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-xs-4">
+												<div class="col-xs-6">
 													<fieldset>					
-														<section class="col-xs-5">
+														<section class="col-xs-8">	
+															<label class="label">Street name</label>	
+															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
+																<input type="text" id="address_street" name="address_street" placeholder="">
+															</label>
+														</section>
+														<section class="col-xs-4">		
+															<label class="label">Address number</label>
+															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
+																<input type="text" id="address_number" name="address_number" placeholder="" >
+															</label>
+														</section>
+														<section class="col-xs-6">
+															<label class="label">City</label>
 															<label class="select ">
-																<select id="status" name="status">
-																	<option value="0" selected="" disabled="">Status</option>
+																<select id="address_city" name="address_city" class="city">
+																	<option value="0" selected="" disabled=""></option>
 																</select><i></i>
 															</label>
 														</section>
-														<section class="col-xs-5">
+														<section class="col-xs-6">
+															<label class="label">State</label>
 															<label class="select ">
-																<select id="destination" name="destination">
-																	<option value="0" selected="" disabled="">Destination</option>
+																<select id="address_state" name="address_state" class="state">
+																	<option value="0" selected="" disabled=""></option>
 																</select><i></i>
 															</label>
 														</section>
-														<section class="col-xs-5">
-															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input id="start" type="text" name="start" placeholder="Start" class="datepicker" data-dateformat='dd/mm/yy'>
+														<section class="col-xs-5">		
+															<label class="label">Postal Code</label>
+															<label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
+																<input type="text" id="address_postalCode" name="address_postalCode" placeholder=""  data-mask-placeholder= "X">
 															</label>
-														</section>
-														<section class="col-xs-5">
-															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input id="end" type="text" name="end" placeholder="End" class="datepicker" data-dateformat='dd/mm/yy'>
-															</label>
-														</section>
+														</section><br>
 													</fieldset>
 												</div>
-												<div class="col-xs-4">
+												<div class="col-xs-6">
 													<fieldset>					
-														<section class="col-xs-5">
-															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input id="arrivalDate" type="text" name="arrivalDate" placeholder="Arrival date" class="datepicker" data-dateformat='dd/mm/yy'>
+														<section class="col-xs-11">
+															<label class="label">Main Intersection</label>								
+															<label class="input"> <i class="icon-prepend fa fa-share-alt-square"></i>
+																<input type="text" id="address_mainIntersection" name="address_mainIntersection" placeholder="">
 															</label>
 														</section>
-														<section class="col-xs-5">
-															<label class="input"> 
-																<div class="input-group">
-																	<span class="input-group-addon"> <i class="fa fa-clock-o"></i></span>
-																	<input class="form-control" id="arrivalTime" name="arrivalTime" type="text" placeholder="Arrival time">
-																	
-																</div>
+														<section class="col-xs-7">
+															<label class="label">Nearest Subway Station</label>							
+															<label class="input"> <i class="icon-prepend fa fa-minus-square"></i>
+																<input type="text" id="address_nearestSubwayStation" name="address_nearestSubwayStation" placeholder="" >
 															</label>
 														</section>
-														<section class="col-xs-5">								
-															<label class="input"> <i class="icon-prepend fa fa-plane"></i>
-																<input type="text" id="airline" name="airline" placeholder="Airline">
+														<section class="col-xs-3">
+															<label class="label">Walking Time</label>								
+															<label class="input"> <i class="icon-prepend fa fa-male"></i>
+																<input type="text" id="address_walkingTimeSubwayStation" name="adddress-walkingTimeSubwayStation" placeholder="">
 															</label>
 														</section>
-														<section class="col-xs-5">								
-															<label class="input"> <i class="icon-prepend fa fa-plane"></i>
-																<input type="text" id="flightNumber" name="flightNumber" placeholder="Flight Number" data-mask="9999">
+														<section class="col-xs-7">
+															<label class="label">Nearest Bus Stop</label>								
+															<label class="input"> <i class="icon-prepend fa fa-pause"></i>
+																<input type="text" id="address_nearestBusStop" name="address_nearestBusStop" placeholder="">
 															</label>
 														</section>
-														<br>
-														<section class="col-xs-5">
-															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input id="flightDate" type="text" name="flightDate" placeholder="Flight date" class="datepicker" data-dateformat='dd/mm/yy'>
+														<section class="col-xs-3">
+															<label class="label">Walking Time</label>								
+															<label class="input"> <i class="icon-prepend fa fa-male"></i>
+																<input type="text" id="address_walkingTimeBusStation" name="address_walkingTimeBusStation" placeholder="">
 															</label>
-														</section>
-														<section class="col-xs-5">
-															<label class="input"> 
-																<div class="input-group">
-																	<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-																	<input class="form-control" id="flightTime" name="flightTime" type="text" placeholder="Flight time">
-																</div>
-															</label>
-														</section>
-													</fieldset>
-												</div>
-												<div class="col-xs-3">
-													<fieldset>					
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="extend" name="extend">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Extend</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="pickup" name="pickup">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Pickup</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="dropoff" name="dropoff">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Dropoff</label>
 														</section>
 													</fieldset>
 												</div>
@@ -680,265 +619,179 @@
 											<div class="row">
 												<div class="col-xs-11">
 													<legend>
-													<h7>Accommodation</h7>
+													<h7>Characteristics</h7>
 													</legend>
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-xs-4"></div>
-												<div class="col-xs-2">
+												<div class="col-xs-6">
 													<fieldset>					
-														<section class="col-xs-12">
+														<section class="col-xs-11">
+															<label class="label">Total Number of bedroom in your home</label>
 															<label class="select ">
-																<select id="accommodation" name="accommodation">
-																	<option value="0" selected="" disabled="">Accommodation</option>
-																	<option value="Homestay">Homestay</option>
-																	<option value="Dorms">Dorms</option>
-																	<option value="Suite">Suite</option>
+																<select id="numbersBedroom" name="numbersBedroom">
+																	<option value="0" selected="" disabled=""></option>
+																	<option value="1" >1</option>
+																	<option value="2" >2</option>
+																	<option value="3" >3</option>
+																	<option value="4" >4</option>
+																	<option value="5" >5</option>
+																	<option value="6" >6</option>
+																	<option value="7" >7</option>
+																	<option value="+7" >+7</option>
+																</select><i></i>
+															</label>
+														</section>
+														<section class="col-xs-11">
+															<label class="label">Number of bedroom for students your home</label>
+															<label class="select ">
+																<select id="numbersStudentsBedroom" name="numbersStudentsBedroom">
+																	<option value="0" selected="" disabled=""></option>
+																	<option value="1" >1</option>
+																	<option value="2" >2</option>
+																	<option value="3" >3</option>
+																	<option value="4" >4</option>
+																	<option value="5" >5</option>
+																	<option value="6" >6</option>
+																	<option value="7" >7</option>
+																	<option value="+7" >+7</option>
+																</select><i></i>
+															</label>
+														</section>
+														<section class="col-xs-11">
+															<label class="toggle">
+																<input type="checkbox" id="offerPrivateWashroom" name="offerPrivateWashroom">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you offer private washroom for the student?</label>
+														</section>
+														<section class="col-xs-11">
+															<label class="label">How many private washrooms</label>
+															<label class="select ">
+																<select id="numberPrivateWashroom" name="numberPrivateWashroom">
+																	<option value="0" selected="" disabled=""></option>
+																	<option value="1" >1</option>
+																	<option value="2" >2</option>
+																	<option value="3" >3</option>
+																	<option value="4" >4</option>
+																	<option value="+4" >+4</option>
 																</select><i></i>
 															</label>
 														</section>
 													</fieldset>
 												</div>
-												<div class="col-xs-2"></div>
+												<div class="col-xs-6">
+													<fieldset>					
+														<section class="col-xs-7">
+															<label class="toggle">
+																<input type="checkbox" id="offerInternet" name="offerInternet">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Internet offered?</label>
+														</section>
+														<section class="col-xs-7">
+															<label class="toggle">
+																<input type="checkbox" id="havePets" name="havePets">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you have pets?</label>
+														</section>
+														<section class="col-xs-8">
+															<label class="label">First Language</label>
+															<label class="select">
+																<select id="firstLanguage" name="firstLanguage">
+																	<option value="0" selected="" disabled=""></option>
+																</select><i></i>
+														</section>
+														<section class="col-xs-8">
+															<label class="label">Others Language</label>
+															<label class="select select-multiple ">
+																<select id="othersLanguage" name="othersLanguage"  multiple="" class="custom-scroll language">
+																</select> </label>
+														</section>
+												</div>
 											</div>
-											<br>
 											<div class="row">
-												<div class="col-xs-4 hide homestay dorms">
-													<fieldset>					
-														<section class="col-xs-8">
-															<label class="select ">
-																<select id="occupancy" name="occupancy">
-																	<option value="0" selected="" disabled="">Occupancy</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-8 hide guest">								
-															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input type="text" id="guestName" name="guestName" placeholder="Guest name">
-															</label>
-														</section>
-														<section class="col-xs-8 hide guest">
-															<label class="select ">
-																<select id="relationship" name="relationship">
-																	<option value="0" selected="" disabled="">Relationship</option>
-																</select><i></i>
-															</label>
-														</section>
-													</fieldset>
-												</div>
-												<div class="col-xs-4 hide suite">
-													<fieldset>					
-														<section class="col-xs-8">
-															<label class="select ">
-																<select id="apartamentType" name="apartamentType">
-																	<option value="0" selected="" disabled="">Apartament Type</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-8">								
-															<label class="input"> <i class="icon-prepend fa fa-bug"></i>
-																<input type="text" id="petsQuantity" name="petsQuantity" data-mask="999" placeholder="Pets Quantity">
-															</label>
-														</section>
-														<section class="col-xs-8">								
-															<label class="input"> <i class="icon-prepend fa fa-bug"></i>
-																<input type="text" id="petType" name="petType" placeholder="Pet Type">
-															</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="parking" name="parking">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Parking</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="wifi" name="wifi">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Dedicated wifi</label>
-														</section>
-													</fieldset>
-												</div>
-												<div class="col-xs-3 hide suite">
-													<fieldset>					
-														<section class="col-xs-6">
-															<label class="select ">
-																<select id="peopleQuantity" name="peopleQuantity">
-																	<option value="0" selected="" disabled="">People Quantity</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-11">								
-															<label class="input g5 g4 g3 g2 g1 hide"> <i class="icon-prepend fa fa-user"></i>
-																<input  id="guest_01" type="text"  name="guest_01" placeholder="Guest name">
-															</label>
-														</section>
-														<section class="col-xs-11">								
-															<label class="input g5 g4 g3 g2 hide"> <i class="icon-prepend fa fa-user"></i>
-																<input  id="guest_02" type="text"  name="guest_02" placeholder="Guest name">
-															</label>
-														</section>
-														<section class="col-xs-11">								
-															<label class="input g5 g4 g3 hide"> <i class="icon-prepend fa fa-user"></i>
-																<input  id="guest_03" type="text"  name="guest_03" placeholder="Guest name">
-															</label>
-														</section>
-														<section class="col-xs-11">								
-															<label class="input g5 g4 hide"> <i class="icon-prepend fa fa-user"></i>
-																<input  id="guest_04" type="text"  name="guest_04" placeholder="Guest name">
-															</label>
-														</section>
-														<section class="col-xs-11">								
-															<label class="input g5 hide"> <i class="icon-prepend fa fa-user"></i>
-																<input  id="guest_05" type="text"  name="guest_05" placeholder="Guest name">
-															</label>
-														</section>
-													</fieldset>
-												</div>
-												<div class="col-xs-4 hide homestay">
-													<section class="col-xs-8">
-														<label class="label">Meal Plan</label>
-														<label class="select select-multiple ">
-															<select id="mealPlan" multiple="" class="custom-scroll">
-															</select></label>
-													</section>
-													<section class="col-xs-8">
-														<label class="label">Special Diet</label>
-														<label class="select select-multiple ">
-															<select id="specialDiet"  multiple="" class="custom-scroll">
-															</select> </label>
-													</section>
-													<br>
-												</div>
-												<div class="col-xs-4 hide dorms">
-													<section class="col-xs-8">
-														<label class="label">I usualliy study</label>
-														<label class="select select-multiple ">
-															<select id="usuallyStudy" name="usuallyStudy" multiple="" class="custom-scroll">
-															</select> </label>
-													</section>
-													<section class="col-xs-8">
-														<label class="label">I usualliy keep my bedroom</label>
-														<label class="select select-multiple ">
-															<select id="keepBedroom" name="keepBedroom" multiple="" class="custom-scroll">
-															</select> </label>
-													</section>
-													<section class="col-xs-8">
-														<label class="label">I am usually</label>
-														<label class="select select-multiple ">
-															<select id="iAmUsually" name="iAmUsually" multiple="" class="custom-scroll">
-															</select></label>
-													</section>
-												</div>
-												<div class="col-xs-3 hide homestay">
-													<fieldset>					
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="liveDogs" name="liveDogs">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Live with dogs</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="liveCats" name="liveCats">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Live with cats</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="privateWashroom" name="privateWashroom">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Private washroom</label>
-														</section>
-														<section class="col-xs-8">
-															<label class="toggle">
-																<input type="radio" id="smoke" name="smoke">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Smoke</label>
-														</section>
-													</fieldset>
-												</div>
-												<div class="col-xs-4 hide dorms suite">
-													<fieldset>					
-														<section class="col-xs-9">
-															<label class="select ">
-																<select id="creditCardType" name="creditCardType">
-																	<option value="0" selected="" disabled="">Credit Card</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-9">								
-															<label class="input"> <i class="icon-prepend fa fa-credit-card"></i>
-																<input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="Number" data-mask="9999-9999-9999-9999" data-mask-placeholder= "*">
-															</label>
-														</section>
-														<section class="col-xs-4">
-															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input type="text" id="creditCardExpire" name="creditCardExpire" placeholder="Expire" data-mask="99/9999" data-mask-placeholder= "-">
-															</label>
-														</section>
-														<section class="col-xs-4">								
-															<label class="input"> <i class="icon-prepend fa fa-lock"></i>
-																<input type="text" id="creditCardCVC" name="creditCardCVC" placeholder="CVC" data-mask="999" data-mask-placeholder= "*">
-															</label>
-														</section>
-													</fieldset>												        
+												<div class="col-xs-11">
+													<legend>
+													<h7>Preferences</h7>
+													</legend>
 												</div>
 											</div>
-											<br>
 											<div class="row">
-												<div class="col-xs-11 homestay hide">
+												<div class="col-xs-6">
 													<fieldset>					
-														<section class="col col-4">
-															<label class="label">Hobbies/Interest</label>
-															<label class="textarea textarea-resizable state-disabled"> 										
-															<textarea rows="3" id="hobbies" name="hobbies"class="custom-scroll"></textarea> </label>
+														<section class="col-xs-10">
+															<label class="toggle">
+																<input type="checkbox" id="acceptSmokeStudent" name="acceptSmokeStudent">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you accept a student who smokes?</label>
 														</section>
-														<section class="col col-4">
-															<label class="label">Alergies or Medical Concern</label>
-															<label class="textarea textarea-resizable state-disabled"> 										
-															<textarea rows="3" id="medical" name="medical"class="custom-scroll"></textarea> </label>
+														<section class="col-xs-10">
+															<label class="toggle">
+																<input type="checkbox" id="acceptSmokeInsideHome" name="acceptSmokeInsideHome">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Does anyone smoke inside your house? </label>
 														</section>
-														<section class="col col-4">
-															<label class="label">Comments</label>
-															<label class="textarea textarea-resizable state-disabled"> 										
-															<textarea rows="3" id="comments" name="comments"class="custom-scroll"></textarea> </label>
+														<section class="col-xs-10">
+															<label class="toggle">
+																<input type="checkbox" id="hostVegetarianStudent" name="hostVegetarianStudent">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Would you host a vegetarian Student?</label>
+														</section>
+														<section class="col-xs-10">
+															<label class="toggle">
+																<input type="checkbox" id="hostAnyNationalityStudent" name="hostAnyNationalityStudent">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Would you host a Student from any nationality? </label>
+														</section>
+													</fieldset>
+												</div>
+												<div class="col-xs-5">
+													<fieldset>					
+														<section class="col-xs-11">
+															<label class="label">Preferred age of student</label>
+															<label class="select ">
+																<select id="preferAgeStudent" name="preferAgeStudent">
+																	<option value="" selected="" disabled=""></option>
+																	<option value="15-20" >15-20</option>
+																	<option value="20-30" >20-30</option>
+																	<option value="30+" >30+</option>
+																</select><i></i></label>
+														</section>
+														<section class="col-xs-11">
+															<label class="label">Preferred gender of student</label>
+															<label class="select ">
+																<select id="preferGenderStudent" name="preferGenderStudent" >
+																	<option value="" selected="" disabled=""></option>
+																	<option value="No preference">No preference</option>
+																	<option value="Male">Male</option>
+																	<option value="Female">Female</option>
+																</select><i></i>
+															</label>
+														</section>
+														<section class="col-xs-11">
+															<label class="label">Meal plans you are willing to offer</label>
+															<label class="select ">
+																<select id="mealPlan" name="mealPlan">
+																	<option value="" selected="" disabled=""></option>
+																</select><i></i></label>
 														</section>
 													</fieldset>
 												</div>
 											</div>
-											<br>
 											<div class="row">
-												<div class="col-xs-11 homestay hide">
-													<section class="col col-12">
-														<label class="checkbox state-disabled">
-															<input type="checkbox" id="agreeTerm" name="agreeTerm" >
-															<i></i>I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Homestay Terms and Conditions</label>
-													</section>
+												<div class="col-xs-11">
+													<legend>
+													<h7>Family Members</h7>
+													</legend>
 												</div>
-												<div class="col-xs-11 dorms hide">
-													<section class="col col-12">
-														<label class="checkbox state-disabled">
-															<input type="checkbox" id="agreeDebit" name="agreeDebit" >
-															<i></i>I authorize the charge of $200 regarding the security deposit of my shared Accommodation</label>
-													</section>
-												</div>
-												<div class="col-xs-11 suite hide">
+											</div>
+											<div class="row">
+												<div class="col-xs-4">
 													<fieldset>					
-														<section class="col col-12">
-															<label class="checkbox state-disabled">
-																<input type="checkbox" id="agreeDebitSuite" name="agreeDebitSuite" >
-																<i></i>I authorize the charge of $500 regarding the security deposit of apartment</label>
-														</section>
-														<section class="col col-12">
-															<label class="checkbox state-disabled">
-																<input type="checkbox" id="agreeSuite" name="agreeSuite" >
-																<i></i>I confirm that I have read, understood and agreed with the rules and agreement of Casa Toronto Suites Terms and Conditions</label>
-														</section>
 													</fieldset>
 												</div>
-												<br>																		
-												<footer class="col-xs-11">
-													<button type="submit" class="btn btn-primary">Submit</button>
-													<button type="button" class="btn btn-default" onclick="window.history.back();">Back</button>
-												</footer>
+												<div class="col-xs-4">
+													<fieldset>					
+													</fieldset>
+												</div>
 											</div>
-											<br>
+											<br>																		
+											<footer class="col-xs-11">
+												<button type="submit" class="btn btn-primary">Submit</button>
+												<button type="button" class="btn btn-default" onclick="window.history.back();">Back</button>
+											</footer>
 										</div>
 									</div>
 	
@@ -1097,8 +950,8 @@
 
 		<!-- out scripts -->
 		<script src="js/main.js"></script>
-		<script src="js/student-commons.js"></script>
-		<script src="js/student_input.js"></script>
+		<script src="js/family-commons.js"></script>
+		<script src="js/family_input.js"></script>
 
 		<script type="text/javascript">
 		

@@ -5,174 +5,207 @@
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	if (parametrosDaUrl){
-		var mailUrl = parametrosDaUrl.split("=")[1];
+		var familyName = parametrosDaUrl.split("=")[1];
 	};
-
-	if (mailUrl){
-		localStorage.studentExistente = "true";
-		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
-	};	
 
 	/**
 	 * 		carrega tabelas
 	 */
 
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
-	limpaStorageStudent ();
+	if (familyName){
+		localStorage.familyExistente = "true";
+		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
+	};	
+
+
+	limpaStorageFamily ();
 
 /**
 *          valida formulário   
 */
 
-	var $studentForm = $("#student-form").validate({
+	var $familyForm = $("#family-form").validate({
 		// Rules for form validation
 		rules : {
-			mail : {
-				required : true,
-				email : true
-			},
-			celPhone : {
+			familyName : {
 				required : true,
 			},
-			phone : {
+			type : {
 				required : true,
 			},
-			lastName : {
+			contact_phoneNumber : {
 				required : true,
 			},
-			firstName : {
+			contact_mobilePhoneNumber : {
 				required : true,
 			},
-			birthDay : {
+			contact_email : {
+				required : true,
+				email : true,
+			},
+			contact_lastName : {
 				required : true,
 			},
-			gender : {
+			contact_firstName : {
 				required : true,
 			},
-			nationality : {
+			contact_birthDate : {
+				required : true,
+			},
+			contact_gender : {
+				required : true,
+			},
+			address_street : {
+				required : true,
+			},
+			address_number : {
+				required : true,
+			},
+			address_city : {
+				required : true,
+			},
+			address_state : {
+				required : true,
+			},
+			address_postalCode : {
+				required : true,
+			},
+			address_mainIntersection : {
+				required : true,
+			},
+			address_nearestSubwayStation : {
+				required : true,
+			},
+			address_walkingTimeSubwayStation : {
+				required : true,
+			},
+			address_nearestBusStop : {
+				required : true,
+			},
+			address_walkingTimeBusStation : {
+				required : true,
+			},
+			numbersStudentsBedroom : {
+				required : true,
+			},
+			offerPrivateWashroom : {
+				required : true,
+			},
+			numberPrivateWashroom : {
+				required : true,
+			},
+			offerInternet : {
+				required : true,
+			},
+			havePets : {
 				required : true,
 			},
 			firstLanguage : {
 				required : true,
 			},
-			englishLevel : {
+			acceptSmokeStudent : {
 				required : true,
 			},
-			streetNumber : {
+			acceptSmokeInsideHome : {
 				required : true,
 			},
-			streetName : {
+			hostVegetarianStudent : {
 				required : true,
 			},
-			postalCode : {
-				required : true,
-			},
-			state : {
-				required : true,
-			},
-			city : {
-				required : true,
-			},
-			country : {
-				required : true,
-			},
-			emergencyContactMail : {
-				email : true
-			},
-			status : {
-				required : true,
-			},
-			destination : {
-				required : true,
-			},
-			start : {
-				required : true,
-			},
-			end : {
+			hostAnyNationalityStudent : {
 				required : true,
 			}
 		},
 
 		// Messages for form validation
 		messages : {
-			mail : {
-				required : 'Please enter student email',
+			familyName : {
+				required : 'Please enter family name',
 				email : 'Please enter a VALID email address'
 			},
-			celPhone : {
-				required : 'Please enter student cel phone',
-				minlength : 'Fill area code',
-				maxlength : 'Number too long',
+			type : {
+				required : 'Please enter family type',
 			},
-			phone : {
-				required : 'Please enter student phone',
-				minlength : 'Fill area code',
-				maxlength : 'Number too long',
+			contact_phoneNumber : {
+				required : 'Please enter family phone number',
 			},
-			lastName : {
-				required : 'Please enter student last name',
-				minlength : 2
+			contact_mobilePhoneNumber : {
+				required : 'Please enter family mobile phone number',
 			},
-			firstName : {
-				required : 'Please enter student first name',
-				minlength : 2
+			contact_email : {
+				required : 'Please enter contact family email',
+				email : 'Please enter a VALID email address'
 			},
-			birthDay : {
-				required : 'Please enter student birthday'
+			contact_lastName : {
+				required : 'Please enter contact last name',
 			},
-			gender : {
-				required : 'Please enter student gender'
+			contact_firstName : {
+				required : 'Please enter contact firstname',
 			},
-			nationality : {
-				required : 'Please enter student nationality'
+			contact_birthDate : {
+				required : 'Please enter contact birthdate',
+			},
+			contact_gender : {
+				required : 'Please enter contact gender',
+			},
+			address_street : {
+				required : 'Please enter street name',
+			},
+			address_number : {
+				required : 'Please enter address number',
+			},
+			address_city : {
+				required : 'Please enter address city',
+			},
+			address_state : {
+				required : 'Please enter address state',
+			},
+			address_postalCode : {
+				required : 'Please enter address postal code',
+			},
+			address_mainIntersection : {
+				required : 'Please enter address main intersection',
+			},
+			address_nearestSubwayStation : {
+				required : 'Please enter nearest subway station',
+			},
+			address_walkingTimeSubwayStation : {
+				required : 'Please enter walking time to subway station',
+			},
+			address_nearestBusStop : {
+				required : 'Please enter nearest bus stop',
+			},
+			address_walkingTimeBusStation : {
+				required : 'Please enter walking time bus station',
+			},
+			numbersStudentsBedroom : {
+				required : 'Please enter total number of bedroom in your home',
+			},
+			offerPrivateWashroom : {
+				required : 'Please enter if you offer private washroom for the student',
+			},
+			offerInternet : {
+				required : 'Please enter if you offer internet',
+			},
+			havePets : {
+				required : 'Please enter if you have pets',
 			},
 			firstLanguage : {
-				required : 'Please enter student first language'
+				required : 'Please enter your first language',
 			},
-			englishLevel : {
-				required : 'Please enter student english level'
+			acceptSmokeStudent : {
+				required : 'Please enter if you accept smoke student',
 			},
-			streetNumber : {
-				required : 'Please enter address number'
+			acceptSmokeInsideHome : {
+				required : 'Please enter if you accept anyone smoke inside your house ',
 			},
-			streetName : {
-				required : 'Please enter address street name'
+			hostVegetarianStudent : {
+				required : 'Please enter if you host a student vegetarian',
 			},
-			postalCode : {
-				required : 'Please enter address ZIP code'
-			},
-			state : {
-				required : 'Please enter address state'
-			},
-			city : {
-				required : 'Please enter address city'
-			},
-			country : {
-				required : 'Please enter address country'
-			},
-			secondaryTelephone : {
-				minlength : 'Fill area code',
-				maxlength : 'Number too long',
-			},
-			emergencyContactName : {
-				minlength : 'Minimum 2 caracters',
-				maxlength : 'Maximum 42 caracters'
-			},
-			emergencyContactMail : {
-				email : 'Please enter a VALID email address'
-			},
-			status : {
-				required : 'Please enter status'
-			},
-			destination : {
-				required : 'Please enter destination'
-			},
-			start : {
-				required : 'Please enter trip start'
-			},
-			end : {
-				required : 'Please enter trip end'
+			hostAnyNationalityStudent : {
+				required : 'Please enter if you host a student from any nationality',
 			}
 		},
 		// form submition
@@ -201,12 +234,12 @@
 					    	}				    			
 					    });
 					};
-					setValueStudent (field.id, value, 0)
+					setValueFamily (field.id, value, 0)
 			});
-			if (localStorage.studentExistente == "true"){
-				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoEfetuada, atualizacaoNaoEfetuada);
+			if (localStorage.familyExistente == "true"){
+				rest_atualizaFamily(JSON.parse(localStorage.getItem("family")), atualizacaoEfetuada, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), inclusaoEfetuada, inclusaoNaoEfetuada);
+				rest_incluiFamily(JSON.parse(localStorage.getItem("family")), inclusaoEfetuada, inclusaoNaoEfetuada);
 			}
 		},	
 		// Do not change code below
@@ -223,95 +256,12 @@
 	});
 
 	// **** testa existencia do email
-	$("#mail").blur(function(){
-		localStorage.studentExistente = "false";
-		var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
+	$("#familyName").blur(function(){
+		localStorage.familyExistente = "false";
+		var data = rest_obterFamily(this.value, carregaTelaFamily, carregaInclusao);
 	});	
 
-    // **** carrega select
-	var table = JSON.parse(localStorage.getItem("table"));
-
-    $.each(table.documento.firstLanguage
-		    , function (i, optionValue) {
-    			$("#firstLanguage").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.nationality
-		    , function (i, optionValue) {
-    			$("#nationality").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.mainPurposeTrip
-		    , function (i, optionValue) {
-    			$("#mainPurposeTrip").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.englishLevel
-		    , function (i, optionValue) {
-    			$("#englishLevel").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.state
-		    , function (i, optionValue) {
-    			$("#state").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.city
-		    , function (i, optionValue) {
-    			$("#city").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.country
-		    , function (i, optionValue) {
-    			$("#country").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.status
-		    , function (i, optionValue) {
-    			$("#status").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.destination
-		    , function (i, optionValue) {
-    			$("#destination").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.accommodation
-		    , function (i, optionValue) {
-    			$("#accommodation_group").append( $(radio(optionValue, "accommodation", i, 0)));
-		    });
-    $.each(table.documento.occupancy
-		    , function (i, optionValue) {
-    			$("#occupancy").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.relationship
-		    , function (i, optionValue) {
-    			$("#relationship").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.mealPlan
-		    , function (i, optionValue) {
-    			$("#mealPlan").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.specialDiet
-		    , function (i, optionValue) {
-				$("#specialDiet").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.creditCardType
-		    , function (i, optionValue) {
-    			$("#creditCardType").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.apartamentType
-		    , function (i, optionValue) {
-    			$("#apartamentType").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.peopleQuantity
-		    , function (i, optionValue) {
-    			$("#peopleQuantity").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.usuallyStudy
-		    , function (i, optionValue) {
-    			$("#usuallyStudy").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.keepBedroom
-		    , function (i, optionValue) {
-    			$("#keepBedroom").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.iAmUsually
-		    , function (i, optionValue) {
-    			$("#iAmUsually").append( $(option(optionValue)));
-		    });
-	$('#birthDayStudent').datepicker({
+	$('#birthDate').datepicker({
 		dateFormat : 'dd.mm.yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
@@ -319,100 +269,4 @@
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
-	if (!mailUrl){
-		$(".homestay").removeClass("hide");
-	};
 	
-	$('#accommodation').change(function() {
-		if ($(this).val() == "Homestay"){
-			$(".dorms").addClass("hide");
-			$(".suite").addClass("hide");
-			$(".homestay").removeClass("hide");
-		}else{
-			if ($(this).val() == "Dorms"){
-				$(".homestay").addClass("hide");
-				$(".suite").addClass("hide");
-				$(".dorms").removeClass("hide");
-			}else{
-				$(".homestay").addClass("hide");
-				$(".dorms").addClass("hide");
-				$(".suite").removeClass("hide");				
-			}
-		};
-	});
-	$('#occupancy').change(function() {
-		if ($(this).val() == "Twin" || $(this).val() == "Couple"){
-			$(".guest").removeClass("hide");
-		}else{
-			$(".guest").addClass("hide");
-		};
-	})
-	$('#start').datepicker({
-		dateFormat : 'dd.mm.yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		onSelect : function(selectedDate) {
-			$('#end').datepicker('option', 'minDate', selectedDate);
-			}
-		});
-	$('#end').datepicker({
-		dateFormat : 'dd.mm.yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		onSelect : function(selectedDate) {
-//			$('#finishdate').datepicker('option', 'minDate', selectedDate);
-			}
-	});
-	$('#arrivalDate').datepicker({
-		dateFormat : 'dd.mm.yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		onSelect : function(selectedDate) {
-//			$('#finishdate').datepicker('option', 'minDate', selectedDate);
-			}
-	});
-	$('#flightDate').datepicker({
-		dateFormat : 'dd.mm.yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		onSelect : function(selectedDate) {
-//			$('#finishdate').datepicker('option', 'minDate', selectedDate);
-			}
-	});
-
-	$('#peopleQuantity').change(function() {
-		$('.g5').addClass("hide");
-		$('.g' + $(this).val()).removeClass("hide");
-	});
-
-
-	$('#arrivalTime').timepicker();
-	$('#flightTime').timepicker();
-	
-
-    $('#profession2').editable({
-//        url: '/post',
-        type: 'text',
-        pk: 1,
-        name: 'profession',
-        title: 'Profession',
-        placeholder: 'Profession',
-//		value: "teste",
-        validate: function (value) {
-            console.log ("xx");
-        }
-    });
-
-	function option(value) {
-    	return '<option value="' + value +'">' + value +'</option>';
-    };
-
-    function checkbox(value, field) {
-    	return '<label class="checkbox"><input type="checkbox" id="' + field +'" name="' + field +'"><i></i>' + value +'</label>';
-    };    
-    function radio(value, field, i, x) {
-    	if (i == x){
-    		return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '" checked="checked"><i></i>' + value +'</label>';	
-    	}
-    	return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '"><i></i>' + value +'</label>';
-    };        

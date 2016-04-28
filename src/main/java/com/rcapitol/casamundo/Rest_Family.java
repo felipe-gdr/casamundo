@@ -68,7 +68,7 @@ public class Rest_Family {
 		try {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("student");
+			DBCollection collection = db.getCollection("family");
 			Gson gson = new Gson();
 			String jsonDocumento = gson.toJson(student);
 			Map<String,String> mapJson = new HashMap<String,String>();
@@ -103,11 +103,11 @@ public class Rest_Family {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Student doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
-		String mail = doc.documento.mail;
+	public Response AtualizarDocumento(Family doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+		String familyName = doc.documento.familyName;
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("student");
+		DBCollection collection = db.getCollection("family");
 		Gson gson = new Gson();
 		String jsonDocumento = gson.toJson(doc);
 		Map<String,String> mapJson = new HashMap<String,String>();
@@ -116,7 +116,7 @@ public class Rest_Family {
 		JSONObject documento = new JSONObject();
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-		BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
+		BasicDBObject searchQuery = new BasicDBObject("documento.familyName", familyName);
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,
