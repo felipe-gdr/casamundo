@@ -90,31 +90,10 @@
 			numbersStudentsBedroom : {
 				required : true,
 			},
-			offerPrivateWashroom : {
-				required : true,
-			},
 			numberPrivateWashroom : {
 				required : true,
 			},
-			offerInternet : {
-				required : true,
-			},
-			havePets : {
-				required : true,
-			},
 			firstLanguage : {
-				required : true,
-			},
-			acceptSmokeStudent : {
-				required : true,
-			},
-			acceptSmokeInsideHome : {
-				required : true,
-			},
-			hostVegetarianStudent : {
-				required : true,
-			},
-			hostAnyNationalityStudent : {
 				required : true,
 			}
 		},

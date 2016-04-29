@@ -145,7 +145,7 @@ function calculaIdade ( dataNascimento ) {
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
 		});
-		$(window.document.location).attr('href','students.html');
+		parent.history.back();
     };
 
     function atualizacaoNaoEfetuada() {

@@ -1,5 +1,7 @@
 package com.rcapitol.casamundo;
 
+import java.lang.reflect.Array;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 
 public class Family {
@@ -38,7 +40,7 @@ public class Family {
 		public String offerInternet;
 		public String havePets;
 		public String firstLanguage;
-		public String othersLanguage [];
+		public String othersLanguage;
 		public String acceptSmokeStudent;
 		public String preferAgeStudent;
 		public String preferGenderStudent;
@@ -48,7 +50,7 @@ public class Family {
 		public String acceptSmokeInsideHome;
 		public Contact contact;
 		public Address address;
-		public FamilyMenbers familyMenbers[];
+		public FamilyMembers familyMembers[];
 
 		public Documento() {
 
@@ -65,7 +67,7 @@ public class Family {
 						String offerInternet,
 						String havePets,
 						String firstLanguage,
-						String othersLanguage [],
+						String othersLanguage,
 						String acceptSmokeStudent,
 						String preferAgeStudent,
 						String preferGenderStudent,
@@ -75,7 +77,7 @@ public class Family {
 						String acceptSmokeInsideHome,
 						Contact contact,
 						Address address,
-						FamilyMenbers familyMenbers[]
+						FamilyMembers familyMembers[]
 								) {
 						this.familyName = familyName; 
 						this.type = type; 
@@ -96,7 +98,7 @@ public class Family {
 						this.acceptSmokeInsideHome = acceptSmokeInsideHome; 
 						this.contact = contact; 
 						this.address = address; 
-						this.familyMenbers = familyMenbers; 
+						this.familyMembers = familyMembers; 
 		}
 
 
@@ -109,7 +111,7 @@ public class Family {
 			public String firstName;
 			public String lastName;
 			public String gender;
-			public String brthDate;
+			public String birthDate;
 			public String ocuppation;
 			public String employer;
 			public String email;
@@ -126,7 +128,7 @@ public class Family {
 					String firstName,
 					String lastName,
 					String gender,
-					String brthDate,
+					String birthDate,
 					String ocuppation,
 					String employer,
 					String email,
@@ -137,7 +139,7 @@ public class Family {
 				this.firstName = firstName;
 				this.lastName = lastName;
 				this.gender = gender;
-				this.brthDate = brthDate;
+				this.birthDate = birthDate;
 				this.ocuppation = ocuppation;
 				this.employer = employer;
 				this.email = email;
@@ -192,27 +194,30 @@ public class Family {
 
 		}
 
-		public static final class FamilyMenbers {
+		public static final class FamilyMembers {
     		public String name;
     		public String gender;
+    		public String relationship;
     		public String birthDate;
     		public String mobilePhone;
     		public String schoolId;      
 
-    		public FamilyMenbers() {
+    		public FamilyMembers() {
 
 			}
    
             @JsonCreator
-            public FamilyMenbers(
+            public FamilyMembers(
             			String name,
             			String gender,
+            			String relationship,
             			String birthDate,
             			String mobilePhone
             		)
             {
 	    		this.name = name;
 	    		this.gender = gender;
+	    		this.relationship = relationship;
 	    		this.birthDate = birthDate;
 	    		this.mobilePhone = mobilePhone;
             }
