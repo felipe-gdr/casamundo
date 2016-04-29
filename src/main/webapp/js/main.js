@@ -117,7 +117,7 @@ function calculaIdade ( dataNascimento ) {
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
 		});
-		$(window.document.location).attr('href','students.html');
+		parent.history.back();
     };
 	function inclusaoNaoEfetuada() {
 		$.smallBox({
@@ -209,6 +209,10 @@ function calculaIdade ( dataNascimento ) {
         $.each(table.documento.state
     		    , function (i, optionValue) {
         			$(".state").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.city
+    		    , function (i, optionValue) {
+        			$("#city").append( $(option(optionValue)));
     		    });
         $.each(table.documento.city
     		    , function (i, optionValue) {

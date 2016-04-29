@@ -48,7 +48,8 @@
 	function setValueTable (field) {
 		
 		var objJson = JSON.parse(localStorage.getItem("table"));
-		
+	
+		var test = $("#" + field).tagsinput('items');
 		if (objJson.documento[field]){
 	        objJson.documento[field] = $("#" + field).tagsinput('items');
 		};

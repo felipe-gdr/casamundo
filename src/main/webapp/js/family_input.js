@@ -17,7 +17,9 @@
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
-	};	
+	}else{
+		criaLinhaFamilyMember(0);
+	};
 
 
 	limpaStorageFamily ();
@@ -215,6 +217,22 @@
 					};
 					setValueFamily (field.id, value, 0)
 			});
+			var objJson = JSON.parse(localStorage.getItem("family"));
+		    $.each(objJson.documento.familyMembers, function (i, optionValue) {
+		    	objJson.documento.familyMembers.splice(0, 1);
+		    });
+			$( ".familyMemberItem" ).each(function(i, value) {
+				if ($("#familyMemberName_" + i).val()) {
+					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + i).val() 
+															+ '","gender":"' + $("#familyMemberGender_" + i).val() 
+															+ '","relationship":"' + $("#familyMemberRelationship_" + i).val() 
+															+ '","birthDate":"' + $("#familyMemberBirthdate_" + i).val()
+															+ '","mobilePhone":"' + $("#familyMemberMobilePhone_" + i).val()
+															+  '"}'
+															));
+				};
+			});
+			localStorage.setItem("family", JSON.stringify(objJson));
 			if (localStorage.familyExistente == "true"){
 				rest_atualizaFamily(JSON.parse(localStorage.getItem("family")), atualizacaoEfetuada, atualizacaoNaoEfetuada);
 			}else{

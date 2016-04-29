@@ -49,6 +49,7 @@ public class Table {
         public String apartamentType[];               
         public String peopleQuantity[];               
         public String specialDiet[];                  
+        public String type[];                  
 
 		public Documento() {
 
@@ -75,7 +76,8 @@ public class Table {
 				        String[] creditCardType,               
 				        String[] apartamentType,               
 				        String[] peopleQuantity,               
-				        String[] specialDiet                  
+				        String[] specialDiet,
+				        String[] type
 						) {
 				        this.nationality = nationality;                  
 				        this.mainPurposeTrip = mainPurposeTrip;              
@@ -97,6 +99,7 @@ public class Table {
 				        this.apartamentType = apartamentType;
 				        this.peopleQuantity = peopleQuantity;
 				        this.specialDiet = specialDiet;
+				        this.type = type;
 		}
 
 		@Override

@@ -40,7 +40,7 @@ public class Family {
 		public String offerInternet;
 		public String havePets;
 		public String firstLanguage;
-		public String othersLanguage;
+		public String othersLanguage[];
 		public String acceptSmokeStudent;
 		public String preferAgeStudent;
 		public String preferGenderStudent;
@@ -67,7 +67,7 @@ public class Family {
 						String offerInternet,
 						String havePets,
 						String firstLanguage,
-						String othersLanguage,
+						String[] othersLanguage,
 						String acceptSmokeStudent,
 						String preferAgeStudent,
 						String preferGenderStudent,
@@ -200,7 +200,6 @@ public class Family {
     		public String relationship;
     		public String birthDate;
     		public String mobilePhone;
-    		public String schoolId;      
 
     		public FamilyMembers() {
 

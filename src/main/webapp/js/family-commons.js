@@ -84,8 +84,7 @@ function carregaTelaFamily(data, tipo) {
 			$("#havePets").prop("checked", true)
 		}
 		$("#firstLanguage").val(data.documento.firstLanguage);
-		var array = [data.documento.othersLanguage.split(",")];
-		$("#othersLanguage").val(array);
+		$("#othersLanguage").val(data.documento.othersLanguage);
 		$("#acceptSmokeStudent").val(data.documento.acceptSmokeStudent);
 		$("#preferAgeStudent").val(data.documento.preferAgeStudent);
 		$("#preferGenderStudent").val(data.documento.preferGenderStudent);
@@ -120,48 +119,79 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_walkingTimeSubwayStation").val(data.documento.address.walkingTimeSubwayStation);
 	  	$("#address_nearestBusStop").val(data.documento.address.nearestBusStop);
 	  	$("#address_walkingTimeBusStation").val(data.documento.address.walkingTimeBusStation);
+	  	var lines = 0;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
-	    	var familyMemberLine = '<li >' +
-										'<div class="col-xs-11">' +
-											'<fieldset class="familyMemberList">' +					
-												'<section class="col-xs-4">' +
-													'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
-														'<input type="text" id=familyMemberName_' + i + '" name="familyMemberName_' + i + '" value="' + value.name + '" placeholder="">' +
-													'</label>' +
-												'</section>' +
-												'<section class="col-xs-2">' +
-													'<label class="select ">' +
-														'<select id="familyMemberGender_' + i + '" name="familyMemberGender_' + i + '">' +
-															'<option value="" selected="" disabled=""></option>' +
-															'<option value="Male">Male</option>' +
-															'<option value="Female">Female</option>' +
-														'</select><i></i>' +
-													'</label>' +
-												'</section>' +
-												'<section class="col-xs-2">' +
-													'<label class="input"><i class="icon-prepend fa fa-calendar"></i>'  +
-														'<input type="text" id=familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" value="' + value.birthDate + '" class="datepicker" data-dateformat="dd/mm/yy" data-mask="99/99/9999">' +
-													'</label>' +
-												'</section>' +
-											'</fieldset>' +
-										'</div>' +
-									'</li>';
+		    criaLinhaFamilyMember(i);
+		    $('#familyMemberName_' + i).val(value.name);
 	    	$('#familyMemberGender_' + i).val(value.gender);
-	    	$('#familyMemberBirthdate_' + i).datepicker({
-	    		dateFormat : 'dd.mm.yy',
-	    		prevText : '<i class="fa fa-chevron-left"></i>',
-	    		nextText : '<i class="fa fa-chevron-right"></i>',
-	    		onSelect : function(selectedDate) {
-	    			}
-	    		});
 	    	$('#familyMemberBirthdate_' + i).val(value.birthdate);
-	    	$("#familyMembersList").append(familyMemberLine);
+	        $('#familyMemberRelationship_' + i).val(value.relationship);
+	        $('#familyMemberMobilePhone_' + i).val(value.mobilePhone);
+	    	lines = i + 1;
 	    });
+	    criaLinhaFamilyMember(lines);
 	};
 	
     localStorage.setItem("family", JSON.stringify(data));
 };    
+
+function criaLinhaFamilyMember (i) {
+	var familyMemberLine = '<li class="familyMemberItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="familyMemberList">' +					
+					'<section class="col-xs-4">' +
+						'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
+							'<input type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +
+						'<label class="select ">' +
+							'<select id="familyMemberGender_' + i + '" name="familyMemberGender_' + i + '">' +
+								'<option value="" selected="" disabled=""></option>' +
+								'<option value="Male">Male</option>' +
+								'<option value="Female">Female</option>' +
+							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="input"><i class="icon-prepend fa fa-calendar"></i>'  +
+							'<input type="text" id="familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" class="datepicker" data-dateformat="dd/mm/yy" data-mask="99/99/9999">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="select ">' +
+							'<select id="familyMemberRelationship_' + i + '" name="familyMemberRelationship_' + i + '">' +
+								'<option value="" selected="" disabled=""></option>' +
+							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>' +
+							'<input type="text" id="familyMemberMobilePhone_' + i + '" name="familyMemberMobilePhone_' + i + '" placeholder="">' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#familyMembersList").append(familyMemberLine);
+	$('#familyMemberBirthdate_' + i).datepicker({
+		dateFormat : 'dd.mm.yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+		}
+	});
+	var table = JSON.parse(localStorage.getItem("table"));
+	$.each(table.documento.relationship
+		, function (j, optionValue) {
+		$("#familyMemberRelationship_" + i).append( $(option(optionValue)));
+	});	
+	$( "#familyMemberName_" + (i - 1)).unbind();
+	$( "#familyMemberName_" + i).bind( "blur", function() {
+		criaLinhaFamilyMember(i + 1);
+	});
+};
 
 function limpaStorageFamily () {
 	
@@ -221,7 +251,7 @@ function limpaStorageFamily () {
 			'}'
 	);
 
-	localStorage.setItem("student", JSON.stringify(data));
+	localStorage.setItem("family", JSON.stringify(data));
 };		
 function carregaInclusao(data) { 	   	
 	localStorage.familyExistente = "false";
@@ -231,6 +261,11 @@ function setValueFamily (field, value) {
 	
 	var objJson = JSON.parse(localStorage.getItem("family"));
 	
+	/*
+	if (objJson.documento[field]){
+        objJson.documento[field] = value;
+	};
+*/
 	if (field == "familyName"){
         objJson.documento.familyName = value;
 	};
@@ -259,7 +294,8 @@ function setValueFamily (field, value) {
         objJson.documento.firstLanguage = value;
 	};
 	if (field == "othersLanguage"){
-        objJson.documento.othersLanguage = value;
+		var array = value.split(",");
+        objJson.documento.othersLanguage = array;
 	};
 	if (field == "acceptSmokeStudent"){
         objJson.documento.acceptSmokeStudent = value;
@@ -310,7 +346,7 @@ function setValueFamily (field, value) {
         objJson.documento.contact.workPhoneNumber = value;
 	};
   	if (field == "contact_birthDate"){
-        objJson.documento.contact.birthDate = value;
+        objJson.documento.contact.birthDate = limpaData(value);
 	};
   	if (field == "address_street"){
         objJson.documento.address.street = value;

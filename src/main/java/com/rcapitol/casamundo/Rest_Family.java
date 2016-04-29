@@ -63,14 +63,14 @@ public class Rest_Family {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirStudent(Student student)  {
+	public Response IncluirStudent(Family family	)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			DBCollection collection = db.getCollection("family");
 			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(student);
+			String jsonDocumento = gson.toJson(family);
 			Map<String,String> mapJson = new HashMap<String,String>();
 			ObjectMapper mapper = new ObjectMapper();
 			mapJson = mapper.readValue(jsonDocumento, HashMap.class);
