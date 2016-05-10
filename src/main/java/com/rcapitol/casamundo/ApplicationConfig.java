@@ -11,6 +11,11 @@ import java.util.Set;
 public class ApplicationConfig extends Application {
 
     public Set<Class<?>> getClasses() {
-        return new HashSet<Class<?>>(Arrays.asList(Rest_Student.class,Rest_Family.class,Rest_Agency.class,Rest_Table.class));
+        return new HashSet<Class<?>>(Arrays.asList(
+        		Rest_Student.class,
+        		Rest_Family.class,
+        		Rest_Agency.class,
+        		Rest_School.class,
+        		Rest_Table.class));
     }
 }
