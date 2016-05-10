@@ -19,6 +19,8 @@
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
 	}else{
 		criaLinhaFamilyMember(0);
+		criaLinhaRoom(0);
+		$('#number_0').val(0);
 	};
 
 
@@ -228,6 +230,19 @@
 															+ '","relationship":"' + $("#familyMemberRelationship_" + i).val() 
 															+ '","birthDate":"' + $("#familyMemberBirthdate_" + i).val()
 															+ '","mobilePhone":"' + $("#familyMemberMobilePhone_" + i).val()
+															+  '"}'
+															));
+				};
+			});
+		    $.each(objJson.documento.rooms, function (i, optionValue) {
+		    	objJson.documento.rooms.splice(0, 1);
+		    });
+			$( ".roomItem" ).each(function(i, value) {
+				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0") {
+					objJson.documento.rooms.push(JSON.parse('{"number":"' + $("#number_" + i).val() 
+															+ '","singleBed":"' + $("#singleBed_" + i).val() 
+															+ '","coupleBed":"' + $("#coupleBed_" + i).val() 
+															+ '","privateWashroom":"' + $("#privateWashroom_" + i).val()
 															+  '"}'
 															));
 				};

@@ -63,6 +63,19 @@ function carregaTelaFamily(data, tipo) {
 									'</li>'
 	    	$("#familyMembersList").append(familyMemberLine);
 	    });
+	    $.each(data.documento.rooms
+			    , function (i, value) {
+	    	var roomLine = '<li>' +
+										'<p class="text-muted">' +
+											'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
+												'<span class="txt-color-darken"><small class="text-danger" id="number' + i + '" data-original-title="Number - ">' + value.number + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="singleBed' + i + '" data-original-title="Number Single Bed"> - Number Single Bed : ' + value.singleBed + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="coupleBed' + i + '" data-original-title="Number Couple Bed"> - Number Couple Bed : ' + value.coupleBed + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="privateWashroom' + i + '" data-original-title="Have Private Washroom"> - Have Private Washroom : ' + value.privateWashroom + '</small></span>' +
+										'</p>' +
+									'</li>'
+	    	$("#roomsList").append(roomLine);
+	    });
 	};	
 
 	if (tipo == "alteracao"){
@@ -125,12 +138,24 @@ function carregaTelaFamily(data, tipo) {
 		    criaLinhaFamilyMember(i);
 		    $('#familyMemberName_' + i).val(value.name);
 	    	$('#familyMemberGender_' + i).val(value.gender);
-	    	$('#familyMemberBirthdate_' + i).val(value.birthdate);
+	   	$('#familyMemberBirthdate_' + i).val(value.birthdate);
 	        $('#familyMemberRelationship_' + i).val(value.relationship);
 	        $('#familyMemberMobilePhone_' + i).val(value.mobilePhone);
 	    	lines = i + 1;
 	    });
 	    criaLinhaFamilyMember(lines);
+	  	var linesRoom = 0;
+	    $.each(data.documento.rooms
+			    , function (i, value) {
+		    criaLinhaRoom(i);
+		    $('#number_' + i).val(value.number);
+	    	$('#singleBed_' + i).val(value.singleBed);
+	    	$('#coupleBed_' + i).val(value.coupleBed);
+	        $('#privateWashroom_' + i).val(value.privateWashRoom);
+	    	linesRoom = i + 1;
+	    });
+	    criaLinhaRoom(linesRoom);
+	    $('#number_' + linesRoom).val(linesRoom);
 	};
 	
     localStorage.setItem("family", JSON.stringify(data));
@@ -139,7 +164,7 @@ function carregaTelaFamily(data, tipo) {
 function criaLinhaFamilyMember (i) {
 	var familyMemberLine = '<li class="familyMemberItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="familyMemberList">' +					
+				'<fieldset class="memberList">' +					
 					'<section class="col-xs-4">' +
 						'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
 							'<input type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
@@ -193,6 +218,57 @@ function criaLinhaFamilyMember (i) {
 	});
 };
 
+function criaLinhaRoom (i) {
+	var roomLine = '<li class="roomItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="memberList">' +					
+					'<section class="col-xs-2">' +	
+					'</section>' +
+					'<section class="col-xs-1">' +
+						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
+							'<input type="text" id="number_' + i + '" name="number_' + i + '" placeholder="" disabled="disabled">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="select ">' +
+							'<select id="singleBed_' + i + '" name="singleBed_' + i + '">' +
+								'<option value="0" selected="0">0</option>' +
+								'<option value="1">1</option>' +
+								'<option value="2">2</option>' +
+								'<option value="3">3</option>' +
+								'<option value="4">4</option>' +
+							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="select ">' +
+							'<select id="coupleBed_' + i + '" name="coupleBed_' + i + '">' +
+								'<option value="0" selected="0">0</option>' +
+								'<option value="1">1</option>' +
+								'<option value="2">2</option>' +
+								'<option value="3">3</option>' +
+								'<option value="4">4</option>' +
+							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="select ">' +
+							'<select id="privateWashroom_' + i + '" name="privateWashroom_' + i + '">' +
+								'<option value="Yes">Yes</option>' +
+								'<option value="No" selected="No">No</option>' +
+							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#roomList").append(roomLine);
+	$( "#singleBed_" + (i - 1)).unbind();
+	$( "#singleBed_" + i).bind( "blur", function() {
+		criaLinhaRoom(i + 1);
+		$('#number_' + (i + 1)).val((i + 1));
+	});
+};
 function limpaStorageFamily () {
 	
 	var data  = JSON.parse(
@@ -246,6 +322,12 @@ function limpaStorageFamily () {
 				        '"relatioship" : "",' +
 				        '"birthDate" : "",' +
 				        '"mobilePhone" : ""' +
+				      '}],' +
+				    '"rooms" : [{' +
+				        '"number" : "0",' +
+				        '"singleBed" : "0",' +
+				        '"coupleBed" : "0",' +
+				        '"privateWashroom" : "no"' +
 				      '}]' +
 				  '}' +
 			'}'

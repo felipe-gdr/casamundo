@@ -51,6 +51,7 @@ public class Family {
 		public Contact contact;
 		public Address address;
 		public FamilyMembers familyMembers[];
+		public Rooms rooms[];
 
 		public Documento() {
 
@@ -77,7 +78,8 @@ public class Family {
 						String acceptSmokeInsideHome,
 						Contact contact,
 						Address address,
-						FamilyMembers familyMembers[]
+						FamilyMembers familyMembers[],
+						Rooms rooms[]
 								) {
 						this.familyName = familyName; 
 						this.type = type; 
@@ -98,7 +100,8 @@ public class Family {
 						this.acceptSmokeInsideHome = acceptSmokeInsideHome; 
 						this.contact = contact; 
 						this.address = address; 
-						this.familyMembers = familyMembers; 
+						this.familyMembers = familyMembers;
+						this.rooms = rooms;
 		}
 
 
@@ -219,6 +222,32 @@ public class Family {
 	    		this.relationship = relationship;
 	    		this.birthDate = birthDate;
 	    		this.mobilePhone = mobilePhone;
+            }
+
+		}
+
+		public static final class Rooms {
+    		public String number;
+    		public String singleBed;
+    		public String coupleBed;
+    		public String privateWashroom;
+
+    		public Rooms() {
+
+			}
+   
+            @JsonCreator
+            public Rooms(
+            			String number,
+            			String singleBed,
+            			String coupleBed,
+            			String privateWashroom
+            		)
+            {
+	    		this.number = number;
+	    		this.singleBed = singleBed;
+	    		this.coupleBed = coupleBed;
+	    		this.privateWashroom = privateWashroom;
             }
 
 		}
