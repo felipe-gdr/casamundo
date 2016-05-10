@@ -31,7 +31,7 @@ public class Agency {
 
 		public String name;
 		public String nameConsult;
-		public String celPhone;
+		public String cellPhone;
 		public String phone;
 		public String email;
 
@@ -43,13 +43,13 @@ public class Agency {
 		public Documento(
 				String name,
 				String nameConsult,
-				String celPhone,
+				String cellPhone,
 				String phone,
 				String email
 						) {
 						this.name = name;  
 						this.nameConsult = nameConsult; 
-						this.celPhone = celPhone; 
+						this.cellPhone = cellPhone; 
 						this.phone = phone; 
 						this.email = email; 
 		}
@@ -72,17 +72,17 @@ public class Agency {
 		public String getEmail() {
 			return this.email;
 		}
-		public void setCelPhone(String celPhone) {
-			this.celPhone = celPhone;
+		public void setCellPhone(String cellPhone) {
+			this.cellPhone = cellPhone;
 		}
-		public String getCelPhone() {
-			return this.celPhone;
+		public String getCellPhone() {
+			return this.cellPhone;
 		}
 		public void setPhone(String phone) {
 			this.phone = phone;
 		}
 		public String getPhone() {
-			return this.celPhone;
+			return this.cellPhone;
 		}
 
 		@Override

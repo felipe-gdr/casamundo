@@ -48,7 +48,7 @@ public class Rest_Family {
 	@Path("/obterFamilyName")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterEmail(@QueryParam("familyName") String familyName) throws UnknownHostException, MongoException {
+	public JSONObject ObterName(@QueryParam("familyName") String familyName) throws UnknownHostException, MongoException {
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection("family");
@@ -63,7 +63,7 @@ public class Rest_Family {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirStudent(Family family	)  {
+	public Response IncluirFamily(Family family	)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -130,7 +130,7 @@ public class Rest_Family {
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterStudentss(@QueryParam("destination") String destination) {
+	public JSONArray ObterFamilies(@QueryParam("destination") String destination) {
 
 		Mongo mongo;
 		try {

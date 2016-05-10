@@ -2,21 +2,61 @@
 	/**
 	 * 		setup dos input do form
 	 */
-	var $tablesForm = $("#tables-form").validate({
+	var $tablesForm = $("#agencyModal-form").validate({
 		// Rules for form validation
 		rules : {
+			name : {
+				required : true,
+			},
+			nameConsult : {
+				required : true,
+			},
+			cellPhone : {
+				required : true,
+			},
+			phone : {
+				required : true,
+			},
+			email : {
+				required : true,
+				email : true
+			},
 		},
 
 		// Messages for form validation
 		messages : {
+			name : {
+				required : 'Please enter agency name',
+			},
+			nameConsult : {
+				required : 'Please enter agency consult name',
+			},
+			cellPhone : {
+				required : 'Please enter agency cell phone',
+			},
+			phone : {
+				required : 'Please enter agency phone',
+			},
+			email : {
+				required : 'Please enter agency email',
+				email : 'Please enter a VALID email address'
+			},
 		},
 		// form submition
 		submitHandler : function(form) {
+			var objJson = JSON.parse(localStorage.getItem("agency"));
 			$.each(form
 			    , function (i, field) {
-					setValueTable (field.id)
+				if (field.value){
+			        objJson.documento[field.name] = field.value;
+				};
 			});
-			rest_atualizaTable(JSON.parse(localStorage.getItem("table")), semAcao, semAcao);
+			localStorage.setItem("agency", JSON.stringify(objJson));
+			if (localStorage.agencyExistente == "true"){
+				rest_atualizaAgency(JSON.parse(localStorage.getItem("agency")), fechaModalAgency, semAcao);
+			}else{
+				rest_incluiAgency(JSON.parse(localStorage.getItem("agency")), fechaModalAgency, semAcao);
+			};
 		},	
 		// Do not change code below
 		errorPlacement : function(error, element) {
@@ -31,11 +71,34 @@
 		}
 	});
 
+	$('#agencyInclusao').bind('click', function () {
+    	localStorage.agencyExistente = "false";
+    });
+
+	//
+	//  **** tratar os itens das tabelas
+	//
 	$('.item-table').on('itemRemoved', function(event) {
 		setValueTable (event.currentTarget.id)
 	})
 		
-	function putValueTable (field) {
+    // custom toolbar
+    $("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
+    function fechaModalAgency (field) {
+    	$("#agencyModal").modal('hide');
+    	$('#agencyName').attr("disabled", false);
+    	
+    	$("#agencyName").val("");
+    	$("#agencyNameConsult").val("");
+    	$("#agencyCellPhone").val("");
+    	$("#agencyPhone").val("");
+    	$("#agencyEmail").val("");
+    	
+    	rest_obterAgencyAll(carregaAgencies);
+    };
+    
+    function putValueTable (field) {
 		
 		var objJson = JSON.parse(localStorage.getItem("table"));
 

@@ -8,16 +8,20 @@
 		var mailUrl = parametrosDaUrl.split("=")[1];
 	};
 
-	if (mailUrl){
-		localStorage.studentExistente = "true";
-		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
-	};	
-
 	/**
 	 * 		carrega tabelas
 	 */
 
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
+
+	/**
+	 * 		carrega tela se alteração
+	 */
+	if (mailUrl){
+		localStorage.studentExistente = "true";
+		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
+	};	
+
 
 	limpaStorageStudent ();
 
@@ -228,89 +232,6 @@
 		var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
 	});	
 
-    // **** carrega select
-	var table = JSON.parse(localStorage.getItem("table"));
-
-    $.each(table.documento.firstLanguage
-		    , function (i, optionValue) {
-    			$("#firstLanguage").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.nationality
-		    , function (i, optionValue) {
-    			$("#nationality").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.mainPurposeTrip
-		    , function (i, optionValue) {
-    			$("#mainPurposeTrip").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.englishLevel
-		    , function (i, optionValue) {
-    			$("#englishLevel").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.state
-		    , function (i, optionValue) {
-    			$("#state").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.city
-		    , function (i, optionValue) {
-    			$("#city").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.country
-		    , function (i, optionValue) {
-    			$("#country").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.status
-		    , function (i, optionValue) {
-    			$("#status").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.destination
-		    , function (i, optionValue) {
-    			$("#destination").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.accommodation
-		    , function (i, optionValue) {
-    			$("#accommodation_group").append( $(radio(optionValue, "accommodation", i, 0)));
-		    });
-    $.each(table.documento.occupancy
-		    , function (i, optionValue) {
-    			$("#occupancy").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.relationship
-		    , function (i, optionValue) {
-    			$("#relationship").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.mealPlan
-		    , function (i, optionValue) {
-    			$("#mealPlan").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.specialDiet
-		    , function (i, optionValue) {
-				$("#specialDiet").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.creditCardType
-		    , function (i, optionValue) {
-    			$("#creditCardType").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.apartamentType
-		    , function (i, optionValue) {
-    			$("#apartamentType").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.peopleQuantity
-		    , function (i, optionValue) {
-    			$("#peopleQuantity").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.usuallyStudy
-		    , function (i, optionValue) {
-    			$("#usuallyStudy").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.keepBedroom
-		    , function (i, optionValue) {
-    			$("#keepBedroom").append( $(option(optionValue)));
-		    });
-    $.each(table.documento.iAmUsually
-		    , function (i, optionValue) {
-    			$("#iAmUsually").append( $(option(optionValue)));
-		    });
 	$('#birthDayStudent').datepicker({
 		dateFormat : 'dd.mm.yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
@@ -402,17 +323,3 @@
             console.log ("xx");
         }
     });
-
-	function option(value) {
-    	return '<option value="' + value +'">' + value +'</option>';
-    };
-
-    function checkbox(value, field) {
-    	return '<label class="checkbox"><input type="checkbox" id="' + field +'" name="' + field +'"><i></i>' + value +'</label>';
-    };    
-    function radio(value, field, i, x) {
-    	if (i == x){
-    		return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '" checked="checked"><i></i>' + value +'</label>';	
-    	}
-    	return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '"><i></i>' + value +'</label>';
-    };        

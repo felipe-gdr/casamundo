@@ -5,8 +5,14 @@ com\rcapitol\casamundo\School$Documento.class
 com\rcapitol\casamundo\Agency.class
 com\rcapitol\casamundo\Rest_Student.class
 com\rcapitol\casamundo\Table$Documento.class
+com\rcapitol\casamundo\Family.class
 com\rcapitol\casamundo\School.class
+com\rcapitol\casamundo\Rest_Family.class
 com\rcapitol\casamundo\Rest_Table.class
+com\rcapitol\casamundo\Family$Documento$FamilyMembers.class
 com\rcapitol\casamundo\Student$Documento.class
+com\rcapitol\casamundo\Family$Documento$Address.class
+com\rcapitol\casamundo\Family$Documento$Contact.class
 com\rcapitol\casamundo\Student$Documento$Trips.class
 com\rcapitol\casamundo\ApplicationConfig.class
+com\rcapitol\casamundo\Family$Documento.class

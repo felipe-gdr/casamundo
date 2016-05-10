@@ -239,6 +239,7 @@
 				rest_incluiFamily(JSON.parse(localStorage.getItem("family")), inclusaoEfetuada, inclusaoNaoEfetuada);
 			}
 		},	
+
 		// Do not change code below
 		errorPlacement : function(error, element) {
 			error.insertAfter(element.parent());

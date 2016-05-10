@@ -280,8 +280,8 @@ public class Student {
     		public String occupancy;      
     		public String guestName;      
     		public String relationship;   
-    		public String mealPlan;       
-    		public String specialDiet;    
+    		public String mealPlan[];       
+    		public String specialDiet[];    
     		public String privateWashroom;
     		public String smoke;          
     		public String liveDogs;       
@@ -290,9 +290,9 @@ public class Student {
     		public String comments;       
     		public String medical;        
     		public String agreeTerm;      
-    		public String usuallyStudy;   
-    		public String keepBedroom;    
-    		public String iAmUsually;     
+    		public String usuallyStudy[];   
+    		public String keepBedroom[];    
+    		public String iAmUsually[];     
     		public String creditCardType; 
     		public String creditCardNumber;
     		public String creditCardExpire;
@@ -337,8 +337,8 @@ public class Student {
         	    		String occupancy,      
         	    		String guestName,      
         	    		String relationship,   
-        	    		String mealPlan,       
-        	    		String specialDiet,    
+        	    		String [] mealPlan,       
+        	    		String [] specialDiet,    
         	    		String privateWashroom,
         	    		String smoke,          
         	    		String liveDogs,       
@@ -347,9 +347,9 @@ public class Student {
         	    		String comments,       
         	    		String medical,        
         	    		String agreeTerm,      
-        	    		String usuallyStudy,   
-        	    		String keepBedroom,    
-        	    		String iAmUsually,     
+        	    		String [] usuallyStudy,   
+        	    		String [] keepBedroom,    
+        	    		String [] iAmUsually,     
         	    		String creditCardType, 
         	    		String creditCardNumber,
         	    		String creditCardExpire,
