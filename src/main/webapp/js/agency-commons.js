@@ -45,6 +45,10 @@
 		// form submition
 		submitHandler : function(form) {
 			var objJson = JSON.parse(localStorage.getItem("agency"));
+			if (!objJson){
+				limpaStorageAgency();
+				var objJson = JSON.parse(localStorage.getItem("agency"));
+			};
 			$.each(form
 			    , function (i, field) {
 				if (field.value){
@@ -107,7 +111,7 @@ function limpaStorageAgency () {
 				    '"nameConsult" : "",' +
 				    '"cellPhone" : "",' +
 				    '"phone" : "",' +
-				    '"email" : "",' +
+				    '"email" : ""' +
 				  '}' +
 			'}'
 	);

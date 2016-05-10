@@ -45,6 +45,10 @@
 		// form submition
 		submitHandler : function(form) {
 			var objJson = JSON.parse(localStorage.getItem("school"));
+			if (!objJson){
+				limpaStorageSchool();
+				var objJson = JSON.parse(localStorage.getItem("school"));
+			};
 			$.each(form
 			    , function (i, field) {
 				if (field.value){
@@ -106,7 +110,7 @@ function limpaStorageSchool () {
 				    '"nameContact" : "",' +
 				    '"cellPhone" : "",' +
 				    '"phone" : "",' +
-				    '"email" : "",' +
+				    '"email" : ""' +
 				  '}' +
 			'}'
 	);
