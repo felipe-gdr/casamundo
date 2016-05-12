@@ -176,23 +176,23 @@ public class Rest_Student {
 				    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 				    jsonDocumento.put("actualTrip", jsonObject.get("actualTrip"));
 				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
-				    String agencyId = null;
-				    String schoolId = null;
+				    String agencyName = null;
+				    String schoolName = null;
 				    if (tripIndex != null){
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
-						agencyId = (String) jsonTrip.get("agencyId");
-						schoolId = (String) jsonTrip.get("schoolId");
+						agencyName = (String) jsonTrip.get("agencyName");
+						schoolName = (String) jsonTrip.get("schoolName");
 				    };
-					if (agencyId != null){
+					if (agencyName != null){
 /*						Mongo mongoAgency;
 						mongoAgency = new Mongo();
 						DB dbAgency = (DB) mongoAgency.getDB("documento");
-						ObjectId _agencyId = new ObjectId(agencyId);
+						ObjectId _agencyName = new ObjectId(agencyName);
 				    	// obter agency
 	        			DBCollection docCollection = dbAgency.getCollection("student");
-	        			BasicDBObject searchQuery = new BasicDBObject("_id",_agencyId);
+	        			BasicDBObject searchQuery = new BasicDBObject("_id",_agencyName);
 	        			DBObject docCursorAgency = docCollection.findOne(searchQuery);
 	        			BasicDBObject docAgency = (BasicDBObject) docCursorAgency.get("documento");
 */	        			JSONObject docAgency = new JSONObject();
@@ -212,14 +212,14 @@ public class Rest_Student {
 						docAgency.put("email", "");						
 						jsonDocumento.put("agency", docAgency);
 					};
-					if (schoolId != null){
+					if (schoolName != null){
 /*						Mongo mongoSchool;
 						mongoSchool = new Mongo();
 						DB dbSchool = (DB) mongoSchool.getDB("documento");
-						ObjectId _schoolId = new ObjectId(schoolId);
+						ObjectId _schoolName = new ObjectId(schoolName);
 				    	// obter school
 	        			DBCollection docCollection = dbSchool.getCollection("student");
-	        			BasicDBObject searchQuery = new BasicDBObject("_id",_schoolId);
+	        			BasicDBObject searchQuery = new BasicDBObject("_id",_schoolName);
 	        			DBObject docCursorSchool = docCollection.findOne(searchQuery);
 	        			BasicDBObject docSchool = (BasicDBObject) docCursorSchool.get("documento");
 */	        			JSONObject docSchool = new JSONObject();

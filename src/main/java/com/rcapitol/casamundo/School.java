@@ -30,10 +30,13 @@ public class School {
 	public static final class Documento {
 
 		public String name;
+		public String schoolPhone;
+		public String schoolEmail;
 		public String nameContact;
-		public String cellPhone;
+		public String celPhone;
 		public String phone;
 		public String email;
+		public String address;
 
 		public Documento() {
 
@@ -42,16 +45,22 @@ public class School {
 		@JsonCreator
 		public Documento(
 				String name,
+				String schoolPhone,
+				String schoolEmail,
 				String nameContact,
-				String cellPhone,
+				String celPhone,
 				String phone,
-				String email
+				String email,
+				String address
 						) {
 						this.name = name;  
+						this.schoolPhone = schoolPhone; 
+						this.schoolEmail = schoolEmail; 
 						this.nameContact = nameContact; 
-						this.cellPhone = cellPhone; 
+						this.celPhone = celPhone; 
 						this.phone = phone; 
 						this.email = email; 
+						this.address = address; 
 		}
 
 		public void setName(String name) {
@@ -72,17 +81,17 @@ public class School {
 		public String getEmail() {
 			return this.email;
 		}
-		public void setCellPhone(String cellPhone) {
-			this.cellPhone = cellPhone;
+		public void setCelPhone(String celPhone) {
+			this.celPhone = celPhone;
 		}
-		public String getCellPhone() {
-			return this.cellPhone;
+		public String getCelPhone() {
+			return this.celPhone;
 		}
 		public void setPhone(String phone) {
 			this.phone = phone;
 		}
 		public String getPhone() {
-			return this.cellPhone;
+			return this.celPhone;
 		}
 
 		@Override

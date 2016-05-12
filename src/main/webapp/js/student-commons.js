@@ -99,6 +99,7 @@ function carregaTela(data) {
 	$("#apartamentType").val(data.documento.trips[actualTrip].apartamentType);
 	$("#petQuantity").val(data.documento.trips[actualTrip].petQuantity);
 	$("#petType").val(data.documento.trips[actualTrip].petType);
+
 	if (data.documento.trips[actualTrip].parking == "Yes"){
 		$("#parking").prop("checked", true)
 	}
@@ -116,11 +117,66 @@ function carregaTela(data) {
 	}
 	if (data.documento.trips[actualTrip].agrreeSuite == "Yes"){
 		$("#agrreeSuite").prop("checked", true)
-	}
+	};
+    
+	if (data.documento.trips[actualTrip].agencyName){
+		$(".agency").addClass("hide");
+		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao)
+	};
 	
+	if (data.documento.trips[actualTrip].schoolName){
+		$(".school").addClass("hide");
+		rest_obterSchool (data.documento.trips[actualTrip].schoolName, carregaDadosSchool, semAcao)
+	};
+
 	localStorage.setItem("student", JSON.stringify(data));
 	localStorage.studentExistente = "true";
 };    
+
+function carregaDadosAgency(data, consult) {
+	if (consult){
+		$("#agencyName").html(data.documento.name);	
+	}else{
+		$("#agencyName").val(data.documento.name);
+	};
+	$("#agencyPhone").html(data.documento.agencyPhone);
+	$("#agencyEmail").html(data.documento.agencyEmail);
+	$("#agencyNameConsult").html(data.documento.nameConsult);
+	$("#agencyConsultMobile").html(data.documento.celPhone);
+	$("#agencyConsultPhone").html(data.documento.phone);
+	$("#agencyConsultEmail").html(data.documento.email);
+	$(".agency").removeClass("hide");
+};
+
+function carregaDadosSchool(data, consult) {
+	if (consult){
+		$("#schoolName").html(data.documento.name);	
+	}else{
+		$("#schoolName").val(data.documento.name);
+	};
+	$("#schoolPhone").html(data.documento.schoolPhone);
+	$("#schoolEmail").html(data.documento.schoolEmail);
+	$("#schoolNameContact").html(data.documento.nameContact);
+	$("#schoolContactMobile").html(data.documento.celPhone);
+	$("#schoolContactPhone").html(data.documento.phone);
+	$("#schoolContactEmail").html(data.documento.email);
+	$(".school").removeClass("hide");
+};
+
+function carregaSelectAgencies(data) {
+    $.each(data
+		    , function (i, optionValue) {
+    			$("#agencyName").append( $(option(optionValue.name)));
+    });
+};
+
+function carregaSelectSchool(data) {
+    $.each(data
+		    , function (i, optionValue) {
+    			$("#schoolName").append( $(option(optionValue.name)));
+    });
+};
+
 /**
  * 
  */
@@ -722,7 +778,9 @@ function limpaStorageStudent () {
 					    		'"guest_04":"",' +
 					    		'"guest_05":"",' +
 					    		'"agreeDebitSuite":"",' +
-					    		'"agreeSuite":""' +
+					    		'"agreeSuite":"",' +
+					    		'"agencyName":"",' +
+					    		'"schoolName":""' +
 					    	'}' +
 					    ']' +
 				'}' +

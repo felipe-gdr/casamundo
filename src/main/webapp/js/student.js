@@ -123,3 +123,15 @@
     $('#agreeDebitSuite').html(getValueStudent("agreeDebitSuite",actualTrip));
     $('#agreeSuite').html(getValueStudent("agreeSuite",actualTrip));
     
+	carregaSelectAgency();
+	carregaSelectAgency();
+    
+	if (data.documento.trips[actualTrip].agencyName){
+		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao)
+	};
+	
+	if (data.documento.trips[actualTrip].schoolName){
+		rest_obterSchool (data.documento.trips[actualTrip].schoolName, carregaDadosSchool, semAcao)
+	};
+	
+	

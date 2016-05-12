@@ -11,13 +11,17 @@
 			nameContact : {
 				required : true,
 			},
-			cellPhone : {
+			celPhone : {
 				required : true,
 			},
 			phone : {
 				required : true,
 			},
 			email : {
+				required : true,
+				email : true
+			},
+			schoolEmail : {
 				required : true,
 				email : true
 			},
@@ -31,13 +35,17 @@
 			nameContact : {
 				required : 'Please enter school contact name',
 			},
-			cellPhone : {
-				required : 'Please enter school cell phone',
+			celPhone : {
+				required : 'Please enter contact cel phone',
 			},
 			phone : {
-				required : 'Please enter school phone',
+				required : 'Please enter contact phone',
 			},
 			email : {
+				required : 'Please enter contact email',
+				email : 'Please enter a VALID email address'
+			},
+			SchoolEmail : {
 				required : 'Please enter school email',
 				email : 'Please enter a VALID email address'
 			},
@@ -83,8 +91,10 @@
     	$('#schoolName').attr("disabled", false);
     	
     	$("#schoolName").val("");
+    	$("#schoolSchoolPhone").val("");
+    	$("#schoolSchoolEmail").val("");
     	$("#schoolNameContact").val("");
-    	$("#schoolCellPhone").val("");
+    	$("#schoolCelPhone").val("");
     	$("#schoolPhone").val("");
     	$("#schoolEmail").val("");
     	
@@ -107,8 +117,10 @@ function limpaStorageSchool () {
 				'"documento" : ' + 
 				  '{' +
 				    '"name" : "",' +
+				    '"schoolPhone" : "",' +
+				    '"schoolEmail" : "",' +
 				    '"nameContact" : "",' +
-				    '"cellPhone" : "",' +
+				    '"celPhone" : "",' +
 				    '"phone" : "",' +
 				    '"email" : ""' +
 				  '}' +

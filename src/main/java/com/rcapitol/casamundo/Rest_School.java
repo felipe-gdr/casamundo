@@ -63,7 +63,7 @@ public class Rest_School {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirSchool(School school	)  {
+	public Resp/onse IncluirSchool(School school	)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -152,10 +152,13 @@ public class Rest_School {
 					JSONObject jsonDocumento = new JSONObject();
 					jsonDocumento.put("_id", objStudent.getString("_id"));
 					jsonDocumento.put("name", jsonObject.get("name"));
+					jsonDocumento.put("schoolPhone", jsonObject.get("schoolPhone"));
+					jsonDocumento.put("schoolEmail", jsonObject.get("schoolEmail"));
 					jsonDocumento.put("nameContact", jsonObject.get("nameContact"));
-					jsonDocumento.put("cellPhone", jsonObject.get("cellPhone"));
+					jsonDocumento.put("celPhone", jsonObject.get("celPhone"));
 					jsonDocumento.put("phone", jsonObject.get("phone"));
 					jsonDocumento.put("email", jsonObject.get("email"));
+					jsonDocumento.put("address", jsonObject.get("address"));
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {

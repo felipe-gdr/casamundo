@@ -14,6 +14,12 @@
 
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
+    
+	rest_obterAgencyAll(carregaSelectAgencies);
+	
+	
+	rest_obterSchoolAll(carregaSelectSchool);
+	
 	/**
 	 * 		carrega tela se alteração
 	 */
@@ -23,7 +29,7 @@
 	};	
 
 
-	limpaStorageStudent ();
+//	limpaStorageStudent ();
 
 /**
 *          valida formulário   
@@ -323,3 +329,13 @@
             console.log ("xx");
         }
     });
+	$('#agencyName').change(function() {
+		$(".agency").addClass("hide");
+		rest_obterAgency ($(this).val(), carregaDadosAgency, semAcao);
+	});
+
+	$('#schoolName').change(function() {
+		$(".school").addClass("hide");
+		rest_obterSchool ($(this).val(), carregaDadosSchool, semAcao);
+	});
+    

@@ -11,7 +11,7 @@
 			nameConsult : {
 				required : true,
 			},
-			cellPhone : {
+			celPhone : {
 				required : true,
 			},
 			phone : {
@@ -31,7 +31,7 @@
 			nameConsult : {
 				required : 'Please enter agency consult name',
 			},
-			cellPhone : {
+			celPhone : {
 				required : 'Please enter agency cell phone',
 			},
 			phone : {
@@ -85,7 +85,7 @@
     	
     	$("#agencyName").val("");
     	$("#agencyNameConsult").val("");
-    	$("#agencyCellPhone").val("");
+    	$("#agencyCelPhone").val("");
     	$("#agencyPhone").val("");
     	$("#agencyEmail").val("");
     	
@@ -93,9 +93,10 @@
     };
 
     function carregaLocalStorageAgency (data, tipo) {
-    localStorage.setItem("agency", JSON.stringify(data));
-    localStorage.agencyExistente = "true";
-};
+    	localStorage.setItem("agency", JSON.stringify(data));
+    	localStorage.agencyExistente = "true";
+    	
+    };
 
 function carregaInclusaoAgency(data) { 	   	
 	localStorage.agencyExistente = "false";
@@ -108,8 +109,10 @@ function limpaStorageAgency () {
 				'"documento" : ' + 
 				  '{' +
 				    '"name" : "",' +
+				    '"agencyPhone" : "",' +
+				    '"agencyEmail" : "",' +
 				    '"nameConsult" : "",' +
-				    '"cellPhone" : "",' +
+				    '"celPhone" : "",' +
 				    '"phone" : "",' +
 				    '"email" : ""' +
 				  '}' +

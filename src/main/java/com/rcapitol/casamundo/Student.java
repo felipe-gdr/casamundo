@@ -311,8 +311,8 @@ public class Student {
     		public String guest_05;        
     		public String agreeDebitSuite; 
     		public String agreeSuite;      
-    		public String agencyId; 
-    		public String schoolId;      
+    		public String agencyName; 
+    		public String schoolName;      
 
     		public Trips() {
 
@@ -368,8 +368,8 @@ public class Student {
         	    		String guest_05,        
         	    		String agreeDebitSuite, 
         	    		String agreeSuite,
-        	    		String agencyId,
-        	    		String schoolId
+        	    		String agencyName,
+        	    		String schoolName
             		)
             {
 	    		this.status = status;           
@@ -420,8 +420,8 @@ public class Student {
 	    		this.guest_05 = guest_05;         
 	    		this.agreeDebitSuite = agreeDebitSuite;  
 	    		this.agreeSuite = agreeSuite;
-	    		this.agencyId = agencyId;  
-	    		this.schoolId = schoolId;
+	    		this.agencyName = agencyName;  
+	    		this.schoolName = schoolName;
             }
 
 		}

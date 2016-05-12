@@ -55,8 +55,10 @@
 			},		
 			"columns": [
 			            { "data": "name" },
+			            { "data": "schoolPhone" },
+			            { "data": "schoolEmail" },
 			            { "data": "nameContact" },
-			            { "data": "cellPhone" },
+			            { "data": "celPhone" },
 			            { "data": "phone" },
 			            { "data": "email" },
 			            { "data": "actions" },
@@ -105,8 +107,10 @@
         $.each(objJson, function (i, school) {
         	school_table.row.add( {
     	    	'name': '<a id="school' + i + '"  data-toggle="modal" data-target="#schoolModal">' + school.name + '</a>',
+                'schoolPhone':'<small class="text-muted">' + school.schoolPhone + '</small>',
+                'schoolEmail':'<small class="text-muted">' + school.schoolEmail + '</small>',
                 'nameContact':'<small class="text-muted">' + school.nameContact + '</small>',
-                'cellPhone':'<small class="text-muted">' + school.cellPhone + '</small>',
+                'celPhone':'<small class="text-muted">' + school.celPhone + '</small>',
                 'phone':'<small class="text-muted">' + school.phone + '</small>',
                 'email':'<small class="text-muted">' + school.email + '</small>',
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
@@ -117,8 +121,10 @@
             $('#school' + i).bind('click', function () {
             	$("#schoolName").val(school.name);
             	$('#schoolName').attr("disabled", true);
+            	$("#schoolSchoolPhone").val(school.schoolPhone);
+            	$("#schoolSchoolEmail").val(school.schoolEmail);
             	$("#schoolNameContact").val(school.nameContact);
-            	$("#schoolCellPhone").val(school.cellPhone);
+            	$("#schoolCelPhone").val(school.celPhone);
             	$("#schoolPhone").val(school.phone);
             	$("#schoolEmail").val(school.email);
             	localStorage.schoolExistente = "true";

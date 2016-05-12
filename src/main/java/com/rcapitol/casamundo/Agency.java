@@ -30,8 +30,10 @@ public class Agency {
 	public static final class Documento {
 
 		public String name;
+		public String agencyPhone;
+		public String agencyEmail;
 		public String nameConsult;
-		public String cellPhone;
+		public String celPhone;
 		public String phone;
 		public String email;
 
@@ -42,14 +44,18 @@ public class Agency {
 		@JsonCreator
 		public Documento(
 				String name,
+				String agencyPhone,
+				String agencyEmail,
 				String nameConsult,
-				String cellPhone,
+				String celPhone,
 				String phone,
 				String email
 						) {
 						this.name = name;  
+						this.agencyPhone = agencyPhone; 
+						this.agencyEmail = agencyEmail; 
 						this.nameConsult = nameConsult; 
-						this.cellPhone = cellPhone; 
+						this.celPhone = celPhone; 
 						this.phone = phone; 
 						this.email = email; 
 		}
@@ -72,17 +78,17 @@ public class Agency {
 		public String getEmail() {
 			return this.email;
 		}
-		public void setCellPhone(String cellPhone) {
-			this.cellPhone = cellPhone;
+		public void setCelPhone(String celPhone) {
+			this.celPhone = celPhone;
 		}
-		public String getCellPhone() {
-			return this.cellPhone;
+		public String getCelPhone() {
+			return this.celPhone;
 		}
 		public void setPhone(String phone) {
 			this.phone = phone;
 		}
 		public String getPhone() {
-			return this.cellPhone;
+			return this.celPhone;
 		}
 
 		@Override

@@ -152,8 +152,10 @@ public class Rest_Agency {
 					JSONObject jsonDocumento = new JSONObject();
 					jsonDocumento.put("_id", objStudent.getString("_id"));
 					jsonDocumento.put("name", jsonObject.get("name"));
+					jsonDocumento.put("agencyPhone", jsonObject.get("agencyPhone"));
+					jsonDocumento.put("agencyEmail", jsonObject.get("agencyEmail"));
 					jsonDocumento.put("nameConsult", jsonObject.get("nameConsult"));
-					jsonDocumento.put("cellPhone", jsonObject.get("cellPhone"));
+					jsonDocumento.put("celPhone", jsonObject.get("celPhone"));
 					jsonDocumento.put("phone", jsonObject.get("phone"));
 					jsonDocumento.put("email", jsonObject.get("email"));
 					documentos.add(jsonDocumento);

@@ -55,8 +55,10 @@
 			},		
 			"columns": [
 			            { "data": "name" },
+			            { "data": "agencyPhone" },
+			            { "data": "agencyEmail" },
 			            { "data": "nameConsult" },
-			            { "data": "cellPhone" },
+			            { "data": "celPhone" },
 			            { "data": "phone" },
 			            { "data": "email" },
 			            { "data": "actions" },
@@ -105,8 +107,10 @@
         $.each(objJson, function (i, agency) {
         	agency_table.row.add( {
     	    	'name': '<a id="agency' + i + '"  data-toggle="modal" data-target="#agencyModal">' + agency.name + '</a>',
+                'agencyPhone':'<small class="text-muted">' + agency.agencyPhone + '</small>',
+                'agencyEmail':'<small class="text-muted">' + agency.agencyEmail + '</small>',
                 'nameConsult':'<small class="text-muted">' + agency.nameConsult + '</small>',
-                'cellPhone':'<small class="text-muted">' + agency.cellPhone + '</small>',
+                'celPhone':'<small class="text-muted">' + agency.celPhone + '</small>',
                 'phone':'<small class="text-muted">' + agency.phone + '</small>',
                 'email':'<small class="text-muted">' + agency.email + '</small>',
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
@@ -117,8 +121,10 @@
             $('#agency' + i).bind('click', function () {
             	$("#agencyName").val(agency.name);
             	$('#agencyName').attr("disabled", true);
+            	$("#agencyAgencyPhone").val(agency.agencyPhone);
+            	$("#agencyAgencyEmail").val(agency.agencyEmail);
             	$("#agencyNameConsult").val(agency.nameConsult);
-            	$("#agencyCellPhone").val(agency.cellPhone);
+            	$("#agencyCelPhone").val(agency.celPhone);
             	$("#agencyPhone").val(agency.phone);
             	$("#agencyEmail").val(agency.email);
             	localStorage.agencyExistente = "true";
