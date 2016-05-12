@@ -97,6 +97,7 @@
     	$("#schoolCelPhone").val("");
     	$("#schoolPhone").val("");
     	$("#schoolEmail").val("");
+    	$("#schoolAddress").val("");
     	
     	rest_obterSchoolAll(carregaSchools);
     };
@@ -123,6 +124,7 @@ function limpaStorageSchool () {
 				    '"celPhone" : "",' +
 				    '"phone" : "",' +
 				    '"email" : ""' +
+				    '"address" : ""' +
 				  '}' +
 			'}'
 	);

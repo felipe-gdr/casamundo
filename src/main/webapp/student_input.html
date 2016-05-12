@@ -659,7 +659,7 @@
 											</div>
 											<div class="row col-sm-12">
 												<div class="row col-sm-6">
-													<div class="col-xs-4">
+													<div class="col-xs-7">
 														<fieldset>					
 															<section class="col-sm-9">	
 																<label class="label">Name</label>							
@@ -671,37 +671,43 @@
 															</section>
 														</fieldset>
 													</div>
-													<div class="row school hide">							
-														<section class="col-sm-9">		
-															<i class="fa fa-bank"></i>&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolPhone"  data-original-title="Agency phone"></small></span>
-														</section>
-													</div>
-													<div class="row school hide">							
-														<section class="col-sm-9">		
-															<i class="fa fa-bank"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolEmail"  data-original-title="Agency email"></small></span>
-														</section>
-													</div>
-													<div class="row school hide">				
-														<section class="col-sm-9">		
-															<i class="fa fa-user"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolNameContact"  data-original-title="Constact name"></small></span>
-														</section>
-													</div>
-													<div class="row school hide">				
-														<section class="col-sm-9">		
-															<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-mobile"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolContactMobile"  data-original-title="Constact mobile"></small></span>
-														</section>
-													</div>
-													<div class="row school hide">				
-														<section class="col-sm-9">		
-															<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolContactPhone"  data-original-title="Constact phone"></small></span>
-														</section>
-													</div>
-													<div class="row school hide">					
-														<section class="col-sm-9">		
-															<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolContactEmail"  data-original-title="Constact email"></small></span>
-														</section>
+													<div class="col-xs-12">
+														<div class="col-xs-1"></div>
+														<div class="col-xs-10">
+															<div class="row school hide">							
+																<section class="col-sm-9">		
+																	<i class="fa fa-bank"></i>&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolPhone"  data-original-title="School phone"></small></span>
+																</section>
+															</div>
+															<div class="row school hide">							
+																<section class="col-sm-9">		
+																	<i class="fa fa-bank"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolEmail"  data-original-title="School email"></small></span>
+																</section>
+															</div>
+															<div class="row school hide">				
+																<section class="col-sm-9">		
+																	<i class="fa fa-user"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolNameContact"  data-original-title="Constact name"></small></span>
+																</section>
+															</div>
+															<div class="row school hide">				
+																<section class="col-sm-9">		
+																	<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-mobile"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolContactMobile"  data-original-title="Constact mobile"></small></span>
+																</section>
+															</div>
+															<div class="row school hide">				
+																<section class="col-sm-9">		
+																	<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolContactPhone"  data-original-title="Constact phone"></small></span>
+																</section>
+															</div>
+															<div class="row school hide">					
+																<section class="col-sm-9">		
+																	<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolContactEmail"  data-original-title="Constact email"></small></span>
+																</section>
+															</div>
+														</div>
 													</div>
 												</div>
+												
 												<div class="row col-sm-6">
 													<div class="col-xs-4 school hide">
 														<fieldset>					
@@ -709,6 +715,20 @@
 																<label class="label">Localização</label>							
 															</section>
 														</fieldset>
+													</div>
+													<div class="col-xs-12">
+														<div class="col-xs-1"></div>
+														<div class="col-xs-10">
+															<div class="row school hide">							
+																<section class="col-sm-9">		
+																	<i class="fa fa-map-marker"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolAddress"  data-original-title="School Address"></small></span>
+																</section>
+															</div>
+														</div>
+														<div class="widget-body no-padding school hide">
+															<div id="map_canvas7" class="google_maps"></div>
+														</div>
+														
 													</div>
 												</div>
 											</div>
@@ -1251,10 +1271,15 @@
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>
 
-		<!-- out scripts -->
+		<!-- google maps -->
+		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
+		<script src="js/google-maps.js"></script>
+
+		<!-- page scripts -->
 		<script src="js/main.js"></script>
 		<script src="js/student-commons.js"></script>
 		<script src="js/student_input.js"></script>
+
 
 		<script type="text/javascript">
 		

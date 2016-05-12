@@ -63,7 +63,7 @@ public class Rest_School {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Resp/onse IncluirSchool(School school	)  {
+	public Response IncluirSchool(School school	)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();

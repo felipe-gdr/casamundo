@@ -160,7 +160,15 @@ function carregaDadosSchool(data, consult) {
 	$("#schoolContactMobile").html(data.documento.celPhone);
 	$("#schoolContactPhone").html(data.documento.phone);
 	$("#schoolContactEmail").html(data.documento.email);
+	$("#schoolAddress").html(data.documento.address);
 	$(".school").removeClass("hide");
+    var latitude = 43.766437;
+    var longitude = -79.400039;
+	if (data.documento.name == "Winston Schools Tutoring"){
+	    latitude = 43.708752;
+	    longitude = -79.398486;
+	}
+	generate_map_7(latitude, longitude);
 };
 
 function carregaSelectAgencies(data) {
@@ -462,6 +470,14 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].agreeSuite;		
 	};
+	if (field == "agencyName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].agencyName;		
+	};
+	if (field == "schoolName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].schoolName;		
+	};
 					
 	return "##erro";
 };				
@@ -681,6 +697,12 @@ function setValueStudent (field, value, actualTrip, grava) {
 	};
 	if (field == "agrreeSuite"){
         objJson.documento.trips[actualTrip].agrreeSuite = value;
+	};
+	if (field == "agencyName"){
+        objJson.documento.trips[actualTrip].agencyName = value;
+	};
+	if (field == "schoolName"){
+        objJson.documento.trips[actualTrip].schoolName = value;
 	};
 
 	localStorage.setItem("student", JSON.stringify(objJson));
