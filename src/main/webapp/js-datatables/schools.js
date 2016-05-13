@@ -127,6 +127,8 @@
             	$("#schoolCelPhone").val(school.celPhone);
             	$("#schoolPhone").val(school.phone);
             	$("#schoolEmail").val(school.email);
+            	$("#schoolAddress").val(school.address);
+            	getMapCoordinate($('#schoolAddress').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
             	localStorage.schoolExistente = "true";
             	rest_obterSchool(school.name, carregaLocalStorageSchool, carregaInclusaoSchool, "alteracao");
             });

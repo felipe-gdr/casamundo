@@ -55,7 +55,7 @@
     	});
     };
 
-    function rest_atualizaStudent(objJson, action_ok, action_not_ok) {
+    function rest_atualizaStudent(objJson, action_ok, action_not_ok, afterUpdate) {
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",
@@ -71,7 +71,7 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok ("Student updated");
+        		action_ok ("Student updated", afterUpdate);
         	}else{
         		actio_not_ok()
         	};
@@ -349,3 +349,4 @@
     	.always(function(data) {
     	});
     };
+    

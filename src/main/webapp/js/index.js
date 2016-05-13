@@ -2,6 +2,9 @@
  *	carrega variaveis do sistema 
  */
 
+	localStorage.mapsCoordinate = "AIzaSyBtvFz034ClyfruthGGd4BCO0_I2iBZG3g";
+	localStorage.mapsDistance = "AIzaSyCY4Bn4wcalIGk7D1N3HaSdoaqgcfrdNRE";
+
 	localStorage.urlServidor = window.location.hostname;
 
 	// 	*** inicializar dados

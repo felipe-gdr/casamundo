@@ -812,3 +812,24 @@ function limpaStorageStudent () {
 	localStorage.setItem("student", JSON.stringify(data));
 };		
 
+function retornaStudent(){
+	$.smallBox({
+		title : "Ok",
+		content : "<i class='fa fa-clock-o'></i> <i>Student updated</i>",
+		color : "#659265",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 4000
+	});
+	var objJson = JSON.parse(localStorage.getItem("student"));
+	window.location="student.html?mail=" + objJson.documento.mail; 
+};
+function retornaListaStudent(){
+	$.smallBox({
+		title : "Ok",
+		content : "<i class='fa fa-clock-o'></i> <i>Student included</i>",
+		color : "#659265",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 4000
+	});
+	window.location="students.html"; 
+};

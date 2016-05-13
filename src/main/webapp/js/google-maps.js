@@ -864,5 +864,88 @@
 	    map.setMapTypeId('metro_style');
 	
 	};
-	
-
+	function getMapCoordinate(address, key, action_ok, no_action_ok){
+		var geocoder = new google.maps.Geocoder();
+	    geocoder.geocode( { 'address': address}, function(results, status) {
+	      if (status == google.maps.GeocoderStatus.OK) {
+	    	  action_ok (results);
+	      } else {
+	    	  no_action_ok(status);
+	      }
+	    });
+	};
+	//
+	// *****   formato dos results
+	//
+	/* 
+	{
+	   "results" : [
+	      {
+	         "address_components" : [
+	            {
+	               "long_name" : "327",
+	               "short_name" : "327",
+	               "types" : [ "street_number" ]
+	            },
+	            {
+	               "long_name" : "Rua da Granja Julieta",
+	               "short_name" : "Rua da Granja Julieta",
+	               "types" : [ "route" ]
+	            },
+	            {
+	               "long_name" : "Granja Julieta",
+	               "short_name" : "Granja Julieta",
+	               "types" : [ "sublocality_level_1", "sublocality", "political" ]
+	            },
+	            {
+	               "long_name" : "São Paulo",
+	               "short_name" : "São Paulo",
+	               "types" : [ "locality", "political" ]
+	            },
+	            {
+	               "long_name" : "São Paulo",
+	               "short_name" : "São Paulo",
+	               "types" : [ "administrative_area_level_2", "political" ]
+	            },
+	            {
+	               "long_name" : "São Paulo",
+	               "short_name" : "SP",
+	               "types" : [ "administrative_area_level_1", "political" ]
+	            },
+	            {
+	               "long_name" : "Brasil",
+	               "short_name" : "BR",
+	               "types" : [ "country", "political" ]
+	            },
+	            {
+	               "long_name" : "04721-060",
+	               "short_name" : "04721-060",
+	               "types" : [ "postal_code" ]
+	            }
+	         ],
+	         "formatted_address" : "Rua da Granja Julieta, 327 - Granja Julieta, São Paulo - SP, 04721-060, Brasil",
+	         "geometry" : {
+	            "location" : {
+	               "lat" : -23.6403347,
+	               "lng" : -46.70176
+	            },
+	            "location_type" : "ROOFTOP",
+	            "viewport" : {
+	               "northeast" : {
+	                  "lat" : -23.6389857197085,
+	                  "lng" : -46.7004110197085
+	               },
+	               "southwest" : {
+	                  "lat" : -23.6416836802915,
+	                  "lng" : -46.7031089802915
+	               }
+	            }
+	         },
+	         "partial_match" : true,
+	         "place_id" : "ChIJGXSG_vpQzpQR4j9PlpvlaAY",
+	         "types" : [ "street_address" ]
+	      }
+	   ],
+	   "status" : "OK"
+	}
+	*/

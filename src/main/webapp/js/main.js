@@ -137,15 +137,14 @@ function calculaIdade ( dataNascimento ) {
 			timeout : 4000
 		});
     };
-	function atualizacaoEfetuada() {
+	function atualizacaoEfetuada(literal) {
 		$.smallBox({
 			title : "Ok",
-			content : "<i class='fa fa-clock-o'></i> <i>Student data atualized</i>",
+			content : "<i class='fa fa-clock-o'></i> <i>" + literal + "</i>",
 			color : "#659265",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
 		});
-		parent.history.back();
     };
 
     function atualizacaoNaoEfetuada() {

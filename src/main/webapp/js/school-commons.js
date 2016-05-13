@@ -1,5 +1,9 @@
 
 	/**
+	 * 		esconde mapa
+	 */
+	$('.school').addClass("hide");
+	/**
 	 * 		setup dos input do form
 	 */
 	var $tablesForm = $("#schoolModal-form").validate({
@@ -86,7 +90,22 @@
 	$('#schoolInclusao').bind('click', function () {
     	localStorage.schoolExistente = "false";
     });
-    function fechaModalSchool (field) {
+    
+	$('#schoolAddress').bind('blur', function () {
+    	getMapCoordinate($('#schoolAddress').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+    });
+	
+	function carregaMapa (results) {
+		$('#schoolAddress').val(results[0].formatted_address);
+		$('.school').removeClass("hide");
+		generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());		
+	};
+	
+	function enderecoComErro (data) {
+		$('.school').addClass("hide");		
+	};
+	
+	function fechaModalSchool (field) {
     	$("#schoolModal").modal('hide');
     	$('#schoolName').attr("disabled", false);
     	

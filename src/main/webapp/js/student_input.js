@@ -207,16 +207,16 @@
 					    			first = false;
 					    		}else{
 					    			value = value + "," + optionValue.label;
-					    		}
-					    	}				    			
+					    		};
+					    	};		    			
 					    });
 					};
 					setValueStudent (field.id, value, 0)
 			});
 			if (localStorage.studentExistente == "true"){
-				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoEfetuada, atualizacaoNaoEfetuada);
+				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), retornaStudent, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), inclusaoEfetuada, inclusaoNaoEfetuada);
+				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), retornaListaStudent, inclusaoNaoEfetuada);
 			}
 		},	
 		// Do not change code below
