@@ -1190,7 +1190,17 @@
 															<div class="row">
 																<div class="col-md-10">
 																	<label for="schoolAddress">Address</label>
-																	<input id="schoolAddress" name="address" type="text" class="form-control" value="" placeholder="" required />
+																	<input id="schoolAddress" name="address" type="text" class="form-control" value="" placeholder="type your complete address and check on the map" required />
+																</div>
+															</div>
+															<br>
+															<div class="row col-md-10">
+																<div class="col-xs-1"></div>
+																<div class="col-xs-10">
+																	<div class="widget-body no-padding school hide">
+																		<div id="map_canvas7" class="google_maps">
+																		</div>
+																	</div>
 																</div>
 															</div>
 															<br><br>
@@ -1399,6 +1409,11 @@
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
+
+		<!-- google maps -->
+		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
+		<script src="js/google-maps.js"></script>
+		
 		<!-- monta lst of agency -->
 		<script src="js-datatables/agencies.js"></script>
 

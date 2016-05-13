@@ -95,7 +95,13 @@
     	getMapCoordinate($('#schoolAddress').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
     });
 	
-	function carregaMapa (results) {
+	 $("#schoolModal").on('shown.bs.modal', function(event){
+		 if ($('#schoolAddress').val()){
+			 getMapCoordinate($('#schoolAddress').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+		 };
+	 });
+	 
+	 function carregaMapa (results) {
 		$('#schoolAddress').val(results[0].formatted_address);
 		$('.school').removeClass("hide");
 		generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());		
