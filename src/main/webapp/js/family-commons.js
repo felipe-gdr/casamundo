@@ -1,3 +1,17 @@
+ 
+ function carregaMapa (results) {
+	$('#address_street').val(results[0].formatted_address);
+	$('.addressMap').removeClass("hide");
+	generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());	
+	var objJson = JSON.parse(localStorage.getItem("family"));
+	objJson.documento.address.latitude = results[0].geometry.location.lat();
+	objJson.documento.address.longitude = results[0].geometry.location.lng();
+	localStorage.setItem("family", JSON.stringify(objJson));
+};
+
+function enderecoComErro (data) {
+	$('.addressMap').addClass("hide");		
+};
 
 
 function carregaTelaFamily(data, tipo) {
@@ -34,6 +48,9 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#contact_mobilePhoneNumber").html(data.documento.contact.mobilePhoneNumber);
 	  	$("#contact_workPhoneNumber").html(data.documento.contact.workPhoneNumber);
 	  	$("#address_street").html(data.documento.address.street);
+	  	if (data.documento.address.street){
+	  		getMapCoordinate(data.documento.address.street, localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+	  	};
 	  	$("#address_number").html(data.documento.address.number);
 	  	$("#address_city").html(data.documento.address.city);
 	  	$("#address_state").html(data.documento.address.state);
@@ -43,6 +60,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_walkingTimeSubwayStation").html(data.documento.address.walkingTimeSubwayStation);
 	  	$("#address_nearestBusStop").html(data.documento.address.nearestBusStop);
 	  	$("#address_walkingTimeBusStation").html(data.documento.address.walkingTimeBusStation);
+	  	$("#address_destination").html(data.documento.address.destination);
 	  	
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
@@ -132,6 +150,10 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_walkingTimeSubwayStation").val(data.documento.address.walkingTimeSubwayStation);
 	  	$("#address_nearestBusStop").val(data.documento.address.nearestBusStop);
 	  	$("#address_walkingTimeBusStation").val(data.documento.address.walkingTimeBusStation);
+	  	$("#destination").val(data.documento.address.destination);
+		 if ($('#address_street').val()){
+			 getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+		 };
 	  	var lines = 0;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
@@ -314,7 +336,10 @@ function limpaStorageFamily () {
 				      '"nearestSubwayStation" : "",' +
 				      '"walkingTimeSubwayStation" : "",' +
 				      '"nearestBusStop" : "",' +
-				      '"walkingTimeBusStation" : ""' +
+				      '"walkingTimeBusStation" : "",' +
+				      '"destination":"",' +
+				      '"latitude":"",' +
+				      '"longitude":""' +
 				    '},' +
 				    '"familyMembers" : [{' +
 				        '"name" : "",' +
@@ -460,7 +485,30 @@ function setValueFamily (field, value) {
   	if (field == "address_walkingTimeBusStation"){
         objJson.documento.address.walkingTimeBusStation = value;
 	};
+  	if (field == "destination"){
+        objJson.documento.address.destination = value;
+	};
 
 	localStorage.setItem("family", JSON.stringify(objJson));
-	
 };		
+function retornaFamily(){
+	$.smallBox({
+		title : "Ok",
+		content : "<i class='fa fa-clock-o'></i> <i>Family updated</i>",
+		color : "#659265",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 4000
+	});
+	var objJson = JSON.parse(localStorage.getItem("family"));
+	window.location="family.html?mail=" + objJson.documento.familyName; 
+};
+function retornaListaFamily(){
+	$.smallBox({
+		title : "Ok",
+		content : "<i class='fa fa-clock-o'></i> <i>Family included</i>",
+		color : "#659265",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 4000
+	});
+	window.location="families.html"; 
+};

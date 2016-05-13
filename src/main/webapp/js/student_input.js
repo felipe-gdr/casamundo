@@ -1,4 +1,10 @@
 	// 
+	//**    desproteje o email na inclusão pois é chave
+	//
+
+   	$('#mail').attr("disabled", false);
+
+	// 
 	//**    carrega dados url
 	//
 
@@ -26,6 +32,7 @@
 	if (mailUrl){
 		localStorage.studentExistente = "true";
 		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
+		$('#mail').attr("disabled", true);
 	};	
 
 

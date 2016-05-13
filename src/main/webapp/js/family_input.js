@@ -1,3 +1,9 @@
+
+	/**
+	 * 		esconde mapa
+	 */
+	$('.addressMap').addClass("hide");
+
 	// 
 	//**    carrega dados url
 	//
@@ -249,9 +255,9 @@
 			});
 			localStorage.setItem("family", JSON.stringify(objJson));
 			if (localStorage.familyExistente == "true"){
-				rest_atualizaFamily(JSON.parse(localStorage.getItem("family")), atualizacaoEfetuada, atualizacaoNaoEfetuada);
+				rest_atualizaFamily(JSON.parse(localStorage.getItem("family")), retornaFamily, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluiFamily(JSON.parse(localStorage.getItem("family")), inclusaoEfetuada, inclusaoNaoEfetuada);
+				rest_incluiFamily(JSON.parse(localStorage.getItem("family")), retornaListaFamily, inclusaoNaoEfetuada);
 			}
 		},	
 
@@ -282,4 +288,8 @@
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
+    
+	$('#address_street').bind('blur', function () {
+    	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+    });
 	

@@ -511,11 +511,17 @@
 																	</div>
 																	<div class="row">
 																		<div class="col-xs-5">
-																		      	<small class='text-muted'>Street: </small><small  class='text-primary' id="address_street"   data-original-title="Street"></small>
-																		      	<small class='text-muted'> - </small><small  class='text-primary' id="address_number"   data-original-title="Number"></small><br>
-																		      	<small class='text-muted'>City: </small><small  class='text-primary' id="address_city"   data-original-title="City"></small>
-																		      	<small class='text-muted'> State: </small><small  class='text-primary' id="address_state"   data-original-title="State"></small><br>
-																		      	<small class='text-muted'>Postal Code: </small><small  class='text-primary' id="address_postalCode"   data-original-title="Postal Code"></small><br>
+																		      	<small class='text-muted'>Localization: </small><small  class='text-primary' id="address_destination"   data-original-title="Localization"></small><br>
+																		      	<small class='text-muted'>Address: </small><small  class='text-primary' id="address_street"   data-original-title="Address"></small><br>
+																				<br>
+																				<div class="hide addressMap">	
+																					<div class="col-xs-1"></div>
+																					<div class="col-xs-10">
+																						<div class="widget-body no-padding">
+																							<div id="map_canvas7" class="google_maps"></div>
+																						</div>
+																					</div>
+																				</div>
 																		</div>
 																		<div class="col-xs-5">
 																		        <small class='text-muted'>Main intersection: </small><small  class='text-primary' id="address_mainIntersection"   data-original-title="Main intersection"></small><br>
@@ -919,6 +925,10 @@
 		<!-- plugin wizard -->
 		<script src="js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
 		<script src="js/plugin/fuelux/wizard/wizard.min.js"></script>
+
+		<!-- google maps -->
+		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
+		<script src="js/google-maps.js"></script>
 
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>

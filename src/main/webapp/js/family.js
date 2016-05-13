@@ -10,6 +10,12 @@
 	 * 		carrega tabelas
 	 */
 	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+
+	/**
+	 * 		esconde mapa
+	 */
+	$('.addressMap').addClass("hide");
+
 	//
 	//***   chamar tela de alteração com o student da pagina
 	//

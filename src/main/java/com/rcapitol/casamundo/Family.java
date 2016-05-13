@@ -165,6 +165,9 @@ public class Family {
 			public String walkingTimeSubwayStation;
 			public String nearestBusStop;
 			public String walkingTimeBusStation;
+			public String latitude;
+			public String longitude;
+			public String destination;
 
 			public Address() {
 
@@ -181,7 +184,10 @@ public class Family {
 					String nearestSubwayStation,
 					String walkingTimeSubwayStation,
 					String nearestBusStop,
-					String walkingTimeBusStation
+					String walkingTimeBusStation,
+					String latitude,
+					String longitude,
+					String destination
 			){
 				this.street = street ;
 				this.number = number; 
@@ -193,6 +199,9 @@ public class Family {
 				this.walkingTimeSubwayStation = walkingTimeSubwayStation; 
 				this.nearestBusStop = nearestBusStop; 
 				this.walkingTimeBusStation = walkingTimeBusStation; 
+				this.latitude = latitude; 
+				this.latitude = latitude; 
+				this.destination = destination; 
 			}
 
 		}

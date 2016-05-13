@@ -236,6 +236,8 @@ function calculaIdade ( dataNascimento ) {
         $.each(table.documento.destination
     		    , function (i, optionValue) {
         			$("#destination").append( $(option(optionValue)));
+        			$("#destinationSchool").append( $(option(optionValue)));
+        			$("#destinationAgency").append( $(option(optionValue)));
     		    });
         $.each(table.documento.accommodation
     		    , function (i, optionValue) {

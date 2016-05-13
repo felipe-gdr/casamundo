@@ -37,6 +37,9 @@ public class School {
 		public String phone;
 		public String email;
 		public String address;
+		public String latitude;
+		public String longitude;
+		public String destination;
 
 		public Documento() {
 
@@ -51,7 +54,10 @@ public class School {
 				String celPhone,
 				String phone,
 				String email,
-				String address
+				String address,
+				String latitude,
+				String longitude,
+				String destination
 						) {
 						this.name = name;  
 						this.schoolPhone = schoolPhone; 
@@ -61,6 +67,9 @@ public class School {
 						this.phone = phone; 
 						this.email = email; 
 						this.address = address; 
+						this.latitude = latitude; 
+						this.latitude = latitude; 
+						this.destination = destination; 
 		}
 
 		public void setName(String name) {

@@ -546,39 +546,27 @@
 												<div class="col-xs-6">
 													<fieldset>					
 														<section class="col-xs-8">	
+															<label for="destinationSchool">Localization</label>
+															<label class="select ">
+																<select id="destination" name="destination">
+																	<option value="0" selected="" disabled="">Choose one item</option>
+																</select><i></i>
+															</label>
+														</section>
+														<section class="col-xs-8">	
 															<label class="label">Street name</label>	
 															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
 																<input type="text" id="address_street" name="address_street" placeholder="">
 															</label>
 														</section>
-														<section class="col-xs-4">		
-															<label class="label">Address number</label>
-															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
-																<input type="text" id="address_number" name="address_number" placeholder="" >
-															</label>
+														<section class="col-xs-8 hide addressMap">	
+															<div class="col-xs-1"></div>
+															<div class="col-xs-10">
+																<div class="widget-body no-padding">
+																	<div id="map_canvas7" class="google_maps"></div>
+																</div>
+															</div>
 														</section>
-														<section class="col-xs-6">
-															<label class="label">City</label>
-															<label class="select ">
-																<select id="address_city" name="address_city" class="city">
-																	<option value="0" selected="" disabled=""></option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-6">
-															<label class="label">State</label>
-															<label class="select ">
-																<select id="address_state" name="address_state" class="state">
-																	<option value="0" selected="" disabled=""></option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-5">		
-															<label class="label">Postal Code</label>
-															<label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
-																<input type="text" id="address_postalCode" name="address_postalCode" placeholder=""  data-mask-placeholder= "X">
-															</label>
-														</section><br>
 													</fieldset>
 												</div>
 												<div class="col-xs-6">
@@ -991,6 +979,10 @@
 
 		<!-- multiselect -->
 		<script src="js/plugin/multiselect/bootstrap-multiselect.min.js"></script>
+
+		<!-- google maps -->
+		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
+		<script src="js/google-maps.js"></script>
 
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>

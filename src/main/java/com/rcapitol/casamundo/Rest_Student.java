@@ -175,6 +175,7 @@ public class Rest_Student {
 				    jsonDocumento.put("emergencyContactPhone", jsonObject.get("emergencyContactPhone"));
 				    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 				    jsonDocumento.put("actualTrip", jsonObject.get("actualTrip"));
+				    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 				    String agencyName = null;
 				    String schoolName = null;
@@ -182,8 +183,6 @@ public class Rest_Student {
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
-						agencyName = (String) jsonTrip.get("agencyName");
-						schoolName = (String) jsonTrip.get("schoolName");
 				    };
 					if (agencyName != null){
 /*						Mongo mongoAgency;

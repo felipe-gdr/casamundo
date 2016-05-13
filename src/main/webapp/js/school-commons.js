@@ -104,7 +104,11 @@
 	 function carregaMapa (results) {
 		$('#schoolAddress').val(results[0].formatted_address);
 		$('.school').removeClass("hide");
-		generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());		
+		generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());	
+		var objJson = JSON.parse(localStorage.getItem("school"));
+		objJson.documento.latitude = results[0].geometry.location.lat();
+		objJson.documento.longitude = results[0].geometry.location.lng();
+		localStorage.setItem("school", JSON.stringify(objJson));
 	};
 	
 	function enderecoComErro (data) {
@@ -150,6 +154,9 @@ function limpaStorageSchool () {
 				    '"phone" : "",' +
 				    '"email" : ""' +
 				    '"address" : ""' +
+				    '"latitude" : ""' +
+				    '"longitude" : ""' +
+				    '"destination" : ""' +
 				  '}' +
 			'}'
 	);
