@@ -46,6 +46,17 @@
 			<version>1</version>
 		</dependency>
 	</dependencies>
+	  
+	<repositories>
+	    <repository>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	      <id>central</id>
+	      <name>Central Repository</name>
+	      <url>https://repo.maven.apache.org/maven2</url>
+	    </repository>
+    </repositories>
 
 	<build>
 		<finalName>casamundo</finalName>

@@ -36,7 +36,7 @@
 	};	
 
 
-//	limpaStorageStudent ();
+	limpaStorageStudent ();
 
 /**
 *          valida formulário   

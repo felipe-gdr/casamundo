@@ -23,6 +23,13 @@
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
+		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo01");
+		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo02");
+		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo03");
+		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo04");
+		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo05");
+		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo06");
+		$('#familyName').attr("disabled", true);
 	}else{
 		criaLinhaFamilyMember(0);
 		criaLinhaRoom(0);
@@ -278,6 +285,7 @@
 	$("#familyName").blur(function(){
 		localStorage.familyExistente = "false";
 		var data = rest_obterFamily(this.value, carregaTelaFamily, carregaInclusao);
+		montaPhoto ("casamundo", "family", "photosFamily", "labelId", "labelId");
 	});	
 
 	$('#birthDate').datepicker({

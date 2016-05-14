@@ -16,6 +16,9 @@
         <dependent-module archiveName="gson-2.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/gson-2.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="commons-io-2.5.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/commons-io-2.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="casamundo"/>
         <property name="java-output-path" value="/casamundo/target/classes"/>
     </wb-module>
