@@ -23,12 +23,17 @@
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
-		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo01");
-		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo02");
-		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo03");
-		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo04");
-		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo05");
-		montaPhoto ("casamundo", "family", "photosFamily", "family", "photo06");
+		//
+		// formata campos img
+		//
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo01");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo02");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo03");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo04");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo05");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo06");
+		
+		// desabilita nome familia pois é chave
 		$('#familyName').attr("disabled", true);
 	}else{
 		criaLinhaFamilyMember(0);
@@ -36,8 +41,36 @@
 		$('#number_0').val(0);
 	};
 
-
+	//
+	//  *** limpa storage para pegar sempre o layout novo
+	//
 	limpaStorageFamily ();
+	
+	//
+	// *** retorna nome fotos salvas
+	//
+	var obj = JSON.parse(localStorage.getItem("family"));
+	if (localStorage.photo01){
+		obj.documento.fotos.photo01 =  localStorage.photo01;
+	}
+	if (localStorage.photo02){
+		obj.documento.fotos.photo02 =  localStorage.photo02;
+	}
+	if (localStorage.photo03){
+		obj.documento.fotos.photo03 =  localStorage.photo03;
+	}
+	if (localStorage.photo04){
+		obj.documento.fotos.photo04 =  localStorage.photo04;
+	}
+	if (localStorage.photo05){
+		obj.documento.fotos.photo05 =  localStorage.photo05;
+	}
+	if (localStorage.photo06){
+		obj.documento.fotos.photo06 =  localStorage.photo06;
+	}
+    localStorage.setItem("family", JSON.stringify(obj));
+
+	
 
 /**
 *          valida formulário   

@@ -10,6 +10,9 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-body {
-  padding-top: 60px;
+.imgUpload{
+	max-width:170px;
+    max-height:120px;
+    width: auto;
+    height: auto;
 }

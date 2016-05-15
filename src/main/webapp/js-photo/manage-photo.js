@@ -1,10 +1,21 @@
 /**
  * 
  */
+function carregaPhoto (app, label, labelId){		
+	var $image = $('#img-' + labelId).first();
+	var $downloadingImage = $('#img-' + labelId);
+	$downloadingImage.load(function(){
+	  $image.attr("src", $(this).attr("src"));	
+	});
+	$downloadingImage.attr("src", "http://" + localStorage.urlServidor + ":8080/" + app + "/rest/upload/images?image=" + label);
+};
 
-function montaPhoto (app, assunto, fotosDiv, id, label){
+function montaPhoto (app, assunto, fotosDiv, id, id2, label){
+	var id = id.replace( /\s/g, '' ).replace(/[^a-zA-Z 0-9]/g, '');
+	var id2 = id2.replace( /\s/g, '' ).replace(/[^a-zA-Z 0-9]/g, '');
 	var labelId = label.replace( /\s/g, '' ).replace(/[^a-zA-Z 0-9]/g, '');
-    var url = "http://" + localStorage.urlServidor + ":8080/" + app + "/rest/upload/files?prefix=" + id + "_" + labelId,
+	var labelId = label.replace( /\s/g, '' ).replace(/[^a-zA-Z 0-9]/g, '');
+    var url = "http://" + localStorage.urlServidor + ":8080/" + app + "/rest/upload/files?prefix=" + id + "_" + id2 + "_" + labelId,
     uploadButton = $('<button/>')
         .addClass('btn btn-primary')
         .prop('disabled', true)
@@ -48,7 +59,7 @@ function montaPhoto (app, assunto, fotosDiv, id, label){
                     .append("");
             node.appendTo(data.context);
 			obj = JSON.parse(localStorage.getItem(assunto));
-			obj.documento.fotos =  id + "_" + labelId + "_" + file.name;
+			obj.documento.fotos[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
 	        localStorage.setItem(assunto, JSON.stringify(obj));
 	        $('#img-' + labelId).remove();
         });

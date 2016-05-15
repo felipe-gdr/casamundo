@@ -179,8 +179,35 @@ function carregaTelaFamily(data, tipo) {
 	    criaLinhaRoom(linesRoom);
 	    $('#number_' + linesRoom).val(linesRoom);
 	};
-	
-    localStorage.setItem("family", JSON.stringify(data));
+	//
+	// carrega fotos
+	//
+	if (data.documento.fotos.photo01){
+		carregaPhoto (localStorage.app, data.documento.fotos.photo01, "photo01");
+		localStorage.photo01 = data.documento.fotos.photo01;
+	}
+	if (data.documento.fotos.photo02){
+		carregaPhoto (localStorage.app, data.documento.fotos.photo02, "photo02");	
+		localStorage.photo02 = data.documento.fotos.photo02;
+	}
+	if (data.documento.fotos.photo03){
+		carregaPhoto (localStorage.app, data.documento.fotos.photo03, "photo03");
+		localStorage.photo03 = data.documento.fotos.photo03;
+	}
+	if (data.documento.fotos.photo04){
+		carregaPhoto (localStorage.app, data.documento.fotos.photo04, "photo04");	
+		localStorage.photo04 = data.documento.fotos.photo04;
+	}
+	if (data.documento.fotos.photo05){
+		carregaPhoto (localStorage.app, data.documento.fotos.photo05, "photo05");	
+		localStorage.photo05 = data.documento.fotos.photo05;
+	}
+	if (data.documento.fotos.photo06){
+		carregaPhoto (localStorage.app, data.documento.fotos.photo06, "photo06");	
+		localStorage.photo06 = data.documento.fotos.photo06;
+	}
+
+	localStorage.setItem("family", JSON.stringify(data));
 };    
 
 function criaLinhaFamilyMember (i) {
@@ -340,6 +367,14 @@ function limpaStorageFamily () {
 				      '"destination":"",' +
 				      '"latitude":"",' +
 				      '"longitude":""' +
+				    '},' +
+				    '"fotos" : {' +
+				      '"photo01" : "",' +
+				      '"photo02" : "",' +
+				      '"photo03" : "",' +
+				      '"photo04" : "",' +
+				      '"photo05" : "",' +
+				      '"photo06" : ""' +
 				    '},' +
 				    '"familyMembers" : [{' +
 				        '"name" : "",' +
