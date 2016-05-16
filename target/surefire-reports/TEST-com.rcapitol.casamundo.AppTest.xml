@@ -28,7 +28,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 7"/>
-    <property name="classworlds.conf" value="C:\Users\grenne\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf5031023804692900697.tmp"/>
+    <property name="classworlds.conf" value="C:\Users\grenne\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8374483855238726231.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_51\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre1.8.0_71/bin/server;C:/Program Files/Java/jre1.8.0_71/bin;C:/Program Files/Java/jre1.8.0_71/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;c:\Program Files\WIDCOMM\Bluetooth Software\;c:\Program Files\WIDCOMM\Bluetooth Software\syswow64;C:\Program Files\Dell\DW WLAN Card\Driver;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\Program Files\nodejs\;C:\dev\;C:\Program Files (x86)\Skype\Phone\;C:\Users\grenne\AppData\Roaming\npm;C:\dev\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>

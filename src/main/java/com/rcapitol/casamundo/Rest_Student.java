@@ -1,7 +1,11 @@
 package com.rcapitol.casamundo;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,8 +21,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
-import org.bson.BasicBSONObject;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -36,7 +42,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import com.rcapitol.casamundo.Student.Documento.Trips;
 
 	
 @Singleton
@@ -127,6 +132,9 @@ public class Rest_Student {
 		mongo.close();
 		return Response.status(200).build();
 	};
+	
+	private static int HTTP_COD_SUCESSO = 200;
+	
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -183,25 +191,19 @@ public class Rest_Student {
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
+						agencyName = (String) jsonTrip.get("agencyName");
+						schoolName = (String) jsonTrip.get("schoolName");
 				    };
 					if (agencyName != null){
-/*						Mongo mongoAgency;
-						mongoAgency = new Mongo();
+						Mongo mongoAgency = new Mongo();
 						DB dbAgency = (DB) mongoAgency.getDB("documento");
-						ObjectId _agencyName = new ObjectId(agencyName);
-				    	// obter agency
-	        			DBCollection docCollection = dbAgency.getCollection("student");
-	        			BasicDBObject searchQuery = new BasicDBObject("_id",_agencyName);
-	        			DBObject docCursorAgency = docCollection.findOne(searchQuery);
-	        			BasicDBObject docAgency = (BasicDBObject) docCursorAgency.get("documento");
-*/	        			JSONObject docAgency = new JSONObject();
-						docAgency.put("name", "Canada Destino");
-						docAgency.put("nameConsult", "Saulo Oliveira");
-						docAgency.put("celPhone", "011994564584");
-						docAgency.put("phone", "011994564584");
-						docAgency.put("email", "soliveira@canadadestino.com.br");						
-						jsonDocumento.put("agency", docAgency);
-//						mongoAgency.close();
+						DBCollection collectionAgency = dbAgency.getCollection("agency");
+						BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
+						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
+						JSONObject documentoAgency = new JSONObject();
+						BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+						jsonDocumento.put("agency", obj);
+						mongoAgency.close();
 					}else{
 	        			JSONObject docAgency = new JSONObject();
 						docAgency.put("name", "");
@@ -212,23 +214,15 @@ public class Rest_Student {
 						jsonDocumento.put("agency", docAgency);
 					};
 					if (schoolName != null){
-/*						Mongo mongoSchool;
-						mongoSchool = new Mongo();
+						Mongo mongoSchool = new Mongo();
 						DB dbSchool = (DB) mongoSchool.getDB("documento");
-						ObjectId _schoolName = new ObjectId(schoolName);
-				    	// obter school
-	        			DBCollection docCollection = dbSchool.getCollection("student");
-	        			BasicDBObject searchQuery = new BasicDBObject("_id",_schoolName);
-	        			DBObject docCursorSchool = docCollection.findOne(searchQuery);
-	        			BasicDBObject docSchool = (BasicDBObject) docCursorSchool.get("documento");
-*/	        			JSONObject docSchool = new JSONObject();
-						docSchool.put("name", "UTC");
-						docSchool.put("nameContact", "John Andrews");
-						docSchool.put("celPhone", "011994564584");
-						docSchool.put("phone", "011994564584");
-						docSchool.put("email", "andrews@uft.com.can");						
-						jsonDocumento.put("school", docSchool);
-//						mongoSchool.close();
+						DBCollection collectionSchool = dbSchool.getCollection("school");
+						BasicDBObject searchQuerySchool = new BasicDBObject("documento.name", schoolName);
+						DBObject cursorSchool = collectionSchool.findOne(searchQuerySchool);
+						JSONObject documentoSchool = new JSONObject();
+						BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
+						jsonDocumento.put("school", obj);
+						mongoSchool.close();
 					}else{
 	        			JSONObject docSchool = new JSONObject();
 						docSchool.put("name", "");

@@ -318,7 +318,15 @@
 	$("#familyName").blur(function(){
 		localStorage.familyExistente = "false";
 		var data = rest_obterFamily(this.value, carregaTelaFamily, carregaInclusao);
-		montaPhoto ("casamundo", "family", "photosFamily", "labelId", "labelId");
+		//
+		// formata campos img
+		//
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo01");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo02");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo03");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo04");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo05");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo06");
 	});	
 
 	$('#birthDate').datepicker({
