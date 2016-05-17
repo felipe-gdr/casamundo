@@ -4,7 +4,8 @@
 
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
-	var mailUrl = parametrosDaUrl.split("=")[1];
+	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
+	var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
 	 	 
 	/**
 	 * 		carrega tabelas
@@ -16,7 +17,18 @@
 	$( "#alteracaoButton" ).bind( "click", function() {
 		$(window.document.location).attr('href','student_input.html?mail=' + mailUrl );
 	});
-	
+	//
+	//***   setar pagina como accommodation
+	//
+	if (typePage == "accommodation"){
+		$(".notAccommodation" ).addClass("hide");
+	}
+	//
+	//***   setar pagina como somente consulta student
+	//
+	if (typePage == "onlyStudent"){
+		$(".notOnlyStudent" ).addClass("hide");
+	}
 /**
  * 
  */

@@ -117,9 +117,21 @@
     	});
     };
 
-    function rest_obterFamiliesAll(action_ok) {
+    function rest_obterFamiliesAll(action_ok, destination, occupancy) {
+    	var parameters = "";
+    	if (destination && occupancy){
+    		pamameters = "?destination=" + destination + "&occupancy=" + occupancy;
+    	}else{
+        	if (destination && occupancy){
+        		pamameters = "?destination=" + destination;
+        	}else{
+            	if (occupancy){
+            		occupancyPar = "?occupancy=" + occupancy;
+            	};
+        	};
+    	};
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/lista",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/lista" + parameters,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false

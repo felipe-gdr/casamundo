@@ -180,6 +180,6 @@ var table  = JSON.parse(
 		'}'
 );
 
-localStorage.setItem("student", JSON.stringify(data));
+//localStorage.setItem("student", JSON.stringify(data));
 //localStorage.setItem("students", JSON.stringify(students));
 //localStorage.setItem("table", JSON.stringify(table));

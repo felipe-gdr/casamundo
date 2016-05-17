@@ -1,11 +1,6 @@
 package com.rcapitol.casamundo;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,11 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
-import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -133,12 +124,10 @@ public class Rest_Student {
 		return Response.status(200).build();
 	};
 	
-	private static int HTTP_COD_SUCESSO = 200;
-	
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterStudentss(@QueryParam("destination") String destination) {
+	public JSONArray ObterStudentss(@QueryParam("destination") String destination, @QueryParam("accommodation") String accommodation) {
 
 		Mongo mongo;
 		try {
@@ -146,7 +135,12 @@ public class Rest_Student {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-			setQuery.put("documento.destination", destination);
+		    if (destination != null){
+		    	setQuery.put("documento.trips.destination", destination);
+		    };
+		    if (accommodation != null){
+		    	setQuery.put("documento.trips.accommodation", accommodation);
+		    };
 			DBCollection collection = db.getCollection("student");
 			
 			DBCursor cursor = collection.find();
