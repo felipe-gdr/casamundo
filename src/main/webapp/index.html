@@ -2141,7 +2141,7 @@
 									<!-- widget content -->
 									<div class="widget-body no-padding">
 										
-										<table id="accommodation_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<table id="accommodations_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									        <thead>
 												<tr>
 													<th class="hasinput" >
@@ -2150,16 +2150,16 @@
 														<input type="text" class="form-control" placeholder="Filter Student" />
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Period" />
+														<input type="text" class="form-control" placeholder="Start" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="End" />
 													</th>
 													<th class="hasinput" >
 														<input type="text" class="form-control" placeholder="Status" />
 													</th>
 													<th class="hasinput" >
 														<input type="text" class="form-control" placeholder="Gender" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Alergies" />
 													</th>
 													<th class="hasinput" >
 														<input type="text" class="form-control" placeholder="Smoke" />
@@ -2174,10 +2174,10 @@
 									            <tr>
 									                <th></th>
 									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Student</th>
-									                <th><i class="fa fa-fw text-muted hidden-md hidden-sm hidden-xs"></i>Period</th>
+									                <th><i class="fa fa-fw text-muted hidden-md hidden-sm hidden-xs"></i>Start</th>
+									                <th><i class="fa fa-fw text-muted hidden-md hidden-sm hidden-xs"></i>End</th>
 									                <th>Status</th>
 									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Gender</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Alergies</th>
 									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Smoke</th>
 									                <th><i class="fa fa-fw text-muted hidden-md hidden-sm hidden-xs"></i>Agency</th>
 									                <th><i class="fa fa-fw text-muted hidden-md hidden-sm hidden-xs"></i>School</th>
@@ -3244,11 +3244,12 @@
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
-		<!-- PAGE RELATED GRAPHS 
-		<script src="..."></script>-->
-		<script src="js/plugin/highChartCore/highcharts-custom.min.js"></script>
-		<script src="js/plugin/highchartTable/jquery.highchartTable.min.js"></script>
+		<!-- out scripts -->
+		<script src="js/main.js"></script>
+		<script src="js/rest_commands.js"></script>
 
+		<!-- accommodations data table -->
+		<script src="js-datatables/accommodations.js"></script>
 
 		<!-- PAGE RELATED ckeditor -->
 		<script src="js/plugin/ckeditor/ckeditor.js"></script>
@@ -4443,83 +4444,6 @@
 				$("#modal_family").click(function(){
 			        $("#accommodation").modal('hide');
 			    });	
-				
-				// setup graph
-				$('table.highchart').highchartTable();
-
-			    // set filters
-				$('#filter_single').click(function() {
-					console.log ("hasclass - " + $( "#filter_single" ).hasClass( "btn-primary"))
-					if ($( "#filter_single" ).hasClass( "btn-primary")){
-						$('#filter_single').removeClass( "btn-primary" );
-						$('#filter_single').addClass( "btn-success" );
-						$('#filter_single_check').removeClass( "hide" );
-					}else{
-						$('#filter_single').removeClass( "btn-success" );
-						$('#filter_single').addClass( "btn-primary" );
-						$('#filter_single_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_alergies').click(function() {
-					console.log ("hasclass - " + $( "#filter_alergies" ).hasClass( "btn-primary"))
-					if ($( "#filter_alergies" ).hasClass( "btn-primary")){
-						$('#filter_alergies').removeClass( "btn-primary" );
-						$('#filter_alergies').addClass( "btn-success" );
-						$('#filter_alergies_check').removeClass( "hide" );
-					}else{
-						$('#filter_alergies').removeClass( "btn-success" );
-						$('#filter_alergies').addClass( "btn-primary" );
-						$('#filter_alergies_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_smoke').click(function() {
-					console.log ("hasclass - " + $( "#filter_smoke" ).hasClass( "btn-primary"))
-					if ($( "#filter_smoke" ).hasClass( "btn-primary")){
-						$('#filter_smoke').removeClass( "btn-primary" );
-						$('#filter_smoke').addClass( "btn-success" );
-						$('#filter_smoke_check').removeClass( "hide" );
-					}else{
-						$('#filter_smoke').removeClass( "btn-success" );
-						$('#filter_smoke').addClass( "btn-primary" );
-						$('#filter_smoke_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_vegetarian').click(function() {
-					console.log ("hasclass - " + $( "#filter_vegetarian" ).hasClass( "btn-primary"))
-					if ($( "#filter_vegetarian" ).hasClass( "btn-primary")){
-						$('#filter_vegetarian').removeClass( "btn-primary" );
-						$('#filter_vegetarian').addClass( "btn-success" );
-						$('#filter_vegetarian_check').removeClass( "hide" );
-					}else{
-						$('#filter_vegetarian').removeClass( "btn-success" );
-						$('#filter_vegetarian').addClass( "btn-primary" );
-						$('#filter_vegetarian_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_pets').click(function() {
-					console.log ("hasclass - " + $( "#filter_pets" ).hasClass( "btn-primary"))
-					if ($( "#filter_pets" ).hasClass( "btn-primary")){
-						$('#filter_pets').removeClass( "btn-primary" );
-						$('#filter_pets').addClass( "btn-success" );
-						$('#filter_pets_check').removeClass( "hide" );
-					}else{
-						$('#filter_pets').removeClass( "btn-success" );
-						$('#filter_pets').addClass( "btn-primary" );
-						$('#filter_pets_check').addClass( "hide" );						
-					}
-				});
-				$('#filter_halla').click(function() {
-					console.log ("hasclass - " + $( "#filter_halla" ).hasClass( "btn-primary"))
-					if ($( "#filter_halla" ).hasClass( "btn-primary")){
-						$('#filter_halla').removeClass( "btn-primary" );
-						$('#filter_halla').addClass( "btn-success" );
-						$('#filter_halla_check').removeClass( "hide" );
-					}else{
-						$('#filter_halla').removeClass( "btn-success" );
-						$('#filter_halla').addClass( "btn-primary" );
-						$('#filter_halla_check').addClass( "hide" );						
-					}
-				});
 
 			    // custom toolbar colocar o logo da Casa Mundo
 			    //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
@@ -4601,7 +4525,6 @@
 				/* BASIC datatables*/
 
 				var responsiveHelper_dt_basic = undefined;
-				var responsiveHelper_accommodation_list = undefined;
 				var responsiveHelper_accommodation_dorms_list = undefined;
 				var responsiveHelper_families_list = undefined;
 				var responsiveHelper_family_list = undefined;
@@ -4615,83 +4538,6 @@
 					phone : 480
 				};
 			     
-				/* Accommodation list  */
-			    var otable = $('#accommodation_list').DataTable({
-			    	//"bFilter": false,
-			    	//"bInfo": false,
-			    	//"bLengthChange": false
-			    	//"bAutoWidth": false,
-			    	//"bPaginate": false,
-			    	//"bStateSave": true // saves sort state using localStorage
-					"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
-							"t"+
-							"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-					"autoWidth" : true,
-					"preDrawCallback" : function() {
-						// Initialize the responsive datatables helper once.
-						if (!responsiveHelper_accommodation_list) {
-							responsiveHelper_accommodation_list = new ResponsiveDatatablesHelper($('#accommodation_list'), breakpointDefinition);
-						}
-					},
-					"rowCallback" : function(nRow) {
-						responsiveHelper_accommodation_list.createExpandIcon(nRow);
-					},
-					"drawCallback" : function(oSettings) {
-						responsiveHelper_accommodation_list.respond();
-					},		
-			        "ajax": "data/dataList.json",
-			        "bDestroy": true,
-			        "iDisplayLength": 15,
-			        "columns": [
-			            {
-			                "class":          'details-control',
-			                "orderable":      false,
-			                "data":           null,
-			                "defaultContent": ''
-			            },
-			            { "data": "name" },
-			            { "data": "period" },
-			            { "data": "status" },
-			            { "data": "gender" },
-			            { "data": "alergies" },
-			            { "data": "smoke" },
-			            { "data": "agency" },
-			            { "data": "school" },
-			        ],
-			        "order": [[1, 'asc']],
-			        "fnDrawCallback": function( oSettings ) {
-				       runAllCharts()
-				    }
-				
-			    });
-
-				// Add event listener for opening and closing details
-			    $('#accommodation_list tbody').on('click', 'td.details-control', function () {
-			        var tr = $(this).closest('tr');
-			        var row = otable.row( tr );
-			 
-			        if ( row.child.isShown() ) {
-			            // This row is already open - close it
-			            row.child.hide();
-			            tr.removeClass('shown');
-			        }
-			        else {
-			            // Open this row
-			            row.child( format(row.data()) ).show();
-			            tr.addClass('shown');
-			        }
-			    });
-			    	   
-			    // Apply the filter
-			    $("#accommodation_list thead th input[type=text]").on( 'keyup change', function () {
-			    	
-			        otable
-			            .column( $(this).parent().index()+':visible' )
-			            .search( this.value )
-			            .draw();
-			            
-			    } );
-			    /* end accommodation list */   
 			     
 				/* Accommodation dorms list  */
 			    var accommodation_dorms_list = $('#accommodation_dorms_list').DataTable({
