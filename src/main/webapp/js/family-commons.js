@@ -388,6 +388,9 @@ function limpaStorageFamily () {
 				        '"singleBed" : "0",' +
 				        '"coupleBed" : "0",' +
 				        '"privateWashroom" : "no"' +
+				        '"singleBedAvailable" : "0",' +
+				        '"coupleBedAvailable" : "0",' +
+				        '"emailStudent" : [],' +
 				      '}]' +
 				  '}' +
 			'}'

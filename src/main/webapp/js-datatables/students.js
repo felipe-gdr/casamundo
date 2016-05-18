@@ -115,7 +115,7 @@
         		genderCollor = "label-male"
             };	    
         	student_table.row.add( {
-    	    	"student": "<a href='student.html?mail=" + student.mail + "'>" +
+    	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
     	    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
     	    			"<small class='text-muted'><i>Age: " + age + "<i></small><br>" + 
     	    			"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" + 

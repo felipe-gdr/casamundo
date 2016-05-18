@@ -405,7 +405,7 @@
 						<div class="col-sm-9"></div>
 						<div class="col-sm-1">
 							<div class="col-sm-1 profile-pic">
-								<a href="students.html" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new student."></i></a>
+								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to get back."></i></a>
 							</div>
 						</div>
 						<div class="col-sm-1">
@@ -765,7 +765,7 @@
 							</div>
 							<!-- end row -->
 
-							  <div class="jarviswidget jarviswidget-color-blue notOnlyStudent" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+							  <div class="jarviswidget jarviswidget-color-blue notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
 									<h2>Accommodations</h2>
@@ -775,16 +775,21 @@
 								</header>
 								<div class="row">
 									<div class="col-sm-12">
-										<h2><span class="semi-bold">Filters</span>
+										<h2><span class="semi-bold">Filters</span><br>
 										</h2>
+										<span class='text-muted'>(Click in a button to change the filters, green applied, blue not applied)</span><br>
 			
 										<tr>
-											<td><a id="filter_single" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_single_check" class="fa fa-check hide"></i>Accommodation</a></td>
-											<td><a id="filter_alergies" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_alergies_check" class="fa fa-check hide"></i>Alergies</a></td>
-											<td><a id="filter_smoke" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_smoke_check" class="fa fa-check hide"></i>Smoke</a></td>
-											<td><a id="filter_vegetarian" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_vegetarian_check" class="fa fa-check hide"></i>Vegetarian</a></td>
-											<td><a id="filter_pets" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_pets_check" class="fa fa-check hide"></i>Pets</a></td>
-											<td><a id="filter_halla" class="btn btn-primary btn-sm" href="javascript:void(0);"><i id="filter_halla_check" class="fa fa-check hide"></i>Halla</a></td>
+											<td><a id="filter_occupancy" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_occupancy_check" class="fa fa-check"></i>Occupancy</a></td>
+											<td><a id="filter_privateWashroom" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_privateWashroom_check" class="fa fa-check"></i>Private Washroom</a></td>
+											<td><a id="filter_gender" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_gender_check" class="fa fa-check"></i>Gender</a></td>
+											<td><a id="filter_age" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_age_check" class="fa fa-check"></i>Age</a></td>
+											<td><a id="filter_smoke" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_smoke_check" class="fa fa-check"></i>Smoke</a></td>
+											<td><a id="filter_pets" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_pets_check" class="fa fa-check"></i>Pets</a></td>
+											<td><a id="filter_nationality" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_nationality_check" class="fa fa-check"></i>Nationality</a></td>
+											<td><a id="filter_meal" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_meal_check" class="fa fa-check"></i>Meal</a></td>
+											<td><a id="filter_vegetarian" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_vegetarian_check" class="fa fa-check"></i>Vegetarian</a></td>
+											<td><a id="filter_distance" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_distance_check" class="fa fa-check"></i>Distance</a></td>
 										</tr>
 									</div>
 			
@@ -808,40 +813,29 @@
 														<th class="hasinput" >
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Filter Family" />
+															<input type="text" class="form-control" placeholder="Family" />
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Status" />
+															<input type="text" class="form-control" placeholder="Occupancy" />
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Gender" />
+															<input type="text" class="form-control" placeholder="Restrictions" />
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Alergies" />
+															<input type="text" class="form-control" placeholder="Meals" />
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Smoke" />
+															<input type="text" class="form-control" placeholder="Distances" />
 														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Vegetarian" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Pets" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Halla" />
 														</th>
 													</tr>
 										            <tr>
 										                <th></th>
 										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
-										                <th>Status</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Gender</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Alergies</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Smoke</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Vegetarian</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Pets</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Halla</th>
+										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Occupancy</th>
+										                <th><i class="fa fa-fw fa-times text-muted hidden-md hidden-sm hidden-xs"></i>Restricions</th>
+										                <th><i class="fa fa-fw fa-spoon text-muted hidden-md hidden-sm hidden-xs"></i>Meals</th>
+										                <th><i class="fa fa-fw fa-pause text-muted hidden-md hidden-sm hidden-xs"></i>Distances to school</th>
 										            </tr>
 										        </thead>
 										    </table>
@@ -1177,6 +1171,7 @@
 		<script src="js/main.js"></script>
 		<script src="js-datatables/student.js"></script>
 		<script src="js/student.js"></script>
+		<script src="js-datatables/accommodation-family.js"></script>
 
 		<script>
 			$(document).ready(function() {

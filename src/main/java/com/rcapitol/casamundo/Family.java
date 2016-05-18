@@ -273,6 +273,9 @@ public class Family {
     		public String singleBed;
     		public String coupleBed;
     		public String privateWashroom;
+    		public String singleBedAvailable;
+    		public String coupleBedAvailable;
+    		public String emailStudent[];
 
     		public Rooms() {
 
@@ -283,13 +286,19 @@ public class Family {
             			String number,
             			String singleBed,
             			String coupleBed,
-            			String privateWashroom
+            			String privateWashroom,
+            			String singleBedAvailable,
+            			String coupleBedAvailable,
+            			String [] emailStudent
             		)
             {
 	    		this.number = number;
 	    		this.singleBed = singleBed;
 	    		this.coupleBed = coupleBed;
 	    		this.privateWashroom = privateWashroom;
+	    		this.singleBedAvailable = singleBedAvailable;
+	    		this.coupleBedAvailable = coupleBedAvailable;
+	    		this.emailStudent = emailStudent;
             }
 
 		}

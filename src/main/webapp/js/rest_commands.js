@@ -120,13 +120,13 @@
     function rest_obterFamiliesAll(action_ok, destination, occupancy) {
     	var parameters = "";
     	if (destination && occupancy){
-    		pamameters = "?destination=" + destination + "&occupancy=" + occupancy;
+    		parameters = "?destination=" + destination + "&occupancy=" + occupancy;
     	}else{
-        	if (destination && occupancy){
-        		pamameters = "?destination=" + destination;
+        	if (destination){
+        		parameters = "?destination=" + destination;
         	}else{
             	if (occupancy){
-            		occupancyPar = "?occupancy=" + occupancy;
+            		parameters = "?occupancy=" + occupancy;
             	};
         	};
     	};

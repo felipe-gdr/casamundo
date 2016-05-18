@@ -5,7 +5,12 @@
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
-	var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
+	var parameter = parametrosDaUrl.split("&");
+	if (parameter[1]) {
+		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
+	};
+	
+	
 	 	 
 	/**
 	 * 		carrega tabelas
@@ -28,6 +33,12 @@
 	//
 	if (typePage == "onlyStudent"){
 		$(".notOnlyStudent" ).addClass("hide");
+	}
+	//
+	//***   setar pagina como somente consulta student
+	//
+	if (typePage == "change"){
+		$(".notChange" ).addClass("hide");
 	}
 /**
  * 
@@ -142,5 +153,4 @@
 	if (getValueStudent("schoolName",actualTrip)){
 		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true)
 	};
-	
 	

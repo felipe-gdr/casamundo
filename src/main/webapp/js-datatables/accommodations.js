@@ -5,10 +5,6 @@
 	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
 
 	/**
-     * 			adendo a lista accommodation
-     */
-
-	/**
 	 * 				obter os dados
 	 */
 	rest_obterStudentsAll(carregaLocalStorageStudents, "", "Homestay");
@@ -72,7 +68,6 @@
 			            { "data": "end" },
 			            { "data": "status" },
 			            { "data": "gender" },
-			            { "data": "smoke" },
 			            { "data": "agency" },
 			            { "data": "school" },
     		            ],
@@ -133,12 +128,15 @@
         	switch (student.trip.smoke) {
         	case "Yes":
         		smokeCollor = "label-warning"
+        		smokeText = "Smoke"
                 break;
             case "No":
             	smokeCollor = "label-success"
+            	smokeText = "Don't smoke"
                 break;
             default: 
         		smokeCollor = "label-primary"
+        		smokeText = ""
             };	 
             if (student.trip.medical){
             	medicalCollor = "label-warning";
@@ -192,18 +190,16 @@
 		    var accommodation = "Not yet acomodate";
 
         	accommodation_table.row.add( {
-                "name": "<div class='login-info'><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>" +
-//                		"<img src='img/avatars/photo_2.png' alt='me' class='online' />" +
-                		"<span>" + student.firstName +  " " + student.lastName + "</span><i class='fa fa-angle-down'></i></a></span></div><br>" +
-                		"<small class='text-muted'><i>Age: " + age + "<i></small><br>" +
-                		"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" +
-                		"<small class='text-muted'><i>Cel Phone: " + student.celPhone +  "<i></small><br>" +
-                		"<small class='text-muted'><i>Email: " + student.mail + "<i></small><br>",
+    	    	"name": "<a href='student.html?mail=" + student.mail + "&typePage=accommodation'>" +
+			    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
+			    			"<small class='text-muted'><i>Age: " + age + "<i></small><br>" + 
+			    			"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" + 
+			    			"<small class='text-muted'><i>Cel Phone: " + student.phone +  "<i></small><br>" + 
+			    			"<small class='text-muted'><i>Mail: " + student.mail +  "<i></small><br></a>",
                 "start": "<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>" + separaData(student.trip.start, "/") + "</small>",
                 "end": "<small class='hide'>" + converteAnoMesDia(student.trip.end) + "</small><small class='text-muted'>" + separaData(student.trip.end, "/") + "</small>",
                 "status": "<span class='label " + statusCollor + "'>" + student.trip.status + "</span>",
     	    	"gender":"<small class='label " + genderCollor + " '>" + student.gender + "</small>",
-                "smoke": "<span class='label " + smokeCollor + "'>" + student.trip.smoke + "</span>",
     	    	"agency":student.agency.name + "<br>" +
 				"<small class='text-muted'>Consult: " + student.agency.nameConsult + "</small><br>" +
 				"<small class='text-muted'>Cel Phone: " + student.agency.celPhone + "</small><br>" +
@@ -218,6 +214,7 @@
                 		specialDiet +
                 		"<span class='label " + liveDogsCollor + "'>" + liveDogsText + "</span>" +
                 		"<span class='label " + liveCatsCollor + "'>" + liveCatsText + "</span>" +
+                		"<span class='label " + smokeCollor + "'>" + smokeText + "</span>" +
                 		"<span class='label " + medicalCollor + "'>" + medicalText + "</span>",
                 "accommodation": "<span class='label label-warning'>" + accommodation + "</span><br>",
                 "comments": "<small class='text-muted'><i>" + student.trip.comments + "<i></small>",
@@ -256,7 +253,7 @@
 		    // `d` is the original data object for the row
 		    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
 		        '<tr>'+
-		            '<td style="width:100px">Another filters:</td>'+
+		            '<td style="width:100px">Filters:</td>'+
 		            '<td>'+d.filters+'</td>'+
 		        '</tr>'+
 		        '<tr>'+

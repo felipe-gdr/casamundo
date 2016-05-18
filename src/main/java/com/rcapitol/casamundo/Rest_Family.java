@@ -138,7 +138,9 @@ public class Rest_Family {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-			setQuery.put("documento.destination", destination);
+		    if (destination != null){
+		    	setQuery.put("documento.address.destination", destination);
+		    };
 			DBCollection collection = db.getCollection("family");
 			
 			DBCursor cursor = collection.find();
@@ -159,6 +161,14 @@ public class Rest_Family {
 					jsonDocumento.put("numberPrivateWashroom", jsonObject.get("numberPrivateWashroom"));
 				    jsonDocumento.put("contact", jsonObject.get("contact"));
 				    jsonDocumento.put("address", jsonObject.get("address"));
+			    	if (destination != null){
+					    jsonDocumento.put("mealPlan", jsonObject.get("mealPlan"));
+					    jsonDocumento.put("preferGenderStudent", jsonObject.get("preferGenderStudent"));
+					    jsonDocumento.put("acceptSmokeStudent", jsonObject.get("acceptSmokeStudent"));
+					    jsonDocumento.put("hostAnyNationalityStudent", jsonObject.get("hostAnyNationalityStudent"));
+					    jsonDocumento.put("preferAgeStudent", jsonObject.get("preferAgeStudent"));
+					    jsonDocumento.put("rooms", jsonObject.get("rooms"));
+			    	};
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {
