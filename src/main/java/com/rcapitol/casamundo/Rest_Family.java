@@ -166,6 +166,7 @@ public class Rest_Family {
 					    jsonDocumento.put("preferGenderStudent", jsonObject.get("preferGenderStudent"));
 					    jsonDocumento.put("acceptSmokeStudent", jsonObject.get("acceptSmokeStudent"));
 					    jsonDocumento.put("hostAnyNationalityStudent", jsonObject.get("hostAnyNationalityStudent"));
+					    jsonDocumento.put("hostVegetarianStudent", jsonObject.get("hostVegetarianStudent"));
 					    jsonDocumento.put("preferAgeStudent", jsonObject.get("preferAgeStudent"));
 					    jsonDocumento.put("rooms", jsonObject.get("rooms"));
 			    	};

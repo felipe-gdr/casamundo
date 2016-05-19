@@ -38,6 +38,7 @@
 				$('#filter_' + filter).addClass( "btn-primary" );
 				$('#filter_' + filter + '_check').addClass( "hide" );						
 			}
+			carregaLocalStorageFamilies (JSON.parse(localStorage.getItem("families")));
 		});
 	};
 	
@@ -104,15 +105,15 @@
 	        "charset" : "UTF-8",
 	        "bDestroy": true,
 	        "iDisplayLength": 15,
-	        "order": [[3, 'desc']],
+	        "order": [[1, 'desc']],
 	        "fnDrawCallback": function( oSettings ) {
 		       runAllCharts()
 		    }
 		
 	    });
+    	family_table.clear();
 	    var objJson = JSON.parse(localStorage.getItem("families"));
 	    $.each(objJson, function (i, family) {
-	    	var age = calculaIdade(separaData(objStudent.documento.birthDay, "/"));
 	    	switch (family.acceptSmokeStudent) {
 	    	case "Yes":
 	    		acceptSmokeCollor = "label-success"
@@ -180,9 +181,9 @@
 			    			availableBedText = "no available single beds"
 			    		}else{
 				    		if (room.singleBedAvailable == 1){
-				    			availableBedText = "available " + room.singleBedAvailable + "bed"
+				    			availableBedText = "available " + room.singleBedAvailable + " bed"
 				    		}else{
-				    			availableBedText = "available " + room.singleBedAvailable + "beds"
+				    			availableBedText = "available " + room.singleBedAvailable + " beds"
 				    		};
 			    		};
 			    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
@@ -220,7 +221,7 @@
 	        var distances = "<small class='text-muted'><i>subway: 30 minutes<i></small><br>";
 	    	family_table.row.add( {
 		    	"family":
-		    		"<small class='hide'>" + calculaPontuacaoFamilia(family) + "</small>" +
+		    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +
 		    		"<a href='family.html?familyName=" + family.familyName + "'>" +
 		    			"<span>Family Name:" + family.familyName +  "</span><br>" +
 		    			"<span>Type:" + family.type +  "</span><br>" +
@@ -275,7 +276,206 @@
 
 	};
 
-	function calculaPontuacaoFamilia (family) {
-		return 0;
+	function calculaPontuacaoFamilia (family, student) {
+		var pesoHasRoom = 1;
+		var pesoDontHasRoom = -1;
+		var pesoHasPrivateWashroom = 1;
+		var pesoDontHasPrivateWashroom = -1;
+		var pesoPreferGender = 1;
+		var pesoDontPreferGender = -1;
+		var pesoPreferAge = 1;
+		var pesoDontPreferAge = -1;
+		var pesoAcceptSmoke = 1;
+		var pesoDontAcceptSmoke = -1;
+		var pesoHasPets = 1;
+		var pesoDontHasPets = -1;
+		var pesoHasAcceptAnyNationality = 1;
+		var pesoDontAcceptAnyNationality = -1;
+		var pesoHasMeal = 1;
+		var pesoDontHasMeal = -1;
+		var pesoHasVegetarian = 1;
+		var pesoDontHasVegetarian = -1;
+		var pesoDistance = -1;
+		var points = 0;
+		var actualTrip = student.documento.actualTrip;
+
+		if ($('#filter_occupancy').hasClass( "btn-success")){
+			var hasRoom = false;
+			var hasPrivateWashroom = false;
+			if (student.documento.trips[actualTrip].occupancy){
+			    $.each(family.rooms, function (i, room) {
+			    	if (student.documento.trips[actualTrip].occupancy == "Single"){
+			    		if (room.singleBedAvailable > 0){
+			    			hasRoom = true;	
+			    			if ($('#filter_privateWashroom').hasClass( "btn-success")){
+			    				if (student.documento.trips[actualTrip].privateWashroom){
+				    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
+							    		if (room.privateWashroom == "Yes"){
+							    			hasPrivateWashroom = true;	
+							    		};				    					
+				    				};
+			    				};			
+			    			};
+			    		};
+			    	};
+			    	if (student.documento.trips[actualTrip].occupancy == "Couple"){
+			    		if (room.coupleBedAvailable > 0){
+			    			hasRoom = true;	
+			    			if ($('#filter_privateWashroom').hasClass( "btn-success")){
+			    				if (student.documento.trips[actualTrip].privateWashroom){
+				    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
+							    		if (room.privateWashroom == "Yes"){
+							    			hasPrivateWashroom = true;	
+							    		};				    					
+				    				};
+			    				};			
+			    			};
+			    		};
+			    	};
+			    });
+			};
+			if (hasRoom){
+				points = parseInt(points) + 1 + parseInt(pesoHasRoom)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasRoom)
+			};
+			if (hasPrivateWashroom){
+				points = parseInt(points) + 1 + parseInt(pesoHasPrivateWashroom)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasPrivateWashroom)
+			};
+		}else{
+			var hasPrivateWashroom = false;
+			if ($('#filter_privateWashroom').hasClass( "btn-success")){
+				if (student.documento.trips[actualTrip].privateWashroom){
+				    $.each(family.rooms, function (i, room) {
+	    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
+				    		if (room.privateWashroom == "Yes"){
+				    			hasPrivateWashroom = true;	
+				    		};				    					
+	    				};
+				    });
+				};
+			};
+			if (hasPrivateWashroom){
+				points = parseInt(points) + 1 + parseInt(pesoPreferGender)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasPrivateWashroom)
+			};			
+		};
+		if ($('#filter_gender').hasClass( "btn-success")){
+			var preferGenderOk = false;
+    		if (family.preferGenderStudent){
+    			if (student.documento.gender == family.preferGenderStudent){
+    				preferGenderOk = true;
+    			};
+    		}else{
+    			preferGenderOk = true;
+    		};
+			if (preferGenderOk){
+				points = parseInt(points) + 1 + parseInt(pesoPreferGender)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontPreferGender)
+			};			
+		};
+		if ($('#filter_age').hasClass( "btn-success")){
+			var preferAgeOk = false;
+    		if (family.preferAgeStudent){
+    			var age = calculaIdade(separaData(objStudent.documento.birthDay, "/"));
+    			if (family.preferAgeStudent == "15-20"){
+    				if (age > 15 && age < 21 ){
+    					preferAgeOk = true;
+    				};
+    			}else{
+        			if (family.preferAgeStudent == "20-30"){
+        				if (age > 19 && age < 31 ){
+        					preferAgeOk = true;
+        				};
+        			}else{
+        				if (family.preferAgeStudent == "30+"){	
+            				if (age > 29 ){
+            					preferAgeOk = true;
+            				};
+        				};
+        			};
+    			};
+    		}else{
+    			preferAgeOk = true;
+    		};
+			if (preferAgeOk){
+				points = parseInt(points) + 1 + parseInt(pesoPreferAge)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontPreferAge)
+			};			
+		};
+
+		if ($('#filter_smoke').hasClass( "btn-success")){
+			var acceptSmoke = false;
+    		if (family.acceptSmokeStudent){
+    			if (family.acceptSmokeStudent == "No"){
+    				if (student.documento.trips[actualTrip].smoke == "No" ){
+    					acceptSmoke = true;
+    				}
+        		}else{
+        			acceptSmoke = true;
+        		}
+    		}else{
+    			acceptSmoke = true;
+    		};
+			if (acceptSmoke){
+				points = parseInt(points) + 1 + parseInt(pesoAcceptSmoke)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontAcceptSmoke)
+			};			
+		};
+
+		if ($('#filter_pets').hasClass( "btn-success")){
+			var hasPets = false;
+    		if (family.havePets){
+    			if (family.havePets == "Yes"){
+    				if (student.documento.trips[actualTrip].liveDogs == "Yes" && student.documento.trips[actualTrip].liveCats == "Yes" ){
+    					hasPets = true;
+    				}
+        		}else{
+        			hasPets = true;
+        		}
+    		}else{
+    			hasPets = true;
+    		};
+			if (hasPets){
+				points = parseInt(points) + 1 + parseInt(pesoHasPets)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasPets)
+			};			
+		};
+
+		if ($('#filter_vegetarian').hasClass( "btn-success")){
+			var hasVegetarian = false;
+			if (student.documento.trips[actualTrip].specialDiet){
+			    $.each(student.documento.trips[actualTrip].specialDiet, function (i, diet) {
+			    	if (diet == "Vegetarian"){
+			    		if (family.hostVegetarianStudent){
+			    			if (family.hostVegetarianStudent == "Yes"){
+			    				hasVegetarian = true;
+			    			}
+			    		}
+			    	}
+			    });
+			}else{
+				hasVegetarian = true;
+    		};
+			if (hasVegetarian){
+				points = parseInt(points) + 1 + parseInt(pesoHasVegetarian)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasVegetarian)
+			};			
+		};
+		if (points < 10){
+			points = "0" + points;
+		};
+		if (points < 100){
+			points = "0" + points;
+		};
+		return points;
 	};
 	
