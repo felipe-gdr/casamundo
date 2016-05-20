@@ -162,13 +162,9 @@ function carregaDadosSchool(data, consult) {
 	$("#schoolContactEmail").html(data.documento.email);
 	$("#schoolAddress").html(data.documento.address);
 	$(".school").removeClass("hide");
-    var latitude = 43.766437;
-    var longitude = -79.400039;
-	if (data.documento.name == "Winston Schools Tutoring"){
-	    latitude = 43.708752;
-	    longitude = -79.398486;
-	}
-	generate_map_7(latitude, longitude);
+	generate_map_7(data.documento.latitude, data.documento.longitude);
+	localStorage.latitude.school = data.documento.latitude;
+	localStorage.longitude.school = data.documento.longitude;
 };
 
 function carregaSelectAgencies(data) {

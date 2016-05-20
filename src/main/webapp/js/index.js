@@ -4,6 +4,8 @@
 
 	localStorage.mapsCoordinate = "AIzaSyBtvFz034ClyfruthGGd4BCO0_I2iBZG3g";
 	localStorage.mapsDistance = "AIzaSyCY4Bn4wcalIGk7D1N3HaSdoaqgcfrdNRE";
+	localStorage.mapMatrixDistance = "AIzaSyDaDHbZU3-9m0g09R1d-g1eqwgwXqBkWRE";
+	
 	localStorage.app = "casamundo";
 
 	localStorage.urlServidor = window.location.hostname;

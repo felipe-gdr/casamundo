@@ -874,6 +874,29 @@
 	      }
 	    });
 	};
+
+	function getMapDistance (latOrigin, longOrigin, LatDestination, logDestination, key, action_ok, no_action_ok){
+		var origin1 = new google.maps.LatLng(latOrigin, longOrigin);
+		var origin2 = "";
+		var destinationA = "";
+		var destinationB = new google.maps.LatLng(LatDestination, logDestination);
+	
+		var service = new google.maps.DistanceMatrixService();
+		service.getDistanceMatrix(
+		  {
+		    origins: [origin1],
+		    destinations: [destinationB],
+		    travelMode: google.maps.TravelMode.TRANSIT,
+		  },
+		  action_ok (results));
+	};
+	
+	function callback(response, status) {
+	  // See Parsing the Results for
+	  // 
+	};
+	
+	
 	//
 	// *****   formato dos results
 	//

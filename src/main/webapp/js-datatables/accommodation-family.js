@@ -218,8 +218,10 @@
 			    									"<small class='text-info'><i>"  + privateWashroomText + "<i></small><br>";
 			    });
 	        };
+	        var objStudent = JSON.parse(localStorage.getItem("student"));
 	        var distances = "<small class='text-muted'><i>subway: 30 minutes<i></small><br>";
-	    	family_table.row.add( {
+	        getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitude.school, localStorage.longitude.school, carregaLinhaFamilia, carregaLinhaFamilia, family_table);
+	        family_table.row.add( {
 		    	"family":
 		    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +
 		    		"<a href='family.html?familyName=" + family.familyName + "'>" +
@@ -276,6 +278,142 @@
 
 	};
 
+	function montaLinhaFamilia(family_table, family){
+    	switch (family.acceptSmokeStudent) {
+    	case "Yes":
+    		acceptSmokeCollor = "label-success"
+    		acceptSmokeText = "Accept smoke"
+            break;
+        case "No":
+        	acceptSmokeCollor = "label-warning"
+        	acceptSmokeText = "Don't accept smoke"
+            break;
+        default: 
+        	acceptSmokeCollor = "label-primary"
+        	acceptSmokeText = ""
+        };	 
+    	switch (family.hostAnyNationalityStudent) {
+    	case "Yes":
+    		hostAnyNationalityStudentCollor = "label-success"
+    		hostAnyNationalityStudentText = "Host any nationality"
+            break;
+        case "No":
+        	hostAnyNationalityStudentCollor = "label-warning"
+        	hostAnyNationalityStudentText = "Don't host any nationality"
+            break;
+        default: 
+        	hostAnyNationalityStudentCollor = "label-primary"
+        	hostAnyNationalityStudentSmokeText = ""
+        };	 
+        if (family.havePets == "Yes"){
+        	havePetsCollor = "label-warning";
+        	havePetsText = "Have pets";
+        }else{
+        	havePetsCollor = "label-success";
+        	havePetsText = "Don't have pets";
+        };
+        if (family.hostVegetarianStudent == "Yes"){
+        	hostVegetarianStudentCollor = "label-success";
+        	hostVegetarianStudentText = "Host vegetarian";
+        }else{
+        	hostVegetarianStudentCollor = "label-warning";
+        	hostVegetarianStudentText = "Don't host vegetarian";
+        };
+        if (family.preferGenderStudent){
+        	preferGenderStudentCollor = "label-warning";
+        	preferGenderStudentText = "Prefer gender " + family.preferGenderStudent;
+        }else{
+        	preferGenderStudentCollor = "label-success";
+        	preferGenderStudentText = "Don't mind gender";
+        };
+        if (family.preferAgeStudent){
+        	preferAgeStudentCollor = "label-warning";
+        	preferAgeStudentText = "Prefer age " + family.preferAgeStudent + " years old";
+        }else{
+        	preferAgeStudentCollor = "label-success";
+        	preferAgeStudentText = "Don't mind age student";
+        };
+        var occupancy = "";
+        if (family.rooms[0]){
+		    $.each(family.rooms, function (i, room) {
+		    	if (room.singleBed){
+		    		if (room.singleBed == 1){
+		    			literal_1 = "bed"
+		    		}else{
+		    			literal_1 = "beds"
+		    		};
+		    		if (room.singleBedAvailable == 0){
+		    			availableBedText = "no available single beds"
+		    		}else{
+			    		if (room.singleBedAvailable == 1){
+			    			availableBedText = "available " + room.singleBedAvailable + " bed"
+			    		}else{
+			    			availableBedText = "available " + room.singleBedAvailable + " beds"
+			    		};
+		    		};
+		    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
+		    	};
+		    	if (room.coupleBed){
+		    		if (room.coupleBed == 1){
+		    			literal_1 = "bed"
+		    		}else{
+		    			literal_1 = "beds"
+		    		};
+		    		if (room.coupleBedAvailable == 0){
+		    			availableBedText = "no available couple beds"
+		    		}else{
+			    		if (room.coupleBedAvailable == 1){
+			    			availableBedText = "available " + room.coupleBedAvailable + " bed"
+			    		}else{
+			    			availableBedText = "available " + room.coupleBedAvailable + " beds"
+			    		};
+		    		};
+		    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
+		    	};
+		    	if (room.privateWashroom){
+		    		if (room.privateWashroom == "Yes"){
+		    			privateWashroomText = " Have private washroom"
+		    		}else{
+		    			privateWashroomText = " Dont't have private washroom"
+		    		};
+		    	};
+		    	occupancy = String(occupancy) + "<small class='text-success'><i>Room " + room.number + ":<br> " + 
+		    									"<small class='text-info'><i>" + singleBedText + "<i></small><br>" +
+		    									"<small class='text-info'><i>"  + coupleBedText + "<i></small><br>" +
+		    									"<small class='text-info'><i>"  + privateWashroomText + "<i></small><br>";
+		    });
+        };
+        var objStudent = JSON.parse(localStorage.getItem("student"));
+        var distances = "<small class='text-muted'><i>subway: 30 minutes<i></small><br>";
+        family_table.row.add( {
+	    	"family":
+	    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +
+	    		"<a href='family.html?familyName=" + family.familyName + "'>" +
+	    			"<span>Family Name:" + family.familyName +  "</span><br>" +
+	    			"<span>Type:" + family.type +  "</span><br>" +
+	    			"<span>Contact:" + family.contact.firstName +  " " + family.contact.lastName + "</span><br>" +
+	    			"<small class='text-muted'><i>Gender: " + family.contact.gender + "<i></small><br>" +
+	    			"<small class='text-muted'><i>Ocuppation: " + family.contact.ocuppation + "<i></small><br>" +
+	    			"<small class='text-muted'><i>Phone: " + family.contact.phoneNumber +  "<i></small><br>" + 
+	    			"<small class='text-muted'><i>Cel Phone: " + family.contact.mobilePhoneNumber +  "<i></small><br>" +
+	    			"<small class='text-muted'><i>Work Phone: " + family.contact.workPhoneNumber +  "<i></small><br>" +
+	    			"<small class='text-muted'><i>Mail: " + family.contact.email +  "<i></small><br></a>",
+	    	"occupancy": occupancy,
+            "restrictions":
+	    		"<span class='label " + preferGenderStudentCollor + "'>" + preferGenderStudentText + " </span><br>" +
+	    		"<span class='label " + preferAgeStudentCollor + "'>" + preferAgeStudentText + " </span><br>" +
+	    		"<span class='label " + acceptSmokeCollor + "'>" + acceptSmokeText + "</span><br>" +
+	    		"<span class='label " + havePetsCollor + "'>" + havePetsText + "</span><br>" +
+	    		"<span class='label " + hostAnyNationalityStudentCollor + "'>" + hostAnyNationalityStudentText + "</span>",
+	    	"meals":
+    				"<span class='label label-warning'>" + family.mealPlan + "</span><br>" +
+	    			"<span class='label " + hostVegetarianStudentCollor + "'>" + hostVegetarianStudentText + "</span>",
+            "distances": distances,
+            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
+	    }).draw( false );
+		
+	};
+	
 	function calculaPontuacaoFamilia (family, student) {
 		var pesoHasRoom = 1;
 		var pesoDontHasRoom = -1;
@@ -474,6 +612,9 @@
 			points = "0" + points;
 		};
 		if (points < 100){
+			points = "0" + points;
+		};
+		if (points < 1000){
 			points = "0" + points;
 		};
 		return points;

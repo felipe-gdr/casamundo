@@ -63,8 +63,12 @@
 			};
 			$.each(form
 			    , function (i, field) {
+				fieldName = field.name;
+				if (fieldName == "destinationSchool"){
+					fieldName = "destination";
+				} 
 				if (field.value){
-			        objJson.documento[field.name] = field.value;
+			        objJson.documento[fieldName] = field.value;
 				};
 			});
 			localStorage.setItem("school", JSON.stringify(objJson));
