@@ -835,16 +835,22 @@
         name: "Metro"
     });
 
-    var latitude = 43.766437;
-    var longitude = -79.400039;
-    generate_map_7(latitude, longitude);
-
 	// Metro Style
-	function generate_map_7(latitude, longitude) {
+	function generate_map_7(latitude, longitude, locations) {
 	
+/*		var locations = [
+		                 ['First Shoppe', -37.808204, 144.855579],
+		                 ['Second Shoppe', -37.675648, 145.026125],
+		                 ['Third Shoppe', -37.816935, 144.966877],
+		                 ['Fourth Shoppe', -37.818714, 145.036494],
+		                 ['Fifth Shoppe', -37.793834, 144.987018],
+		                 ['Sixth Shoppe', -37.737116, 144.998581],
+		                 ['Seventh Shoppe', -37.765528, 144.922624]
+		               ];
+*/
 		var myCenter=new google.maps.LatLng(latitude, longitude);
 		var mapOptions = {
-	        center: new google.maps.LatLng(latitude, -79.400039),
+	        center: new google.maps.LatLng(latitude, longitude),
 	        zoom: 18,
 	    };
 		var mapProp = {
@@ -856,9 +862,16 @@
 	    var marker=new google.maps.Marker({
 	    	  position:myCenter,
 	    	  });
-	
 		marker.setMap(map);
-		
+        if (locations){
+			for (i = 0; i < locations.length; i++) {  
+	        	marker = new google.maps.Marker({
+	            	position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+	            	title: locations[i][0],
+	            	map: map
+	        	});
+	         };
+        };		
 	    // Setup skin for the map
 	    map.mapTypes.set('metro_style', metroStyleMap);
 	    map.setMapTypeId('metro_style');
@@ -875,7 +888,8 @@
 	    });
 	};
 
-	function getMapDistance (latOrigin, longOrigin, LatDestination, logDestination, key, action_ok, no_action_ok){
+	function getMapDistance (latOrigin, longOrigin, LatDestination, logDestination, key, action_ok, no_action_ok, par01, par02){
+
 		var origin1 = new google.maps.LatLng(latOrigin, longOrigin);
 		var origin2 = "";
 		var destinationA = "";
@@ -888,15 +902,22 @@
 		    destinations: [destinationB],
 		    travelMode: google.maps.TravelMode.TRANSIT,
 		  },
-		  action_ok (results));
+		  function(response, status) {
+		        if (status == google.maps.DistanceMatrixStatus.OK) {
+		        	action_ok(response, par01, par02);
+		        } else {
+		        	action_ok(false, par01, par02);
+		        }
+		  });
 	};
 	
 	function callback(response, status) {
-	  // See Parsing the Results for
-	  // 
+		  // See Parsing the Results for
+		  // the basics of a callback function.
+		}
+	function callBackDistance (results, status, par01, par02){
+		
 	};
-	
-	
 	//
 	// *****   formato dos results
 	//

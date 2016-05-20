@@ -163,8 +163,8 @@ function carregaDadosSchool(data, consult) {
 	$("#schoolAddress").html(data.documento.address);
 	$(".school").removeClass("hide");
 	generate_map_7(data.documento.latitude, data.documento.longitude);
-	localStorage.latitude.school = data.documento.latitude;
-	localStorage.longitude.school = data.documento.longitude;
+	localStorage.latitudeSchool = data.documento.latitude;
+	localStorage.longitudeSchool = data.documento.longitude;
 };
 
 function carregaSelectAgencies(data) {
