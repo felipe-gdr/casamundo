@@ -192,6 +192,7 @@ function calculaIdade ( dataNascimento ) {
     	$.each(table.documento.nationality
     		    , function (i, optionValue) {
         			$("#nationality").append( $(option(optionValue)));
+        			$("#dontHostNationality").append( $(option(optionValue)));
     		    });
         $.each(table.documento.mainPurposeTrip
     		    , function (i, optionValue) {

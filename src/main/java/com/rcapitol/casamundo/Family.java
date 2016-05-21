@@ -38,15 +38,16 @@ public class Family {
 		public String offerPrivateWashroom;
 		public String numberPrivateWashroom;
 		public String offerInternet;
-		public String havePets;
+		public String haveDogs;
+		public String haveCats;
 		public String firstLanguage;
 		public String othersLanguage[];
 		public String acceptSmokeStudent;
 		public String preferAgeStudent;
 		public String preferGenderStudent;
-		public String mealPlan;
+		public String mealPlan[];       
 		public String hostVegetarianStudent;
-		public String hostAnyNationalityStudent;
+		public String dontHostNationality[];
 		public String acceptSmokeInsideHome;
 		public Contact contact;
 		public Address address;
@@ -67,15 +68,16 @@ public class Family {
 						String offerPrivateWashroom,
 						String numberPrivateWashroom,
 						String offerInternet,
-						String havePets,
+						String haveDogs,
+						String haveCats,
 						String firstLanguage,
 						String[] othersLanguage,
 						String acceptSmokeStudent,
 						String preferAgeStudent,
 						String preferGenderStudent,
-						String mealPlan,
+						String[] mealPlan,
 						String hostVegetarianStudent,
-						String hostAnyNationalityStudent,
+						String[] dontHostNationality,
 						String acceptSmokeInsideHome,
 						Contact contact,
 						Address address,
@@ -90,7 +92,8 @@ public class Family {
 						this.offerPrivateWashroom = offerPrivateWashroom; 
 						this.numberPrivateWashroom = numberPrivateWashroom; 
 						this.offerInternet = offerInternet; 
-						this.havePets = havePets; 
+						this.haveDogs = haveDogs; 
+						this.haveCats = haveCats; 
 						this.firstLanguage = firstLanguage; 
 						this.othersLanguage = othersLanguage; 
 						this.acceptSmokeStudent = acceptSmokeStudent; 
@@ -98,7 +101,7 @@ public class Family {
 						this.preferGenderStudent = preferGenderStudent; 
 						this.mealPlan = mealPlan; 
 						this.hostVegetarianStudent = hostVegetarianStudent; 
-						this.hostAnyNationalityStudent = hostAnyNationalityStudent; 
+						this.dontHostNationality = dontHostNationality; 
 						this.acceptSmokeInsideHome = acceptSmokeInsideHome; 
 						this.contact = contact; 
 						this.address = address; 

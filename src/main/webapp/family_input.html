@@ -681,8 +681,13 @@
 														</section>
 														<section class="col-xs-7">
 															<label class="toggle">
-																<input type="checkbox" id="havePets" name="havePets">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you have pets?</label>
+																<input type="checkbox" id="haveDogs" name="haveDogs">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you have Dogs?</label>
+														</section>
+														<section class="col-xs-7">
+															<label class="toggle">
+																<input type="checkbox" id="haveCats" name="haveCats">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you have Cats?</label>
 														</section>
 														<section class="col-xs-8">
 															<label class="label">First Language</label>
@@ -724,10 +729,11 @@
 																<input type="checkbox" id="hostVegetarianStudent" name="hostVegetarianStudent">
 																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Would you host a vegetarian Student?</label>
 														</section>
-														<section class="col-xs-10">
-															<label class="toggle">
-																<input type="checkbox" id="hostAnyNationalityStudent" name="hostAnyNationalityStudent">
-																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Would you host a Student from any nationality? </label>
+														<section class="col-xs-8">
+															<label class="label">Don't host nationality</label>
+															<label class="select select-multiple ">
+																<select id="dontHostNationality" name="dontHostNationality"  multiple="" class="custom-scroll language">
+																</select> </label>
 														</section>
 													</fieldset>
 												</div>
@@ -754,12 +760,11 @@
 																</select><i></i>
 															</label>
 														</section>
-														<section class="col-xs-11">
+														<section class="col-xs-8">
 															<label class="label">Meal plans you are willing to offer</label>
-															<label class="select ">
-																<select id="mealPlan" name="mealPlan">
-																	<option value="" selected="" disabled=""></option>
-																</select><i></i></label>
+															<label class="select select-multiple ">
+																<select id="mealPlan" name="mealPlan"  multiple="" class="custom-scroll language">
+																</select> </label>
 														</section>
 													</fieldset>
 												</div>

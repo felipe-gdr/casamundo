@@ -27,7 +27,8 @@ function carregaTelaFamily(data, tipo) {
 		$("#offerPrivateWashroom").html(data.documento.offerPrivateWashroom);
 		$("#numberPrivateWashroom").html(data.documento.numberPrivateWashroom);
 		$("#offerInternet").html(data.documento.offerInternet);
-		$("#havePets").html(data.documento.havePets);
+		$("#haveDogs").html(data.documento.haveDogs);
+		$("#haveCats").html(data.documento.haveCats);
 		$("#firstLanguage").html(data.documento.firstLanguage);
 		$("#othersLanguage").html(data.documento.othersLanguage);
 		$("#acceptSmokeStudent").html(data.documento.acceptSmokeStudent);
@@ -35,7 +36,7 @@ function carregaTelaFamily(data, tipo) {
 		$("#preferGenderStudent").html(data.documento.preferGenderStudent);
 		$("#mealPlan").html(data.documento.mealPlan);
 		$("#hostVegetarianStudent").html(data.documento.hostVegetarianStudent);
-		$("#hostAnyNationalityStudent").html(data.documento.hostAnyNationalityStudent);
+		$("#dontHostNationality").html(data.documento.dontHostNationality);
 		$("#acceptSmokeInsideHome").html(data.documento.acceptSmokeInsideHome);
 	  	$("#contact_name").html(data.documento.contact.firstName + " " + data.documento.contact.lastName);
 	  	$("#contact_gender").html(data.documento.contact.gender);
@@ -111,8 +112,11 @@ function carregaTelaFamily(data, tipo) {
 		if (data.documento.offerInternet == "Yes"){
 			$("#offerInternet").prop("checked", true)
 		}
-		if (data.documento.havePets == "Yes"){
-			$("#havePets").prop("checked", true)
+		if (data.documento.haveDogs == "Yes"){
+			$("#haveDogs").prop("checked", true)
+		}
+		if (data.documento.haveCats == "Yes"){
+			$("#haveCats").prop("checked", true)
 		}
 		$("#firstLanguage").val(data.documento.firstLanguage);
 		$("#othersLanguage").val(data.documento.othersLanguage);
@@ -123,9 +127,7 @@ function carregaTelaFamily(data, tipo) {
 		if (data.documento.hostVegetarianStudent == "Yes"){
 			$("#hostVegetarianStudent").prop("checked", true)
 		}
-		if (data.documento.hostAnyNationalityStudent == "Yes"){
-			$("#hostAnyNationalityStudent").prop("checked", true)
-		}
+		$("#dontHostNationality").val(data.documento.dontHostNationality);
 		if (data.documento.acceptSmokeInsideHome == "Yes"){
 			$("#acceptSmokeInsideHome").prop("checked", true)
 		}
@@ -331,15 +333,16 @@ function limpaStorageFamily () {
 				    '"offerPrivateWashroom" : "",' +
 				    '"numberPrivateWashroom" : "",' +
 				    '"offerInternet" : "",' +
-				    '"havePets" : "",' +
+				    '"haveDogs" : "",' +
+				    '"haveCats" : "",' +
 				    '"firstLanguage" : "",' +
 				    '"othersLanguage" : [],' +
 				    '"acceptSmokeStudent" : "",' +
 				    '"preferAgeStudent" : "",' +
 				    '"preferGenderStudent" : "",' +
-				    '"mealPlan" : "",' +
+				    '"mealPlan" : [],' +
 				    '"hostVegetarianStudent" : "",' +
-				    '"hostAnyNationalityStudent" : "",' +
+				    '"dontHostNationality" : [],' +
 				    '"acceptSmokeInsideHome" : "",' +
 				    '"contact" : {' +
 				      '"firstName" : "",' +
@@ -432,8 +435,11 @@ function setValueFamily (field, value) {
 	if (field == "offerInternet"){
         objJson.documento.offerInternet = value;
 	};
-	if (field == "havePets"){
-        objJson.documento.havePets = value;
+	if (field == "haveDogs"){
+        objJson.documento.haveDogs = value;
+	};
+	if (field == "haveCats"){
+        objJson.documento.haveCats = value;
 	};
 	if (field == "firstLanguage"){
         objJson.documento.firstLanguage = value;
@@ -452,13 +458,15 @@ function setValueFamily (field, value) {
         objJson.documento.preferGenderStudent = value;
 	};
 	if (field == "mealPlan"){
-        objJson.documento.mealPlan = value;
+		var array = value.split(",");
+        objJson.documento.mealPlan = array;
 	};
 	if (field == "hostVegetarianStudent"){
         objJson.documento.hostVegetarianStudent = value;
 	};
-	if (field == "hostAnyNationalityStudent"){
-        objJson.documento.hostAnyNationalityStudent = value;
+	if (field == "dontHostNationality"){
+		var array = value.split(",");
+        objJson.documento.dontHostNationality = array;
 	};
 	if (field == "acceptSmokeInsideHome"){
         objJson.documento.acceptSmokeInsideHome = value;
