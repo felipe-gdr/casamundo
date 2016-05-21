@@ -35,7 +35,7 @@ function carregaTelaFamily(data, tipo) {
 		$("#preferAgeStudent").html(data.documento.preferAgeStudent);
 		$("#preferGenderStudent").html(data.documento.preferGenderStudent);
 		$("#mealPlan").html(data.documento.mealPlan);
-		$("#hostVegetarianStudent").html(data.documento.hostVegetarianStudent);
+		$("#specialDiet").html(data.documento.specialDiet);
 		$("#dontHostNationality").html(data.documento.dontHostNationality);
 		$("#acceptSmokeInsideHome").html(data.documento.acceptSmokeInsideHome);
 	  	$("#contact_name").html(data.documento.contact.firstName + " " + data.documento.contact.lastName);
@@ -124,9 +124,7 @@ function carregaTelaFamily(data, tipo) {
 		$("#preferAgeStudent").val(data.documento.preferAgeStudent);
 		$("#preferGenderStudent").val(data.documento.preferGenderStudent);
 		$("#mealPlan").val(data.documento.mealPlan);
-		if (data.documento.hostVegetarianStudent == "Yes"){
-			$("#hostVegetarianStudent").prop("checked", true)
-		}
+		$("#specialDiet").val(data.documento.specialDiet);
 		$("#dontHostNationality").val(data.documento.dontHostNationality);
 		if (data.documento.acceptSmokeInsideHome == "Yes"){
 			$("#acceptSmokeInsideHome").prop("checked", true)
@@ -341,7 +339,7 @@ function limpaStorageFamily () {
 				    '"preferAgeStudent" : "",' +
 				    '"preferGenderStudent" : "",' +
 				    '"mealPlan" : [],' +
-				    '"hostVegetarianStudent" : "",' +
+				    '"specialDiet" : [],' +
 				    '"dontHostNationality" : [],' +
 				    '"acceptSmokeInsideHome" : "",' +
 				    '"contact" : {' +
@@ -461,8 +459,9 @@ function setValueFamily (field, value) {
 		var array = value.split(",");
         objJson.documento.mealPlan = array;
 	};
-	if (field == "hostVegetarianStudent"){
-        objJson.documento.hostVegetarianStudent = value;
+	if (field == "specialDiet"){
+		var array = value.split(",");
+        objJson.documento.specialDiet = array;
 	};
 	if (field == "dontHostNationality"){
 		var array = value.split(",");

@@ -46,7 +46,7 @@ public class Family {
 		public String preferAgeStudent;
 		public String preferGenderStudent;
 		public String mealPlan[];       
-		public String hostVegetarianStudent;
+		public String specialDiet[];
 		public String dontHostNationality[];
 		public String acceptSmokeInsideHome;
 		public Contact contact;
@@ -76,7 +76,7 @@ public class Family {
 						String preferAgeStudent,
 						String preferGenderStudent,
 						String[] mealPlan,
-						String hostVegetarianStudent,
+						String[] specialDiet,
 						String[] dontHostNationality,
 						String acceptSmokeInsideHome,
 						Contact contact,
@@ -100,7 +100,7 @@ public class Family {
 						this.preferAgeStudent = preferAgeStudent; 
 						this.preferGenderStudent = preferGenderStudent; 
 						this.mealPlan = mealPlan; 
-						this.hostVegetarianStudent = hostVegetarianStudent; 
+						this.specialDiet = specialDiet; 
 						this.dontHostNationality = dontHostNationality; 
 						this.acceptSmokeInsideHome = acceptSmokeInsideHome; 
 						this.contact = contact; 
