@@ -21,11 +21,11 @@
 	setFilter ("gender");
 	setFilter ("age");
 	setFilter ("smoke");
-	setFilter ("pets");
+	setFilter ("dogs");
+	setFilter ("cats");
 	setFilter ("nationality");
-	setFilter ("meal");
-	setFilter ("vegetarian");
-	setFilter ("distance");
+	setFilter ("mealPlan");
+	setFilter ("specialDiet");
 
 	function setFilter (filter) {
 		$('#filter_' + filter).click(function() {
@@ -98,7 +98,6 @@
 			            { "data": "family" },
 			            { "data": "occupancy" },
 			            { "data": "restrictions" },
-			            { "data": "meals" },
 			            { "data": "distances" },
 			            ],
 	        "responsive": true,
@@ -147,45 +146,26 @@
 	};
 
 	function montaLinhaFamilia(results, family_table, family){
-    	switch (family.acceptSmokeStudent) {
-    	case "Yes":
-    		acceptSmokeCollor = "label-success"
-    		acceptSmokeText = "Accept smoke"
-            break;
-        case "No":
+        if (family.acceptSmokeStudent == "Yes"){
+        	acceptSmokeCollor = "label-success"
+        		acceptSmokeText = "Accept smoke"
+        }else{
         	acceptSmokeCollor = "label-warning"
-        	acceptSmokeText = "Don't accept smoke"
-            break;
-        default: 
-        	acceptSmokeCollor = "label-primary"
-        	acceptSmokeText = ""
-        };	 
-    	switch (family.hostAnyNationalityStudent) {
-    	case "Yes":
-    		hostAnyNationalityStudentCollor = "label-success"
-    		hostAnyNationalityStudentText = "Host any nationality"
-            break;
-        case "No":
-        	hostAnyNationalityStudentCollor = "label-warning"
-        	hostAnyNationalityStudentText = "Don't host any nationality"
-            break;
-        default: 
-        	hostAnyNationalityStudentCollor = "label-primary"
-        	hostAnyNationalityStudentSmokeText = ""
-        };	 
-        if (family.havePets == "Yes"){
-        	havePetsCollor = "label-warning";
-        	havePetsText = "Have pets";
-        }else{
-        	havePetsCollor = "label-success";
-        	havePetsText = "Don't have pets";
+            	acceptSmokeText = "Don't accept smoke"
         };
-        if (family.hostVegetarianStudent == "Yes"){
-        	hostVegetarianStudentCollor = "label-success";
-        	hostVegetarianStudentText = "Host vegetarian";
+        if (family.haveDogs == "Yes"){
+        	haveDogsCollor = "label-warning";
+        	haveDogsText = "Have dogss";
         }else{
-        	hostVegetarianStudentCollor = "label-warning";
-        	hostVegetarianStudentText = "Don't host vegetarian";
+        	haveDogsCollor = "label-success";
+        	haveDogsText = "Don't have dogs";
+        };
+        if (family.haveCats == "Yes"){
+        	haveCatsCollor = "label-warning";
+        	haveCatsText = "Have cats";
+        }else{
+        	haveCatsCollor = "label-success";
+        	haveCatsText = "Don't have cats";
         };
         if (family.preferGenderStudent){
         	preferGenderStudentCollor = "label-warning";
@@ -200,6 +180,44 @@
         }else{
         	preferAgeStudentCollor = "label-success";
         	preferAgeStudentText = "Don't mind age student";
+        };
+        if (family.mealPlan){
+        	haveMealPlanCollor = "label-success";
+        	haveMealPlanText = "Offer ";  
+        	literal = "";
+		    $.each(family.mealPlan, function (i, mealPlan) {
+		    	haveMealPlanText = haveMealPlanText + literal + mealPlan;
+		    	literal = ", ";
+		    });
+		    haveMealPlanText = haveMealPlanText + " for meal plan"
+        }else{
+        	haveMealPlanCollor = "label-warning";
+        	haveMealPlanText = "Don't offer meal plan";        	
+        };
+        if (family.specialDiet){
+        	haveSpecialDietCollor = "label-success";
+        	haveSpecialDietText = "Offer ";  
+        	literal = "";
+		    $.each(family.specialDiet, function (i, specialDiet) {
+		    	haveSpecialDietText = haveSpecialDietText + literal + specialDiet;
+		    	literal = ", ";
+		    });
+		    haveSpecialDietText = haveSpecialDietText + " for special diet"
+        }else{
+        	haveSpecialDietCollor = "label-warning";
+        	haveSpecialDietText = "Don't offer special diet";        	
+        };
+        if (family.dontHostNationality){
+        	dontHostNationalityCollor = "label-warning";
+        	dontHostNationalityText = "Don't host nationality ";  
+        	literal = "";
+		    $.each(family.dontHostNationality, function (i, dontHostNationality) {
+		    	dontHostNationalityText = dontHostNationalityText + literal + dontHostNationality;
+		    	literal = ", ";
+		    });
+        }else{
+        	dontHostNationalityCollor = "label-success";
+        	dontHostNationalityText = "Don't have restriction for nationality";        	
         };
         var occupancy = "";
         if (family.rooms[0]){
@@ -273,11 +291,11 @@
 	    		"<span class='label " + preferGenderStudentCollor + "'>" + preferGenderStudentText + " </span><br>" +
 	    		"<span class='label " + preferAgeStudentCollor + "'>" + preferAgeStudentText + " </span><br>" +
 	    		"<span class='label " + acceptSmokeCollor + "'>" + acceptSmokeText + "</span><br>" +
-	    		"<span class='label " + havePetsCollor + "'>" + havePetsText + "</span><br>" +
-	    		"<span class='label " + hostAnyNationalityStudentCollor + "'>" + hostAnyNationalityStudentText + "</span>",
-	    	"meals":
-    				"<span class='label label-warning'>" + family.mealPlan + "</span><br>" +
-	    			"<span class='label " + hostVegetarianStudentCollor + "'>" + hostVegetarianStudentText + "</span>",
+	    		"<span class='label " + haveDogsCollor + "'>" + haveDogsText + "</span><br>" +
+	    		"<span class='label " + haveCatsCollor + "'>" + haveCatsText + "</span><br>" +
+	    		"<span class='label " + dontHostNationalityCollor + "'>" + dontHostNationalityText + "</span><br>" +
+	    		"<span class='label " + haveMealPlanCollor + "'>" + haveMealPlanText + "</span><br>" +
+	    		"<span class='label " + haveSpecialDietCollor + "'>" + haveSpecialDietText + "</span>",
             "distances": distances,
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
 	    }).draw( false );
@@ -295,14 +313,16 @@
 		var pesoDontPreferAge = -1;
 		var pesoAcceptSmoke = 1;
 		var pesoDontAcceptSmoke = -1;
-		var pesoHasPets = 1;
-		var pesoDontHasPets = -1;
-		var pesoHasAcceptAnyNationality = 1;
+		var pesoHasDogs = 1;
+		var pesoDontHasDogs = -1;
+		var pesoHasCats = 1;
+		var pesoDontHasCats = -1;
+		var pesoAcceptAnyNationality = 1;
 		var pesoDontAcceptAnyNationality = -1;
-		var pesoHasMeal = 1;
-		var pesoDontHasMeal = -1;
-		var pesoHasVegetarian = 1;
-		var pesoDontHasVegetarian = -1;
+		var pesoHasMealPlan = 1;
+		var pesoDontHasMealPLan = -1;
+		var pesoHasSpecialDiet = 1;
+		var pesoDontHasSpecialDiet = -1;
 		var pesoDistance = -1;
 		var points = 0;
 		var actualTrip = student.documento.actualTrip;
@@ -419,9 +439,9 @@
 
 		if ($('#filter_smoke').hasClass( "btn-success")){
 			var acceptSmoke = false;
-    		if (family.acceptSmokeStudent){
-    			if (family.acceptSmokeStudent == "No"){
-    				if (student.documento.trips[actualTrip].smoke == "No" ){
+    		if (student.documento.trips[actualTrip].smoke){
+    			if (student.documento.trips[actualTrip].smoke == "Yes"){
+    				if (family.acceptSmokeStudent == "Yes" ){
     					acceptSmoke = true;
     				}
         		}else{
@@ -437,47 +457,101 @@
 			};			
 		};
 
-		if ($('#filter_pets').hasClass( "btn-success")){
-			var hasPets = false;
-    		if (family.havePets){
-    			if (family.havePets == "Yes"){
-    				if (student.documento.trips[actualTrip].liveDogs == "Yes" && student.documento.trips[actualTrip].liveCats == "Yes" ){
-    					hasPets = true;
+		if ($('#filter_dogs').hasClass( "btn-success")){
+			var hasDogs = false;
+    		if (family.haveDogs){
+    			if (family.haveDogs == "Yes"){
+    				if (student.documento.trips[actualTrip].liveDogs == "Yes"){
+    					hasDogs = true;
     				}
         		}else{
-        			hasPets = true;
+        			hasDogs = true;
         		}
     		}else{
-    			hasPets = true;
+    			hasDogs = true;
     		};
-			if (hasPets){
-				points = parseInt(points) + 1 + parseInt(pesoHasPets)  
+			if (hasDogs){
+				points = parseInt(points) + 1 + parseInt(pesoHasDogs)  
 			}else{
-				points = parseInt(points) + 1 + parseInt(pesoDontHasPets)
+				points = parseInt(points) + 1 + parseInt(pesoDontHasDogs)
 			};			
 		};
 
-		if ($('#filter_vegetarian').hasClass( "btn-success")){
-			var hasVegetarian = false;
-			if (student.documento.trips[actualTrip].specialDiet){
-			    $.each(student.documento.trips[actualTrip].specialDiet, function (i, diet) {
-			    	if (diet == "Vegetarian"){
-			    		if (family.hostVegetarianStudent){
-			    			if (family.hostVegetarianStudent == "Yes"){
-			    				hasVegetarian = true;
-			    			}
-			    		}
-			    	}
-			    });
-			}else{
-				hasVegetarian = true;
+		if ($('#filter_cats').hasClass( "btn-success")){
+			var hasCats = false;
+    		if (family.haveCats){
+    			if (family.haveCats == "Yes"){
+    				if (student.documento.trips[actualTrip].liveCats == "Yes"){
+    					hasCats = true;
+    				}
+        		}else{
+        			hasCats = true;
+        		}
+    		}else{
+    			hasCats = true;
     		};
-			if (hasVegetarian){
-				points = parseInt(points) + 1 + parseInt(pesoHasVegetarian)  
+			if (hasCats){
+				points = parseInt(points) + 1 + parseInt(pesoHasCats)  
 			}else{
-				points = parseInt(points) + 1 + parseInt(pesoDontHasVegetarian)
+				points = parseInt(points) + 1 + parseInt(pesoDontHasCats)
 			};			
 		};
+		if ($('#filter_mealPlan').hasClass( "btn-success")){
+			var hasMealPlan = false;
+    		if (student.documento.trips[actualTrip].mealPLan){
+			    $.each(student.documento.trips[actualTrip].mealPLan, function (i, mealPlanStudent) {
+			    	if (family.mealPLan){
+					    $.each(family.mealPLan, function (i, mealPlanFamily) {
+					    	if (mealPlanStudent == mealPlanFamily){
+					    		hasMealPlan = true;	
+					    	};
+					    });
+			    	};
+        		});
+    		}else{
+    			hasMealPlan = true;
+    		}
+			if (hasMealPlan){
+				points = parseInt(points) + 1 + parseInt(pesoHasMealPlan)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasMealPlan)
+			};			
+		};
+		if ($('#filter_specialDiet').hasClass( "btn-success")){
+			var hasSpecialDiet = false;
+    		if (student.documento.trips[actualTrip].specialDiet){
+			    $.each(student.documento.trips[actualTrip].specialDiet, function (i, specialDietStudent) {
+			    	if (family.specialDiet){
+				    	$.each(family.specialDiet, function (i, specialDietFamily) {
+					    	if (specialDietStudent == specialDietFamily){
+					    		hasSpecialDiet = true;	
+					    	};
+					    });
+			    	};
+        		});
+    		};
+			if (hasSpecialDiet){
+				points = parseInt(points) + 1 + parseInt(pesoHasSpecialDiet)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontHasSpecialDiet)
+			};			
+		};
+		if ($('#filter_nationality').hasClass( "btn-success")){
+			var hasAcceptAnyNationality = true;
+    		if (family.dontHostNationality){
+			    $.each(family.dontHostNationality, function (i, dontHostNationality) {
+			    	if (student.documento.nationality == dontHostNationality) {
+			    		hasAcceptAnyNationality = false;
+				    };
+        		});
+    		};
+			if (hasAcceptAnyNationality){
+				points = parseInt(points) + 1 + parseInt(pesoAcceptAnyNationality)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontAcceptAnyNationality)
+			};			
+		};
+
 		if (points < 10){
 			points = "0" + points;
 		};

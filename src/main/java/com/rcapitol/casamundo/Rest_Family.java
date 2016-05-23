@@ -163,10 +163,12 @@ public class Rest_Family {
 				    jsonDocumento.put("address", jsonObject.get("address"));
 			    	if (destination != null){
 					    jsonDocumento.put("mealPlan", jsonObject.get("mealPlan"));
+					    jsonDocumento.put("specialDiet", jsonObject.get("specialDiet"));
+					    jsonDocumento.put("haveDogs", jsonObject.get("haveDogs"));
+					    jsonDocumento.put("haveCats", jsonObject.get("haveCats"));
 					    jsonDocumento.put("preferGenderStudent", jsonObject.get("preferGenderStudent"));
 					    jsonDocumento.put("acceptSmokeStudent", jsonObject.get("acceptSmokeStudent"));
-					    jsonDocumento.put("hostAnyNationalityStudent", jsonObject.get("hostAnyNationalityStudent"));
-					    jsonDocumento.put("hostVegetarianStudent", jsonObject.get("hostVegetarianStudent"));
+					    jsonDocumento.put("dontHostNationality", jsonObject.get("dontHostNationality"));
 					    jsonDocumento.put("preferAgeStudent", jsonObject.get("preferAgeStudent"));
 					    jsonDocumento.put("rooms", jsonObject.get("rooms"));
 			    	};
