@@ -56,6 +56,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_city").html(data.documento.address.city);
 	  	$("#address_state").html(data.documento.address.state);
 	  	$("#address_postalCode").html(data.documento.address.postalCode);
+	  	$("#address_complement").html(data.documento.address.complement);
 	  	$("#address_mainIntersection").html(data.documento.address.mainIntersection);
 	  	$("#address_nearestSubwayStation").html(data.documento.address.nearestSubwayStation);
 	  	$("#address_walkingTimeSubwayStation").html(data.documento.address.walkingTimeSubwayStation);
@@ -174,7 +175,7 @@ function carregaTelaFamily(data, tipo) {
 		    $('#number_' + i).val(value.number);
 	    	$('#singleBed_' + i).val(value.singleBed);
 	    	$('#coupleBed_' + i).val(value.coupleBed);
-	        $('#privateWashroom_' + i).val(value.privateWashRoom);
+	        $('#privateWashroom_' + i).val(value.privateWashroom);
 	    	linesRoom = i + 1;
 	    });
 	    criaLinhaRoom(linesRoom);
@@ -277,6 +278,9 @@ function criaLinhaRoom (i) {
 					'<section class="col-xs-1">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
 							'<input type="text" id="number_' + i + '" name="number_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide" type="text" id="singleBedAvailable_' + i + '" name="singleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide" type="text" id="coupleBedAvailable_' + i + '" name="coupleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide" type="text" id="emailStudent_' + i + '" name="emailStudent_' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-2">' +

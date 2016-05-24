@@ -40,12 +40,31 @@
 		criaLinhaRoom(0);
 		$('#number_0').val(0);
 	};
+	//
+	//  *** salva dados dos quartos
+	//
+	var objJson = JSON.parse(localStorage.getItem("family"));
+	var objJsonSaveRooms = [];
+
+    $.each(objJson.documento.rooms, function (i, optionValue) {
+    	var emailStudent = [];
+        $.each(objJson.documento.rooms[i].emailStudent, function (i, emailStudentItem) {
+        	emailStudent.push('"' + emailStudentItem + '"');
+        });
+    	objJsonSaveRooms.push(JSON.parse( '{'
+				+ '"singleBedAvailable":"' + objJson.documento.rooms[i].singleBedAvailable
+				+ '","coupleBedAvailable":"' + objJson.documento.rooms[i].coupleBedAvailable
+				+ '","emailStudent": [' + emailStudent
+				+  ']}'
+				));
+    });
+    localStorage.setItem("saveDataRooms", JSON.stringify(objJsonSaveRooms));
 
 	//
 	//  *** limpa storage para pegar sempre o layout novo
 	//
 	limpaStorageFamily ();
-	
+
 	//
 	// *** retorna nome fotos salvas
 	//
@@ -259,13 +278,21 @@
 		    $.each(objJson.documento.rooms, function (i, optionValue) {
 		    	objJson.documento.rooms.splice(0, 1);
 		    });
+		    objJsonSaveRooms = JSON.parse(localStorage.getItem("saveDataRooms"));
 			$( ".roomItem" ).each(function(i, value) {
-				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0") {
-					objJson.documento.rooms.push(JSON.parse('{"number":"' + $("#number_" + i).val() 
+				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0" ) {
+			    	var emailStudent = [];
+			        $.each(objJsonSaveRooms[i].emailStudent, function (i, emailStudentItem) {
+			        	emailStudent.push('"' + emailStudentItem + '"');
+			        });
+					objJson.documento.rooms.push(JSON.parse('{"number":"' + i 
 															+ '","singleBed":"' + $("#singleBed_" + i).val() 
 															+ '","coupleBed":"' + $("#coupleBed_" + i).val() 
 															+ '","privateWashroom":"' + $("#privateWashroom_" + i).val()
-															+  '"}'
+															+ '","singleBedAvailable":"' + objJsonSaveRooms[i].singleBedAvailable
+															+ '","coupleBedAvailable":"' + objJsonSaveRooms[i].coupleBedAvailable
+															+ '","emailStudent":[' + emailStudent
+															+  ']}'
 															));
 				};
 			});

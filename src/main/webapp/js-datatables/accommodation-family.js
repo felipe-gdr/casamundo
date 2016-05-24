@@ -169,14 +169,24 @@
         };
         if (family.preferGenderStudent){
         	preferGenderStudentCollor = "label-warning";
-        	preferGenderStudentText = "Prefer gender " + family.preferGenderStudent;
+        	preferGenderStudentText = "Prefer gender ";
+        	literal = "";
+		    $.each(family.preferGenderStudent, function (i, preferGenderStudent) {
+		    	preferGenderStudentText = preferGenderStudentText + literal + preferGenderStudent;
+		    	literal = ", ";
+		    });
         }else{
         	preferGenderStudentCollor = "label-success";
         	preferGenderStudentText = "Don't mind gender";
         };
         if (family.preferAgeStudent){
         	preferAgeStudentCollor = "label-warning";
-        	preferAgeStudentText = "Prefer age " + family.preferAgeStudent + " years old";
+        	preferAgeStudentText = "Prefer age ";
+        	literal = "";
+		    $.each(family.preferAgeStudent, function (i, preferAgeStudent) {
+		    	preferAgeStudentText = preferAgeStudentText + literal + preferAgeStudent;
+		    	literal = ", ";
+		    });
         }else{
         	preferAgeStudentCollor = "label-success";
         	preferAgeStudentText = "Don't mind age student";
@@ -386,47 +396,34 @@
 				};
 			};
 			if (hasPrivateWashroom){
-				points = parseInt(points) + 1 + parseInt(pesoPreferGender)  
+				points = parseInt(points) + 1 + parseInt(pesoHasPrivateWashroom)  
 			}else{
 				points = parseInt(points) + 1 + parseInt(pesoDontHasPrivateWashroom)
 			};			
 		};
-		if ($('#filter_gender').hasClass( "btn-success")){
-			var preferGenderOk = false;
-    		if (family.preferGenderStudent){
-    			if (student.documento.gender == family.preferGenderStudent){
-    				preferGenderOk = true;
-    			};
-    		}else{
-    			preferGenderOk = true;
-    		};
-			if (preferGenderOk){
-				points = parseInt(points) + 1 + parseInt(pesoPreferGender)  
-			}else{
-				points = parseInt(points) + 1 + parseInt(pesoDontPreferGender)
-			};			
-		};
 		if ($('#filter_age').hasClass( "btn-success")){
 			var preferAgeOk = false;
-    		if (family.preferAgeStudent){
-    			var age = calculaIdade(separaData(objStudent.documento.birthDay, "/"));
-    			if (family.preferAgeStudent == "15-20"){
-    				if (age > 15 && age < 21 ){
-    					preferAgeOk = true;
-    				};
-    			}else{
-        			if (family.preferAgeStudent == "20-30"){
-        				if (age > 19 && age < 31 ){
-        					preferAgeOk = true;
-        				};
-        			}else{
-        				if (family.preferAgeStudent == "30+"){	
-            				if (age > 29 ){
-            					preferAgeOk = true;
-            				};
-        				};
-        			};
-    			};
+			var age = calculaIdade(separaData(objStudent.documento.birthDay, "/"));
+			var ageCompar = "0-0";
+			if (age < 15) {
+				ageCompar = "0-14"
+			}else{
+				if (age < 20) {
+					ageCompar = "15-20"
+				}else{
+					if (age < 30) {
+						ageCompar = "20-30"
+					}else{
+						ageCompar = "30+"
+					};
+				};
+			};
+	    	if (family.preferAgeStudent){
+			    $.each(family.preferAgeStudent, function (i, preferAgeStudent) {
+			    	if (ageCompar == preferAgeStudent){
+			    		preferAgeOk = true;	
+			    	};
+			    });
     		}else{
     			preferAgeOk = true;
     		};
@@ -436,7 +433,23 @@
 				points = parseInt(points) + 1 + parseInt(pesoDontPreferAge)
 			};			
 		};
-
+		if ($('#filter_gender').hasClass( "btn-success")){
+			var preferGenderOk = false;
+	    	if (family.preferGenderStudent){
+			    $.each(family.preferGenderStudent, function (i, preferGenderStudent) {
+			    	if (student.documento.gender == preferGenderStudent){
+			    		preferGenderOk = true;	
+			    	};
+			    });
+    		}else{
+    			preferGenderOk = true;
+    		};
+			if (preferGenderOk){
+				points = parseInt(points) + 1 + parseInt(pesoPreferGender)  
+			}else{
+				points = parseInt(points) + 1 + parseInt(pesoDontPreferGender)
+			};			
+		};
 		if ($('#filter_smoke').hasClass( "btn-success")){
 			var acceptSmoke = false;
     		if (student.documento.trips[actualTrip].smoke){
