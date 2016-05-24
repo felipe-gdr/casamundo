@@ -43,8 +43,8 @@ public class Family {
 		public String firstLanguage;
 		public String othersLanguage[];
 		public String acceptSmokeStudent;
-		public String preferAgeStudent;
-		public String preferGenderStudent;
+		public String preferAgeStudent[];
+		public String preferGenderStudent[];
 		public String mealPlan[];       
 		public String specialDiet[];
 		public String dontHostNationality[];
@@ -73,8 +73,8 @@ public class Family {
 						String firstLanguage,
 						String[] othersLanguage,
 						String acceptSmokeStudent,
-						String preferAgeStudent,
-						String preferGenderStudent,
+						String[] preferAgeStudent,
+						String[] preferGenderStudent,
 						String[] mealPlan,
 						String[] specialDiet,
 						String[] dontHostNationality,
@@ -165,6 +165,7 @@ public class Family {
 			public String city;
 			public String state;
 			public String postalCode;
+			public String complement;
 			public String mainIntersection;
 			public String nearestSubwayStation;
 			public String walkingTimeSubwayStation;
@@ -185,6 +186,7 @@ public class Family {
 					String city,
 					String state,
 					String postalCode,
+					String complement,
 					String mainIntersection,
 					String nearestSubwayStation,
 					String walkingTimeSubwayStation,
@@ -198,7 +200,8 @@ public class Family {
 				this.number = number; 
 				this.city = city; 
 				this.state = state; 
-				this.postalCode = postalCode; 
+				this.postalCode = postalCode;
+				this.complement = complement;
 				this.mainIntersection = mainIntersection; 
 				this.nearestSubwayStation = nearestSubwayStation; 
 				this.walkingTimeSubwayStation = walkingTimeSubwayStation; 

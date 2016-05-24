@@ -110,18 +110,6 @@
 			address_street : {
 				required : true,
 			},
-			address_number : {
-				required : true,
-			},
-			address_city : {
-				required : true,
-			},
-			address_state : {
-				required : true,
-			},
-			address_postalCode : {
-				required : true,
-			},
 			address_mainIntersection : {
 				required : true,
 			},
@@ -181,18 +169,6 @@
 			},
 			address_street : {
 				required : 'Please enter street name',
-			},
-			address_number : {
-				required : 'Please enter address number',
-			},
-			address_city : {
-				required : 'Please enter address city',
-			},
-			address_state : {
-				required : 'Please enter address state',
-			},
-			address_postalCode : {
-				required : 'Please enter address postal code',
 			},
 			address_mainIntersection : {
 				required : 'Please enter address main intersection',

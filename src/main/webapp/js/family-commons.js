@@ -145,6 +145,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_city").val(data.documento.address.city);
 	  	$("#address_state").val(data.documento.address.state);
 	  	$("#address_postalCode").val(data.documento.address.postalCode);
+	  	$("#address_complement").val(data.documento.address.complement);
 	  	$("#address_mainIntersection").val(data.documento.address.mainIntersection);
 	  	$("#address_nearestSubwayStation").val(data.documento.address.nearestSubwayStation);
 	  	$("#address_walkingTimeSubwayStation").val(data.documento.address.walkingTimeSubwayStation);
@@ -336,8 +337,8 @@ function limpaStorageFamily () {
 				    '"firstLanguage" : "",' +
 				    '"othersLanguage" : [],' +
 				    '"acceptSmokeStudent" : "",' +
-				    '"preferAgeStudent" : "",' +
-				    '"preferGenderStudent" : "",' +
+				    '"preferAgeStudent" : [],' +
+				    '"preferGenderStudent" : [],' +
 				    '"mealPlan" : [],' +
 				    '"specialDiet" : [],' +
 				    '"dontHostNationality" : [],' +
@@ -450,10 +451,12 @@ function setValueFamily (field, value) {
         objJson.documento.acceptSmokeStudent = value;
 	};
 	if (field == "preferAgeStudent"){
-        objJson.documento.preferAgeStudent = value;
+		var array = value.split(",");
+        objJson.documento.preferAgeStudent = array;
 	};
 	if (field == "preferGenderStudent"){
-        objJson.documento.preferGenderStudent = value;
+		var array = value.split(",");
+        objJson.documento.preferGenderStudent = array;
 	};
 	if (field == "mealPlan"){
 		var array = value.split(",");
@@ -514,6 +517,9 @@ function setValueFamily (field, value) {
 	};
   	if (field == "address_postalCode"){
         objJson.documento.address.postalCode = value;
+	};
+  	if (field == "address_complement"){
+        objJson.documento.address.complement = value;
 	};
   	if (field == "address_mainIntersection"){
         objJson.documento.address.mainIntersection = value;

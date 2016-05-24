@@ -556,6 +556,12 @@
 																<input type="text" id="address_street" name="address_street" placeholder="">
 															</label>
 														</section>
+														<section class="col-xs-8">	
+															<label class="label text-info">Additional info about your address</label>	
+															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
+																<input type="text" id="address_complement" name="address_complement" placeholder="">
+															</label>
+														</section>
 														<section class="col-xs-8 hide addressMap">	
 															<div class="col-xs-1"></div>
 															<div class="col-xs-10">
@@ -677,13 +683,15 @@
 															<label class="label text-info">Do you offer special diet?</label>
 															<label class="select select-multiple ">
 																<select id="specialDiet" name="specialDiet"  multiple="" class="custom-scroll language">
-																</select> </label>
+																</select> 
+															</label>
 														</section>
 														<section class="col-xs-8">
 															<label class="label text-info">Don't host nationality</label>
 															<label class="select select-multiple ">
 																<select id="dontHostNationality" name="dontHostNationality"  multiple="" class="custom-scroll language">
-																</select> </label>
+																</select> 
+															</label>
 														</section>
 													</fieldset>
 												</div>
@@ -691,23 +699,21 @@
 													<fieldset>					
 														<section class="col-xs-11">
 															<label class="label text-info">Preferred age of student</label>
-															<label class="select ">
-																<select id="preferAgeStudent" name="preferAgeStudent">
-																	<option value="" selected="" disabled=""></option>
+															<label class="select select-multiple" >
+																<select id="preferAgeStudent" name="preferAgeStudent" multiple="" class="custom-scroll language">
 																	<option value="15-20" >15-20</option>
 																	<option value="20-30" >20-30</option>
 																	<option value="30+" >30+</option>
-																</select><i></i></label>
+																</select>
+															</label>
 														</section>
 														<section class="col-xs-11">
 															<label class="label text-info">Preferred gender of student</label>
-															<label class="select ">
-																<select id="preferGenderStudent" name="preferGenderStudent" >
-																	<option value="" selected="" disabled=""></option>
-																	<option value="No preference">No preference</option>
+															<label class="select select-multiple">
+																<select id="preferGenderStudent" name="preferGenderStudent" multiple="" class="custom-scroll language">
 																	<option value="Male">Male</option>
 																	<option value="Female">Female</option>
-																</select><i></i>
+																</select>
 															</label>
 														</section>
 														<section class="col-xs-8">
