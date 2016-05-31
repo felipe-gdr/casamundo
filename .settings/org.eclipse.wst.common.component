@@ -4,19 +4,19 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="jackson-mapper-asl-1.9.13.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/jackson-mapper-asl-1.9.13.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="mongo-java-driver-2.6.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/mongo-java-driver-2.6.3.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="json-simple-1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/json-simple-1.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="gson-2.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/gson-2.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="commons-io-2.5.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/commons-io-2.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gson-2.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/gson-2.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mongo-java-driver-2.6.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/mongo-java-driver-2.6.3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="json-simple-1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/json-simple-1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jackson-mapper-asl-1.9.13.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/jackson-mapper-asl-1.9.13.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="casamundo"/>
