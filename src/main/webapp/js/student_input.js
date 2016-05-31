@@ -108,6 +108,12 @@
 			},
 			end : {
 				required : true,
+			},
+			agencyName : {
+				required : true,
+			},
+			schoolName : {
+				required : true,
 			}
 		},
 
@@ -190,6 +196,12 @@
 			},
 			end : {
 				required : 'Please enter trip end'
+			},
+			agencyName : {
+				required : 'Please enter agency name'
+			},
+			schoolName : {
+				required : 'Please enter school name'
 			}
 		},
 		// form submition
