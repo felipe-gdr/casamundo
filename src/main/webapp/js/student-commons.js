@@ -829,3 +829,21 @@ function retornaListaStudent(){
 	});
 	window.location="students.html"; 
 };
+function emailEnviado(){
+	$.smallBox({
+		title : "Ok",
+		content : "<i class='fa fa-clock-o'></i> <i>Email sent</i>",
+		color : "#659265",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 4000
+	});
+};
+function emailComProblemas() {
+	$.smallBox({
+		title : "Error",
+		content : "<i class='fa fa-clock-o'></i> <i>Email not sent</i>",
+		color : "#ff8080",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 4000
+	});
+};

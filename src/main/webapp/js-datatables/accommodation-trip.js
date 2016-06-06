@@ -292,7 +292,11 @@
                 		"<span class='label " + medicalCollor + "'>" + medicalText + "</span>",
                 "accommodation": "<span class='label label-warning'>" + accommodation + "</span><br>",
                 "comments": "<small class='text-muted'><i>" + student.trip.comments + "<i></small>",
-                "actions": "<div class='btn-group'><button class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown' >Action <span class='caret'></span></button><ul class='dropdown-menu'><li><a  data-toggle='modal' data-target='#accommodation'>Looking for accommodation</a></li></ul></div>"
+                "actions": "<div class='btn-group'><button class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown' >'" +
+                		"Action <span class='caret'></span></button>" +
+                		"<ul class='dropdown-menu'>" +
+                		"<li><a  data-toggle='modal' data-target='#accommodation'>Looking for accommodation</a></li>" +
+                		"</ul></div>"
     	    }).draw( false );
         });
     	// Add event listener for opening and closing details

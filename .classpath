@@ -29,5 +29,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/dev/mongo-java-driver-2.6.3.jar"/>
 	<classpathentry kind="lib" path="C:/dev/JBoss wildfly-10.0.0.CRI/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="C:/dev/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/dev/commons-email-1.4-bin.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

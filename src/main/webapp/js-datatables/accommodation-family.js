@@ -307,7 +307,10 @@
 	    		"<span class='label " + haveMealPlanCollor + "'>" + haveMealPlanText + "</span><br>" +
 	    		"<span class='label " + haveSpecialDietCollor + "'>" + haveSpecialDietText + "</span>",
             "distances": distances,
-            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
+            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+            			'<ul class="dropdown-menu">' +
+            				"<li><a  data-toggle='modal' data-target='#offertofamily'>Offer to Family</a></li>" +
+            				'</ul></div>'
 	    }).draw( false );
 		
 	};

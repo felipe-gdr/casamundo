@@ -39,7 +39,16 @@
 	//
 	if (typePage == "change"){
 		$(".notChange" ).addClass("hide");
-	}
+	};
+	//
+	//  ** send email to offer a family
+	//
+	var offertofamily = '<div><h3 style="color: blue">NOW $159</h3><img src="http://localhost:8080/casamundo/img/logo/56e81ef6-f67b-430b-8fe0-2cb5cbd71cd2.png" alt="demo user"></div>';
+
+    $('#offertofamily').bind( "click", function() {
+    	rest_sendEmailHtml(localStorage.hostNameEmail, localStorage.userNameEmail , localStorage.passwordEmail, "grenneglr@gmail.com", "grenne@glr.com.br", "teste email", offertofamily, emailEnviado, emailComProblemas );
+    });
+
 /**
  * 
  */
@@ -153,4 +162,7 @@
 	if (getValueStudent("schoolName",actualTrip)){
 		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true)
 	};
+	
+
+	
 	
