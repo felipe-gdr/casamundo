@@ -309,7 +309,7 @@
             "distances": distances,
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
             			'<ul class="dropdown-menu">' +
-            				"<li><a  data-toggle='modal' data-target='#offertofamily'>Offer to Family</a></li>" +
+            				"<li><a  data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>" +
             				'</ul></div>'
 	    }).draw( false );
 		
