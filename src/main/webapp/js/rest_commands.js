@@ -2,6 +2,8 @@
  * 
  */
     function rest_incluiStudent(objJson, action_ok, action_not_ok) {
+        var actualTrip = student.documento.actualTrip;
+        objJson.documento.trips[actualTrip].status = 'available';
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/incluir",

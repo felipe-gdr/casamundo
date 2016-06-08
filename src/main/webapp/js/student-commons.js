@@ -151,8 +151,8 @@ function carregaDadosAgency(data, consult) {
 
 function carregaDadosSchool(data, consult) {
 	if (consult){
-		$("#schoolName").val(data.documento.name);	
-		$("#schoolName").val(data.documento.name);
+		$("#schoolName").html(data.documento.name);	
+		$("#schoolNameEmail").html(data.documento.name);
 	}else{
 		$("#schoolName").val(data.documento.name);
 	};
@@ -839,6 +839,9 @@ function emailEnviado(){
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});
+    var objJson = JSON.parse(localStorage.getItem("student"));
+    objJson.documento.trips[actualTrip].status = "Placement offered";
+	rest_atualizaStudent(objJson, semAcao, semAcao);
 };
 function emailComProblemas() {
 	$.smallBox({

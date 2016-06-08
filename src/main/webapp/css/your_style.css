@@ -19,29 +19,29 @@
  */
 
  .label-male {
-	background-color: #0000ff
+	background-color: #0000ff !important;
 }
  .label-female {
-	background-color: #ff00ff
+	background-color: #ff00ff !important;
 }
- .label-avaliable {
-	background-color: #00ff00
+ .label-available {
+	background-color: #00ff00 !important;
 }
  .label-placement-offered {
-	background-color: #d7d700
+	background-color: #d7d700 !important;
 }
  .label-confirmed {
-	background-color: #0080ff
+	background-color: #0080ff !important;
 }
  .label-terminated {
-	background-color: #c0c0c0
+	background-color: #c0c0c0 !important;
 }
  .label-unavaliable {
-	background-color: #ff8000
+	background-color: #ff8000 !important;
 }
  .memberList {
 	padding: 0px !important;
 }
 .text-italic {
-	font-style: italic
+	font-style: italic !important;
 }

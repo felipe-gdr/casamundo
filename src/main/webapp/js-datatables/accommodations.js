@@ -85,8 +85,8 @@
         $.each(objJson, function (i, student) {
         	var age = calculaIdade(separaData(student.birthDay, "/"));
         	switch (student.trip.status) {
-        	case "Available":
-        		statusCollor = "label-avaliable"
+        	case "available":
+        		statusCollor = "label-available"
                 break;
             case "Confirmed":
             	statusCollor = "label-confirmed"
@@ -98,7 +98,7 @@
             	statusCollor = "label-terminated"
                 break;
             default: 
-        		statusCollor = "label-avaliable"
+        		statusCollor = "label-available"
             };	    
 
             switch (student.gender) {
@@ -198,7 +198,7 @@
 			    			"<small class='text-muted'><i>Mail: " + student.mail +  "<i></small><br></a>",
                 "start": "<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>" + separaData(student.trip.start, "/") + "</small>",
                 "end": "<small class='hide'>" + converteAnoMesDia(student.trip.end) + "</small><small class='text-muted'>" + separaData(student.trip.end, "/") + "</small>",
-                "status": "<span class='label " + statusCollor + "'>" + student.trip.status + "</span>",
+                "status": "<small class='label " + statusCollor + "'>" + student.trip.status + "</small>",
     	    	"gender":"<small class='label " + genderCollor + " '>" + student.gender + "</small>",
     	    	"agency":student.agency.name + "<br>" +
 				"<small class='text-muted'>Consult: " + student.agency.nameConsult + "</small><br>" +

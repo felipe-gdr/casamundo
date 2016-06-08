@@ -17,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.bson.BasicBSONObject;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -33,6 +34,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+import com.rcapitol.casamundo.Student.Documento;
 
 	
 @Singleton
@@ -44,18 +46,29 @@ public class Rest_Student {
 	@Path("/obterEmail")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterEmail(@QueryParam("mail") String mail) throws UnknownHostException, MongoException {
-		Mongo mongo = new Mongo();
-		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("student");
-		BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
-		DBObject cursor = collection.findOne(searchQuery);
-		JSONObject documento = new JSONObject();
-		BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-		documento.put("documento", obj);
-		mongo.close();
-		return documento;
+	public JSONObject ObterEmail(@QueryParam("mail") String mail) {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("student");
+			BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
+			DBObject cursor = collection.findOne(searchQuery);
+			JSONObject documento = new JSONObject();
+			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			documento.put("documento", obj);
+			mongo.close();
+			return documento;
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MongoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	};
+
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -99,29 +112,50 @@ public class Rest_Student {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Student doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+	public Response AtualizarDocumento(Student doc)  {
 		String mail = doc.documento.mail;
-		Mongo mongo = new Mongo();
-		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("student");
-		Gson gson = new Gson();
-		String jsonDocumento = gson.toJson(doc);
-		Map<String,String> mapJson = new HashMap<String,String>();
-		ObjectMapper mapper = new ObjectMapper();
-		mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-		JSONObject documento = new JSONObject();
-		documento.putAll(mapJson);
-		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-		BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
-		DBObject cursor = collection.findAndModify(searchQuery,
-                null,
-                null,
-                false,
-                update,
-                true,
-                false);
-		mongo.close();
-		return Response.status(200).build();
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("student");
+			Gson gson = new Gson();
+			String jsonDocumento = gson.toJson(doc);
+			Map<String,String> mapJson = new HashMap<String,String>();
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
+				JSONObject documento = new JSONObject();
+				documento.putAll(mapJson);
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
+				BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
+				DBObject cursor = collection.findAndModify(searchQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+				mongo.close();
+				return Response.status(200).build();
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MongoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	};
 	
 	@Path("/lista")	
@@ -245,4 +279,33 @@ public class Rest_Student {
 		return null;
 	};
 
-}
+	@Path("/familyAccept")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String FamilyAccept(@QueryParam("mail") String mail)  {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("student");
+			BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
+			DBObject cursor = collection.findOne(searchQuery);
+			Integer actualTrip = Integer.parseInt((String) cursor.get("documento.actualTrip"));
+			cursor.put("documento.actualTrip[0].status", "offered");
+			DBObject cursorUpdate = collection.findAndModify(searchQuery,
+	                null,
+	                null,
+	                false,
+	                cursor,
+	                true,
+	                false);
+			mongo.close();
+			return "success";
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+};

@@ -286,6 +286,12 @@
         if (results){
         	var distances = "<small class='text-muted'><i>" + results.rows[0].elements[0].duration.text +"<i></small><br>";
         };
+        var actions = "";
+        var student = JSON.parse(localStorage.getItem("student"));
+        var actualTrip = student.documento.actualTrip;
+        if (student.documento.trips[actualTrip].status == "Available"){
+        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
+        };
         family_table.row.add( {
 	    	"family":
 	    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +
@@ -312,7 +318,7 @@
             "distances": distances,
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
             			'<ul id="listFamily" class="dropdown-menu">' +
-            				"<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>" +
+            				actions +
             				'</ul></div>'
 	    }).draw();
 		
