@@ -42,4 +42,6 @@
  .memberList {
 	padding: 0px !important;
 }
- 
+.text-italic {
+	font-style: italic
+}

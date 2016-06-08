@@ -14,7 +14,7 @@
 	if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
 		rest_obterFamiliesAll(carregaLocalStorageFamilies, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
 	};
-
+	
     // set filters
 	setFilter ("occupancy");
 	setFilter ("privateWashroom");
@@ -129,12 +129,15 @@
 	            // Open this row
 	            row.child( formatFamily(row.data()) ).show();
 	            tr.addClass('shown');
+	    		$("#listFamily li").on('click',function(){
+	    			$('#familyName').html($(this).attr('data-idFamily'));
+	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
+	    		});
 	        }
 	    });
 	    
 	    // Apply the filter
 	    $("#families_list thead th input[type=text]").on( 'keyup change', function () {
-	    	
 	    	family_table
 	            .column( $(this).parent().index()+':visible' )
 	            .search( this.value )
@@ -308,10 +311,10 @@
 	    		"<span class='label " + haveSpecialDietCollor + "'>" + haveSpecialDietText + "</span>",
             "distances": distances,
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
-            			'<ul class="dropdown-menu">' +
-            				"<li><a  data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>" +
+            			'<ul id="listFamily" class="dropdown-menu">' +
+            				"<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>" +
             				'</ul></div>'
-	    }).draw( false );
+	    }).draw();
 		
 	};
 	

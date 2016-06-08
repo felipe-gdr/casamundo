@@ -135,7 +135,8 @@ function carregaTela(data) {
 
 function carregaDadosAgency(data, consult) {
 	if (consult){
-		$("#agencyName").html(data.documento.name);	
+		$("#agencyName").html(data.documento.name);
+		$("#agencyNameEmail").html(data.documento.name);
 	}else{
 		$("#agencyName").val(data.documento.name);
 	};
@@ -150,7 +151,8 @@ function carregaDadosAgency(data, consult) {
 
 function carregaDadosSchool(data, consult) {
 	if (consult){
-		$("#schoolName").html(data.documento.name);	
+		$("#schoolName").val(data.documento.name);	
+		$("#schoolName").val(data.documento.name);
 	}else{
 		$("#schoolName").val(data.documento.name);
 	};

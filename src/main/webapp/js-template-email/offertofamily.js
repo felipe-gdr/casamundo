@@ -2,21 +2,14 @@
  * 
  */
 
-function templateOffertoFamily (objJson){
+function templateOffertoFamily (){
 
 	
 	var emailOffterToFamily = 
 '		<html>' +
-'		<head' +
-'		    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
-'		    <title>[REPLACE THIS WITH YOUR TITLE]</title>' +
-'		        <style media="all" type="text/css">' +
-'		        [READ THE MINIFIED CSS FILE IN SEPARATELY AND INSERT IT HERE. YOU *CANNOT* JUST USE A CSS REFERENCE.]' +
-'		    </style>' +
-'		</head>' +	
-'		<body background-color:blue;>' +
+'		<body>' +
 '		    <table width="650px" cellspacing="0" cellpadding="0" border="0.2" color:"blue">' +
-'		        <tr bgcolor="lightgray">' +
+'		        <tr>' +
 '		            <td class="navbar navbar-inverse" align="center">' +
 '		                <!-- This setup makes the nav background stretch the whole width of the screen. -->' +
 '		                <table width="650px" cellspacing="0" cellpadding="3" class="container">' +
@@ -25,7 +18,7 @@ function templateOffertoFamily (objJson){
 '									<img src="http://52.27.128.28:8080/casamundo/img/logo/casatoronto.png"></img>' + 
 '								</td>' +
 '		                        <td>' +
-'									<ul class="nav pull-right">' +
+'									<ul>' +
 '										<li>' +
 '											<span>+1(416)897-7141</span>' +
 '										</li>' +
@@ -47,35 +40,203 @@ function templateOffertoFamily (objJson){
 '		                </table>' +
 '		            </td>' +
 '		        </tr>' +
-'		        <tr bgcolor="lightblue">' +
-'		            <td class="navbar navbar-inverse" align="left">' +
-'						<p>' +
-'							<i>Dear Mrs Clinton,</i>' +
-'						</p>' +				
-'						<br></br>' +			
-'						<p>' +
-'							<i>We have a pleasure to introduce you a new student Mr John Anderson, he is from Brasil by Canada Destino Agency, will study in Cottingham high school, he is 26 years old, live with pets, don t smoke and don t have medical concerns. His hobbies are play tenis, play chess and swimming. </i>' +
-'						</p>' +				
-'						<p>' +
-'							<i>We intend to accommodate him in a room with washroom thats are available in ours control. He will stay with us from july 26 2016 until august 2016, </i>' +
-'						</p>' +				
-'						<p>' +
-'							<i>To confirm this accommodation please press button "Agree" below this email if dont press "Dismiss".</i>' +
-'						</p>' +
-'						<br></br>' +			
-'						<p>' +
-'							<i>Thanks for all and we are wating for your decision. </i>' +
-'						</p>' +				
+'		        <tr>' +
+'		            <td bgcolor="white" align="left">' +
+'	    	            <table width="900px" cellspacing="0" cellpadding="3" align="center">' +
+'	                    <tr>' +
+'	                        <td align="left">' +
+'										<p >' +
+'											<span style="font-style: italic;font-size: 20px;" >Dear Family <small id="familyName" style="font-style: italic;font-size: 20px;">' + $('#emailFamily').html() + '</small></span>' +
+'										</p>' +
+'										<p >' +
+'											<span ><small style="font-style: italic;font-size: 20px;">Would you like to host the student below</small></span>' +
+'										</p>' +
+'	                        </td>' +
+'	                    </tr>' +
+'		                </table>' +
 '		            </td>' +
 '		        </tr>' +
-	'	        <tr bgcolor="lightblue">' +
+	'	        <tr>' +
 	'	            <td bgcolor="white" align="center">' +
 	'	                <table width="650px" cellspacing="0" cellpadding="3" align="center">' +
-	'	                    <tr bgcolor="lightblue">' +
-	'	                        <td align="center">' +
-'									<button style="background-color:blue;" type="button" >Agree</button>' +
-'									<button style="background-color:orange;" type="button" >Dismiss</button>' +
+	'	                    <tr>' +
+	'	                        <td align="left">' +
+'									<button style="background-color:lightblue;width:50px;height:30px" type="button" >Yes</button>' +
+'									<span>    </span>' +
+'									<button style="background-color:orange;width:50px;height:30px" type="button" >No</button>' +
 	'	                        </td>' +
+	'	                    </tr>' +
+	'	                </table>' +
+	'	            </td>' +
+	'	        </tr>' +
+	'	        <tr>' +
+	'	            <td bgcolor="white" align="center">' +
+	'	                <table width="650px" cellspacing="0" cellpadding="3" align="center">' +
+	'	                    <tr>' +
+	'							<td></td>'	+						
+	'	                        <td align="left">' +
+	'									<ul >' +
+	'										<li>' +
+	'											<span style="font-size: 20px; font-weight: bold;" ><small id="studentCompleteName" style="font-size: 20px; font-weight: bold;">' + $('#studentCompleteNameEmail').html() + '</small></span>' +
+	'										</li>' +
+	'										<li>' +
+	'											<span style="font-size: 15px; font-style: italic;" ><small id="celPhone" style="font-size: 15px; font-style: italic;">' + $('#celPhoneEmail').html() + '</small></span>' +
+	'										</li>' +
+	'										<li>' +
+	'											<span style="font-size: 15px; font-style: italic;" ><small id="mail" style="font-size: 15px; font-style: italic;">' + $('#phoneEmail').html() + '</small></span>' +
+	'										</li>' +
+	'									</ul>' +
+	'	                        </td>' +
+	'	                    </tr>' +
+	'	                </table>' +
+	'	            </td>' +
+	'	        </tr>' +
+	'	        <tr>' +
+	'	            <td bgcolor="white" align="center">' +
+	'	                <table width="650px" cellspacing="0" cellpadding="3" align="center">' +
+	'	                    <tr>' +
+	'							<td align="left">' +
+	'	 			   	            <table width="300px" cellspacing="0" cellpadding="3" align="center">' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >Birth:</small><small style="color: blue; font-size: 15px;" >' + $('#birthDayEmail').html() + '</small>' +
+	'										<small style="font-size: 15px; font-style: italic;" > - Age:</small><small style="color: blue; font-size: 15px;" >' + $('#ageEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Gender:</small><small style="color: blue; font-size: 15px;" >' + $('#genderEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Nationality:</small><small style="color: blue; font-size: 15px;" >' + $('#nationalityEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'	                			</table>' +
+'								</td>'	+						
+	'	                        <td align="left">' +
+	'	 			   	            <table width="300px" cellspacing="0" cellpadding="3" align="center">' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >First Language:</small><small style="color: blue; font-size: 15px;" >' + $('#firstLanguageEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Profession:</small><small style="color: blue; font-size: 15px;" >' + $('#professionEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >English Level:</small><small style="color: blue; font-size: 15px;" >' + $('#englishLevelEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'	                			</table>' +
+	'	                        </td>' +
+	'	                        <td align="left">' +
+	'	 			   	            <table width="300px" cellspacing="0" cellpadding="3" align="center">' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >School:</small><small style="color: blue; font-size: 15px;" >' + $('#schoolNameEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Agency:</small><small style="color: blue; font-size: 15px;" >' + $('#agencyNameEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'	                			</table>' +
+	'	                        </td>' +
+	'	                    </tr>' +
+	'						<br>' +
+	'	                    <tr>' +
+	'							<td align="left">' +
+	'	 			   	            <table width="300px" cellspacing="0" cellpadding="3" align="center">' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >Start:</small><small style="color: blue; font-size: 15px;" >' + $('#startEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >End:</small><small style="color: blue; font-size: 15px;" >' + $('#endEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >Arrival Date:</small><small style="color: blue; font-size: 15px;" >' + $('#arrivalDateEmail').html() + '</small>' +
+	'										<small style="font-size: 15px; font-style: italic;" > - Time:</small><small style="color: blue; font-size: 15px;" >' + $('#arrivalTimeEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Flight Number:</small><small style="color: blue; font-size: 15px;" >' + $('#flightNumberEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Flight Date:</small><small style="color: blue; font-size: 15px;" >' + $('#flightDateEmail').html() + '</small>' +
+	'										<small style="font-size: 15px; font-style: italic;" > - Time:</small><small style="color: blue; font-size: 15px;" >' + $('#flightTimeEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Airline:</small><small style="color: blue; font-size: 15px;" >' + $('#airlineEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'	                			</table>' +
+	'	                        </td>' +
+	'	                        <td align="left">' +
+	'	 			   	            <table width="300px" cellspacing="0" cellpadding="3" align="center">' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >Smoke:</small><small style="color: blue; font-size: 15px;" >' + $('#smokeEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Meal Plan:</small><small style="color: blue; font-size: 15px;" >' + $('#mealPlanEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Special diet:</small><small style="color: blue; font-size: 15px;" >' + $('#specialDietEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'	                			</table>' +
+	'	                        </td>' +
+	'	                        <td align="left">' +
+	'	 			   	            <table width="300px" cellspacing="0" cellpadding="3" align="center">' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+  '											<small style="font-size: 15px; font-style: italic;" >Live with dogs:</small><small style="color: blue; font-size: 15px;" >' + $('#liveDogsEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Live with cats:</small><small style="color: blue; font-size: 15px;" >' + $('#liveCatsEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'			                    <tr>' +
+	'									<td align="left">' +
+	'										<small style="font-size: 15px; font-style: italic;" >Private washroom:</small><small style="color: blue; font-size: 15px;" >' + $('#privateWashroomEmail').html() + '</small>' +
+	'			                        </td>' +
+	'			                    </tr>' +
+	'	                			</table>' +
+	'	                        </td>' +
+	'	                    </tr>' +
+	'						<br>' +	
+	'	                    <tr>' +
+'									<td align="left">' +
+'										<small style="font-size: 15px; font-style: italic;" >Hobbies/Interest:</small><small style="color: blue; font-size: 15px;" >' + $('#hobbiesEmail').html() + '</small>' +
+'			                        </td>' +
+'									<td align="left">' +
+'										<small style="font-size: 15px; font-style: italic;" >Alergies or Medical Concern:</small><small style="color: blue; font-size: 15px;" >' + $('#medicalEmail').html() + '</small>' +
+'			                        </td>' +
+'									<td align="left">' +
+'										<small style="font-size: 15px; font-style: italic;" >Comments:</small><small style="color: blue; font-size: 15px;" >' + $('#commentsEmail').html() + '</small>' +
+'			                        </td>' +
 	'	                    </tr>' +
 	'	                </table>' +
 	'	            </td>' +
