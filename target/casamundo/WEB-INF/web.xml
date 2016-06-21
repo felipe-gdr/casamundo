@@ -5,10 +5,5 @@
 <web-app>
   <display-name>Casa Mundo JQuery Web Application</display-name>
   
-  
-	<servlet-mapping>
-		<servlet-name>casamundo</servlet-name>
-		<url-pattern>/casamundo</url-pattern>
-	</servlet-mapping>
-  
+    
 </web-app>

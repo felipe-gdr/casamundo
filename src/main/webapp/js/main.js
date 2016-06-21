@@ -16,6 +16,8 @@
 
 	if (localStorage.usuarioPerfil == "caretaker"){
 		$("#menuCaretaker").removeClass ("hide");
+		$("#menuStudents").removeClass ("hide");
+		$("#menuFamilies").removeClass ("hide");
 	}; 
 	if (localStorage.usuarioPerfil == "agency"){
 		$("#menuAgency").removeClass ("hide");
@@ -32,6 +34,8 @@
 	if (localStorage.usuarioPerfil == "family"){
 		$("#menuFamily").removeClass ("hide");
 	}; 
+	
+	$("#usuarioNome").html(localStorage.usuarioFirstName);
 	
 	function executaLogin(email, senha) {
 
@@ -317,12 +321,18 @@ function calculaIdade ( dataNascimento ) {
     		    , function (i, optionValue) {
         			$("#status").append( $(option(optionValue)));
     		    });
-        $.each(table.documento.destination
-    		    , function (i, optionValue) {
-        			$("#destination").append( $(option(optionValue)));
-        			$("#destinationSchool").append( $(option(optionValue)));
-        			$("#destinationAgency").append( $(option(optionValue)));
-    		    });
+        if (localStorage.usuarioCity == "all"){
+	        $.each(table.documento.destination
+	    		    , function (i, optionValue) {
+	        			$("#destination").append( $(option(optionValue)));
+	        			$("#destinationSchool").append( $(option(optionValue)));
+	        			$("#destinationAgency").append( $(option(optionValue)));
+	    		    });
+        }else{
+			$("#destination").append( $(option(localStorage.usuarioCity)));
+			$("#destinationSchool").append( $(option(localStorage.usuarioCity)));
+			$("#destinationAgency").append( $(option(localStorage.usuarioCity)));        	
+        }
         $.each(table.documento.accommodation
     		    , function (i, optionValue) {
         			$("#accommodation").append( $(option(optionValue)));
