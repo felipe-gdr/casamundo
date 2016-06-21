@@ -10,6 +10,9 @@
         <dependent-module archiveName="gson-2.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/gson-2.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="javax.mail.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/javax.mail.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="mongo-java-driver-2.6.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/mongo-java-driver-2.6.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -17,9 +20,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jackson-mapper-asl-1.9.13.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/jackson-mapper-asl-1.9.13.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="javax.mail.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/javax.mail.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-email-1.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/dev/assembly project/commons-email-1.4.jar">

@@ -7,7 +7,8 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterStudentsAll(carregaLocalStorageStudents, "", "Homestay");
+
+	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, "Homestay");
 
 
     /* Formatting function for row details - modify as you need */

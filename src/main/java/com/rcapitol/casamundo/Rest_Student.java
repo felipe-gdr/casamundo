@@ -169,15 +169,15 @@ public class Rest_Student {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-		    if (destination != null){
+		    if (destination != "all"){
 		    	setQuery.put("documento.trips.destination", destination);
 		    };
-		    if (accommodation != null){
-		    	setQuery.put("documento.trips.accommodation", accommodation);
-		    };
+//		    if (accommodation != null){
+//		    	setQuery.put("documento.trips.accommodation", accommodation);
+//		    };
 			DBCollection collection = db.getCollection("student");
 			
-			DBCursor cursor = collection.find();
+			DBCursor cursor = collection.find(setQuery);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
@@ -290,17 +290,32 @@ public class Rest_Student {
 			DBCollection collection = db.getCollection("student");
 			BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
 			DBObject cursor = collection.findOne(searchQuery);
-			Integer actualTrip = Integer.parseInt((String) cursor.get("documento.actualTrip"));
-			cursor.put("documento.actualTrip[0].status", "offered");
-			DBObject cursorUpdate = collection.findAndModify(searchQuery,
-	                null,
-	                null,
-	                false,
-	                cursor,
-	                true,
-	                false);
-			mongo.close();
-			return "success";
+			JSONParser parser = new JSONParser(); 
+			BasicDBObject objStudent = (BasicDBObject) cursor;
+			String documento = objStudent.getString("documento");
+			JSONObject jsonObject; 
+			try {
+				jsonObject = (JSONObject) parser.parse(documento);
+			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
+				List trips = (List) jsonObject.get("trips");
+				JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+				jsonTrip.put("status", "Placement offer");
+				trips.remove(tripIndex);
+				trips.add(jsonTrip);
+				objStudent.put("trips", trips);
+				DBObject cursorUpdate = collection.findAndModify(searchQuery,
+		                null,
+		                null,
+		                false,
+		                cursor,
+		                true,
+		                false);
+				mongo.close();
+				return "success";
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (MongoException e) {

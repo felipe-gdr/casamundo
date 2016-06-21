@@ -3,7 +3,7 @@
  */
     function rest_incluiStudent(objJson, action_ok, action_not_ok) {
         var actualTrip = student.documento.actualTrip;
-        objJson.documento.trips[actualTrip].status = 'available';
+        objJson.documento.trips[actualTrip].status = 'Available';
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/incluir",
@@ -41,9 +41,9 @@
     	});
     };
     
-    function rest_obterStudentsAll(action_ok) {
+    function rest_obterStudentsAll(action_ok, action_notOk, destination, accommodation) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista?destination=" + destination + "&accommodation=" + accommodation,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
@@ -52,6 +52,7 @@
     		action_ok(data);
     	})
     	.fail(function(data) {
+    		action_notOK();
     	})
     	.always(function(data) {
     	});
@@ -359,6 +360,23 @@
     	})
     	.fail(function(data) {
     		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_obterUsuario(email, action_ok, action_not_ok, par1, par2) {
+    	$.ajax({
+			url : "http://" + localStorage.urlServidor + ":8080/casamundo/rest/usuario/obter?email=" + email,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok (data, par1, par2);
+    	})
+    	.fail(function(data) {
+    		action_not_ok (data, par1, par2);
     	})
     	.always(function(data) {
     	});

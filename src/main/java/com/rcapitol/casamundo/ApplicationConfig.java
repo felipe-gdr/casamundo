@@ -18,7 +18,8 @@ public class ApplicationConfig extends Application {
         		Rest_School.class,
         		Rest_Table.class,
         		Rest_UploadFiles.class,
-        		Rest_Email.class
+        		Rest_Email.class,
+        		Rest_Usuario.class
         		));
     }
 }

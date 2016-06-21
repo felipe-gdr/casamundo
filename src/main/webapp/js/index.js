@@ -1,17 +1,22 @@
 /**
  *	carrega variaveis do sistema 
  */
-
 	localStorage.mapsCoordinate = "AIzaSyBtvFz034ClyfruthGGd4BCO0_I2iBZG3g";
 	localStorage.mapsDistance = "AIzaSyCY4Bn4wcalIGk7D1N3HaSdoaqgcfrdNRE";
 	localStorage.mapMatrixDistance = "AIzaSyDaDHbZU3-9m0g09R1d-g1eqwgwXqBkWRE";
 	localStorage.hostNameEmail = "smtp.gmail.com";
-	localStorage.userNameEmail = "grenneglr@gmail.com";
-	localStorage.passwordEmail = "Hefega0701";
+
 	
 	localStorage.app = "casamundo";
 
 	localStorage.urlServidor = window.location.hostname;
+
+
+	if (localStorage.loginOk != "true"){
+		$(window.document.location).attr('href','index.html');
+    };
+    
+    localStorage.loginOk = false;
 
 	// 	*** inicializar dados
 	var data  = JSON.parse(
