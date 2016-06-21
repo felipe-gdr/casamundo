@@ -6,8 +6,91 @@
 		return false;
 	});
 
+	$("#menuCaretaker").addClass ("hide");
+	$("#menuStudents").addClass ("hide");
+	$("#menuFamilies").addClass ("hide");
+	$("#menuAgency").addClass ("hide");
+	$("#menuFamily").addClass ("hide");
+	$("#menuStudent").addClass ("hide");
+	$("#menuAdministrator").addClass ("hide");
 
-/**
+	if (localStorage.usuarioPerfil == "caretaker"){
+		$("#menuCaretaker").removeClass ("hide");
+	}; 
+	if (localStorage.usuarioPerfil == "agency"){
+		$("#menuAgency").removeClass ("hide");
+	}; 
+	if (localStorage.usuarioPerfil == "administrator"){
+		$("#menuCaretaker").removeClass ("hide");
+		$("#menuStudents").removeClass ("hide");
+		$("#menuFamilies").removeClass ("hide");
+		$("#menuAdministrator").removeClass ("hide");
+	}; 
+	if (localStorage.usuarioPerfil == "student"){
+		$("#menuStudent").removeClass ("hide");
+	}; 
+	if (localStorage.usuarioPerfil == "family"){
+		$("#menuFamily").removeClass ("hide");
+	}; 
+	
+	function executaLogin(email, senha) {
+
+		rest_obterUsuario(email, usuarioOk, usuarioFail, senha)
+
+	};
+
+	function usuarioOk (data, senha){
+
+		if (data.documento.password == senha){
+			localStorage.usuarioEmail = data.documento.email;
+			localStorage.usuarioFirstName = data.documento.firstName;
+			localStorage.usuarioLastName = data.documento.lastName;
+			localStorage.usuarioPerfil = data.documento.perfil;
+			localStorage.usuarioCity = data.documento.city;
+			localStorage.usuarioGender = data.documento.gender;
+			localStorage.loginOk = true;
+			switch(localStorage.usuarioPerfil) {
+		    case "administrator":
+				$(window.document.location).attr('href','dashboard.html');
+		        break;
+		    case "caretaker":
+				$(window.document.location).attr('href','dashboard.html');
+		        break;
+		    case "agency":
+				$(window.document.location).attr('href','agency.html');
+		        break;
+		    case "family":
+				$(window.document.location).attr('href','family.html');
+		        break;
+		    case "student":
+				$(window.document.location).attr('href','student.html');
+		        break;
+		    default:
+				$.smallBox({
+					title : "Error",
+					content : "<i class='fa fa-clock-o'></i> <i>No associated profile</i>",
+					color : "#ff8080",
+					iconSmall : "fa fa-check fa-2x fadeInRight animated",
+					timeout : 4000
+				});
+			};			
+			return true;
+		}else{
+			usuarioFail ();
+		};
+		return false;
+	};
+	
+	function usuarioFail (){
+		$.smallBox({
+			title : "Error",
+			content : "<i class='fa fa-clock-o'></i> <i>User/Password invalid</i>",
+			color : "#ff8080",
+			iconSmall : "fa fa-check fa-2x fadeInRight animated",
+			timeout : 4000
+		});
+	};
+	/**
  * 
  */
 function carregaTabelas(data) { 	

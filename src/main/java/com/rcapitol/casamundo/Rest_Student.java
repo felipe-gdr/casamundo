@@ -169,7 +169,8 @@ public class Rest_Student {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-		    if (destination != "all"){
+			String literal = "all";
+			if(!destination.equals("all")){
 		    	setQuery.put("documento.trips.destination", destination);
 		    };
 //		    if (accommodation != null){
