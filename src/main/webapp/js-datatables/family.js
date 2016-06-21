@@ -65,25 +65,27 @@
 	
     });
     var objJson = JSON.parse(localStorage.getItem("student"));
-    $.each(objJson.documento.trips, function (i, trip) {
-	    trip_table.row.add( {
-            'status':'<span class="label label-avaliable">' + trip.status + '</span>',
-            'destination':'<small class="text-muted">' + trip.destination + '</small>',
-            'start':'<small class="hide">' + converteAnoMesDia(trip.start) + '</small><small class="text-muted">' + separaData(trip.start, "/") + '</small>',
-            'end':'<small class="hide">' + converteAnoMesDia(trip.end) + '</small><small class="text-muted">' + separaData(trip.end,"/") + '</small>',
-            'arrival':'<small class="text-muted">Date : ' + separaData(trip.arrivalDate, "/") + '</small><br>' +
-            			'<small class="text-muted">Time : ' + separaHora(trip.arrivalTime, ":") + '</small>',
-            'accommodation':'<small class="text-muted">' + trip.accommodation + '</small>',
-            'flight':'Number : ' + trip.flightNumber + '<br>' +
-            			'<small class="text-muted">Date : ' + separaData(trip.flightDate, "/") + '</small><br>' +
-            			'<small class="text-muted">Time : ' + separaHora(trip.flightTime,":") + '</small><br>' +
-            			'<small class="text-muted">Airline : ' + trip.flightAirline + '</small><br>',
-			'pickup': '<small class="text-muted">Pickup : ' + trip.pickup + '</small><br>' +
-						'<small class="text-muted">Dropoff : ' + trip.dropoff + '</small>',
-            'extend':'<small class="text-muted">' + trip.extend + '</small>',
-            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
-	    }).draw( false );
-    });
+    if (objJson){
+	    $.each(objJson.documento.trips, function (i, trip) {
+		    trip_table.row.add( {
+	            'status':'<span class="label label-avaliable">' + trip.status + '</span>',
+	            'destination':'<small class="text-muted">' + trip.destination + '</small>',
+	            'start':'<small class="hide">' + converteAnoMesDia(trip.start) + '</small><small class="text-muted">' + separaData(trip.start, "/") + '</small>',
+	            'end':'<small class="hide">' + converteAnoMesDia(trip.end) + '</small><small class="text-muted">' + separaData(trip.end,"/") + '</small>',
+	            'arrival':'<small class="text-muted">Date : ' + separaData(trip.arrivalDate, "/") + '</small><br>' +
+	            			'<small class="text-muted">Time : ' + separaHora(trip.arrivalTime, ":") + '</small>',
+	            'accommodation':'<small class="text-muted">' + trip.accommodation + '</small>',
+	            'flight':'Number : ' + trip.flightNumber + '<br>' +
+	            			'<small class="text-muted">Date : ' + separaData(trip.flightDate, "/") + '</small><br>' +
+	            			'<small class="text-muted">Time : ' + separaHora(trip.flightTime,":") + '</small><br>' +
+	            			'<small class="text-muted">Airline : ' + trip.flightAirline + '</small><br>',
+				'pickup': '<small class="text-muted">Pickup : ' + trip.pickup + '</small><br>' +
+							'<small class="text-muted">Dropoff : ' + trip.dropoff + '</small>',
+	            'extend':'<small class="text-muted">' + trip.extend + '</small>',
+	            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
+		    }).draw( false );
+	    });
+    };
 	// Add event listener for opening and closing details
     $('#trip_list tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');

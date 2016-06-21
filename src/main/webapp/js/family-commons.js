@@ -66,7 +66,7 @@ function carregaTelaFamily(data, tipo) {
 	  	
     	var mobile = ""; 
     	if (data.documento.contact.workPhoneNumber) {
-    		'<span class="txt-color-darken"><small class="text-muted" id="familyMobilePhone' + i + '" data-original-title="Name"> - Mobile Phone: ' + data.documento.contact.workPhoneNumber + '</small></span>'
+    		'<span class="txt-color-darken"><small class="text-muted" id="familyMobilePhone' + 0 + '" data-original-title="Name"> - Mobile Phone: ' + data.documento.contact.workPhoneNumber + '</small></span>'
     	}
     	var familyMemberLine = '<li>' +
 									'<p class="text-muted">' +
