@@ -46,19 +46,21 @@
 	var objJson = JSON.parse(localStorage.getItem("family"));
 	var objJsonSaveRooms = [];
 
-    $.each(objJson.documento.rooms, function (i, optionValue) {
-    	var emailStudent = [];
-        $.each(objJson.documento.rooms[i].emailStudent, function (i, emailStudentItem) {
-        	emailStudent.push('"' + emailStudentItem + '"');
-        });
-    	objJsonSaveRooms.push(JSON.parse( '{'
-				+ '"singleBedAvailable":"' + objJson.documento.rooms[i].singleBedAvailable
-				+ '","coupleBedAvailable":"' + objJson.documento.rooms[i].coupleBedAvailable
-				+ '","emailStudent": [' + emailStudent
-				+  ']}'
-				));
-    });
-    localStorage.setItem("saveDataRooms", JSON.stringify(objJsonSaveRooms));
+   if (objJson){
+		$.each(objJson.documento.rooms, function (i, optionValue) {
+	    	var emailStudent = [];
+	        $.each(objJson.documento.rooms[i].emailStudent, function (i, emailStudentItem) {
+	        	emailStudent.push('"' + emailStudentItem + '"');
+	        });
+	    	objJsonSaveRooms.push(JSON.parse( '{'
+					+ '"singleBedAvailable":"' + objJson.documento.rooms[i].singleBedAvailable
+					+ '","coupleBedAvailable":"' + objJson.documento.rooms[i].coupleBedAvailable
+					+ '","emailStudent": [' + emailStudent
+					+  ']}'
+					));
+	    });
+   };
+   localStorage.setItem("saveDataRooms", JSON.stringify(objJsonSaveRooms));
 
 	//
 	//  *** limpa storage para pegar sempre o layout novo
@@ -86,6 +88,28 @@
 	}
 	if (localStorage.photo06){
 		obj.documento.fotos.photo06 =  localStorage.photo06;
+	}
+	//
+	// *** retorna nome documentos salvos
+	//
+	var obj = JSON.parse(localStorage.getItem("family"));
+	if (localStorage.docs1){
+		obj.documento.docs.docs1 =  localStorage.docs1;
+	}
+	if (localStorage.docs2){
+		obj.documento.docs.docs2 =  localStorage.docs2;
+	}
+	if (localStorage.docs3){
+		obj.documento.docs.docs3 =  localStorage.docs3;
+	}
+	if (localStorage.docs4){
+		obj.documento.docs.docs4 =  localStorage.docs4;
+	}
+	if (localStorage.docs5){
+		obj.documento.docs.docs5 =  localStorage.docs5;
+	}
+	if (localStorage.docs6){
+		obj.documento.docs.docs6 =  localStorage.docs6;
 	}
     localStorage.setItem("family", JSON.stringify(obj));
 
@@ -265,12 +289,13 @@
 		    	objJson.documento.familyMembers.splice(0, 1);
 		    });
 			$( ".familyMemberItem" ).each(function(i, value) {
-				if ($("#familyMemberName_" + i).val()) {
-					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + i).val() 
-															+ '","gender":"' + $("#familyMemberGender_" + i).val() 
-															+ '","relationship":"' + $("#familyMemberRelationship_" + i).val() 
-															+ '","birthDate":"' + $("#familyMemberBirthdate_" + i).val()
-															+ '","mobilePhone":"' + $("#familyMemberMobilePhone_" + i).val()
+				w = i + 1;
+				if ($("#familyMemberName_" + w).val()) {
+					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + w).val() 
+															+ '","gender":"' + $("#familyMemberGender_" + w).val() 
+															+ '","relationship":"' + $("#familyMemberRelationship_" + w).val() 
+															+ '","birthDate":"' + $("#familyMemberBirthdate_" + w).val()
+															+ '","mobilePhone":"' + $("#familyMemberMobilePhone_" + w).val()
 															+  '"}'
 															));
 				};
@@ -345,3 +370,26 @@
     	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
     });
 	
+    
+	$("#contact_firstName").bind('blur', function () {
+	    $('#familyMemberName_0').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
+	});
+	$("#contact_lastName").bind('blur', function () {
+	    $('#familyMemberName_0').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
+	});
+	$("#contact_gender").bind('blur', function () {
+    	$('#familyMemberGender_0').val($("#contact_gender").val());
+	});
+	$("#contact_birthDate").bind('blur', function () {
+    	$('#familyMemberBirthdate_0').val($("#contact_birthDate").val());
+    	$('.docs1').addClass("hide");
+		var idade = calculaIdade($('#familyMemberBirthdate_0').val());
+		if (idade > 17){
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs1");
+			$('.docs1').removeClass("hide");	
+		};
+
+   	});
+	$("#contact_workPhoneNumber").bind('blur', function () {
+        $('#familyMemberMobilePhone_0').val($("#contact_workPhoneNumber").val());
+    });

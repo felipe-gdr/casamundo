@@ -58,9 +58,16 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
             var node = $('<p/>')
                     .append("");
             node.appendTo(data.context);
-			obj = JSON.parse(localStorage.getItem(assunto));
-			obj.documento.fotos[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
-	        localStorage.setItem(assunto, JSON.stringify(obj));
+            if (fotosDiv == "photosFamily") {
+            	obj = JSON.parse(localStorage.getItem(assunto));
+            	obj.documento.fotos[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
+            	localStorage.setItem(assunto, JSON.stringify(obj));
+            };
+            if (fotosDiv == "docsFamily") {
+            	obj = JSON.parse(localStorage.getItem(assunto));
+            	obj.documento.docs[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
+            	localStorage.setItem(assunto, JSON.stringify(obj));
+            };
 	        $('#img-' + labelId).remove();
         });
     }).on('fileuploadprocessalways', function (e, data) {
