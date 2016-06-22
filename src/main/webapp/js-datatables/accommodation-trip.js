@@ -8,7 +8,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterFamiliesAll(carregaLocalStorageFamilies, "", "Homestay");
+	rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, localStorage.usuarioCity, "Homestay");
 
 
     // set filters

@@ -36,8 +36,20 @@
 	}; 
 	
 	$("#usuarioNome").html(localStorage.usuarioFirstName);
-	
-	function executaLogin(email, senha) {
+
+	if (localStorage.usuarioCity != "all"){
+		$(".casamundo").addClass("hide");
+		if (localStorage.usuarioCity == "Toronto"){
+			$(".casavancouver").addClass("hide");
+			$(".casatoronto").addClass("active");
+		};
+		if (localStorage.usuarioCity == "Vancouver"){
+			$(".casavancouver").addClass("active");
+			$(".casatoronto").addClass("hide");
+		};
+	};
+
+		function executaLogin(email, senha) {
 
 		rest_obterUsuario(email, usuarioOk, usuarioFail, senha)
 

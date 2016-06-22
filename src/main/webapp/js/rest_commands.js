@@ -120,7 +120,7 @@
     	});
     };
 
-    function rest_obterFamiliesAll(action_ok, destination, occupancy) {
+    function rest_obterFamiliesAll(action_ok, action_notok, destination, occupancy) {
     	var parameters = "";
     	if (destination && occupancy){
     		parameters = "?destination=" + destination + "&occupancy=" + occupancy;
@@ -143,6 +143,7 @@
     		action_ok(data);
     	})
     	.fail(function(data) {
+    		action_notok
     	})
     	.always(function(data) {
     	});

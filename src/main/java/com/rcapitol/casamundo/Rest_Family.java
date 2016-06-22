@@ -138,12 +138,12 @@ public class Rest_Family {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-		    if (destination != null){
+			if(!destination.equals("all")){
 		    	setQuery.put("documento.address.destination", destination);
 		    };
 			DBCollection collection = db.getCollection("family");
 			
-			DBCursor cursor = collection.find();
+			DBCursor cursor = collection.find(setQuery);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 

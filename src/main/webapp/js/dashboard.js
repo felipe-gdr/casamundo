@@ -15,8 +15,6 @@
 	if (localStorage.loginOk != "true"){
 		$(window.document.location).attr('href','index.html');
     };
-    
-//    localStorage.loginOk = false;
 
 	// 	*** inicializar dados
 	var data  = JSON.parse(

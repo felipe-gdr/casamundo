@@ -11,7 +11,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterStudentsAll(carregaLocalStorageStudents);
+	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity);
 
 
     /* Formatting function for row details - modify as you need */

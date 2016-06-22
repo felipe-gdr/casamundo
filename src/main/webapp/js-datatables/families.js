@@ -11,8 +11,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterFamiliesAll(carregaLocalStorageFamilies);
-
+	rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, localStorage.usuarioCity);
 
 	/* BASIC datatables*/
 
