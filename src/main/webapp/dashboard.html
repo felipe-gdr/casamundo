@@ -796,27 +796,27 @@
 						<div class="col-xs-12 col-sm-12 col-md-3 col-lg-8">
 							<div id="myCarousel-0" class="carousel slide col-sm-3">
 								<ol class="carousel-indicators">
-									<li data-target="#myCarousel-0" data-slide-to="0" class="active"></li>
-									<li data-target="#myCarousel-0" data-slide-to="1" class=""></li>
-									<li data-target="#myCarousel-0" data-slide-to="2" class=""></li>
+									<li data-target="#myCarousel-0" data-slide-to="0" class="active casamundo"></li>
+									<li data-target="#myCarousel-0" data-slide-to="1" class="casatoronto"></li>
+									<li data-target="#myCarousel-0" data-slide-to="2" class="casavancouver"></li>
 								</ol>
 								<div class="carousel-inner">
 									<!-- Slide 1 -->
-									<div id="casaMundoCarousel" class="item active">
+									<div id="casaMundoCarousel" class="item active casamundo">
 										<img src="img/casas/terra.jpg" alt="">
 										<div class="carousel-caption caption-right">
 											<a href="javascript:void(0);" class="btn btn-info btn-sm">Mundo</a>
 										</div>
 									</div>
 									<!-- Slide 2 -->
-									<div id="casaTorontoCarousel" class="item">
+									<div id="casaTorontoCarousel" class="item casatoronto">
 										<img src="img/casas/toronto.jpg" alt="">
 										<div class="carousel-caption caption-left">
 											<a href="javascript:void(0);" class="btn btn-danger btn-sm">Toronto</a>
 										</div>
 									</div>
 									<!-- Slide 3 -->
-									<div id="casaVancouverCarousel" class="item">
+									<div id="casaVancouverCarousel" class="item casavancouver">
 										<img src="img/casas/vancouver.jpg" alt="">
 										<div class="carousel-caption">
 											<a href="javascript:void(0);" class="btn btn-danger btn-sm">Vancouver</a>
@@ -1860,6 +1860,18 @@
 
 		<script>
 			$(document).ready(function() {
+
+				if (localStorage.usuarioCity != "all"){
+					$(".casamundo").addClass("hide");
+					if (localStorage.usuarioCity == "Toronto"){
+						$(".casavancouver").addClass("hide");
+						$(".casatoronto").addClass("active");
+					};
+					if (localStorage.usuarioCity == "Vancouver"){
+						$(".casavancouver").addClass("active");
+						$(".casatoronto").addClass("hide");
+					};
+				};
 
 				// DO NOT REMOVE : GLOBAL FUNCTIONS!
 				pageSetUp();
