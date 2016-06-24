@@ -48,17 +48,27 @@ public class Rest_Family {
 	@Path("/obterFamilyName")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterName(@QueryParam("familyName") String familyName) throws UnknownHostException, MongoException {
-		Mongo mongo = new Mongo();
-		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("family");
-		BasicDBObject searchQuery = new BasicDBObject("documento.familyName", familyName);
-		DBObject cursor = collection.findOne(searchQuery);
-		JSONObject documento = new JSONObject();
-		BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-		documento.put("documento", obj);
-		mongo.close();
-		return documento;
+	public JSONObject ObterName(@QueryParam("familyName") String familyName) {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("family");
+			BasicDBObject searchQuery = new BasicDBObject("documento.familyName", familyName);
+			DBObject cursor = collection.findOne(searchQuery);
+			JSONObject documento = new JSONObject();
+			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			documento.put("documento", obj);
+			mongo.close();
+			return documento;
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MongoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	};
 	@Path("/incluir")
 	@POST
@@ -138,9 +148,11 @@ public class Rest_Family {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-			if(!destination.equals("all")){
-		    	setQuery.put("documento.address.destination", destination);
-		    };
+			if (destination != null){
+				if(!destination.equals("all")){
+			    	setQuery.put("documento.address.destination", destination);
+			    };
+			};
 			DBCollection collection = db.getCollection("family");
 			
 			DBCursor cursor = collection.find(setQuery);

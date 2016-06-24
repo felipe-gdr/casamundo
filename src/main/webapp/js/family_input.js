@@ -42,22 +42,45 @@
 	};
 	//
 	//  *** salva dados dos quartos
-	//
+	//+
 	var objJson = JSON.parse(localStorage.getItem("family"));
 	var objJsonSaveRooms = [];
 
    if (objJson){
 		$.each(objJson.documento.rooms, function (i, optionValue) {
-	    	var emailStudent = [];
-	        $.each(objJson.documento.rooms[i].emailStudent, function (i, emailStudentItem) {
-	        	emailStudent.push('"' + emailStudentItem + '"');
-	        });
-	    	objJsonSaveRooms.push(JSON.parse( '{'
-					+ '"singleBedAvailable":"' + objJson.documento.rooms[i].singleBedAvailable
-					+ '","coupleBedAvailable":"' + objJson.documento.rooms[i].coupleBedAvailable
-					+ '","emailStudent": [' + emailStudent
-					+  ']}'
-					));
+			if (objJson.documento.rooms[i].occupancySingleBed){
+				occupancySingleBedSave = objJson.documento.rooms[i].occupancySingleBed
+			}else{
+				occupancySingleBedSave = [
+				    		                 {
+					    		                 emailStudent : "",
+					    		                 startOccupancy : "",
+					    		                 endOccupancy : "",
+					    		                 emailStudent : ""
+				    		                 }
+				                          ];
+			};
+			if (objJson.documento.rooms[i].occupancyCoupleBed){
+				occupancyCoupleBedSave = objJson.documento.rooms[i].occupancyCoupleBed
+			}else{
+				occupancyCoupleBedSave = [
+				    		                 {
+					    		                 emailStudent : "",
+					    		                 startOccupancy : "",
+					    		                 endOccupancy : ""
+				    		                 }
+				                          ];
+			};
+		    var room = 
+		    {
+		    		mumber : i,
+		    		singleBed : objJson.documento.rooms[i].singleBedAvailable,
+		    		coupleBed : objJson.documento.rooms[i].coupleBedAvailable,
+		    		privateWashroom : objJson.documento.rooms[i].privateWashroom,
+		    		occupancySingleBed : occupancySingleBedSave,
+		    		occupancyCoupleBed : occupancyCoupleBedSave
+		    };
+	    	objJsonSaveRooms.push(room);
 	    });
    };
    localStorage.setItem("saveDataRooms", JSON.stringify(objJsonSaveRooms));
@@ -300,25 +323,46 @@
 															));
 				};
 			});
-		    $.each(objJson.documento.rooms, function (i, optionValue) {
+
+			$.each(objJson.documento.rooms, function (i, optionValue) {
 		    	objJson.documento.rooms.splice(0, 1);
 		    });
 		    objJsonSaveRooms = JSON.parse(localStorage.getItem("saveDataRooms"));
 			$( ".roomItem" ).each(function(i, value) {
 				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0" ) {
-			    	var emailStudent = [];
-			        $.each(objJsonSaveRooms[i].emailStudent, function (i, emailStudentItem) {
-			        	emailStudent.push('"' + emailStudentItem + '"');
-			        });
-					objJson.documento.rooms.push(JSON.parse('{"number":"' + i 
-															+ '","singleBed":"' + $("#singleBed_" + i).val() 
-															+ '","coupleBed":"' + $("#coupleBed_" + i).val() 
-															+ '","privateWashroom":"' + $("#privateWashroom_" + i).val()
-															+ '","singleBedAvailable":"' + objJsonSaveRooms[i].singleBedAvailable
-															+ '","coupleBedAvailable":"' + objJsonSaveRooms[i].coupleBedAvailable
-															+ '","emailStudent":[' + emailStudent
-															+  ']}'
-															));
+					if (objJsonSaveRooms[i].occupancySingleBed){
+						occupancySingleBedSave = objJsonSaveRooms[i].occupancySingleBed
+					}else{
+						occupancySingleBedSave = [
+						    		                 {
+							    		                 emailStudent : "",
+							    		                 startOccupancy : "",
+							    		                 endOccupancy : "",
+							    		                 emailStudent : ""
+						    		                 }
+						                          ];
+					};
+					if (objJsonSaveRooms[i].occupancyCoupleBed){
+						occupancyCoupleBedSave = objJsonSaveRooms[i].occupancyCoupleBed
+					}else{
+						occupancyCoupleBedSave = [
+						    		                 {
+							    		                 emailStudent : "",
+							    		                 startOccupancy : "",
+							    		                 endOccupancy : ""
+						    		                 }
+						                          ];
+					};
+			        var room = 
+			        {
+			        		number : i,
+			        		singleBed : $("#singleBed_" + i).val(),
+			        		coupleBed : $("#coupleBed_" + i).val(),
+			        		privateWashroom : $("#privateWashroom_" + i).val(),
+				    		occupancySingleBed : occupancySingleBedSave,
+				    		occupancyCoupleBed : occupancyCoupleBedSave
+			        };
+			        objJson.documento.rooms.push(room);
 				};
 			});
 			localStorage.setItem("family", JSON.stringify(objJson));

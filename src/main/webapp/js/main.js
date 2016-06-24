@@ -146,6 +146,23 @@ function separaData ( data, separador) {
 
 	 
 };				
+function separaAnoMesDia ( data) {
+	if (data){
+		return '"' + data.slice(4,8) + '","' + data.slice(2,4) + '","' + data.slice(0,2) + '"';
+	}else{
+		return "Empty";
+	}
+};
+
+Date.prototype.julianDate=function(){
+	var j=parseInt((this.getTime()-new Date('Dec 30,'+(this.getFullYear()-1)+' 23:00:00').getTime())/86400000).toString(),
+	i=3-j.length;
+	while(i-->0)j=0+j;
+	return j
+	};
+function dateToJulianNumber(d) {
+};   
+
 function separaHora ( hora, separador) {
 	if (hora){
 		return hora.slice(0,2) + separador + hora.slice(2,4);		

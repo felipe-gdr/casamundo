@@ -12,7 +12,7 @@
 	 * 				obter os dados
 	 */
 	if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
-		rest_obterFamiliesAll(carregaLocalStorageFamilies, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
+		rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
 	};
 	
     // set filters
@@ -91,7 +91,7 @@
 			"columns": [
 			            {
 			                "class":          'details-control',
-			                "orderable":      false,
+			                "orderable":      true,
 			                "data":           null,
 			                "defaultContent": ''
 			            },
@@ -233,58 +233,73 @@
         	dontHostNationalityText = "Don't have restriction for nationality";        	
         };
         var occupancy = "";
-        if (family.rooms[0]){
-		    $.each(family.rooms, function (i, room) {
-		    	if (room.singleBed){
-		    		if (room.singleBed == 1){
-		    			literal_1 = "bed"
-		    		}else{
-		    			literal_1 = "beds"
-		    		};
-		    		if (room.singleBedAvailable == 0){
-		    			availableBedText = "no available single beds"
-		    		}else{
-			    		if (room.singleBedAvailable == 1){
-			    			availableBedText = "available " + room.singleBedAvailable + " bed"
+        if (family.rooms){
+	        if (family.rooms[0]){
+			    $.each(family.rooms, function (i, room) {
+			    	if (room.singleBed){
+			    		if (room.singleBed == 1){
+			    			literal_1 = "bed"
 			    		}else{
-			    			availableBedText = "available " + room.singleBedAvailable + " beds"
+			    			literal_1 = "beds"
 			    		};
-		    		};
-		    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
-		    	};
-		    	if (room.coupleBed){
-		    		if (room.coupleBed == 1){
-		    			literal_1 = "bed"
-		    		}else{
-		    			literal_1 = "beds"
-		    		};
-		    		if (room.coupleBedAvailable == 0){
-		    			availableBedText = "no available couple beds"
-		    		}else{
-			    		if (room.coupleBedAvailable == 1){
-			    			availableBedText = "available " + room.coupleBedAvailable + " bed"
+			    		if (room.occupancySingleBed){
+				    		var singleBedAvailable = room.singleBed - bedsOccupied(room.occupancySingleBed);
+				    		if (singleBedAvailable == 0){
+				    			availableBedText = "no available single beds"
+				    		}else{
+					    		if (singleBedAvailable == 1){
+					    			availableBedText = "available " + singleBedAvailable + " bed"
+					    		}else{
+					    			availableBedText = "available " + singleBedAvailable + " beds"
+					    		};
+				    		};
+				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
 			    		}else{
-			    			availableBedText = "available " + room.coupleBedAvailable + " beds"
+			    			singleBedText = "";
+			    		}
+			    	};
+			    	if (room.coupleBed){
+			    		if (room.coupleBed == 1){
+			    			literal_1 = "bed"
+			    		}else{
+			    			literal_1 = "beds"
 			    		};
-		    		};
-		    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
-		    	};
-		    	if (room.privateWashroom){
-		    		if (room.privateWashroom == "Yes"){
-		    			privateWashroomText = " Have private washroom"
-		    		}else{
-		    			privateWashroomText = " Dont't have private washroom"
-		    		};
-		    	};
-		    	occupancy = String(occupancy) + "<small class='text-success'><i>Room " + room.number + ":<br> " + 
-		    									"<small class='text-info'><i>" + singleBedText + "<i></small><br>" +
-		    									"<small class='text-info'><i>"  + coupleBedText + "<i></small><br>" +
-		    									"<small class='text-info'><i>"  + privateWashroomText + "<i></small><br>";
-		    });
+			    		if (room.occupancyCoupleBed){
+				    		var coupleBedAvailable = room.coupleBed - bedsOccupied(room.occupancyCoupleBed);
+				    		if (coupleBedAvailable == 0){
+				    			availableBedText = "no available couple beds"
+				    		}else{
+					    		if (coupleBedAvailable == 1){
+					    			availableBedText = "available " + coupleBedAvailable + " bed"
+					    		}else{
+					    			availableBedText = "available " + coupleBedAvailable + " beds"
+					    		};
+				    		};
+				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
+			    		}else{
+			    			coupleBedText = "";
+			    		}
+			    	};
+			    	if (room.privateWashroom){
+			    		if (room.privateWashroom == "Yes"){
+			    			privateWashroomText = " Have private washroom"
+			    		}else{
+			    			privateWashroomText = " Dont't have private washroom"
+			    		};
+			    	};
+			    	occupancy = String(occupancy) + "<small class='text-success'><i>Room " + room.number + ":<br> " + 
+			    									"<small class='text-info'><i>" + singleBedText + "<i></small><br>" +
+			    									"<small class='text-info'><i>"  + coupleBedText + "<i></small><br>" +
+			    									"<small class='text-info'><i>"  + privateWashroomText + "<i></small><br>";
+			    });
+	        };
         };
         var objStudent = JSON.parse(localStorage.getItem("student"));
+        var distances = "";
         if (results){
-        	var distances = "<small class='text-muted'><i>" + results.rows[0].elements[0].duration.text +"<i></small><br>";
+            if (results.rows[0].elements[0].duration){
+            	var distances = "<small class='text-muted'><i>" + results.rows[0].elements[0].duration.text +"<i></small><br>";
+            };
         };
         var actions = "";
         var student = JSON.parse(localStorage.getItem("student"));
@@ -324,6 +339,35 @@
 		
 	};
 	
+	function bedsOccupied (occupancyRows) {
+		var objJson = JSON.parse(localStorage.getItem("student"));
+		var actualTrip = objJson.documento.actualTrip;
+		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
+		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
+		var occupied = 0;
+	    $.each(occupancyRows, function (i, occupancy) {
+			if (occupancy.emailStudent){
+				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
+				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
+				
+				if (startTrip >= startOccupancy && startTrip <= endOccupancy){
+					occupied = occupied + 1;	
+					return;
+				};
+				if (endTrip >= startOccupancy && endTrip <= endOccupancy){
+					occupied = occupied + 1;	
+					return;
+				};
+				if (startTrip <= startOccupancy && endTrip >= endOccupancy){
+					occupied = occupied + 1;	
+					return;
+				};
+				
+			};
+	    });
+	    return occupied;
+	};
+
 	function calculaPontuacaoFamilia (family, student) {
 		var pesoHasRoom = 1;
 		var pesoDontHasRoom = -1;
@@ -353,36 +397,38 @@
 			var hasRoom = false;
 			var hasPrivateWashroom = false;
 			if (student.documento.trips[actualTrip].occupancy){
-			    $.each(family.rooms, function (i, room) {
-			    	if (student.documento.trips[actualTrip].occupancy == "Single"){
-			    		if (room.singleBedAvailable > 0){
-			    			hasRoom = true;	
-			    			if ($('#filter_privateWashroom').hasClass( "btn-success")){
-			    				if (student.documento.trips[actualTrip].privateWashroom){
-				    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
-							    		if (room.privateWashroom == "Yes"){
-							    			hasPrivateWashroom = true;	
-							    		};				    					
-				    				};
-			    				};			
-			    			};
-			    		};
-			    	};
-			    	if (student.documento.trips[actualTrip].occupancy == "Couple"){
-			    		if (room.coupleBedAvailable > 0){
-			    			hasRoom = true;	
-			    			if ($('#filter_privateWashroom').hasClass( "btn-success")){
-			    				if (student.documento.trips[actualTrip].privateWashroom){
-				    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
-							    		if (room.privateWashroom == "Yes"){
-							    			hasPrivateWashroom = true;	
-							    		};				    					
-				    				};
-			    				};			
-			    			};
-			    		};
-			    	};
-			    });
+				if (family.rooms){
+				    $.each(family.rooms, function (i, room) {
+				    	if (student.documento.trips[actualTrip].occupancy == "Single"){
+				    		if (room.singleBedAvailable > 0){
+				    			hasRoom = true;	
+				    			if ($('#filter_privateWashroom').hasClass( "btn-success")){
+				    				if (student.documento.trips[actualTrip].privateWashroom){
+					    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
+								    		if (room.privateWashroom == "Yes"){
+								    			hasPrivateWashroom = true;	
+								    		};				    					
+					    				};
+				    				};			
+				    			};
+				    		};
+				    	};
+				    	if (student.documento.trips[actualTrip].occupancy == "Couple"){
+				    		if (room.coupleBedAvailable > 0){
+				    			hasRoom = true;	
+				    			if ($('#filter_privateWashroom').hasClass( "btn-success")){
+				    				if (student.documento.trips[actualTrip].privateWashroom){
+					    				if (student.documento.trips[actualTrip].privateWashroom == "Yes"){
+								    		if (room.privateWashroom == "Yes"){
+								    			hasPrivateWashroom = true;	
+								    		};				    					
+					    				};
+				    				};			
+				    			};
+				    		};
+				    	};
+				    });
+				};
 			};
 			if (hasRoom){
 				points = parseInt(points) + 1 + parseInt(pesoHasRoom)  

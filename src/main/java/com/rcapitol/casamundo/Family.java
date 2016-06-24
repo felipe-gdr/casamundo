@@ -314,9 +314,8 @@ public class Family {
     		public String singleBed;
     		public String coupleBed;
     		public String privateWashroom;
-    		public String singleBedAvailable;
-    		public String coupleBedAvailable;
-    		public String emailStudent[];
+    		public OccupancySingleBed occupancySingleBed[];
+    		public OccupancyCoupleBed occupancyCoupleBed[];
 
     		public Rooms() {
 
@@ -328,19 +327,63 @@ public class Family {
             			String singleBed,
             			String coupleBed,
             			String privateWashroom,
-            			String singleBedAvailable,
-            			String coupleBedAvailable,
-            			String [] emailStudent
+            			OccupancySingleBed[] occupancySingleBed,
+            			OccupancyCoupleBed[] occupancyCoupleBed
             		)
             {
 	    		this.number = number;
 	    		this.singleBed = singleBed;
 	    		this.coupleBed = coupleBed;
 	    		this.privateWashroom = privateWashroom;
-	    		this.singleBedAvailable = singleBedAvailable;
-	    		this.coupleBedAvailable = coupleBedAvailable;
-	    		this.emailStudent = emailStudent;
-            }
+	    		this.occupancySingleBed = occupancySingleBed;
+	    		this.occupancyCoupleBed = occupancyCoupleBed;
+            };
+  
+            public static final class OccupancySingleBed {
+        		public String emailStudent;
+        		public String startOccupancy;
+        		public String endOccupancy;
+
+        		public OccupancySingleBed() {
+
+    			}
+       
+                @JsonCreator
+                public OccupancySingleBed(
+                			String emailStudent,
+                			String startOccupancy,
+                			String endOccupancy
+                		)
+                {
+    	    		this.emailStudent = emailStudent;
+    	    		this.startOccupancy = startOccupancy;
+    	    		this.endOccupancy = endOccupancy;
+                }
+
+    		}
+            
+            public static final class OccupancyCoupleBed {
+        		public String emailStudent;
+        		public String startOccupancy;
+        		public String endOccupancy;
+
+        		public OccupancyCoupleBed() {
+
+    			}
+       
+                @JsonCreator
+                public OccupancyCoupleBed(
+                			String emailStudent,
+                			String startOccupancy,
+                			String endOccupancy
+                		)
+                {
+    	    		this.emailStudent = emailStudent;
+    	    		this.startOccupancy = startOccupancy;
+    	    		this.endOccupancy = endOccupancy;
+                }
+
+    		}
 
 		}
 	}

@@ -237,37 +237,39 @@ function carregaTelaFamily(data, tipo) {
 	//
 	// carrega docs
 	//
-	if (data.documento.docs.docs1){
-		carregaPhoto (localStorage.app, data.documento.docs.docs1, "docs1");
-		localStorage.docs1 = data.documento.docs.docs1;
-		$('.docs1').removeClass("hide");
-	}
-	if (data.documento.docs.docs2){
-		carregaPhoto (localStorage.app, data.documento.docs.docs2, "docs2");	
-		localStorage.docs2 = data.documento.docs.docs2;
-		$('.docs2').removeClass("hide");
-	}
-	if (data.documento.docs.docs3){
-		carregaPhoto (localStorage.app, data.documento.docs.docs3, "docs3");
-		localStorage.docs3 = data.documento.docs.docs3;
-		$('.docs3').removeClass("hide");
-	}
-	if (data.documento.docs.docs4){
-		carregaPhoto (localStorage.app, data.documento.docs.docs4, "docs4");	
-		localStorage.docs4 = data.documento.docs.docs4;
-		$('.docs4').removeClass("hide");
-	}
-	if (data.documento.docs.docs5){
-		carregaPhoto (localStorage.app, data.documento.docs.docs5, "docs5");	
-		localStorage.docs5 = data.documento.docs.docs5;
-		$('.docs5').removeClass("hide");
-	}
-	if (data.documento.docs.docs6){
-		carregaPhoto (localStorage.app, data.documento.docs.docs6, "docs6");	
-		localStorage.docs6 = data.documento.docs.docs6;
-		$('.docs6').removeClass("hide");
-	}
-
+	if (data.documento.docs){
+		if (data.documento.docs.docs1){
+			carregaPhoto (localStorage.app, data.documento.docs.docs1, "docs1");
+			localStorage.docs1 = data.documento.docs.docs1;
+			$('.docs1').removeClass("hide");
+		}
+		if (data.documento.docs.docs2){
+			carregaPhoto (localStorage.app, data.documento.docs.docs2, "docs2");	
+			localStorage.docs2 = data.documento.docs.docs2;
+			$('.docs2').removeClass("hide");
+		}
+		if (data.documento.docs.docs3){
+			carregaPhoto (localStorage.app, data.documento.docs.docs3, "docs3");
+			localStorage.docs3 = data.documento.docs.docs3;
+			$('.docs3').removeClass("hide");
+		}
+		if (data.documento.docs.docs4){
+			carregaPhoto (localStorage.app, data.documento.docs.docs4, "docs4");	
+			localStorage.docs4 = data.documento.docs.docs4;
+			$('.docs4').removeClass("hide");
+		}
+		if (data.documento.docs.docs5){
+			carregaPhoto (localStorage.app, data.documento.docs.docs5, "docs5");	
+			localStorage.docs5 = data.documento.docs.docs5;
+			$('.docs5').removeClass("hide");
+		}
+		if (data.documento.docs.docs6){
+			carregaPhoto (localStorage.app, data.documento.docs.docs6, "docs6");	
+			localStorage.docs6 = data.documento.docs.docs6;
+			$('.docs6').removeClass("hide");
+		}
+	};
+	
 	localStorage.setItem("family", JSON.stringify(data));
 };    
 
@@ -408,90 +410,100 @@ function criaLinhaRoom (i) {
 };
 function limpaStorageFamily () {
 	
-	var data  = JSON.parse(
-			'{' +
-				'"documento" : ' + 
-				  '{' +
-				    '"familyName" : "",' +
-				    '"type" : "",' +
-				    '"numbersBedroom" : "",' +
-				    '"numbersStudentsBedroom" : "",' +
-				    '"offerPrivateWashroom" : "",' +
-				    '"numberPrivateWashroom" : "",' +
-				    '"offerInternet" : "",' +
-				    '"haveDogs" : "",' +
-				    '"haveCats" : "",' +
-				    '"firstLanguage" : "",' +
-				    '"othersLanguage" : [],' +
-				    '"acceptSmokeStudent" : "",' +
-				    '"preferAgeStudent" : [],' +
-				    '"preferGenderStudent" : [],' +
-				    '"mealPlan" : [],' +
-				    '"specialDiet" : [],' +
-				    '"dontHostNationality" : [],' +
-				    '"acceptSmokeInsideHome" : "",' +
-				    '"contact" : {' +
-				      '"firstName" : "",' +
-				      '"lastName" : "",' +
-				      '"gender" : "",' +
-				      '"ocuppation" : "",' +
-				      '"employer" : "",' +
-				      '"email" : "",' +
-				      '"phoneNumber" : "",' +
-				      '"mobilePhoneNumber" : "",' +
-				      '"workPhoneNumber" : "",' +
-				      '"birthDate" : ""' +
-				    '},' +
-				    '"address" : {' +
-				      '"street" : "",' +
-				      '"number" : "",' +
-				      '"city" : "",' +
-				      '"state" : "",' +
-				      '"postalCode" : "",' +
-				      '"mainIntersection" : "",' +
-				      '"nearestSubwayStation" : "",' +
-				      '"walkingTimeSubwayStation" : "",' +
-				      '"nearestBusStop" : "",' +
-				      '"walkingTimeBusStation" : "",' +
-				      '"destination":"",' +
-				      '"latitude":"",' +
-				      '"longitude":""' +
-				    '},' +
-				    '"fotos" : {' +
-				      '"photo01" : "",' +
-				      '"photo02" : "",' +
-				      '"photo03" : "",' +
-				      '"photo04" : "",' +
-				      '"photo05" : "",' +
-				      '"photo06" : ""' +
-				    '},' +
-				    '"docs" : {' +
-				      '"docs1" : "",' +
-				      '"docs2" : "",' +
-				      '"docs3" : "",' +
-				      '"docs4" : "",' +
-				      '"docs5" : "",' +
-				      '"docs6" : ""' +
-				    '},' +
-				    '"familyMembers" : [{' +
-				        '"name" : "",' +
-				        '"gender" : "",' +
-				        '"relatioship" : "",' +
-				        '"birthDate" : "",' +
-				        '"mobilePhone" : ""' +
-				      '}],' +
-				    '"rooms" : [{' +
-				        '"number" : "0",' +
-				        '"singleBed" : "0",' +
-				        '"coupleBed" : "0",' +
-				        '"privateWashroom" : "no",' +
-				        '"singleBedAvailable" : "0",' +
-				        '"coupleBedAvailable" : "0",' +
-				        '"emailStudent" : []' +
-				      '}]' +
-				  '}' +
-			'}'
-	);
+	var data  =
+			{ 
+				documento :   
+				  { 
+				    familyName : "", 
+				    type : "", 
+				    numbersBedroom : "", 
+				    numbersStudentsBedroom : "", 
+				    offerPrivateWashroom : "", 
+				    numberPrivateWashroom : "", 
+				    offerInternet : "", 
+				    haveDogs : "", 
+				    haveCats : "", 
+				    firstLanguage : "", 
+				    othersLanguage : [], 
+				    acceptSmokeStudent : "", 
+				    preferAgeStudent : [], 
+				    preferGenderStudent : [], 
+				    mealPlan : [], 
+				    specialDiet : [], 
+				    dontHostNationality : [], 
+				    acceptSmokeInsideHome : "", 
+				    contact : { 
+				      firstName : "", 
+				      lastName : "", 
+				      gender : "", 
+				      ocuppation : "", 
+				      employer : "", 
+				      email : "", 
+				      phoneNumber : "", 
+				      mobilePhoneNumber : "", 
+				      workPhoneNumber : "", 
+				      birthDate : "" 
+				    }, 
+				    address : { 
+				      street : "", 
+				      number : "", 
+				      city : "", 
+				      state : "", 
+				      postalCode : "", 
+				      mainIntersection : "", 
+				      nearestSubwayStation : "", 
+				      walkingTimeSubwayStation : "", 
+				      nearestBusStop : "", 
+				      walkingTimeBusStation : "", 
+				      destination:"", 
+				      latitude:"", 
+				      longitude:"" 
+				    }, 
+				    fotos : { 
+				      photo01 : "", 
+				      photo02 : "", 
+				      photo03 : "", 
+				      photo04 : "", 
+				      photo05 : "", 
+				      photo06 : "" 
+				    }, 
+				    docs : { 
+				      docs1 : "", 
+				      docs2 : "", 
+				      docs3 : "", 
+				      docs4 : "", 
+				      docs5 : "", 
+				      docs6 : "" 
+				    }, 
+				    familyMembers : [{ 
+				        name : "", 
+				        gender : "", 
+				        relatioship : "", 
+				        birthDate : "", 
+				        mobilePhone : "" 
+				      }], 
+				    rooms : [{ 
+				        number : 0, 
+				        singleBed : 0, 
+				        coupleBed : 0, 
+				        privateWashroom : "no", 
+				        occupancySingleBed : [ 
+			                 { 
+	   		                 emailStudent : "", 
+	   		                 startOccupancy : "", 
+	   		                 endOccupancy : "" 
+	   		                 } 
+	   		                 ], 
+				        coupleBedAvailable : [ 
+			                 { 
+	   		                 emailStudent : "", 
+	   		                 startOccupancy : "", 
+	   		                 endOccupancy : "" 
+	   		                 } 
+	   		                 ] 
+				      }] 
+				  } 
+			};
 
 	localStorage.setItem("family", JSON.stringify(data));
 };		
