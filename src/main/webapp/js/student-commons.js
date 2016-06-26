@@ -708,7 +708,7 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (grava){
 		rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoCampoEfetuada, atualizacaoCampoNaoEfetuada);
 	}
-};		
+};	""
 
 function carregaInclusao(data) { 	   	
 	localStorage.studentExistente = "false";
@@ -721,91 +721,90 @@ function carregaStudent(data) {
 
 function limpaStorageStudent () {
 	
-	var data  = JSON.parse(
-			'{' +
-			  '"documento" :' + 
-			  	'{' +
-				    '"lastDestination" : "",' +
-				    '"mail" : "",' +
-				    '"celPhone" : "",' +
-				    '"phone" : "",' +
-				    '"lastName" : "",' +
-				    '"firstName" : "",' +
-				    '"birthDay" : "",' +
-				    '"gender" : "",' +
-				    '"nationality" : "",' +
-				    '"firstLanguage" : "",' +
-				    '"profession" : "",' +
-				    '"englishLevel" : "",' +
-				    '"streetNumber" : "",' +
-				    '"streetName" : "",' +
-				    '"state" : "",' +
-				    '"postalCode" : "",' +
-				    '"city" : "",' +
-				    '"country" : "",' +
-				    '"secondaryTelephone" : "",' +
-				    '"emergencyContactName" : "",' +
-				    '"emergencyContactPhone" : "",' +
-				    '"emergencyContactMail" : "",' +
-				    '"actualTrip" : 0,' +
-				    '"trips":' +
-				    	'[' +
-					    	'{' +
-					    		'"status":"",' +
-					    		'"destination":"",' +
-					    		'"start":"",' +
-					    		'"end":"",' +
-					    		'"extend":"",' +
-					    		'"arrivalDate":"",' +
-					    		'"arrivalTime":"",' +
-					    		'"flightNumber":"",' +
-					    		'"flightDate":"",' +
-					    		'"flightTime":"",' +
-					    		'"airline":"",' +
-					    		'"pickup":"",' +
-					    		'"dropoff":"",' +
-					    		'"accommodation":"",' +
-					    		'"occupancy":"",' +
-					    		'"guestName":"",' +
-					    		'"relationship":"",' +
-					    		'"mealPlan":[],' +
-					    		'"specialDiet":[],' +
-					    		'"privateWashroom":"",' +
-					    		'"smoke":"",' +
-					    		'"liveDogs":"",' +
-					    		'"liveCats":"",' +
-					    		'"hobbies":"",' +
-					    		'"comments":"",' +
-					    		'"medical":"",' +
-					    		'"agreeTerm":"",' +
-					    		'"usuallyStudy":[],' +
-					    		'"keepBedroom":[],' +
-					    		'"iAmUsually":[],' +
-					    		'"creditCardType":"",' +
-					    		'"creditCardNumber":"",' +
-					    		'"creditCardExpire":"",' +
-					    		'"creditCardCVC":"",' +
-					    		'"agreeDebit":"",' +
-					    		'"apartamentType":"",' +
-					    		'"petsQuantity":"",' +
-					    		'"petType":"",' +
-					    		'"parking":"",' +
-					    		'"wifi":"",' +
-					    		'"peopleQuantity":"",' +
-					    		'"guest_01":"",' +
-					    		'"guest_02":"",' +
-					    		'"guest_03":"",' +
-					    		'"guest_04":"",' +
-					    		'"guest_05":"",' +
-					    		'"agreeDebitSuite":"",' +
-					    		'"agreeSuite":"",' +
-					    		'"agencyName":"",' +
-					    		'"schoolName":""' +
-					    	'}' +
-					    ']' +
-				'}' +
-			'}'
-	);
+	var data  = 
+			{ 
+			  documento :  
+			  	{ 
+				    lastDestination : "", 
+				    mail : "", 
+				    celPhone : "", 
+				    phone : "", 
+				    lastName : "", 
+				    firstName : "", 
+				    birthDay : "", 
+				    gender : "", 
+				    nationality : "", 
+				    firstLanguage : "", 
+				    profession : "", 
+				    englishLevel : "", 
+				    streetNumber : "", 
+				    streetName : "", 
+				    state : "", 
+				    postalCode : "", 
+				    city : "", 
+				    country : "", 
+				    secondaryTelephone : "", 
+				    emergencyContactName : "", 
+				    emergencyContactPhone : "", 
+				    emergencyContactMail : "", 
+				    actualTrip : 0, 
+				    trips: 
+				    	[ 
+					    	{ 
+					    		status:"", 
+					    		destination:"", 
+					    		start:"", 
+					    		end:"", 
+					    		extend:"", 
+					    		arrivalDate:"", 
+					    		arrivalTime:"", 
+					    		flightNumber:"", 
+					    		flightDate:"", 
+					    		flightTime:"", 
+					    		airline:"", 
+					    		pickup:"", 
+					    		dropoff:"", 
+					    		accommodation:"", 
+					    		occupancy:"", 
+					    		guestName:"", 
+					    		relationship:"", 
+					    		mealPlan:[], 
+					    		specialDiet:[], 
+					    		privateWashroom:"", 
+					    		smoke:"", 
+					    		liveDogs:"", 
+					    		liveCats:"", 
+					    		hobbies:"", 
+					    		comments:"", 
+					    		medical:"", 
+					    		agreeTerm:"", 
+					    		usuallyStudy:[], 
+					    		keepBedroom:[], 
+					    		iAmUsually:[], 
+					    		creditCardType:"", 
+					    		creditCardNumber:"", 
+					    		creditCardExpire:"", 
+					    		creditCardCVC:"", 
+					    		agreeDebit:"", 
+					    		apartamentType:"", 
+					    		petsQuantity:"", 
+					    		petType:"", 
+					    		parking:"", 
+					    		wifi:"", 
+					    		peopleQuantity:"", 
+					    		guest_01:"", 
+					    		guest_02:"", 
+					    		guest_03:"", 
+					    		guest_04:"", 
+					    		guest_05:"", 
+					    		agreeDebitSuite:"", 
+					    		agreeSuite:"", 
+					    		agencyName:"", 
+					    		schoolName:"" 
+					    	} 
+					    ] 
+				} 
+			};
 
 	localStorage.setItem("student", JSON.stringify(data));
 };		

@@ -2,7 +2,7 @@
  * 
  */
     function rest_incluiStudent(objJson, action_ok, action_not_ok) {
-        var actualTrip = student.documento.actualTrip;
+        var actualTrip = objJson.documento.actualTrip;
         objJson.documento.trips[actualTrip].status = 'Available';
 		$.ajax({
 			type: "POST",
@@ -47,6 +47,23 @@
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data);
+    	})
+    	.fail(function(data) {
+    		action_notOK();
+    	})
+    	.always(function(data) {
+    	});
+    };
+
+    
+    function rest_changeStatus(action_ok, action_notOk, mail, indexTrip, status ) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/changeStatus?mail=" + mail + "&indexTrip=" + indexTrip + "&indexTrip=" + indexTrip,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json'
     	})
     	.done(function( data ) {
     		action_ok(data);

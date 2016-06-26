@@ -280,10 +280,10 @@ public class Rest_Student {
 		return null;
 	};
 
-	@Path("/familyAccept")	
+	@Path("/changeStatus")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String FamilyAccept(@QueryParam("mail") String mail)  {
+	public String FamilyAccept(@QueryParam("mail") String mail, @QueryParam("indexTrip") Integer indexTrip,@QueryParam("status") String status )  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -296,32 +296,48 @@ public class Rest_Student {
 			String documento = objStudent.getString("documento");
 			JSONObject jsonObject; 
 			try {
-				jsonObject = (JSONObject) parser.parse(documento);
-			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
-				List trips = (List) jsonObject.get("trips");
-				JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
-				jsonTrip.put("status", "Placement offer");
-				trips.remove(tripIndex);
-				trips.add(jsonTrip);
-				objStudent.put("trips", trips);
-				DBObject cursorUpdate = collection.findAndModify(searchQuery,
-		                null,
-		                null,
-		                false,
-		                cursor,
-		                true,
-		                false);
-				mongo.close();
-				return "success";
+				jsonObject = (JSONObject) parser.parse("{\"documento.trips." + indexTrip + ".status\":\"" + status + "\"}");
+				String jsonDocumento = documento;
+				Map<String,String> mapJson = new HashMap<String,String>();
+				ObjectMapper mapper = new ObjectMapper();
+				try {
+					mapJson = mapper.readValue(jsonDocumento, HashMap.class);
+					JSONObject docJson = new JSONObject();
+					docJson.putAll(mapJson);
+					BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(jsonObject));
+					BasicDBObject searchQueryUpdate = new BasicDBObject("documento.mail", mail);
+					DBObject cursorUpdate = collection.findAndModify(searchQueryUpdate,
+			                null,
+			                null,
+			                false,
+			                update,
+			                true,
+			                false);
+					mongo.close();
+					return "Success";
+				} catch (JsonParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	
+		
 	};
 };

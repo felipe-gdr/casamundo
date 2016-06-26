@@ -132,6 +132,8 @@
 	    		$("#listFamily li").on('click',function(){
 	    			$('#familyName').html($(this).attr('data-idFamily'));
 	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
+	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
+	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
 	    		});
 	        }
 	    });
@@ -304,8 +306,9 @@
         var actions = "";
         var student = JSON.parse(localStorage.getItem("student"));
         var actualTrip = student.documento.actualTrip;
+        var emailStudent = student.documento.mail;
         if (student.documento.trips[actualTrip].status == "Available"){
-        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
+        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
         };
         family_table.row.add( {
 	    	"family":

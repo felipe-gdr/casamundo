@@ -113,29 +113,50 @@ public class Rest_Family {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Family doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+	public Response AtualizarDocumento(Family doc) {
 		String familyName = doc.documento.familyName;
-		Mongo mongo = new Mongo();
-		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("family");
-		Gson gson = new Gson();
-		String jsonDocumento = gson.toJson(doc);
-		Map<String,String> mapJson = new HashMap<String,String>();
-		ObjectMapper mapper = new ObjectMapper();
-		mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-		JSONObject documento = new JSONObject();
-		documento.putAll(mapJson);
-		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-		BasicDBObject searchQuery = new BasicDBObject("documento.familyName", familyName);
-		DBObject cursor = collection.findAndModify(searchQuery,
-                null,
-                null,
-                false,
-                update,
-                true,
-                false);
-		mongo.close();
-		return Response.status(200).build();
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("family");
+			Gson gson = new Gson();
+			String jsonDocumento = gson.toJson(doc);
+			Map<String,String> mapJson = new HashMap<String,String>();
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
+				JSONObject documento = new JSONObject();
+				documento.putAll(mapJson);
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
+				BasicDBObject searchQuery = new BasicDBObject("documento.familyName", familyName);
+				DBObject cursor = collection.findAndModify(searchQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+				mongo.close();
+				return Response.status(200).build();
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MongoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	};
 	@Path("/lista")	
 	@GET

@@ -46,6 +46,7 @@
 
     $('#sendEmailOfferYoFamily').bind( "click", function() {
     	rest_sendEmailHtml(localStorage.hostNameEmail, localStorage.userNameEmail , localStorage.passwordEmail, "grenneglr@gmail.com", $('#emailFamily').val(), "Offer accommodation", templateOffertoFamily(), emailEnviado, emailComProblemas );
+    	rest_changeStatus(semAcao, SemAcao , $('#emailStudent').val(), $('#indexTrip').val(), "Placement Offer" );
     });
 /**
  * 

@@ -238,6 +238,16 @@ function templateOffertoFamily (){
 '										<small style="font-size: 15px; font-style: italic;" >Comments:</small><small style="color: blue; font-size: 15px;" >' + $('#commentsEmail').html() + '</small>' +
 '			                        </td>' +
 	'	                    </tr>' +
+	'						<br>' +	
+	'	                    <tr>' +
+'	 			   	            <table width="900px" cellspacing="0" cellpadding="3" align="center">' +
+'			                    <tr>' +
+'									<td align="left">' +
+'										<small style="font-size: 15px; font-style: italic;" >Caretaker Comments:</small><small style="color: blue; font-size: 15px;" >' + $('#commentsCaretakerEmail').val() + '</small>' +
+'			                        </td>' +
+'	                    		</tr>' +
+'	                			</table>' +
+'	                    </tr>' +
 	'	                </table>' +
 	'	            </td>' +
 	'	        </tr>' +
