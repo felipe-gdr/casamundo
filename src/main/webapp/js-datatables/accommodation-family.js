@@ -310,6 +310,17 @@
         if (student.documento.trips[actualTrip].status == "Available"){
         	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
         };
+        if (student.documento.trips[actualTrip].status == "Confirmed"){
+        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Send confirmation letter</a></li>";
+        };
+        if (student.documento.trips[actualTrip].status == "DocsOk"){
+        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
+        				"<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+        };
+        if (student.documento.trips[actualTrip].status == "InHouse"){
+        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
+        				"<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+        };
         family_table.row.add( {
 	    	"family":
 	    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +

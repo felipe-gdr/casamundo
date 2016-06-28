@@ -20,6 +20,7 @@ com\rcapitol\casamundo\School.class
 com\rcapitol\casamundo\Family$Documento$FamilyMembers.class
 com\rcapitol\casamundo\ApplicationConfig.class
 com\rcapitol\casamundo\Family$Documento.class
+com\rcapitol\casamundo\TemplateEmail.class
 com\rcapitol\casamundo\Family$Documento$Docs.class
 com\rcapitol\casamundo\Rest_School.class
 com\rcapitol\casamundo\School$Documento.class

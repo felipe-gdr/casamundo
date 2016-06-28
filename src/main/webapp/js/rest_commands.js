@@ -59,9 +59,9 @@
     };
 
     
-    function rest_changeStatus(action_ok, action_notOk, mail, indexTrip, status ) {
+    function rest_changeStatus(action_ok, action_notOk, objJson ) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/changeStatus?mail=" + mail + "&indexTrip=" + indexTrip + "&indexTrip=" + indexTrip,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/changeStatus?params=mail=" + objJson.mail + "/indexTrip=" + objJson.indexTrip + "/status=" + status + "/familyName=" + objJson.familyName + "/emailFamily=" + objJson.emailFamily + "/reason=" + objJson.reason,
             contentType: "application/json; charset=utf-8",
             dataType: 'json'
     	})

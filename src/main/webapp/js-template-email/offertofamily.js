@@ -15,7 +15,7 @@ function templateOffertoFamily (){
 '		                <table width="650px" cellspacing="0" cellpadding="3" class="container">' +
 '		                    <tr class="navbar navbar-inverse">' +
 '		                        <td colspan="4">' +
-'									<img src="http://52.27.128.28:8080/casamundo/img/logo/casatoronto.png"></img>' + 
+'									<img src="http://' + localStorage.mainHost + ':8080/casamundo/img/logo/casatoronto.png"></img>' + 
 '								</td>' +
 '		                        <td>' +
 '									<ul>' +
@@ -46,7 +46,7 @@ function templateOffertoFamily (){
 '	                    <tr>' +
 '	                        <td align="left">' +
 '										<p >' +
-'											<span style="font-style: italic;font-size: 20px;" >Dear Family <small id="familyName" style="font-style: italic;font-size: 20px;">' + $('#emailFamily').html() + '</small></span>' +
+'											<span style="font-style: italic;font-size: 20px;" >Dear Family <small id="familyName" style="font-style: italic;font-size: 20px;">' + $('#familyName').html() + '</small></span>' +
 '										</p>' +
 '										<p >' +
 '											<span ><small style="font-style: italic;font-size: 20px;">Would you like to host the student below</small></span>' +
@@ -61,9 +61,11 @@ function templateOffertoFamily (){
 	'	                <table width="650px" cellspacing="0" cellpadding="3" align="center">' +
 	'	                    <tr>' +
 	'	                        <td align="left">' +
-'									<button style="background-color:lightblue;width:50px;height:30px" type="button" >Yes</button>' +
+'									<a href="http://' + localStorage.mainHost + ':8080/casamundo/rest/student/changeStatus?params=mail:' + $("#emailStudent").val() + '/indexTrip:' + $("#indexTrip").val() + '/status:Confirmed/familyName:' +  $("#familyName").html() + '/emailFamily:' +  $("#emailFamily").val() + '/reason:Accept" style="background-color:lightblue;width:50px;height:30px" type="button" >Yes, I accept offer</a>' +
 '									<span>    </span>' +
-'									<button style="background-color:orange;width:50px;height:30px" type="button" >No</button>' +
+'									<a href="http://' + localStorage.mainHost + ':8080/casamundo/rest/student/changeStatus?params=mail:' + $("#emailStudent").val() + '/indexTrip:' + $("#indexTrip").val() + '/status:Available/familyName:' +  $("#familyName").html() + '/emailFamily:' +  $("#emailFamily").val() + '/reason:Accept" style="background-color:orange;width:50px;height:30px" type="button" >Room not available</a>' +
+'									<span>    </span>' +
+'									<a href="http://' + localStorage.mainHost + ':8080/casamundo/rest/student/changeStatus?params=mail:' + $("#emailStudent").val() + '/indexTrip:' + $("#indexTrip").val() + '/status:Available/familyName:' +  $("#familyName").html() + '/emailFamily:' +  $("#emailFamily").val() + '/reason:Accept" style="background-color:red;width:50px;height:30px" type="button" >Refuse student</a>' +
 	'	                        </td>' +
 	'	                    </tr>' +
 	'	                </table>' +

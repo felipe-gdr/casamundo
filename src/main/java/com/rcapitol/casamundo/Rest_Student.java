@@ -283,7 +283,16 @@ public class Rest_Student {
 	@Path("/changeStatus")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String FamilyAccept(@QueryParam("mail") String mail, @QueryParam("indexTrip") Integer indexTrip,@QueryParam("status") String status )  {
+	public String ChangeStatus(@QueryParam("params") String params)  {
+		System.out.println("params : " + params);
+		String array[] = new String[6];
+		array = params.split("/");
+		String mail = array [0].split(":")[1]; 
+		Integer indexTrip = Integer.parseInt((String) array [1].split(":")[1]); 
+		String status = array [2].split(":")[1];
+		String familyName = array [3].split(":")[1];
+		String emailFamily = array [4].split(":")[1];
+		String reason = array [5].split(":")[1];
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -314,7 +323,55 @@ public class Rest_Student {
 			                true,
 			                false);
 					mongo.close();
-					return "Success";
+					TemplateEmail template = new TemplateEmail(); 
+					String studentName = (String) docJson.get("firstName") + " " + (String) docJson.get("lastName");
+					String emailStudent = (String) docJson.get("mail");
+					SendEmailHtml sendEmailHtml = new SendEmailHtml();
+					String message = "";
+					String subject = "";
+					if (reason.equals("Accept")){
+						message = "Family " + familyName + " confirm offer of student " + studentName;
+						subject = "Family "  + familyName + " confirm offer";
+					};
+					if (reason.equals("NoRoom")){
+						message = "Family " + familyName + " decline offer because don't have room available for student " + studentName;
+						subject = "Family "  + familyName + " don't have room";
+					};
+					if (reason.equals("Refuse")){
+						message = "Family " + familyName + " don't accept student " + studentName;
+						subject = "Family "  + familyName + " don't accept student";
+					};
+					if (reason.equals("DocsOk")){
+						message = "Confirmation letter sent to a sutdent " + studentName;
+						subject = "Confirmation letter sent to a sutdent " + studentName;
+					};
+					if (reason.equals("InHouse")){
+						message = "Student " + studentName + " arrived and he is in house";
+						subject = "Student " + studentName + " in house";
+					};
+					if (reason.equals("Cancel")){
+						message = "Student " + studentName + " cancel accommodation";
+						subject = "Student " + studentName + " cancel";
+					};
+					if (reason.equals("Terminated")){
+						message = "Student " + studentName + " finished accommodation";
+						subject = "Student " + studentName + " finished";
+					};
+					sendEmailHtml.sendEmailHtml("smtp.gmail.com", 
+							"grenneglr@gmail.com", 
+							"Hefega0701", 
+							"grenneglr@gmail.com", 
+							"grenneglr@gmail.com", 
+							subject, 
+							template.emailHtml(
+									familyName, 
+									emailFamily, 
+									studentName, 
+									emailStudent, 
+									subject, 
+									message));
+
+					return "Thanks for your decision";
 				} catch (JsonParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
