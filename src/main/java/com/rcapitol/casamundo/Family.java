@@ -2,6 +2,8 @@ package com.rcapitol.casamundo;
 
 import java.lang.reflect.Array;
 
+import javax.ws.rs.QueryParam;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 
 public class Family {
@@ -386,5 +388,5 @@ public class Family {
     		}
 
 		}
-	}
-} 
+	};
+}; 

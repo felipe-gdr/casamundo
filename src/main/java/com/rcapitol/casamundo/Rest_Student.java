@@ -17,7 +17,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.bson.BasicBSONObject;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -34,7 +33,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import com.rcapitol.casamundo.Student.Documento;
 
 	
 @Singleton
@@ -43,6 +41,7 @@ import com.rcapitol.casamundo.Student.Documento;
 
 public class Rest_Student {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/obterEmail")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,17 +57,51 @@ public class Rest_Student {
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 			documento.put("documento", obj);
 			mongo.close();
-			return documento;
+			String docStudent = obj.toString();
+			JSONObject jsonObject; 
+			JSONParser parser = new JSONParser(); 
+			try {
+				jsonObject = (JSONObject) parser.parse(docStudent);
+			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
+			    String familyName = null;
+			    if (tripIndex != null){
+					List trips = (List) jsonObject.get("trips");
+					JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+					familyName = (String) jsonTrip.get("familyName");
+			    };
+				if (familyName != null){
+					Mongo mongoFamily = new Mongo();
+					DB dbFamily = (DB) mongoFamily.getDB("documento");
+					DBCollection collectionSchool = dbFamily.getCollection("family");
+					BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
+					DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
+					BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
+					BasicDBObject objContact = (BasicDBObject) objFamily.get("contact");
+					documento.put("contact", objContact);
+					mongoFamily.close();
+				}else{
+	    			JSONObject docFamily = new JSONObject();
+					docFamily.put("contact.firstName", "");
+					docFamily.put("contact.lastName", "");
+					docFamily.put("contact.gender", "");
+					docFamily.put("contact.email", "");
+					docFamily.put("contact.phoneNumber", "");
+					docFamily.put("contact.mobilePhoneNumber", "");						
+					documento.put("family", docFamily);
+				};
+				return documento;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	};
 
+	@SuppressWarnings("unchecked")
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -90,25 +123,22 @@ public class Rest_Student {
 			mongo.close();
 			return Response.status(200).entity(documento).build();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			System.out.println("UnknownHostException");
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			System.out.println("MongoException");
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			System.out.println("JsonMappingException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("IOException");
 			e.printStackTrace();
 		}
 		return Response.status(500).build();
 		
 	};
+	@SuppressWarnings({ "unchecked", "unused" })
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -139,25 +169,21 @@ public class Rest_Student {
 				mongo.close();
 				return Response.status(200).build();
 			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	};
 	
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -216,12 +242,14 @@ public class Rest_Student {
 				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 				    String agencyName = null;
 				    String schoolName = null;
+				    String familyName = null;
 				    if (tripIndex != null){
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
 						agencyName = (String) jsonTrip.get("agencyName");
 						schoolName = (String) jsonTrip.get("schoolName");
+						familyName = (String) jsonTrip.get("familyName");
 				    };
 					if (agencyName != null){
 						Mongo mongoAgency = new Mongo();
@@ -261,25 +289,44 @@ public class Rest_Student {
 						docSchool.put("email", "");						
 						jsonDocumento.put("school", docSchool);
 					};
+					if (familyName != null){
+						Mongo mongoFamily = new Mongo();
+						DB dbFamily = (DB) mongoFamily.getDB("documento");
+						DBCollection collectionSchool = dbFamily.getCollection("family");
+						BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
+						DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
+						JSONObject documentoFamily = new JSONObject();
+						BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
+						BasicDBObject objContact = (BasicDBObject) obj.get("contact");
+						jsonDocumento.put("familyContact", objContact);
+						mongoFamily.close();
+					}else{
+	        			JSONObject docFamily = new JSONObject();
+						docFamily.put("contact.firstName", "");
+						docFamily.put("contact.lastName", "");
+						docFamily.put("contact.gender", "");
+						docFamily.put("contact.email", "");
+						docFamily.put("contact.phoneNumber", "");
+						docFamily.put("contact.mobilePhoneNumber", "");						
+						jsonDocumento.put("family", docFamily);
+					};
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			};
 			mongo.close();
 			return documentos;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	};
 
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
 	@Path("/changeStatus")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -292,7 +339,9 @@ public class Rest_Student {
 		String status = array [2].split(":")[1];
 		String familyName = array [3].split(":")[1];
 		String emailFamily = array [4].split(":")[1];
-		String reason = array [5].split(":")[1];
+		Integer roomSingle = Integer.parseInt((String) array [5].split(":")[1]);
+		Integer roomCouple = Integer.parseInt((String) array [6].split(":")[1]);
+		String reason = array [7].split(":")[1];
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -304,6 +353,22 @@ public class Rest_Student {
 			BasicDBObject objStudent = (BasicDBObject) cursor;
 			String documento = objStudent.getString("documento");
 			JSONObject jsonObject; 
+		    String occupancy = null;
+		    int start = 0;
+		    int end = 0;
+			try {
+				jsonObject = (JSONObject) parser.parse(documento);
+			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
+			    if (tripIndex != null){
+					List trips = (List) jsonObject.get("trips");
+					JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+					occupancy = (String) jsonTrip.get("occupancy");
+				    start = Integer.parseInt((String) jsonTrip.get("start"));
+				    end = Integer.parseInt((String) jsonTrip.get("end"));
+			    };
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			};
 			try {
 				jsonObject = (JSONObject) parser.parse("{\"documento.trips." + indexTrip + ".status\":\"" + status + "\"}");
 				String jsonDocumento = documento;
@@ -323,6 +388,11 @@ public class Rest_Student {
 			                true,
 			                false);
 					mongo.close();
+					String literal = "Confirmed";
+					if (status.equals(literal)){
+						CrudFamily crudFamily = new CrudFamily();
+						crudFamily.updateRoom(familyName, mail, occupancy, roomSingle, roomCouple, start, end);
+					};
 					TemplateEmail template = new TemplateEmail(); 
 					String studentName = (String) docJson.get("firstName") + " " + (String) docJson.get("lastName");
 					String emailStudent = (String) docJson.get("mail");
@@ -373,28 +443,20 @@ public class Rest_Student {
 
 					return "Thanks for your decision";
 				} catch (JsonParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (JsonMappingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-	
-		
+		return null;		
 	};
 };

@@ -1,5 +1,4 @@
-	/**
-	 * 		carrega student
+	/*** 		carrega student
 	 */
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 	/**
@@ -134,18 +133,22 @@
 	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
 	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
 	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
+	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
+	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
+	    			if ($(this).attr('data-process') == "sendlettertostudent") {
+	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao, "consulta");
+	    			};
 	    		});
 	        }
 	    });
 	    
 	    // Apply the filter
-	    $("#families_list thead th input[type=text]").on( 'keyup change', function () {
+	    $("#families_list thead th input[type=text]").on('keyup change', function () {
 	    	family_table
 	            .column( $(this).parent().index()+':visible' )
 	            .search( this.value )
 	            .draw();
-	            
-	    } );
+	    });
 	    /* end trip list */   
 
 	};
@@ -237,6 +240,8 @@
         var occupancy = "";
         if (family.rooms){
 	        if (family.rooms[0]){
+	        	var roomSingle = 0;
+	        	var roomCouple = 0;
 			    $.each(family.rooms, function (i, room) {
 			    	if (room.singleBed){
 			    		if (room.singleBed == 1){
@@ -249,6 +254,7 @@
 				    		if (singleBedAvailable == 0){
 				    			availableBedText = "no available single beds"
 				    		}else{
+				    			rooSingle = i;
 					    		if (singleBedAvailable == 1){
 					    			availableBedText = "available " + singleBedAvailable + " bed"
 					    		}else{
@@ -271,6 +277,7 @@
 				    		if (coupleBedAvailable == 0){
 				    			availableBedText = "no available couple beds"
 				    		}else{
+				    			rooCouple = i;
 					    		if (coupleBedAvailable == 1){
 					    			availableBedText = "available " + coupleBedAvailable + " bed"
 					    		}else{
@@ -308,18 +315,18 @@
         var actualTrip = student.documento.actualTrip;
         var emailStudent = student.documento.mail;
         if (student.documento.trips[actualTrip].status == "Available"){
-        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
+        	actions = "<li  data-process='offertofamily' data-rooCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
         };
         if (student.documento.trips[actualTrip].status == "Confirmed"){
-        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Send confirmation letter</a></li>";
+        	actions = "<li data-process='sendlettertostudent' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
         };
         if (student.documento.trips[actualTrip].status == "DocsOk"){
-        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
-        				"<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+        	actions = "<li data-process='studentinhouse' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
+        				"<li data-process='cancel' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
         };
         if (student.documento.trips[actualTrip].status == "InHouse"){
-        	actions = "<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
-        				"<li data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+        	actions = "<li data-process='terminate' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
+        				"<li data-process='cancel' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
         };
         family_table.row.add( {
 	    	"family":
@@ -348,7 +355,7 @@
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
             			'<ul id="listFamily" class="dropdown-menu">' +
             				actions +
-            				'</ul></div>'
+            			'</ul></div>'
 	    }).draw();
 		
 	};

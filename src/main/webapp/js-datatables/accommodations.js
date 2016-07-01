@@ -188,10 +188,44 @@
             }else{
             	specialDiet = "<span class='label label-success'>No food restrictions</span>"
             };
+		    
+	        var actions = "";
+	        var actualTrip = student.actualTrip;
+	        var emailStudent = student.mail;
 		    var accommodation = "Not yet acomodate";
+	        var familyName = "";
+	        var typePage = "accommodation";
+		    if (student.trip.familyName) {
+		        familyName = student.trip.familyName;	
+		        accommodation =
+		        "<span>" + student.trip.familyName + "</span><br>" +
+    			"<span>" + student.familyContact.firstName +  " " + student.familyContact.lastName + "</span><br>" + 
+    			"<small class='text-muted'><i>Gender: " + student.familyContact.gender + "<i></small><br>" + 
+    			"<small class='text-muted'><i>Phone: " + student.familyContact.phoneNumber +  "<i></small><br>" + 
+    			"<small class='text-muted'><i>Cel Phone: " + student.familyContact.mobilePhoneNumber +  "<i></small><br>" + 
+    			"<small class='text-muted'><i>Email: " + student.familyContact.email +  "<i></small><br></a>";
+		    };
+	        var familyName = student.trip.familyName;
+	        if (student.trip.status == "Available"){
+	        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>";
+	        };
+	        if (student.trip.status == "Confirmed"){
+	        	typePage = "change";
+	        	actions = "<li data-process='sendlettertostudent' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
+	        };
+	        if (student.trip.status == "DocsOk"){
+	        	typePage = "change";
+	        	actions = "<li data-process='studentinhouse' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
+	        				"<li data-process='cancel' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+	        };
+	        if (student.trip.status == "InHouse"){
+	        	typePage = "change";
+	        	actions = "<li data-process='terminate' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
+	        				"<li data-process='cancel' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+	        };
 
         	accommodation_table.row.add( {
-    	    	"name": "<a href='student.html?mail=" + student.mail + "&typePage=accommodation'>" +
+    	    	"name": "<a href='student.html?mail=" + student.mail + "&typePage=" + typePage + "'>" +
 			    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
 			    			"<small class='text-muted'><i>Age: " + age + "<i></small><br>" + 
 			    			"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" + 

@@ -180,13 +180,13 @@ public class Rest_Family {
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
-				BasicDBObject objStudent = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-				String documento = objStudent.getString("documento");
+				BasicDBObject objFamily = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				String documento = objFamily.getString("documento");
 				try {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("_id", objStudent.getString("_id"));
+					jsonDocumento.put("_id", objFamily.getString("_id"));
 					jsonDocumento.put("familyName", jsonObject.get("familyName"));
 					jsonDocumento.put("type", jsonObject.get("type"));
 					jsonDocumento.put("numbersBedroom", jsonObject.get("numbersBedroom"));

@@ -284,6 +284,30 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].destination;		
 	};
+	if (field == "contactFamilyName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].familyName;		
+	};
+	if (field == "contactName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.contact.firstName + " " + objJson.contact.lastName;		
+	};
+	if (field == "contactGender"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.contact.gender;		
+	};
+	if (field == "contactEmail"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.contact.email;		
+	};
+	if (field == "contactPhone"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.contact.phone;		
+	};
+	if (field == "contactMobilePhone"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.contact.mobilePhone;		
+	};
 	if (field == "start"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].start;		
@@ -471,6 +495,10 @@ function getValueStudent (field, actualTrip) {
 	if (field == "agencyName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].agencyName;		
+	};
+	if (field == "schoolName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].schoolName;		
 	};
 	if (field == "schoolName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -753,6 +781,7 @@ function limpaStorageStudent () {
 					    	{ 
 					    		status:"", 
 					    		destination:"", 
+					    		familyName:"", 
 					    		start:"", 
 					    		end:"", 
 					    		extend:"", 
@@ -814,6 +843,7 @@ function retornaStudent(){
 		title : "Ok",
 		content : "<i class='fa fa-clock-o'></i> <i>Student updated</i>",
 		color : "#659265",
+		
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});

@@ -41,12 +41,30 @@
 		$(".notChange" ).addClass("hide");
 	};
 	//
+	//***   setar pagina como somente consulta student
+	//
+	if (typePage == "caretaker"){
+		$(".notChange" ).addClass("hide");
+		$(".caretaker" ).removeClass("hide");
+	};
+	//
 	//  ** send email to offer a family
 	//
 
-    $('#sendEmailOfferYoFamily').bind( "click", function() {
+    $('#sendEmailOfferToFamily').bind( "click", function() {
+    	var objJson = 
+    		{
+    			mail : $('#emailStudent').val(),
+    			indexTrip : $('#indexTrip').val(),
+    			status : "Placement Offer",
+    			familyName : $('#familyName').val(),
+    			emailFamily : $('#emailFamily').val(),
+    			reason : "None",
+    			roomSingle : $('#roomSingle').val(),
+    			roomCouple : $('#roomCouple').val()
+    		};
     	rest_sendEmailHtml(localStorage.hostNameEmail, localStorage.userNameEmail , localStorage.passwordEmail, "grenneglr@gmail.com", $('#emailFamily').val(), "Offer accommodation", templateOffertoFamily(), emailEnviado, emailComProblemas );
-    	rest_changeStatus(semAcao, SemAcao , $('#emailStudent').val(), $('#indexTrip').val(), "Placement Offer" );
+    	rest_changeStatus(semAcao, SemAcao , objJson);
     });
 /**
  * 
@@ -81,6 +99,18 @@
     $('#emergencyContactMail').html(getValueStudent("emergencyContactMail"));
     $('#status').html(getValueStudent("status",actualTrip));
     $('#destination').html(getValueStudent("destination",actualTrip));
+    $('#contactFamilyName').html(getValueStudent("contactFamilyName",actualTrip));
+    
+    $('#contactName').html(getValueStudent("contactName",actualTrip));
+    $('#contactGender').html(getValueStudent("contactGender",actualTrip));
+    $('#contactEmail').html(getValueStudent("contactEmail",actualTrip));
+    $('#contactPhone').html(getValueStudent("contactPhone",actualTrip));
+    $('#contactMobilePhone').html(getValueStudent("contactMobilePhone",actualTrip));
+    
+    if (getValueStudent("familyName",actualTrip)){
+    	$(".family" ).removeClass("hide");
+    };
+    
     $("#start").html(separaData(getValueStudent("start", actualTrip), "."), actualTrip);
     $("#end").html(separaData(getValueStudent("end", actualTrip), "."), actualTrip);
     $("#arrivalDate").html(separaData(getValueStudent("arrivalDate", actualTrip), "."), actualTrip);

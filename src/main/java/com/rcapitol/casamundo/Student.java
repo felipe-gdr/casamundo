@@ -265,6 +265,7 @@ public class Student {
 		public static final class Trips {
     		public String status;          
     		public String destination;     
+    		public String familyName;     
     		public String start;           
     		public String end;             
     		public String extend;          
@@ -322,6 +323,7 @@ public class Student {
             public Trips(
         	    		String status,          
         	    		String destination,     
+        	    		String familyName,     
         	    		String start,           
         	    		String end,             
         	    		String extend,          
@@ -374,6 +376,7 @@ public class Student {
             {
 	    		this.status = status;           
 	    		this.destination = destination;      
+	    		this.familyName = familyName;      
 	    		this.start = start;            
 	    		this.end = end;              
 	    		this.extend = extend;           
