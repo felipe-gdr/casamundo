@@ -104,7 +104,7 @@
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
 <body class="smart-style-6">
-  <!-- Modal Accommodation-->
+  <!-- Modal offer to family-->
   <div class="modal fade" id="offerToFamily" role="dialog">
     <div class="modal-dialog modal-lg">
     
@@ -113,180 +113,184 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body">
-			<!-- Widget ID (each widget will need unique ID)-->
-			<div class="jarviswidget" id="wid-id-26" data-widget-editbutton="false" data-widget-custombutton="false">
-				<!-- widget options:
-					usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-					
-					data-widget-colorbutton="false"	
-					data-widget-editbutton="false"
-					data-widget-togglebutton="false"
-					data-widget-deletebutton="false"
-					data-widget-fullscreenbutton="false"
-					data-widget-custombutton="false"
-					data-widget-collapsed="true" 
-					data-widget-sortable="false"
-					
-				-->
-				<div class="row">
-					<div class="well well-sm">
-						<div class="row">				
-							<div class="col-sm-12 col-md-12 col-lg-12">
-								<div class="well well-light well-sm no-margin no-padding">
-									<div class="row">							
-										<div class="col-sm-12">				
-											<div class="row">
-												<div class="col-sm-3 profile-pic">
-													<img src="img/logo/casatoronto.png" alt="demo user">
-												</div>
-		
-												<div class="col-sm-8">
-													<ul class="list-unstyled">
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-phone"></i>&nbsp;&nbsp;(<span class="txt-color-darken">+1(416)</span>) <span class="txt-color-darken">897-7141</span>
-															</p>
-														</li>
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:josematheus@casa-toronto.com">josematheus@casa-toronto.com</a>
-															</p>
-														</li>
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-link"></i>&nbsp;&nbsp;<a href="www.casa-toronto.com">www.casa-toronto.com</a>
-															</p>
-														</li>
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-map-marker"></i>&nbsp;&nbsp;<span class="txt-color-darken">153 Beecroft Rd, suite 1512</span>
-															</p>
-														</li>
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-map-marker"></i>&nbsp;&nbsp;<span class="txt-color-darken">Toronto, ON Canada M2N 7C5</span>
-															</p>
-														</li>
-													</ul>
-													<br>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-sm-1"></div>
-												<div class="col-sm-6">
-													<h6 class="semi-bold">Dear Family <span id="familyName" class="semi-bold"></span></h6>
-													<input id="emailFamily" class="hide"></input>
-													<input id="emailStudent" class="hide"></input>
-													<input id="indexTrip" class="hide"></input>
-													<br>
-													<ul class="list-unstyled">
-														<li>
-															<p class="text-muted">
-																<span class="txt-color-darken"><small class='text-primary text-italic' >Would you like to host the student below</small></span>
-															</p>
-													</ul>
-													<br>
-												</div>
-											</div>
-											<br><br>
-											<div class="row">
-												<div class="col-sm-4"></div>
-												<div class="col-sm-6">
-													<h1><span id="studentCompleteNameEmail" class="semi-bold"></span></h1>
-		
-													<ul class="list-unstyled">
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="celPhoneEmail" data-mask="(999) 99999-9999"  data-original-title="Cel Phonr"></small></span>
-															</p>
-														</li>
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small  class='text-primary' id="phoneEmail" data-mask="(999) 9999-9999"  data-original-title="Phone"></small></span>
-															</p>
-														</li>
-														<li>
-															<p class="text-muted">
-																<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mailEmail"  data-original-title="Email"></small>
-															</p>
-														</li>
-													</ul>
-													<br>
-												</div>
-											</div>
-											<div class="row">
-													<div class="col-sm-1"></div>
-													<div class="col-sm-11">
-														<div class="row">
-															<div class="col-xs-3">
-															      	<small class='text-muted'>Birth: </small><small  class='text-primary' id="birthDayEmail"  data-viewformat="DD/MM/YYYY" data-original-title="Date of birth"></small>
-															        <small class='text-muted'> - Age: </small><small  class='text-primary' id="ageEmail"  data-original-title="Age"></small><br>
-															      	<small class='text-muted'>Gender: </small><small  class='text-primary' id="genderEmail"   data-original-title="Gender"></small><br>
-															        <small class='text-muted'>Nationality: </small><small  class='text-primary' id="nationalityEmail"   data-original-title="Nationality"></small><br>
-															</div>
-															<div class="col-xs-3">
-															      	<small class='text-muted'>First Language: </small><small  class='text-primary' id="firstLanguageEmail"  data-original-title="First Language"></small><br>
-															        <small class='text-muted'>Profession:</small><small  class='text-primary' id="professionEmail"  data-original-title="Profession"></small><br>
-															        <small class='text-muted'>English Level:</small><small  class='text-primary' id="englishLevelEmail"   data-original-title="English level"></small><br>
-															</div>
-															<div class="col-xs-5">
-															      	<small class='text-muted'>School: </small><small  class='text-primary' id="schoolNameEmail"  data-original-title="School"></small><br>
-															        <small class='text-muted'>Agency:</small><small  class='text-primary' id="agencyNameEmail"  data-original-title="Agency"></small><br>
+	        </div>
+		        <div class="modal-body">
+					<!-- Widget ID (each widget will need unique ID)-->
+					<div class="jarviswidget" id="wid-id-26" data-widget-editbutton="false" data-widget-custombutton="false">
+						<!-- widget options:
+							usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+							
+							data-widget-colorbutton="false"	
+							data-widget-editbutton="false"
+							data-widget-togglebutton="false"
+							data-widget-deletebutton="false"
+							data-widget-fullscreenbutton="false"
+							data-widget-custombutton="false"
+							data-widget-collapsed="true" 
+							data-widget-sortable="false"
+							
+						-->
+						<div class="row">
+							<div class="well well-sm">
+								<div class="row">				
+									<div class="col-sm-12 col-md-12 col-lg-12">
+										<div class="well well-light well-sm no-margin no-padding">
+											<div class="row">							
+												<div class="col-sm-12">				
+													<div class="row">
+														<div class="col-sm-3 profile-pic">
+															<img src="img/logo/casatoronto.png" alt="demo user">
+														</div>
+				
+														<div class="col-sm-8">
+															<ul class="list-unstyled">
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-phone"></i>&nbsp;&nbsp;(<span class="txt-color-darken">+1(416)</span>) <span class="txt-color-darken">897-7141</span>
+																	</p>
+																</li>
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:josematheus@casa-toronto.com">josematheus@casa-toronto.com</a>
+																	</p>
+																</li>
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-link"></i>&nbsp;&nbsp;<a href="www.casa-toronto.com">www.casa-toronto.com</a>
+																	</p>
+																</li>
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-map-marker"></i>&nbsp;&nbsp;<span class="txt-color-darken">153 Beecroft Rd, suite 1512</span>
+																	</p>
+																</li>
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-map-marker"></i>&nbsp;&nbsp;<span class="txt-color-darken">Toronto, ON Canada M2N 7C5</span>
+																	</p>
+																</li>
+															</ul>
+															<br>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-1"></div>
+														<div class="col-sm-6">
+															<h6 class="semi-bold">Dear Family <span id="familyName" class="semi-bold"></span></h6>
+															<input id="emailFamily" class="hide"></input>
+															<input id="emailStudent" class="hide"></input>
+															<input id="indexTrip" class="hide"></input>
+															<input id="roomSingle" class="hide"></input>
+															<input id="roomCouple" class="hide"></input>
+															<br>
+															<ul class="list-unstyled">
+																<li>
+																	<p class="text-muted">
+																		<span class="txt-color-darken"><small class='text-primary text-italic' >Would you like to host the student below</small></span>
+																	</p>
+															</ul>
+															<br>
+														</div>
+													</div>
+													<br><br>
+													<div class="row">
+														<div class="col-sm-4"></div>
+														<div class="col-sm-6">
+															<h1><span id="studentCompleteNameEmail" class="semi-bold"></span></h1>
+				
+															<ul class="list-unstyled">
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="celPhoneEmail" data-mask="(999) 99999-9999"  data-original-title="Cel Phonr"></small></span>
+																	</p>
+																</li>
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small  class='text-primary' id="phoneEmail" data-mask="(999) 9999-9999"  data-original-title="Phone"></small></span>
+																	</p>
+																</li>
+																<li>
+																	<p class="text-muted">
+																		<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mailEmail"  data-original-title="Email"></small>
+																	</p>
+																</li>
+															</ul>
+															<br>
+														</div>
+													</div>
+													<div class="row">
+															<div class="col-sm-1"></div>
+															<div class="col-sm-11">
+																<div class="row">
+																	<div class="col-xs-3">
+																	      	<small class='text-muted'>Birth: </small><small  class='text-primary' id="birthDayEmail"  data-viewformat="DD/MM/YYYY" data-original-title="Date of birth"></small>
+																	        <small class='text-muted'> - Age: </small><small  class='text-primary' id="ageEmail"  data-original-title="Age"></small><br>
+																	      	<small class='text-muted'>Gender: </small><small  class='text-primary' id="genderEmail"   data-original-title="Gender"></small><br>
+																	        <small class='text-muted'>Nationality: </small><small  class='text-primary' id="nationalityEmail"   data-original-title="Nationality"></small><br>
+																	</div>
+																	<div class="col-xs-3">
+																	      	<small class='text-muted'>First Language: </small><small  class='text-primary' id="firstLanguageEmail"  data-original-title="First Language"></small><br>
+																	        <small class='text-muted'>Profession:</small><small  class='text-primary' id="professionEmail"  data-original-title="Profession"></small><br>
+																	        <small class='text-muted'>English Level:</small><small  class='text-primary' id="englishLevelEmail"   data-original-title="English level"></small><br>
+																	</div>
+																	<div class="col-xs-5">
+																	      	<small class='text-muted'>School: </small><small  class='text-primary' id="schoolNameEmail"  data-original-title="School"></small><br>
+																	        <small class='text-muted'>Agency:</small><small  class='text-primary' id="agencyNameEmail"  data-original-title="Agency"></small><br>
+																	</div>
+																</div>
+																<br><br>
+																<div class="row">
+																	<div class="col-xs-4">
+																	      	<small class='text-muted'>Start: </small><small  class='text-primary' id="startEmail" data-viewformat="DD/MM/YYYY" data-original-title="Start"></small><br>
+																	      	<small class='text-muted'>End: </small><small  class='text-primary' id="endEmail" data-viewformat="DD/MM/YYYY" data-original-title="End"></small><br>
+																	</div>
+																	<div class="col-xs-4">
+																	        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="Arrival Date"></small>
+																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTimeEmail"  data-original-title="Arrival Time"></small><br>
+																	        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="flightNumberEmail"  data-original-title="flight Number"></small><br>
+																	        <small class='text-muted'>Flight Date: </small><small  class='text-primary' id="flightDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="Flight Date"></small>
+																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="flightTimeEmail"  data-original-title="Arrival Time"></small><br>
+																	        <small class='text-muted'>Airline: </small><small  class='text-primary' id="airlineEmail"  data-original-title="Airline"></small><br>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-xs-6">
+																	        <small class='text-muted '>Smoke: </small><small class='text-primary' id="smokeEmail"   data-original-title="Do yhou smoke?"></small><br>
+																	        <small class='text-muted '>Meal Plan: </small>
+																	        <small class='text-primary' id="mealPlanEmail" data-type="checklist" data-original-title="Meal Plan"></small><br>
+																	        <small class='text-muted '>Special diet: </small>
+																			<small class='text-primary' id="specialDietEmail" data-type="checklist" data-original-title="Special Diet"></small><br>
+																	</div>
+																	<div class="col-xs-6">
+																	        <small class='text-muted'>Live with dogs: </small><small class='text-primary' id="liveDogsEmail"   data-original-title="Live with dogs"></small><br>
+																	        <small class='text-muted'>Live with cats: </small><small class='text-primary' id="liveCatsEmail"   data-original-title="Live with cats"></small><br>
+																	    	<small class='text-muted'>Private washroom: </small><small class='text-primary' id="privateWashroomEmail"   data-original-title="Private Washroom"></small><br>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-xs-4 hide homestay">
+																	        <small class='text-muted'>Hobbies/Interest: </small><small class='text-primary' id="hobbiesEmail" data-type="textarea" data-pk="1" data-placeholder="Your hobbies..." data-original-title="Hobbies/Interest"></small><br>
+																	</div>
+																	<div class="col-xs-4 hide homestay">
+																	        <small class='text-muted'>Alergies or Medical Concern: </small><small class='text-primary' id="medicalEmail" data-type="textarea" data-pk="1" data-placeholder="Alergies or medical concerns" data-original-title="Alergies or medical concerns"></small><br>
+																	</div>
+																	<div class="col-xs-4 hide homestay">
+																	        <small class='text-muted'>Comments: </small><small  class='text-primary' id="commentsEmail" data-type="textarea" data-pk="1" data-placeholder="Comments...." data-original-title="Comments"></small><br>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-xs-12">
+																		<label class="label text-info">Caretaker Comments:</label>
+																		<label class="textarea textarea-resizable state-disabled"> 										
+																		<textarea rows="3" cols="80" id="commentsCaretakerEmail" name="commentsCaretakerEmail"class="custom-scroll"></textarea> </label>
+																	</div>
+																</div>
+																<br>
 															</div>
 														</div>
-														<br><br>
-														<div class="row">
-															<div class="col-xs-4">
-															      	<small class='text-muted'>Start: </small><small  class='text-primary' id="startEmail" data-viewformat="DD/MM/YYYY" data-original-title="Start"></small><br>
-															      	<small class='text-muted'>End: </small><small  class='text-primary' id="endEmail" data-viewformat="DD/MM/YYYY" data-original-title="End"></small><br>
-															</div>
-															<div class="col-xs-4">
-															        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="Arrival Date"></small>
-															        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTimeEmail"  data-original-title="Arrival Time"></small><br>
-															        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="flightNumberEmail"  data-original-title="flight Number"></small><br>
-															        <small class='text-muted'>Flight Date: </small><small  class='text-primary' id="flightDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="Flight Date"></small>
-															        <small class='text-muted'> Time: </small><small  class='text-primary' id="flightTimeEmail"  data-original-title="Arrival Time"></small><br>
-															        <small class='text-muted'>Airline: </small><small  class='text-primary' id="airlineEmail"  data-original-title="Airline"></small><br>
-															</div>
-														</div>
-														<br>
-														<div class="row">
-															<div class="col-xs-6">
-															        <small class='text-muted '>Smoke: </small><small class='text-primary' id="smokeEmail"   data-original-title="Do yhou smoke?"></small><br>
-															        <small class='text-muted '>Meal Plan: </small>
-															        <small class='text-primary' id="mealPlanEmail" data-type="checklist" data-original-title="Meal Plan"></small><br>
-															        <small class='text-muted '>Special diet: </small>
-																	<small class='text-primary' id="specialDietEmail" data-type="checklist" data-original-title="Special Diet"></small><br>
-															</div>
-															<div class="col-xs-6">
-															        <small class='text-muted'>Live with dogs: </small><small class='text-primary' id="liveDogsEmail"   data-original-title="Live with dogs"></small><br>
-															        <small class='text-muted'>Live with cats: </small><small class='text-primary' id="liveCatsEmail"   data-original-title="Live with cats"></small><br>
-															    	<small class='text-muted'>Private washroom: </small><small class='text-primary' id="privateWashroomEmail"   data-original-title="Private Washroom"></small><br>
-															</div>
-														</div>
-														<br>
-														<div class="row">
-															<div class="col-xs-4 hide homestay">
-															        <small class='text-muted'>Hobbies/Interest: </small><small class='text-primary' id="hobbiesEmail" data-type="textarea" data-pk="1" data-placeholder="Your hobbies..." data-original-title="Hobbies/Interest"></small><br>
-															</div>
-															<div class="col-xs-4 hide homestay">
-															        <small class='text-muted'>Alergies or Medical Concern: </small><small class='text-primary' id="medicalEmail" data-type="textarea" data-pk="1" data-placeholder="Alergies or medical concerns" data-original-title="Alergies or medical concerns"></small><br>
-															</div>
-															<div class="col-xs-4 hide homestay">
-															        <small class='text-muted'>Comments: </small><small  class='text-primary' id="commentsEmail" data-type="textarea" data-pk="1" data-placeholder="Comments...." data-original-title="Comments"></small><br>
-															</div>
-														</div>
-														<br>
-														<div class="row">
-															<div class="col-xs-12">
-																<label class="label text-info">Caretaker Comments:</label>
-																<label class="textarea textarea-resizable state-disabled"> 										
-																<textarea rows="3" cols="80" id="commentsCaretakerEmail" name="commentsCaretakerEmail"class="custom-scroll"></textarea> </label>
-															</div>
-														</div>
-														<br>
 													</div>
 												</div>
 											</div>
@@ -294,26 +298,281 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						<!-- end row -->
+		
 					</div>
-				<!-- end row -->
-
-			</div>
-			<!-- end widget -->
-		</div>
-		<!-- end modal body -->				
-
-       </div>
-       <!-- end modal content -->	
+					<!-- end widget -->
+				</div>
+				<!-- end modal body -->				
+	
+	       </div>
+	       <!-- end modal content -->	
        <div class="modal-footer">
-         <button id="sendEmailOfferYoFamily" type="button" class="btn btn-primary" data-dismiss="modal">Send email</button>
+         <button id="sendEmailOfferToFamily" type="button" class="btn btn-primary" data-dismiss="modal">Send email</button>
          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
        </div>
       </div>
       <!-- end modal dialog -->	
-    </div>
-    <!-- end modal -->	
+   </div>
+   <!-- end modal -->	
   
+  <!-- Modal letter to student-->
+  <div class="modal fade" id="letterToStudent" role="dialog">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content animated flipInY">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"></h4>
+	        </div>
+		        <div class="modal-body">
+					<!-- Widget ID (each widget will need unique ID)-->
+					<div class="jarviswidget" id="wid-id-26" data-widget-editbutton="false" data-widget-custombutton="false">
+						<!-- widget options:
+							usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+							
+							data-widget-colorbutton="false"	
+							data-widget-editbutton="false"
+							data-widget-togglebutton="false"
+							data-widget-deletebutton="false"
+							data-widget-fullscreenbutton="false"
+							data-widget-custombutton="false"
+							data-widget-collapsed="true" 
+							data-widget-sortable="false"
+							
+						-->
+						<div class="row">
+							<div class="col-sm-12">												
+									<div class="well well-sm">
+										<div class="row">				
+											<div class="col-sm-12 col-md-12 col-lg-12">
+												<div class="well well-light well-sm no-margin no-padding">
+						
+													<div class="row">							
+														<div class="col-sm-12">				
+															<div class="row">
+																<div class="col-sm-3 profile-pic">
+	<!--																		<img src="img/avatars/photo_2.png" alt="Amanda Ferreira"> -->
+																</div>
+						
+																<div class="col-sm-9">
+																	<h1><span id="familyName" class="semi-bold"></span>
+																	<br>
+																	<small>Family</small></h1>
+						
+																	<ul class="list-unstyled">
+																		<li>
+																			<p class="text-muted">
+																				<i class="fa fa-user"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="contact_name"   data-original-title="Contact name"></small></span>
+																			</p>
+																		</li>
+																		<li>
+																			<p class="text-muted">
+																				<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="contact_mobilePhoneNumber" data-mask="(999) 99999-9999"  data-original-title="Cel Phone"></small></span>
+																			</p>
+																		</li>
+																		<li>
+																			<p class="text-muted">
+																				<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="contact_phoneNumber" data-mask="(999) 99999-9999"  data-original-title="Phone"></small></span>
+																			</p>
+																		</li>
+																		<li>
+																			<p class="text-muted">
+																				<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="contact_email"  data-original-title="Email"></small>
+																			</p>
+																		</li>
+																	</ul>
+																	<br>
+																</div>
+															</div>
+															<div class="col-sm-1"></div>
+															<div class="col-sm-11">
+																<div class="row">
+																	<div class="col-xs-11">
+																		<legend>
+																		<h7>Contact Data</h7>
+																		</legend>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-xs-5">
+																	      	<small class='text-muted'>Birth: </small><small  class='text-primary' id="contact_birthDate"  data-viewformat="DD/MM/YYYY" data-original-title="Date of birth"></small>
+																	        <small class='text-muted'> - Age: </small><small  class='text-primary' id="contact_age"  data-original-title="Age"></small><br>
+																	      	<small class='text-muted'>Gender: </small><small  class='text-primary' id="contact_gender"   data-original-title="Gender"></small><br>
+																	        <small class='text-muted'>Ocuppation: </small><small  class='text-primary' id="contact_ocuppation"   data-original-title="Ocuppation"></small><br>
+																	</div>
+																	<div class="col-xs-5">
+																	        <small class='text-muted'>Employer: </small><small  class='text-primary' id="contact_employer"   data-original-title="Employer"></small><br>
+																	        <small class='text-muted'>Work Phone Number: </small><small  class='text-primary' id="contact_workPhoneNumber"   data-original-title="Work Phone Number"></small><br>
+																	</div>
+							
+																</div>
+																<div class="row">
+																	<div class="col-xs-12">
+																		<legend>
+																		<h7>Address</h7>
+																		</legend>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-xs-5">
+																	      	<small class='text-muted'>Localization: </small><small  class='text-primary' id="address_destination"   data-original-title="Localization"></small><br>
+																	      	<small class='text-muted'>Address: </small><small  class='text-primary' id="address_street"   data-original-title="Address"></small><br>
+																	      	<small class='text-muted'>Additional info: </small><small  class='text-primary' id="address_complement"   data-original-title="Additional info"></small><br>
+																			<br>
+																			<div class="hide addressMap">	
+																				<div class="col-xs-1"></div>
+																				<div class="col-xs-10">
+																					<div class="widget-body no-padding">
+																						<div id="map_canvas7" class="google_maps"></div>
+																					</div>
+																				</div>
+																			</div>
+																	</div>
+																	<div class="col-xs-5">
+																	        <small class='text-muted'>Main intersection: </small><small  class='text-primary' id="address_mainIntersection"   data-original-title="Main intersection"></small><br>
+																	        <small class='text-muted'>Nearest Subway Station: </small><small  class='text-primary' id="address_nearestSubwayStation"   data-original-title="Nearest Subway Station"></small><br>
+																	        <small class='text-muted'>Walking Time Subway Station: </small><small  class='text-primary' id="address_walkingTimeSubwayStation"   data-original-title="Walking Time Subway Station"></small><br>
+																	        <small class='text-muted'>Nearest Bus Stop: </small><small  class='text-primary' id="address_nearestBusStop"   data-original-title="Nearest Bus Stop/small"></small><br>
+																	        <small class='text-muted'>Walking Time Bus Station: </small><small  class='text-primary' id="address_walkingTimeBusStation"   data-original-title="Walking Time Bus Station"></small><br>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-xs-12">
+																		<legend>
+																		<h7>Characteristics</h7>
+																		</legend>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-xs-5">
+																	      	<small class='text-muted'>Type: </small><small  class='text-primary' id="type"   data-original-title="Type"></small><br>
+																	        <small class='text-muted'>Internet offered?: </small><small  class='text-primary' id="offerInternet"   data-original-title="Internet offered?"></small><br>
+																	        <small class='text-muted'>Do you have dogs?: </small><small  class='text-primary' id="haveDogs"   data-original-title="Do you have dogs?"></small><br>
+																	        <small class='text-muted'>Do you have cats?: </small><small  class='text-primary' id="haveCats"   data-original-title="Do you have cats?"></small><br>
+																	        <small class='text-muted'>What is your fist Language: </small><small  class='text-primary' id="firstLanguage"   data-original-title="What is your fist Language"></small><br>
+																	        <small class='text-muted'>Other languages you speak: </small><small  class='text-primary' id="othersLanguage"   data-original-title="Other languages you speak"></small><br>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-xs-12">
+																		<legend>
+																		<h7>Preferences</h7>
+																		</legend>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-xs-5">
+																	      	<small class='text-muted'>Do you accept a student who smokes? : </small><small  class='text-primary' id="acceptSmokeStudent"   data-original-title="Do you accept a student who smokes? "></small><br>
+																	      	<small class='text-muted'>Preferred age of student: </small><small  class='text-primary' id="preferAgeStudent"   data-original-title="Preferred age of student"></small><br>
+																	      	<small class='text-muted'>Preferred gender of student: </small><small  class='text-primary' id="preferGenderStudent"   data-original-title="Preferred gender of student"></small><br>
+																	      	<small class='text-muted'>Meal plans you are willing to offer: </small><small  class='text-primary' id="mealPlan"   data-original-title="Meal plans you are willing to offer"></small><br>
+																	</div>
+																	<div class="col-xs-5">
+																	        <small class='text-muted'>Offer special diet: </small><small  class='text-primary' id="specialDiet"   data-original-title="Offer special diet"></small><br>
+																	        <small class='text-muted'>Dont host student from: </small><small  class='text-primary' id="dontHostNationality"   data-original-title="Don't host student from"></small><br>
+																	        <small class='text-muted'>Does anyone smoke inside your house? : </small><small  class='text-primary' id="acceptSmokeInsideHome"   data-original-title="Does anyone smoke inside your house? "></small><br>
+																	</div>
+																</div>
+																<br>
+																<div class="row">
+																	<div class="col-xs-12">
+																		<legend>
+																		<h7>Family members</h7>
+																		</legend>
+																	</div>
+																</div>
+																<ul class="list-unstyled" id="familyMembersList">
+																</ul>
+																<br>
+																<div class="row">
+																	<div class="col-xs-12">
+																		<legend>
+																		<h7>Rooms</h7>
+																		</legend>
+																	</div>
+																</div>
+																<ul class="list-unstyled" id="roomsList">
+																</ul>
+																<br>																		
+																<div class="row">
+																	<div class="col-xs-11">
+																		<legend>
+																		<h7>Photos</h7>
+																		</legend>
+																	</div>
+																</div>
+																<br>																		
+																<div class="row">
+																	<section class="col-xs-2">
+																		    <!-- The container for the uploaded files --> 
+																		    <div id="files-photo01" class="input-value files col-xs-04""> 
+																		    	<img id="img-photo01" class="imgUpload">
+																		    </div>
+																	</section>
+																	<section class="col-xs-2">
+																		    <!-- The container for the uploaded files --> 
+																		    <div id="files-photo02" class="input-value files "> 
+																		    	<img id="img-photo02" class="imgUpload">
+																		    </div>
+																	</section>
+																	<section class="col-xs-2">
+																		    <!-- The container for the uploaded files --> 
+																		    <div id="files-photo03" class="input-value files "> 
+																		    	<img id="img-photo03" class="imgUpload">
+																		    </div>
+																	</section>
+																	<section class="col-xs-2">
+																		    <!-- The container for the uploaded files --> 
+																		    <div id="files-photo04" class="input-value files "> 
+																		    	<img id="img-photo04" class="imgUpload">
+																		    </div>
+																	</section>
+																	<section class="col-xs-2">
+																		    <!-- The container for the uploaded files --> 
+																		    <div id="files-photo05" class="input-value files "> 
+																		    	<img id="img-photo05" class="imgUpload">
+																		    </div>
+																	</section>
+																	<section class="col-xs-2">
+																		    <!-- The container for the uploaded files --> 
+																		    <div id="files-photo06" class="input-value files "> 
+																		    	<img id="img-photo06" class="imgUpload">
+																		    </div>
+																	</section>
+																</div>
+																<br>																		
+															</div>
+														</div>
+						
+													</div>
+						
+												</div>
+						
+											</div>
+										</div>
+						
+									</div>			
+							</div>
+						</div>		        
+						<!-- end row -->				
+					</div>
+					<!-- end widgets -->				
+				</div>
+				<!-- end modal body -->				
+	
+	       </div>
+	       <!-- end modal content -->	
+       <div class="modal-footer">
+         <button id="sendEmailLetterToStudent" type="button" class="btn btn-primary" data-dismiss="modal">Send email</button>
+         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+       </div>
+      </div>
+      <!-- end modal dialog -->	
+   </div>
+   <!-- end modal -->	
   <!-- Cabeçalho-->
 		<!-- HEADER -->
 		<header id="header">
@@ -880,10 +1139,15 @@
 																	<br>
 																	<div class="row">
 																		<div class="col-xs-4 hide homestay dorms">
-																				<small class='text-muted hide homestay dorms'>Occupancy: </small><small class='homestay dorms text-primary' id="occupancy"   data-original-title="Occupancy"></small><br>
+																				<small class='text-muted hide family homestay hide'>Family: </small><small class='homestay text-primary' id="contactFamilyName"   data-original-title="Family name"></small><br>
+																				<small class='text-warning text-center hide family homestay hide'>Contact </small><br>
+																				<small class='text-muted hide family homestay hide'>name: </small><small class='homestay text-primary' id="contactName"   data-original-title="Contact name"></small><br>
+																				<small class='text-muted hide family homestay hide'>gender: </small><small class='homestay text-primary' id="contactGender"   data-original-title="Contact gender"></small><br>
+																				<small class='text-muted hide family homestay hide'>email: </small><small class='homestay text-primary' id="contactEmail"   data-original-title="Contact email"></small><br>
+																				<small class='text-muted hide family homestay hide'>phone: </small><small class='homestay text-primary' id="contactPhone"   data-original-title="Contact phone"></small><br>
+																				<small class='text-muted hide family homestay hide'>cell phone: </small><small class='homestay text-primary' id="contactMobilePhone"   data-original-title="Contact mobile phone"></small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest name: </small><small class='guest hide homestay dorms text-primary' id="guestName"  data-original-title="Guest Name"></small><br>
 																		        <small class='text-muted guest hide homestay dorms'>Relationship: </small><small class='guest hide homestay dorms text-primary' id="relationship"   data-original-title="Relationship"></small><br>
-																		        <small class='text-muted hide homestay dorms'>Smoke: </small><small class='homestay dorms hide text-primary' id="smoke"   data-original-title="Do yhou smoke?"></small><br>
 																		</div>
 																		<div class="col-xs-4 hide suite">
 																				<small class='text-muted '>Apartament Type: </small><small class='suite text-primary' id="apartamentType"   data-original-title="Apartartament Type"></small><br>
@@ -901,6 +1165,8 @@
 																				<small class='g5 hide text-primary' id="guest_05"  data-original-title="Guest name"></small><br>
 																		</div>
 																		<div class="col-xs-4 hide homestay">
+																				<small class='text-muted hide homestay dorms'>Occupancy: </small><small class='homestay dorms text-primary' id="occupancy"   data-original-title="Occupancy"></small><br>
+																		        <small class='text-muted hide homestay dorms'>Smoke: </small><small class='homestay dorms hide text-primary' id="smoke"   data-original-title="Do yhou smoke?"></small><br>
 																			<div class="col-xs-4 ">
 																		        <small class='text-muted hide homestay'>Meal Plan: </small>
 																		    </div>
@@ -1055,7 +1321,7 @@
 						  	</div>
 
 							<!-- new widget -->
-							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notAccommodation" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notAccommodation hide" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 
 								<!-- widget options:
 								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
@@ -1311,27 +1577,7 @@
 		<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
 		<!-- Voice command : plugin -->
 		<script src="js/speech/voicecommand.min.js"></script>
-
-		<!-- SmartChat UI : plugin -->
-		<script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
-		<script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
 		
-		<!-- PAGE RELATED PLUGIN(S) -->
-		
-		<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
-		<script src="js/plugin/flot/jquery.flot.cust.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.resize.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.time.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>
-		
-		<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
-		<script src="js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-		<script src="js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-		
-		<!-- Full Calendar -->
-		<script src="js/plugin/moment/moment.min.js"></script>
-		<script src="js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
-
 		<!-- Datatables --> 
 
 		<script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
@@ -1340,37 +1586,44 @@
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
-		<!-- PAGE RELATED GRAPHS 
-		<script src="..."></script>-->
-		<script src="js/plugin/highChartCore/highcharts-custom.min.js"></script>
-		<script src="js/plugin/highchartTable/jquery.highchartTable.min.js"></script>
-
-		<!-- Plugin timeslider -->
-		<script src="js-timeline/timeslider.js"></script>
-
-		<!-- Plugin carrega imagem -->
-		<script src="js/plugin/dropzone/dropzone.min.js"></script>
-
-		<!-- Plugin editable -->
-		<script src="js/plugin/x-editable/moment.min.js"></script>
-		<script src="js/plugin/x-editable/jquery.mockjax.min.js"></script>
-		<script src="js/plugin/x-editable/x-editable.min.js"></script>
-
-		<!-- grid jquery grid -->
-		<script src="js/plugin/jqgrid/jquery.jqGrid.min.js"></script>
-		<script src="js/plugin/jqgrid/grid.locale-en.min.js"></script>
-
-
-		<!-- plugin wizard -->
-		<script src="js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-		<script src="js/plugin/fuelux/wizard/wizard.min.js"></script>
-
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>
 
 		<!-- google maps -->
 		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
 		<script src="js/google-maps.js"></script>
+
+	
+		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+		<script src="jsphoto/vendor/jquery.ui.widget.js"></script>
+		<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+		<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+
+
+		<!-- estas duas bilbiotecas causam probemas no dropdown menu -->
+		<!-- The Canvas to Blob plugin is included for image resizing functionality 
+		<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>-->
+		<!-- Bootstrap JS is not required, but included for the responsive demo navigation
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+
+
+		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+		<script src="jsphoto/jquery.iframe-transport.js"></script>
+		<!-- The basic File Upload plugin -->
+		<script src="jsphoto/jquery.fileupload.js"></script>
+		<!-- The File Upload processing plugin -->
+		<script src="jsphoto/jquery.fileupload-process.js"></script>
+		<!-- The File Upload image preview & resize plugin -->
+		<script src="jsphoto/jquery.fileupload-image.js"></script>
+		<!-- The File Upload audio preview plugin -->
+		<script src="jsphoto/jquery.fileupload-audio.js"></script>
+		<!-- The File Upload video preview plugin -->
+		<script src="jsphoto/jquery.fileupload-video.js"></script>
+		<!-- The File Upload validation plugin -->
+		<script src="jsphoto/jquery.fileupload-validate.js"></script>
+		
+		<!-- js de chamada e montagem da tela -->
+		<script src="js-photo/manage-photo.js"></script>
 
 
 		<!-- send email -->
@@ -1382,6 +1635,7 @@
 		<script src="js/main.js"></script>
 		<script src="js-datatables/student.js"></script>
 		<script src="js/student.js"></script>
+		<script src="js/family-commons.js"></script>
 		<script src="js-datatables/accommodation-family.js"></script>
 
 		<script>
@@ -1389,21 +1643,6 @@
 
 				// DO NOT REMOVE : GLOBAL FUNCTIONS!
 				pageSetUp();
-
-			
-			
-				/*
-				 * carrega logo
-				 */		
-
-				Dropzone.autoDiscover = false;
-				$("#fotostudent").dropzone({
-					//url: "/file/post",
-					addRemoveLinks : true,
-					maxFilesize: 5.5,
-					dictDefaultMessage: '<span class="text-center cargalogo">Foto</span><br><span class="text-center cargalogo">Drag or Click</span>',
-					dictResponseError: 'Error uploading file!'
-				});
 
 				//
 			    // custom toolbar colocar o logo da Casamundo

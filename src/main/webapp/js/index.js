@@ -13,7 +13,7 @@
 		localStorage.app = "casamundo";
 
 		localStorage.urlServidor = window.location.hostname;
-		if (urlServidor == "localhost"){
+		if (localStorage.urlServidor == "localhost"){
 			localStorage.mainHost = "50.112.77.221";
 		}else{
 			localStorage.mainHost = localStorage.urlServidor;

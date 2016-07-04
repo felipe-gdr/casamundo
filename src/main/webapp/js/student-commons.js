@@ -290,23 +290,43 @@ function getValueStudent (field, actualTrip) {
 	};
 	if (field == "contactName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.contact.firstName + " " + objJson.contact.lastName;		
+        if (objJson.contact){
+        	return objJson.contact.firstName + " " + objJson.contact.lastName;
+        }else{
+        	return "";
+        };
 	};
 	if (field == "contactGender"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.contact.gender;		
+        if (objJson.contact){
+        	return objJson.contact.gender;
+        }else{
+        	return "";
+        };
 	};
 	if (field == "contactEmail"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.contact.email;		
+        if (objJson.contact){
+        	return objJson.contact.email;
+        }else{
+        	return "";
+        };
 	};
 	if (field == "contactPhone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.contact.phone;		
+        if (objJson.contact){
+        	return objJson.contact.phone;
+        }else{
+        	return "";
+        };
 	};
 	if (field == "contactMobilePhone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.contact.mobilePhone;		
+        if (objJson.contact){
+        	return objJson.contact.mobilePhone;
+        }else{
+        	return "";
+        };
 	};
 	if (field == "start"){
         var objJson = JSON.parse(localStorage.getItem("student"));

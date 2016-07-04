@@ -52,7 +52,7 @@
     		action_ok(data);
     	})
     	.fail(function(data) {
-    		action_notOK();
+    		action_notOk();
     	})
     	.always(function(data) {
     	});

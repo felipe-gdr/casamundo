@@ -69,7 +69,7 @@ public class Rest_Student {
 					JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 					familyName = (String) jsonTrip.get("familyName");
 			    };
-				if (familyName != null){
+				if (familyName != null && !familyName.equals("")){
 					Mongo mongoFamily = new Mongo();
 					DB dbFamily = (DB) mongoFamily.getDB("documento");
 					DBCollection collectionSchool = dbFamily.getCollection("family");
@@ -251,7 +251,7 @@ public class Rest_Student {
 						schoolName = (String) jsonTrip.get("schoolName");
 						familyName = (String) jsonTrip.get("familyName");
 				    };
-					if (agencyName != null){
+					if (agencyName != null && !agencyName.equals("")){
 						Mongo mongoAgency = new Mongo();
 						DB dbAgency = (DB) mongoAgency.getDB("documento");
 						DBCollection collectionAgency = dbAgency.getCollection("agency");
@@ -270,7 +270,7 @@ public class Rest_Student {
 						docAgency.put("email", "");						
 						jsonDocumento.put("agency", docAgency);
 					};
-					if (schoolName != null){
+					if (schoolName != null && !schoolName.equals("")){
 						Mongo mongoSchool = new Mongo();
 						DB dbSchool = (DB) mongoSchool.getDB("documento");
 						DBCollection collectionSchool = dbSchool.getCollection("school");
@@ -289,7 +289,7 @@ public class Rest_Student {
 						docSchool.put("email", "");						
 						jsonDocumento.put("school", docSchool);
 					};
-					if (familyName != null){
+					if (familyName != null && !familyName.equals("")){
 						Mongo mongoFamily = new Mongo();
 						DB dbFamily = (DB) mongoFamily.getDB("documento");
 						DBCollection collectionSchool = dbFamily.getCollection("family");
@@ -302,13 +302,13 @@ public class Rest_Student {
 						mongoFamily.close();
 					}else{
 	        			JSONObject docFamily = new JSONObject();
-						docFamily.put("contact.firstName", "");
-						docFamily.put("contact.lastName", "");
-						docFamily.put("contact.gender", "");
-						docFamily.put("contact.email", "");
-						docFamily.put("contact.phoneNumber", "");
-						docFamily.put("contact.mobilePhoneNumber", "");						
-						jsonDocumento.put("family", docFamily);
+						docFamily.put("firstName", "");
+						docFamily.put("lastName", "");
+						docFamily.put("gender", "");
+						docFamily.put("email", "");
+						docFamily.put("phoneNumber", "");
+						docFamily.put("mobilePhoneNumber", "");						
+						jsonDocumento.put("contact", docFamily);
 					};
 					documentos.add(jsonDocumento);
 					mongo.close();
