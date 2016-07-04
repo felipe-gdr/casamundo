@@ -11,16 +11,6 @@
 	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, "Homestay");
 
 
-    /* Formatting function for row details - modify as you need */
-	function formatStudent ( d ) {
-	    // `d` is the original data object for the row
-	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-	        '<tr>'+
-	            '<td>Actions:</td>'+
-	            '<td>'+d.actions+'</td>'+
-	        '</tr>'+
-	    '</table>';
-	};
 	function carregaLocalStorageStudents (objJson) {
 
 		localStorage.setItem("students", JSON.stringify(objJson));
@@ -253,11 +243,10 @@
                 		"<span class='label " + medicalCollor + "'>" + medicalText + "</span>",
                 "accommodation": "<span class='label label-warning'>" + accommodation + "</span><br>",
                 "comments": "<small class='text-muted'><i>" + student.trip.comments + "<i></small>",
-                "actions": "<div class='btn-group'><button class='btn btn-primary btn-xs dropdown-toggle' data-toggle='dropdown' >Action <span class='caret'></span></button>" +
-                		"<ul class='dropdown-menu'>" +
-                		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
-                		"</ul>" +
-                		"</div>"
+                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+    			'<ul id="listFamily" class="dropdown-menu">' +
+    				actions +
+    			'</ul></div>'
     	    }).draw( false );
         });
     	// Add event listener for opening and closing details
@@ -274,12 +263,22 @@
                 // Open this row
                 row.child( formatAccommodation(row.data()) ).show();
                 tr.addClass('shown');
+	    		$("#listFamily li").on('click',function(){
+	    			$('#familyName').html($(this).attr('data-idFamily'));
+	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
+	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
+	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
+	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
+	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
+	    			if ($(this).attr('data-process') == "sendlettertostudent") {
+	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao, "consulta");
+	    			};
+	    		});
             }
         });
         
         // Apply the filter
         $("#accommodations_list thead th input[type=text]").on( 'keyup change', function () {
-        	
         	accommodation_table
                 .column( $(this).parent().index()+':visible' )
                 .search( this.value )
@@ -287,28 +286,26 @@
                 
         } );
         /* end trip list */   
-		/* Formatting function for row details - modify as you need */
-		function formatAccommodation ( d ) {
-		    // `d` is the original data object for the row
-		    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-		        '<tr>'+
-		            '<td style="width:100px">Filters:</td>'+
-		            '<td>'+d.filters+'</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		            '<td style="width:100px">Accommodation:</td>'+
-		            '<td>'+d.accommodation+'</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		            '<td>Comments:</td>'+
-		            '<td>'+d.comments+'</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		            '<td>Action:</td>'+
-		            '<td>'+d.actions+'</td>'+
-		        '</tr>'+
-		    '</table>';
-		}
-
 	};
-	
+	/* Formatting function for row details - modify as you need */
+	function formatAccommodation ( d ) {
+	    // `d` is the original data object for the row
+	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
+	        '<tr>'+
+	            '<td style="width:100px">Filters:</td>'+
+	            '<td>'+d.filters+'</td>'+
+	        '</tr>'+
+	        '<tr>'+
+	            '<td style="width:100px">Accommodation:</td>'+
+	            '<td>'+d.accommodation+'</td>'+
+	        '</tr>'+
+	        '<tr>'+
+	            '<td>Comments:</td>'+
+	            '<td>'+d.comments+'</td>'+
+	        '</tr>'+
+	        '<tr>'+
+	            '<td>Action:</td>'+
+	            '<td>'+d.actions+'</td>'+
+	        '</tr>'+
+	    '</table>';
+	}

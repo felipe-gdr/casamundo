@@ -233,8 +233,10 @@
 					setValueStudent (field.id, value, 0)
 			});
 			if (localStorage.studentExistente == "true"){
+			    delete objJson["contact"];
 				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), retornaStudent, atualizacaoNaoEfetuada);
 			}else{
+			    delete objJson["contact"];
 				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), retornaListaStudent, inclusaoNaoEfetuada);
 			}
 		},	

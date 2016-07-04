@@ -869,6 +869,8 @@ function emailEnviado(){
 		timeout : 4000
 	});
     var objJson = JSON.parse(localStorage.getItem("student"));
+    delete objJson["contact"];
+    var actualTrip = objJson.documento.actualTrip;
     objJson.documento.trips[actualTrip].status = "Placement offered";
 	rest_atualizaStudent(objJson, semAcao, semAcao);
 };

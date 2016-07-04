@@ -52,19 +52,7 @@
 	//
 
     $('#sendEmailOfferToFamily').bind( "click", function() {
-    	var objJson = 
-    		{
-    			mail : $('#emailStudent').val(),
-    			indexTrip : $('#indexTrip').val(),
-    			status : "Placement Offer",
-    			familyName : $('#familyName').val(),
-    			emailFamily : $('#emailFamily').val(),
-    			reason : "None",
-    			roomSingle : $('#roomSingle').val(),
-    			roomCouple : $('#roomCouple').val()
-    		};
     	rest_sendEmailHtml(localStorage.hostNameEmail, localStorage.userNameEmail , localStorage.passwordEmail, "grenneglr@gmail.com", $('#emailFamily').val(), "Offer accommodation", templateOffertoFamily(), emailEnviado, emailComProblemas );
-    	rest_changeStatus(semAcao, SemAcao , objJson);
     });
 /**
  * 

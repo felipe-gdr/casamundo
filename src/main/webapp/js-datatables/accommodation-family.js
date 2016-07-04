@@ -40,17 +40,7 @@
 			carregaLocalStorageFamilies (JSON.parse(localStorage.getItem("families")));
 		});
 	};
-	
-	/* Formatting function for row details - modify as you need */
-	function formatFamily ( d ) {
-	    // `d` is the original data object for the row
-	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-	        '<tr>'+
-	            '<td>Actions:</td>'+
-	            '<td>'+d.actions+'</td>'+
-	        '</tr>'+
-	    '</table>';
-	};
+
 	function carregaLocalStorageFamilies (objJson) {
 
 		localStorage.setItem("families", JSON.stringify(objJson));
@@ -114,42 +104,6 @@
 	    $.each(objJson, function (i, family) {
 	        getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaFamilia, montaLinhaFamilia, family_table, family);
 	    });
-		// Add event listener for opening and closing details
-	    $('#families_list tbody').on('click', 'td.details-control', function () {
-	        var tr = $(this).closest('tr');
-	        var row = family_table.row( tr );
-	 
-	        if ( row.child.isShown() ) {
-	            // This row is already open - close it
-	            row.child.hide();
-	            tr.removeClass('shown');
-	        }
-	        else {
-	            // Open this row
-	            row.child( formatFamily(row.data()) ).show();
-	            tr.addClass('shown');
-	    		$("#listFamily li").on('click',function(){
-	    			$('#familyName').html($(this).attr('data-idFamily'));
-	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
-	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
-	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
-	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
-	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
-	    			if ($(this).attr('data-process') == "sendlettertostudent") {
-	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao, "consulta");
-	    			};
-	    		});
-	        }
-	    });
-	    
-	    // Apply the filter
-	    $("#families_list thead th input[type=text]").on('keyup change', function () {
-	    	family_table
-	            .column( $(this).parent().index()+':visible' )
-	            .search( this.value )
-	            .draw();
-	    });
-	    /* end trip list */   
 
 	};
 
@@ -315,7 +269,7 @@
         var actualTrip = student.documento.actualTrip;
         var emailStudent = student.documento.mail;
         if (student.documento.trips[actualTrip].status == "Available"){
-        	actions = "<li  data-process='offertofamily' data-rooCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
+        	actions = "<li  data-process='offertofamily' data-roomCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
         };
         if (student.documento.trips[actualTrip].status == "Confirmed"){
         	actions = "<li data-process='sendlettertostudent' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
@@ -358,6 +312,53 @@
             			'</ul></div>'
 	    }).draw();
 		
+		// Add event listener for opening and closing details
+	    $('#families_list tbody').on('click', 'td.details-control', function () {
+	        var tr = $(this).closest('tr');
+	        var row = family_table.row( tr );
+	 
+	        if ( row.child.isShown() ) {
+	            // This row is already open - close it
+	            row.child.hide();
+	            tr.removeClass('shown');
+	        }
+	        else {
+	            // Open this row
+	            row.child( formatFamily(row.data()) ).show();
+	            tr.addClass('shown');
+	    		$("#listFamily li").on('click',function(){
+	    			$('#familyName').html($(this).attr('data-idFamily'));
+	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
+	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
+	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
+	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
+	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
+	    			if ($(this).attr('data-process') == "sendlettertostudent") {
+	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao, "consulta");
+	    			};
+	    		});
+	        }
+	    });
+	    
+	    // Apply the filter
+	    $("#families_list thead th input[type=text]").on('keyup change', function () {
+	    	family_table
+	            .column( $(this).parent().index()+':visible' )
+	            .search( this.value )
+	            .draw();
+	    });
+	    /* end trip list */   
+	};
+	
+	/* Formatting function for row details - modify as you need */
+	function formatFamily ( d ) {
+	    // `d` is the original data object for the row
+	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
+	        '<tr>'+
+	        	'<td style="width:50px">Actions:</td>'+
+	            '<td>'+d.actions+'</td>'+
+	        '</tr>'+
+	    '</table>';
 	};
 	
 	function bedsOccupied (occupancyRows) {

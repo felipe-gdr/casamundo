@@ -1577,27 +1577,7 @@
 		<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
 		<!-- Voice command : plugin -->
 		<script src="js/speech/voicecommand.min.js"></script>
-
-		<!-- SmartChat UI : plugin -->
-		<script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
-		<script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
 		
-		<!-- PAGE RELATED PLUGIN(S) -->
-		
-		<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
-		<script src="js/plugin/flot/jquery.flot.cust.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.resize.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.time.min.js"></script>
-		<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>
-		
-		<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
-		<script src="js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-		<script src="js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-		
-		<!-- Full Calendar -->
-		<script src="js/plugin/moment/moment.min.js"></script>
-		<script src="js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
-
 		<!-- Datatables --> 
 
 		<script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
@@ -1605,31 +1585,6 @@
 		<script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-
-		<!-- PAGE RELATED GRAPHS 
-		<script src="..."></script>-->
-		<script src="js/plugin/highChartCore/highcharts-custom.min.js"></script>
-		<script src="js/plugin/highchartTable/jquery.highchartTable.min.js"></script>
-
-		<!-- Plugin timeslider -->
-		<script src="js-timeline/timeslider.js"></script>
-
-		<!-- Plugin carrega imagem -->
-		<script src="js/plugin/dropzone/dropzone.min.js"></script>
-
-		<!-- Plugin editable -->
-		<script src="js/plugin/x-editable/moment.min.js"></script>
-		<script src="js/plugin/x-editable/jquery.mockjax.min.js"></script>
-		<script src="js/plugin/x-editable/x-editable.min.js"></script>
-
-		<!-- grid jquery grid -->
-		<script src="js/plugin/jqgrid/jquery.jqGrid.min.js"></script>
-		<script src="js/plugin/jqgrid/grid.locale-en.min.js"></script>
-
-
-		<!-- plugin wizard -->
-		<script src="js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-		<script src="js/plugin/fuelux/wizard/wizard.min.js"></script>
 
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>
@@ -1643,10 +1598,15 @@
 		<script src="jsphoto/vendor/jquery.ui.widget.js"></script>
 		<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
 		<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-		<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-		<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-		<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+		<!-- estas duas bilbiotecas causam probemas no dropdown menu -->
+		<!-- The Canvas to Blob plugin is included for image resizing functionality 
+		<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>-->
+		<!-- Bootstrap JS is not required, but included for the responsive demo navigation
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+
+
 		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 		<script src="jsphoto/jquery.iframe-transport.js"></script>
 		<!-- The basic File Upload plugin -->
@@ -1683,21 +1643,6 @@
 
 				// DO NOT REMOVE : GLOBAL FUNCTIONS!
 				pageSetUp();
-
-			
-			
-				/*
-				 * carrega logo
-				 */		
-
-				Dropzone.autoDiscover = false;
-				$("#fotostudent").dropzone({
-					//url: "/file/post",
-					addRemoveLinks : true,
-					maxFilesize: 5.5,
-					dictDefaultMessage: '<span class="text-center cargalogo">Foto</span><br><span class="text-center cargalogo">Drag or Click</span>',
-					dictResponseError: 'Error uploading file!'
-				});
 
 				//
 			    // custom toolbar colocar o logo da Casamundo
