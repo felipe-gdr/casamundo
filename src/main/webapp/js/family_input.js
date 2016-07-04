@@ -55,8 +55,7 @@
 				    		                 {
 					    		                 emailStudent : "",
 					    		                 startOccupancy : "",
-					    		                 endOccupancy : "",
-					    		                 emailStudent : ""
+					    		                 endOccupancy : ""
 				    		                 }
 				                          ];
 			};
@@ -328,30 +327,32 @@
 		    	objJson.documento.rooms.splice(0, 1);
 		    });
 		    objJsonSaveRooms = JSON.parse(localStorage.getItem("saveDataRooms"));
-			$( ".roomItem" ).each(function(i, value) {
+		    $( ".roomItem" ).each(function(i, value) {
 				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0" ) {
-					if (objJsonSaveRooms[i].occupancySingleBed){
-						occupancySingleBedSave = objJsonSaveRooms[i].occupancySingleBed
-					}else{
-						occupancySingleBedSave = [
-						    		                 {
-							    		                 emailStudent : "",
-							    		                 startOccupancy : "",
-							    		                 endOccupancy : "",
-							    		                 emailStudent : ""
-						    		                 }
-						                          ];
-					};
-					if (objJsonSaveRooms[i].occupancyCoupleBed){
-						occupancyCoupleBedSave = objJsonSaveRooms[i].occupancyCoupleBed
-					}else{
-						occupancyCoupleBedSave = [
-						    		                 {
-							    		                 emailStudent : "",
-							    		                 startOccupancy : "",
-							    		                 endOccupancy : ""
-						    		                 }
-						                          ];
+					if (objJsonSaveRooms[i]){
+						if (objJsonSaveRooms[i].occupancySingleBed){
+							occupancySingleBedSave = objJsonSaveRooms[i].occupancySingleBed
+						}else{
+							occupancySingleBedSave = [
+							    		                 {
+								    		                 emailStudent : "",
+								    		                 startOccupancy : "",
+								    		                 endOccupancy : "",
+								    		                 emailStudent : ""
+							    		                 }
+							                          ];
+						};
+						if (objJsonSaveRooms[i].occupancyCoupleBed){
+							occupancyCoupleBedSave = objJsonSaveRooms[i].occupancyCoupleBed
+						}else{
+							occupancyCoupleBedSave = [
+							    		                 {
+								    		                 emailStudent : "",
+								    		                 startOccupancy : "",
+								    		                 endOccupancy : ""
+							    		                 }
+							                          ];
+						};
 					};
 			        var room = 
 			        {

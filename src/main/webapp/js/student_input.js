@@ -233,11 +233,17 @@
 					setValueStudent (field.id, value, 0)
 			});
 			if (localStorage.studentExistente == "true"){
-			    delete objJson["contact"];
-				rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), retornaStudent, atualizacaoNaoEfetuada);
+		        var objJson = JSON.parse(localStorage.getItem("student"));
+				if (objJson.contact){
+					delete objJson["contact"];
+				};
+				rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada);
 			}else{
-			    delete objJson["contact"];
-				rest_incluiStudent(JSON.parse(localStorage.getItem("student")), retornaListaStudent, inclusaoNaoEfetuada);
+				var objJson = JSON.parse(localStorage.getItem("student"));
+				if (objJson.contact){
+					delete objJson["contact"];
+				};
+				rest_incluiStudent(objJson, retornaListaStudent, inclusaoNaoEfetuada);
 			}
 		},	
 		// Do not change code below

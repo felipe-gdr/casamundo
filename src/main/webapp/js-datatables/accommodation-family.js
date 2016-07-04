@@ -104,6 +104,43 @@
 	    $.each(objJson, function (i, family) {
 	        getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaFamilia, montaLinhaFamilia, family_table, family);
 	    });
+		
+		// Add event listener for opening and closing details
+	    $('#families_list tbody').on('click', 'td.details-control', function () {
+	        var tr = $(this).closest('tr');
+	        var row = family_table.row( tr );
+	 
+	        if ( row.child.isShown() ) {
+	            // This row is already open - close it
+	            row.child.hide();
+	            tr.removeClass('shown');
+	        }
+	        else {
+	            // Open this row
+	            row.child( formatFamily(row.data()) ).show();
+	            tr.addClass('shown');
+	    		$("#listFamily li").on('click',function(){
+	    			$('#familyName').html($(this).attr('data-idFamily'));
+	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
+	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
+	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
+	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
+	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
+	    			if ($(this).attr('data-process') == "sendlettertostudent") {
+	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao, "consulta");
+	    			};
+	    		});
+	        }
+	    });
+	    
+	    // Apply the filter
+	    $("#families_list thead th input[type=text]").on('keyup change', function () {
+	    	family_table
+	            .column( $(this).parent().index()+':visible' )
+	            .search( this.value )
+	            .draw();
+	    });
+	    /* end trip list */   
 
 	};
 
@@ -311,43 +348,6 @@
             				actions +
             			'</ul></div>'
 	    }).draw();
-		
-		// Add event listener for opening and closing details
-	    $('#families_list tbody').on('click', 'td.details-control', function () {
-	        var tr = $(this).closest('tr');
-	        var row = family_table.row( tr );
-	 
-	        if ( row.child.isShown() ) {
-	            // This row is already open - close it
-	            row.child.hide();
-	            tr.removeClass('shown');
-	        }
-	        else {
-	            // Open this row
-	            row.child( formatFamily(row.data()) ).show();
-	            tr.addClass('shown');
-	    		$("#listFamily li").on('click',function(){
-	    			$('#familyName').html($(this).attr('data-idFamily'));
-	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
-	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
-	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
-	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
-	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
-	    			if ($(this).attr('data-process') == "sendlettertostudent") {
-	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao, "consulta");
-	    			};
-	    		});
-	        }
-	    });
-	    
-	    // Apply the filter
-	    $("#families_list thead th input[type=text]").on('keyup change', function () {
-	    	family_table
-	            .column( $(this).parent().index()+':visible' )
-	            .search( this.value )
-	            .draw();
-	    });
-	    /* end trip list */   
 	};
 	
 	/* Formatting function for row details - modify as you need */
