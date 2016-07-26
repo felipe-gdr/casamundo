@@ -136,13 +136,16 @@
     localStorage.setItem("family", JSON.stringify(obj));
 
 	
-
+    // Método de validação  - Adiciona método JQuery Validation
+    $.validator.addMethod("regex", function(value, element, regexp) {
+        var re = new RegExp(regexp);
+        return this.optional(element) || re.test(value);
+    }, "");
 /**
 *          valida formulário   
 */
 
 	var $familyForm = $("#family-form").validate({
-		// Rules for form validation
 		rules : {
 			familyName : {
 				required : true,
@@ -166,11 +169,12 @@
 			contact_firstName : {
 				required : true,
 			},
-			contact_birthDate : {
-				required : true,
-			},
 			contact_gender : {
 				required : true,
+			},
+			contact_birthDate : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			address_street : {
 				required : true,
@@ -198,9 +202,33 @@
 			},
 			firstLanguage : {
 				required : true,
+			},
+			familyMemberBirthdate_0 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_1 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_2 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_3 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_4 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_5 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_6 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberBirthdate_7 : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			}
 		},
-
 		// Messages for form validation
 		messages : {
 			familyName : {
@@ -227,7 +255,8 @@
 				required : 'Please enter contact firstname',
 			},
 			contact_birthDate : {
-				required : 'Please enter contact birthdate',
+				required : 'Please enter contact birthDate',
+				regex : 'Invalid contact birthdate exemple "01-Jan-2000"'
 			},
 			contact_gender : {
 				required : 'Please enter contact gender',
@@ -276,6 +305,31 @@
 			},
 			hostAnyNationalityStudent : {
 				required : 'Please enter if you host a student from any nationality',
+			},
+			familyMemberBirthdate_0 : {
+				required : 'Please enter family member birthDate',
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_1 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_2 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_3 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_4 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_5 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_6 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+			},
+			familyMemberBirthdate_7 : {
+				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
 			}
 		},
 		// form submition
@@ -316,7 +370,7 @@
 					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + w).val() 
 															+ '","gender":"' + $("#familyMemberGender_" + w).val() 
 															+ '","relationship":"' + $("#familyMemberRelationship_" + w).val() 
-															+ '","birthDate":"' + $("#familyMemberBirthdate_" + w).val()
+															+ '","birthDate":"' + limpaData($("#familyMemberBirthdate_" + w).val())
 															+ '","mobilePhone":"' + $("#familyMemberMobilePhone_" + w).val()
 															+  '"}'
 															));
@@ -402,15 +456,15 @@
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo06");
 	});	
 
-	$('#birthDate').datepicker({
-		dateFormat : 'dd.mm.yy',
+	$('#contact_birthDate').datepicker({
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
-    
+
 	$('#address_street').bind('blur', function () {
     	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
     });
@@ -428,7 +482,7 @@
 	$("#contact_birthDate").bind('blur', function () {
     	$('#familyMemberBirthdate_0').val($("#contact_birthDate").val());
     	$('.docs1').addClass("hide");
-		var idade = calculaIdade($('#familyMemberBirthdate_0').val());
+		var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
 		if (idade > 17){
 			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs1");
 			$('.docs1').removeClass("hide");	

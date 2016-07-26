@@ -40,8 +40,8 @@ function carregaTelaFamily(data, tipo) {
 		$("#acceptSmokeInsideHome").html(data.documento.acceptSmokeInsideHome);
 	  	$("#contact_name").html(data.documento.contact.firstName + " " + data.documento.contact.lastName);
 	  	$("#contact_gender").html(data.documento.contact.gender);
-	  	$("#contact_birthDate").html(separaData(data.documento.contact.birthDate, "/"));
-	  	$("#contact_age").html(calculaIdade(separaData(data.documento.contact.birthDate, "/")));
+	  	$("#contact_birthDate").html(separaDataMes(data.documento.contact.birthDate, "-"));
+	  	$("#contact_age").html(calculaIdade(separaConverteDataMes(data.documento.contact.birthDate, "/")));
 	  	$("#contact_ocuppation").html(data.documento.contact.ocuppation);
 	  	$("#contact_employer").html(data.documento.contact.employer);
 	  	$("#contact_email").html(data.documento.contact.email);
@@ -59,9 +59,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_complement").html(data.documento.address.complement);
 	  	$("#address_mainIntersection").html(data.documento.address.mainIntersection);
 	  	$("#address_nearestSubwayStation").html(data.documento.address.nearestSubwayStation);
-	  	$("#address_walkingTimeSubwayStation").html(data.documento.address.walkingTimeSubwayStation);
-	  	$("#address_nearestBusStop").html(data.documento.address.nearestBusStop);
-	  	$("#address_walkingTimeBusStation").html(data.documento.address.walkingTimeBusStation);
+	  	$("#address_timeSubwayStation").html(data.documento.address.timeSubwayStation);
 	  	$("#address_destination").html(data.documento.address.destination);
 	  	
     	var mobile = ""; 
@@ -73,8 +71,8 @@ function carregaTelaFamily(data, tipo) {
 										'<i class="fa fa-user"></i>&nbsp;&nbsp;' +
 											'<span class="txt-color-darken"><small class="text-danger" id="familyName' + 0 + '" data-original-title="Name">' + data.documento.contact.firstName + " " + data.documento.contact.lastName + '</small></span>' +
 											'<span class="txt-color-darken"><small class="text-muted" id="familyGender' + 0 + '" data-original-title="Name"> - Gender: ' + data.documento.contact.gender + '</small></span>' +
-											'<span class="txt-color-darken"><small class="text-muted" id="familyBirthDate' + 0 + '" data-original-title="Name"> - Birhdate: ' + separaData(data.documento.contact.birthDate, "/") + '</small></span>' +
-											'<span class="txt-color-darken"><small class="text-muted" id="familyAge' + 0 + '" data-original-title="Name"> - Age: ' + calculaIdade(separaData(data.documento.contact.birthDate, "/")) + '</small></span>' +
+											'<span class="txt-color-darken"><small class="text-muted" id="familyBirthDate' + 0 + '" data-original-title="Name"> - Birhdate: ' + separaDataMes(data.documento.contact.birthDate, "-") + '</small></span>' +
+											'<span class="txt-color-darken"><small class="text-muted" id="familyAge' + 0 + '" data-original-title="Name"> - Age: ' + calculaIdade(separaConverteDataMes(data.documento.contact.birthDate, "/")) + '</small></span>' +
 											'<span class="txt-color-darken"><small class="text-muted" id="familyRelationship' + 0 + '" data-original-title="Name"> - Relationship: ' + " " + '</small></span>' +
 											mobile +
 									'</p>' +
@@ -92,8 +90,8 @@ function carregaTelaFamily(data, tipo) {
 											'<i class="fa fa-user"></i>&nbsp;&nbsp;' +
 												'<span class="txt-color-darken"><small class="text-danger" id="familyName' + w + '" data-original-title="Name">' + value.name + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="familyGender' + w + '" data-original-title="Name"> - Gender: ' + value.gender + '</small></span>' +
-												'<span class="txt-color-darken"><small class="text-muted" id="familyBirthDate' + w + '" data-original-title="Name"> - Birhdate: ' + separaData(value.birthDate, "/") + '</small></span>' +
-												'<span class="txt-color-darken"><small class="text-muted" id="familyAge' + w + '" data-original-title="Name"> - Age: ' + calculaIdade(separaData(value.birthDate, "/")) + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="familyBirthDate' + w + '" data-original-title="Name"> - Birhdate: ' + separaDataMes(value.birthDate, "-") + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="familyAge' + w + '" data-original-title="Name"> - Age: ' + calculaIdade(separaConverteDataMes(value.birthDate, "/")) + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="familyRelationship' + w + '" data-original-title="Name"> - Relationship: ' + value.relationship + '</small></span>' +
 												mobile +
 										'</p>' +
@@ -150,8 +148,8 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#contact_firstName").val(data.documento.contact.firstName);
 	  	$("#contact_lastName").val(data.documento.contact.lastName)
 	  	$("#contact_gender").val(data.documento.contact.gender);
-	  	$("#contact_birthDate").val(separaData(data.documento.contact.birthDate, "/"));
-	  	$("#contact_age").val(calculaIdade(separaData(data.documento.contact.birthDate, "/")));
+	  	$("#contact_birthDate").val(separaDataMes(data.documento.contact.birthDate, "-"));
+	  	$("#contact_age").html(calculaIdade(separaConverteDataMes(data.documento.contact.birthDate, "/")));
 	  	$("#contact_ocuppation").val(data.documento.contact.ocuppation);
 	  	$("#contact_employer").val(data.documento.contact.employer);
 	  	$("#contact_email").val(data.documento.contact.email);
@@ -166,9 +164,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_complement").val(data.documento.address.complement);
 	  	$("#address_mainIntersection").val(data.documento.address.mainIntersection);
 	  	$("#address_nearestSubwayStation").val(data.documento.address.nearestSubwayStation);
-	  	$("#address_walkingTimeSubwayStation").val(data.documento.address.walkingTimeSubwayStation);
-	  	$("#address_nearestBusStop").val(data.documento.address.nearestBusStop);
-	  	$("#address_walkingTimeBusStation").val(data.documento.address.walkingTimeBusStation);
+	  	$("#address_timeSubwayStation").val(data.documento.address.timeSubwayStation);
 	  	$("#destination").val(data.documento.address.destination);
 		 if ($('#address_street').val()){
 			 getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
@@ -177,20 +173,20 @@ function carregaTelaFamily(data, tipo) {
 	    criaLinhaFamilyMember(0, data.documento.familyName);
 	    $('#familyMemberName_0').val(data.documento.contact.firstName + " " + data.documento.contact.lastName);
     	$('#familyMemberGender_0').val(data.documento.contact.gender);
-    	$('#familyMemberBirthdate_0').val(separaData(data.documento.contact.birthDate, "/"));
+    	$('#familyMemberBirthdate_0').val(separaDataMes(data.documento.contact.birthDate, "-"));
         $('#familyMemberRelationship_0').val("");
         $('#familyMemberMobilePhone_0').val(data.documento.contact.mobilePhoneNumber);
     	lines = 1;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
-	    	w = i + 1;
-		    criaLinhaFamilyMember(w, data.documento.familyName);
-		    $('#familyMemberName_' + w).val(value.name);
-	    	$('#familyMemberGender_' + w).val(value.gender);
-	    	$('#familyMemberBirthdate_' + w).val(value.birthdate);
-	        $('#familyMemberRelationship_' + w).val(value.relationship);
-	        $('#familyMemberMobilePhone_' + w).val(value.mobilePhone);
-	    	lines = i + 1;
+	    	z = i + 1;
+		    criaLinhaFamilyMember(z, data.documento.familyName);
+		    $('#familyMemberName_' + z).val(value.name);
+	    	$('#familyMemberGender_' + z).val(value.gender);
+	    	$('#familyMemberBirthdate_' + z).val(separaDataMes(value.birthDate, "-"));
+	        $('#familyMemberRelationship_' + z).val(value.relationship);
+	        $('#familyMemberMobilePhone_' + z).val(value.mobilePhone);
+	    	lines = z + 1;
 	    });
 	    criaLinhaFamilyMember(lines, data.documento.familyName);
 	  	var linesRoom = 0;
@@ -274,7 +270,7 @@ function carregaTelaFamily(data, tipo) {
 };    
 
 function criaLinhaFamilyMember (i, familyName) {
-	w = i + 1;
+	var w = i + 1;
 	var familyMemberLine = '<li class="familyMemberItem">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList">' +					
@@ -294,7 +290,7 @@ function criaLinhaFamilyMember (i, familyName) {
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"><i class="icon-prepend fa fa-calendar"></i>'  +
-							'<input type="text" id="familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" class="datepicker" data-dateformat="dd/mm/yy" data-mask="99/99/9999">' +
+							'<input type="text" id="familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-2">' +
@@ -328,18 +324,23 @@ function criaLinhaFamilyMember (i, familyName) {
 		'</li>';
 	$("#familyMembersList").append(familyMemberLine);
 	$('#familyMemberBirthdate_' + i).datepicker({
-		dateFormat : 'dd.mm.yy',
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
 		}
 	});
 	$('#familyMemberBirthdate_' + i).bind('blur', function () {
-		w = i + 1;
-		var idade = calculaIdade($('#familyMemberBirthdate_' + i).val());
+		var idade = calculaIdade(montaDataMesNum($('#familyMemberBirthdate_' + i).val(),"/"));
 		if (idade > 17){
 			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs" + w);
-			$('.docs' + i).removeClass("hide");	
+			$('.docs' + w).removeClass("hide");	
+		}else{
+			var labelId = "docs" + w;
+        	obj = JSON.parse(localStorage.getItem("family"));
+        	obj.documento.docs[labelId] =  "";
+        	localStorage.setItem("family", JSON.stringify(obj));
+			$('.docs' + w).addClass("hide");				
 		};
     });
 
@@ -452,9 +453,7 @@ function limpaStorageFamily () {
 				      postalCode : "", 
 				      mainIntersection : "", 
 				      nearestSubwayStation : "", 
-				      walkingTimeSubwayStation : "", 
-				      nearestBusStop : "", 
-				      walkingTimeBusStation : "", 
+				      timeSubwayStation : "", 
 				      destination:"", 
 				      latitude:"", 
 				      longitude:"" 
@@ -634,14 +633,8 @@ function setValueFamily (field, value) {
   	if (field == "address_nearestSubwayStation"){
         objJson.documento.address.nearestSubwayStation = value;
 	};
-  	if (field == "address_walkingTimeSubwayStation"){
-        objJson.documento.address.walkingTimeSubwayStation = value;
-	};
-  	if (field == "address_nearestBusStop"){
-        objJson.documento.address.nearestBusStop = value;
-	};
-  	if (field == "address_walkingTimeBusStation"){
-        objJson.documento.address.walkingTimeBusStation = value;
+  	if (field == "address_timeSubwayStation"){
+        objJson.documento.address.timeSubwayStation = value;
 	};
   	if (field == "destination"){
         objJson.documento.address.destination = value;

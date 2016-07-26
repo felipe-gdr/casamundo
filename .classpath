@@ -25,11 +25,12 @@
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/dev/mongo-java-driver-2.6.3.jar"/>
-	<classpathentry kind="lib" path="C:/dev/JBoss wildfly-10.0.0.CRI/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="C:/dev/javax.mail.jar"/>
-	<classpathentry kind="lib" path="C:/dev/commons-email-1.4-bin.zip"/>
+	<classpathentry kind="lib" path="C:/Users/grenne/git/casamundo/src/main/resources/mongo-java-driver-2.6.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/grenne/wildfly-8.2.1.Final/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/grenne/git/casamundo/src/main/resources/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/grenne/git/casamundo/src/main/resources/commons-email-1.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

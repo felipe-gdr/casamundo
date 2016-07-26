@@ -173,9 +173,7 @@ public class Family {
 			public String complement;
 			public String mainIntersection;
 			public String nearestSubwayStation;
-			public String walkingTimeSubwayStation;
-			public String nearestBusStop;
-			public String walkingTimeBusStation;
+			public String timeSubwayStation;
 			public String latitude;
 			public String longitude;
 			public String destination;
@@ -194,9 +192,7 @@ public class Family {
 					String complement,
 					String mainIntersection,
 					String nearestSubwayStation,
-					String walkingTimeSubwayStation,
-					String nearestBusStop,
-					String walkingTimeBusStation,
+					String timeSubwayStation,
 					String latitude,
 					String longitude,
 					String destination
@@ -209,9 +205,7 @@ public class Family {
 				this.complement = complement;
 				this.mainIntersection = mainIntersection; 
 				this.nearestSubwayStation = nearestSubwayStation; 
-				this.walkingTimeSubwayStation = walkingTimeSubwayStation; 
-				this.nearestBusStop = nearestBusStop; 
-				this.walkingTimeBusStation = walkingTimeBusStation; 
+				this.timeSubwayStation = timeSubwayStation; 
 				this.latitude = latitude; 
 				this.latitude = latitude; 
 				this.destination = destination; 

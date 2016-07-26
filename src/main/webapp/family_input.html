@@ -426,7 +426,7 @@
 					</div>
 					<!-- end row -->
 						
-						<form id="family-form" class="smart-form" novalidate="novalidate">
+						<form id="family-form" class="smart-form"  novalidate="novalidate">
 	
 							<div class="well well-light well-sm no-margin no-padding">
 								<div class="row">							
@@ -496,7 +496,7 @@
 														<section class="col-xs-5">
 															<label class="label text-info">Birthdate</label>
 															<label class="input"> <i class="icon-prepend fa fa-calendar"></i>
-																<input id="contact_birthDate" type="text" name="contact_birthDate" placeholder="" class="datepicker" data-dateformat='dd/mm/yy' data-mask="99/99/9999">
+																<input id="contact_birthDate" type="text" name="contact_birthDate" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
 															</label>
 														</section>
 														<section class="col-xs-5">
@@ -508,6 +508,9 @@
 																	<option value="Female">Female</option>
 																</select><i></i>
 															</label>
+														</section>
+														<section class="col-xs-5">
+													        <small class='text-muted'>Age: </small><small  class='text-primary' id="contact_age"  data-original-title="Age"></small><br>
 														</section>
 													</fieldset>
 												</div>
@@ -578,32 +581,25 @@
 													<fieldset>					
 														<section class="col-xs-11">
 															<label class="label text-info">Main Intersection</label>								
-															<label class="input"> <i class="icon-prepend fa fa-share-alt-square"></i>
-																<input type="text" id="address_mainIntersection" name="address_mainIntersection" placeholder="">
-															</label>
+															<label class="select">
+																<select id="address_mainIntersection" name="address_mainIntersection">
+																	<option value="0" selected="" disabled=""></option>
+																</select><i></i>
 														</section>
 														<section class="col-xs-7">
 															<label class="label text-info">Nearest Subway Station</label>							
-															<label class="input"> <i class="icon-prepend fa fa-minus-square"></i>
-																<input type="text" id="address_nearestSubwayStation" name="address_nearestSubwayStation" placeholder="" >
+															<label class="select ">
+																<select id="address_nearestSubwayStation" name="address_nearestSubwayStation">
+																	<option value="" selected="" disabled=""></option>
+																	<option value="Walking">Walking</option>
+																	<option value="Bus">Bus</option>
+																</select><i></i>
 															</label>
 														</section>
 														<section class="col-xs-3">
-															<label class="label text-info">Walking Time</label>								
-															<label class="input"> <i class="icon-prepend fa fa-male"></i>
-																<input type="text" id="address_walkingTimeSubwayStation" name="adddress-walkingTimeSubwayStation" placeholder="">
-															</label>
-														</section>
-														<section class="col-xs-7">
-															<label class="label text-info">Nearest Bus Stop</label>								
-															<label class="input"> <i class="icon-prepend fa fa-pause"></i>
-																<input type="text" id="address_nearestBusStop" name="address_nearestBusStop" placeholder="">
-															</label>
-														</section>
-														<section class="col-xs-3">
-															<label class="label text-info">Walking Time</label>								
-															<label class="input"> <i class="icon-prepend fa fa-male"></i>
-																<input type="text" id="address_walkingTimeBusStation" name="address_walkingTimeBusStation" placeholder="">
+															<label class="label text-info">Time</label>								
+															<label class="input"> <i class="icon-prepend fa fa-clock-o"></i>
+																<input type="text" id="address_timeSubwayStation" name="address_timeSubwayStation" placeholder="">
 															</label>
 														</section>
 													</fieldset>
@@ -1046,6 +1042,8 @@
 		<script src="js/bootstrap/bootstrap.min.js"></script>
 
 
+		<!-- BOOTSTRAP validator -->
+		<script src="js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
 
 		<!-- JQUERY MASKED INPUT -->
 		<script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>

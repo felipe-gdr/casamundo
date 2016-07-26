@@ -146,6 +146,111 @@ function separaData ( data, separador) {
 
 	 
 };				
+function separaDataMes ( data, separador) {
+	if (data){
+		return data.slice(0,2) + separador + data.slice(2,5) + separador + data.slice(5,9);
+	}else{
+		return "Empty";
+	}
+
+	 
+};				
+function separaConverteDataMes ( data, separador) {
+	if (data){
+		var mesAlfa = data.slice(2,5);
+		switch(mesAlfa) {
+	    case "Jan":
+	    	mesNum = "01"
+	        break;
+	    case "Feb":
+	    	mesNum = "02"
+	        break;
+	    case "Mar":
+	    	mesNum = "03"
+	        break;
+	    case "Apr":
+	    	mesNum = "04"
+	        break;
+	    case "May":
+	    	mesNum = "05"
+	        break;
+	    case "Jun":
+	    	mesNum = "06"
+	        break;
+	    case "Jul":
+	    	mesNum = "07"
+	        break;
+	    case "Aug":
+	    	mesNum = "08"
+	        break;
+	    case "Sep":
+	    	mesNum = "09"
+	        break;
+	    case "Oct":
+	    	mesNum = "10"
+	        break;
+	    case "Nov":
+	    	mesNum = "11"
+	        break;
+	    case "Dec":
+	    	mesNum = "12"
+	        break;
+	    default:
+	    	mesNum = "01"
+		};
+		return data.slice(0,2) + separador + mesNum + separador + data.slice(5,9);
+	}else{
+		return "Empty";
+	}	 
+};				
+function montaDataMesNum ( data, separador) {
+	if (data){
+		var mesAlfa = data.slice(3,6);
+		switch(mesAlfa) {
+	    case "Jan":
+	    	mesNum = "01"
+	        break;
+	    case "Feb":
+	    	mesNum = "02"
+	        break;
+	    case "Mar":
+	    	mesNum = "03"
+	        break;
+	    case "Apr":
+	    	mesNum = "04"
+	        break;
+	    case "May":
+	    	mesNum = "05"
+	        break;
+	    case "Jun":
+	    	mesNum = "06"
+	        break;
+	    case "Jul":
+	    	mesNum = "07"
+	        break;
+	    case "Aug":
+	    	mesNum = "08"
+	        break;
+	    case "Sep":
+	    	mesNum = "09"
+	        break;
+	    case "Oct":
+	    	mesNum = "10"
+	        break;
+	    case "Nov":
+	    	mesNum = "11"
+	        break;
+	    case "Dec":
+	    	mesNum = "12"
+	        break;
+	    default:
+	    	mesNum = "01"
+		};
+		return data.slice(0,2) + separador + mesNum + separador + data.slice(7,11);
+	}else{
+		return "01/10/2000";
+	}	 
+};				
 function separaAnoMesDia ( data) {
 	if (data){
 		return '"' + data.slice(4,8) + '","' + data.slice(2,4) + '","' + data.slice(0,2) + '"';
@@ -393,6 +498,10 @@ function calculaIdade ( dataNascimento ) {
         $.each(table.documento.type
     		    , function (i, optionValue) {
         			$("#type").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.address_mainIntersection
+    		    , function (i, optionValue) {
+        			$("#address_mainIntersection").append( $(option(optionValue)));
     		    });
         
         localStorage.carragendoTags = false;

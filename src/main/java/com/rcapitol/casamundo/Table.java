@@ -50,6 +50,7 @@ public class Table {
         public String peopleQuantity[];               
         public String specialDiet[];                  
         public String type[];                  
+        public String address_mainIntersection[];                  
 
 		public Documento() {
 
@@ -77,7 +78,8 @@ public class Table {
 				        String[] apartamentType,               
 				        String[] peopleQuantity,               
 				        String[] specialDiet,
-				        String[] type
+				        String[] type,
+				        String[] address_mainIntersection
 						) {
 				        this.nationality = nationality;                  
 				        this.mainPurposeTrip = mainPurposeTrip;              
@@ -100,6 +102,7 @@ public class Table {
 				        this.peopleQuantity = peopleQuantity;
 				        this.specialDiet = specialDiet;
 				        this.type = type;
+				        this.address_mainIntersection = address_mainIntersection;
 		}
 
 		@Override
