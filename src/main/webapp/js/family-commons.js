@@ -29,7 +29,13 @@ function carregaTelaFamily(data, tipo) {
 		$("#offerInternet").html(data.documento.offerInternet);
 		$("#haveDogs").html(data.documento.haveDogs);
 		$("#haveCats").html(data.documento.haveCats);
+		$("#haveOtherPet").html(data.documento.haveOtherPet);
+		if (data.documento.haveOtherPet == "Yes"){
+			$("#otherPet").html(data.documento.otherPet);
+			$(".pet").removeClass("hide");
+		}
 		$("#firstLanguage").html(data.documento.firstLanguage);
+		$("#background").html(data.documento.background);
 		$("#othersLanguage").html(data.documento.othersLanguage);
 		$("#acceptSmokeStudent").html(data.documento.acceptSmokeStudent);
 		$("#preferAgeStudent").html(data.documento.preferAgeStudent);
@@ -62,8 +68,14 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_timeSubwayStation").html(data.documento.address.timeSubwayStation);
 	  	$("#address_destination").html(data.documento.address.destination);
 	  	
+	  	var relationShip = "";
+    	if (data.documento.contact.gender == "Male") {
+    		relationShip = "Host Father";	
+    	}else{
+    		relationShip = "Host Mother";
+    	}
     	var mobile = ""; 
-    	if (data.documento.contact.workPhoneNumber) {
+    	if (data.documento.contact.occuppation) {
     		'<span class="txt-color-darken"><small class="text-muted" id="familyMobilePhone' + 0 + '" data-original-title="Name"> - Mobile Phone: ' + data.documento.contact.workPhoneNumber + '</small></span>'
     	}
     	var familyMemberLine = '<li>' +
@@ -73,8 +85,8 @@ function carregaTelaFamily(data, tipo) {
 											'<span class="txt-color-darken"><small class="text-muted" id="familyGender' + 0 + '" data-original-title="Name"> - Gender: ' + data.documento.contact.gender + '</small></span>' +
 											'<span class="txt-color-darken"><small class="text-muted" id="familyBirthDate' + 0 + '" data-original-title="Name"> - Birhdate: ' + separaDataMes(data.documento.contact.birthDate, "-") + '</small></span>' +
 											'<span class="txt-color-darken"><small class="text-muted" id="familyAge' + 0 + '" data-original-title="Name"> - Age: ' + calculaIdade(separaConverteDataMes(data.documento.contact.birthDate, "/")) + '</small></span>' +
-											'<span class="txt-color-darken"><small class="text-muted" id="familyRelationship' + 0 + '" data-original-title="Name"> - Relationship: ' + " " + '</small></span>' +
-											mobile +
+											'<span class="txt-color-darken"><small class="text-muted" id="familyRelationship' + 0 + '" data-original-title="Name"> - Relationship: ' + relationShip + '</small></span>' +
+											'<span class="txt-color-darken"><small class="text-muted" id="familyOcuppation' + 0 + '" data-original-title="Name"> - Ocuppation: ' + data.documento.contact.ocuppation + '</small></span>' +
 									'</p>' +
 								'</li>'
     	$("#familyMembersList").append(familyMemberLine);
@@ -93,7 +105,7 @@ function carregaTelaFamily(data, tipo) {
 												'<span class="txt-color-darken"><small class="text-muted" id="familyBirthDate' + w + '" data-original-title="Name"> - Birhdate: ' + separaDataMes(value.birthDate, "-") + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="familyAge' + w + '" data-original-title="Name"> - Age: ' + calculaIdade(separaConverteDataMes(value.birthDate, "/")) + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="familyRelationship' + w + '" data-original-title="Name"> - Relationship: ' + value.relationship + '</small></span>' +
-												mobile +
+												'<span class="txt-color-darken"><small class="text-muted" id="familyOcuppation' + 0 + '" data-original-title="Name"> - Ocuppation: ' + value.ocuppation + '</small></span>' +
 										'</p>' +
 									'</li>'
 	    	$("#familyMembersList").append(familyMemberLine);
@@ -134,7 +146,13 @@ function carregaTelaFamily(data, tipo) {
 		if (data.documento.haveCats == "Yes"){
 			$("#haveCats").prop("checked", true)
 		}
+		if (data.documento.haveOtherPet == "Yes"){
+			$("#haveOtherPet").prop("checked", true);
+			$("#otherPet").val(data.documento.otherPet);
+			$(".pet").removeClass("hide");
+		}
 		$("#firstLanguage").val(data.documento.firstLanguage);
+		$("#background").val(data.documento.background);
 		$("#othersLanguage").val(data.documento.othersLanguage);
 		$("#acceptSmokeStudent").val(data.documento.acceptSmokeStudent);
 		$("#preferAgeStudent").val(data.documento.preferAgeStudent);
@@ -174,8 +192,13 @@ function carregaTelaFamily(data, tipo) {
 	    $('#familyMemberName_0').val(data.documento.contact.firstName + " " + data.documento.contact.lastName);
     	$('#familyMemberGender_0').val(data.documento.contact.gender);
     	$('#familyMemberBirthdate_0').val(separaDataMes(data.documento.contact.birthDate, "-"));
-        $('#familyMemberRelationship_0').val("");
-        $('#familyMemberMobilePhone_0').val(data.documento.contact.mobilePhoneNumber);
+    	if (data.documento.contact.genre == "Male") {
+    		$('#familyMemberRelationship_0').val("Host Father");	
+    	}else{
+    		$('#familyMemberRelationship_0').val("Host Mother");
+    	}
+        $('#familyMemberOcuppation_0').val(data.documento.contact.ocuppation);
+        $('#familyMemberDocDate_0').val(data.documento.contact.docDate);
     	lines = 1;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
@@ -185,7 +208,8 @@ function carregaTelaFamily(data, tipo) {
 	    	$('#familyMemberGender_' + z).val(value.gender);
 	    	$('#familyMemberBirthdate_' + z).val(separaDataMes(value.birthDate, "-"));
 	        $('#familyMemberRelationship_' + z).val(value.relationship);
-	        $('#familyMemberMobilePhone_' + z).val(value.mobilePhone);
+	        $('#familyMemberOcuppation_' + z).val(value.ocuppation);
+	        $('#familyMemberDocDate_' + z).val(value.docDate);
 	    	lines = z + 1;
 	    });
 	    criaLinhaFamilyMember(lines, data.documento.familyName);
@@ -302,7 +326,7 @@ function criaLinhaFamilyMember (i, familyName) {
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>' +
-							'<input type="text" id="familyMemberMobilePhone_' + i + '" name="familyMemberMobilePhone_' + i + '" placeholder="">' +
+							'<input type="text" id="familyMemberOcuppation_' + i + '" name="familyMemberOcuppation_' + i + '" placeholder="">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-2 docs' + w + ' hide">' +
@@ -319,11 +343,28 @@ function criaLinhaFamilyMember (i, familyName) {
 					    	'<img id="img-docs' + w + '" class="imgUpload">' +
 					    '</div>' +
 					'</section>' +
+					'<section class="col-xs-2 hide docs' + w + '">' +
+					'</section>' +
+					'<section class="col-xs-2 hide docs' + w + '">' +
+						'<span class="btn btn-success fileinput-button ">' + 
+					        '<span> Date of issue</span>' + 
+					    '</span> ' +
+						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
+							'<input type="text" id="familyMemberDocDate_' + i + '" name="familyMemberDocDate_' + i + '" placeholder="" class="datepicker" data-dateformat="dd-M-yy">' +
+						'</label>' +
+					'</section>' +
 				'</fieldset>' +
 			'</div>' +
 		'</li>';
 	$("#familyMembersList").append(familyMemberLine);
 	$('#familyMemberBirthdate_' + i).datepicker({
+		dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+		}
+	});
+	$('#familyMemberDocDate_' + i).datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
@@ -424,7 +465,10 @@ function limpaStorageFamily () {
 				    offerInternet : "", 
 				    haveDogs : "", 
 				    haveCats : "", 
+				    haveOtherPet : "", 
+				    otherPet : "", 
 				    firstLanguage : "", 
+				    background : "", 
 				    othersLanguage : [], 
 				    acceptSmokeStudent : "", 
 				    preferAgeStudent : [], 
@@ -437,13 +481,14 @@ function limpaStorageFamily () {
 				      firstName : "", 
 				      lastName : "", 
 				      gender : "", 
+				      birthDate : "",
 				      ocuppation : "", 
 				      employer : "", 
 				      email : "", 
 				      phoneNumber : "", 
 				      mobilePhoneNumber : "", 
 				      workPhoneNumber : "", 
-				      birthDate : "" 
+				      docDate : ""
 				    }, 
 				    address : { 
 				      street : "", 
@@ -479,7 +524,8 @@ function limpaStorageFamily () {
 				        gender : "", 
 				        relatioship : "", 
 				        birthDate : "", 
-				        mobilePhone : "" 
+				        ocuppation : "",
+				        docDate : ""
 				      }], 
 				    rooms : [{ 
 				        number : 0, 
@@ -500,6 +546,11 @@ function limpaStorageFamily () {
 	   		                 endOccupancy : "" 
 	   		                 } 
 	   		                 ] 
+				      }], 
+				    notes : [{ 
+				        date : "", 
+				        user : "", 
+				        note : "" 
 				      }] 
 				  } 
 			};
@@ -546,8 +597,17 @@ function setValueFamily (field, value) {
 	if (field == "haveCats"){
         objJson.documento.haveCats = value;
 	};
+	if (field == "haveOtherPet"){
+        objJson.documento.haveOtherPet = value;
+	};
+	if (field == "otherPet"){
+        objJson.documento.otherPet = value;
+	};
 	if (field == "firstLanguage"){
         objJson.documento.firstLanguage = value;
+	};
+	if (field == "background"){
+        objJson.documento.background = value;
 	};
 	if (field == "othersLanguage"){
 		var array = value.split(",");

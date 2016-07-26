@@ -439,6 +439,10 @@ function calculaIdade ( dataNascimento ) {
     		    , function (i, optionValue) {
         			$("#othersLanguage").append( $(option(optionValue)));
     		    });
+        $.each(table.documento.firstLanguage
+    		    , function (i, optionValue) {
+        			$("#background").append( $(option(optionValue)));
+    		    });
         $.each(table.documento.status
     		    , function (i, optionValue) {
         			$("#status").append( $(option(optionValue)));

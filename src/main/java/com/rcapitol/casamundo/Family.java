@@ -42,7 +42,10 @@ public class Family {
 		public String offerInternet;
 		public String haveDogs;
 		public String haveCats;
+		public String haveOtherPet;
+		public String otherPet;
 		public String firstLanguage;
+		public String background;
 		public String othersLanguage[];
 		public String acceptSmokeStudent;
 		public String preferAgeStudent[];
@@ -57,6 +60,7 @@ public class Family {
 		public Docs docs;
 		public FamilyMembers familyMembers[];
 		public Rooms rooms[];
+		public Notes notes[];
 
 		public Documento() {
 
@@ -73,7 +77,10 @@ public class Family {
 						String offerInternet,
 						String haveDogs,
 						String haveCats,
+						String haveOtherPet,
+						String otherPet,
 						String firstLanguage,
+						String background,
 						String[] othersLanguage,
 						String acceptSmokeStudent,
 						String[] preferAgeStudent,
@@ -87,7 +94,8 @@ public class Family {
 						Fotos fotos,
 						Docs docs,
 						FamilyMembers familyMembers[],
-						Rooms rooms[]
+						Rooms rooms[],
+						Notes notes[]
 								) {
 						this.familyName = familyName; 
 						this.type = type; 
@@ -98,7 +106,10 @@ public class Family {
 						this.offerInternet = offerInternet; 
 						this.haveDogs = haveDogs; 
 						this.haveCats = haveCats; 
+						this.haveOtherPet = haveOtherPet; 
+						this.otherPet = otherPet; 
 						this.firstLanguage = firstLanguage; 
+						this.background = background; 
 						this.othersLanguage = othersLanguage; 
 						this.acceptSmokeStudent = acceptSmokeStudent; 
 						this.preferAgeStudent = preferAgeStudent; 
@@ -113,6 +124,7 @@ public class Family {
 						this.docs = docs;
 						this.familyMembers = familyMembers;
 						this.rooms = rooms;
+						this.notes = notes;
 		}
 
 
@@ -132,6 +144,7 @@ public class Family {
 			public String phoneNumber;
 			public String mobilePhoneNumber;
 			public String workPhoneNumber;
+			public String docDate;
 
 			public Contact() {
 
@@ -148,7 +161,8 @@ public class Family {
 					String email,
 					String phoneNumber,
 					String mobilePhoneNumber,
-					String workPhoneNumber
+					String workPhoneNumber,
+					String docDate
 			){
 				this.firstName = firstName;
 				this.lastName = lastName;
@@ -160,6 +174,7 @@ public class Family {
 				this.phoneNumber = phoneNumber;
 				this.mobilePhoneNumber = mobilePhoneNumber;
 				this.workPhoneNumber = workPhoneNumber;
+				this.docDate = docDate;
 			}
 
 		}
@@ -281,7 +296,8 @@ public class Family {
     		public String gender;
     		public String relationship;
     		public String birthDate;
-    		public String mobilePhone;
+    		public String ocuppation ;
+    		public String docDate;
 
     		public FamilyMembers() {
 
@@ -293,14 +309,16 @@ public class Family {
             			String gender,
             			String relationship,
             			String birthDate,
-            			String mobilePhone
+            			String ocuppation ,
+            			String docDate
             		)
             {
 	    		this.name = name;
 	    		this.gender = gender;
 	    		this.relationship = relationship;
 	    		this.birthDate = birthDate;
-	    		this.mobilePhone = mobilePhone;
+	    		this.ocuppation = ocuppation ;
+	    		this.docDate = docDate;
             }
 
 		}
@@ -380,6 +398,29 @@ public class Family {
                 }
 
     		}
+
+		}
+
+		public static final class Notes {
+    		public String date;
+    		public String user;
+    		public String note;
+
+    		public Notes() {
+
+			}
+   
+            @JsonCreator
+            public Notes(
+            			String date,
+            			String user,
+            			String note
+            			)
+            {
+	    		this.date = date;
+	    		this.user = user;
+	    		this.note = note;
+            };
 
 		}
 	};

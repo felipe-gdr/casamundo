@@ -638,6 +638,17 @@
 																<input type="checkbox" id="haveCats" name="haveCats">
 																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you have Cats?</label>
 														</section>
+														<section class="col-xs-7">
+															<label class="toggle text-info">
+																<input type="checkbox" id="haveOtherPet" name="haveOtherPet">
+																<i data-swchon-text="Yes" data-swchoff-text="No"></i>Do you have other Pet?</label>
+														</section>
+														<section class="col-xs-5 pet hide">
+															<label class="label text-info">Wich other pet?</label>
+															<label class="input">
+																<input type="text" id="otherPet" name="otherPet" placeholder="">
+															</label>
+														</section>
 													</fieldset>
 												</div>
 												<div class="col-xs-6">
@@ -646,6 +657,13 @@
 															<label class="label text-info">First Language</label>
 															<label class="select">
 																<select id="firstLanguage" name="firstLanguage">
+																	<option value="0" selected="" disabled=""></option>
+																</select><i></i>
+														</section>
+														<section class="col-xs-7">
+															<label class="label text-info">Background</label>
+															<label class="select">
+																<select id="background" name="background">
 																	<option value="0" selected="" disabled=""></option>
 																</select><i></i>
 														</section>
@@ -699,9 +717,12 @@
 															<label class="label text-info">Preferred age of student</label>
 															<label class="select select-multiple" >
 																<select id="preferAgeStudent" name="preferAgeStudent" multiple="" class="custom-scroll language">
-																	<option value="15-20" >15-20</option>
-																	<option value="20-30" >20-30</option>
-																	<option value="30+" >30+</option>
+																	<option value="10-15" >10-15</option>
+																	<option value="15-18" >15-18</option>
+																	<option value="18-25" >18-25</option>
+																	<option value="25-35" >25-35</option>
+																	<option value="35+" >35+</option>
+																	<option value="NoPreference" >No Preference</option>
 																</select>
 															</label>
 														</section>
@@ -748,7 +769,7 @@
 																	<label class="label text-info">Relationship</label>
 																</section>
 																<section class="col-xs-2">
-																	<label class="label text-info">Mobile Phone</label>
+																	<label class="label text-info">Occupancy</label>
 																</section>
 															</fieldset>
 														</div>

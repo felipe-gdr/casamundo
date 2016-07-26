@@ -153,6 +153,9 @@
 			type : {
 				required : true,
 			},
+			otherPet : {
+				required : true,
+			},
 			contact_phoneNumber : {
 				required : true,
 			},
@@ -227,6 +230,38 @@
 			},
 			familyMemberBirthdate_7 : {
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_0 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_1 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_2 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_3 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_4 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_5 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_6 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			familyMemberDocDate_7 : {
+				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			}
 		},
 		// Messages for form validation
@@ -237,6 +272,9 @@
 			},
 			type : {
 				required : 'Please enter family type',
+			},
+			otherPet : {
+				required : "Please enter the pet's",
 			},
 			contact_phoneNumber : {
 				required : 'Please enter family phone number',
@@ -256,7 +294,7 @@
 			},
 			contact_birthDate : {
 				required : 'Please enter contact birthDate',
-				regex : 'Invalid contact birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid contact birthdate example "01-Jan-2000"'
 			},
 			contact_gender : {
 				required : 'Please enter contact gender',
@@ -308,28 +346,60 @@
 			},
 			familyMemberBirthdate_0 : {
 				required : 'Please enter family member birthDate',
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_1 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_2 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_3 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_4 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_5 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_6 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_7 : {
-				regex : 'Invalid family birthdate exemple "01-Jan-2000"'
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_0 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_1 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_2 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_3 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_4 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_5 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_6 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
+			},
+			familyMemberDocDate_7 : {
+				required : 'Please fill in the date of emission',
+				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			}
 		},
 		// form submition
@@ -371,7 +441,8 @@
 															+ '","gender":"' + $("#familyMemberGender_" + w).val() 
 															+ '","relationship":"' + $("#familyMemberRelationship_" + w).val() 
 															+ '","birthDate":"' + limpaData($("#familyMemberBirthdate_" + w).val())
-															+ '","mobilePhone":"' + $("#familyMemberMobilePhone_" + w).val()
+															+ '","ocuppation":"' + $("#familyMemberOcuppation_" + w).val()
+															+ '","docDate":"' + $("#familyMemberDocDate_" + w).val()
 															+  '"}'
 															));
 				};
@@ -478,6 +549,11 @@
 	});
 	$("#contact_gender").bind('blur', function () {
     	$('#familyMemberGender_0').val($("#contact_gender").val());
+    	if ($("#contact_gender").val() == "Male") {
+    		$('#familyMemberRelationship_0').val("Host Father");	
+    	}else{
+    		$('#familyMemberRelationship_0').val("Host Mother");
+    	}
 	});
 	$("#contact_birthDate").bind('blur', function () {
     	$('#familyMemberBirthdate_0').val($("#contact_birthDate").val());
@@ -489,6 +565,15 @@
 		};
 
    	});
-	$("#contact_workPhoneNumber").bind('blur', function () {
-        $('#familyMemberMobilePhone_0').val($("#contact_workPhoneNumber").val());
+	$("#contact_ocuppation").bind('blur', function () {
+        $('#familyMemberOccupation_0').val($("#contact_ocuppation").val());
     });
+	$("#haveOtherPet").bind('click', function () {
+		var field = $("#haveOtherPet:checked").val();
+		if (field == "on"){
+			$(".pet").removeClass("hide");
+		}else{
+			$("#otherPet").val("");
+			$(".pet").addClass("hide");
+		}
+	});
