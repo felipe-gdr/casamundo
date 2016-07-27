@@ -531,11 +531,4 @@ function calculaIdade ( dataNascimento ) {
     	}
     		return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '"><i></i>' + value +'</label>';
     };
-    function goToByScroll(id){
-        // Remove "link" from the ID
-      id = id.replace("link", "");
-        // Scroll
-      $('html,body').animate({
-          scrollTop: $("#"+id).offset().top},
-          'slow');
-    };
+

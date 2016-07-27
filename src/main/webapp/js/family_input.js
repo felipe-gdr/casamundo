@@ -494,6 +494,9 @@
 			        		singleBed : $("#singleBed_" + i).val(),
 			        		coupleBed : $("#coupleBed_" + i).val(),
 			        		privateWashroom : $("#privateWashroom_" + i).val(),
+			        		level : $("#level_" + i).val(),
+			        		photo : $("#roomPhoto" + i).val(),
+			        		note : $("#note_" + i).val(),
 				    		occupancySingleBed : occupancySingleBedSave,
 				    		occupancyCoupleBed : occupancyCoupleBedSave
 			        };

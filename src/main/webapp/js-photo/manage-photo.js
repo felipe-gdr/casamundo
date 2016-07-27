@@ -73,6 +73,11 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
             	obj.documento.uploadContract =  id + "_" + id2 + "_" + labelId + "_" + file.name;
             	localStorage.setItem(assunto, JSON.stringify(obj));
             };
+            if (fotosDiv == "roomsPhoto") {
+            	var i = label.slice(label.length - 1, label.length);
+            	$("#" + labelId).val(id + "_" + id2 + "_" + labelId + "_" + file.name);
+            	localStorage.setItem(assunto, JSON.stringify(obj));
+            };
 	        $('#img-' + labelId).remove();
         });
     }).on('fileuploadprocessalways', function (e, data) {

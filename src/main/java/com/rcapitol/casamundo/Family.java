@@ -370,6 +370,9 @@ public class Family {
     		public String singleBed;
     		public String coupleBed;
     		public String privateWashroom;
+    		public String level;
+    		public String photo;
+    		public String note;
     		public OccupancySingleBed occupancySingleBed[];
     		public OccupancyCoupleBed occupancyCoupleBed[];
 
@@ -383,6 +386,9 @@ public class Family {
             			String singleBed,
             			String coupleBed,
             			String privateWashroom,
+            			String level,
+            			String photo,
+            			String note,
             			OccupancySingleBed[] occupancySingleBed,
             			OccupancyCoupleBed[] occupancyCoupleBed
             		)
@@ -390,6 +396,9 @@ public class Family {
 	    		this.number = number;
 	    		this.singleBed = singleBed;
 	    		this.coupleBed = coupleBed;
+	    		this.level = level;
+	    		this.photo = photo;
+	    		this.note = note;
 	    		this.privateWashroom = privateWashroom;
 	    		this.occupancySingleBed = occupancySingleBed;
 	    		this.occupancyCoupleBed = occupancyCoupleBed;

@@ -127,9 +127,23 @@ function carregaTelaFamily(data, tipo) {
 												'<span class="txt-color-darken"><small class="text-muted" id="singleBed' + i + '" data-original-title="Number Single Bed"> - Number Single Bed : ' + value.singleBed + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="coupleBed' + i + '" data-original-title="Number Double Bed"> - Number Double Bed : ' + value.coupleBed + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="privateWashroom' + i + '" data-original-title="Have Private Washroom"> - Have Private Washroom : ' + value.privateWashroom + '</small></span>' +
-										'</p>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="level' + i + '" data-original-title="Level"> - Have Private Washroom : ' + value.level + '</small></span>' +
+												'<div class="col-xs-12">' +
+											    	'<div id="files-roomPhoto' + i + '" class="input-value files col-xs-2">' + 
+										    			'<img id="img-roomPhoto' + i + '" class="imgUpload">' +
+										    		'</div>' +
+										    		'<div class="col-xs-1">' +
+										    		'</div>' +
+										    		'<div class="col-xs-3">' +
+										    			'<textarea rows="5"  cols="40" id="note' + i + '" name="note' + i + '" class="custom-scroll" disabled="disabled">' + value.note + '</textarea>' +
+										    		'</div>' +
+										    	'</div>' +
+									    '</p>' +
 									'</li>'
 	    	$("#roomsList").append(roomLine);
+	    	if (value.photo){
+	    		carregaPhoto (localStorage.app, value.photo, "roomPhoto" + i);
+	    	};
 	    });
 	    $.each(data.documento.notes
 			    , function (i, value) {
@@ -152,8 +166,8 @@ function carregaTelaFamily(data, tipo) {
 											'<i class="fa fa-file-text-o"></i>&nbsp;&nbsp;' +
 											'<span class="txt-color-darken"><small class="text-danger" id="visits_date' + i + '" data-original-title="Date - ">' + value.date + '</small></span>' +
 											'<span class="txt-color-darken"><small class="text-muted" id="visits_user' + i + '" data-original-title="User"> - User : ' + value.user + '</small></span><br>' +
-											'<span class="txt-color-darken"><textarea rows="3"  cols="60" id="visits_comments' + i + '" name="visits_comments' + i + '" class="custom-scroll" disabled="disabled">' + value.comments + '</textarea></span>' +
-										'</p>' +
+											'<span class="txt-color-darken"><textarea rows="3"  cols="60" id="visits_comments' + i + '" name="visits_comments' + i + '" class="custom-scroll" disabled="disabled">' + value.comments + '</textarea></span><br>' +
+										 '</p>' +
 									'</li>'
 	    	$("#visitsList").append(visitsLine);
 	    });
@@ -262,6 +276,13 @@ function carregaTelaFamily(data, tipo) {
 	    	$('#singleBed_' + i).val(value.singleBed);
 	    	$('#coupleBed_' + i).val(value.coupleBed);
 	        $('#privateWashroom_' + i).val(value.privateWashroom);
+	        $('#level_' + i).val(value.privateWashroom);
+	        $('#note_' + i).val(value.note);
+	        $('#roomPhoto' + i).val(value.photo);
+	    	montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + i);
+	    	if (value.photo){
+	    		carregaPhoto (localStorage.app, value.photo, "roomPhoto" + i);
+	    	};
 	    	linesRoom = i + 1;
 	    });
 	    criaLinhaRoom(linesRoom);
@@ -383,10 +404,12 @@ function criaLinhaFamilyMember (i, familyName) {
 	var familyMemberLine = '<li class="familyMemberItem">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList">' +					
-					'<section class="col-xs-4">' +
+					'<section class="col-xs-3">' +
 						'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
 							'<input type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
 						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 						'<label class="select ">' +
@@ -402,6 +425,8 @@ function criaLinhaFamilyMember (i, familyName) {
 							'<input type="text" id="familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
+					'<section class="col-xs-1">' +
+					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="select ">' +
 							'<select id="familyMemberRelationship_' + i + '" name="familyMemberRelationship_' + i + '">' +
@@ -410,9 +435,11 @@ function criaLinhaFamilyMember (i, familyName) {
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-2">' +
-						'<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>' +
+						'<label class="input"> <i class="icon-prepend fa fa-wrench"></i>' +
 							'<input type="text" id="familyMemberOcuppation_' + i + '" name="familyMemberOcuppation_' + i + '" placeholder="">' +
 						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +
 					'</section>' +
 					'<section class="col-xs-2 docs' + w + ' hide">' +
 						'<span class="btn btn-success fileinput-button ">' + 
@@ -485,17 +512,18 @@ function criaLinhaRoom (i) {
 	var roomLine = '<li class="roomItem">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList">' +					
-					'<section class="col-xs-2">' +	
-					'</section>' +
 					'<section class="col-xs-1">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
 							'<input type="text" id="number_' + i + '" name="number_' + i + '" placeholder="" disabled="disabled">' +
 							'<input class="hide" type="text" id="singleBedAvailable_' + i + '" name="singleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
 							'<input class="hide" type="text" id="coupleBedAvailable_' + i + '" name="coupleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
 							'<input class="hide" type="text" id="emailStudent_' + i + '" name="emailStudent_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide" type="text" id="roomPhoto' + i + '" name="roomPhoto' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-1">' +
+					'</section>' +
+					'<section class="col-xs-1">' +
 						'<label class="select ">' +
 							'<select id="singleBed_' + i + '" name="singleBed_' + i + '">' +
 								'<option value="0" selected="0">0</option>' +
@@ -506,7 +534,9 @@ function criaLinhaRoom (i) {
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-1">' +
+					'</section>' +
+					'<section class="col-xs-1">' +
 						'<label class="select ">' +
 							'<select id="coupleBed_' + i + '" name="coupleBed_' + i + '">' +
 								'<option value="0" selected="0">0</option>' +
@@ -517,12 +547,47 @@ function criaLinhaRoom (i) {
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-1">' +
+					'</section>' +
+					'<section class="col-xs-1">' +
 						'<label class="select ">' +
 							'<select id="privateWashroom_' + i + '" name="privateWashroom_' + i + '">' +
 								'<option value="Yes">Yes</option>' +
 								'<option value="No" selected="No">No</option>' +
 							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +
+					'</section>' +
+					'<section class="col-xs-1">' +
+						'<label class="select ">' +
+							'<select id="level_' + i + '" name="level_' + i + '">' +
+							'<option value="Yes">Yes</option>' +
+							'<option value="No" selected="No">No</option>' +
+							'</select><i></i>' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-4">' +
+					'</section>' +
+					'<section class="col-xs-2">' +
+					    '<span class="btn btn-success fileinput-button ">' + 
+					        '<i class="glyphicon glyphicon-plus"></i>' +
+					        '<span> Load photo ...</span>' +
+					        '<input id="upload-img-roomPhoto' + i + '" type="file" name="uploadedFile" class="imgUpload">' + 
+					    '</span>' +
+					    '<br>' + 
+					    '<div id="progress-roomPhoto' + i + '" class="progress col-xs-04"">' + 
+					       '<div class="progress-bar progress-bar-success"></div>' + 
+					    '</div>' + 
+					    '<div id="files-roomPhoto' + i + '" class="input-value files col-xs-04">' + 
+					    	'<img id="img-roomPhoto' + i + '" class="imgUpload">' +
+					    '</div>' +
+					'</section>' +
+					'<section class="col-xs-1">' +
+					'</section>' +
+					'<section class="col-xs-3">' +
+						'<label class="input">'  +
+							'<textarea rows="5" cols="40" id="note_' + i + '" name="note_' + i + '" class="custom-scroll"></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +
@@ -714,7 +779,10 @@ function limpaStorageFamily () {
 				        number : 0, 
 				        singleBed : 0, 
 				        coupleBed : 0, 
-				        privateWashroom : "no", 
+				        privateWashroom : "no",
+				        level : "",
+				    	photo : "",
+				    	note : "",
 				        occupancySingleBed : [ 
 			                 { 
 	   		                 emailStudent : "", 
