@@ -121,7 +121,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-6">
+	<body class="smart-style-6 fixed-header">
 
   <!-- Cabeçalho-->
 		<!-- HEADER -->
@@ -266,6 +266,51 @@
 					</div>
 				</div>
 				<!-- end voice command -->
+
+				<ul class="header-dropdown-list hidden-xs">
+					<li>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span>Page navegation</span> <i class="fa fa-paper-plane"></i> </a>
+						<ul class="dropdown-menu pull-bottom">
+							<li class="active">
+								<a href="#main">Top</a>
+							</li>
+							<li class="active">
+								<a href="#address">Address</a>
+							</li>
+							<li>
+								<a href="#characteristics">Characteristics</a>
+							</li>
+							<li>
+								<a href="#payment">Payment</a>
+							</li>
+							<li>
+								<a href="#familyDescription">Family Description</a>
+							</li>
+							<li>
+								<a href="#Preferences">Preferences</a>
+							</li>
+							<li>
+								<a href="#familyMembers">Family Members</a>
+							</li>	
+							<li>
+								<a href="#rooms">Rooms</a>
+							</li>	
+							<li>
+								<a href="#notes">Notes</a>
+							</li>
+							<li>
+								<a href="#visits">Visits</a>
+							</li>
+							<li>
+								<a href="#photos">Photos</a>
+							</li>						
+							<li>
+								<a href="#contract">Contract</a>
+							</li>																
+						</ul>
+					</li>
+				</ul>
+				<!-- end navegation -->
 
 				<!-- multiple lang dropdown : find all flags in the flags page -->
 				<ul class="header-dropdown-list hidden-xs">
@@ -537,7 +582,7 @@
 													</fieldset>
 												</div>		
 											</div>
-											<div class="row">
+											<div id="address" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Address</h7>
@@ -602,10 +647,18 @@
 																<input type="text" id="address_timeSubwayStation" name="address_timeSubwayStation" placeholder="">
 															</label>
 														</section>
+														<section class="col-xs-7">
+															<label class="label text-info">Subway Station</label>							
+															<label class="select ">
+																<select id="address_subwayStation" name="address_subwayStation">
+																	<option value="" selected="" disabled=""></option>
+																</select><i></i>
+															</label>
+														</section>
 													</fieldset>
 												</div>
 											</div>
-											<div class="row">
+											<div id="characteristics" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Characteristics</h7>
@@ -673,9 +726,95 @@
 																<select id="othersLanguage" name="othersLanguage"  multiple="" class="custom-scroll language">
 																</select> </label>
 														</section>
+														<section class="col-xs-7">
+															<label class="label text-info">How long have you been in Canada</label>
+															<label class="select">
+																<select id="howLongHaveYouBeen" name="howLongHaveYouBeen" >
+																	<option value="" selected="" disabled=""></option>
+																	<option value="01">1 year</option>
+																	<option value="02">2 years</option>
+																	<option value="03">3 years</option>
+																	<option value="04">4 years</option>
+																	<option value="05">5 years</option>
+																	<option value="06">6 years</option>
+																	<option value="07">7 years</option>
+																	<option value="08">8 years</option>
+																	<option value="09">9 years</option>
+																	<option value="10">10 years</option>
+																	<option value="11">11 years</option>
+																	<option value="12">12 years</option>
+																	<option value="13">13 years</option>
+																	<option value="14">14 years</option>
+																	<option value="15">15 years</option>
+																	<option value="16">16 years</option>
+																	<option value="17">17 years</option>
+																	<option value="18">18 years</option>
+																	<option value="19">19 years</option>
+																	<option value="20">20 years</option>
+																	<option value="+20">+20 years</option>
+																</select> </label>
+														</section>
+												</div>
+											</div>
+											<div id="payment" class="row">
+												<div class="col-xs-11">
+													<legend>
+													<h7>Payment</h7>
+													</legend>
 												</div>
 											</div>
 											<div class="row">
+												<div class="col-xs-6">
+													<fieldset>					
+														<section class="col-xs-5 ">
+															<label class="label text-info">Name of Financial Institution</label>
+															<label class="input">
+																<input type="text" id="payment_financialInstitution" name="payment_financialInstitution" placeholder="">
+															</label>
+														</section>
+														<section class="col-xs-2 ">
+														</section>
+														<section class="col-xs-5 ">
+															<label class="label text-info">Bank Number</label>
+															<label class="input">
+																<input type="text" id="payment_bankNumber" name="payment_bankNumber" placeholder="">
+															</label>
+														</section>
+														<section class="col-xs-5 ">
+															<label class="label text-info">Branch Number</label>
+															<label class="input">
+																<input type="text" id="payment_branchNumber" name="payment_branchNumber" placeholder="">
+															</label>
+														</section>
+														<section class="col-xs-2 ">
+														</section>
+														<section class="col-xs-5 ">
+															<label class="label text-info">Account Number</label>
+															<label class="input">
+																<input type="text" id="payment_accountNumber" name=payment_accountNumber placeholder="">
+															</label>
+														</section>
+													</fieldset>
+												</div>
+											</div>
+											<div id="familyDescription" class="row">
+												<div class="col-xs-11">
+													<legend>
+													<h7>Family Description</h7>
+													</legend>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-11">
+													<fieldset>					
+														<section class="col-xs-10">
+															<label class="textarea textarea-resizable"> 										
+															<textarea rows="5" id="description" name="description" class="custom-scroll"></textarea> </label>
+														</section>
+													</fieldset>
+												</div>
+											</div>
+											<div id="preferences" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Preferences</h7>
@@ -744,7 +883,7 @@
 													</fieldset>
 												</div>
 											</div>
-											<div class="row">
+											<div id="familyMembers" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Family Members</h7>
@@ -777,7 +916,7 @@
 												</li>
 											</ul>
 											<br>																		
-											<div class="row">
+											<div id="rooms" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Rooms</h7>
@@ -798,7 +937,7 @@
 																	<label class="label text-info">Single Bed</label>
 																</section>
 																<section class="col-xs-2">
-																	<label class="label text-info">Couple Bed</label>
+																	<label class="label text-info">Double Bed</label>
 																</section>
 																<section class="col-xs-2">
 																	<label class="label text-info">Private Washroom</label>
@@ -809,7 +948,73 @@
 												</li>
 											</ul>
 											<br>																		
-											<div class="row">
+											<div id="notes" class="row">
+												<div class="col-xs-11">
+													<legend>
+													<h7>Notes</h7>
+													</legend>
+												</div>
+											</div>
+											<ul class="list-unstyled" id="notesList">
+												<li>
+													<div class="row">
+														<div class="col-xs-11">
+															<fieldset class="roomList">					
+																<section class="col-xs-1">	
+																</section>
+																<section class="col-xs-2">	
+																	<label class="label text-info">Date</label>	
+																</section>
+																<section class="col-xs-1">	
+																</section>
+																<section class="col-xs-3">		
+																	<label class="label text-info">User</label>
+																</section>
+																<section class="col-xs-1">	
+																</section>
+																<section class="col-xs-4">
+																	<label class="label text-info">Note</label>
+																</section>
+															</fieldset>
+														</div>
+													</div>
+												</li>
+											</ul>
+											<br>																		
+											<div id="visits" class="row">
+												<div class="col-xs-11">
+													<legend>
+													<h7>Visits</h7>
+													</legend>
+												</div>
+											</div>
+											<ul class="list-unstyled" id="visitsList">
+												<li>
+													<div class="row">
+														<div class="col-xs-11">
+															<fieldset class="roomList">					
+																<section class="col-xs-1">	
+																</section>
+																<section class="col-xs-2">	
+																	<label class="label text-info">Date</label>	
+																</section>
+																<section class="col-xs-1">	
+																</section>
+																<section class="col-xs-3">		
+																	<label class="label text-info">User</label>
+																</section>
+																<section class="col-xs-1">	
+																</section>
+																<section class="col-xs-4">
+																	<label class="label text-info">Comments</label>
+																</section>
+															</fieldset>
+														</div>
+													</div>
+												</li>
+											</ul>
+											<br>																		
+											<div id="photos" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Photos</h7>
@@ -930,6 +1135,36 @@
 													    <!-- The container for the uploaded files --> 
 													    <div id="files-photo06" class="input-value files "> 
 													    	<img id="img-photo06" class="imgUpload">
+													    </div>
+												</section>
+											</div>
+											<br>																		
+											<div id="contract" class="row">
+												<div class="col-xs-11">
+													<legend>
+													<h7>Contract</h7>
+													</legend>
+												</div>
+											</div>
+											<br>																		
+											<div class="row">
+												<section class="col-xs-2">
+													    <br> 
+														<!-- The fileinput-button span is used to style the file input field as button --> 
+													    <span class="btn btn-success fileinput-button "> 
+													        <i class="glyphicon glyphicon-plus"></i> 
+													        <span> Load contract ...</span> 
+													        <!-- The file input field used as target for the file upload widget --> 
+													        <input id="upload-img-contract" type="file" name="uploadedFile" class="imgUpload"> 
+													    </span> 
+													    <br> 
+													    <!-- The global progress bar --> 
+													   <div id="progress-contract" class="progress col-xs-04""> 
+													       <div class="progress-bar progress-bar-success"></div> 
+													    </div> 
+													    <!-- The container for the uploaded files --> 
+													    <div id="files-contract" class="input-value files col-xs-04""> 
+													    	<img id="img-contract" class="imgUpload">
 													    </div>
 												</section>
 											</div>

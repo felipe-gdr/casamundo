@@ -54,14 +54,18 @@ public class Family {
 		public String specialDiet[];
 		public String dontHostNationality[];
 		public String acceptSmokeInsideHome;
+		public String howLongHaveYouBeen;
+		public String description;
+		public String uploadContract;
 		public Contact contact;
 		public Address address;
+		public Payment payment;
 		public Fotos fotos;
 		public Docs docs;
 		public FamilyMembers familyMembers[];
 		public Rooms rooms[];
 		public Notes notes[];
-
+		public Visits visits[];
 		public Documento() {
 
 		}
@@ -89,13 +93,18 @@ public class Family {
 						String[] specialDiet,
 						String[] dontHostNationality,
 						String acceptSmokeInsideHome,
+						String howLongHaveYouBeen,
+						String description,
+						String uploadContract,
 						Contact contact,
 						Address address,
+						Payment payment,						
 						Fotos fotos,
 						Docs docs,
 						FamilyMembers familyMembers[],
 						Rooms rooms[],
-						Notes notes[]
+						Notes notes[],
+						Visits visits[]						
 								) {
 						this.familyName = familyName; 
 						this.type = type; 
@@ -118,13 +127,18 @@ public class Family {
 						this.specialDiet = specialDiet; 
 						this.dontHostNationality = dontHostNationality; 
 						this.acceptSmokeInsideHome = acceptSmokeInsideHome; 
+						this.howLongHaveYouBeen = howLongHaveYouBeen;;
+						this.description = description;;
+						this.uploadContract = uploadContract;
 						this.contact = contact; 
 						this.address = address; 
+						this.payment = payment;
 						this.fotos = fotos;
 						this.docs = docs;
 						this.familyMembers = familyMembers;
 						this.rooms = rooms;
 						this.notes = notes;
+						this.visits = visits;
 		}
 
 
@@ -189,6 +203,7 @@ public class Family {
 			public String mainIntersection;
 			public String nearestSubwayStation;
 			public String timeSubwayStation;
+			public String subwayStation;
 			public String latitude;
 			public String longitude;
 			public String destination;
@@ -208,6 +223,7 @@ public class Family {
 					String mainIntersection,
 					String nearestSubwayStation,
 					String timeSubwayStation,
+					String subwayStation,
 					String latitude,
 					String longitude,
 					String destination
@@ -220,10 +236,36 @@ public class Family {
 				this.complement = complement;
 				this.mainIntersection = mainIntersection; 
 				this.nearestSubwayStation = nearestSubwayStation; 
-				this.timeSubwayStation = timeSubwayStation; 
+				this.timeSubwayStation = timeSubwayStation;
+				this.subwayStation = subwayStation; 
 				this.latitude = latitude; 
 				this.latitude = latitude; 
 				this.destination = destination; 
+			}
+
+		}
+
+		public static final class Payment {
+			public String financialInstitution;
+			public String bankNumber;
+			public String branchNumber;
+			public String accountNumber;
+
+			public Payment() {
+
+			}
+
+			@JsonCreator
+			public Payment(
+					String financialInstitution,
+					String bankNumber,
+					String branchNumber,
+					String accountNumber
+			){
+				this.financialInstitution = financialInstitution;
+				this.bankNumber = bankNumber;
+				this.branchNumber = branchNumber;
+				this.accountNumber = accountNumber;
 			}
 
 		}
@@ -420,6 +462,29 @@ public class Family {
 	    		this.date = date;
 	    		this.user = user;
 	    		this.note = note;
+            };
+
+		}
+
+		public static final class Visits {
+    		public String date;
+    		public String user;
+    		public String comments;
+
+    		public Visits() {
+
+			}
+   
+            @JsonCreator
+            public Visits(
+            			String date,
+            			String user,
+            			String comments
+            			)
+            {
+	    		this.date = date;
+	    		this.user = user;
+	    		this.comments = comments;
             };
 
 		}

@@ -32,13 +32,16 @@
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo04");
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo05");
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo06");
+		montaPhoto (localStorage.app, "family", "contractFamily", "family", familyName, "contract");
 		
 		// desabilita nome familia pois é chave
 		$('#familyName').attr("disabled", true);
 	}else{
 		criaLinhaFamilyMember(0);
 		criaLinhaRoom(0);
-		$('#number_0').val(0);
+		criaLinhaNotes(0);
+		criaLinhaVisits(0);
+		$('#number_0').val(1);
 	};
 	//
 	//  *** salva dados dos quartos
@@ -112,9 +115,14 @@
 		obj.documento.fotos.photo06 =  localStorage.photo06;
 	}
 	//
+	// *** retorna nome contrato
+	//
+	if (localStorage.uploadContract){
+		obj.documento.uploadContract =  localStorage.uploadContract;
+	}
+	//
 	// *** retorna nome documentos salvos
 	//
-	var obj = JSON.parse(localStorage.getItem("family"));
 	if (localStorage.docs1){
 		obj.documento.docs.docs1 =  localStorage.docs1;
 	}
@@ -434,7 +442,8 @@
 		    $.each(objJson.documento.familyMembers, function (i, optionValue) {
 		    	objJson.documento.familyMembers.splice(0, 1);
 		    });
-			$( ".familyMemberItem" ).each(function(i, value) {
+		    objJson.documento.contact.docDate = $("#familyMemberDocDate_0").val();
+			$(".familyMemberItem").each(function(i, value) {
 				w = i + 1;
 				if ($("#familyMemberName_" + w).val()) {
 					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + w).val() 
@@ -452,7 +461,7 @@
 		    	objJson.documento.rooms.splice(0, 1);
 		    });
 		    objJsonSaveRooms = JSON.parse(localStorage.getItem("saveDataRooms"));
-		    $( ".roomItem" ).each(function(i, value) {
+		    $( ".roomItem").each(function(i, value) {
 				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0" ) {
 					if (objJsonSaveRooms[i]){
 						if (objJsonSaveRooms[i].occupancySingleBed){
@@ -491,6 +500,24 @@
 			        objJson.documento.rooms.push(room);
 				};
 			});
+			$(".noteItem").each(function(i, value) {
+				if ($("#notesDate_" + i).val()) {
+					objJson.documento.notes.push(JSON.parse('{"date":"' + $("#notesDate_" + i).val() 
+															+ '","user":"' + $("#notesUser_" + i).val() 
+															+ '","note":"' + $("#notesNote_" + i).val() 
+															+  '"}'
+															));
+				};
+			});
+			$(".visitItem").each(function(i, value) {
+				if ($("#visitsDate_" + i).val()) {
+					objJson.documento.visits.push(JSON.parse('{"date":"' + $("#visitsDate_" + i).val() 
+															+ '","user":"' + $("#visitsUser_" + i).val() 
+															+ '","comments":"' + $("#visitsComments_" + i).val() 
+															+  '"}'
+															));
+				};
+			});
 			localStorage.setItem("family", JSON.stringify(objJson));
 			if (localStorage.familyExistente == "true"){
 				rest_atualizaFamily(JSON.parse(localStorage.getItem("family")), retornaFamily, atualizacaoNaoEfetuada);
@@ -525,6 +552,7 @@
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo04");
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo05");
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo06");
+		montaPhoto (localStorage.app, "family", "contractFamily", "family", familyName, "contract");
 	});	
 
 	$('#contact_birthDate').datepicker({

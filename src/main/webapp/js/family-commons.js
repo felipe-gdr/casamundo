@@ -44,6 +44,8 @@ function carregaTelaFamily(data, tipo) {
 		$("#specialDiet").html(data.documento.specialDiet);
 		$("#dontHostNationality").html(data.documento.dontHostNationality);
 		$("#acceptSmokeInsideHome").html(data.documento.acceptSmokeInsideHome);
+		$("#howLongHaveYouBeen").html(data.documento.howLongHaveYouBeen);
+		$("#description").html(data.documento.description);
 	  	$("#contact_name").html(data.documento.contact.firstName + " " + data.documento.contact.lastName);
 	  	$("#contact_gender").html(data.documento.contact.gender);
 	  	$("#contact_birthDate").html(separaDataMes(data.documento.contact.birthDate, "-"));
@@ -66,7 +68,12 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_mainIntersection").html(data.documento.address.mainIntersection);
 	  	$("#address_nearestSubwayStation").html(data.documento.address.nearestSubwayStation);
 	  	$("#address_timeSubwayStation").html(data.documento.address.timeSubwayStation);
+	  	$("#address_subwayStation").html(data.documento.address.subwayStation);
 	  	$("#address_destination").html(data.documento.address.destination);
+	  	$("#payment_financialInstitution").html(data.documento.payment.financialInstitution);
+	  	$("#payment_bankNumber").html(data.documento.payment.bankNumber);
+	  	$("#payment_branchNumber").html(data.documento.payment.branchNumber);
+	  	$("#payment_accountNumber").html(data.documento.payment.accountNumber);
 	  	
 	  	var relationShip = "";
     	if (data.documento.contact.gender == "Male") {
@@ -112,16 +119,43 @@ function carregaTelaFamily(data, tipo) {
 	    });
 	    $.each(data.documento.rooms
 			    , function (i, value) {
+	    	w = i + 1;
 	    	var roomLine = '<li>' +
 										'<p class="text-muted">' +
 											'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
-												'<span class="txt-color-darken"><small class="text-danger" id="number' + i + '" data-original-title="Number - ">' + value.number + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-danger" id="number' + i + '" data-original-title="Number - ">' + w + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="singleBed' + i + '" data-original-title="Number Single Bed"> - Number Single Bed : ' + value.singleBed + '</small></span>' +
-												'<span class="txt-color-darken"><small class="text-muted" id="coupleBed' + i + '" data-original-title="Number Couple Bed"> - Number Couple Bed : ' + value.coupleBed + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="coupleBed' + i + '" data-original-title="Number Double Bed"> - Number Double Bed : ' + value.coupleBed + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="privateWashroom' + i + '" data-original-title="Have Private Washroom"> - Have Private Washroom : ' + value.privateWashroom + '</small></span>' +
 										'</p>' +
 									'</li>'
 	    	$("#roomsList").append(roomLine);
+	    });
+	    $.each(data.documento.notes
+			    , function (i, value) {
+	    	w = i + 1;
+	    	var notesLine = '<li>' +
+										'<p class="text-muted">' +
+											'<i class="fa fa-file-text-o"></i>&nbsp;&nbsp;' +
+												'<span class="txt-color-darken"><small class="text-danger" id="notes_date' + i + '" data-original-title="Date - ">' + value.date + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="notes_user' + i + '" data-original-title="User"> - User : ' + value.user + '</small></span><br>' +
+												'<span class="txt-color-darken"><textarea rows="3"  cols="60" id="notes_note' + i + '" name="notes_note' + i + '" class="custom-scroll" disabled="disabled">' + value.note + '</textarea></span>' +
+										'</p>' +
+									'</li>'
+	    	$("#notesList").append(notesLine);
+	    });
+	    $.each(data.documento.visits
+			    , function (i, value) {
+	    	w = i + 1;
+	    	var visitsLine = '<li>' +
+										'<p class="text-muted">' +
+											'<i class="fa fa-file-text-o"></i>&nbsp;&nbsp;' +
+											'<span class="txt-color-darken"><small class="text-danger" id="visits_date' + i + '" data-original-title="Date - ">' + value.date + '</small></span>' +
+											'<span class="txt-color-darken"><small class="text-muted" id="visits_user' + i + '" data-original-title="User"> - User : ' + value.user + '</small></span><br>' +
+											'<span class="txt-color-darken"><textarea rows="3"  cols="60" id="visits_comments' + i + '" name="visits_comments' + i + '" class="custom-scroll" disabled="disabled">' + value.comments + '</textarea></span>' +
+										'</p>' +
+									'</li>'
+	    	$("#visitsList").append(visitsLine);
 	    });
 	};	
 
@@ -163,6 +197,8 @@ function carregaTelaFamily(data, tipo) {
 		if (data.documento.acceptSmokeInsideHome == "Yes"){
 			$("#acceptSmokeInsideHome").prop("checked", true)
 		}
+		$("#howLongHaveYouBeen").val(data.documento.howLongHaveYouBeen);
+		$("#description").val(data.documento.description);
 	  	$("#contact_firstName").val(data.documento.contact.firstName);
 	  	$("#contact_lastName").val(data.documento.contact.lastName)
 	  	$("#contact_gender").val(data.documento.contact.gender);
@@ -183,6 +219,11 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_mainIntersection").val(data.documento.address.mainIntersection);
 	  	$("#address_nearestSubwayStation").val(data.documento.address.nearestSubwayStation);
 	  	$("#address_timeSubwayStation").val(data.documento.address.timeSubwayStation);
+	  	$("#address_subwayStation").val(data.documento.address.subwayStation);
+	  	$("#payment_financialInstitution").val(data.documento.payment.financialInstitution);
+	  	$("#payment_bankNumber").val(data.documento.payment.bankNumber);
+	  	$("#payment_branchNumber").val(data.documento.payment.branchNumber);
+	  	$("#payment_accountNumber").val(data.documento.payment.accountNumber);
 	  	$("#destination").val(data.documento.address.destination);
 		 if ($('#address_street').val()){
 			 getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
@@ -217,18 +258,54 @@ function carregaTelaFamily(data, tipo) {
 	    $.each(data.documento.rooms
 			    , function (i, value) {
 		    criaLinhaRoom(i);
-		    $('#number_' + i).val(value.number);
+		    $('#number_' + i).val(i + 1);
 	    	$('#singleBed_' + i).val(value.singleBed);
 	    	$('#coupleBed_' + i).val(value.coupleBed);
 	        $('#privateWashroom_' + i).val(value.privateWashroom);
 	    	linesRoom = i + 1;
 	    });
 	    criaLinhaRoom(linesRoom);
-	    $('#number_' + linesRoom).val(linesRoom);
+	    $('#number_' + linesRoom).val(linesRoom + 1);
+	  	var linesNote = 0;
+	    $.each(data.documento.notes
+			    , function (i, value) {
+		    criaLinhaNote(i);
+		    $('#notesDate_' + i).val(value.date);
+	    	$('#notesUser_' + i).val(value.user);
+	    	$('#notesNote_' + i).val(value.note);
+	    	linesNote = i + 1;
+	    });
+	    criaLinhaNote(linesNote);
+	  	var linesVisit = 0;
+	    $.each(data.documento.visits
+			    , function (i, value) {
+		    criaLinhaVisit(i);
+		    $('#visitsDate_' + i).val(value.date);
+	    	$('#visitsUser_' + i).val(value.user);
+	    	$('#visitsComments_' + i).val(value.comments);
+	    	linesVisit = i + 1;
+	    });
+	    criaLinhaVisit(linesVisit);
 	};
+	//
+	// carrega contrato
+	//
+	localStorage.contract = "";
+	
+	if (data.documento.uploadContract){
+		carregaPhoto (localStorage.app, data.documento.uploadContract, "contract");	
+		localStorage.uploadContract = data.documento.uploadContract;
+	}
 	//
 	// carrega fotos
 	//
+	localStorage.photo01 = "";
+	localStorage.photo02 = "";
+	localStorage.photo03 = "";
+	localStorage.photo04 = "";
+	localStorage.photo05 = "";
+	localStorage.photo06 = "";
+	
 	if (data.documento.fotos.photo01){
 		carregaPhoto (localStorage.app, data.documento.fotos.photo01, "photo01");
 		localStorage.photo01 = data.documento.fotos.photo01;
@@ -257,6 +334,14 @@ function carregaTelaFamily(data, tipo) {
 	//
 	// carrega docs
 	//
+
+	localStorage.docs1 = "";
+	localStorage.docs2 = "";
+	localStorage.docs3 = "";
+	localStorage.docs4 = "";
+	localStorage.docs5 = "";
+	localStorage.docs6 = "";
+	
 	if (data.documento.docs){
 		if (data.documento.docs.docs1){
 			carregaPhoto (localStorage.app, data.documento.docs.docs1, "docs1");
@@ -447,9 +532,97 @@ function criaLinhaRoom (i) {
 	$( "#singleBed_" + (i - 1)).unbind();
 	$( "#singleBed_" + i).bind( "blur", function() {
 		criaLinhaRoom(i + 1);
-		$('#number_' + (i + 1)).val((i + 1));
+		$('#number_' + (i + 1)).val((i + 2));
 	});
 };
+
+function criaLinhaNote (i, note) {
+	var noteLine = '<li class="noteItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="memberList">' +					
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-3">' +
+						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
+						'<input type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-4">' +
+						'<label class="input">'  +
+							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll"></textarea>' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#notesList").append(noteLine);
+	$('#notesDate_' + i).datepicker({
+		dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+		}
+	});
+	$( "#notesDate_" + (i - 1)).unbind();
+	$( "#notesDate_" + i).bind( "blur", function() {
+		criaLinhaNote(i + 1, note);
+		$('#notesUser_' + i).val(localStorage.userNameEmail);
+	});
+};
+
+
+function criaLinhaVisit (i, visit) {
+	var visitLine = '<li class="visitItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="memberList">' +					
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
+							'<input type="text" id="visitsDate_' + i + '" name="visitsDate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-3">' +
+						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
+						'<input type="text" id="visitsUser_' + i + '" name="visitsUser_' + i + '" placeholder="" disabled="disabled">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-4">' +
+						'<label class="input">'  +
+							'<textarea rows="3" cols="40" id="visitsComments_' + i + '" name="visitsComments_' + i + '" class="custom-scroll"></textarea>' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#visitsList").append(visitLine);
+	$('#visitsDate_' + i).datepicker({
+		dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+		}
+	});
+	$( "#visitsDate_" + (i - 1)).unbind();
+	$( "#visitsDate_" + i).bind( "blur", function() {
+		criaLinhaVisit(i + 1, visit);
+		$('#visitsUser_' + i).val(localStorage.userNameEmail);
+	});
+};
+
 function limpaStorageFamily () {
 	
 	var data  =
@@ -477,6 +650,9 @@ function limpaStorageFamily () {
 				    specialDiet : [], 
 				    dontHostNationality : [], 
 				    acceptSmokeInsideHome : "", 
+				    howLongHaveYouBeen : "",
+					description : "",
+					uploadContract : "",				    
 				    contact : { 
 				      firstName : "", 
 				      lastName : "", 
@@ -498,11 +674,18 @@ function limpaStorageFamily () {
 				      postalCode : "", 
 				      mainIntersection : "", 
 				      nearestSubwayStation : "", 
-				      timeSubwayStation : "", 
+				      timeSubwayStation : "",
+				      subwayStation : "", 
 				      destination:"", 
 				      latitude:"", 
 				      longitude:"" 
 				    }, 
+				    payment : { 
+				    	financialInstitution : "", 
+				    	bankNumber : "", 
+				    	branchNumber : "", 
+				    	accountNumber : "" 
+					    }, 
 				    fotos : { 
 				      photo01 : "", 
 				      photo02 : "", 
@@ -547,11 +730,8 @@ function limpaStorageFamily () {
 	   		                 } 
 	   		                 ] 
 				      }], 
-				    notes : [{ 
-				        date : "", 
-				        user : "", 
-				        note : "" 
-				      }] 
+				    notes : [],
+				    visits : [] 
 				  } 
 			};
 
@@ -639,6 +819,12 @@ function setValueFamily (field, value) {
 	if (field == "acceptSmokeInsideHome"){
         objJson.documento.acceptSmokeInsideHome = value;
 	};
+	if (field == "howLongHaveYouBeen"){
+        objJson.documento.howLongHaveYouBeen = value;
+	};
+	if (field == "description"){
+        objJson.documento.description = value;
+	};
   	if (field == "contact_firstName"){
         objJson.documento.contact.firstName = value;
 	};
@@ -696,7 +882,22 @@ function setValueFamily (field, value) {
   	if (field == "address_timeSubwayStation"){
         objJson.documento.address.timeSubwayStation = value;
 	};
-  	if (field == "destination"){
+  	if (field == "address_subwayStation"){
+        objJson.documento.address.subwayStation = value;
+	};
+  	if (field == "payment_financialInstitution"){
+        objJson.documento.payment.financialInstitution = value;
+	};
+  	if (field == "payment_bankNumber"){
+        objJson.documento.payment.bankNumber = value;
+	};
+  	if (field == "payment_branchNumber"){
+        objJson.documento.payment.branchNumber = value;
+	};
+  	if (field == "payment_accountNumber"){
+        objJson.documento.payment.accountNumber = value;
+	};
+	if (field == "destination"){
         objJson.documento.address.destination = value;
 	};
 

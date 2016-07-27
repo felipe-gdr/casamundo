@@ -507,6 +507,10 @@ function calculaIdade ( dataNascimento ) {
     		    , function (i, optionValue) {
         			$("#address_mainIntersection").append( $(option(optionValue)));
     		    });
+        $.each(table.documento.address_subwayStation
+    		    , function (i, optionValue) {
+        			$("#address_subwayStation").append( $(option(optionValue)));
+    		    });
         
         localStorage.carragendoTags = false;
     };    
@@ -526,4 +530,12 @@ function calculaIdade ( dataNascimento ) {
     		return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '" checked="checked"><i></i>' + value +'</label>';	
     	}
     		return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '"><i></i>' + value +'</label>';
-    };        
+    };
+    function goToByScroll(id){
+        // Remove "link" from the ID
+      id = id.replace("link", "");
+        // Scroll
+      $('html,body').animate({
+          scrollTop: $("#"+id).offset().top},
+          'slow');
+    };

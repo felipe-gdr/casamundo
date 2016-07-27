@@ -68,6 +68,11 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
             	obj.documento.docs[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
             	localStorage.setItem(assunto, JSON.stringify(obj));
             };
+            if (fotosDiv == "contractFamily") {
+            	obj = JSON.parse(localStorage.getItem(assunto));
+            	obj.documento.uploadContract =  id + "_" + id2 + "_" + labelId + "_" + file.name;
+            	localStorage.setItem(assunto, JSON.stringify(obj));
+            };
 	        $('#img-' + labelId).remove();
         });
     }).on('fileuploadprocessalways', function (e, data) {
