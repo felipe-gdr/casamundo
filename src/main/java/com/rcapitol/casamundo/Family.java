@@ -303,6 +303,7 @@ public class Family {
 
 
 		public static final class Docs {
+			public String docs0;
 			public String docs1;
 			public String docs2;
 			public String docs3;
@@ -316,6 +317,7 @@ public class Family {
 
 			@JsonCreator
 			public Docs(
+					String docs0,
 					String docs1,
 					String docs2,
 					String docs3,
@@ -323,6 +325,7 @@ public class Family {
 					String docs5,
 					String docs6
 			){
+				this.docs0 = docs0;
 				this.docs1 = docs1;
 				this.docs2 = docs2; 
 				this.docs3 = docs3; 

@@ -41,7 +41,7 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
         autoUpload: true,
         singleFileUploads: true,
         redirect: false,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf)$/i,
         maxFileSize: 999000,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to

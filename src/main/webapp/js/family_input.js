@@ -4,6 +4,7 @@
 	 */
 	$('.addressMap').addClass("hide");
 
+
 	// 
 	//**    carrega dados url
 	//
@@ -25,11 +26,19 @@
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
 		// desabilita nome familia pois é chave
 		$('#familyName').attr("disabled", true);
+		//
+		// formata campos img
+		//
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo01");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo02");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo03");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo04");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo05");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo06");
+		montaPhoto (localStorage.app, "family", "contractFamily", "family", familyName, "uploadContract");
 	}else{
 		criaLinhaFamilyMember(0);
-	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "docs0" + linesRoom);
 		criaLinhaRoom(0);
-	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto0");
 		criaLinhaNote(0);
 		criaLinhaVisit(0);
 		$('#number_0').val(1);
@@ -82,58 +91,6 @@
 	//  *** limpa storage para pegar sempre o layout novo
 	//
 	limpaStorageFamily ();
-
-	//
-	// *** retorna nome fotos salvas
-	//
-	var obj = JSON.parse(localStorage.getItem("family"));
-	if (localStorage.photo01){
-		obj.documento.fotos.photo01 =  localStorage.photo01;
-	}
-	if (localStorage.photo02){
-		obj.documento.fotos.photo02 =  localStorage.photo02;
-	}
-	if (localStorage.photo03){
-		obj.documento.fotos.photo03 =  localStorage.photo03;
-	}
-	if (localStorage.photo04){
-		obj.documento.fotos.photo04 =  localStorage.photo04;
-	}
-	if (localStorage.photo05){
-		obj.documento.fotos.photo05 =  localStorage.photo05;
-	}
-	if (localStorage.photo06){
-		obj.documento.fotos.photo06 =  localStorage.photo06;
-	}
-	//
-	// *** retorna nome contrato
-	//
-	if (localStorage.uploadContract){
-		obj.documento.uploadContract =  localStorage.uploadContract;
-	}
-	//
-	// *** retorna nome documentos salvos
-	//
-	if (localStorage.docs1){
-		obj.documento.docs.docs1 =  localStorage.docs1;
-	}
-	if (localStorage.docs2){
-		obj.documento.docs.docs2 =  localStorage.docs2;
-	}
-	if (localStorage.docs3){
-		obj.documento.docs.docs3 =  localStorage.docs3;
-	}
-	if (localStorage.docs4){
-		obj.documento.docs.docs4 =  localStorage.docs4;
-	}
-	if (localStorage.docs5){
-		obj.documento.docs.docs5 =  localStorage.docs5;
-	}
-	if (localStorage.docs6){
-		obj.documento.docs.docs6 =  localStorage.docs6;
-	}
-    localStorage.setItem("family", JSON.stringify(obj));
-
 	
     // Método de validação  - Adiciona método JQuery Validation
     $.validator.addMethod("regex", function(value, element, regexp) {
@@ -485,9 +442,9 @@
 			        		singleBed : $("#singleBed_" + i).val(),
 			        		coupleBed : $("#coupleBed_" + i).val(),
 			        		privateWashroom : $("#privateWashroom_" + i).val(),
-			        		level : $("#level_" + i).val(),
+			        		level : $("#level" + i).val(),
 			        		photo : $("#roomPhoto" + i).val(),
-			        		note : $("#note_" + i).val(),
+			        		note : $("#note" + i).val(),
 				    		occupancySingleBed : occupancySingleBedSave,
 				    		occupancyCoupleBed : occupancyCoupleBedSave
 			        };
@@ -540,19 +497,15 @@
 		//
 		// formata campos img
 		//
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo01");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo02");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo03");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo04");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo05");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo06");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", $("#familyName").val(), "photo01");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", $("#familyName").val(), "photo02");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", $("#familyName").val(), "photo03");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", $("#familyName").val(), "photo04");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", $("#familyName").val(), "photo05");
+		montaPhoto (localStorage.app, "family", "photosFamily", "family", $("#familyName").val(), "photo06");
 		montaPhoto (localStorage.app, "family", "contractFamily", "family", $("#familyName").val(), "uploadContract");
 	    montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs0");
 	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", $("#familyName").val(), "roomPhoto0");
-    	if (value.photo){
-    		carregaPhoto (localStorage.app, value.photo, "roomPhoto" + i);
-    	};
-
 	});	
 
 	$('#contact_birthDate').datepicker({

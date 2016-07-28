@@ -127,7 +127,7 @@ function carregaTelaFamily(data, tipo) {
 												'<span class="txt-color-darken"><small class="text-muted" id="singleBed' + i + '" data-original-title="Number Single Bed"> - Number Single Bed : ' + value.singleBed + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="coupleBed' + i + '" data-original-title="Number Double Bed"> - Number Double Bed : ' + value.coupleBed + '</small></span>' +
 												'<span class="txt-color-darken"><small class="text-muted" id="privateWashroom' + i + '" data-original-title="Have Private Washroom"> - Have Private Washroom : ' + value.privateWashroom + '</small></span>' +
-												'<span class="txt-color-darken"><small class="text-muted" id="level' + i + '" data-original-title="Level"> - Have Private Washroom : ' + value.level + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="level' + i + '" data-original-title="Level"> - Level : ' + value.level + '</small></span>' +
 												'<div class="col-xs-12">' +
 											    	'<div id="files-roomPhoto' + i + '" class="input-value files col-xs-2">' + 
 										    			'<img id="img-roomPhoto' + i + '" class="imgUpload">' +
@@ -254,6 +254,7 @@ function carregaTelaFamily(data, tipo) {
     	}
         $('#familyMemberOcuppation_0').val(data.documento.contact.ocuppation);
         $('#familyMemberDocDate_0').val(data.documento.contact.docDate);
+		$('.docs0').removeClass("hide");
     	lines = 1;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
@@ -269,6 +270,8 @@ function carregaTelaFamily(data, tipo) {
 	    	if (value.docDate){
 	    		carregaPhoto (localStorage.app, value.photo, "docs" + i);
 	    	};
+		  	var age = calculaIdade(separaConverteDataMes(value.birthDate, "/"));
+			$('.docs' + i).removeClass("hide");
 	    	lines = z + 1;
 	    });
 	    criaLinhaFamilyMember(lines, data.documento.familyName);
@@ -283,13 +286,14 @@ function carregaTelaFamily(data, tipo) {
 	    	$('#singleBed_' + i).val(value.singleBed);
 	    	$('#coupleBed_' + i).val(value.coupleBed);
 	        $('#privateWashroom_' + i).val(value.privateWashroom);
-	        $('#level_' + i).val(value.privateWashroom);
-	        $('#note_' + i).val(value.note);
+	        $('#level' + i).val(value.level);
+	        $('#note' + i).val(value.note);
 	        $('#roomPhoto' + i).val(value.photo);
 	    	montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + i);
 	    	if (value.photo){
 	    		carregaPhoto (localStorage.app, value.photo, "roomPhoto" + i);
 	    	};
+	    	$('.roomPhoto' + i).removeClass("hide");
 	    	linesRoom = i + 1;
 	    });
 	    criaLinhaRoom(linesRoom);
@@ -321,90 +325,39 @@ function carregaTelaFamily(data, tipo) {
 	//
 	// carrega contrato
 	//
-	localStorage.uploadContract = "";
 	
 	if (data.documento.uploadContract){
-		carregaPhoto (localStorage.app, data.documento.uploadContract, "uploadContract");	
-		localStorage.uploadContract = data.documento.uploadContract;
+		carregaPhoto (localStorage.app, data.documento.uploadContract, "uploadContract");
+		$("#uploadContract").val(data.documento.uploadContract);
 	}
 	//
 	// carrega fotos
 	//
-	localStorage.photo01 = "";
-	localStorage.photo02 = "";
-	localStorage.photo03 = "";
-	localStorage.photo04 = "";
-	localStorage.photo05 = "";
-	localStorage.photo06 = "";
 	
 	if (data.documento.fotos.photo01){
 		carregaPhoto (localStorage.app, data.documento.fotos.photo01, "photo01");
-		localStorage.photo01 = data.documento.fotos.photo01;
+		$("#photo01").val(data.documento.fotos.photo01);
 	}
 	if (data.documento.fotos.photo02){
-		carregaPhoto (localStorage.app, data.documento.fotos.photo02, "photo02");	
-		localStorage.photo02 = data.documento.fotos.photo02;
+		carregaPhoto (localStorage.app, data.documento.fotos.photo02, "photo02");
+		$("#photo02").val(data.documento.fotos.photo02);
 	}
 	if (data.documento.fotos.photo03){
 		carregaPhoto (localStorage.app, data.documento.fotos.photo03, "photo03");
-		localStorage.photo03 = data.documento.fotos.photo03;
+		$("#photo03").val(data.documento.fotos.photo03);
 	}
 	if (data.documento.fotos.photo04){
-		carregaPhoto (localStorage.app, data.documento.fotos.photo04, "photo04");	
-		localStorage.photo04 = data.documento.fotos.photo04;
+		carregaPhoto (localStorage.app, data.documento.fotos.photo04, "photo04");
+		$("#photo04").val(data.documento.fotos.photo04);
 	}
 	if (data.documento.fotos.photo05){
-		carregaPhoto (localStorage.app, data.documento.fotos.photo05, "photo05");	
-		localStorage.photo05 = data.documento.fotos.photo05;
+		carregaPhoto (localStorage.app, data.documento.fotos.photo05, "photo05");
+		$("#photo05").val(data.documento.fotos.photo05);
 	}
 	if (data.documento.fotos.photo06){
-		carregaPhoto (localStorage.app, data.documento.fotos.photo06, "photo06");	
-		localStorage.photo06 = data.documento.fotos.photo06;
+		carregaPhoto (localStorage.app, data.documento.fotos.photo06, "photo06");
+		$("#photo06").val(data.documento.fotos.photo05);
 	}
-
-	//
-	// carrega docs
-	//
-
-	localStorage.docs1 = "";
-	localStorage.docs2 = "";
-	localStorage.docs3 = "";
-	localStorage.docs4 = "";
-	localStorage.docs5 = "";
-	localStorage.docs6 = "";
-	
-	if (data.documento.docs){
-		if (data.documento.docs.docs1){
-			carregaPhoto (localStorage.app, data.documento.docs.docs1, "docs1");
-			localStorage.docs1 = data.documento.docs.docs1;
-			$('.docs1').removeClass("hide");
-		}
-		if (data.documento.docs.docs2){
-			carregaPhoto (localStorage.app, data.documento.docs.docs2, "docs2");	
-			localStorage.docs2 = data.documento.docs.docs2;
-			$('.docs2').removeClass("hide");
-		}
-		if (data.documento.docs.docs3){
-			carregaPhoto (localStorage.app, data.documento.docs.docs3, "docs3");
-			localStorage.docs3 = data.documento.docs.docs3;
-			$('.docs3').removeClass("hide");
-		}
-		if (data.documento.docs.docs4){
-			carregaPhoto (localStorage.app, data.documento.docs.docs4, "docs4");	
-			localStorage.docs4 = data.documento.docs.docs4;
-			$('.docs4').removeClass("hide");
-		}
-		if (data.documento.docs.docs5){
-			carregaPhoto (localStorage.app, data.documento.docs.docs5, "docs5");	
-			localStorage.docs5 = data.documento.docs.docs5;
-			$('.docs5').removeClass("hide");
-		}
-		if (data.documento.docs.docs6){
-			carregaPhoto (localStorage.app, data.documento.docs.docs6, "docs6");	
-			localStorage.docs6 = data.documento.docs.docs6;
-			$('.docs6').removeClass("hide");
-		}
-	};
 	
 	localStorage.setItem("family", JSON.stringify(data));
 };    
@@ -572,7 +525,8 @@ function criaLinhaRoom (i) {
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="select ">' +
-							'<select id="level_' + i + '" name="level_' + i + '">' +
+							'<select id="level' + i + '" name="level' + i + '">' +
+								'<option value="" selected=""></option>' +
 								'<option value="Basement">Basement</option>' +
 								'<option value="main Floor">main Floor</option>' +
 								'<option value="Second">Second</option>' +
@@ -582,7 +536,7 @@ function criaLinhaRoom (i) {
 					'</section>' +
 					'<section class="col-xs-4">' +
 					'</section>' +
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 roomPhoto' + i + ' hide">' +
 					    '<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' +
 					        '<span> Load photo ...</span>' +
@@ -596,11 +550,11 @@ function criaLinhaRoom (i) {
 					    	'<img id="img-roomPhoto' + i + '" class="imgUpload">' +
 					    '</div>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 roomPhoto' + i + ' hide">' +
 					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 roomPhoto' + i + ' hide">' +
 						'<label class="input">'  +
-							'<textarea rows="5" cols="40" id="note_' + i + '" name="note_' + i + '" class="custom-scroll"></textarea>' +
+							'<textarea rows="5" cols="40" id="note' + i + '" name="note' + i + '" class="custom-scroll"></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +
@@ -611,6 +565,7 @@ function criaLinhaRoom (i) {
 	$( "#singleBed_" + i).bind( "blur", function() {
 		criaLinhaRoom(i + 1);
 		$('#number_' + (i + 1)).val((i + 2));
+		$('.roomPhoto' + i).removeClass("hide");
 	});
 };
 
@@ -773,6 +728,7 @@ function limpaStorageFamily () {
 				      photo06 : "" 
 				    }, 
 				    docs : { 
+				      docs0 : "", 
 				      docs1 : "", 
 				      docs2 : "", 
 				      docs3 : "", 
@@ -982,13 +938,13 @@ function setValueFamily (field, value) {
         objJson.documento.address.destination = value;
 	};
 	if (field == "uploadContract"){
-        objJson.documento.address.uploadContract = value;
+        objJson.documento.uploadContract = value;
 	};
-	if (field.slice(0, 5) == "Photo"){
-        objJson.documento.photo[field] = value;
+	if (field.slice(0, 5) == "photo"){
+        objJson.documento.fotos[field] = value;
 	};
-	if (field.slice(0, 4) == "Docs"){
-        objJson.documento.photo[field] = value;
+	if (field.slice(0, 4) == "docs"){
+        objJson.documento.docs[field] = value;
 	};
 
 	localStorage.setItem("family", JSON.stringify(objJson));
