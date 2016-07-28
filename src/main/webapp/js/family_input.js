@@ -19,28 +19,19 @@
 	 */
 
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
-
+	
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
-		//
-		// formata campos img
-		//
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo01");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo02");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo03");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo04");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo05");
-		montaPhoto (localStorage.app, "family", "photosFamily", "family", familyName, "photo06");
-		montaPhoto (localStorage.app, "family", "contractFamily", "family", familyName, "contract");
-		
 		// desabilita nome familia pois é chave
 		$('#familyName').attr("disabled", true);
 	}else{
 		criaLinhaFamilyMember(0);
+	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "docs0" + linesRoom);
 		criaLinhaRoom(0);
-		criaLinhaNotes(0);
-		criaLinhaVisits(0);
+	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto0");
+		criaLinhaNote(0);
+		criaLinhaVisit(0);
 		$('#number_0').val(1);
 	};
 	//
@@ -555,7 +546,13 @@
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo04");
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo05");
 		montaPhoto (localStorage.app, "family", "photosFamily", "family", this.value, "photo06");
-		montaPhoto (localStorage.app, "family", "contractFamily", "family", familyName, "contract");
+		montaPhoto (localStorage.app, "family", "contractFamily", "family", $("#familyName").val(), "uploadContract");
+	    montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs0");
+	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", $("#familyName").val(), "roomPhoto0");
+    	if (value.photo){
+    		carregaPhoto (localStorage.app, value.photo, "roomPhoto" + i);
+    	};
+
 	});	
 
 	$('#contact_birthDate').datepicker({
@@ -597,7 +594,7 @@
 
    	});
 	$("#contact_ocuppation").bind('blur', function () {
-        $('#familyMemberOccupation_0').val($("#contact_ocuppation").val());
+        $('#familyMemberOcuppation_0').val($("#contact_ocuppation").val());
     });
 	$("#haveOtherPet").bind('click', function () {
 		var field = $("#haveOtherPet:checked").val();

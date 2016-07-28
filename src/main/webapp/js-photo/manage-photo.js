@@ -58,26 +58,7 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
             var node = $('<p/>')
                     .append("");
             node.appendTo(data.context);
-            if (fotosDiv == "photosFamily") {
-            	obj = JSON.parse(localStorage.getItem(assunto));
-            	obj.documento.fotos[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
-            	localStorage.setItem(assunto, JSON.stringify(obj));
-            };
-            if (fotosDiv == "docsFamily") {
-            	obj = JSON.parse(localStorage.getItem(assunto));
-            	obj.documento.docs[labelId] =  id + "_" + id2 + "_" + labelId + "_" + file.name;
-            	localStorage.setItem(assunto, JSON.stringify(obj));
-            };
-            if (fotosDiv == "contractFamily") {
-            	obj = JSON.parse(localStorage.getItem(assunto));
-            	obj.documento.uploadContract =  id + "_" + id2 + "_" + labelId + "_" + file.name;
-            	localStorage.setItem(assunto, JSON.stringify(obj));
-            };
-            if (fotosDiv == "roomsPhoto") {
-            	var i = label.slice(label.length - 1, label.length);
-            	$("#" + labelId).val(id + "_" + id2 + "_" + labelId + "_" + file.name);
-            	localStorage.setItem(assunto, JSON.stringify(obj));
-            };
+           	$("#" + labelId).val(id + "_" + id2 + "_" + labelId + "_" + file.name);
 	        $('#img-' + labelId).remove();
         });
     }).on('fileuploadprocessalways', function (e, data) {

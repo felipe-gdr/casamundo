@@ -265,9 +265,16 @@ function carregaTelaFamily(data, tipo) {
 	        $('#familyMemberRelationship_' + z).val(value.relationship);
 	        $('#familyMemberOcuppation_' + z).val(value.ocuppation);
 	        $('#familyMemberDocDate_' + z).val(value.docDate);
+	    	montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "docs" + i);
+	    	if (value.docDate){
+	    		carregaPhoto (localStorage.app, value.photo, "docs" + i);
+	    	};
 	    	lines = z + 1;
 	    });
 	    criaLinhaFamilyMember(lines, data.documento.familyName);
+	    if (linesRoom != 0){
+		    montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "docs" + lines);
+	    };
 	  	var linesRoom = 0;
 	    $.each(data.documento.rooms
 			    , function (i, value) {
@@ -287,6 +294,9 @@ function carregaTelaFamily(data, tipo) {
 	    });
 	    criaLinhaRoom(linesRoom);
 	    $('#number_' + linesRoom).val(linesRoom + 1);
+	    if (linesRoom != 0){
+		    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + linesRoom);
+	    };
 	  	var linesNote = 0;
 	    $.each(data.documento.notes
 			    , function (i, value) {
@@ -311,10 +321,10 @@ function carregaTelaFamily(data, tipo) {
 	//
 	// carrega contrato
 	//
-	localStorage.contract = "";
+	localStorage.uploadContract = "";
 	
 	if (data.documento.uploadContract){
-		carregaPhoto (localStorage.app, data.documento.uploadContract, "contract");	
+		carregaPhoto (localStorage.app, data.documento.uploadContract, "uploadContract");	
 		localStorage.uploadContract = data.documento.uploadContract;
 	}
 	//
@@ -407,6 +417,7 @@ function criaLinhaFamilyMember (i, familyName) {
 					'<section class="col-xs-3">' +
 						'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
 							'<input type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
+							'<input class="hide" type="text" id="docs' + i + '" name="docs' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
@@ -559,11 +570,13 @@ function criaLinhaRoom (i) {
 					'</section>' +
 					'<section class="col-xs-1">' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-2">' +
 						'<label class="select ">' +
 							'<select id="level_' + i + '" name="level_' + i + '">' +
-							'<option value="Yes">Yes</option>' +
-							'<option value="No" selected="No">No</option>' +
+								'<option value="Basement">Basement</option>' +
+								'<option value="main Floor">main Floor</option>' +
+								'<option value="Second">Second</option>' +
+								'<option value="Other">Other</option>' +
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
@@ -967,6 +980,15 @@ function setValueFamily (field, value) {
 	};
 	if (field == "destination"){
         objJson.documento.address.destination = value;
+	};
+	if (field == "uploadContract"){
+        objJson.documento.address.uploadContract = value;
+	};
+	if (field.slice(0, 5) == "Photo"){
+        objJson.documento.photo[field] = value;
+	};
+	if (field.slice(0, 4) == "Docs"){
+        objJson.documento.photo[field] = value;
 	};
 
 	localStorage.setItem("family", JSON.stringify(objJson));
