@@ -67,7 +67,7 @@
 	        "charset" : "UTF-8",
 	        "bDestroy": true,
 	        "iDisplayLength": 15,
-	        "order": [[3, 'desc']],
+	        "order": [[1, 'desc']],
 	        "fnDrawCallback": function( oSettings ) {
 		       runAllCharts()
 		    }

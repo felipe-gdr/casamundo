@@ -399,4 +399,81 @@
     	.always(function(data) {
     	});
     };
+
+    function rest_obterBankAll(action_ok) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/lista",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data);
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_atualizaBank(objJson, action_ok, action_not_ok) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok ("Bank updated");
+        	}else{
+        		actio_not_ok()
+        	};
+    	});
+    };
+
+    function rest_incluiBank(objJson, action_ok, action_not_ok) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok ("Bank included");
+        	}else{
+        		actio_not_ok()
+        	};
+       	});
+    };
+
+    function rest_obterBank(bankName, action_ok, action_not_ok, tipo) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/obterBankName?name="  + bankName,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, tipo);
+    	})
+    	.fail(function(data) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
     

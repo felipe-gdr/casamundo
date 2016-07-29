@@ -625,6 +625,81 @@
 				
 						</article>
 
+						<article class="col-sm-12 col-md-12 col-lg-12">
+				
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-32" data-widget-editbutton="false">
+								<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-320" data-widget-editbutton="false">
+				
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+				
+								-->
+								<header>
+									<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+									<h2>Bank</h2>
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-1">
+											<div class="col-sm-1 profile-pic">
+												<a id="bankInclusao" data-toggle="modal" data-target="#bankModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+											</div>
+										</div>
+									</div>
+				
+								</header>
+
+								<!-- widget div-->
+								<div>
+									
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+										<input class="form-control" type="text">	
+									</div>
+									<!-- end widget edit box -->
+									
+									<!-- widget content -->
+									<div class="widget-body no-padding">
+										
+										<table id="bank_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									        <thead>
+												<tr>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Name" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Number" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Action" />
+													</th>
+												</tr>
+									            <tr>
+									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Name</th>
+									                <th><i class="fa fa-fw fa-bank hidden-md hidden-sm hidden-xs"></i>Number</th>
+									                <th><i class="fa fa-fw fa-action text-muted hidden-md hidden-sm hidden-xs"></i>Action</th>
+									            </tr>
+									        </thead>
+									    </table>
+
+									</div>
+									<!-- end widget content -->
+									
+								</div>
+								<!-- end widget div -->
+				
+							</div>
+							<!-- end widget -->
+				
+						</article>
 
 						<article class="col-sm-12 col-md-12 col-lg-6">
 				
@@ -1263,6 +1338,50 @@
 					</div><!-- /.modal-dialog -->
 				</div><!-- /.modal -->
 
+				<!-- Modal -->
+				<div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="bankModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title" id="agencyModalLabel">agency data</h4>
+							</div>
+							<div class="modal-body">
+									<div class="row">
+										<div class="col-md-1">
+										</div>
+										<div class="col-md-11">
+											<form id="bankModal-form" class="smart-form" novalidate="novalidate">
+													<div>
+															<div class="row">
+																<div class="col-md-10">
+																	<label for="bankName">Name</label>
+																	<input id="bankName" name="name" type="text" class="form-control" value="" placeholder="" required />
+																</div>
+															</div>
+															<br>
+															<div class="row">
+																<div class="col-md-10">
+																	<label for="bankNumber">Number</label>
+																	<input id="bankNumber" name="number" type="text" class="form-control" value="" placeholder="" required />
+																</div>
+															</div>
+															<br><br>
+															<div class="modal-footer col-md-10">
+																<button type="submit" class="btn btn-primary">Submit</button>
+																<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+															</div>
+														</div>
+											</form>
+										</div>
+									</div>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
 			<div class="row">
@@ -1458,17 +1577,22 @@
 		<!-- google maps -->
 		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
 		<script src="js/google-maps.js"></script>
-		
-		<!-- monta lst of agency -->
-		<script src="js-datatables/agencies.js"></script>
 
 		<!-- relacionados com a pagina -->
 		<script src="js/agency-commons.js"></script>
 		<script src="js/school-commons.js"></script>
+		<script src="js/bank-commons.js"></script>
 		<script src="js/administrator.js"></script>
+
+		
+		<!-- monta lst of agency -->
+		<script src="js-datatables/agencies.js"></script>
 
 		<!-- monta lst of school -->
 		<script src="js-datatables/schools.js"></script>
+		
+		<!-- monta lst of bank -->
+		<script src="js-datatables/banks.js"></script>
 
 		<script type="text/javascript">
 		
