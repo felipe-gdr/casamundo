@@ -479,7 +479,7 @@
 
     function rest_obterBankNumber(bankNumber, action_ok, action_not_ok, tipo) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/obterBankNumber?name="  + bankNumber,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/obterBankNumber?number="  + bankNumber,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false

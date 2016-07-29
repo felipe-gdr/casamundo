@@ -781,12 +781,12 @@ function carregaInclusao(data) {
 };    
 
 function carregaNumberBank(data) { 	   	
-	$("#payment_financialInstitution").val(data.documento.name);
+	$("#payment_bankNumber").val(data.documento.number);
 };    
 
 
 function carregaNameBank(data) { 	   	
-	$("#payment_bankNumber").val(data.documento.number);
+	$("#payment_financialInstitution").val(data.documento.name);
 };    
 
 function setValueFamily (field, value) {
