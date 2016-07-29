@@ -254,6 +254,7 @@ function carregaTelaFamily(data, tipo) {
     	}
         $('#familyMemberOcuppation_0').val(data.documento.contact.ocuppation);
         $('#familyMemberDocDate_0').val(data.documento.contact.docDate);
+        $('#docs0').val(data.documento.docs.docs0);
 		$('.docs0').removeClass("hide");
     	lines = 1;
 	    $.each(data.documento.familyMembers
@@ -266,9 +267,11 @@ function carregaTelaFamily(data, tipo) {
 	        $('#familyMemberRelationship_' + z).val(value.relationship);
 	        $('#familyMemberOcuppation_' + z).val(value.ocuppation);
 	        $('#familyMemberDocDate_' + z).val(value.docDate);
+	        var photoDocs = "docs" + z;
+	        $('#docs' + z).val(data.documento.docs[photoDocs]);
 	    	montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "docs" + i);
 	    	if (value.docDate){
-	    		carregaPhoto (localStorage.app, value.photo, "docs" + i);
+	    		carregaPhoto (localStorage.app, data.documento.docs["docs" + i], "docs" + i);
 	    	};
 		  	var age = calculaIdade(separaConverteDataMes(value.birthDate, "/"));
 			$('.docs' + i).removeClass("hide");
@@ -363,7 +366,6 @@ function carregaTelaFamily(data, tipo) {
 };    
 
 function criaLinhaFamilyMember (i, familyName) {
-	var w = i + 1;
 	var familyMemberLine = '<li class="familyMemberItem">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList">' +					
@@ -405,23 +407,23 @@ function criaLinhaFamilyMember (i, familyName) {
 					'</section>' +
 					'<section class="col-xs-1">' +
 					'</section>' +
-					'<section class="col-xs-2 docs' + w + ' hide">' +
+					'<section class="col-xs-2 docs' + i + ' hide">' +
 						'<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' + 
 					        '<span> Load document ...</span>' + 
-					        '<input id="upload-img-docs' + w + '" type="file" name="uploadedFile" class="imgUpload">' + 
+					        '<input id="upload-img-docs' + i + '" type="file" name="uploadedFile" class="imgUpload">' + 
 					    '</span> ' +
 					    '<br> ' +
-					    '<div id="progress-docs' + w + '" class="progress col-xs-04"">' + 
+					    '<div id="progress-docs' + i + '" class="progress col-xs-04"">' + 
 					       '<div class="progress-bar progress-bar-success"></div>' + 
 					    '</div> ' +
-					    '<div id="files-docs' + w + '" class="input-value files col-xs-04""> ' +
-					    	'<img id="img-docs' + w + '" class="imgUpload">' +
+					    '<div id="files-docs' + i + '" class="input-value files col-xs-04""> ' +
+					    	'<img id="img-docs' + i + '" class="imgUpload">' +
 					    '</div>' +
 					'</section>' +
-					'<section class="col-xs-2 hide docs' + w + '">' +
+					'<section class="col-xs-2 hide docs' + i + '">' +
 					'</section>' +
-					'<section class="col-xs-2 hide docs' + w + '">' +
+					'<section class="col-xs-2 hide docs' + i + '">' +
 						'<span class="btn btn-success fileinput-button ">' + 
 					        '<span> Date of issue</span>' + 
 					    '</span> ' +
@@ -778,6 +780,15 @@ function carregaInclusao(data) {
 	localStorage.familyExistente = "false";
 };    
 
+function carregaNumberBank(data) { 	   	
+	$("#payment_financialInstitution").val(data.documento.name);
+};    
+
+
+function carregaNameBank(data) { 	   	
+	$("#payment_bankNumber").val(data.documento.number);
+};    
+
 function setValueFamily (field, value) {
 	
 	var objJson = JSON.parse(localStorage.getItem("family"));
@@ -970,3 +981,12 @@ function retornaListaFamily(){
 	});
 	window.location="families.html"; 
 };
+
+function carregaSelectBanks(data) {
+    $.each(data
+		    , function (i, optionValue) {
+    			$("#payment_financialInstitution").append( $(option(optionValue.name)));
+    			$("#payment_bankNumber").append( $(option(optionValue.number)));
+    });
+};
+

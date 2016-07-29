@@ -20,9 +20,7 @@
 
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
-    
 	rest_obterAgencyAll(carregaSelectAgencies);
-	
 	
 	rest_obterSchoolAll(carregaSelectSchool);
 	

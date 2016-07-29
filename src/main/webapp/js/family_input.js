@@ -21,6 +21,8 @@
 
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 	
+	rest_obterBankAll(carregaSelectBanks);
+	
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
@@ -558,3 +560,11 @@
 			$(".pet").addClass("hide");
 		}
 	});
+	
+	$('#payment_financialInstitution').change(function(){
+		rest_obterBank(this.value, carregaNumberBank, semAcao, "alteracao");
+   });
+	
+	$('#payment_bankNumber').change(function(){
+		rest_obterBankNumber(this.value, carregaNameBank, semAcao, "alteracao");
+   });

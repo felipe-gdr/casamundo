@@ -60,6 +60,22 @@ public class Rest_Bank {
 		mongo.close();
 		return documento;
 	};
+
+	@Path("/obterBankNumber")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONObject ObterBankNumber(@QueryParam("number") String number) throws UnknownHostException, MongoException {
+		Mongo mongo = new Mongo();
+		DB db = (DB) mongo.getDB("documento");
+		DBCollection collection = db.getCollection("bank");
+		BasicDBObject searchQuery = new BasicDBObject("documento.number", number);
+		DBObject cursor = collection.findOne(searchQuery);
+		JSONObject documento = new JSONObject();
+		BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+		documento.put("documento", obj);
+		mongo.close();
+		return documento;
+	};
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
