@@ -34,9 +34,9 @@ public class Agency {
 		public String name;
 		public String agencyPhone;
 		public String agencyEmail;
-		public String logo;
-		public String sigla;
-		public Consulters consulters [];
+		public String agencyLogo;
+		public String agencySigla;
+		public Consultants consultants [];
 
 		public Documento() {
 
@@ -47,16 +47,16 @@ public class Agency {
 				String name,
 				String agencyPhone,
 				String agencyEmail,
-				String logo,
-				String sigla,
-				Consulters consulters[]
+				String agencyLogo,
+				String agencySigla,
+				Consultants consultants[]
 						) {
 						this.name = name;  
 						this.agencyPhone = agencyPhone; 
 						this.agencyEmail = agencyEmail;
-						this.logo = logo;
-						this.sigla = sigla;
-						this.consulters = consulters; 
+						this.agencyLogo = agencyLogo;
+						this.agencySigla = agencySigla;
+						this.consultants = consultants; 
 		}
 
 		public void setName(String name) {
@@ -71,18 +71,18 @@ public class Agency {
 			return new StringBuffer(" Name : ").append(this.name).append(" Name : ").toString();
 		}
 
-		public static final class Consulters {
+		public static final class Consultants {
     		public String name;
     		public String phone;
     		public String celPhone;
     		public String email;
 
-    		public Consulters() {
+    		public Consultants() {
 
 			}
    
             @JsonCreator
-            public Consulters(
+            public Consultants(
             		String name,
             		String phone,
             		String celPhone,

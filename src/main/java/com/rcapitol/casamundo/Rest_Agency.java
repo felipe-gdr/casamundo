@@ -154,10 +154,9 @@ public class Rest_Agency {
 					jsonDocumento.put("name", jsonObject.get("name"));
 					jsonDocumento.put("agencyPhone", jsonObject.get("agencyPhone"));
 					jsonDocumento.put("agencyEmail", jsonObject.get("agencyEmail"));
-					jsonDocumento.put("nameConsult", jsonObject.get("nameConsult"));
-					jsonDocumento.put("celPhone", jsonObject.get("celPhone"));
-					jsonDocumento.put("phone", jsonObject.get("phone"));
-					jsonDocumento.put("email", jsonObject.get("email"));
+					jsonDocumento.put("agencyLogo", jsonObject.get("agencyLogo"));
+					jsonDocumento.put("agencySigla", jsonObject.get("agencySigla"));
+					jsonDocumento.put("consultants", jsonObject.get("consultants"));
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {

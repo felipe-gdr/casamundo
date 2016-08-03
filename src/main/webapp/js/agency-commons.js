@@ -5,50 +5,36 @@
 	var $tablesForm = $("#agencyModal-form").validate({
 		// Rules for form validation
 		rules : {
-			name : {
+			agencyName : {
 				required : true,
 			},
-			nameConsult : {
-				required : true,
-			},
-			celPhone : {
-				required : true,
-			},
-			phone : {
-				required : true,
-			},
-			email : {
+			agencyAgencyPhone : {
 				required : true,
 				email : true
+			},
+			agencyAgencyEmail : {
+				required : true,
 			},
 		},
 
 		// Messages for form validation
 		messages : {
-			name : {
+			agencyName : {
 				required : 'Please enter agency name',
 			},
-			nameConsult : {
-				required : 'Please enter agency consult name',
+			agencyAgencyPhone : {
+				required : 'Please enter agency phome',
 			},
-			celPhone : {
+			agencyAgencyEmail : {
 				required : 'Please enter agency cell phone',
-			},
-			phone : {
-				required : 'Please enter agency phone',
-			},
-			email : {
-				required : 'Please enter agency email',
 				email : 'Please enter a VALID email address'
-			},
+			}
 		},
 		// form submition
 		submitHandler : function(form) {
+			limpaStorageAgency();
 			var objJson = JSON.parse(localStorage.getItem("agency"));
-			if (!objJson){
-				limpaStorageAgency();
-				var objJson = JSON.parse(localStorage.getItem("agency"));
-			};
+			objJson.documento.consultants = JSON.parse(localStorage.consultants);
 			$.each(form
 			    , function (i, field) {
 				if (field.value){
@@ -78,16 +64,27 @@
 	$('#agencyInclusao').bind('click', function () {
     	localStorage.agencyExistente = "false";
     });
+	
+	$('#agencyModal-form').on('hidden.bs.modal', function () {
+    	$('#agencyName').attr("disabled", false);
+    	$("#agencyName").val("");
+    	$("#agencyAgencyPhone").val("");
+    	$("#agencyAgencyEmail").val("");
+    	$("#agencyAgencySigla").val("");
+    	$("#agencyAgencyLogo").val("");
+    	$("#agencyConsultants").val("");
+	});
 
-    function fechaModalAgency (field) {
+    function fechaModalAgency () {
     	$("#agencyModal").modal('hide');
     	$('#agencyName').attr("disabled", false);
     	
     	$("#agencyName").val("");
-    	$("#agencyNameConsult").val("");
-    	$("#agencyCelPhone").val("");
-    	$("#agencyPhone").val("");
-    	$("#agencyEmail").val("");
+    	$("#agencyAgencyPhone").val("");
+    	$("#agencyAgencyEmail").val("");
+    	$("#agencyAgencySigla").val("");
+    	$("#agencyAgencyLogo").val("");
+    	$("#agencyConsultants").val("");
     	
     	rest_obterAgencyAll(carregaAgencies);
     };
@@ -95,29 +92,27 @@
     function carregaLocalStorageAgency (data, tipo) {
     	localStorage.setItem("agency", JSON.stringify(data));
     	localStorage.agencyExistente = "true";
-    	
+    	carregaConsultants (data);
     };
 
-function carregaInclusaoAgency(data) { 	   	
-	localStorage.agencyExistente = "false";
-};    
-
-function limpaStorageAgency () {
+	function carregaInclusaoAgency(data) { 	   	
+		localStorage.agencyExistente = "false";
+	};    
 	
-	var data  = JSON.parse(
-			'{' +
-				'"documento" : ' + 
-				  '{' +
-				    '"name" : "",' +
-				    '"agencyPhone" : "",' +
-				    '"agencyEmail" : "",' +
-				    '"nameConsult" : "",' +
-				    '"celPhone" : "",' +
-				    '"phone" : "",' +
-				    '"email" : ""' +
-				  '}' +
-			'}'
-	);
-
-	localStorage.setItem("agency", JSON.stringify(data));
-};		
+	function limpaStorageAgency () {
+		
+		var data  = 
+				{
+					"documento" :  
+					  {
+					    "name" : "",
+					    "agencyPhone" : "",
+					    "agencyEmail" : "",
+					    "agencyLogo" : "",
+					    "agencySigla" : "",
+					    "consultants" : []
+					  }
+				};
+	
+		localStorage.setItem("agency", JSON.stringify(data));
+	};		

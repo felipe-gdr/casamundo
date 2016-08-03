@@ -1,5 +1,5 @@
 	/**
-     * 			adendo a lista agency
+     * 			adendo a lista consultants
      */
 
 	
@@ -8,14 +8,9 @@
 		phone : 480
 	};
 
-    /**
-	 * 				obter os dados
-	 */
-	rest_obterAgencyAll(carregaAgencies);
-
     
     /* Formatting function for row details - modify as you need */
-	function formatAgency ( d ) {
+	function formatConsultants ( d ) {
 	    // `d` is the original data object for the row
 /*	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
 	        '<tr>'+
@@ -25,13 +20,13 @@
 	    '</table>';
 */	};
 	
-	function carregaAgencies (objJson) {
+	function carregaConsultants (objJson) {
 		/* BASIC datatables*/
 
-		var responsiveHelper_agency_list = undefined;
+		var responsiveHelper_agency_consultants_list = undefined;
 	     
-		/* agency list  */
-	    var agency_table = $('#agency_list').DataTable({
+		/* consultants list  */
+	    var consultants_table = $('#agency_consultants_list').DataTable({
 	    	//"bFilter": false,
 	    	//"bInfo": false,
 	    	//"bLengthChange": true,
@@ -43,21 +38,21 @@
 					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
 			"preDrawCallback" : function() {
 				// Initialize the responsive datatables helper once.
-				if (!responsiveHelper_agency_list) {
-					responsiveHelper_agency_list = new ResponsiveDatatablesHelper($('#agency_list'), breakpointDefinition);
+				if (!responsiveHelper_agency_consultants_list) {
+					responsiveHelper_agency_consultants_list = new ResponsiveDatatablesHelper($('#agency_consultants_list'), breakpointDefinition);
 				}
 			},
 			"rowCallback" : function(nRow) {
-				responsiveHelper_agency_list.createExpandIcon(nRow);
+				responsiveHelper_agency_consultants_list.createExpandIcon(nRow);
 			},
 			"drawCallback" : function(oSettings) {
-				responsiveHelper_agency_list.respond();
+				responsiveHelper_agency_consultants_list.respond();
 			},		
 			"columns": [
 			            { "data": "name" },
-			            { "data": "agencyPhone" },
-			            { "data": "agencyEmail" },
-			            { "data": "agencySigla" },
+			            { "data": "phone" },
+			            { "data": "celPhone" },
+			            { "data": "email" },
 			            { "data": "actions" },
 			            ],
 	        "responsive": true,
@@ -71,9 +66,9 @@
 		
 	    });
 		// Add event listener for opening and closing details
-	    $('#agency_list tbody').on('click', 'td.details-control', function () {
+	    $('#agency_consultants_list tbody').on('click', 'td.details-control', function () {
 	        var tr = $(this).closest('tr');
-	        var row = agency_table.row( tr );
+	        var row = consultants_table.row( tr );
 	 
 	        if ( row.child.isShown() ) {
 	            // This row is already open - close it
@@ -82,46 +77,41 @@
 	        }
 	        else {
 	            // Open this row
-	            row.child( formatAgency(row.data()) ).show();
+	            row.child( formatConsultants(row.data()) ).show();
 	            tr.addClass('shown');
 	        }
 	    });
 	    
 	    // Apply the filter
-	    $("#agency_list thead th input[type=text]").on( 'keyup change', function () {
+	    $("#agency_consultants_list thead th input[type=text]").on( 'keyup change', function () {
 	    	
-	    	agency_table
+	    	consultants_table
 	            .column( $(this).parent().index()+':visible' )
 	            .search( this.value )
 	            .draw();
 	            
 	    } );
 
-	    agency_table.clear();
+	    consultants_table.clear();
 	    
-	    localStorage.setItem("agencies", JSON.stringify(objJson));
-        var objJson = JSON.parse(localStorage.getItem("agencies"));
-        $.each(objJson, function (i, agency) {
-        	agency_table.row.add( {
-    	    	'name': '<a id="agency' + i + '"  data-toggle="modal" data-target="#agencyModal">' + agency.name + '</a>',
-                'agencyPhone':'<small class="text-muted">' + agency.agencyPhone + '</small>',
-                'agencyEmail':'<small class="text-muted">' + agency.agencyEmail + '</small>',
-                'agencySigla':'<small class="text-muted">' + agency.agencySigla + '</small>',
+        $.each(objJson.documento.consultants, function (i, consultants) {
+        	consultants_table.row.add( {
+    	    	'name': '<a id="consultants' + i + '"  data-toggle="modal" data-target="#agencyConsultModal">' + consultants.name + '</a>',
+                'phone':'<small class="text-muted">' + consultants.phone + '</small>',
+                'celPhone':'<small class="text-muted">' + consultants.celPhone + '</small>',
+                'email':'<small class="text-muted">' + consultants.email + '</small>',
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
                 		'Action <span class="caret"></span></button>' + 
                 			'<ul class="dropdown-menu">' +
                 			'</div>'
     	    }).draw( false );
-            $('#agency' + i).bind('click', function () {
-            	$("#agencyName").val(agency.name);
-            	$('#agencyName').attr("disabled", true);
-            	$("#agencyAgencyPhone").val(agency.agencyPhone);
-            	$("#agencyAgencyEmail").val(agency.agencyEmail);
-            	$("#agencyAgencySigla").val(agency.agencySigla);
-            	$("#agencyLogo").val(agency.agencyLogo);
-            	localStorage.consultants = JSON.stringify(agency.consultants);
-            	localStorage.agencyExistente = "true";
-            	rest_obterAgency(agency.name, carregaLocalStorageAgency, carregaInclusaoAgency, "alteracao");
+            $('#consultants' + i).bind('click', function () {
+            	$("#agencyConsultName").val(consultants.name);
+            	$('#agencyConsultName').attr("disabled", true);
+            	$("#agencyConsultPhone").val(consultants.phone);
+            	$("#agencyConsultCelPhone").val(consultants.celPhone);
+            	$("#agencyConsultEmail").val(consultants.email);
+            	localStorage.consultExistente = "true";
             });
         });
 	};
