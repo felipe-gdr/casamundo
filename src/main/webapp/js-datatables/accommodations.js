@@ -216,25 +216,13 @@
 
         	accommodation_table.row.add( {
     	    	"name": "<a href='student.html?mail=" + student.mail + "&typePage=" + typePage + "'>" +
-			    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
-			    			"<small class='text-muted'><i>Age: " + age + "<i></small><br>" + 
-			    			"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" + 
-			    			"<small class='text-muted'><i>Cel Phone: " + student.phone +  "<i></small><br>" + 
-			    			"<small class='text-muted'><i>Mail: " + student.mail +  "<i></small><br></a>",
+			    			"<span>" + student.firstName +  " " + student.lastName + "</span>",
                 "start": "<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>" + separaData(student.trip.start, "/") + "</small>",
                 "end": "<small class='hide'>" + converteAnoMesDia(student.trip.end) + "</small><small class='text-muted'>" + separaData(student.trip.end, "/") + "</small>",
                 "status": "<small class='label " + statusCollor + "'>" + student.trip.status + "</small>",
     	    	"gender":"<small class='label " + genderCollor + " '>" + student.gender + "</small>",
-    	    	"agency":student.agency.name + "<br>" +
-				"<small class='text-muted'>Consult: " + student.agency.nameConsult + "</small><br>" +
-				"<small class='text-muted'>Cel Phone: " + student.agency.celPhone + "</small><br>" +
-				"<small class='text-muted'>Phone: " + student.agency.phone + "</small><br>" +
-				"<small class='text-muted'>Mail: " + student.agency.email + "</small><br>",
-				"school":student.school.name + "<br>" +
-				"<small class='text-muted'>Contact: " + student.school.nameContact + "</small><br>" +
-				"<small class='text-muted'>Cel Phone: " + student.school.celPhone + "</small><br>" +
-				"<small class='text-muted'>Phone: " + student.school.phone + "</small><br>" +
-				"<small class='text-muted'>Mail: " + student.school.email + "</small><br>",
+    	    	"agency":student.agency.name ,
+				"school":student.school.name ,
                 "filters": "<span class='label " + occupancyCollor + "'>" + occupancyText + " </span>" +
                 		specialDiet +
                 		"<span class='label " + liveDogsCollor + "'>" + liveDogsText + "</span>" +

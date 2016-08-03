@@ -89,7 +89,7 @@ public class Rest_Usuario {
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
 			mongo.close();
-			return Response.status(200).entity(documento).build();
+			return Response.status(200).build();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			System.out.println("UnknownHostException");
