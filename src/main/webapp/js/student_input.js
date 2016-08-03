@@ -41,6 +41,12 @@
 /**
 *          valida formulário   
 */
+	
+    // Método de validação  - Adiciona método JQuery Validation
+    $.validator.addMethod("regex", function(value, element, regexp) {
+        var re = new RegExp(regexp);
+        return this.optional(element) || re.test(value);
+    }, "");
 
 	var $studentForm = $("#student-form").validate({
 		// Rules for form validation
@@ -275,7 +281,7 @@
 		var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
 	});	
 
-	$('#birthDayStudent').datepicker({
+	$('#birthDay').datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
@@ -332,7 +338,7 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-//			$('#finishdate').datepicker('option', 'minDate', selectedDate);
+			$('#departureDate').datepicker('option', 'minDate', selectedDate);
 			}
 	});
 	$('#departureDate').datepicker({

@@ -2,6 +2,8 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import com.rcapitol.casamundo.Student.Documento.Trips;
+
 public class Agency {
 
 	public Documento documento;
@@ -32,10 +34,9 @@ public class Agency {
 		public String name;
 		public String agencyPhone;
 		public String agencyEmail;
-		public String nameConsult;
-		public String celPhone;
-		public String phone;
-		public String email;
+		public String logo;
+		public String sigla;
+		public Consulters consulters [];
 
 		public Documento() {
 
@@ -46,18 +47,16 @@ public class Agency {
 				String name,
 				String agencyPhone,
 				String agencyEmail,
-				String nameConsult,
-				String celPhone,
-				String phone,
-				String email
+				String logo,
+				String sigla,
+				Consulters consulters[]
 						) {
 						this.name = name;  
 						this.agencyPhone = agencyPhone; 
-						this.agencyEmail = agencyEmail; 
-						this.nameConsult = nameConsult; 
-						this.celPhone = celPhone; 
-						this.phone = phone; 
-						this.email = email; 
+						this.agencyEmail = agencyEmail;
+						this.logo = logo;
+						this.sigla = sigla;
+						this.consulters = consulters; 
 		}
 
 		public void setName(String name) {
@@ -66,34 +65,36 @@ public class Agency {
 		public String getName() {
 			return this.name;
 		}
-		public void setNameConsult(String nameConsult) {
-			this.nameConsult = nameConsult;
-		}
-		public String getNameConsult() {
-			return this.nameConsult;
-		}
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		public String getEmail() {
-			return this.email;
-		}
-		public void setCelPhone(String celPhone) {
-			this.celPhone = celPhone;
-		}
-		public String getCelPhone() {
-			return this.celPhone;
-		}
-		public void setPhone(String phone) {
-			this.phone = phone;
-		}
-		public String getPhone() {
-			return this.celPhone;
-		}
 
 		@Override
 		public String toString() {
-			return new StringBuffer(" Email : ").append(this.email).append(" Name : ").append(this.name).toString();
+			return new StringBuffer(" Name : ").append(this.name).append(" Name : ").toString();
+		}
+
+		public static final class Consulters {
+    		public String name;
+    		public String phone;
+    		public String celPhone;
+    		public String email;
+
+    		public Consulters() {
+
+			}
+   
+            @JsonCreator
+            public Consulters(
+            		String name,
+            		String phone,
+            		String celPhone,
+            		String email
+            			)
+            {
+        		this.name = name;
+        		this.phone = phone;
+        		this.celPhone = celPhone;
+        		this.email = email;
+            };
+
 		}
 	}
 } 

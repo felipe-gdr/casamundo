@@ -36,6 +36,11 @@
 		<!-- GOOGLE FONT -->
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
+		<!-- CSS photos generic page styles -->
+		<link rel="stylesheet" href="cssphoto/style.css">
+		<!-- CSS photos to style the file input field as button and adjust the Bootstrap progress bars -->
+		<link rel="stylesheet" href="cssphoto/jquery.fileupload.css">
+
 		<!-- Specifying a Webpage Icon for Web Clip 
 			 Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
 		<link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
@@ -240,17 +245,19 @@
 																</div>
 																<br><br>
 																<div class="row">
-																	<div class="col-xs-4">
+																	<div class="col-xs-3">
 																	      	<small class='text-muted'>Start: </small><small  class='text-primary' id="startEmail" data-viewformat="DD/MM/YYYY" data-original-title="Start"></small><br>
 																	      	<small class='text-muted'>End: </small><small  class='text-primary' id="endEmail" data-viewformat="DD/MM/YYYY" data-original-title="End"></small><br>
 																	</div>
-																	<div class="col-xs-4">
+																	<div class="col-xs-5">
 																	        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="Arrival Date"></small>
-																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTimeEmail"  data-original-title="Arrival Time"></small><br>
-																	        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="flightNumberEmail"  data-original-title="flight Number"></small><br>
-																	        <small class='text-muted'>Flight Date: </small><small  class='text-primary' id="flightDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="Flight Date"></small>
-																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="flightTimeEmail"  data-original-title="Arrival Time"></small><br>
-																	        <small class='text-muted'>Airline: </small><small  class='text-primary' id="airlineEmail"  data-original-title="Airline"></small><br>
+																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTimeEmail"  data-original-title="Arrival Time"></small>
+																	        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="arrivalFlightNumberEmail"  data-original-title="flight Number"></small>
+																	        <small class='text-muted'>Airline: </small><small  class='text-primary' id="arrivalAirlineEmail"  data-original-title="Airline"></small><br>
+																	        <small class='text-muted'>Departure Date: </small><small  class='text-primary' id="departureDateEmail" data-viewformat="DD/MM/YYYY" data-original-title="departure Date"></small>
+																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="departureTimeEmail"  data-original-title="departure Time"></small>
+																	        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="departureFlightNumberEmail"  data-original-title="flight Number"></small>
+																	        <small class='text-muted'>Airline: </small><small  class='text-primary' id="departureAirlineEmail"  data-original-title="Airline"></small>
 																	</div>
 																</div>
 																<br>
@@ -425,7 +432,7 @@
 																				<div class="col-xs-1"></div>
 																				<div class="col-xs-10">
 																					<div class="widget-body no-padding">
-																						<div id="map_canvas7" class="google_maps"></div>
+																						<div id="map_canvas7Fam" class="google_maps"></div>
 																					</div>
 																				</div>
 																			</div>
@@ -928,11 +935,6 @@
 																			</li>
 																			<li>
 																				<p class="text-muted">
-																					<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small  class='text-primary' id="phone" data-mask="(999) 9999-9999"  data-original-title="Phone"></small></span>
-																				</p>
-																			</li>
-																			<li>
-																				<p class="text-muted">
 																					<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mail"  data-original-title="Email"></small>
 																				</p>
 																			</li>
@@ -995,27 +997,44 @@
 																		        <small class='text-muted'> - Age: </small><small  class='text-primary' id="age"  data-original-title="Age"></small><br>
 																		      	<small class='text-muted'>Gender: </small><small  class='text-primary' id="gender"   data-original-title="Gender"></small><br>
 																		        <small class='text-muted'>Nationality: </small><small  class='text-primary' id="nationality"   data-original-title="Nationality"></small><br>
+																		        <small class='text-muted'>Secondary Phone:</small><small  class='text-primary' id="secondaryTelephone"  data-original-title="Secondary telephone"></small><br>
+																		        <small class='text-muted'>Emergency Contact:</small><small  class='text-primary' id="emergencyContactName"  data-original-title="Emergency contact name"></small><br>
+																		        <small class='text-muted'>Emergency Phone:</small><small  class='text-primary' id="emergencyContactPhone"  data-original-title="Emergency Contact Phone"></small><br>
+																		        <small class='text-muted'>Emergency Mail:</small><small  class='text-primary' id="emergencyContactMail"  data-original-title="Emergency Contact Mail"></small><br>
+																		        <small class='text-muted'>Emergency Relationship:</small><small  class='text-primary' id="emergencyContactRelationship"  data-original-title="Emergency Contact Relationship"></small><br>
 																		</div>
 																		<div class="col-xs-3">
 																		      	<small class='text-muted'>First Language: </small><small  class='text-primary' id="firstLanguage"  data-original-title="First Language"></small><br>
 																		        <small class='text-muted'>Profession:</small><small  class='text-primary' id="profession"  data-original-title="Profession"></small><br>
 																		        <small class='text-muted'>English Level:</small><small  class='text-primary' id="englishLevel"   data-original-title="English level"></small><br>
 																		</div>
-																		<div class="col-xs-3">
-																		      	<small class='text-muted'>Address: </small><small  class='text-primary' id="streetNumber"  data-original-title="Street number"></small>
-																		        <small class='text-muted'> - </small><small  class='text-primary' id="streetName"  data-original-title="Street name"></small>
-																		        <small class='text-muted'> - </small><small  class='text-primary' id="state"   data-original-title="Province/State"></small><br>
-																		      	<small class='text-muted'>ZIP: </small><small  class='text-primary' id="postalCode"  data-original-title="Postal code"></small>
-																		        <small class='text-muted'> - </small><small  class='text-primary' id="city"   data-original-title="City"></small>
-																		        <small class='text-muted'> - </small><small  class='text-primary' id="country"   data-original-title="Country"></small><br>
-																		</div>
-																		<div class="col-xs-3">
-																		        <small class='text-muted'>Secondary Phone:</small><small  class='text-primary' id="secondaryTelephone"  data-original-title="Secondary telephone"></small><br>
-																		        <small class='text-muted'>Emergency Contact:</small><small  class='text-primary' id="emergencyContactName"  data-original-title="Emergency contact name"></small><br>
-																		        <small class='text-muted'>Emergency Phone:</small><small  class='text-primary' id="emergencyContactPhone"  data-original-title="Emergency Contact Phone"></small><br>
-																		        <small class='text-muted'>Emergency Mail:</small><small  class='text-primary' id="emergencyContactMail"  data-original-title="Emergency Contact Mail"></small><br>
+																		<div class="col-xs-6">
+																		      	<small class='text-muted'>Address: </small><small  class='text-primary' id="streetName"  data-original-title="Address"></small>
+																		        <small class='text-muted'> - </small><small  class='text-primary' id="complement"  data-original-title="Complement"></small><br><br><br>
+																				<div class="col-xs-11">
+																					<div class="widget-body no-padding">
+																						<div id="map_canvas6" class="google_maps"></div>
+																					</div>
+																				</div>
 																		</div>
 								
+																	</div>
+																	<br>																		
+																	<div class="row">
+																		<div class="col-xs-11">
+																			<legend>
+																			<h7>Passport</h7>
+																			</legend>
+																		</div>
+																	</div>
+																	<br>																		
+																	<div class="row">
+																		<section class="col-xs-2">
+																			    <!-- The container for the uploaded files --> 
+																			    <div id="files-photoPassport" class="input-value files col-xs-04""> 
+																			    	<img id="img-photoPassport" class="imgUpload">
+																			    </div>
+																		</section>
 																	</div>
 																	<div class="row">
 																		<div class="col-xs-11">
@@ -1102,19 +1121,21 @@
 																		</div>
 																	</div>
 																	<div class="row">
-																		<div class="col-xs-4">
+																		<div class="col-xs-3">
 																		      	<small class='text-muted'>Status: </small><small  class='text-primary' id="status"   data-original-title="Status"></small><br>
 																		      	<small class='text-muted'>Destination</small><small  class='text-primary' id="destination"   data-original-title="Destination"></small><br>
-																		      	<small class='text-muted'>Start: </small><small  class='text-primary' id="start" data-viewformat="DD/MM/YYYY" data-original-title="Start"></small><br>
-																		      	<small class='text-muted'>End: </small><small  class='text-primary' id="end" data-viewformat="DD/MM/YYYY" data-original-title="End"></small><br>
+																		      	<small class='text-muted'>Check in: </small><small  class='text-primary' id="start" data-viewformat="DD/MM/YYYY" data-original-title="Start"></small><br>
+																		      	<small class='text-muted'>Check out: </small><small  class='text-primary' id="end" data-viewformat="DD/MM/YYYY" data-original-title="End"></small><br>
 																		</div>
-																		<div class="col-xs-4">
-																		        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDate" data-viewformat="DD/MM/YYYY" data-original-title="Arrival Date"></small>
-																		        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTime"  data-original-title="Arrival Time"></small><br>
-																		        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="flightNumber"  data-original-title="flight Number"></small><br>
-																		        <small class='text-muted'>Flight Date: </small><small  class='text-primary' id="flightDate" data-viewformat="DD/MM/YYYY" data-original-title="Flight Date"></small>
-																		        <small class='text-muted'> Time: </small><small  class='text-primary' id="flightTime"  data-original-title="Arrival Time"></small><br>
-																		        <small class='text-muted'>Airline: </small><small  class='text-primary' id="airline"  data-original-title="Airline"></small><br>
+																		<div class="col-xs-5">
+																	        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDate" data-viewformat="DD/MM/YYYY" data-original-title="Arrival Date"></small>
+																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTime"  data-original-title="Arrival Time"></small><br>
+																	        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="arrivalFlightNumber"  data-original-title="flight Number"></small>
+																	        <small class='text-muted'>Airline: </small><small  class='text-primary' id="arrivalAirline"  data-original-title="Airline"></small><br>
+																	        <small class='text-muted'>Departure Date: </small><small  class='text-primary' id="departureDate" data-viewformat="DD/MM/YYYY" data-original-title="departure Date"></small>
+																	        <small class='text-muted'> Time: </small><small  class='text-primary' id="departureTime"  data-original-title="departure Time"></small><br>
+																	        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="departureFlightNumber"  data-original-title="flight Number"></small>
+																	        <small class='text-muted'>Airline: </small><small  class='text-primary' id="departureAirline"  data-original-title="Airline"></small>
 																		</div>
 																		<div class="col-xs-4">
 																		      	<small class='text-muted'>Extend: </small><small  class='text-primary' id="extend"   data-original-title="Extend"></small><br>
@@ -1190,6 +1211,7 @@
 																		<div class="col-xs-4 hide homestay">
 																		        <small class='text-muted hide homestay'>Live with dogs: </small><small class='homestay hide  text-primary' id="liveDogs"   data-original-title="Live with dogs"></small><br>
 																		        <small class='text-muted hide homestay'>Live with cats: </small><small class='homestay hide  text-primary' id="liveCats"   data-original-title="Live with cats"></small><br>
+																		        <small class='text-muted hide homestay'>Live with children: </small><small class='homestay hide  text-primary' id="liveWithChildren"   data-original-title="Live with children"></small><br>
 																		    	<small class='text-muted hide homestay'>Private washroom: </small><small class='homestay hide  text-primary' id="privateWashroom"   data-original-title="Private Washroom"></small><br>
 																		</div>
 																		<div class="col-xs-4 hide dorms suite">
@@ -1590,7 +1612,7 @@
 		<script src="js/rest_commands.js"></script>
 
 		<!-- google maps -->
-		<script src="http://maps.googleapis.com/maps/api/js"?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
+		<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
 		<script src="js/google-maps.js"></script>
 
 	
