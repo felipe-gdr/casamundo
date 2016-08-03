@@ -47,11 +47,16 @@ public class Student {
 		public String postalCode;
 		public String city;
 		public String country;
+		public String complement;
+		public String latitude;
+		public String longitude;
 		public String secondaryTelephone;
 		public String emergencyContactName;
 		public String emergencyContactPhone;
 		public String emergencyContactMail;
+		public String emergencyContactRelationship;
 		public String actualTrip;
+		public String photoPassport;
 		public Trips trips [];
 
 
@@ -79,11 +84,16 @@ public class Student {
 						String postalCode,
 						String city,
 						String country,
+						String complement,
+						String latitude,
+						String longitude,
 						String secondaryTelephone,
 						String emergencyContactName,
 						String emergencyContactPhone,
 						String emergencyContactMail,
+						String emergencyContactRelationship,
 						String actualTrip,
+						String photoPassport,
 						Trips [] trips
 						) {
 						this.lastDestination = lastDestination;  
@@ -104,11 +114,16 @@ public class Student {
 						this.postalCode = postalCode; 
 						this.city = city; 
 						this.country = country; 
+						this.complement = complement;
+						this.latitude = latitude;
+						this.longitude = longitude;
 						this.secondaryTelephone = secondaryTelephone; 
 						this.emergencyContactName = emergencyContactName; 
 						this.emergencyContactPhone = emergencyContactPhone; 
 						this.emergencyContactMail = emergencyContactMail; 
+						this.emergencyContactRelationship = emergencyContactRelationship;
 						this.actualTrip = actualTrip; 
+						this.photoPassport = photoPassport;
 						this.trips = trips;
 		}
 
@@ -271,10 +286,12 @@ public class Student {
     		public String extend;          
     		public String arrivalDate;     
     		public String arrivalTime;    
-    		public String flightNumber;   
-    		public String flightDate;     
-    		public String flightTime;     
-    		public String airline;        
+    		public String arrivalFlightNumber;   
+    		public String arrivalAirline;        
+    		public String departureDate;     
+    		public String departureTime;     
+    		public String departureFlightNumber;   
+    		public String departureAirline;        
     		public String pickup;         
     		public String dropoff;        
     		public String accommodation;  
@@ -287,6 +304,7 @@ public class Student {
     		public String smoke;          
     		public String liveDogs;       
     		public String liveCats;       
+    		public String liveWithChildren;
     		public String hobbies;        
     		public String comments;       
     		public String medical;        
@@ -329,10 +347,12 @@ public class Student {
         	    		String extend,          
         	    		String arrivalDate,     
         	    		String arrivalTime,    
-        	    		String flightNumber,   
-        	    		String flightDate,     
-        	    		String flightTime,     
-        	    		String airline,        
+        	    		String arrivalFlightNumber,   
+        	    		String arrivalAirline,        
+        	    		String departureDate,     
+        	    		String departureTime,     
+        	    		String departureFlightNumber,   
+        	    		String departureAirline,        
         	    		String pickup,         
         	    		String dropoff,        
         	    		String accommodation,  
@@ -344,7 +364,8 @@ public class Student {
         	    		String privateWashroom,
         	    		String smoke,          
         	    		String liveDogs,       
-        	    		String liveCats,       
+        	    		String liveCats, 
+        	    		String liveWithChildren,
         	    		String hobbies,        
         	    		String comments,       
         	    		String medical,        
@@ -382,10 +403,12 @@ public class Student {
 	    		this.extend = extend;           
 	    		this.arrivalDate = arrivalDate;      
 	    		this.arrivalTime = arrivalTime;     
-	    		this.flightNumber = flightNumber;    
-	    		this.flightDate = flightDate;      
-	    		this.flightTime = flightTime;      
-	    		this.airline = airline;         
+	    		this.arrivalFlightNumber = arrivalFlightNumber;   
+	    		this.arrivalAirline = arrivalAirline;        
+	    		this.departureDate = departureDate;     
+	    		this.departureTime = departureTime;     
+	    		this.departureFlightNumber = departureFlightNumber;   
+	    		this.departureAirline = departureAirline;        
 	    		this.pickup = pickup;          
 	    		this.dropoff = dropoff;         
 	    		this.accommodation = accommodation;   
@@ -397,7 +420,8 @@ public class Student {
 	    		this.privateWashroom = privateWashroom; 
 	    		this.smoke = smoke;           
 	    		this.liveDogs = liveDogs;        
-	    		this.liveCats = liveCats;        
+	    		this.liveCats = liveCats; 
+	    		this.liveWithChildren = liveWithChildren;
 	    		this.hobbies = hobbies;         
 	    		this.comments = comments;        
 	    		this.medical = medical;         

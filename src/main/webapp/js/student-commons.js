@@ -1,3 +1,16 @@
+ 
+ function carregaMapa (results) {
+	$('#streetName').val(results[0].formatted_address);
+	$('.addressMap').removeClass("hide");
+	generate_map_6(results[0].geometry.location.lat(), results[0].geometry.location.lng());	
+	$('#latitude').val(results[0].geometry.location.lat());
+	$('#longitude').val(results[0].geometry.location.lng());
+};
+
+function enderecoComErro (data) {
+	$('.addressMap').addClass("hide");		
+};
+
     
 function carregaTela(data) {
     	
@@ -9,8 +22,8 @@ function carregaTela(data) {
 	$("#celPhone").val(data.documento.celPhone);
 	$("#phone").val(data.documento.phone);
 	$("#mail").val(data.documento.mail);
-	$("#birthDay").val(data.documento.birthDay);
-	$("#age").html(calculaIdade(separaData(data.documento.birthDay, "/")));
+	$("#birthDay").val(separaDataMes(data.documento.birthDay, "-"));
+	$("#age").html(calculaIdade(separaConverteDataMes(data.documento.birthDay, "/")));
 	$("#gender").val(data.documento.gender);
 	$("#nationality").val(data.documento.nationality);
 	$("#firstLanguage").val(data.documento.firstLanguage);
@@ -22,20 +35,35 @@ function carregaTela(data) {
 	$("#postalCode").val(data.documento.postalCode);
 	$("#city").val(data.documento.city);
 	$("#country").val(data.documento.country);
+	$("#complement").val(data.documento.complement);
+	$("#latitude").val(data.documento.latitude);
+	$("#longitude").val(data.documento.longitude);
+
+	// ** carrega mapa endereco
+	generate_map_6(data.documento.latitude, data.documento.longitude);
+	$('.addressMap').removeClass("hide");
+
 	$("#secondaryTelephone").val(data.documento.secondaryTelephone);
 	$("#emergencyContactName").val(data.documento.emergencyContactName);
 	$("#emergencyContactPhone").val(data.documento.emergencyContactPhone);
 	$("#emergencyContactMail").val(data.documento.emergencyContactMail);
+	$("#emergencyContactRelationship").val(data.documento.emergencyContactRelationship);
+	$("#photoPassport").val(data.documento.photoPassport);
+	if (data.documento.photoPassport){
+		carregaPhoto (localStorage.app, data.documento.photoPassport, "photoPassport");
+	};
 	$("#status").val(data.documento.trips[actualTrip].status);
 	$("#destination").val(data.documento.trips[actualTrip].destination);
-	$("#start").val(data.documento.trips[actualTrip].start);
-	$("#end").val(data.documento.trips[actualTrip].end);
-	$("#arrivalDate").val(data.documento.trips[actualTrip].arrivalDate);
+	$("#start").val(separaDataMes(data.documento.trips[actualTrip].start, "-"));
+	$("#end").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
+	$("#arrivalDate").val(separaDataMes(data.documento.trips[actualTrip].arrivalDate, "-"));
 	$("#arrivalTime").val(data.documento.trips[actualTrip].arrivalTime);
-	$("#flightNumber").val(data.documento.trips[actualTrip].flightNumber);
-	$("#flightDate").val(data.documento.trips[actualTrip].flightDate);
-	$("#flightTime").val(data.documento.trips[actualTrip].flightTime);
-	$("#airline").val(data.documento.trips[actualTrip].airline);
+	$("#arrivalFlightNumber").val(data.documento.trips[actualTrip].arrivalFlightNumber);
+	$("#arrivalAirline").val(data.documento.trips[actualTrip].arrivalAirline);
+	$("#departureDate").val(separaDataMes(data.documento.trips[actualTrip].departureDate, "-"));
+	$("#departureTime").val(data.documento.trips[actualTrip].departureTime);
+	$("#departureFlightNumber").val(data.documento.trips[actualTrip].departureFlightNumber);
+	$("#departureAirline").val(data.documento.trips[actualTrip].departureAirline);
 	if (data.documento.trips[actualTrip].extend == "Yes"){
 		$("#extend").prop("checked", true)
 	}
@@ -80,6 +108,9 @@ function carregaTela(data) {
 	}
 	if (data.documento.trips[actualTrip].liveCats == "Yes"){
 		$("#liveCats").prop("checked", true)
+	}
+	if (data.documento.trips[actualTrip].liveWithChildren == "Yes"){
+		$("#liveChildren").prop("checked", true)
 	}
 	$("#hobbies").val(data.documento.trips[actualTrip].hobbies);
 	$("#medical").val(data.documento.trips[actualTrip].medical);
@@ -256,6 +287,18 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.country;			
 	};
+	if (field == "complement"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.complement;			
+	};
+	if (field == "latitude"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.latitude;			
+	};
+	if (field == "longitude"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.longitude;			
+	};
 	if (field == "secondaryTelephone"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.secondaryTelephone;			
@@ -272,9 +315,17 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.emergencyContactMail;			
 	};
+	if (field == "emergencyContactRelationship"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.emergencyContactRelationship;			
+	};
 	if (field == "actualTrip"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.actualTrip;			
+	};
+	if (field == "photoPassport"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.photoPassport;			
 	};
 	if (field == "status"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -283,6 +334,10 @@ function getValueStudent (field, actualTrip) {
 	if (field == "destination"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].destination;		
+	};
+	if (field == "familyName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].familyName;		
 	};
 	if (field == "contactFamilyName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -344,21 +399,29 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].arrivalTime;		
 	};
-	if (field == "flightDate"){
+	if (field == "arrivalFlightNumber"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].flightDate;		
+        return objJson.documento.trips[actualTrip].arrivalFlightNumber;		
 	};
-	if (field == "flightNumber"){
+	if (field == "arrivalAirline"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].flightNumber;		
+        return objJson.documento.trips[actualTrip].arrivalAirline;			
 	};
-	if (field == "flightTime"){
+	if (field == "departureDate"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].flightTime;		
+        return objJson.documento.trips[actualTrip].departureDate;		
 	};
-	if (field == "airline"){
+	if (field == "departureTime"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].airline;			
+        return objJson.documento.trips[actualTrip].departureTime;		
+	};
+	if (field == "departureFlightNumber"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].departureFlightNumber;		
+	};
+	if (field == "departureAirline"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].departureAirline;			
 	};
 	if (field == "extend"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -411,6 +474,10 @@ function getValueStudent (field, actualTrip) {
 	if (field == "liveCats"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].liveCats;		
+	};
+	if (field == "liveWithChildren"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].liveWithChildren;		
 	};
 	if (field == "hobbies"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -520,9 +587,14 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].schoolName;		
 	};
+	
 	if (field == "schoolName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].schoolName;		
+	};
+	if (field == "mainPurposeTrip"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].mainPurposeTrip;		
 	};
 					
 	return "##erro";
@@ -583,6 +655,15 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "country"){
         objJson.documento.country = value;
 	};
+	if (field == "complement"){
+        objJson.documento.complement = value;
+	};
+	if (field == "latitude"){
+        objJson.documento.latitude = value;
+	};
+	if (field == "longitude"){
+        objJson.documento.longitude = value;
+	};
 	if (field == "secondaryTelephone"){
         objJson.documento.secondaryTelephone = limpaData(value);
 	};
@@ -595,8 +676,14 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "emergencyContactMail"){
         objJson.documento.emergencyContactMail = value;
 	};
-	if (field == "status"){
-        objJson.documento.trips[actualTrip].status = value;
+	if (field == "emergencyContactRelationship"){
+        objJson.documento.emergencyContactRelationship = value;
+	};
+	if (field == "emergencyContactRelationship"){
+        objJson.documento.emergencyContactRelationship = value;
+	};
+	if (field == "photoPassport"){
+        objJson.documento.photoPassport = value;
 	};
 	if (field == "destination"){
         objJson.documento.trips[actualTrip].destination = value;
@@ -613,17 +700,23 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "arrivalTime"){
         objJson.documento.trips[actualTrip].arrivalTime = limpaData(value);
 	};
-	if (field == "flightNumber"){
-        objJson.documento.trips[actualTrip].flightNumber = value;
+	if (field == "arrivalFlightNumber"){
+        objJson.documento.trips[actualTrip].arrivalFlightNumber = value;
 	};
-	if (field == "flightDate"){
-        objJson.documento.trips[actualTrip].flightDate = limpaData(value);
+	if (field == "arrivalAirline"){
+        objJson.documento.trips[actualTrip].arrivalAirline = value;
 	};
-	if (field == "flightTime"){
-        objJson.documento.trips[actualTrip].flightTime = limpaData(value);
+	if (field == "departureDate"){
+        objJson.documento.trips[actualTrip].departureDate = limpaData(value);
 	};
-	if (field == "airline"){
-        objJson.documento.trips[actualTrip].airline = value;
+	if (field == "departureTime"){
+        objJson.documento.trips[actualTrip].departureTime = limpaData(value);
+	};
+	if (field == "departureFlightNumber"){
+        objJson.documento.trips[actualTrip].departureFlightNumber = value;
+	};
+	if (field == "departureAirline"){
+        objJson.documento.trips[actualTrip].departureAirline = value;
 	};
 	if (field == "extend"){
         objJson.documento.trips[actualTrip].extend = value;
@@ -665,6 +758,9 @@ function setValueStudent (field, value, actualTrip, grava) {
 	};
 	if (field == "liveCats"){
         objJson.documento.trips[actualTrip].liveCats = value;
+	};
+	if (field == "liveWithChildren"){
+        objJson.documento.trips[actualTrip].liveWithChildren = value;
 	};
 	if (field == "hobbies"){
         objJson.documento.trips[actualTrip].hobbies = value;
@@ -756,7 +852,7 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (grava){
 		rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoCampoEfetuada, atualizacaoCampoNaoEfetuada);
 	}
-};	""
+};
 
 function carregaInclusao(data) { 	   	
 	localStorage.studentExistente = "false";
@@ -791,11 +887,14 @@ function limpaStorageStudent () {
 				    postalCode : "", 
 				    city : "", 
 				    country : "", 
+				    complement : "", 
 				    secondaryTelephone : "", 
 				    emergencyContactName : "", 
 				    emergencyContactPhone : "", 
 				    emergencyContactMail : "", 
+				    emergencyContactRelationship : "", 
 				    actualTrip : 0, 
+				    photoPassport : "", 
 				    trips: 
 				    	[ 
 					    	{ 
@@ -807,10 +906,12 @@ function limpaStorageStudent () {
 					    		extend:"", 
 					    		arrivalDate:"", 
 					    		arrivalTime:"", 
-					    		flightNumber:"", 
-					    		flightDate:"", 
-					    		flightTime:"", 
-					    		airline:"", 
+					    		arrivalFlightNumber:"", 
+					    		arrivalAirline:"", 
+					    		departureDate:"", 
+					    		departureTime:"", 
+					    		departureFlightNumber:"", 
+					    		departureAirline:"", 
 					    		pickup:"", 
 					    		dropoff:"", 
 					    		accommodation:"", 
@@ -823,6 +924,7 @@ function limpaStorageStudent () {
 					    		smoke:"", 
 					    		liveDogs:"", 
 					    		liveCats:"", 
+					    		liveWithChildren:"", 
 					    		hobbies:"", 
 					    		comments:"", 
 					    		medical:"", 

@@ -67,13 +67,13 @@
     $('#mail').html(getValueStudent("mail"));
     $('#lastName').html(getValueStudent("lastName"));
     $('#firstName').html(getValueStudent("firstName"));
-    $("#birthDay").html(separaData(getValueStudent("birthDay"), "/"));
-    $("#age").html(calculaIdade(separaData(getValueStudent("birthDay"), "/")));
+    $("#birthDay").html(separaDataMes(getValueStudent("birthDay"), "-"));
+    $("#age").html(calculaIdade(separaConverteDataMes(getValueStudent("birthDay"), "/")));
     $('#gender').html(getValueStudent("gender"));
     $('#nationality').html(getValueStudent("nationality"));
     $('#firstLanguage').html(getValueStudent("firstLanguage"));
     $('#profession').html(getValueStudent("profession"));
-    $('#mainPurposeTrip').html(getValueStudent("mainPurposeTrip"));
+//    $('#mainPurposeTrip').html(getValueStudent("mainPurposeTrip"));
     $('#englishLevel').html(getValueStudent("englishLevel"));
     $('#streetNumber').html(getValueStudent("streetNumber"));
     $('#streetName').html(getValueStudent("streetName"));
@@ -81,10 +81,21 @@
     $('#postalCode').html(getValueStudent("postalCode"));
     $('#city').html(getValueStudent("city"));
     $('#country').html(getValueStudent("country"));
-    $('#secondaryTelephone').html(getValueStudent("secondaryTelephone"));
+    $('#complement').html(getValueStudent("complement"));
+
+	// ** carrega mapa endereco
+	generate_map_6(getValueStudent("latitude"), getValueStudent("longitude"));
+	$('.addressMap').removeClass("hide");
+
+	$('#secondaryTelephone').html(getValueStudent("secondaryTelephone"));
     $('#emergencyContactName').html(getValueStudent("emergencyContactName"));
     $('#emergencyContactPhone').html(getValueStudent("emergencyContactPhone"));
     $('#emergencyContactMail').html(getValueStudent("emergencyContactMail"));
+    $('#emergencyContactRelationship').html(getValueStudent("emergencyContactRelationship"));
+    $('#photoPassport').html(getValueStudent("photoPassport"));
+	if (getValueStudent("photoPassport")){
+		carregaPhoto (localStorage.app, getValueStudent("photoPassport"), "photoPassport");
+	};
     $('#status').html(getValueStudent("status",actualTrip));
     $('#destination').html(getValueStudent("destination",actualTrip));
     $('#contactFamilyName').html(getValueStudent("contactFamilyName",actualTrip));
@@ -99,14 +110,16 @@
     	$(".family" ).removeClass("hide");
     };
     
-    $("#start").html(separaData(getValueStudent("start", actualTrip), "."), actualTrip);
-    $("#end").html(separaData(getValueStudent("end", actualTrip), "."), actualTrip);
-    $("#arrivalDate").html(separaData(getValueStudent("arrivalDate", actualTrip), "."), actualTrip);
+    $("#start").html(separaDataMes(getValueStudent("start", actualTrip), "-"));
+    $("#end").html(separaDataMes(getValueStudent("end", actualTrip), "-"), actualTrip);
+    $("#arrivalDate").html(separaDataMes(getValueStudent("arrivalDate", actualTrip), "-"));
     $("#arrivalTime").html(separaHora(getValueStudent("arrivalTime", actualTrip), ":"));
-    $('#flightNumber').html(getValueStudent("flightNumber",actualTrip));
-    $("#flightDate").html(separaData(getValueStudent("flightDate", actualTrip), "."), actualTrip);
-    $("#flightTime").html(separaHora(getValueStudent("flightTime", actualTrip), ":"), actualTrip);
-    $('#airline').html(getValueStudent("airline",actualTrip));
+    $('#arrivalFlightNumber').html(getValueStudent("arrivalFlightNumber",actualTrip));
+    $('#arrivalAirline').html(getValueStudent("arrivalAirline",actualTrip));
+    $("#departureDate").html(separaDataMes(getValueStudent("departureDate", actualTrip), "-"));
+    $("#departureTime").html(separaHora(getValueStudent("departureTime", actualTrip), ":"));
+    $('#departureFlightNumber').html(getValueStudent("departureFlightNumber",actualTrip));
+    $('#departureAirline').html(getValueStudent("departureAirline",actualTrip));
     $('#extend').html(getValueStudent("extend",actualTrip));
     $('#pickup').html(getValueStudent("pickup",actualTrip));
     $('#dropoff').html(getValueStudent("dropoff",actualTrip));
@@ -131,13 +144,13 @@
     $('#mailEmail').html(getValueStudent("mail"));
     $('#lastNameEmail').html(getValueStudent("lastName"));
     $('#firstNameEmail').html(getValueStudent("firstName"));
-    $("#birthDayEmail").html(separaData(getValueStudent("birthDay"), "/"));
-    $("#ageEmail").html(calculaIdade(separaData(getValueStudent("birthDay"), "/")));
+    $("#birthDayEmail").html(separaDataMes(getValueStudent("birthDay"), "-"));
+    $("#ageEmail").html(calculaIdade(separaConverteDataMes(getValueStudent("birthDay"), "/")));
     $('#genderEmail').html(getValueStudent("gender"));
     $('#nationalityEmail').html(getValueStudent("nationality"));
     $('#firstLanguageEmail').html(getValueStudent("firstLanguage"));
     $('#professionEmail').html(getValueStudent("profession"));
-    $('#mainPurposeTripEmail').html(getValueStudent("mainPurposeTrip"));
+//    $('#mainPurposeTripEmail').html(getValueStudent("mainPurposeTrip"));
     $('#englishLevelEmail').html(getValueStudent("englishLevel"));
     $('#streetNumberEmail').html(getValueStudent("streetNumber"));
     $('#streetNameEmail').html(getValueStudent("streetName"));
@@ -151,14 +164,16 @@
     $('#emergencyContactMailEmail').html(getValueStudent("emergencyContactMail"));
     $('#statusEmail').html(getValueStudent("status",actualTrip));
     $('#destinationEmail').html(getValueStudent("destination",actualTrip));
-    $("#startEmail").html(separaData(getValueStudent("start", actualTrip), "."), actualTrip);
-    $("#endEmail").html(separaData(getValueStudent("end", actualTrip), "."), actualTrip);
-    $("#arrivalDateEmail").html(separaData(getValueStudent("arrivalDate", actualTrip), "."), actualTrip);
-    $("#arrivalTimeEmail").html(separaHora(getValueStudent("arrivalTime", actualTrip), ":"));
-    $('#flightNumberEmail').html(getValueStudent("flightNumber",actualTrip));
-    $("#flightDateEmail").html(separaData(getValueStudent("flightDate", actualTrip), "."), actualTrip);
-    $("#flightTimeEmail").html(separaHora(getValueStudent("flightTime", actualTrip), ":"), actualTrip);
-    $('#airlineEmail').html(getValueStudent("airline",actualTrip));
+    $("#startEmail").html(separaDataMes(getValueStudent("start", actualTrip), "."), "-");
+    $("#endEmail").html(separaDataMes(getValueStudent("end", actualTrip), "."), "-");
+    $("#arrivalDateEmail").html(separaDataMes(getValueStudent("arrivalDate", actualTrip), "."), "-");
+    $("#arrivalDateEmail").html(separaHora(getValueStudent("arrivalTime", actualTrip), ":"));
+    $('#arrivalFlightNumberEmail').html(getValueStudent("arrivalFlightNumber",actualTrip));
+    $('#arrivalAirlineEmail').html(getValueStudent("arrivalAirline",actualTrip));
+    $("#departureDateEmail").html(separaDataMes(getValueStudent(("departureDate", actualTrip)), "-"));
+    $("#departureTimeEmail").html(separaHora(getValueStudent("departureTime", actualTrip), ":"));
+    $('#departureFlightNumberEmail').html(getValueStudent("departureFlightNumber",actualTrip));
+    $('#departureAirlineEmail').html(getValueStudent("departureAirline",actualTrip));
     $('#extendEmail').html(getValueStudent("extend",actualTrip));
     $('#pickupEmail').html(getValueStudent("pickup",actualTrip));
     $('#dropoffEmail').html(getValueStudent("dropoff",actualTrip));
@@ -180,6 +195,7 @@
     $('#smoke').html(getValueStudent("smoke",actualTrip));
     $('#liveDogs').html(getValueStudent("liveDogs",actualTrip));
     $('#liveCats').html(getValueStudent("liveCats",actualTrip));
+    $('#liveWithChildren').html(getValueStudent("liveWithChildren",actualTrip));
     $('#hobbies').html(getValueStudent("hobbies",actualTrip));
     $('#medical').html(getValueStudent("medical",actualTrip));
     $('#comments').html(getValueStudent("comments",actualTrip));

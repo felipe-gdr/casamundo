@@ -30,11 +30,13 @@
 	if (mailUrl){
 		localStorage.studentExistente = "true";
 		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
+		montaPhoto (localStorage.app, "student", "photoPassport", "student", mailUrl, "photoPassport");
 		$('#mail').attr("disabled", true);
 	};	
 
 
 	limpaStorageStudent ();
+	
 
 /**
 *          valida formulário   
@@ -61,6 +63,7 @@
 			},
 			birthDay : {
 				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			gender : {
 				required : true,
@@ -103,9 +106,17 @@
 			},
 			start : {
 				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			end : {
 				required : true,
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			arrivalDate : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
+			},
+			departureDate : {
+				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			agencyName : {
 				required : true,
@@ -260,11 +271,12 @@
 	// **** testa existencia do email
 	$("#mail").blur(function(){
 		localStorage.studentExistente = "false";
+		montaPhoto (localStorage.app, "student", "photoPassport", "student", this.value, "photoPassport");
 		var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
 	});	
 
 	$('#birthDayStudent').datepicker({
-		dateFormat : 'dd.mm.yy',
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
@@ -300,7 +312,7 @@
 		};
 	})
 	$('#start').datepicker({
-		dateFormat : 'dd.mm.yy',
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
@@ -308,7 +320,7 @@
 			}
 		});
 	$('#end').datepicker({
-		dateFormat : 'dd.mm.yy',
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
@@ -316,15 +328,15 @@
 			}
 	});
 	$('#arrivalDate').datepicker({
-		dateFormat : 'dd.mm.yy',
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
 //			$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 	});
-	$('#flightDate').datepicker({
-		dateFormat : 'dd.mm.yy',
+	$('#departureDate').datepicker({
+		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
@@ -363,4 +375,8 @@
 		$(".school").addClass("hide");
 		rest_obterSchool ($(this).val(), carregaDadosSchool, semAcao);
 	});
+
+	$('#streetName').bind('blur', function () {
+    	getMapCoordinate($('#streetName').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+    });
     
