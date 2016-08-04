@@ -55,9 +55,7 @@
 			},		
 			"columns": [
 			            { "data": "name" },
-			            { "data": "schoolPhone" },
-			            { "data": "schoolEmail" },
-			            { "data": "nameContact" },
+			            { "data": "sigla" },
 			            { "data": "celPhone" },
 			            { "data": "phone" },
 			            { "data": "email" },
@@ -107,9 +105,7 @@
         $.each(objJson, function (i, school) {
         	school_table.row.add( {
     	    	'name': '<a id="school' + i + '"  data-toggle="modal" data-target="#schoolModal">' + school.name + '</a>',
-                'schoolPhone':'<small class="text-muted">' + school.schoolPhone + '</small>',
-                'schoolEmail':'<small class="text-muted">' + school.schoolEmail + '</small>',
-                'nameContact':'<small class="text-muted">' + school.nameContact + '</small>',
+                'sigla':'<small class="text-muted">' + school.sigla + '</small>',
                 'celPhone':'<small class="text-muted">' + school.celPhone + '</small>',
                 'phone':'<small class="text-muted">' + school.phone + '</small>',
                 'email':'<small class="text-muted">' + school.email + '</small>',
@@ -121,9 +117,6 @@
             $('#school' + i).bind('click', function () {
             	$("#schoolName").val(school.name);
             	$('#schoolName').attr("disabled", true);
-            	$("#schoolSchoolPhone").val(school.schoolPhone);
-            	$("#schoolSchoolEmail").val(school.schoolEmail);
-            	$("#schoolNameContact").val(school.nameContact);
             	$("#schoolCelPhone").val(school.celPhone);
             	$("#schoolPhone").val(school.phone);
             	$("#schoolEmail").val(school.email);
