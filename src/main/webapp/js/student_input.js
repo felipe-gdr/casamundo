@@ -355,7 +355,6 @@
 		$('.g' + $(this).val()).removeClass("hide");
 	});
 
-
 	$('#arrivalTime').timepicker();
 	$('#flightTime').timepicker();
 	
@@ -373,11 +372,17 @@
         }
     });
 	$('#agencyName').change(function() {
+		$("#agencyConsultName option").remove();
+		$("#agencyConsultName").append($(option("Choose one item")));
+		$('#agencyConsultName option[value="Choose one item"]').attr('disabled','disabled');
 		$(".agency").addClass("hide");
 		rest_obterAgency ($(this).val(), carregaDadosAgency, semAcao);
 	});
 
 	$('#schoolName').change(function() {
+		$("#schoolConsultName option").remove();
+		$("#schoolConsultName").append($(option("Choose one item")));
+		$('#schoolConsultName option[value="Choose one item"]').attr('disabled','disabled');
 		$(".school").addClass("hide");
 		rest_obterSchool ($(this).val(), carregaDadosSchool, semAcao);
 	});

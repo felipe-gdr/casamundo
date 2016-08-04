@@ -152,48 +152,56 @@ function carregaTela(data) {
     
 	if (data.documento.trips[actualTrip].agencyName){
 		$(".agency").addClass("hide");
-		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao)
+		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao, false, data.documento.trips[actualTrip].agencyConsultName)
 	};
+	$("#agencyConsultName").val(data.documento.trips[actualTrip].agencyConsultName);
 	
 	if (data.documento.trips[actualTrip].schoolName){
 		$(".school").addClass("hide");
-		rest_obterSchool (data.documento.trips[actualTrip].schoolName, carregaDadosSchool, semAcao)
+		rest_obterSchool (data.documento.trips[actualTrip].schoolName, carregaDadosSchool, semAcao, false, data.documento.trips[actualTrip].schoolConsultName)
 	};
+	$("#schoolConsultName").val(data.documento.trips[actualTrip].schoolConsultName);
 
 	localStorage.setItem("student", JSON.stringify(data));
 	localStorage.studentExistente = "true";
 };    
 
-function carregaDadosAgency(data, consult) {
+function carregaDadosAgency(data, consult, consultName) {
 	if (consult){
 		$("#agencyName").html(data.documento.name);
-		$("#agencyNameEmail").html(data.documento.name);
 	}else{
 		$("#agencyName").val(data.documento.name);
 	};
+    $.each(data.documento.consultants, function (i, consultants) {
+    	if (consultants.name == consultName){
+    		$("#agencyConsultMobile").html(consultants.celPhone);
+    		$("#agencyConsultPhone").html(consultants.phone);
+    		$("#agencyConsultEmail").html(consultants.email);
+    	};
+    	$("#agencyConsultName").append( $(option(consultants.name)));
+    });
 	$("#agencyPhone").html(data.documento.agencyPhone);
 	$("#agencyEmail").html(data.documento.agencyEmail);
-	$("#agencyNameConsult").html(data.documento.nameConsult);
-	$("#agencyConsultMobile").html(data.documento.celPhone);
-	$("#agencyConsultPhone").html(data.documento.phone);
-	$("#agencyConsultEmail").html(data.documento.email);
 	$(".agency").removeClass("hide");
 };
 
-function carregaDadosSchool(data, consult) {
+function carregaDadosSchool(data, consult, consultName) {
 	if (consult){
 		$("#schoolName").html(data.documento.name);	
-		$("#schoolNameEmail").html(data.documento.name);
 	}else{
 		$("#schoolName").val(data.documento.name);
 	};
 	$("#schoolPhone").html(data.documento.schoolPhone);
 	$("#schoolEmail").html(data.documento.schoolEmail);
-	$("#schoolNameContact").html(data.documento.nameContact);
-	$("#schoolContactMobile").html(data.documento.celPhone);
-	$("#schoolContactPhone").html(data.documento.phone);
-	$("#schoolContactEmail").html(data.documento.email);
 	$("#schoolAddress").html(data.documento.address);
+    $.each(data.documento.consultants, function (i, consultants) {
+    	if (consultants.name == consultName){
+    		$("#schoolConsultMobile").html(consultants.celPhone);
+    		$("#schoolConsultPhone").html(consultants.phone);
+    		$("#schoolConsultEmail").html(consultants.email);
+    	};
+    	$("#schoolConsultName").append( $(option(consultants.name)));
+    });
 	$(".school").removeClass("hide");
 	generate_map_7(data.documento.latitude, data.documento.longitude);
 	localStorage.latitudeSchool = data.documento.latitude;
@@ -583,14 +591,17 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].agencyName;		
 	};
+	if (field == "agencyConsultName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].agencyConsultName;		
+	};
 	if (field == "schoolName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].schoolName;		
 	};
-	
-	if (field == "schoolName"){
+	if (field == "schoolConsultName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].schoolName;		
+        return objJson.documento.trips[actualTrip].schoolConsultName;		
 	};
 	if (field == "mainPurposeTrip"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -843,8 +854,14 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "agencyName"){
         objJson.documento.trips[actualTrip].agencyName = value;
 	};
+	if (field == "agencyConsultName"){
+        objJson.documento.trips[actualTrip].agencyConsultName = value;
+	};
 	if (field == "schoolName"){
         objJson.documento.trips[actualTrip].schoolName = value;
+	};
+	if (field == "schoolConsultName"){
+        objJson.documento.trips[actualTrip].schoolConsultName = value;
 	};
 
 	localStorage.setItem("student", JSON.stringify(objJson));
@@ -951,7 +968,9 @@ function limpaStorageStudent () {
 					    		agreeDebitSuite:"", 
 					    		agreeSuite:"", 
 					    		agencyName:"", 
-					    		schoolName:"" 
+					    		agencyConsultName:"", 
+					    		schoolName:"", 
+					    		schoolConsultName:"" 
 					    	} 
 					    ] 
 				} 

@@ -288,7 +288,7 @@
        	});
     };
 
-    function rest_obterAgency(agencyName, action_ok, action_not_ok, tipo) {
+    function rest_obterAgency(agencyName, action_ok, action_not_ok, par1, par2 ) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/agency/obterAgencyName?name="  + agencyName,
             contentType: "application/json; charset=utf-8",
@@ -296,7 +296,7 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, par1, par2);
     	})
     	.fail(function(data) {
     		action_not_ok
@@ -366,7 +366,7 @@
        	});
     };
 
-    function rest_obterSchool(schoolName, action_ok, action_not_ok, tipo) {
+    function rest_obterSchool(schoolName, action_ok, action_not_ok, par1, par2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/school/obterSchoolName?name="  + schoolName,
             contentType: "application/json; charset=utf-8",
@@ -374,7 +374,7 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data,par1, par2);
     	})
     	.fail(function(data) {
     		action_not_ok

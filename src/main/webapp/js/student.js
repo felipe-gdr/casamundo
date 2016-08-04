@@ -247,10 +247,12 @@
 	if (getValueStudent("agencyName",actualTrip)){
 		rest_obterAgency (getValueStudent("agencyName",actualTrip), carregaDadosAgency, semAcao, true)
 	};
+	$("#agencyConsultName").html(data.documento.trips[actualTrip].agencyConsultName);
 	
 	if (getValueStudent("schoolName",actualTrip)){
 		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true)
 	};
+	$("#schoolConsultName").html(data.documento.trips[actualTrip].schoolConsultName);
 	
 
 	
