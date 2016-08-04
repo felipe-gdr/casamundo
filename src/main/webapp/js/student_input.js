@@ -375,16 +375,43 @@
 		$("#agencyConsultName option").remove();
 		$("#agencyConsultName").append($(option("Choose one item")));
 		$('#agencyConsultName option[value="Choose one item"]').attr('disabled','disabled');
+		$("#agencyConsultMobile").html("");
+		$("#agencyConsultPhone").html("");
+		$("#agencyConsultEmail").html("");
 		$(".agency").addClass("hide");
 		rest_obterAgency ($(this).val(), carregaDadosAgency, semAcao);
+	});
+	$('#agencyConsultName').change(function() {
+		var objJson = JSON.parse(localStorage.getItem("agency"));
+	    $.each(objJson.documento.consultants, function (i, consultants) {
+	    	console.log ("valor" + $('#agencyConsultName').val())
+	    	if (consultants.name == $('#agencyConsultName').val()){
+	    		$("#agencyConsultMobile").html(consultants.celPhone);
+	    		$("#agencyConsultPhone").html(consultants.phone);
+	    		$("#agencyConsultEmail").html(consultants.email);
+	    	};
+	    });
 	});
 
 	$('#schoolName').change(function() {
 		$("#schoolConsultName option").remove();
 		$("#schoolConsultName").append($(option("Choose one item")));
 		$('#schoolConsultName option[value="Choose one item"]').attr('disabled','disabled');
+		$("#schoolConsultMobile").html("");
+		$("#schoolConsultPhone").html("");
+		$("#schoolConsultEmail").html("");
 		$(".school").addClass("hide");
 		rest_obterSchool ($(this).val(), carregaDadosSchool, semAcao);
+	});
+	$('#schoolConsultName').change(function() {
+		var objJson = JSON.parse(localStorage.getItem("school"));
+	    $.each(objJson.documento.consultants, function (i, consultants) {
+	    	if (consultants.name == $('#schoolConsultName').val()){
+	    		$("#schoolConsultMobile").html(consultants.celPhone);
+	    		$("#schoolConsultPhone").html(consultants.phone);
+	    		$("#schoolConsultEmail").html(consultants.email);
+	    	};
+	    });
 	});
 
 	$('#streetName').bind('blur', function () {
