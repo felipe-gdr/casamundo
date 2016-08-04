@@ -119,7 +119,6 @@
             	$("#agencyAgencyEmail").val(agency.agencyEmail);
             	$("#agencyAgencySigla").val(agency.agencySigla);
             	$("#agencyLogo").val(agency.agencyLogo);
-            	localStorage.consultants = JSON.stringify(agency.consultants);
             	localStorage.agencyExistente = "true";
             	rest_obterAgency(agency.name, carregaLocalStorageAgency, carregaInclusaoAgency, "alteracao");
             });

@@ -1154,37 +1154,33 @@
 							</div>
 							<div class="modal-body">
 									<div class="row">
-										<div class="col-md-1">
-										</div>
 										<div class="col-md-11">
 											<form id="agencyModal-form" class="smart-form" novalidate="novalidate">
 													<div>
 													<div class="row">
-														<div class="col-md-10">
+														<div class="col-md-1"></div>
+														<div class="col-md-4">
 															<label for="agencyName">Name</label>
 															<input id="agencyName" name="name" type="text" class="form-control" value="" placeholder="" required />
 															<input id="agencyLogo" name="agencyLogo" type="text" class="hide" value="" placeholder="" required />
 														</div>
+														<div class="col-md-1"></div>
+														<div class="col-md-1">
+															<label for="agencyAgencySigla">Sigla</label>
+															<input id="agencyAgencySigla" name="agencySigla" type="text" class="form-control" value="" placeholder="" required />
+														</div>
 													</div>
 													<br>
 													<div class="row">
-														<div class="col-md-10">
+														<div class="col-md-1"></div>
+														<div class="col-md-3">
 															<label for="agencyAgencyPhone">Phone</label>
 															<input id="agencyAgencyPhone" name="agencyPhone" type="text" class="form-control" value="" placeholder="" required />
 														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="col-md-10">
+														<div class="col-md-2"></div>
+														<div class="col-md-3">
 															<label for="agencyAgencyEmail">Email</label>
 															<input id="agencyAgencyEmail" name="agencyEmail" type="text" class="form-control" value="" placeholder="" required />
-														</div>
-													</div>
-													<br>
-													<div class="row">
-														<div class="col-md-10">
-															<label for="agencyAgencySigla">Sigla</label>
-															<input id="agencyAgencySigla" name="agencySigla" type="text" class="form-control" value="" placeholder="" required />
 														</div>
 													</div>
 													<br><br>
@@ -1194,15 +1190,16 @@
 													</div>
 												</div>
 											</form>
-											<br>
+											<br><br>
 											<!-- NEW COL START -->
 											<article class="col-sm-12 col-md-12 col-lg-12">
 									
 												<!-- Widget ID (each widget will need unique ID)-->
 												<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-22" data-widget-editbutton="false">
+													<br><br>
 													<header>
 														<h4>Consultants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															<a id="consultInclusao" data-toggle="modal" data-target="#agencyConsultModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+															<a id="agencyConsultInclusao" data-toggle="modal" data-target="#agencyConsultModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
 														</h4>
 													</header>
 													<!-- widget div-->
@@ -1272,88 +1269,129 @@
 										</div>
 										<div class="col-md-11">
 											<form id="schoolModal-form" class="smart-form" novalidate="novalidate">
-													<div>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="schoolName">Name</label>
-																	<input id="schoolName" name="name" type="text" class="form-control" value="" placeholder="" required />
+												<div>
+													<div class="row">
+														<div class="col-md-1"></div>
+														<div class="col-md-4">
+															<label for="schoolName">Name</label>
+															<input id="schoolName" name="name" type="text" class="form-control" value="" placeholder="" required />
+															<input id="schoolLogo" name="logo" type="text" class="hide" value="" placeholder="" required />
+														</div>
+														<div class="col-md-1"></div>
+														<div class="col-md-1">
+															<label for="schoolSchoolPhone">Sigla</label>
+															<input id="schoolSigla" name="sigla" type="text" class="form-control" value="" placeholder="" required />
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-md-1"></div>
+														<div class="col-md-3">
+															<label for="schoolCelPhone">Cell Phone</label>
+															<input id="schoolCelPhone" name="celPhone" type="text" class="form-control" value="" placeholder="" required />
+														</div>
+														<div class="col-md-2"></div>
+														<div class="col-md-3">
+															<label for="schoolPhone">Phone</label>
+															<input id="schoolPhone" name="phone" type="text" class="form-control" value="" placeholder="" required />
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<div class="col-md-1"></div>
+														<div class="col-md-3">
+															<label for="schoolEmail">Email</label>
+															<input id="schoolEmail" name="email" type="text" class="form-control" value="" placeholder="" required />
+														</div>
+														<div class="col-md-2"></div>
+														<div class="col-md-3">
+															<label for="destinationSchool">Localization</label>
+															<label class="select ">
+																<select id="destinationSchool" name="destinationSchool">
+																	<option value="0" selected="" disabled="">Choose one item</option>
+																</select><i></i>
+															</label>
+														</div>
+													</div>
+													<br><br><br>
+													<div class="row">
+														<div class="col-md-1"></div>
+														<div class="col-md-9">
+															<label for="schoolAddress">Address</label>
+															<input id="schoolAddress" name="address" type="text" class="form-control" value="" placeholder="type your complete address and check on the map" required />
+														</div>
+													</div>
+													<br><br><br>
+													<div class="row col-md-9">
+														<div class="col-xs-1"></div>
+														<div class="col-xs-10">
+															<div class="widget-body no-padding school hide">
+																<div id="map_canvas7" class="google_maps">
 																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="schoolSchoolPhone">School Phone</label>
-																	<input id="schoolSchoolPhone" name="schoolPhone" type="text" class="form-control" value="" placeholder="" required />
-																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="schoolSchoolEmail">School Email</label>
-																	<input id="schoolSchoolEmail" name="schoolEmail" type="text" class="form-control" value="" placeholder="" required />
-																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="schoolNameContact">Contact Name</label>
-																	<input id="schoolNameContact" name="nameContact" type="text" class="form-control" value="" placeholder="" required />
-																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-5">
-																	<label for="schoolCelPhone">Cell Phone</label>
-																	<input id="schoolCelPhone" name="celPhone" type="text" class="form-control" value="" placeholder="" required />
-																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-5">
-																	<label for="schoolPhone">Phone</label>
-																	<input id="schoolPhone" name="phone" type="text" class="form-control" value="" placeholder="" required />
-																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="schoolEmail">Email</label>
-																	<input id="schoolEmail" name="email" type="text" class="form-control" value="" placeholder="" required />
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="destinationSchool">Localization</label>
-																	<label class="select ">
-																		<select id="destinationSchool" name="destinationSchool">
-																			<option value="0" selected="" disabled="">Choose one item</option>
-																		</select><i></i>
-																	</label>
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="schoolAddress">Address</label>
-																	<input id="schoolAddress" name="address" type="text" class="form-control" value="" placeholder="type your complete address and check on the map" required />
-																</div>
-															</div>
-															<br>
-															<div class="row col-md-10">
-																<div class="col-xs-1"></div>
-																<div class="col-xs-10">
-																	<div class="widget-body no-padding school hide">
-																		<div id="map_canvas7" class="google_maps">
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<br><br>
-															<div class="modal-footer col-md-10">
-																<button type="submit" class="btn btn-primary">Submit</button>
-																<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 															</div>
 														</div>
+													</div>
+													<br><br>
+													<div class="modal-footer col-md-10">
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
 											</form>
+											<!-- NEW COL START -->
+											<article class="col-sm-12 col-md-12 col-lg-12">
+									
+												<!-- Widget ID (each widget will need unique ID)-->
+												<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-22" data-widget-editbutton="false">
+													<header>
+														<h4>Consultants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															<a id="schoolConsultInclusao" data-toggle="modal" data-target="#schoolConsultModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+														</h4>
+													</header>
+													<!-- widget div-->
+													<div>
+														<!-- widget edit box -->
+														<div class="jarviswidget-editbox">
+															<!-- This area used as dropdown edit box -->
+															<input class="form-control" type="text">	
+														</div>
+														<!-- end widget edit box -->
+														<!-- widget content -->
+														<div class="widget-body no-padding">
+															<table id="school_consultants_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+																<thead>
+																	<tr>
+																		<th class="hasinput" >
+																			<input type="text" class="form-control" placeholder="Name" />
+																		</th>
+																		<th class="hasinput" >
+																			<input type="text" class="form-control" placeholder="Phone" />
+																		</th>
+																		<th class="hasinput" >
+																			<input type="text" class="form-control" placeholder="Cel Phone" />
+																		</th>
+																		<th class="hasinput" >
+																			<input type="text" class="form-control" placeholder="Email" />
+																		</th>
+																		<th class="hasinput" >
+																			<input type="text" class="form-control" placeholder="" />
+																		</th>
+																	</tr>
+														            <tr>
+														                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Name</th>
+														                <th><i class="fa fa-fw fa-phone hidden-md hidden-sm hidden-xs"></i>Phone</th>
+														                <th><i class="fa fa-fw fa-envelope-o hidden-md hidden-sm hidden-xs"></i>Cel Phone</th>
+														                <th><i class="fa fa-fw fa-envelope-o hidden-md hidden-sm hidden-xs"></i>Email</th>
+														                <th><i class="fa fa-fw fa-action text-muted hidden-md hidden-sm hidden-xs"></i>Action</th>
+														            </tr>
+																</thead>
+															</table>
+														
+														</div>
+														<!-- end widget content -->
+													</div>
+												</div>
+											</article>
 										</div>
 									</div>
 							</div>
@@ -1379,14 +1417,12 @@
 											<form id="bankModal-form" class="smart-form" novalidate="novalidate">
 													<div>
 															<div class="row">
-																<div class="col-md-10">
+																<div class="col-md-4">
 																	<label for="bankName">Name</label>
 																	<input id="bankName" name="name" type="text" class="form-control" value="" placeholder="" required />
 																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
+																<div class="col-md-1"></div>
+																<div class="col-md-2">
 																	<label for="bankNumber">Number</label>
 																	<input id="bankNumber" name="number" type="text" class="form-control" value="" placeholder="" required />
 																</div>
@@ -1414,7 +1450,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 									&times;
 								</button>
-								<h4 class="modal-title" id="agencyConsultModalLabel">Consult data</h4>
+								<h4 class="modal-title" id="agencyConsultModalLabel">consult data</h4>
 							</div>
 							<div class="modal-body">
 									<div class="row">
@@ -1424,30 +1460,26 @@
 											<form id="agencyConsultModal-form" class="smart-form" novalidate="novalidate">
 													<div>
 															<div class="row">
-																<div class="col-md-10">
+																<div class="col-md-4">
 																	<label for="agencyConsultName">Name</label>
 																	<input id="agencyConsultName" name="name" type="text" class="form-control" value="" placeholder="" required />
 																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="agencyConsultPhone">Phone</label>
-																	<input id="agencyConsultPhone" name="phone" type="text" class="form-control" value="" placeholder="" required />
+																<div class="col-md-1"></div>
+																<div class="col-md-4">
+																	<label for="agencyConsultEmail">Email</label>
+																	<input id="agencyConsultEmail" name="email" type="text" class="form-control" value="" placeholder="" required />
 																</div>
 															</div>
 															<br>
 															<div class="row">
-																<div class="col-md-10">
+																<div class="col-md-3">
 																	<label for="agencyConsultCelPhone">Cel Phone</label>
 																	<input id="agencyConsultCelPhone" name="celPhone" type="text" class="form-control" value="" placeholder="" required />
 																</div>
-															</div>
-															<br>
-															<div class="row">
-																<div class="col-md-10">
-																	<label for="agencyConsultEmail">Email</label>
-																	<input id="agencyConsultEmail" name="email" type="text" class="form-control" value="" placeholder="" required />
+																<div class="col-md-2"></div>
+																<div class="col-md-3">
+																	<label for="agencyConsultPhone">Phone</label>
+																	<input id="agencyConsultPhone" name="phone" type="text" class="form-control" value="" placeholder="" required />
 																</div>
 															</div>
 															<br><br>
@@ -1463,6 +1495,63 @@
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal-dialog -->
 				</div><!-- /.modal -->
+
+
+				<!-- Modal -->
+				<div class="modal fade" id="schoolConsultModal" tabindex="-1" role="dialog" aria-labelledby="schoolConsultModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title" id="schoolConsultModalLabel">consult data</h4>
+							</div>
+							<div class="modal-body">
+									<div class="row">
+										<div class="col-md-1">
+										</div>
+										<div class="col-md-11">
+											<form id="schoolConsultModal-form" class="smart-form" novalidate="novalidate">
+													<div>
+															<div class="row">
+																<div class="col-md-4">
+																	<label for="schoolConsultName">Name</label>
+																	<input id="schoolConsultName" name="name" type="text" class="form-control" value="" placeholder="" required />
+																</div>
+																<div class="col-md-1"></div>
+																<div class="col-md-4">
+																	<label for="schoolConsultEmail">Email</label>
+																	<input id="schoolConsultEmail" name="email" type="text" class="form-control" value="" placeholder="" required />
+																</div>
+															</div>
+															<br>
+															<div class="row">
+																<div class="col-md-3">
+																	<label for="schoolConsultCelPhone">Cel Phone</label>
+																	<input id="schoolConsultCelPhone" name="celPhone" type="text" class="form-control" value="" placeholder="" required />
+																</div>
+																<div class="col-md-2"></div>
+																<div class="col-md-3">
+																	<label for="schoolConsultPhone">Phone</label>
+																	<input id="schoolConsultPhone" name="phone" type="text" class="form-control" value="" placeholder="" required />
+																</div>
+															</div>
+															<br><br>
+															<div class="modal-footer col-md-10">
+																<button type="submit" class="btn btn-primary">Submit</button>
+																<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+															</div>
+														</div>
+											</form>
+										</div>
+									</div>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+
+
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
 			<div class="row">
@@ -1663,6 +1752,7 @@
 		<script src="js/agency-commons.js"></script>
 		<script src="js/agency-consult-commons.js"></script>
 		<script src="js/school-commons.js"></script>
+		<script src="js/school-consult-commons.js"></script>
 		<script src="js/bank-commons.js"></script>
 		<script src="js/administrator.js"></script>
 
@@ -1676,6 +1766,9 @@
 		<!-- monta lst of school -->
 		<script src="js-datatables/schools.js"></script>
 		
+		<!-- monta lst of agency consultants -->
+		<script src="js-datatables/school-consultants.js"></script>
+
 		<!-- monta lst of bank -->
 		<script src="js-datatables/banks.js"></script>
 

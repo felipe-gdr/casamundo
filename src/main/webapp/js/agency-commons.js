@@ -60,12 +60,14 @@
 			});
 		}
 	});
-
+	
 	$('#agencyInclusao').bind('click', function () {
     	localStorage.agencyExistente = "false";
+    	localStorage.consultants = "[]";
+    	carregaInclusaoAgency();
     });
 	
-	$('#agencyModal-form').on('hidden.bs.modal', function () {
+	 $("#agencyModal").on('hidden.bs.modal', function(event){
     	$('#agencyName').attr("disabled", false);
     	$("#agencyName").val("");
     	$("#agencyAgencyPhone").val("");
@@ -73,9 +75,9 @@
     	$("#agencyAgencySigla").val("");
     	$("#agencyAgencyLogo").val("");
     	$("#agencyConsultants").val("");
-	});
+	 });
 
-    function fechaModalAgency () {
+	 function fechaModalAgency () {
     	$("#agencyModal").modal('hide');
     	$('#agencyName').attr("disabled", false);
     	
@@ -91,12 +93,14 @@
 
     function carregaLocalStorageAgency (data, tipo) {
     	localStorage.setItem("agency", JSON.stringify(data));
+    	localStorage.consultants = JSON.stringify(data.documento.consultants);
     	localStorage.agencyExistente = "true";
-    	carregaConsultants (data);
+    	carregaConsultantsAgency (data.documento.consultants);
     };
 
-	function carregaInclusaoAgency(data) { 	   	
+	function carregaInclusaoAgency() { 	   	
 		localStorage.agencyExistente = "false";
+		carregaConsultantsAgency (JSON.parse("[]"));
 	};    
 	
 	function limpaStorageAgency () {

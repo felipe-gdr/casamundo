@@ -159,6 +159,8 @@ public class Rest_School {
 					jsonDocumento.put("phone", jsonObject.get("phone"));
 					jsonDocumento.put("email", jsonObject.get("email"));
 					jsonDocumento.put("address", jsonObject.get("address"));
+					jsonDocumento.put("logo", jsonObject.get("logo"));
+					jsonDocumento.put("sigla", jsonObject.get("sigla"));
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {

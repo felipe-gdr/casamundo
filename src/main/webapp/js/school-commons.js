@@ -56,11 +56,9 @@
 		},
 		// form submition
 		submitHandler : function(form) {
+			limpaStorageSchool();
 			var objJson = JSON.parse(localStorage.getItem("school"));
-			if (!objJson){
-				limpaStorageSchool();
-				var objJson = JSON.parse(localStorage.getItem("school"));
-			};
+			objJson.documento.consultants = JSON.parse(localStorage.consultants);
 			$.each(form
 			    , function (i, field) {
 				fieldName = field.name;
@@ -93,6 +91,9 @@
 
 	$('#schoolInclusao').bind('click', function () {
     	localStorage.schoolExistente = "false";
+    	localStorage.consultants = "[]";
+    	carregaInclusaoSchool();
+    	$(".school").addClass("hide");
     });
     
 	$('#schoolAddress').bind('blur', function () {
@@ -104,6 +105,20 @@
 			 getMapCoordinate($('#schoolAddress').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
 		 };
 	 });
+	 $("#schoolModal").on('hidden.bs.modal', function(event){
+    	$('#schoolName').attr("disabled", false);
+    	$("#schoolName").val("");
+    	$("#schoolSchoolPhone").val("");
+    	$("#schoolSchoolEmail").val("");
+    	$("#schoolNameContact").val("");
+    	$("#schoolCelPhone").val("");
+    	$("#schoolPhone").val("");
+    	$("#schoolEmail").val("");
+    	$("#schoolAddress").val("");
+    	$("#schoolLogo").val("");
+    	$("#schoolSigla").val("");
+	 });
+	 
 	 
 	 function carregaMapa (results) {
 		$('#schoolAddress').val(results[0].formatted_address);
@@ -131,39 +146,44 @@
     	$("#schoolPhone").val("");
     	$("#schoolEmail").val("");
     	$("#schoolAddress").val("");
+    	$("#schoolLogo").val("");
+    	$("#schoolSigla").val("");
     	
     	rest_obterSchoolAll(carregaSchools);
     };
 
 function carregaLocalStorageSchool (data, tipo) {
-    localStorage.setItem("school", JSON.stringify(data));
+	localStorage.setItem("school", JSON.stringify(data));
+	localStorage.consultants = JSON.stringify(data.documento.consultants);
     localStorage.schoolExistente = "true";
+	carregaConsultantsSchool (data.documento.consultants);
 };
 
 function carregaInclusaoSchool(data) { 	   	
 	localStorage.schoolExistente = "false";
+	carregaConsultantsSchool (JSON.parse("[]"));
 };    
 
 function limpaStorageSchool () {
 	
-	var data  = JSON.parse(
-			'{' +
-				'"documento" : ' + 
-				  '{' +
-				    '"name" : "",' +
-				    '"schoolPhone" : "",' +
-				    '"schoolEmail" : "",' +
-				    '"nameContact" : "",' +
-				    '"celPhone" : "",' +
-				    '"phone" : "",' +
-				    '"email" : ""' +
-				    '"address" : ""' +
-				    '"latitude" : ""' +
-				    '"longitude" : ""' +
-				    '"destination" : ""' +
-				  '}' +
-			'}'
-	);
+	var data  = 
+			{
+				"documento" :  
+				  {
+				    "name" : "",
+				    "celPhone" : "",
+				    "phone" : "",
+				    "email" : "",
+				    "address" : "",
+				    "latitude" : "",
+				    "longitude" : "",
+				    "destination" : "",
+				    "logo" : "",
+				    "sigla" : "",
+				    "destination" : "",
+				    "consultants" : []
+				  }
+			};
 
 	localStorage.setItem("school", JSON.stringify(data));
 };		

@@ -2,7 +2,7 @@
 	/**
 	 * 		setup dos input do form
 	 */
-	var $tablesForm = $("#agencyConsultModal-form").validate({
+	var $tablesForm = $("#schoolConsultModal-form").validate({
 		// Rules for form validation
 		rules : {
 			name : {
@@ -37,7 +37,7 @@
 		},
 		// form submition
 		submitHandler : function(form) {
-			limpaStorageConsultAgency();
+			limpaStorageConsultSchool();
 			var objJson = JSON.parse(localStorage.getItem("consult"));
 			$.each(form
 			    , function (i, field) {
@@ -47,12 +47,12 @@
 			});
 			localStorage.setItem("consult", JSON.stringify(objJson));
 			if (localStorage.consultExistente == "true"){
-				atualizaConsultListAgency (objJson);
+				atualizaConsultListSchool (objJson);
 			}else{
-				incluiConsultListAgency (objJson);
+				incluiConsultListSchool (objJson);
 			};
-			$("#agencyConsultModal").modal('hide');
-			carregaConsultantsAgency (JSON.parse(localStorage.consultants));
+			$("#schoolConsultModal").modal('hide');
+			carregaConsultantsSchool (JSON.parse(localStorage.consultants));
 		},	
 		// Do not change code below
 		errorPlacement : function(error, element) {
@@ -67,31 +67,30 @@
 		}
 	});
 
-	$('#agencyConsultInclusao').bind('click', function () {
+	$('#schoolConsultInclusao').bind('click', function () {
     	localStorage.consultExistente = "false";
     });
+	$("#schoolConsultModal").on('hidden.bs.modal', function(event){
+		$('#schoolConsultName').attr("disabled", false);
+		$("#schoolConsultName").val("");
+		$("#schoolConsultPhone").val("");
+		$("#schoolConsultCelPhone").val("");
+		$("#schoolConsultEmail").val("");
+	});
 	
-	 $("#agencyConsultModal").on('hidden.bs.modal', function(event){
-		$('#agencyConsultName').attr("disabled", false);
-		$("#agencyConsultName").val("");
-		$("#agencyConsultPhone").val("");
-		$("#agencyConsultCelPhone").val("");
-		$("#agencyConsultEmail").val("");
-	 });
-	
-    function fechaModalConsultAgency () {
-    	$("#agencyConsultModal").modal('hide');
-    	$('#agencyConsultName').attr("disabled", false);
+    function fechaModalConsultSchool () {
+    	$("#schoolConsultModal").modal('hide');
+    	$('#schoolConsultName').attr("disabled", false);
     	
-    	$("#agencyConsultName").val("");
-    	$("#agencyConsultPhone").val("");
-    	$("#agencyConsultCelPhone").val("");
-    	$("#agencyConsultEmail").val("");
-    	var objJson = JSON.parse(localStorage.getItem("agency"));
+    	$("#schoolConsultName").val("");
+    	$("#schoolConsultPhone").val("");
+    	$("#schoolConsultCelPhone").val("");
+    	$("#schoolConsultEmail").val("");
+    	var objJson = JSON.parse(localStorage.getItem("school"));
     	carregaConsultantsAgency (objJson.documento.consultants);
     };
 	
-	function limpaStorageConsultAgency () {
+	function limpaStorageConsultSchool () {
 		
 		var data  = 
 				{
@@ -104,7 +103,7 @@
 		localStorage.setItem("consult", JSON.stringify(data));
 	};		
 	
-	function atualizaConsultListAgency (newConsult) {
+	function atualizaConsultListSchool (newConsult) {
 		var objJson = JSON.parse(localStorage.consultants);
         $.each(objJson, function (i, oldConsult) {
         	if (oldConsult.name == newConsult.name){
@@ -117,7 +116,7 @@
         localStorage.consultants = JSON.stringify(objJson);
 	};
 	
-	function incluiConsultListAgency (consult) {
+	function incluiConsultListSchool (consult) {
 		var objJson = JSON.parse(localStorage.consultants);
 		objJson.push(consult);
 		localStorage.consultants = JSON.stringify(objJson);

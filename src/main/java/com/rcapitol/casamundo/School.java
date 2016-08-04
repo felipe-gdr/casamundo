@@ -2,6 +2,8 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import com.rcapitol.casamundo.Agency.Documento.Consultants;
+
 public class School {
 
 	public Documento documento;
@@ -30,9 +32,6 @@ public class School {
 	public static final class Documento {
 
 		public String name;
-		public String schoolPhone;
-		public String schoolEmail;
-		public String nameContact;
 		public String celPhone;
 		public String phone;
 		public String email;
@@ -40,6 +39,10 @@ public class School {
 		public String latitude;
 		public String longitude;
 		public String destination;
+		public String logo;
+		public String sigla;
+		public Consultants consultants [];
+		
 
 		public Documento() {
 
@@ -48,28 +51,28 @@ public class School {
 		@JsonCreator
 		public Documento(
 				String name,
-				String schoolPhone,
-				String schoolEmail,
-				String nameContact,
 				String celPhone,
 				String phone,
 				String email,
 				String address,
 				String latitude,
 				String longitude,
-				String destination
+				String destination,
+				String logo,
+				String sigla,
+				Consultants consultants[]
 						) {
 						this.name = name;  
-						this.schoolPhone = schoolPhone; 
-						this.schoolEmail = schoolEmail; 
-						this.nameContact = nameContact; 
 						this.celPhone = celPhone; 
 						this.phone = phone; 
 						this.email = email; 
 						this.address = address; 
 						this.latitude = latitude; 
 						this.latitude = latitude; 
-						this.destination = destination; 
+						this.destination = destination;
+						this.logo = logo;
+						this.sigla = sigla;
+						this.consultants = consultants; 
 		}
 
 		public void setName(String name) {
@@ -77,12 +80,6 @@ public class School {
 		}
 		public String getName() {
 			return this.name;
-		}
-		public void setNameContact(String nameContact) {
-			this.nameContact = nameContact;
-		}
-		public String getNameContact() {
-			return this.nameContact;
 		}
 		public void setEmail(String email) {
 			this.email = email;
@@ -107,5 +104,30 @@ public class School {
 		public String toString() {
 			return new StringBuffer(" Email : ").append(this.email).append(" Name : ").append(this.name).toString();
 		}
+
+		public static final class Consultants {
+    		public String name;
+    		public String phone;
+    		public String celPhone;
+    		public String email;
+
+    		public Consultants() {
+
+			}
+   
+            @JsonCreator
+            public Consultants(
+            		String name,
+            		String phone,
+            		String celPhone,
+            		String email
+            			)
+            {
+        		this.name = name;
+        		this.phone = phone;
+        		this.celPhone = celPhone;
+        		this.email = email;
+            };
+		};
 	}
 } 
