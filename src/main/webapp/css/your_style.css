@@ -39,9 +39,21 @@
  .label-unavaliable {
 	background-color: #ff8000 !important;
 }
+
+ .text-advise {
+	font-size: 60% !important;
+}
  .memberList {
 	padding: 0px !important;
 }
 .text-italic {
 	font-style: italic !important;
+}
+
+.body-background-color-family{
+	background-color: #dffeff!important;
+}
+
+.body-background-color-family{
+	background-color: #dffeff!important;
 }

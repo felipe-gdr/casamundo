@@ -202,9 +202,13 @@ public class Rest_Student {
 //		    if (accommodation != null){
 //		    	setQuery.put("documento.trips.accommodation", accommodation);
 //		    };
+
+		    BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.firstName", 1);
+
 			DBCollection collection = db.getCollection("student");
 			
-			DBCursor cursor = collection.find(setQuery);
+			DBCursor cursor = collection.find(setQuery).sort(setSort);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 

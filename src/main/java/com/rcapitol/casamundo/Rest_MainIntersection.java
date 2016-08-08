@@ -144,8 +144,9 @@ public class Rest_MainIntersection {
 			    };
 			};
 			DBCollection collection = db.getCollection("mainIntersection");
-			
-			DBCursor cursor = collection.find(setQuery);
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.name", 1);
+			DBCursor cursor = collection.find(setQuery).sort(setSort);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 

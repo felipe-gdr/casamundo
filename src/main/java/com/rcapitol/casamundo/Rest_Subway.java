@@ -143,9 +143,12 @@ public class Rest_Subway {
 					setQuery.put("documento.destination", destination);
 			    };
 			};
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.name", 1);
+
 			DBCollection collection = db.getCollection("subway");
 			
-			DBCursor cursor = collection.find(setQuery);
+			DBCursor cursor = collection.find(setQuery).sort(setSort);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 

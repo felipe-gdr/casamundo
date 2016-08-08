@@ -174,9 +174,12 @@ public class Rest_Family {
 			    	setQuery.put("documento.address.destination", destination);
 			    };
 			};
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.familyName", 1);
+
 			DBCollection collection = db.getCollection("family");
 			
-			DBCursor cursor = collection.find(setQuery);
+			DBCursor cursor = collection.find(setQuery).sort(setSort);;
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 

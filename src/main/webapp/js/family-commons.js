@@ -372,18 +372,18 @@ function carregaTelaFamily(data, tipo) {
 function criaLinhaFamilyMember (i, familyName) {
 	var familyMemberLine = '<li class="familyMemberItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList">' +					
+				'<fieldset class="memberList body-background-color-family">' +					
 					'<section class="col-xs-3">' +
 						'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
-							'<input type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
-							'<input class="hide" type="text" id="docs' + i + '" name="docs' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="body-background-color-family" type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
+							'<input class="hide body-background-color-family" type="text" id="docs' + i + '" name="docs' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 						'<label class="select ">' +
-							'<select id="familyMemberGender_' + i + '" name="familyMemberGender_' + i + '">' +
+							'<select class="body-background-color-family" id="familyMemberGender_' + i + '" name="familyMemberGender_' + i + '">' +
 								'<option value="" selected="" disabled=""></option>' +
 								'<option value="Male">Male</option>' +
 								'<option value="Female">Female</option>' +
@@ -392,21 +392,21 @@ function criaLinhaFamilyMember (i, familyName) {
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"><i class="icon-prepend fa fa-calendar"></i>'  +
-							'<input type="text" id="familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="familyMemberBirthdate_' + i + '" name="familyMemberBirthdate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="select ">' +
-							'<select id="familyMemberRelationship_' + i + '" name="familyMemberRelationship_' + i + '">' +
+							'<select class="body-background-color-family" id="familyMemberRelationship_' + i + '" name="familyMemberRelationship_' + i + '">' +
 								'<option value="" selected="" disabled=""></option>' +
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-wrench"></i>' +
-							'<input type="text" id="familyMemberOcuppation_' + i + '" name="familyMemberOcuppation_' + i + '" placeholder="">' +
+							'<input class="body-background-color-family" type="text" id="familyMemberOcuppation_' + i + '" name="familyMemberOcuppation_' + i + '" placeholder="">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
@@ -415,7 +415,7 @@ function criaLinhaFamilyMember (i, familyName) {
 						'<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' + 
 					        '<span> Load document ...</span>' + 
-					        '<input id="upload-img-docs' + i + '" type="file" name="uploadedFile" class="imgUpload">' + 
+					        '<input id="upload-img-docs' + i + '" type="file" name="uploadedFile" class="imgUpload body-background-color-family">' + 
 					    '</span> ' +
 					    '<br> ' +
 					    '<div id="progress-docs' + i + '" class="progress col-xs-04"">' + 
@@ -432,7 +432,7 @@ function criaLinhaFamilyMember (i, familyName) {
 					        '<span> Date of issue</span>' + 
 					    '</span> ' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="familyMemberDocDate_' + i + '" name="familyMemberDocDate_' + i + '" placeholder="" class="datepicker" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="familyMemberDocDate_' + i + '" name="familyMemberDocDate_' + i + '" placeholder="" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +
@@ -481,21 +481,21 @@ function criaLinhaFamilyMember (i, familyName) {
 function criaLinhaRoom (i) {
 	var roomLine = '<li class="roomItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList">' +					
+				'<fieldset class="memberList body-background-color-family">' +					
 					'<section class="col-xs-1">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input type="text" id="number_' + i + '" name="number_' + i + '" placeholder="" disabled="disabled">' +
-							'<input class="hide" type="text" id="singleBedAvailable_' + i + '" name="singleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
-							'<input class="hide" type="text" id="coupleBedAvailable_' + i + '" name="coupleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
-							'<input class="hide" type="text" id="emailStudent_' + i + '" name="emailStudent_' + i + '" placeholder="" disabled="disabled">' +
-							'<input class="hide" type="text" id="roomPhoto' + i + '" name="roomPhoto' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="body-background-color-family" type="text" id="number_' + i + '" name="number_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide body-background-color-family" type="text" id="singleBedAvailable_' + i + '" name="singleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide body-background-color-family" type="text" id="coupleBedAvailable_' + i + '" name="coupleBedAvailable_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide body-background-color-family" type="text" id="emailStudent_' + i + '" name="emailStudent_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide body-background-color-family" type="text" id="roomPhoto' + i + '" name="roomPhoto' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 body-background-color-family">' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 						'<label class="select ">' +
-							'<select id="singleBed_' + i + '" name="singleBed_' + i + '">' +
+							'<select class="body-background-color-family" id="singleBed_' + i + '" name="singleBed_' + i + '">' +
 								'<option value="0" selected="0">0</option>' +
 								'<option value="1">1</option>' +
 								'<option value="2">2</option>' +
@@ -504,11 +504,11 @@ function criaLinhaRoom (i) {
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 body-background-color-family">' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 						'<label class="select ">' +
-							'<select id="coupleBed_' + i + '" name="coupleBed_' + i + '">' +
+							'<select class="body-background-color-family" id="coupleBed_' + i + '" name="coupleBed_' + i + '">' +
 								'<option value="0" selected="0">0</option>' +
 								'<option value="1">1</option>' +
 								'<option value="2">2</option>' +
@@ -517,21 +517,21 @@ function criaLinhaRoom (i) {
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 body-background-color-family">' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 						'<label class="select ">' +
-							'<select id="privateWashroom_' + i + '" name="privateWashroom_' + i + '">' +
+							'<select class="body-background-color-family" id="privateWashroom_' + i + '" name="privateWashroom_' + i + '">' +
 								'<option value="Yes">Yes</option>' +
 								'<option value="No" selected="No">No</option>' +
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 body-background-color-family">' +
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="select ">' +
-							'<select id="level' + i + '" name="level' + i + '">' +
+							'<select class="body-background-color-family" id="level' + i + '" name="level' + i + '">' +
 								'<option value="" selected=""></option>' +
 								'<option value="Basement">Basement</option>' +
 								'<option value="main Floor">main Floor</option>' +
@@ -540,13 +540,13 @@ function criaLinhaRoom (i) {
 							'</select><i></i>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-4">' +
+					'<section class="col-xs-4 body-background-color-family">' +
 					'</section>' +
 					'<section class="col-xs-2 roomPhoto' + i + ' hide">' +
 					    '<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' +
 					        '<span> Load photo ...</span>' +
-					        '<input id="upload-img-roomPhoto' + i + '" type="file" name="uploadedFile" class="imgUpload">' + 
+					        '<input class="body-background-color-family" id="upload-img-roomPhoto' + i + '" type="file" name="uploadedFile" class="imgUpload">' + 
 					    '</span>' +
 					    '<br>' + 
 					    '<div id="progress-roomPhoto' + i + '" class="progress col-xs-04"">' + 
@@ -560,7 +560,7 @@ function criaLinhaRoom (i) {
 					'</section>' +
 					'<section class="col-xs-3 roomPhoto' + i + ' hide">' +
 						'<label class="input">'  +
-							'<textarea rows="5" cols="40" id="note' + i + '" name="note' + i + '" class="custom-scroll"></textarea>' +
+							'<textarea rows="5" cols="40" id="note' + i + '" name="note' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +
@@ -578,26 +578,26 @@ function criaLinhaRoom (i) {
 function criaLinhaNote (i, note) {
 	var noteLine = '<li class="noteItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList">' +					
+				'<fieldset class="memberList body-background-color-family">' +					
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class="body-background-color-family"type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-4">' +
 						'<label class="input">'  +
-							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll"></textarea>' +
+							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +
@@ -622,26 +622,26 @@ function criaLinhaNote (i, note) {
 function criaLinhaVisit (i, visit) {
 	var visitLine = '<li class="visitItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList">' +					
+				'<fieldset class="memberList body-background-color-family">' +					
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="visitsDate_' + i + '" name="visitsDate_' + i + '" class="datepicker" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="visitsDate_' + i + '" name="visitsDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input type="text" id="visitsUser_' + i + '" name="visitsUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class="body-background-color-family" type="text" id="visitsUser_' + i + '" name="visitsUser_' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-4">' +
 						'<label class="input">'  +
-							'<textarea rows="3" cols="40" id="visitsComments_' + i + '" name="visitsComments_' + i + '" class="custom-scroll"></textarea>' +
+							'<textarea rows="3" cols="40" id="visitsComments_' + i + '" name="visitsComments_' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +
