@@ -58,6 +58,12 @@
 	$('#bankInclusao').bind('click', function () {
     	localStorage.bankExistente = "false";
     });
+	
+	$("#bankModal").on('hidden.bs.modal', function(event){
+    	$('#bankName').attr("disabled", false);
+    	$("#bankName").val("");
+    	$("#bankNumber").val("");
+	 });
 
     function fechaModalBank (field) {
     	$("#bankModal").modal('hide');

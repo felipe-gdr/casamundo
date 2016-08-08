@@ -453,6 +453,8 @@ function calculaIdade ( dataNascimento ) {
 	        			$("#destination").append( $(option(optionValue)));
 	        			$("#destinationSchool").append( $(option(optionValue)));
 	        			$("#destinationAgency").append( $(option(optionValue)));
+	        			$("#mainIntersectionDestination").append( $(option(optionValue)));
+	        			$("#subwayDestination").append( $(option(optionValue)));
 	    		    });
         }else{
 			$("#destination").append( $(option(localStorage.usuarioCity)));
@@ -506,14 +508,6 @@ function calculaIdade ( dataNascimento ) {
         $.each(table.documento.type
     		    , function (i, optionValue) {
         			$("#type").append( $(option(optionValue)));
-    		    });
-        $.each(table.documento.address_mainIntersection
-    		    , function (i, optionValue) {
-        			$("#address_mainIntersection").append( $(option(optionValue)));
-    		    });
-        $.each(table.documento.address_subwayStation
-    		    , function (i, optionValue) {
-        			$("#address_subwayStation").append( $(option(optionValue)));
     		    });
         
         localStorage.carragendoTags = false;

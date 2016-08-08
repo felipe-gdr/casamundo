@@ -568,3 +568,14 @@
 	$('#payment_bankNumber').change(function(){
 		rest_obterBankNumber(this.value, carregaNameBank, semAcao, "alteracao");
    });
+
+	$('#destination').change(function() {
+		$("#address_mainIntersection option").remove();
+		$("#address_mainIntersection").append($(option("Choose one item")));
+		$('#address_mainIntersection option[value="Choose one item"]').attr('disabled','disabled');
+		$("#address_subwayStation option").remove();
+		$("#address_subwayStation").append($(option("Choose one item")));
+		$('#address_subwayStation option[value="Choose one item"]').attr('disabled','disabled');
+		rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, $(this).val());
+		rest_obterSubwayAll(carregaSelectSubway, semAcao, $(this).val());
+	});

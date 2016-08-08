@@ -123,6 +123,8 @@
             	$("#schoolAddress").val(school.address);
             	$("#schoolSigla").val(school.sigla);
             	$("#schoolLogo").val(school.logo);
+            	$("#schoolLatitude").val(school.logo);
+            	$("#schoolLongitude").val(school.logo);
             	localStorage.schoolExistente = "true";
             	rest_obterSchool(school.name, carregaLocalStorageSchool, carregaInclusaoSchool, "alteracao");
             });

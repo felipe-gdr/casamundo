@@ -167,6 +167,7 @@ function carregaTela(data) {
 };    
 
 function carregaDadosAgency(data, consult, consultName) {
+	localStorage.setItem("agency", JSON.stringify(data));
 	if (consult){
 		$("#agencyName").html(data.documento.name);
 	}else{
@@ -186,6 +187,7 @@ function carregaDadosAgency(data, consult, consultName) {
 };
 
 function carregaDadosSchool(data, consult, consultName) {
+	localStorage.setItem("school", JSON.stringify(data));
 	if (consult){
 		$("#schoolName").html(data.documento.name);	
 	}else{

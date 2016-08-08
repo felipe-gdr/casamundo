@@ -21,6 +21,9 @@ public class ApplicationConfig extends Application {
         		Rest_Table.class,
         		Rest_UploadFiles.class,
         		Rest_Email.class,
+        		Rest_MainIntersection.class,
+        		Rest_Subway.class,
+        		Rest_Email.class,
         		Rest_Usuario.class
         		));
     }

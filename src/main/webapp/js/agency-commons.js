@@ -67,7 +67,7 @@
     	carregaInclusaoAgency();
     });
 	
-	 $("#agencyModal").on('hidden.bs.modal', function(event){
+	$("#agencyModal").on('hidden.bs.modal', function(event){
     	$('#agencyName').attr("disabled", false);
     	$("#agencyName").val("");
     	$("#agencyAgencyPhone").val("");

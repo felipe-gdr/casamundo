@@ -239,9 +239,13 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#payment_branchNumber").val(data.documento.payment.branchNumber);
 	  	$("#payment_accountNumber").val(data.documento.payment.accountNumber);
 	  	$("#destination").val(data.documento.address.destination);
-		 if ($('#address_street').val()){
-			 getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
-		 };
+		if (data.documento.address.destination){
+			rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, data.documento.address.destination);
+			rest_obterSubwayAll(carregaSelectSubway, semAcao, data.documento.address.destination);
+		};
+		if ($('#address_street').val()){
+			getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+		};
 	  	var lines = 0;
 	    criaLinhaFamilyMember(0, data.documento.familyName);
 	    $('#familyMemberName_0').val(data.documento.contact.firstName + " " + data.documento.contact.lastName);
@@ -987,6 +991,20 @@ function carregaSelectBanks(data) {
 		    , function (i, optionValue) {
     			$("#payment_financialInstitution").append( $(option(optionValue.name)));
     			$("#payment_bankNumber").append( $(option(optionValue.number)));
+    });
+};
+
+function carregaSelectMainIntersection(data) {
+    $.each(data
+		    , function (i, optionValue) {
+    			$("#address_mainIntersection").append( $(option(optionValue.name)));
+    });
+};
+
+function carregaSelectSubway(data) {
+    $.each(data
+		    , function (i, optionValue) {
+    			$("#address_subwayStation").append( $(option(optionValue.name)));
     });
 };
 
