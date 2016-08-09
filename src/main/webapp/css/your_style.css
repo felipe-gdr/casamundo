@@ -229,3 +229,23 @@
 .body-background-color-administrator .dt-toolbar-footer{
 	background-color: #ede9ea!important;
 }
+
+
+.miniDasboard{
+	background-color: #ffb66c!important;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	padding-left: 7%;
+	padding-right: 7%;
+}
+.miniDasboard select{
+	background-color: #ffb66c!important;
+}
+
+.miniDasboard input{
+	background-color: #ffb66c!important;
+}
+
+.miniDasboard label{
+	background-color: #ffb66c!important;
+}

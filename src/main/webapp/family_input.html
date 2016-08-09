@@ -1405,16 +1405,6 @@
 		$(document).ready(function() {
 			
 			pageSetUp();
-			$('#start').datepicker({
-				dateFormat : 'dd.mm.yyyy',
-				prevText : '<i class="fa fa-chevron-left"></i>',
-				nextText : '<i class="fa fa-chevron-right"></i>',
-				onSelect : function(selectedDate) {
-					$('#end').datepicker('option', 'minDate', selectedDate);
-					}
-				});
-			
-	
 		})
 
 		</script>

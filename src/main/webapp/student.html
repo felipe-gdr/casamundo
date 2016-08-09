@@ -942,6 +942,89 @@
 																		<br>
 																	</div>
 																	<div class="col-sm-4">
+																		<form id="student-form" class="smart-form miniDasboard" novalidate="novalidate">
+																			<div class="row">							
+																				<div class="col-sm-6">
+																					<section >
+																						<div class="col-sm-2">	
+																							<i class="fa fa-unsorted"></i>
+																						</div>
+																						<div class="col-sm-9">
+																							<select id="statusMinDashboard" name="statusMinDashboard" class="input-xs">
+																								<option value="Available">Available</option>
+																								<option value="Offered">Offered</option>
+																								<option value="Confirmed">Confirmed</option>
+																								<option value="Documents">Documents</option>
+																								<option value="In house">In house</option>
+																								<option value="Checked out">Checked out</option>
+																								<option value="Canceled">Canceled</option>
+																							</select><i></i>
+																						</div>
+																					</section>
+																				</div>
+																				<div class="col-sm-6">
+																					<section >
+																						<div class="col-sm-3">	
+																							<i class="fa fa-fighter-jet"></i>
+																						</div>
+																						<div class="col-sm-4">
+																							<label class="col-sm-12" type="text" id="flightMinDashboard" name="flightMinDashboard">AC78</label>
+																						</div>
+																					</section>
+																				</div>
+																			</div>
+																			<div class="row">							
+																				<div class="col-sm-6">
+																					<section >
+																						<div class="col-sm-2">	
+																							<i class="fa  fa-flag-checkered"></i>
+																						</div>
+																						<div class="col-sm-4">
+																							<label class="toggle text-info">
+																								<input type="checkbox" id="creditCardMinDashboard" name="creditCardMinDashboard">
+																								<i data-swchon-text="Yes" data-swchoff-text="No"></i></label>
+																						</div>
+																					</section>
+																				</div>
+																				<div class="col-sm-6">
+																					<section >
+																						<div class="col-sm-2">	
+																							<i class="fa fa-usd"></i>
+																						</div>
+																						<div class="col-sm-4">
+																							<label class="toggle text-info">
+																								<input type="checkbox" id="paymentMinDashboard" name="paymentMinDashboard">
+																								<i data-swchon-text="Yes" data-swchoff-text="No"></i></label>
+																						</div>
+																					</section>
+																				</div>
+																			</div>
+																			<br>
+																			<div class="row">							
+																				<div class="col-sm-6">
+																					<section >
+																						<div class="col-sm-3">	
+																							<i class="fa fa-taxi"></i>
+																						</div>
+																						<div class="col-sm-4">
+																							<label class="text-success" id="pickupMinDashboard" name="pickupMinDashboard">Yes</label>
+																						</div>
+																					</section>
+																				</div>
+																				<div class="col-sm-6">
+																					<section >
+																						<div class="col-sm-3">	
+																							<i class="fa fa-undo"></i>
+																						</div>
+																						<div class="col-sm-4">
+																							<label class="text-danger" id="pickupMinDashboard" name="pickupMinDashboard">No</label>
+																						</div>
+																					</section>
+																				</div>
+																			</div>
+																		</form>
+																	</div>
+																	<div class="col-sm-4">
 																		<h1><span  class="semi-bold"></span>
 																			<br>
 																		<small>Agency</small></h1>																				
@@ -1046,11 +1129,11 @@
 																	<div class="row col-sm-12">
 																		<div class="row col-sm-6">
 																			<div class="col-xs-7">
-																				<fieldset>					
+																				<div>					
 																					<section class="col-sm-11">	
 																							<i class="fa fa-bank"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="schoolName"  data-original-title="School name"></small></span>
 																					</section>
-																				</fieldset>
+																				</div>
 																			</div>
 																			<div class="col-xs-12">
 																				<div class="col-xs-1"></div>
@@ -1161,12 +1244,15 @@
 																	<div class="row">
 																		<div class="col-xs-4 hide homestay dorms">
 																				<small class='text-muted hide family homestay hide'>Family: </small><small class='homestay text-primary' id="contactFamilyName"   data-original-title="Family name"></small><br>
+																				<br>
 																				<small class='text-warning text-center hide family homestay hide'>Contact </small><br>
 																				<small class='text-muted hide family homestay hide'>name: </small><small class='homestay text-primary' id="contactName"   data-original-title="Contact name"></small><br>
 																				<small class='text-muted hide family homestay hide'>gender: </small><small class='homestay text-primary' id="contactGender"   data-original-title="Contact gender"></small><br>
 																				<small class='text-muted hide family homestay hide'>email: </small><small class='homestay text-primary' id="contactEmail"   data-original-title="Contact email"></small><br>
 																				<small class='text-muted hide family homestay hide'>phone: </small><small class='homestay text-primary' id="contactPhone"   data-original-title="Contact phone"></small><br>
 																				<small class='text-muted hide family homestay hide'>cell phone: </small><small class='homestay text-primary' id="contactMobilePhone"   data-original-title="Contact mobile phone"></small><br>
+																				<br>
+																				<small class='text-warning text-center hide family homestay hide'>Guest </small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest name: </small><small class='guest hide homestay dorms text-primary' id="guestName"  data-original-title="Guest Name"></small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest email: </small><small class='guest hide homestay dorms text-primary' id="guestEmail"  data-original-title="Guest email"></small><br>
 																		        <small class='text-muted guest hide homestay dorms'>Relationship: </small><small class='guest hide homestay dorms text-primary' id="relationship"   data-original-title="Relationship"></small><br>
