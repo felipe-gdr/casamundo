@@ -188,6 +188,7 @@
 		$(".guest").addClass("hide");
 	}
     $('#guestName').html(getValueStudent("guestName",actualTrip));
+    $('#guestEmail').html(getValueStudent("guestEmail",actualTrip));
     $('#relationship').html(getValueStudent("relationship",actualTrip));
     $('#mealPlan').html(getValueStudent("mealPlan",actualTrip));
     $('#specialDiet').html(getValueStudent("specialDiet",actualTrip));
@@ -245,14 +246,14 @@
     $('#agreeSuite').html(getValueStudent("agreeSuite",actualTrip));
     
 	if (getValueStudent("agencyName",actualTrip)){
-		rest_obterAgency (getValueStudent("agencyName",actualTrip), carregaDadosAgency, semAcao, true)
+		rest_obterAgency (getValueStudent("agencyName",actualTrip), carregaDadosAgency, semAcao, true, getValueStudent("agencyConsultName",actualTrip))
 	};
-	$("#agencyConsultName").html(data.documento.trips[actualTrip].agencyConsultName);
+	$("#agencyConsultName").html(getValueStudent("agencyConsultName",actualTrip));
 	
 	if (getValueStudent("schoolName",actualTrip)){
-		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true)
+		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true, getValueStudent("schoolConsultName",actualTrip))
 	};
-	$("#schoolConsultName").html(data.documento.trips[actualTrip].schoolConsultName);
+	$("#schoolConsultName").html(getValueStudent("schoolConsultName",actualTrip));
 	
 
 	

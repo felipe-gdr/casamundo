@@ -57,15 +57,21 @@
 			},
 			celPhone : {
 				required : true,
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			phone : {
 				required : true,
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			lastName : {
 				required : true,
+				minlength : 2,
+				regex : /^\S+$/
 			},
 			firstName : {
 				required : true,
+				minlength : 2,
+				regex : /^\S+$/
 			},
 			birthDay : {
 				required : true,
@@ -82,6 +88,9 @@
 			},
 			englishLevel : {
 				required : true,
+			},
+			secondaryTelephone : {
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			streetNumber : {
 				required : true,
@@ -104,6 +113,9 @@
 			emergencyContactMail : {
 				email : true
 			},
+			emergencyContactPhone : {
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
+			},
 			status : {
 				required : true,
 			},
@@ -124,6 +136,21 @@
 			departureDate : {
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
+			arrivalFlightNumber : {
+				minlength : 2,
+				maxlength : 4
+			},
+			departureFlightNumber : {
+				minlength : 2,
+				maxlength : 4
+			},
+			guestName : {
+				required : true,
+			},
+			guestEmail : {
+				required : true,
+				email : true
+			},
 			agencyName : {
 				required : true,
 			},
@@ -140,21 +167,22 @@
 			},
 			celPhone : {
 				required : 'Please enter student cel phone',
-				minlength : 'Fill area code',
-				maxlength : 'Number too long',
+				regex : 'invalid phone number'
+
 			},
 			phone : {
 				required : 'Please enter student phone',
-				minlength : 'Fill area code',
-				maxlength : 'Number too long',
+				regex : 'invalid phone number'
 			},
 			lastName : {
 				required : 'Please enter student last name',
-				minlength : 2
+				regex : 'Do not use whitespace in last name',
+				minlength : 'Minimum two catacters'
 			},
 			firstName : {
 				required : 'Please enter student first name',
-				minlength : 2
+				regex : 'Do not use whitespace in first name',
+				minlength : 'Minimum two catacters'
 			},
 			birthDay : {
 				required : 'Please enter student birthday'
@@ -170,6 +198,9 @@
 			},
 			englishLevel : {
 				required : 'Please enter student english level'
+			},
+			secondaryTelephone : {
+				regex : 'invalid secondary phone'
 			},
 			streetNumber : {
 				required : 'Please enter address number'
@@ -200,6 +231,9 @@
 			emergencyContactMail : {
 				email : 'Please enter a VALID email address'
 			},
+			emergencyContactPhone : {
+				regex : 'invalid emergency contact phone'
+			},
 			status : {
 				required : 'Please enter status'
 			},
@@ -211,6 +245,21 @@
 			},
 			end : {
 				required : 'Please enter trip end'
+			},
+			arrivalFlightNumber : {
+				minlength : 'Minimum 2 caracters',
+				maxlength : 'Maximum 4 caracters'
+			},
+			departureFlightNumber : {
+				minlength : 'Minimum 2 caracters',
+				maxlength : 'Maximum 4 caracters'
+			},
+			guestName : {
+				required : 'Please enter guest name'
+			},
+			guestEmail : {
+				required : 'Please enter email guest',
+				email : 'Please enter a VALID email address'
 			},
 			agencyName : {
 				required : 'Please enter agency name'
@@ -282,7 +331,9 @@
 	});	
 
 	$('#birthDay').datepicker({
-		dateFormat : 'dd-M-yy',
+	    changeMonth: true,
+	    changeYear: true,
+	    dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {

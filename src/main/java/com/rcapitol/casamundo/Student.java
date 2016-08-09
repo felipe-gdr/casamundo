@@ -35,6 +35,7 @@ public class Student {
 		public String phone;
 		public String lastName;
 		public String firstName;
+		public String secondName;
 		public String birthDay;
 		public String gender;
 		public String nationality;
@@ -72,6 +73,7 @@ public class Student {
 						String phone,
 						String lastName,
 						String firstName,
+						String secondName,
 						String birthDay,
 						String gender,
 						String nationality,
@@ -102,6 +104,7 @@ public class Student {
 						this.phone = phone; 
 						this.lastName = lastName; 
 						this.firstName = firstName; 
+						this.secondName = secondName; 
 						this.birthDay = birthDay; 
 						this.gender = gender; 
 						this.nationality = nationality; 
@@ -297,6 +300,7 @@ public class Student {
     		public String accommodation;  
     		public String occupancy;      
     		public String guestName;      
+    		public String guestEmail;      
     		public String relationship;   
     		public String mealPlan[];       
     		public String specialDiet[];    
@@ -359,7 +363,8 @@ public class Student {
         	    		String dropoff,        
         	    		String accommodation,  
         	    		String occupancy,      
-        	    		String guestName,      
+        	    		String guestName,
+        	    		String guestEmail,
         	    		String relationship,   
         	    		String [] mealPlan,       
         	    		String [] specialDiet,    
@@ -417,7 +422,8 @@ public class Student {
 	    		this.dropoff = dropoff;         
 	    		this.accommodation = accommodation;   
 	    		this.occupancy = occupancy;       
-	    		this.guestName = guestName;       
+	    		this.guestName = guestName;
+	    		this.guestEmail = guestEmail;
 	    		this.relationship = relationship;    
 	    		this.mealPlan = mealPlan;        
 	    		this.specialDiet = specialDiet;     

@@ -107,6 +107,7 @@
 		rules : {
 			familyName : {
 				required : true,
+				regex : /^\S+$/
 			},
 			type : {
 				required : true,
@@ -116,9 +117,14 @@
 			},
 			contact_phoneNumber : {
 				required : true,
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			contact_mobilePhoneNumber : {
 				required : true,
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
+			},
+			contact_workPhoneNumber : {
+				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			contact_email : {
 				required : true,
@@ -134,7 +140,6 @@
 				required : true,
 			},
 			contact_birthDate : {
-				required : true,
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			address_street : {
@@ -165,7 +170,6 @@
 				required : true,
 			},
 			familyMemberBirthdate_0 : {
-				required : true,
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			familyMemberBirthdate_1 : {
@@ -226,7 +230,7 @@
 		messages : {
 			familyName : {
 				required : 'Please enter family name',
-				email : 'Please enter a VALID email address'
+				regex : 'Do not use whitespace in family name'
 			},
 			type : {
 				required : 'Please enter family type',
@@ -236,9 +240,14 @@
 			},
 			contact_phoneNumber : {
 				required : 'Please enter family phone number',
+				regex : 'invalid phone number'
 			},
 			contact_mobilePhoneNumber : {
 				required : 'Please enter family mobile phone number',
+				regex : 'invalid mobile phone number'
+			},
+			contact_workPhoneNumber : {
+				regex : 'invalid work phone number'
 			},
 			contact_email : {
 				required : 'Please enter contact family email',
@@ -251,7 +260,6 @@
 				required : 'Please enter contact firstname',
 			},
 			contact_birthDate : {
-				required : 'Please enter contact birthDate',
 				regex : 'Invalid contact birthdate example "01-Jan-2000"'
 			},
 			contact_gender : {
@@ -303,7 +311,6 @@
 				required : 'Please enter if you host a student from any nationality',
 			},
 			familyMemberBirthdate_0 : {
-				required : 'Please enter family member birthDate',
 				regex : 'Invalid family birthdate example "01-Jan-2000"'
 			},
 			familyMemberBirthdate_1 : {
@@ -511,6 +518,8 @@
 	});	
 
 	$('#contact_birthDate').datepicker({
+	    changeMonth: true,
+	    changeYear: true,
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',

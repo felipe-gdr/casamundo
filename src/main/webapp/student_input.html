@@ -120,7 +120,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-6">
+	<body class="smart-style-6 body-background-color-student">
 
   <!-- Cabeçalho-->
 		<!-- HEADER -->
@@ -455,6 +455,14 @@
 														</section>
 												</div>
 												<div class="row">							
+														<section class="col-xs-10">							
+															<label class="label text-info">Second name</label>							
+															<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																<input type="text" id="secondName" name="secondName" placeholder="Second name">
+															</label>
+														</section>
+												</div>
+												<div class="row">							
 													<section class="col-sm-9">	
 														<label class="label text-info">Email</label>							
 														<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
@@ -466,7 +474,7 @@
 													<section class="col-sm-9">		
 														<label class="label text-info">Cel Phone</label>						
 														<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>
-															<input type="tel" id="celPhone" name="celPhone" placeholder="(xx)xxxx.xxxx" >
+															<input type="tel" id="celPhone" name="celPhone" placeholder="ex: +5511981941212" >
 														</label>
 													</section>
 												</div>
@@ -584,7 +592,7 @@
 														<section class="col-xs-5">
 															<label class="label text-info">Secondary Telephone</label>								
 															<label class="input"> <i class="icon-prepend fa fa-phone"></i>
-																<input type="tel" id="secondaryTelephone" name="secondaryTelephone" placeholder="(xx)xxxx.xxxx" >
+																<input type="tel" id="secondaryTelephone" name="secondaryTelephone" placeholder="ex: +5511982341212" >
 															</label>
 														</section>
 														<section class="col-xs-5">	
@@ -596,13 +604,13 @@
 														<section class="col-xs-5">	
 															<label class="label text-info">Emergency Contact Phone</label>							
 															<label class="input"> <i class="icon-prepend fa fa-phone"></i>
-																<input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" placeholder="emergency contact phone" >
+																<input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" placeholder="ex: +5511982341212" >
 															</label>
 														</section>
 														<section class="col-xs-5">	
 															<label class="label text-info">Emergency Contact Mail</label>							
 															<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
-																<input type="text" id="emergencyContactMail" name="emergencyContactMail" placeholder="emergency contact email">
+																<input type="text" id="emergencyContactMail" name="emergencyContactMail" placeholder="dom">
 															</label>
 														</section>
 														<section class="col-xs-5">	
@@ -826,7 +834,7 @@
 														<section class="col-xs-5">
 															<label class="label text-info">Flight number</label>								
 															<label class="input"> <i class="icon-prepend fa fa-plane"></i>
-																<input type="text" id="arrivalFlightNumber" name="arrivalFlightNumber" placeholder="Flight Number" data-mask="9999">
+																<input type="text" id="arrivalFlightNumber" name="arrivalFlightNumber" placeholder="Flight Number" >
 															</label>
 														</section>
 														<section class="col-xs-5">
@@ -854,7 +862,7 @@
 														<section class="col-xs-5">
 															<label class="label text-info">Flight number</label>								
 															<label class="input"> <i class="icon-prepend fa fa-plane"></i>
-																<input type="text" id="departureFlightNumber" name="departureFlightNumber" placeholder="Flight Number" data-mask="9999">
+																<input type="text" id="departureFlightNumber" name="departureFlightNumber" placeholder="Flight Number">
 															</label>
 														</section>
 													</fieldset>
@@ -918,6 +926,12 @@
 															<label class="label text-info">Guest name</label>								
 															<label class="input"> <i class="icon-prepend fa fa-user"></i>
 																<input type="text" id="guestName" name="guestName" placeholder="guest name">
+															</label>
+														</section>
+														<section class="col-xs-8 hide guest">
+															<label class="label text-info">Guest email</label>								
+															<label class="input"> <i class="icon-prepend fa fa-user"></i>
+																<input type="text" id="guestEmail" name="guestEmail" placeholder="guest email">
 															</label>
 														</section>
 														<section class="col-xs-8 hide guest">

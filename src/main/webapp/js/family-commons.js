@@ -440,6 +440,8 @@ function criaLinhaFamilyMember (i, familyName) {
 		'</li>';
 	$("#familyMembersList").append(familyMemberLine);
 	$('#familyMemberBirthdate_' + i).datepicker({
+	    changeMonth: true,
+	    changeYear: true,
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
@@ -447,6 +449,8 @@ function criaLinhaFamilyMember (i, familyName) {
 		}
 	});
 	$('#familyMemberDocDate_' + i).datepicker({
+	    changeMonth: true,
+	    changeYear: true,
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',

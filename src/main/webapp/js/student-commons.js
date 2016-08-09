@@ -18,6 +18,7 @@ function carregaTela(data) {
 	
 	$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
 	$("#firstName").val(data.documento.firstName);
+	$("#secondName").val(data.documento.secondName);
 	$("#lastName").val(data.documento.lastName);
 	$("#celPhone").val(data.documento.celPhone);
 	$("#phone").val(data.documento.phone);
@@ -96,6 +97,7 @@ function carregaTela(data) {
 		$(".guest").addClass("hide");
 	};
 	$("#guestName").val(data.documento.trips[actualTrip].guestName);
+	$("#guestEmail").val(data.documento.trips[actualTrip].guestEmail);
 	$("#relationship").val(data.documento.trips[actualTrip].relationship);
 	$('#mealPlan').val(data.documento.trips[actualTrip].mealPlan);    	
 	$("#specialDiet").val(data.documento.trips[actualTrip].specialDiet);
@@ -193,8 +195,8 @@ function carregaDadosSchool(data, consult, consultName) {
 	}else{
 		$("#schoolName").val(data.documento.name);
 	};
-	$("#schoolPhone").html(data.documento.schoolPhone);
-	$("#schoolEmail").html(data.documento.schoolEmail);
+	$("#schoolPhone").html(data.documento.phone);
+	$("#schoolEmail").html(data.documento.email);
 	$("#schoolAddress").html(data.documento.address);
     $.each(data.documento.consultants, function (i, consultants) {
     	if (consultants.name == consultName){
@@ -248,6 +250,10 @@ function getValueStudent (field, actualTrip) {
 	if (field == "firstName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.firstName;			
+	};
+	if (field == "secondName"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.secondName;			
 	};
 	if (field == "birthDay"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -457,6 +463,10 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].guestName;		
 	};
+	if (field == "guestEmail"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].guestEmail;		
+	};
 	if (field == "relationship"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].relationship;		
@@ -632,6 +642,9 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "firstName"){
         objJson.documento.firstName = value;
 	};
+	if (field == "secondName"){
+        objJson.documento.secondName = value;
+	};
 	if (field == "birthDay"){
         objJson.documento.birthDay = limpaData(value);
 	};
@@ -748,6 +761,9 @@ function setValueStudent (field, value, actualTrip, grava) {
 	};
 	if (field == "guestName"){
         objJson.documento.trips[actualTrip].guestName = value;
+	};
+	if (field == "guestEmail"){
+        objJson.documento.trips[actualTrip].guestEmail = value;
 	};
 	if (field == "relationship"){
         objJson.documento.trips[actualTrip].relationship = value;
@@ -894,6 +910,7 @@ function limpaStorageStudent () {
 				    phone : "", 
 				    lastName : "", 
 				    firstName : "", 
+				    secondName : "", 
 				    birthDay : "", 
 				    gender : "", 
 				    nationality : "", 
@@ -936,6 +953,7 @@ function limpaStorageStudent () {
 					    		accommodation:"", 
 					    		occupancy:"", 
 					    		guestName:"", 
+					    		guestEmail:"", 
 					    		relationship:"", 
 					    		mealPlan:[], 
 					    		specialDiet:[], 
