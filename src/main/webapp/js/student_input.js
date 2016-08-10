@@ -32,7 +32,9 @@
 		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
 		montaPhoto (localStorage.app, "student", "photoPassport", "student", mailUrl, "photoPassport");
 		$('#mail').attr("disabled", true);
-	};	
+	}else{
+		$('#birthDay').val("01-Jan-1980");
+	}	
 
 
 	limpaStorageStudent ();

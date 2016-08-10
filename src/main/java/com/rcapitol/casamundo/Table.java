@@ -52,6 +52,7 @@ public class Table {
         public String type[];                  
         public String address_mainIntersection[];
         public String address_subwayStation[];
+        public String airline[];
 
 		public Documento() {
 
@@ -81,7 +82,8 @@ public class Table {
 				        String[] specialDiet,
 				        String[] type,
 				        String[] address_mainIntersection,
-				        String[] address_subwayStation
+				        String[] address_subwayStation,
+				        String[] airline
 						) {
 				        this.nationality = nationality;                  
 				        this.mainPurposeTrip = mainPurposeTrip;              
@@ -106,6 +108,7 @@ public class Table {
 				        this.type = type;
 				        this.address_mainIntersection = address_mainIntersection;
 				        this.address_subwayStation = address_subwayStation;
+				        this.airline = airline;
 		}
 
 		@Override

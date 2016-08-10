@@ -509,6 +509,16 @@ function calculaIdade ( dataNascimento ) {
     		    , function (i, optionValue) {
         			$("#type").append( $(option(optionValue)));
     		    });
+        $.each(table.documento.type
+    		    , function (i, optionValue) {
+        			$("#type").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.airline
+    		    , function (i, optionValue) {
+        			$("#airline").append( $(option(optionValue)));
+        			$("#arrivalAirline").append( $(option(optionValue)));
+        			$("#departureAirline").append( $(option(optionValue)));
+    		    });
         
         localStorage.carragendoTags = false;
     };    
