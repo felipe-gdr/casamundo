@@ -268,6 +268,7 @@ public class Rest_Student {
 					}else{
 	        			JSONObject docAgency = new JSONObject();
 						docAgency.put("name", "");
+						docAgency.put("agencySigla", "");
 						docAgency.put("celPhone", "");
 						docAgency.put("phone", "");
 						docAgency.put("email", "");						
@@ -286,6 +287,7 @@ public class Rest_Student {
 					}else{
 	        			JSONObject docSchool = new JSONObject();
 						docSchool.put("name", "");
+						docSchool.put("sigla", "");
 						docSchool.put("celPhone", "");
 						docSchool.put("phone", "");
 						docSchool.put("email", "");						

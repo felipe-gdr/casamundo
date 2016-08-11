@@ -318,6 +318,18 @@ function calculaIdade ( dataNascimento ) {
 
 	 return idade;
 	};				
+
+	function calculaDias (dateStart, dateEnd ) {
+		date1 = dateStart.split("/");
+		date2 = dateEnd.split("/");		 
+		 
+		var sDate = new Date(date1[1]+"/"+date1[0]+"/"+date1[2]);
+		var eDate = new Date(date2[1]+"/"+date2[0]+"/"+date2[2]);
+		var daysApart = Math.abs(Math.round((sDate-eDate)/86400000));
+
+		return daysApart;
+	};				
+
 	function inclusaoEfetuada(mensagem) {
 		$.smallBox({
 			title : "Ok",

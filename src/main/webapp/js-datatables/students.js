@@ -68,12 +68,12 @@
     		                "defaultContent": ''
     		            },
     		            { "data": "student" },
-    		            { "data": "destination" },
-    		            { "data": "start" },
-    		            { "data": "end" },
-    		            { "data": "gender" },
-    		            { "data": "agency" },
-    		            { "data": "school" },
+    		            { "data": "dates" },
+    		            { "data": "status" },
+    		            { "data": "institution" },
+    		            { "data": "people" },
+    		            { "data": "preferences" },
+    		            { "data": "comments" },
     		            ],
             "responsive": true,
             "charset" : "UTF-8",
@@ -114,23 +114,55 @@
             default: 
         		genderCollor = "label-male"
             };	    
-        	student_table.row.add( {
+            var daysTotal = calculaDias(separaConverteDataMes(student.trip.start, "/"), separaConverteDataMes(student.trip.end, "/"));
+            var weeks = Math.abs(Math.round(daysTotal / 7));
+            var days = daysTotal % 7;
+            var durationTrip = "";
+            var litDay = " nights";
+            if (days == 1){
+            	litDay = " night";
+            }
+            var litWeek = " weeks ";
+            if (weeks == 1){
+            	litWeek = " week ";
+            }
+            if (weeks > 0){
+            	durationTrip = weeks + litWeek;
+            };
+            if (days > 0){
+                durationTrip = durationTrip + days + litDay;
+            }else{
+            	durationTrip = durationTrip;
+            };
+            var age = calculaIdade(separaConverteDataMes(student.birthDay, "/"));
+            student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
     	    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
-    	    			"<small class='text-muted'><i>Age: " + age + "<i></small><br>" + 
-    	    			"<small class='text-muted'><i>Phone: " + student.phone +  "<i></small><br>" + 
-    	    			"<small class='text-muted'><i>Cel Phone: " + student.phone +  "<i></small><br>" + 
-    	    			"<small class='text-muted'><i>Mail: " + student.mail +  "<i></small><br></a>",
-                "destination":"<small class='text-muted'>" + student.trip.destination + "</small>",
-                "start":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>" + separaData(student.trip.start, "/") + "</small>",
-                "end":"<small class='hide'>" + converteAnoMesDia(student.trip.end) + "</small><small class='text-muted'>" + separaData(student.trip.end, "/") + "</small>",
-    	    	"gender":"<small class='label " + genderCollor + " '>" + student.gender + "</small>",
-    	    	"agency":student.agency.name + "<br>" +
-    	    				"<small class='text-muted'>Consult: " + student.agency.nameConsult + "</small><br>" +
-    	    				"<small class='text-muted'>Cel Phone: " + student.agency.celPhone + "</small><br>" +
-    	    				"<small class='text-muted'>Phone: " + student.agency.phone + "</small><br>" +
-    	    				"<small class='text-muted'>Mail: " + student.agency.email + "</small><br>",
-    	    	"school":student.school.name + "<br>" +
+    	    			"<small class='label " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted'><i>" + student.nationality + "<i></small><br>" +
+    	    			"<small class='text-muted'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
+                "dates":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
+                		"<small class='text-muted'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +
+                		"<small class='text-muted'>" + durationTrip + "</small><br>",
+    	    	"status":"<small class='text-muted'>" + student.status + "</small>" +
+    	    			"<small class='label-danger'>" + "$" + "</small><br><br>" +
+    	    			"<small class='text-muted'>Visa:" + "No" + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted'>Flight:" + student.trip.arrivalFlightNumber + "</small><br>" +
+    	    			"<small class='text-muted'>Pickup:" + "No" + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted'>Dropoff:" + "No" + "</small>",
+    	    	"institution":"<small class='text-muted'>School: " + student.school.sigla + "</small><br>" +
+    	    				"<small class='text-muted'>Agent: " + student.agency.agencySigla + "</small><br>",
+    	    	"people":student.school.name + "<br>" +
+    	    				"<small class='text-muted'>Contact: " + student.school.nameContact + "</small><br>" +
+    	    				"<small class='text-muted'>Cel Phone: " + student.school.celPhone + "</small><br>" +
+    	    				"<small class='text-muted'>Phone: " + student.school.phone + "</small><br>" +
+    	    				"<small class='text-muted'>Mail: " + student.school.email + "</small><br>",
+       	    	"preferences":student.school.name + "<br>" +
+    	    				"<small class='text-muted'>Contact: " + student.school.nameContact + "</small><br>" +
+    	    				"<small class='text-muted'>Cel Phone: " + student.school.celPhone + "</small><br>" +
+    	    				"<small class='text-muted'>Phone: " + student.school.phone + "</small><br>" +
+    	    				"<small class='text-muted'>Mail: " + student.school.email + "</small><br>",
+       	    	"comments":student.school.name + "<br>" +
     	    				"<small class='text-muted'>Contact: " + student.school.nameContact + "</small><br>" +
     	    				"<small class='text-muted'>Cel Phone: " + student.school.celPhone + "</small><br>" +
     	    				"<small class='text-muted'>Phone: " + student.school.phone + "</small><br>" +
