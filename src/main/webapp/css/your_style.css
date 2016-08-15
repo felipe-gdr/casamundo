@@ -43,6 +43,15 @@
  .text-advise {
 	font-size: 60% !important;
 }
+ .text-bold {
+	font-weight: bold!important;
+}
+ .text-filter {
+	font-size: 70%!important;
+}
+ .text-column {
+	font-size: 80%!important;
+}
  .memberList {
 	padding: 0px !important;
 }

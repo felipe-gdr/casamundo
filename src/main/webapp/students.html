@@ -465,7 +465,7 @@
 								<div>
 									
 									<!-- widget edit box -->
-									<div class="jarviswidget-editbox">
+									<div class="jarviswidget-editbox hide">
 										<!-- This area used as dropdown edit box -->
 										<input class="form-control" type="text">	
 									</div>
@@ -476,40 +476,139 @@
 										
 										<table id="students_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									        <thead>
-												<tr>
+												<tr class="">
 													<th class="hasinput" >
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Student" />
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_student" type="text" class="form-control text-filter" placeholder="Student" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_gender" type="text" class="form-control text-filter" placeholder="Gender" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_nationality" type="text" class="form-control text-filter" placeholder="Nationality" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_age_from" type="text" class="form-control text-filter" placeholder="Age from" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_age_to" type="text" class="form-control text-filter" placeholder="Age to" />
+															</section>
+														</div>
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Dates" />
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_check_in" type="text" class="form-control text-filter" placeholder="from" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_check_out" type="text" class="form-control text-filter" placeholder="to" />
+															</section>
+														</div>
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Status" />
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_status" type="text" class="form-control text-filter" placeholder="Status" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_payment" type="text" class="form-control text-filter" placeholder="Payment" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_visa" type="text" class="form-control text-filter" placeholder="Visa" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_flight" type="text" class="form-control text-filter" placeholder="Flight" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_pickup" type="text" class="form-control text-filter" placeholder="Pickup" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_dropoff" type="text" class="form-control text-filter" placeholder="Dropoff" />
+															</section>
+														</div>
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Institution" />
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_school" type="text" class="form-control text-filter" placeholder="School" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_agent" type="text" class="form-control text-filter" placeholder="Agent" />
+															</section>
+														</div>
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="People" />
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_host" type="text" class="form-control text-filter" placeholder="Host" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_driver" type="text" class="form-control text-filter" placeholder="Driver" />
+															</section>
+														</div>
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Preferences" />
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_occupancy" type="text" class="form-control text-filter" placeholder="Occupancy" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_private_wc" type="text" class="form-control text-filter" placeholder="Private WC" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_dogs" type="text" class="form-control text-filter" placeholder="dogs" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_cats" type="text" class="form-control text-filter" placeholder="cats" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_meals" type="text" class="form-control text-filter" placeholder="meals" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_diet" type="text" class="form-control text-filter" placeholder="diet" />
+															</section>
+														</div>
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Comments" />
+															<section class="col-xs-12">							
+																<input id="filter_comments" type="text" class="form-control text-filter" placeholder="Comments" />
+															</section>
 													</th>
 												</tr>
 									            <tr>
 									                <th></th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Student</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Institution</th>
-									                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>People</th>
-									                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Preferences</th>
-									                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
+									                <th class="text-column"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Student</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Institution</th>
+									                <th class="text-column"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>People</th>
+									                <th class="text-column"><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Preferences</th>
+									                <th class="text-column"><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
 									            </tr>
 									        </thead>
 									    </table>
@@ -728,6 +827,7 @@
 		<script src="js/rest_commands.js"></script>
 		<script src="js-datatables/students.js"></script>
 		<script src="js/student-commons.js"></script>
+		<script src="js/students.js"></script>
 
 		<script>
 			$(document).ready(function() {

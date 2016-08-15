@@ -39,7 +39,7 @@
          
     	/* student list  */
         var student_table = $('#students_list').DataTable({
-        	//"bFilter": false,
+        	"bFilter": false,
         	//"bInfo": false,
         	//"bLengthChange": true,
         	//"bAutoWidth": true,
@@ -67,13 +67,20 @@
     		                "data":           null,
     		                "defaultContent": ''
     		            },
-    		            { "data": "student" },
-    		            { "data": "dates" },
-    		            { "data": "status" },
-    		            { "data": "institution" },
-    		            { "data": "people" },
-    		            { "data": "preferences" },
-    		            { "data": "comments" },
+    		            { "data": "student",
+    		            	"width": "15%"},
+    		            { "data": "dates",
+    		            	"width": "15%"},
+    		            { "data": "status",
+    		            	"width": "15%"},
+    		            { "data": "institution",
+    		            	"width": "10%"},
+    		            { "data": "people",
+    		            	"width": "10%"},
+    		            { "data": "preferences",
+    		            	"width": "15%"},
+    		            { "data": "comments",
+    		            	"width": "20%"},
     		            ],
             "responsive": true,
             "charset" : "UTF-8",
@@ -86,6 +93,9 @@
     	
         });
         var objJson = JSON.parse(localStorage.getItem("students"));
+        
+        student_table.clear();
+        
         $.each(objJson, function (i, student) {
         	var age = calculaIdade(separaData(student.birthDay, "/"));
         	switch (student.trip.status) {
@@ -233,10 +243,10 @@
             var specialDiet = "";
             if (student.trip.specialDiet[0]){
 			    $.each(student.trip.specialDiet, function (i, value) {
-			    	specialDiet = String(specialDiet) + "<span class='label label-warning'>" + value + " </span>";
+			    	specialDiet = String(specialDiet) + "<span class='label label-warning text-column'>" + value + " </span>";
 			    });
             }else{
-            	specialDiet = "<span class='label label-success'>No food restrictions</span>"
+            	specialDiet = "<span class='label label-success text-column'>No food restrictions</span>"
             };
 		    
 	        var actions = "";
@@ -248,12 +258,12 @@
 		    if (student.trip.familyName) {
 		        familyName = student.trip.familyName;	
 		        accommodation =
-		        "<span>" + student.trip.familyName + "</span><br>" +
-    			"<span>" + student.familyContact.firstName +  " " + student.familyContact.lastName + "</span><br>" + 
-    			"<small class='text-muted'><i>Gender: " + student.familyContact.gender + "<i></small><br>" + 
-    			"<small class='text-muted'><i>Phone: " + student.familyContact.phoneNumber +  "<i></small><br>" + 
-    			"<small class='text-muted'><i>Cel Phone: " + student.familyContact.mobilePhoneNumber +  "<i></small><br>" + 
-    			"<small class='text-muted'><i>Email: " + student.familyContact.email +  "<i></small><br></a>";
+		        "<span class='text-muted text-column'>" + student.trip.familyName + "</span><br>" +
+    			"<span class='text-muted text-column'>" + student.familyContact.firstName +  " " + student.familyContact.lastName + "</span><br>" + 
+    			"<small class='text-muted text-column'><i>Gender: " + student.familyContact.gender + "<i></small><br>" + 
+    			"<small class='text-muted text-column'><i>Phone: " + student.familyContact.phoneNumber +  "<i></small><br>" + 
+    			"<small class='text-muted text-column'><i>Cel Phone: " + student.familyContact.mobilePhoneNumber +  "<i></small><br>" + 
+    			"<small class='text-muted text-column'><i>Email: " + student.familyContact.email +  "<i></small><br></a>";
 		    };
 	        var familyName = student.trip.familyName;
 	        if (student.trip.status == "Available"){
@@ -277,37 +287,37 @@
 	        if (student.trip.pickup == "Yes"){
 	        	pickupCollor = "danger";
 	        }
-	        var drooffCollor = "success";
+	        var dropoffCollor = "success";
 	        if (student.trip.dropoff == "Yes"){
 	        	dropoffCollor = "danger";
 	        }
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
-    	    			"<span>" + student.firstName +  " " + student.lastName + "</span><br>" + 
-    	    			"<small class='label " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
-    	    			"<small class='text-muted'><i>" + student.nationality + "<i></small><br>" +
-    	    			"<small class='text-muted'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
-                "dates":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
-                		"<small class='text-muted'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +
-                		"<small class='text-muted'>" + durationTrip + "</small><br>",
-    	    	"status":"<small class='label " + statusCollor + "'>" + student.trip.status + "</small>&nbsp;&nbsp;" +
-    	    			"<small class='label-danger'>" + " no $  " + "</small><br>" +
-    	    			"<small class='text-muted'>Visa:" + " No " + "</small>&nbsp;&nbsp;" +
-    	    			"<small class='text-muted'>Flight:" + student.trip.arrivalFlightNumber + "</small><br>" +
-    	    			"<small class='text-muted'>Pickup:</small><small class='text-" + pickupCollor + "'>" + student.trip.pickup + "</small>&nbsp;&nbsp;" +
-    	    			"<small class='text-muted'>Dropoff:</small><small class='text-" + dropoffCollor + "'>" + student.trip.dropoff + "</small>&nbsp;&nbsp;",
-    	    	"institution":"<small class='text-muted'>School: " + student.school.sigla + "</small><br>" +
-    	    				"<small class='text-muted'>Agent: " + student.agency.agencySigla + "</small><br>",
-    	    	"people":"<small class='text-muted'>Host: " + student.trip.familyName + "</small><br>" +
-    	    			"<small class='text-muted'>Driver: " + "Available" + "</small><br>",
-       	    	"preferences":"<small class='text-muted'>" + student.trip.occupancy + "</small>&nbsp;&nbsp;" +
-    	    				"<small class='text-muted'>Pvt WC: " + student.trip.privateWashroom + "</small><br>" +
-    	    				"<small class='text-muted'>Dogs: " + student.trip.liveDogs + "</small>&nbsp;&nbsp;" +
-    	    				"<small class='text-muted'>Cats: " + student.trip.liveCats + "</small><br>" +
-    	    				"<small class='text-muted'>Full board: " + student.trip.privateWashroom + "</small>&nbsp;&nbsp;" +
-    	    				"<small class='text-muted'>" + student.trip.specialDiet + "</small>",
+    	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
+    	    			"<small class='label text-column " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +
+    	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
+                "dates":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
+                		"<small class='text-muted text-column'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +
+                		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
+    	    	"status":"<small class='label text-column " + statusCollor + "'>" + student.trip.status + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='label-danger text-column'>" + " no $  " + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Visa: " + " No " + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted text-column'>Flight: " + student.trip.arrivalFlightNumber + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Pickup: </small><small class='text-" + pickupCollor + " text-column '>" + student.trip.pickup + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted text-column'>Dropoff: </small><small class='text-" + dropoffCollor + " text-column '>" + student.trip.dropoff + "</small>&nbsp;&nbsp;",
+    	    	"institution":"<small class='text-muted text-column'>School: </small><small class='text-bold text-column'>" + student.school.sigla + "</small><br>" +
+    	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + student.agency.agencySigla + "</small><br>",
+    	    	"people":"<small class='text-muted text-column'>Host: </small><small class='text-bold text-column'>" + student.trip.familyName + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Driver: " + "Available" + "</small><br>",
+       	    	"preferences":"<small class='text-muted text-column'>" + student.trip.occupancy + "</small>&nbsp;&nbsp;" +
+    	    				"<small class='text-muted text-column'>Pvt WC: " + student.trip.privateWashroom + "</small><br>" +
+    	    				"<small class='text-muted text-column'>Dogs: " + student.trip.liveDogs + "</small>&nbsp;&nbsp;" +
+    	    				"<small class='text-muted text-column'>Cats: " + student.trip.liveCats + "</small><br>" +
+    	    				"<small class='text-muted text-column'>" + student.trip.mealPlan + "</small>&nbsp;&nbsp;" +
+    	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",
     	    				
-       	    	"comments":"<small class='text-muted'>" + student.trip.comments + "</small>",
+       	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
     	    }).draw( false );
         });

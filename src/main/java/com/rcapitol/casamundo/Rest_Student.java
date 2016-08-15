@@ -187,7 +187,7 @@ public class Rest_Student {
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterStudents(@QueryParam("destination") String destination, @QueryParam("accommodation") String accommodation) {
+	public JSONArray ObterStudents(@QueryParam("destination") String destination, @QueryParam("accommodation") String accommodation, @QueryParam("filters") String filters) {
 
 		Mongo mongo;
 		try {
@@ -314,6 +314,8 @@ public class Rest_Student {
 						docFamily.put("mobilePhoneNumber", "");						
 						jsonDocumento.put("contact", docFamily);
 					};
+					Boolean filter_ok = false;
+					filter_ok = checkFilters (filters, jsonDocumento);
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {
@@ -462,5 +464,11 @@ public class Rest_Student {
 			e.printStackTrace();
 		}
 		return null;		
+	};
+	
+	public Boolean checkFilters (String filters, JSONObject jsonDocumento){
+		Boolean response = true;
+		//if("Hello".toLowerCase().indexOf("he".toLowerCase()) >= 0)
+		return response;
 	};
 };
