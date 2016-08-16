@@ -2,6 +2,10 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -187,7 +191,7 @@ public class Rest_Student {
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterStudents(@QueryParam("destination") String destination, @QueryParam("accommodation") String accommodation, @QueryParam("filters") String filters) {
+	public JSONArray ObterStudents(@QueryParam("destination") String destination, @QueryParam("accommodation") String accommodation,@QueryParam("filters") String filters) {
 
 		Mongo mongo;
 		try {
@@ -314,9 +318,10 @@ public class Rest_Student {
 						docFamily.put("mobilePhoneNumber", "");						
 						jsonDocumento.put("contact", docFamily);
 					};
-					Boolean filter_ok = false;
-					filter_ok = checkFilters (filters, jsonDocumento);
-					documentos.add(jsonDocumento);
+					Boolean filter_ok = checkFilters (filters, jsonDocumento);
+					if (filter_ok){
+						documentos.add(jsonDocumento);
+					};
 					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -466,9 +471,239 @@ public class Rest_Student {
 		return null;		
 	};
 	
-	public Boolean checkFilters (String filters, JSONObject jsonDocumento){
+	@SuppressWarnings("rawtypes")
+	public Boolean checkFilters (String filters, JSONObject objJson){
+		JSONObject jsonTrip =  (JSONObject) objJson.get("trip");
 		Boolean response = true;
-		//if("Hello".toLowerCase().indexOf("he".toLowerCase()) >= 0)
+		String array[] = new String[24];
+		array = filters.split(",");
+		int i = 0;
+		while (i < array.length) {
+			String element[] = new String[2];
+			element = array[i].split (":");
+			if (element.length > 1){
+				switch(element[0]) {
+			    case "filter_student":
+					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+					};
+			        break;
+			    case "filter_gender":
+					if (element[1].toLowerCase().equals("male") ){
+						if (!((String) objJson.get("gender")).toLowerCase().equals("male")){
+							response = false;
+						};
+					}else{
+						if (element[1].toLowerCase().equals("female") ){
+							if (!((String) objJson.get("gender")).toLowerCase().equals("female")){
+								response = false;
+							};
+						}else{
+							response = false;
+						};
+					};
+			        break;
+			    case "filter_nationality":
+					if (((String) objJson.get("nationality")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_age_from":
+			    	Long ageFrom = calcAge((String)objJson.get("birthDay"));
+					if (ageFrom <= Integer.parseInt((String) element[1])){
+						response = false;
+					};
+			        break;
+			    case "filter_age_to":
+			    	Long ageTo = calcAge((String)objJson.get("birthDay"));
+					if (ageTo >= Integer.parseInt((String) element[1])){
+						response = false;
+					};
+			        break;
+			    case "filter_check_in":
+					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+					};
+			        break;
+			    case "filter_check_out":
+					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+					};
+			        break;
+			    case "filter_status":
+					if (((String) jsonTrip.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_payment":
+					if (((String) jsonTrip.get("payment")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_visa":
+//					if (((String) jsonTrip.get("visa")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+//						response = false;
+//					};
+			        break;
+			    case "filter_flight":
+					if (((String) jsonTrip.get("arrivalFlightNumber")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_pickup":
+					if (((String) jsonTrip.get("pickup")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_dropoff":
+					if (((String) jsonTrip.get("dropoff")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_school":
+					if (((String) jsonTrip.get("schoolName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_agent":
+					if (((String) jsonTrip.get("agencyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_host":
+					if (((String) jsonTrip.get("familyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_driver":
+//					if (((String) jsonTrip.get("driver")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+//						response = false;
+//					};
+			        break;
+			    case "filter_occupancy":
+					if (((String) jsonTrip.get("occupancy")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_private_wc":
+					if (((String) jsonTrip.get("privateWashroom")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_dogs":
+					if (((String) jsonTrip.get("liveDogs")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_cats":
+					if (((String) jsonTrip.get("liveCats")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			        break;
+			    case "filter_meals":
+			    	ArrayList arrayListMeals = new ArrayList(); 
+			    	arrayListMeals = (ArrayList) jsonTrip.get("mealPlan");
+			    	Object arrayMeals[] = arrayListMeals.toArray(); 
+					Boolean resultMeals = true;
+					int w = 0;
+					while (w < arrayMeals.length) {
+						if (((String) arrayMeals[w]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							resultMeals = false;
+						};
+						++w;
+					};
+					if (!resultMeals){
+						response = false;
+					}
+			        break;
+			    case "filter_diet":
+			    	ArrayList arrayListDiet = new ArrayList(); 
+			    	arrayListDiet = (ArrayList) jsonTrip.get("specialDiet");
+			    	Object arrayDiet[] = arrayListDiet.toArray(); 
+					Boolean resultDiet = true;
+					int z = 0;
+					while (z < arrayDiet.length) {
+						if (((String) arrayDiet[z]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							resultDiet = false;
+						};
+						++z;
+					};
+					if (!resultDiet){
+						response = false;
+					}
+			        break;
+			    default:
+				};			
+			};
+			++i;
+		};
 		return response;
 	};
+	
+	
+	public Long calcAge (String birthDate){
+		
+		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		try {
+			Date d1 = df.parse (convertDateMes (birthDate));
+			Date d2 = new Date(System.currentTimeMillis()); 
+			long dt = (d2.getTime() - d1.getTime()) + 3600000;
+			return ((dt / 86400000L) / 365L);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	};
+	
+	public String convertDateMes (String strDate){
+		String mesNumber = "01";
+		String mesAlpha = strDate.substring(2, 5);
+		switch(mesAlpha) {
+	    case "Jan":
+	    	mesNumber = "01";
+	        break;
+	    case "Feb":
+	    	mesNumber = "02";
+	        break;
+	    case "Mar":
+	    	mesNumber = "03";
+	        break;
+	    case "Apr":
+	    	mesNumber = "04";
+	        break;
+	    case "May":
+	    	mesNumber = "05";
+	        break;
+	    case "Jun":
+	    	mesNumber = "06";
+	        break;
+	    case "Jul":
+	    	mesNumber = "07";
+	        break;
+	    case "Aug":
+	    	mesNumber = "08";
+	        break;
+	    case "Sep":
+	    	mesNumber = "09";
+	        break;
+	    case "Out":
+	    	mesNumber = "10";
+	        break;
+	    case "Nov":
+	    	mesNumber = "11";
+	        break;
+	    case "Dec":
+	    	mesNumber = "12";
+	        break;
+	    default:
+		};			
+		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
+	}
 };
