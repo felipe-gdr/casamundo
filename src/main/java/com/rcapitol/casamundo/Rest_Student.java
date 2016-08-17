@@ -320,6 +320,7 @@ public class Rest_Student {
 					};
 					Boolean filter_ok = checkFilters (filters, jsonDocumento);
 					if (filter_ok){
+						System.out.println("acrescentou");
 						documentos.add(jsonDocumento);
 					};
 					mongo.close();
@@ -482,15 +483,14 @@ public class Rest_Student {
 			String element[] = new String[2];
 			element = array[i].split (":");
 			if (element.length > 1){
-				switch(element[0]) {
-			    case "filter_student":
+			    if (element[0].equals("filter_student")){
 					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 							response = false;
 						};
 					};
-			        break;
-			    case "filter_gender":
+			    };
+			    if (element[0].equals("filter_gender")){
 					if (element[1].toLowerCase().equals("male") ){
 						if (!((String) objJson.get("gender")).toLowerCase().equals("male")){
 							response = false;
@@ -504,105 +504,115 @@ public class Rest_Student {
 							response = false;
 						};
 					};
-			        break;
-			    case "filter_nationality":
+			    };
+			    if (element[0].equals("filter_nationality")){
 					if (((String) objJson.get("nationality")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_age_from":
+			    };
+			    if (element[0].equals("filter_age_from")){
 			    	Long ageFrom = calcAge((String)objJson.get("birthDay"));
 					if (ageFrom <= Integer.parseInt((String) element[1])){
 						response = false;
 					};
-			        break;
-			    case "filter_age_to":
+			    };
+			    if (element[0].equals("filter_age_to")){
 			    	Long ageTo = calcAge((String)objJson.get("birthDay"));
 					if (ageTo >= Integer.parseInt((String) element[1])){
 						response = false;
 					};
-			        break;
-			    case "filter_check_in":
-					if (calcTime((String)objJson.get("arrivalDate")) <= calcTime(element[1])){
+			    };
+			    if (element[0].equals("filter_check_in")){
+			    	Long teste1 = calcTime((String)jsonTrip.get("start"));
+			    	Long teste2 = calcTime(element[1].replace("-", ""));
+			    	System.out.println("in s " + teste1);
+			    	System.out.println("in t " + teste2);
+					if (calcTime((String)jsonTrip.get("start")) <= calcTime(element[1].replace("-", ""))){
+						System.out.println("false");
 						response = false;
 					};
-			        break;
-			    case "filter_check_out":
-					if (calcTime((String)objJson.get("arrivalDate")) >= calcTime(element[1])){
+			    };
+			    if (element[0].equals("filter_check_out")){
+			    	Long teste3 = calcTime((String)jsonTrip.get("start"));
+			    	Long teste4 = calcTime(element[1].replace("-", ""));
+			    	System.out.println("out s " + teste3);
+			    	System.out.println("out t " + teste4);
+					if (calcTime((String)jsonTrip.get("start")) >= calcTime(element[1].replace("-", ""))){
+						System.out.println("false");
 						response = false;
 					};
-			        break;
-			    case "filter_status":
+			    };
+			    if (element[0].equals("filter_status")){
 					if (((String) jsonTrip.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_payment":
+			    };
+			    if (element[0].equals("filter_payment")){
 					if (((String) jsonTrip.get("payment")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_visa":
+			    };
+			    if (element[0].equals("filter_visa")){
 //					if (((String) jsonTrip.get("visa")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 //						response = false;
 //					};
-			        break;
-			    case "filter_flight":
+			    };
+			    if (element[0].equals("filter_flight")){
 					if (((String) jsonTrip.get("arrivalFlightNumber")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_pickup":
+			    };
+			    if (element[0].equals("filter_pickup")){
 					if (((String) jsonTrip.get("pickup")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_dropoff":
+			    };
+			    if (element[0].equals("filter_dropoff")){
 					if (((String) jsonTrip.get("dropoff")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_school":
+			    };
+			    if (element[0].equals("filter_school")){
 					if (((String) jsonTrip.get("schoolName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_agent":
+			    };
+			    if (element[0].equals("filter_agent")){
 					if (((String) jsonTrip.get("agencyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_host":
+			    };
+			    if (element[0].equals("filter_host")){
 					if (((String) jsonTrip.get("familyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_driver":
+			    };
+			    if (element[0].equals("filter_driver")){
 //					if (((String) jsonTrip.get("driver")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 //						response = false;
 //					};
-			        break;
-			    case "filter_occupancy":
+			    };
+			    if (element[0].equals("filter_occupancy")){
 					if (((String) jsonTrip.get("occupancy")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_private_wc":
+			    };
+			    if (element[0].equals("filter_private_wc")){
 					if (((String) jsonTrip.get("privateWashroom")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_dogs":
+			    };
+			    if (element[0].equals("filter_dogs")){
 					if (((String) jsonTrip.get("liveDogs")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_cats":
+			    };
+			    if (element[0].equals("filter_cats")){
 					if (((String) jsonTrip.get("liveCats")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			        break;
-			    case "filter_meals":
+			    };
+			    if (element[0].equals("filter_meals")){
 			    	ArrayList arrayListMeals = new ArrayList(); 
 			    	arrayListMeals = (ArrayList) jsonTrip.get("mealPlan");
 			    	Object arrayMeals[] = arrayListMeals.toArray(); 
@@ -617,8 +627,8 @@ public class Rest_Student {
 					if (!resultMeals){
 						response = false;
 					}
-			        break;
-			    case "filter_diet":
+			    };
+			    if (element[0].equals("filter_diet")){
 			    	ArrayList arrayListDiet = new ArrayList(); 
 			    	arrayListDiet = (ArrayList) jsonTrip.get("specialDiet");
 			    	Object arrayDiet[] = arrayListDiet.toArray(); 
@@ -633,9 +643,7 @@ public class Rest_Student {
 					if (!resultDiet){
 						response = false;
 					}
-			        break;
-			    default:
-				};			
+			    };
 			};
 			++i;
 		};
@@ -657,7 +665,7 @@ public class Rest_Student {
 	};
 	
 	public Long calcTime (String date){
-		
+		System.out.println("date=" + date);
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 		try {
 			Date d1 = df.parse (convertDateMes (date));
@@ -671,46 +679,43 @@ public class Rest_Student {
 
 	public String convertDateMes (String strDate){
 		String mesNumber = "01";
-		String mesAlpha = strDate.substring(2, 5);
-		switch(mesAlpha) {
-	    case "Jan":
+		String mesAlpha = strDate.substring	(2, 5);
+	    if (mesAlpha.equals("Jan")){
 	    	mesNumber = "01";
-	        break;
-	    case "Feb":
+	    };
+	    if (mesAlpha.equals("Feb")){
 	    	mesNumber = "02";
-	        break;
-	    case "Mar":
+	    };
+	    if (mesAlpha.equals("Mar")){
 	    	mesNumber = "03";
-	        break;
-	    case "Apr":
+	    };
+	    if (mesAlpha.equals("Apr")){
 	    	mesNumber = "04";
-	        break;
-	    case "May":
+	    };
+	    if (mesAlpha.equals("May")){
 	    	mesNumber = "05";
-	        break;
-	    case "Jun":
+	    };
+	    if (mesAlpha.equals("Jun")){
 	    	mesNumber = "06";
-	        break;
-	    case "Jul":
+	    };
+	    if (mesAlpha.equals("Jul")){
 	    	mesNumber = "07";
-	        break;
-	    case "Aug":
+	    };
+	    if (mesAlpha.equals("Aug")){
 	    	mesNumber = "08";
-	        break;
-	    case "Sep":
+	    };
+	    if (mesAlpha.equals("Sep")){
 	    	mesNumber = "09";
-	        break;
-	    case "Out":
+	    };
+	    if (mesAlpha.equals("Out")){
 	    	mesNumber = "10";
-	        break;
-	    case "Nov":
+	    };
+	    if (mesAlpha.equals("Nov")){
 	    	mesNumber = "11";
-	        break;
-	    case "Dec":
+	    };
+	    if (mesAlpha.equals("Dec")){
 	    	mesNumber = "12";
-	        break;
-	    default:
-		};			
+	    };
 		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
 	}
 };

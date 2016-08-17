@@ -6,8 +6,9 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
-			}
+			$('#filter_check_out').datepicker('option', 'minDate', selectedDate);
+			$('#filter_check_in').focus();
+		}
 		});
 
 	$('#filter_check_out').datepicker({
@@ -17,8 +18,8 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
-			}
+			$('#filter_check_out').focus();
+		}
 		});
 
 
