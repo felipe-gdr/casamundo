@@ -523,17 +523,13 @@ public class Rest_Student {
 					};
 			        break;
 			    case "filter_check_in":
-					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-							response = false;
-						};
+					if (calcTime((String)objJson.get("arrivalDate")) <= calcTime(element[1])){
+						response = false;
 					};
 			        break;
 			    case "filter_check_out":
-					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-							response = false;
-						};
+					if (calcTime((String)objJson.get("arrivalDate")) >= calcTime(element[1])){
+						response = false;
 					};
 			        break;
 			    case "filter_status":
@@ -645,8 +641,7 @@ public class Rest_Student {
 		};
 		return response;
 	};
-	
-	
+		
 	public Long calcAge (String birthDate){
 		
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
@@ -656,12 +651,24 @@ public class Rest_Student {
 			long dt = (d2.getTime() - d1.getTime()) + 3600000;
 			return ((dt / 86400000L) / 365L);
 		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	};
 	
+	public Long calcTime (String date){
+		
+		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		try {
+			Date d1 = df.parse (convertDateMes (date));
+			long dt = d1.getTime();
+			return dt;
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
 	public String convertDateMes (String strDate){
 		String mesNumber = "01";
 		String mesAlpha = strDate.substring(2, 5);

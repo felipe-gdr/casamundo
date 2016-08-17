@@ -48,7 +48,7 @@ public class Rest_Usuario {
 	@Path("/obter")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterAgencyName(@QueryParam("email") String email) {
+	public JSONObject ObterUsuarioName(@QueryParam("email") String email) {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -73,7 +73,7 @@ public class Rest_Usuario {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirAgency(Usuario usuario	)  {
+	public Response IncluirUsuario(Usuario usuario	)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -113,7 +113,7 @@ public class Rest_Usuario {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Usuario doc) {
+	public Response AtualizarUsuario(Usuario doc) {
 		String email = doc.documento.email;
 		Mongo mongo;
 		try {

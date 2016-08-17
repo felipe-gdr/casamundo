@@ -102,7 +102,11 @@
     	family_table.clear();
 	    var objJson = JSON.parse(localStorage.getItem("families"));
 	    $.each(objJson, function (i, family) {
-	        getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaFamilia, montaLinhaFamilia, family_table, family);
+	    	if (family.address.latitude && family.address.longitude && localStorage.latitudeSchool && localStorage.longitudeSchool){
+	    		getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaFamilia, montaLinhaFamilia, family_table, family);
+	    	}else{
+	    		montaLinhaFamilia(0, family_table, family);
+	    	};
 	    });
 		
 		// Add event listener for opening and closing details
