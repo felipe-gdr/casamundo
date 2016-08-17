@@ -1,3 +1,28 @@
+
+	$('#filter_check_in').datepicker({
+	    changeMonth: true,
+	    changeYear: true,
+	    dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+			}
+		});
+
+	$('#filter_check_out').datepicker({
+	    changeMonth: true,
+	    changeYear: true,
+	    dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+			}
+		});
+
+
+
 // 
 // **** montagem do filtro para submissão ao server
 //
