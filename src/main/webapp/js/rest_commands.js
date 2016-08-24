@@ -75,7 +75,7 @@
     	});
     };
 
-    function rest_atualizaStudent(objJson, action_ok, action_not_ok, afterUpdate) {
+    function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK) {
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",
@@ -91,9 +91,9 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok ("Student updated", afterUpdate);
+        		action_ok (messageOk);
         	}else{
-        		actio_not_ok()
+        		actio_not_ok(messageNotoK)
         	};
     	});
 
@@ -166,7 +166,7 @@
     	});
     };
 
-    function rest_obterFamily(familyName, action_ok, action_not_ok, tipo) {
+    function rest_obterFamily(familyName, action_ok, action_not_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/obterFamilyName?familyName="  + familyName,
             contentType: "application/json; charset=utf-8",
@@ -174,9 +174,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1, var2);
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     		action_not_ok
     	})
     	.always(function(data) {
@@ -204,7 +204,7 @@
        	});
     };
 
-    function rest_atualizaFamily(objJson, action_ok, action_not_ok) {
+    function rest_atualizaFamily(objJson, action_ok, action_not_ok, messageOK, messageNotOk) {
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/atualizar",
@@ -220,9 +220,9 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok ("Family updated");
+        		action_ok (messageOK);
         	}else{
-        		actio_not_ok()
+        		actio_not_ok(messageNotOk)
         	};
     	});
 

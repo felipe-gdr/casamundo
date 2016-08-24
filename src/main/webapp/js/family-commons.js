@@ -16,6 +16,12 @@ function enderecoComErro (data) {
 
 function carregaTelaFamily(data, tipo) {
 	
+	// *** carga do select do mainintersection e subway
+	if (data.documento.address.destination){
+		rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, data.documento.address.destination);
+		rest_obterSubwayAll(carregaSelectSubway, semAcao, data.documento.address.destination);
+	};
+
 	if (tipo == "consulta"){
 	//
 	// **** carrega tela consulta
@@ -239,10 +245,6 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#payment_branchNumber").val(data.documento.payment.branchNumber);
 	  	$("#payment_accountNumber").val(data.documento.payment.accountNumber);
 	  	$("#destination").val(data.documento.address.destination);
-		if (data.documento.address.destination){
-			rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, data.documento.address.destination);
-			rest_obterSubwayAll(carregaSelectSubway, semAcao, data.documento.address.destination);
-		};
 		if ($('#address_street').val()){
 			getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
 		};

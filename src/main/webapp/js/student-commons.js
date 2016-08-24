@@ -96,6 +96,8 @@ function carregaTela(data) {
 	}else{
 		$(".guest").addClass("hide");
 	};
+	$("#familyName").val(data.documento.trips[actualTrip].familyName);
+	$("#status").val(data.documento.trips[actualTrip].status);
 	$("#guestName").val(data.documento.trips[actualTrip].guestName);
 	$("#guestEmail").val(data.documento.trips[actualTrip].guestEmail);
 	$("#relationship").val(data.documento.trips[actualTrip].relationship);
@@ -355,6 +357,10 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].familyName;		
 	};
+	if (field == "status"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].status;		
+	};
 	if (field == "contactFamilyName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].familyName;		
@@ -395,6 +401,45 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         if (objJson.contact){
         	return objJson.contact.mobilePhone;
+        }else{
+        	return "";
+        };
+	};
+	if (field == "roomData"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        if (objJson.rooms){
+        	var jsonRoom;
+            $.each(objJson.rooms, function (i, room) {
+                $.each(room.occupancySingleBed, function (i, occupancy) {
+                	if (occupancy.emailStudent == objJson.documento.mail){
+                		jsonRoom = 
+                			{
+                				number:room.number,
+                				singleBed:room.singleBed,
+                				coupleBed:room.coupleBed,
+                				note:room.note,
+                				startOccupancy:occupancy.startOccupancy,
+                				endOccupancy:occupancy.endOccupancy,
+                				studentOccupancy:"single"
+                			};
+                	};
+                });            	
+                $.each(room.occupancyCoupleBed, function (i, occupancy) {
+                	if (occupancy.emailStudent == objJson.documento.mail){
+                		jsonRoom = 
+                			{
+                				number:room.number,
+                				singleBed:room.singleBed,
+                				coupleBed:room.coupleBed,
+                				note:room.note,
+                				startOccupancy:occupancy.startOccupancy,
+                				endOccupancy:occupancy.endOccupancy,
+                				studentOccupancy:"couple"
+                			};
+                	};
+                });            	
+            });
+    		return jsonRoom;
         }else{
         	return "";
         };
@@ -473,11 +518,23 @@ function getValueStudent (field, actualTrip) {
 	};
 	if (field == "mealPlan"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].mealPlan;		
+        var mealPlan ="";
+        var comma = "";
+        $.each(objJson.documento.trips[actualTrip].mealPlan, function (i, meals) {
+        	mealPlan = mealPlan + comma + meals;
+        	comma = ", ";
+        });
+        return mealPlan;
 	};
 	if (field == "specialDiet"){
         var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].specialDiet;		
+        var specialDiet ="";
+        var comma = "";
+        $.each(objJson.documento.trips[actualTrip].specialDiet, function (i, diets) {
+        	specialDiet = specialDiet + comma + diets;
+        	comma = ", ";
+        });
+        return specialDiet;
 	};
 	if (field == "privateWashroom"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -758,6 +815,12 @@ function setValueStudent (field, value, actualTrip, grava) {
 	};
 	if (field == "occupancy"){
         objJson.documento.trips[actualTrip].occupancy = value;
+	};
+	if (field == "familyName"){
+        objJson.documento.trips[actualTrip].familyName = value;
+	};
+	if (field == "status"){
+        objJson.documento.trips[actualTrip].status = value;
 	};
 	if (field == "guestName"){
         objJson.documento.trips[actualTrip].guestName = value;

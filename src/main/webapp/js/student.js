@@ -135,6 +135,23 @@
         	}
     	}
 	};
+    
+    var room = getValueStudent("roomData",actualTrip);
+    if (room){
+    	if (room.number){
+	    	$('#roomNumberHomestay').html((parseInt(room.number) + 1));
+	    	$('#singleBed').html(room.singleBed);
+	    	$('#coupleBed').html(room.coupleBed);
+	    	$('#note').html(room.note);
+	    	$('#studentOcuppancy').html(room.studentOccupancy);
+	    	$('#startOccupancy').html(room.startOccupancy);
+	    	$('#endOccupancy').html(room.endOccupancy);
+    	}else{
+        	$('.room').addClass("hide");
+    	}
+    }else{
+    	$('.room').addClass("hide");
+    }
 //
 //	***  carrega dados tela email	
 //	

@@ -266,24 +266,26 @@
     			"<small class='text-muted text-column'><i>Email: " + student.familyContact.email +  "<i></small><br></a>";
 		    };
 	        var familyName = student.trip.familyName;
-	        if (student.trip.status == "Available"){
-	        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>";
+	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator"){
+		        if (student.trip.status == "Available"){
+		        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>";
+		        };
+		        if (student.trip.status == "Confirmed"){
+		        	typePage = "change";
+		        	actions = "<li data-process='sendlettertostudent' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
+		        };
+		        if (student.trip.status == "DocsOk"){
+		        	typePage = "change";
+		        	actions = "<li data-process='studentinhouse' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
+		        				"<li data-process='cancel' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+		        };
+		        if (student.trip.status == "InHouse"){
+		        	typePage = "change";
+		        	actions = "<li data-process='terminate' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
+		        				"<li data-process='cancel' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+		        };
 	        };
-	        if (student.trip.status == "Confirmed"){
-	        	typePage = "change";
-	        	actions = "<li data-process='sendlettertostudent' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
-	        };
-	        if (student.trip.status == "DocsOk"){
-	        	typePage = "change";
-	        	actions = "<li data-process='studentinhouse' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
-	        				"<li data-process='cancel' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
-	        };
-	        if (student.trip.status == "InHouse"){
-	        	typePage = "change";
-	        	actions = "<li data-process='terminate' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
-	        				"<li data-process='cancel' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
-	        };
-	        var pickupCollor = "success";
+		    var pickupCollor = "success";
 	        if (student.trip.pickup == "Yes"){
 	        	pickupCollor = "danger";
 	        }
@@ -318,7 +320,10 @@
     	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",
     	    				
        	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
+                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+    			'<ul id="listFamily" class="dropdown-menu">' +
+    				actions +
+    			'</ul></div>'
     	    }).draw( false );
         });
     	// Add event listener for opening and closing details

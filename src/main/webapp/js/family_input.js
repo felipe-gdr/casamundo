@@ -26,8 +26,6 @@
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
-		// desabilita nome familia pois é chave
-		$('#familyName').attr("disabled", true);
 		//
 		// formata campos img
 		//

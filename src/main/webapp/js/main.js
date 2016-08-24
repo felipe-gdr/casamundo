@@ -19,6 +19,11 @@
 		$("#menuStudents").removeClass ("hide");
 		$("#menuFamilies").removeClass ("hide");
 	}; 
+	if (localStorage.usuarioPerfil == "user"){
+		$("#menuCaretaker").removeClass ("hide");
+		$("#menuStudents").removeClass ("hide");
+		$("#menuFamilies").removeClass ("hide");
+	}; 
 	if (localStorage.usuarioPerfil == "agency"){
 		$("#menuAgency").removeClass ("hide");
 	}; 
@@ -34,6 +39,9 @@
 	if (localStorage.usuarioPerfil == "family"){
 		$("#menuFamily").removeClass ("hide");
 	}; 
+	
+	// ** tirar menu caretaker por hora
+	$("#menuCaretaker").addClass ("hide");
 	
 	$("#usuarioNome").html(localStorage.usuarioFirstName);
 
@@ -55,10 +63,10 @@
 			localStorage.loginOk = true;
 			switch(localStorage.usuarioPerfil) {
 		    case "administrator":
-				$(window.document.location).attr('href','dashboard.html');
+				$(window.document.location).attr('href','students.html');
 		        break;
 		    case "caretaker":
-				$(window.document.location).attr('href','dashboard.html');
+				$(window.document.location).attr('href','students.html');
 		        break;
 		    case "agency":
 				$(window.document.location).attr('href','agency.html');
@@ -68,6 +76,9 @@
 		        break;
 		    case "student":
 				$(window.document.location).attr('href','student.html');
+		        break;
+		    case "user":
+				$(window.document.location).attr('href','students.html');
 		        break;
 		    default:
 				$.smallBox({
@@ -330,23 +341,23 @@ function calculaIdade ( dataNascimento ) {
 		return daysApart;
 	};				
 
-	function inclusaoEfetuada(mensagem) {
+	function inclusaoEfetuada(message) {
 		$.smallBox({
 			title : "Ok",
-			content : "<i class='fa fa-clock-o'></i> <i>" + mensagem + "</i>",
+			content : "<i class='fa fa-clock-o'></i> <i>" + message + "</i>",
 			color : "#659265",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
+			timeout : 10000
 		});
 		parent.history.back();
     };
-	function inclusaoNaoEfetuada() {
+	function inclusaoNaoEfetuada(message) {
 		$.smallBox({
 			title : "Error",
 			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
 			color : "#ff8080",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
+			timeout : 10000
 		});
     };
 	function obtencaoNaoEfetuada() {
