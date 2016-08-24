@@ -349,7 +349,7 @@ public class Rest_Student {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String ChangeStatus(@QueryParam("params") String params)  {
 		System.out.println("params : " + params);
-		String array[] = new String[9];
+		String array[] = new String[6];
 		array = params.split("/");
 		String mail = array [0].split(":")[1]; 
 		Integer indexTrip = Integer.parseInt((String) array [1].split(":")[1]); 
@@ -359,7 +359,6 @@ public class Rest_Student {
 		Integer roomSingle = Integer.parseInt((String) array [5].split(":")[1]);
 		Integer roomCouple = Integer.parseInt((String) array [6].split(":")[1]);
 		String reason = array [7].split(":")[1];
-		String roomNumber = array [8].split(":")[1];
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -409,7 +408,7 @@ public class Rest_Student {
 					String literal = "Confirmed";
 					if (status.equals(literal)){
 						CrudFamily crudFamily = new CrudFamily();
-						crudFamily.updateRoom(familyName, mail, occupancy, roomSingle, roomCouple, start, end, roomNumber);
+//						crudFamily.updateRoom(familyName, mail, occupancy, roomSingle, roomCouple, start, end);
 					};
 					TemplateEmail template = new TemplateEmail(); 
 					String studentName = (String) docJson.get("firstName") + " " + (String) docJson.get("lastName");

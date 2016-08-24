@@ -1095,8 +1095,15 @@ function emailEnviado(){
     var objJson = JSON.parse(localStorage.getItem("student"));
     delete objJson["contact"];
     var actualTrip = objJson.documento.actualTrip;
-    objJson.documento.trips[actualTrip].status = "Placement offered";
+    objJson.documento.trips[actualTrip].status = "Offered";
+	delete objJson.contact;
+	delete objJson.rooms;
+	delete objJson.family;
 	rest_atualizaStudent(objJson, semAcao, semAcao);
+	
+	// *** refresh students list
+	$(window.document.location).attr('href','students.html');
+
 };
 function emailComProblemas() {
 	$.smallBox({

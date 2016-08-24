@@ -24,7 +24,7 @@
        	});
     };
     
-    function rest_obterStudent(email, action_ok, action_not_ok, tipo) {
+    function rest_obterStudent(email, action_ok, action_not_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail="  + email,
             contentType: "application/json; charset=utf-8",
@@ -32,10 +32,10 @@
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1, var2);
     	})
     	.fail(function(data) {
-    		action_not_ok
+    		action_not_ok (data, var1, var2)
     	})
     	.always(function(data) {
     	});

@@ -16,14 +16,14 @@ import com.mongodb.MongoException;
 public class CrudFamily {
 	
 	@SuppressWarnings({ })
-	public void updateRoom(String familyName, String emailStudent, String occupancy, int roomSingle, int roomCouple, int start, int end, String roomNumber)  {
+	public void updateRoom(String familyName, String emailStudent, String occupancy, int roomSingle, int roomCouple, int start, int end)  {
 		JSONParser parser = new JSONParser(); 
 		JSONObject jsonObject; 
 		String literal = "Single";
 		if (occupancy.equals(literal)){
 			try {
 				jsonObject = (JSONObject) parser.parse("{\"documento.rooms." + roomSingle + ".occupancySingleBed\":{\"emailStudent\":\"" + emailStudent + "\",\"startOccupancy\":\"" + start + "\",\"endOccupancy\":\"" + end + "\"}}");
-				pushFamily (familyName, jsonObject, roomNumber);
+				pushFamily (familyName, jsonObject);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -32,7 +32,7 @@ public class CrudFamily {
 		if (occupancy.equals(literal)){
 			try {
 				jsonObject = (JSONObject) parser.parse("{\"documento.rooms." + roomCouple + ".occupancyCoupleBed\":{\"emailStudent\":\"" + emailStudent + "\",\"startOccupancy\":\"" + start + "\",\"endOccupancy\":\"" + end + "\"}}");
-				pushFamily (familyName, jsonObject, roomNumber);
+				pushFamily (familyName, jsonObject);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -40,7 +40,7 @@ public class CrudFamily {
 	};	
 
 	@SuppressWarnings("unused")
-	public void pushFamily(String familyName, JSONObject jsonObject, String roomNumber) {
+	public void pushFamily(String familyName, JSONObject jsonObject) {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
