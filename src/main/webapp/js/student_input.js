@@ -1,3 +1,5 @@
+	// ** setar menu
+	$("#menuStudents_li").addClass("active");
 	// 
 	//**    desproteje o email na inclusão pois é chave
 	//

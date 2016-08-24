@@ -1,3 +1,5 @@
+	// ** setar menu
+	$("#menuFamilies_li").addClass("active");
 	// 
 	//**    carrega dados url
 	//

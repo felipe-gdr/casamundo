@@ -300,11 +300,18 @@
 		        	typePage = "change";
 		        	actions = "<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
 		        			  "<li data-process='changestatustocheckout' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to check out</a></li>" +
+		        			  "<li data-process='extendtrip' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Extend trip</a></li>" +
 		        			  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
 		        };
 		        if (student.trip.status == "Checked out"){
 		        	typePage = "change";
-		        	actions = "";
+		        	actions = "<li data-process='sendemailtostudenttoevaluete' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send student email to evaluete</a></li>" +
+		        			  "<li data-process='evaluetereceived' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Evaluete received</a></li>" +
+		        			  "<li data-process='newtrip' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Initiate a new trip</a></li>";
+		        };
+		        if (student.trip.status == "Canceled"){
+		        	typePage = "change";
+		        	actions = "<li data-process='recovercanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Recover canceled</a></li>";
 		        };
 	        };
 		    var pickupCollor = "success";
@@ -368,7 +375,9 @@
 	    				rest_obterStudent($(this).attr('data-emailStudent'), clearFamilyName, semAcao, "Available");
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocanceled") {
-	    				rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
+	    				if ($(this).attr('data-idFamily')){
+	    					rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
+	    				};
 	    				rest_obterStudent($(this).attr('data-emailStudent'), clearFamilyName, semAcao, "Canceled");
 	    			};
 	    			if ($(this).attr('data-process') == "manualconfirm") {
@@ -392,6 +401,18 @@
 	    			if ($(this).attr('data-process') == "changestatustoinhouse") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house");
 	    			};
+	    			if ($(this).attr('data-process') == "recovercanceled") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Available");
+	    			};
+	    			if ($(this).attr('data-process') == "evaluetereceived") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Evaluete received");
+	    			};
+	    			if ($(this).attr('data-process') == "newtrip") {
+	    				if ($(this).attr('data-idFamily')){
+	    					rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
+	    				};
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearFamilyName, semAcao, "Available");
+	    			};
 	    		});
             }
         });
@@ -411,14 +432,21 @@
 function deallocateRoom (objFamily, emailStudent) {
 
     $.each(objFamily.documento.rooms, function (i, room) {
+    	var excluded = false;
         $.each(room.occupancySingleBed, function (w, occupancy) {
-        	if (occupancy.emailStudent == emailStudent){
-        		objFamily.documento.rooms[i].occupancySingleBed.splice(w, 1);
+        	if (!excluded){
+        		if (occupancy.emailStudent == emailStudent){
+        			objFamily.documento.rooms[i].occupancySingleBed.splice(w, 1);
+        			excluded = true;
+        		};
         	};
         });            	
         $.each(room.occupancyCoupleBed, function (w, occupancy) {
-        	if (occupancy.emailStudent == emailStudent){
-        		objFamily.documento.rooms[i].occupancyCoupleBed.splice(w, 1);
+        	if (!excluded){
+	        	if (occupancy.emailStudent == emailStudent){
+	        		objFamily.documento.rooms[i].occupancyCoupleBed.splice(w, 1);
+	        		excluded = true;
+	        	};
         	};
         });            	
     });

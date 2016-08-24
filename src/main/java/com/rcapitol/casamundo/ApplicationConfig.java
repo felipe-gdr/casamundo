@@ -24,7 +24,9 @@ public class ApplicationConfig extends Application {
         		Rest_MainIntersection.class,
         		Rest_Subway.class,
         		Rest_Email.class,
-        		Rest_Usuario.class
+        		Rest_Usuario.class,
+        		Rest_PriceTable.class,
+        		Rest_PriceTableValue.class
         		));
     }
 }

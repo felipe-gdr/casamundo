@@ -1,3 +1,5 @@
+	// ** setar menu
+	$("#menuStudents_li").addClass("active");
 	// 
 	//**    carrega dados url
 	//

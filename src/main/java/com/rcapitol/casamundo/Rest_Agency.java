@@ -45,6 +45,7 @@ import com.rcapitol.casamundo.Student.Documento.Trips;
 
 public class Rest_Agency {
 
+	@SuppressWarnings("unchecked")
 	@Path("/obterAgencyName")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +61,7 @@ public class Rest_Agency {
 		mongo.close();
 		return documento;
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -81,25 +83,22 @@ public class Rest_Agency {
 			mongo.close();
 			return Response.status(200).entity(documento).build();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			System.out.println("UnknownHostException");
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			System.out.println("MongoException");
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			System.out.println("JsonMappingException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("IOException");
 			e.printStackTrace();
 		}
 		return Response.status(500).build();
 		
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -117,6 +116,7 @@ public class Rest_Agency {
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 		BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
+		@SuppressWarnings("unused")
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,
@@ -127,6 +127,7 @@ public class Rest_Agency {
 		mongo.close();
 		return Response.status(200).build();
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -137,7 +138,6 @@ public class Rest_Agency {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 
-			BasicDBObject setQuery = new BasicDBObject();
 			DBCollection collection = db.getCollection("agency");
 			
 			DBCursor cursor = collection.find();
@@ -160,17 +160,14 @@ public class Rest_Agency {
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			};
 			mongo.close();
 			return documentos;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

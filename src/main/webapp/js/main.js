@@ -6,40 +6,37 @@
 		return false;
 	});
 
-	$("#menuCaretaker").addClass ("hide");
-	$("#menuStudents").addClass ("hide");
-	$("#menuFamilies").addClass ("hide");
-	$("#menuAgency").addClass ("hide");
-	$("#menuFamily").addClass ("hide");
-	$("#menuStudent").addClass ("hide");
-	$("#menuAdministrator").addClass ("hide");
-
 	if (localStorage.usuarioPerfil == "caretaker"){
-		$("#menuCaretaker").removeClass ("hide");
-		$("#menuStudents").removeClass ("hide");
-		$("#menuFamilies").removeClass ("hide");
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
+		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "user"){
-		$("#menuCaretaker").removeClass ("hide");
-		$("#menuStudents").removeClass ("hide");
-		$("#menuFamilies").removeClass ("hide");
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
+		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "agency"){
-		$("#menuAgency").removeClass ("hide");
+		$("#asideMenu").append(lineMenuAside ("menuAgency", "agency.html", "Agency"));
+		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "administrator"){
-		$("#menuCaretaker").removeClass ("hide");
-		$("#menuStudents").removeClass ("hide");
-		$("#menuFamilies").removeClass ("hide");
-		$("#menuAdministrator").removeClass ("hide");
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
+		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Finance"));
+		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "student"){
-		$("#menuStudent").removeClass ("hide");
+		$("#asideMenu").append(lineMenuAside ("menuStudent", "student.html", "Student"));
+		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "family"){
-		$("#menuFamily").removeClass ("hide");
+		$("#asideMenu").append(lineMenuAside ("menuFamily", "family.html", "Family"));
+		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
-	
 	// ** tirar menu caretaker por hora
 	$("#menuCaretaker").addClass ("hide");
 	
@@ -50,7 +47,12 @@
 		rest_obterUsuario(email, usuarioOk, usuarioFail, senha)
 
 	};
+	
+	function lineMenuAside (id, url, label){
 
+		return '<li id="' + id + '_li" class=""><a id="' + id + '" href="' + url +'" title="' + label + '"><span class="menu-item-parent">' + label + '</span></a></li>'
+
+	};
 	function usuarioOk (data, senha){
 
 		if (data.documento.password == senha){

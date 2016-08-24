@@ -1,4 +1,6 @@
-
+	// ** setar menu
+	$("#menuStudents_li").addClass("active");
+	
 	$('#filter_check_in').datepicker({
 	    changeMonth: true,
 	    changeYear: true,

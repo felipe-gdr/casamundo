@@ -647,3 +647,81 @@
     	.always(function(data) {
     	});
     };
+
+    function rest_obterPriceTableAll(action_ok, action_notok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/lista",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data) {
+    		action_notok(data, var1, var2);
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_atualizaPriceTable(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		action_not_ok(message)
+        	};
+    	});
+    };
+
+    function rest_incluiPriceTable(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		actio_not_ok(message)
+        	};
+       	});
+    };
+
+    function rest_obterPriceTable(id, action_ok, action_not_ok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/obterPriceTable?id="  + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, tipo);
+    	})
+    	.fail(function(data) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };

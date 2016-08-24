@@ -1,4 +1,5 @@
-
+	// ** setar menu
+	$("#menuAdministrator_li").addClass("active");
 	/**
 	 * 		setup dos input do form
 	 */

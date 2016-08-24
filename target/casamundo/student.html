@@ -187,6 +187,7 @@
 															<input id="indexTrip" class="hide"></input>
 															<input id="roomSingle" class="hide"></input>
 															<input id="roomCouple" class="hide"></input>
+															<input id="roomNumber" class="hide"></input>
 															<br>
 															<ul class="list-unstyled">
 																<li>
@@ -475,10 +476,10 @@
 																	      	<small class='text-muted'>Do you accept a student who smokes? : </small><small  class='text-primary' id="acceptSmokeStudent"   data-original-title="Do you accept a student who smokes? "></small><br>
 																	      	<small class='text-muted'>Preferred age of student: </small><small  class='text-primary' id="preferAgeStudent"   data-original-title="Preferred age of student"></small><br>
 																	      	<small class='text-muted'>Preferred gender of student: </small><small  class='text-primary' id="preferGenderStudent"   data-original-title="Preferred gender of student"></small><br>
-																	      	<small class='text-muted'>Meal plans you are willing to offer: </small><small  class='text-primary' id="mealPlan"   data-original-title="Meal plans you are willing to offer"></small><br>
+																	      	<small class='text-muted'>Meal plans you are willing to offer: </small><small  class='text-primary' id="familyMealPlan"   data-original-title="Meal plans you are willing to offer"></small><br>
 																	</div>
 																	<div class="col-xs-5">
-																	        <small class='text-muted'>Offer special diet: </small><small  class='text-primary' id="specialDiet"   data-original-title="Offer special diet"></small><br>
+																	        <small class='text-muted'>Offer special diet: </small><small  class='text-primary' id="familyspecialDiet"   data-original-title="Offer special diet"></small><br>
 																	        <small class='text-muted'>Dont host student from: </small><small  class='text-primary' id="dontHostNationality"   data-original-title="Don't host student from"></small><br>
 																	        <small class='text-muted'>Does anyone smoke inside your house? : </small><small  class='text-primary' id="acceptSmokeInsideHome"   data-original-title="Does anyone smoke inside your house? "></small><br>
 																	</div>
@@ -904,9 +905,7 @@
 					<div class="row">
 
 						<article class="col-sm-12 col-md-12 col-lg-12">
-
-							<div class="row">
-							
+							<div class="row">							
 								<div class="col-sm-12">
 														
 										<div class="well well-sm">
@@ -952,7 +951,7 @@
 																						<div class="col-sm-9">
 																							<select id="statusMinDashboard" name="statusMinDashboard" class="input-xs">
 																								<option value="Available">Available</option>
-																								<option value="Offered">Offered</option>
+																								<option value="Allocated">Offered</option>
 																								<option value="Confirmed">Confirmed</option>
 																								<option value="Documents">Documents</option>
 																								<option value="In house">In house</option>
@@ -1243,19 +1242,32 @@
 																	<br>
 																	<div class="row">
 																		<div class="col-xs-4 hide homestay dorms">
-																				<small class='text-muted hide family homestay hide'>Family: </small><small class='homestay text-primary' id="contactFamilyName"   data-original-title="Family name"></small><br>
-																				<br>
-																				<small class='text-warning text-center hide family homestay hide'>Contact </small><br>
-																				<small class='text-muted hide family homestay hide'>name: </small><small class='homestay text-primary' id="contactName"   data-original-title="Contact name"></small><br>
-																				<small class='text-muted hide family homestay hide'>gender: </small><small class='homestay text-primary' id="contactGender"   data-original-title="Contact gender"></small><br>
-																				<small class='text-muted hide family homestay hide'>email: </small><small class='homestay text-primary' id="contactEmail"   data-original-title="Contact email"></small><br>
-																				<small class='text-muted hide family homestay hide'>phone: </small><small class='homestay text-primary' id="contactPhone"   data-original-title="Contact phone"></small><br>
-																				<small class='text-muted hide family homestay hide'>cell phone: </small><small class='homestay text-primary' id="contactMobilePhone"   data-original-title="Contact mobile phone"></small><br>
-																				<br>
-																				<small class='text-warning text-center hide family homestay hide'>Guest </small><br>
+																			<small class='text-muted hide family homestay hide'>Family: </small><small class='homestay text-primary' id="contactFamilyName"   data-original-title="Family name"></small><br>
+																			<br>
+																			<small class='text-warning text-center hide family homestay hide'>Contact </small><br>
+																			<small class='text-muted hide family homestay hide'>name: </small><small class='homestay text-primary' id="contactName"   data-original-title="Contact name"></small><br>
+																			<small class='text-muted hide family homestay hide'>gender: </small><small class='homestay text-primary' id="contactGender"   data-original-title="Contact gender"></small><br>
+																			<small class='text-muted hide family homestay hide'>email: </small><small class='homestay text-primary' id="contactEmail"   data-original-title="Contact email"></small><br>
+																			<small class='text-muted hide family homestay hide'>phone: </small><small class='homestay text-primary' id="contactPhone"   data-original-title="Contact phone"></small><br>
+																			<small class='text-muted hide family homestay hide'>cell phone: </small><small class='homestay text-primary' id="contactMobilePhone"   data-original-title="Contact mobile phone"></small><br>
+																			<br>
+																			<div class='guest'>
+																				<small class='text-warning text-center hide guest homestay hide'>Guest </small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest name: </small><small class='guest hide homestay dorms text-primary' id="guestName"  data-original-title="Guest Name"></small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest email: </small><small class='guest hide homestay dorms text-primary' id="guestEmail"  data-original-title="Guest email"></small><br>
 																		        <small class='text-muted guest hide homestay dorms'>Relationship: </small><small class='guest hide homestay dorms text-primary' id="relationship"   data-original-title="Relationship"></small><br>
+																		   	</div>
+																		   	<br>
+																			<div class='room'>
+																				<small class='text-warning text-center hide room homestay hide'>Room </small><br>
+																				<small class='text-muted hide room homestay dorms'>Number: </small><small class='room hide homestay dorms text-primary' id="roomNumberHomestay"  data-original-title="Room number"></small><br>
+																				<small class='text-muted hide room homestay dorms'>Single bed's: </small><small class='room hide homestay dorms text-primary' id="singleBed"  data-original-title="Room number"></small>
+																				<small class='text-muted hide room homestay dorms'> Couple bed's: </small><small class='room hide homestay dorms text-primary' id="coupleBed"  data-original-title="Room number"></small><br>
+																				<small class='text-muted hide room homestay dorms'>Start: </small><small class='room hide homestay dorms text-primary' id="startOccupancy"  data-original-title="Start Occupancy"></small>
+																				<small class='text-muted hide room homestay dorms'> End: </small><small class='room hide homestay dorms text-primary' id="endOccupancy"  data-original-title="End Occupancy"></small><br>
+																				<small class='text-muted hide room homestay dorms'>Note: </small><small class='room hide homestay dorms text-primary' id="note"  data-original-title="Note"></small><br>
+																				<br>
+																			</div>
 																		</div>
 																		<div class="col-xs-4 hide suite">
 																				<small class='text-muted '>Apartament Type: </small><small class='suite text-primary' id="apartamentType"   data-original-title="Apartartament Type"></small><br>
@@ -1273,19 +1285,17 @@
 																				<small class='g5 hide text-primary' id="guest_05"  data-original-title="Guest name"></small><br>
 																		</div>
 																		<div class="col-xs-4 hide homestay">
+																			<div class="col-xs-12">
 																				<small class='text-muted hide homestay dorms'>Occupancy: </small><small class='homestay dorms text-primary' id="occupancy"   data-original-title="Occupancy"></small><br>
-																		        <small class='text-muted hide homestay dorms'>Smoke: </small><small class='homestay dorms hide text-primary' id="smoke"   data-original-title="Do yhou smoke?"></small><br>
-																			<div class="col-xs-4 ">
+																		    	<small class='text-muted hide homestay dorms'>Smoke: </small><small class='homestay dorms hide text-primary' id="smoke"   data-original-title="Do yhou smoke?"></small><br>
+																		  	</div>
+																			<div class="col-xs-12 ">
 																		        <small class='text-muted hide homestay'>Meal Plan: </small>
-																		    </div>
-																			<div class="col-xs-8 ">
 																		        <small class='homestay hide text-primary' id="mealPlan" data-type="checklist" data-original-title="Meal Plan"></small>
 																		    </div>
 																		    <br>
-																			<div class="col-xs-4 ">
+																			<div class="col-xs-12 ">
 																		        <small class='text-muted hide homestay'>Special diet: </small><br>
-																		    </div>
-																			<div class="col-xs-8 ">
 																				<small class='homestay hide text-primary' id="specialDiet" data-type="checklist" ] data-original-title="Special Diet"></small>
 																			</div>
 																			<br>
@@ -1351,6 +1361,87 @@
 							</div>
 							<!-- end row -->
 						</article>
+						<article class="col-sm-12 col-md-12 col-lg-12">
+
+							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2>Accommodations</h2>
+									<div class="widget-toolbar">
+										<!-- add: non-hidden - to disable auto hide -->
+									</div>
+								</header>
+								<div class="widget row">
+									<div class="col-sm-12">
+										<h2><span class="semi-bold">Filters</span><br>
+										</h2>
+										<span class='text-muted'>(Click in a button to change the filters, green applied, blue not applied)</span><br>
+			
+										<tr>
+											<td><a id="filter_occupancy" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_occupancy_check" class="fa fa-check"></i>Occupancy</a></td>
+											<td><a id="filter_privateWashroom" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_privateWashroom_check" class="fa fa-check"></i>Private Washroom</a></td>
+											<td><a id="filter_gender" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_gender_check" class="fa fa-check"></i>Gender</a></td>
+											<td><a id="filter_age" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_age_check" class="fa fa-check"></i>Age</a></td>
+											<td><a id="filter_smoke" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_smoke_check" class="fa fa-check"></i>Smoke</a></td>
+											<td><a id="filter_dogs" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_dogs_check" class="fa fa-check"></i>Dogs</a></td>
+											<td><a id="filter_cats" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_cats_check" class="fa fa-check"></i>Cats</a></td>
+											<td><a id="filter_nationality" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_nationality_check" class="fa fa-check"></i>Nationality</a></td>
+											<td><a id="filter_mealPlan" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_mealPlan_check" class="fa fa-check"></i>Meal</a></td>
+											<td><a id="filter_specialDiet" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_specialDiet_check" class="fa fa-check"></i>Special Diet</a></td>
+										</tr>
+									</div>
+			
+								</div>
+								<div class="col-sm-12">
+									<!-- widget div-->
+									<div>
+										<!-- widget edit box -->
+										<div class="jarviswidget-editbox">
+											<!-- This area used as dropdown edit box -->
+											<input class="form-control" type="text">	
+										</div>
+										<!-- end widget edit box -->
+										
+										<!-- widget content -->
+										<div class="widget-body no-padding">
+											
+											<table id="families_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										        <thead>
+													<tr>
+														<th class="hasinput" >
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Family" />
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Occupancy" />
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Restrictions" />
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Distances" />
+														</th>
+														</th>
+													</tr>
+										            <tr>
+										                <th></th>
+										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
+										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Occupancy</th>
+										                <th><i class="fa fa-fw fa-times text-muted hidden-md hidden-sm hidden-xs"></i>Restricions</th>
+										                <th><i class="fa fa-fw fa-pause text-muted hidden-md hidden-sm hidden-xs"></i>Distances to school</th>
+										            </tr>
+										        </thead>
+										    </table>
+										</div>
+										<!-- end widget content -->
+									</div>
+								<!-- end widget content -->
+								</div>
+							</div>
+							<!-- end widget content -->
+						</article>
+
 					</div>
 					<!-- end row -->
 

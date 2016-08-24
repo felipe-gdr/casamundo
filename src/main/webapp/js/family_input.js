@@ -1,4 +1,6 @@
-
+	// ** setar menu
+	$("#menuFamilies_li").addClass("active");
+	
 	/**
 	 * 		esconde mapa
 	 */
