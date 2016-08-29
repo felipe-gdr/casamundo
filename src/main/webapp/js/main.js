@@ -266,9 +266,50 @@ function montaDataMesNum ( data, separador) {
 };				
 function separaAnoMesDia ( data) {
 	if (data){
-		return '"' + data.slice(4,8) + '","' + data.slice(2,4) + '","' + data.slice(0,2) + '"';
+		var mesAlfa = data.slice(2,5);
+		switch(mesAlfa) {
+	    case "Jan":
+	    	mesNum = "01"
+	        break;
+	    case "Feb":
+	    	mesNum = "02"
+	        break;
+	    case "Mar":
+	    	mesNum = "03"
+	        break;
+	    case "Apr":
+	    	mesNum = "04"
+	        break;
+	    case "May":
+	    	mesNum = "05"
+	        break;
+	    case "Jun":
+	    	mesNum = "06"
+	        break;
+	    case "Jul":
+	    	mesNum = "07"
+	        break;
+	    case "Aug":
+	    	mesNum = "08"
+	        break;
+	    case "Sep":
+	    	mesNum = "09"
+	        break;
+	    case "Oct":
+	    	mesNum = "10"
+	        break;
+	    case "Nov":
+	    	mesNum = "11"
+	        break;
+	    case "Dec":
+	    	mesNum = "12"
+	        break;
+	    default:
+	    	mesNum = "01"
+		};
+		return '"' + data.slice(5,9) + '","' + mesNum + '","' + data.slice(0,2) + '"';
 	}else{
-		return "Empty";
+		return "2000,01,01";
 	}
 };
 

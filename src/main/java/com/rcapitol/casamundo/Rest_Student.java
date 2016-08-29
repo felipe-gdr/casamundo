@@ -252,6 +252,8 @@ public class Rest_Student {
 				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 				    String agencyName = null;
 				    String schoolName = null;
+				    String agencySigla = null;
+				    String schoolSigla = null;
 				    String familyName = null;
 				    if (tripIndex != null){
 						List trips = (List) jsonObject.get("trips");
@@ -269,6 +271,7 @@ public class Rest_Student {
 						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
 						JSONObject documentoAgency = new JSONObject();
 						BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+						agencySigla = (String) obj.get("agencySigla");
 						jsonDocumento.put("agency", obj);
 						mongoAgency.close();
 					}else{
@@ -288,6 +291,7 @@ public class Rest_Student {
 						DBObject cursorSchool = collectionSchool.findOne(searchQuerySchool);
 						JSONObject documentoSchool = new JSONObject();
 						BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
+						schoolSigla = (String) obj.get("sigla");
 						jsonDocumento.put("school", obj);
 						mongoSchool.close();
 					}else{
@@ -324,7 +328,7 @@ public class Rest_Student {
 						jsonDocumento.put("contact", docFamily);
 						jsonDocumento.put("rooms", docRooms);
 					};
-					Boolean filter_ok = checkFilters (filters, jsonDocumento);
+					Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla);
 					if (filter_ok){
 						documentos.add(jsonDocumento);
 					};
@@ -478,7 +482,7 @@ public class Rest_Student {
 	};
 	
 	@SuppressWarnings("rawtypes")
-	public Boolean checkFilters (String filters, JSONObject objJson){
+	public Boolean checkFilters (String filters, JSONObject objJson, String agencySigla, String schoolSigla){
 		JSONObject jsonTrip =  (JSONObject) objJson.get("trip");
 		Boolean response = true;
 		String array[] = new String[24];
@@ -530,20 +534,14 @@ public class Rest_Student {
 			    if (element[0].equals("filter_check_in")){
 			    	Long teste1 = calcTime((String)jsonTrip.get("start"));
 			    	Long teste2 = calcTime(element[1].replace("-", ""));
-			    	System.out.println("in s " + teste1);
-			    	System.out.println("in t " + teste2);
 					if (calcTime((String)jsonTrip.get("start")) <= calcTime(element[1].replace("-", ""))){
-						System.out.println("false");
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_out")){
 			    	Long teste3 = calcTime((String)jsonTrip.get("start"));
 			    	Long teste4 = calcTime(element[1].replace("-", ""));
-			    	System.out.println("out s " + teste3);
-			    	System.out.println("out t " + teste4);
 					if (calcTime((String)jsonTrip.get("start")) >= calcTime(element[1].replace("-", ""))){
-						System.out.println("false");
 						response = false;
 					};
 			    };
@@ -578,12 +576,12 @@ public class Rest_Student {
 					};
 			    };
 			    if (element[0].equals("filter_school")){
-					if (((String) jsonTrip.get("schoolName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+					if (schoolSigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_agent")){
-					if (((String) jsonTrip.get("agencyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+					if (agencySigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
 			    };
