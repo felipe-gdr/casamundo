@@ -1,6 +1,10 @@
 	// ** setar menu
 	$("#menuStudents_li").addClass("active");
 	
+	// *** flag para não permitir setar evento click na tabela
+	localStorage.setClickTable = "false";
+	
+	
 	$('#filter_check_in').datepicker({
 	    changeMonth: true,
 	    changeYear: true,
@@ -57,5 +61,6 @@
 				'filter_meals:' + $("#filter_meals").val() + ',' +
 				'filter_diet:' + $("#filter_diet").val() + ',' +
 				'filter_comments:' + $("#filter_comments").val();
-		rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, filters);
+
+		rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, filters, "true");
 	});	

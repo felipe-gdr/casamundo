@@ -41,7 +41,7 @@
     	});
     };
     
-    function rest_obterStudentsAll(action_ok, action_notOk, destination, filters) {
+    function rest_obterStudentsAll(action_ok, action_notOk, destination, filters, var1) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista?destination=" + destination + "&filters=" + filters,
             contentType: "application/json; charset=utf-8",
@@ -49,10 +49,10 @@
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data);
+    		action_ok(data, var1);
     	})
     	.fail(function(data) {
-    		action_notOk();
+    		action_notOk(data, var1);
     	})
     	.always(function(data) {
     	});
@@ -460,7 +460,7 @@
        	});
     };
 
-    function rest_obterBank(bankName, action_ok, action_not_ok, tipo) {
+    function rest_obterBank(bankName, action_ok, action_not_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/obterBankName?name="  + bankName,
             contentType: "application/json; charset=utf-8",
@@ -468,16 +468,16 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1. var2);
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     		action_not_ok
     	})
     	.always(function(data) {
     	});
     };
 
-    function rest_obterBankNumber(bankNumber, action_ok, action_not_ok, tipo) {
+    function rest_obterBankNumber(bankNumber, action_ok, action_not_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/obterBankNumber?number="  + bankNumber,
             contentType: "application/json; charset=utf-8",
@@ -485,9 +485,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1, var2);
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     		action_not_ok
     	})
     	.always(function(data) {
@@ -554,7 +554,7 @@
        	});
     };
 
-    function rest_obterMainIntersection(mainIntersectionName, action_ok, action_not_ok, tipo) {
+    function rest_obterMainIntersection(mainIntersectionName, action_ok, action_not_ok, var1, var2 ) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/mainIntersection/obterMainIntersectionName?name="  + mainIntersectionName,
             contentType: "application/json; charset=utf-8",
@@ -562,9 +562,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1, var2 );
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     		action_not_ok
     	})
     	.always(function(data) {
@@ -631,7 +631,7 @@
        	});
     };
 
-    function rest_obterSubway(subwayName, action_ok, action_not_ok, tipo) {
+    function rest_obterSubway(subwayName, action_ok, action_not_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/subway/obterSubwayName?name="  + subwayName,
             contentType: "application/json; charset=utf-8",
@@ -639,9 +639,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1, var2 );
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     		action_not_ok
     	})
     	.always(function(data) {
@@ -717,9 +717,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, tipo);
+    		action_ok(data, var1, var2);
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     		action_not_ok
     	})
     	.always(function(data) {

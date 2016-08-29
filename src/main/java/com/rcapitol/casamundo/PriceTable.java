@@ -31,7 +31,7 @@ public class PriceTable {
 
 		public String name;
 		public String description;
-		public Boolean valid;
+		public String valid;
 
 		public Documento() {
 
@@ -41,7 +41,7 @@ public class PriceTable {
 		public Documento(
 				String name,
 				String description,
-				Boolean valid
+				String valid
 						) {
 						this.name = name;  
 						this.description = description;

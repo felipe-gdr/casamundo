@@ -24,7 +24,7 @@
 	        '</tr>'+
 	    '</table>';
 	};
-	function carregaLocalStorageStudents (objJson) {
+	function carregaLocalStorageStudents (objJson, destroy) {
 
 		localStorage.setItem("students", JSON.stringify(objJson));
 
@@ -36,7 +36,7 @@
     		tablet : 1024,
     		phone : 480
     	};
-         
+
     	/* student list  */
         var student_table = $('#students_list').DataTable({
         	"bFilter": false,
@@ -64,7 +64,6 @@
     		            {
     		                "class":          'details-control',
     		                "orderable":      false,
-    		                "data":           null,
     		                "defaultContent": ''
     		            },
     		            { "data": "student",
@@ -85,8 +84,8 @@
             "responsive": true,
             "charset" : "UTF-8",
             "bDestroy": true,
-            "iDisplayLength": 15,
-            "order": [[3, 'desc']],
+            "iDisplayLength": 30,
+            "order": [[2, 'asc']],
             "fnDrawCallback": function( oSettings ) {
     	       runAllCharts()
     	    }
@@ -355,10 +354,13 @@
     			'</ul></div>'
     	    }).draw( false );
         });
+        
     	// Add event listener for opening and closing details
+        $('#students_list tbody').off('click');
         $('#students_list tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = student_table.row( tr );
+        	var tr = $(this).closest('tr');
+        	var a = tr["0"]._DT_RowIndex;
+            var row = student_table.row(tr);
      
             if ( row.child.isShown() ) {
                 // This row is already open - close it
@@ -367,8 +369,11 @@
             }
             else {
                 // Open this row
-                row.child( formatStudent(row.data()) ).show();
-                tr.addClass('shown');
+            	if (row){
+            		row.child( formatStudent(row.data()) ).show();
+            		tr.addClass('shown');
+            	};
+            	$("#listStudent li").off('click');
 	    		$("#listStudent li").on('click',function(){
 	    			if ($(this).attr('data-process') == "deallocateroom") {
 	    				rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
@@ -428,6 +433,8 @@
         } );
         /* end trip list */   
 };
+
+
 
 function deallocateRoom (objFamily, emailStudent) {
 
