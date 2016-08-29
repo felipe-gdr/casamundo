@@ -84,10 +84,13 @@
 			                "data":           null,
 			                "defaultContent": ''
 			            },
-			            { "data": "family" },
-			            { "data": "occupancy" },
-			            { "data": "restrictions" },
-			            { "data": "distances" },
+			            { "data": "family", "width": "15%"},
+			            { "data": "location", "width": "15%"},
+			            { "data": "dates", "width": "15%"},
+			            { "data": "characteristics", "width": "15%"},
+			            { "data": "preferences", "width": "15%"},
+			            { "data": "reviews", "width": "10%"},
+			            { "data": "comments", "width": "15%"},
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -110,6 +113,7 @@
 	    });
 		
 		// Add event listener for opening and closing details
+	    $('#families_list tbody').off('click');
 	    $('#families_list tbody').on('click', 'td.details-control', function () {
 	        var tr = $(this).closest('tr');
 	        var row = family_table.row( tr );
@@ -123,6 +127,7 @@
 	            // Open this row
 	            row.child( formatFamily(row.data()) ).show();
 	            tr.addClass('shown');
+	            $("#listFamily li").off('click');
 	    		$("#listFamily li").on('click',function(){
 	    			$('#familyName').html($(this).attr('data-idFamily'));
 	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
@@ -262,6 +267,8 @@
         };
         var actions = "";
         var occupancy = "";
+        var dates = "";
+        var notes = "";
         var student = JSON.parse(localStorage.getItem("student"));
         var actualTrip = student.documento.actualTrip;
         var emailStudent = student.documento.mail;
@@ -270,8 +277,31 @@
 	        	var roomSingle = 0;
 	        	var roomCouple = 0;
 	        	var roomsAvailable = false;
+	        	// ** literal para constar na linha
+	            var rooms = "";
+	            var studentOccupancyData =
+	            	{
+	            		lastEmail : "",
+	            		nextEmail : "",
+	            		lastDate : 0,
+	            		nextDate : 999999999999999999999999999999999999
+	            	};
 			    $.each(family.rooms, function (i, room) {
-			    	if (room.singleBed){
+		            studentOccupancyData =
+		            	{
+		            		lastEmail : "",
+		            		nextEmail : "",
+		            		lastDate : 0,
+		            		nextDate : 999999999999999999999999999999999999
+		            	};
+			    	// ** montar literal dos quartos
+			    	rooms = rooms + 
+				    	"<span class='label label-tableMain'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
+				    	"<span class='label label-table'>" + "Single " + room.singleBed + " couple " + room.coupleBed + "</span><br>" +
+				    	"<span class='label label-table'>" + "Private WC " + room.privateWashroom + "</span><br>" +
+				    	"<span class='label label-table'>" + room.level + "</span><br>";
+			    	// ** verificar se ha quartos disponiveis 
+		        	if (room.singleBed){
 			    		if (room.singleBed == 1){
 			    			literal_1 = "bed"
 			    		}else{
@@ -282,6 +312,7 @@
 				    		if (singleBedAvailable == 0){
 				    			availableBedText = "no available single beds"
 				    		}else{
+					    		studentOccupancyData = lastNextOccupancy(room.occupancySingleBed, studentOccupancyData);
 				    			roomSingle = i;
 				    			if (student.documento.trips[actualTrip].occupancy == "Single"){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
@@ -317,6 +348,7 @@
 				    		if (coupleBedAvailable == 0){
 				    			availableBedText = "no available couple beds"
 				    		}else{
+					    		studentOccupancyData = lastNextOccupancy(room.occupancyCoupleBed, studentOccupancyData);
 				    			roomCouple = i;
 				    			if (student.documento.trips[actualTrip].occupancy == "Couple"){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
@@ -346,12 +378,34 @@
 			    									"<small class='text-info'><i>" + singleBedText + "<i></small><br>" +
 			    									"<small class='text-info'><i>"  + coupleBedText + "<i></small><br>" +
 			    									"<small class='text-info'><i>"  + privateWashroomText + "<i></small><br>";
+		    		if (studentOccupancyData.lastEmail != "" | studentOccupancyData.nextEmail != ""){
+		    			dates = dates + 
+			        		"<span class='label label-tableMain'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
+				    		"<span class='label label-tableMain'>OUT " + 
+				    			"<a href='student.html?email=" + studentOccupancyData.lastEmail + "&typePage=change'>" +
+					    			"<span class='label label-table'>" + studentOccupancyData.lastEmail + 
+					    			"</span>" + 
+					    		"</a>" +
+				    		"</span><br>" +
+				    		"<span class='label label-tableMain'>IN " +
+				    			"<a href='student.html?email=" + studentOccupancyData.nextEmail + "&typePage=change'>" +
+				    				"<span class='label label-table'>" + studentOccupancyData.nextEmail + 
+				    				"</span>" + 
+				    			"</a>" +
+				    		"</span><br>";
+		    		};
 			    });
 			    if (roomsAvailable != "true"){
 			    	actions = actions + "<li  id='room_'" + room.number + "' data-process='noroomsavailable' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>No rooms available</a></li>";
 			    }
 	        };
         };
+        if (family.notes){
+		    $.each(family.notes, function (i, note) {
+		    	notes = notes + "<span class='label label-table'>" + note.note + "</span><br>"
+		    });
+        };
+
         var objStudent = JSON.parse(localStorage.getItem("student"));
         var distances = "";
         if (results){
@@ -373,30 +427,38 @@
         	actions = "<li data-process='terminate' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
         				"<li data-process='cancel' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
         };
+        
         family_table.row.add( {
 	    	"family":
 	    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +
 	    		"<a href='family.html?familyName=" + family.familyName + "'>" +
 	    			"<span>Family Name:" + family.familyName +  "</span><br>" +
-	    			"<span>Type:" + family.type +  "</span><br>" +
-	    			"<span>Contact:" + family.contact.firstName +  " " + family.contact.lastName + "</span><br>" +
-	    			"<small class='text-muted'><i>Gender: " + family.contact.gender + "<i></small><br>" +
-	    			"<small class='text-muted'><i>Ocuppation: " + family.contact.ocuppation + "<i></small><br>" +
-	    			"<small class='text-muted'><i>Phone: " + family.contact.phoneNumber +  "<i></small><br>" + 
-	    			"<small class='text-muted'><i>Cel Phone: " + family.contact.mobilePhoneNumber +  "<i></small><br>" +
-	    			"<small class='text-muted'><i>Work Phone: " + family.contact.workPhoneNumber +  "<i></small><br>" +
-	    			"<small class='text-muted'><i>Mail: " + family.contact.email +  "<i></small><br></a>",
-	    	"occupancy": occupancy,
-            "restrictions":
-	    		"<span class='label " + preferGenderStudentCollor + "'>" + preferGenderStudentText + " </span><br>" +
-	    		"<span class='label " + preferAgeStudentCollor + "'>" + preferAgeStudentText + " </span><br>" +
-	    		"<span class='label " + acceptSmokeCollor + "'>" + acceptSmokeText + "</span><br>" +
-	    		"<span class='label " + haveDogsCollor + "'>" + haveDogsText + "</span><br>" +
-	    		"<span class='label " + haveCatsCollor + "'>" + haveCatsText + "</span><br>" +
-	    		"<span class='label " + dontHostNationalityCollor + "'>" + dontHostNationalityText + "</span><br>" +
-	    		"<span class='label " + haveMealPlanCollor + "'>" + haveMealPlanText + "</span><br>" +
-	    		"<span class='label " + haveSpecialDietCollor + "'>" + haveSpecialDietText + "</span>",
-            "distances": distances,
+	    			rooms + 
+	    		"</a>",
+	    	"location": 
+	    		"<span class='label label-tableMain'>Distance to school "  + "<span class='label label-table'>" + distances + "</span></span><br>" +
+	    		"<span class='label label-tableMain'>Main Intersection "  + "<span class='label label-table'>" + family.address.mainIntersection + " </span></span><br>" +
+	    		"<span class='label label-tableMain'>Subway "  + "<span class='label label-table'>" + family.address.subwayStation + " </span></span><br>" +
+	    		"<span class='label label-tableMain'>Walking time "  + "<span class='label label-table'>" + family.address.timeSubwayStation + " </span></span><br>",
+            "dates": dates,
+            "characteristics": 
+	    		"<span class='label label-tableMain'>Internet: "  + "<span class='label label-table'>" + family.offerInternet + "</span></span>" +
+	    		"<span class='label label-tableMain'>Dogs: "  + "<span class='label label-table'>" + family.haveDogs + "</span></span></br>" +
+	    		"<span class='label label-tableMain'>Cats: "  + "<span class='label label-table'>" + family.haveCats + "</span></span>" +
+	    		"<span class='label label-tableMain'>Other: "  + "<span class='label label-table'>" + family.haveOtherPet + "</span></span></br>" +
+	    		"<span class='label label-tableMain'>Backgroud: "  + "<span class='label label-table'>" + family.background + "</span></span>" +
+	    		"<span class='label label-tableMain'>In Canada: "  + "<span class='label label-table'>" + family.howLongHaveYouBeen + "</span></span></br>" +
+	    		"<span class='label label-tableMain'>Smoke?: "  + "<span class='label label-table'>" + family.acceptSmokeStudent + "</span></span>" +
+	    		"<span class='label label-tableMain'>Type: "  + "<span class='label label-table'>" + family.type + "</span></span></br>" +
+	    		"<span class='label label-tableMain'>Police ok?: "  + "<span class='label label-table'>" + family.contact.docDate + "</span></span>",
+            "preferences":
+	    		"<span class='label label-tableMain'>Age: "  + "<span class='label label-table'>" + family.preferAgeStudent + "</span></span>" +
+	    		"<span class='label label-tableMain'>Gender: "  + "<span class='label label-table'>" + family.preferGenderStudent + "</span></span></br>" +
+	    		"<span class='label label-tableMain'>Meal: "  + "<span class='label label-table'>" + family.mealPlan + "</span></span>" +
+	    		"<span class='label label-tableMain'>Diet: "  + "<span class='label label-table'>" + family.specialDiet + "</span></span></br>" +
+	    		"<span class='label label-tableMain'>Don't host: "  + "<span class='label label-table'>" + family.dontHostNationality + "</span></span>",
+            "reviews": "",
+            "comments": notes, 
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
             			'<ul id="listFamily" class="dropdown-menu">' +
             				actions +
@@ -414,6 +476,34 @@
 	        '</tr>'+
 	    '</table>';
 	};
+	
+	function lastNextOccupancy (occupancyRows, studentOccupancyData) {
+		var objJson = JSON.parse(localStorage.getItem("student"));
+		var actualTrip = objJson.documento.actualTrip;
+		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
+		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
+	    $.each(occupancyRows, function (i, occupancy) {
+			if (occupancy.emailStudent){
+				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
+				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
+				
+				if (endOccupancy < startTrip ){
+					if (endOccupancy > studentOccupancyData.lastDate){	
+						studentOccupancyData.lastDate = endTrip;
+						studentOccupancyData.lastEmail = occupancy.emailStudent;
+					};
+				};
+				if (startOccupancy > endTrip){
+					if (startOccupancy < studentOccupancyData.nextDate){	
+						studentOccupancyData.nextDate = endTrip;
+						studentOccupancyData.nextEmail = occupancy.emailStudent;
+					};
+				};
+			};
+	    });
+	    return studentOccupancyData;
+	};
+
 	
 	function bedsOccupied (occupancyRows) {
 		var objJson = JSON.parse(localStorage.getItem("student"));

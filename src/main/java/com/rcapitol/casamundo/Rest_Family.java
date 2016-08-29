@@ -184,8 +184,21 @@ public class Rest_Family {
 					jsonDocumento.put("numbersBedroom", jsonObject.get("numbersBedroom"));
 					jsonDocumento.put("numbersStudentsBedroom", jsonObject.get("numbersStudentsBedroom"));
 					jsonDocumento.put("numberPrivateWashroom", jsonObject.get("numberPrivateWashroom"));
+					jsonDocumento.put("offerInternet", jsonObject.get("offerInternet"));
+					jsonDocumento.put("haveDogs", jsonObject.get("haveDogs"));
+					jsonDocumento.put("haveCats", jsonObject.get("numbersStudentsBedroom"));
+					jsonDocumento.put("haveOtherPet", jsonObject.get("haveOtherPet"));
+					jsonDocumento.put("background", jsonObject.get("background"));
+					jsonDocumento.put("howLongHaveYouBeen", jsonObject.get("howLongHaveYouBeen"));
+					jsonDocumento.put("acceptSmokeInsideHome", jsonObject.get("acceptSmokeInsideHome"));
+					jsonDocumento.put("preferAgeStudent", jsonObject.get("preferAgeStudent"));
+					jsonDocumento.put("preferGenderStudent", jsonObject.get("preferGenderStudent"));
+					jsonDocumento.put("mealPlan", jsonObject.get("mealPlan"));
+					jsonDocumento.put("specialDiet", jsonObject.get("specialDiet"));
+					jsonDocumento.put("dontHostNationality", jsonObject.get("dontHostNationality"));
 				    jsonDocumento.put("contact", jsonObject.get("contact"));
 				    jsonDocumento.put("address", jsonObject.get("address"));
+				    jsonDocumento.put("notes", jsonObject.get("notes"));
 			    	if (destination != null){
 					    jsonDocumento.put("mealPlan", jsonObject.get("mealPlan"));
 					    jsonDocumento.put("specialDiet", jsonObject.get("specialDiet"));

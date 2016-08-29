@@ -39,6 +39,12 @@
  .label-unavaliable {
 	background-color: #ff8000 !important;
 }
+ .label-tableMain {
+	color: #4f4fff!important;
+}
+ .label-table {
+	color: #0076ec!important;
+}
 
  .text-advise {
 	font-size: 60% !important;

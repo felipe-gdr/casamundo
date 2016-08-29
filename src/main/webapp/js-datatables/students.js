@@ -345,8 +345,7 @@
     	    				"<small class='text-muted text-column'>Dogs: " + student.trip.liveDogs + "</small>&nbsp;&nbsp;" +
     	    				"<small class='text-muted text-column'>Cats: " + student.trip.liveCats + "</small><br>" +
     	    				"<small class='text-muted text-column'>" + student.trip.mealPlan + "</small>&nbsp;&nbsp;" +
-    	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",
-    	    				
+    	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",    	    				
        	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
     			'<ul id="listStudent" class="dropdown-menu">' +
@@ -423,6 +422,7 @@
         });
         
         // Apply the filter
+        $("#students_list thead th input[type=text]").off( 'keyup change');
         $("#students_list thead th input[type=text]").on( 'keyup change', function () {
         	
         	student_table
