@@ -39,11 +39,13 @@
  .label-unavaliable {
 	background-color: #ff8000 !important;
 }
- .label-tableMain {
+ .text-table-main {
 	color: #4f4fff!important;
+	font-size: 87%!important;
 }
- .label-table {
+ .text-table {
 	color: #0076ec!important;
+	font-size: 87%!important;
 }
 
  .text-advise {

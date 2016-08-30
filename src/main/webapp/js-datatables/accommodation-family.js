@@ -54,7 +54,7 @@
 			phone : 480
 		};
 	     
-		/* student list  */
+		/* family list  */
 	    var family_table = $('#families_list').DataTable({
 	    	//"bFilter": false,
 	    	//"bInfo": false,
@@ -104,7 +104,6 @@
 	    });
     	
 	    family_table.clear();
-	    family_table.rows().remove();
     	
 	    var objJson = JSON.parse(localStorage.getItem("families"));
 	    $.each(objJson, function (i, family) {
@@ -295,10 +294,10 @@
 		            	};
 			    	// ** montar literal dos quartos
 			    	rooms = rooms + 
-				    	"<span class='label label-tableMain'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
-				    	"<span class='label label-table'>" + "Single " + room.singleBed + " couple " + room.coupleBed + "</span><br>" +
-				    	"<span class='label label-table'>" + "Private WC " + room.privateWashroom + "</span><br>" +
-				    	"<span class='label label-table'>" + room.level + "</span><br>";
+				    	"<span class='text text-table-main'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
+				    	"<span class='text text-table'>" + "Single " + room.singleBed + " couple " + room.coupleBed + "</span><br>" +
+				    	"<span class='text text-table'>" + "Private WC " + room.privateWashroom + "</span><br>" +
+				    	"<span class='text text-table'>" + room.level + "</span><br>";
 			    	// ** verificar se ha quartos disponiveis 
 		        	if (room.singleBed){
 			    		if (room.singleBed == 1){
@@ -373,26 +372,26 @@
 			    			privateWashroomText = " Dont't have private washroom"
 			    		};
 			    	};
-			    	occupancy = String(occupancy) + "<small class='text-success'><i>Room " + (parseInt(room.number) + 1) + ":<br> " + 
-			    									"<small class='text-info'><i>" + singleBedText + "<i></small><br>" +
-			    									"<small class='text-info'><i>"  + coupleBedText + "<i></small><br>" +
-			    									"<small class='text-info'><i>"  + privateWashroomText + "<i></small><br>";
+			    	occupancy = String(occupancy) + "<span class='text-success'><i>Room " + (parseInt(room.number) + 1) + ":</span><br> " + 
+			    									"<span class='text-info'><i>" + singleBedText + "<i></span><br>" +
+			    									"<span class='text-info'><i>"  + coupleBedText + "<i></span><br>" +
+			    									"<span class='text-info'><i>"  + privateWashroomText + "<i></span><br>";
 		    		if (studentOccupancyData.lastEmail != "" | studentOccupancyData.nextEmail != ""){
 		    			dates = dates + 
-			        		"<span class='label label-tableMain'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
-				    		"<span class='label label-tableMain'>OUT " + 
+			        		"<span class='text text-table-main'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
+				    		"<span class='text text-table-main'>OUT " + 
 				    			"<a href='student.html?email=" + studentOccupancyData.lastEmail + "&typePage=change'>" +
-					    			"<span class='label label-table'>" + separaDataMes(studentOccupancyData.lastDateShow, "/") + 
+					    			"<span class='text text-table'>" + separaDataMes(studentOccupancyData.lastDateShow, "/") + 
 					    			"</span><br>" + 
-					    			"<span class='label label-table'>" + studentOccupancyData.lastEmail + 
+					    			"<span class='text text-table'>" + studentOccupancyData.lastEmail + 
 					    			"</span><br>" + 
 					    		"</a>" +
 				    		"</span><br>" +
-				    		"<span class='label label-tableMain'>IN " +
+				    		"<span class='text text-table-main'>IN " +
 				    			"<a href='student.html?email=" + studentOccupancyData.nextEmail + "&typePage=change'>" +
-				    				"<span class='label label-table'>" + separaDataMes(studentOccupancyData.nextDateShow, "/") + 
+				    				"<span class='text text-table'>" + separaDataMes(studentOccupancyData.nextDateShow, "/") + 
 				    				"</span><br>" + 
-				    				"<span class='label label-table'>" + studentOccupancyData.nextEmail + 
+				    				"<span class='text text-table'>" + studentOccupancyData.nextEmail + 
 				    				"</span>" + 
 				    			"</a>" +
 				    		"</span><br>";
@@ -405,7 +404,7 @@
         };
         if (family.notes){
 		    $.each(family.notes, function (i, note) {
-		    	notes = notes + "<span class='label label-table'>" + note.note + "</span><br>"
+		    	notes = notes + "<span class='text text-table'>" + note.note + "</span><br>"
 		    });
         };
         var police = "No";
@@ -422,7 +421,7 @@
         var distances = "";
         if (results){
             if (results.rows[0].elements[0].duration){
-            	var distances = "<small class='text-muted'><i>" + results.rows[0].elements[0].duration.text +"<i></small><br>";
+            	var distances = "<span class='text text-table'><i>" + results.rows[0].elements[0].duration.text +"<i></small><br>";
             };
         };
 //        if (student.documento.trips[actualTrip].status == "Available"){
@@ -442,33 +441,33 @@
         
         family_table.row.add( {
 	    	"family":
-	    		"<small class=''>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</small>" +
+	    		"<span class='hide'>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</span>" +
 	    		"<a href='family.html?familyName=" + family.familyName + "'>" +
-	    			"<span>Family Name:" + family.familyName +  "</span><br>" +
+	    			"<span>" + family.familyName +  "</span><br>" +
 	    			rooms + 
 	    		"</a>",
 	    	"location": 
-	    		"<span class='label label-tableMain'>Distance to school "  + "<span class='label label-table'>" + distances + "</span></span><br>" +
-	    		"<span class='label label-tableMain'>Main Intersection "  + "<span class='label label-table'>" + family.address.mainIntersection + " </span></span><br>" +
-	    		"<span class='label label-tableMain'>Subway "  + "<span class='label label-table'>" + family.address.subwayStation + " </span></span><br>" +
-	    		"<span class='label label-tableMain'>Walking time "  + "<span class='label label-table'>" + family.address.timeSubwayStation + " </span></span><br>",
+	    		"<span class='text text-table-main'>Distance to school "  + "<span class='text text-table'>" + distances + "</span></span><br>" +
+	    		"<span class='text text-table-main'>Main Intersection "  + "<span class='text text-table'>" + family.address.mainIntersection + " </span></span><br>" +
+	    		"<span class='text text-table-main'>Subway "  + "<span class='text text-table'>" + family.address.subwayStation + " </span></span><br>" +
+	    		"<span class='text text-table-main'>Walking time "  + "<span class='text text-table'>" + family.address.timeSubwayStation + " </span></span><br>",
             "dates": dates,
             "characteristics": 
-	    		"<span class='label label-tableMain'>Internet: "  + "<span class='label label-table'>" + family.offerInternet + "</span></span>" +
-	    		"<span class='label label-tableMain'>Dogs: "  + "<span class='label label-table'>" + family.haveDogs + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Cats: "  + "<span class='label label-table'>" + family.haveCats + "</span></span>" +
-	    		"<span class='label label-tableMain'>Other: "  + "<span class='label label-table'>" + family.haveOtherPet + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Backgroud: "  + "<span class='label label-table'>" + family.background + "</span></span>" +
-	    		"<span class='label label-tableMain'>In Canada: "  + "<span class='label label-table'>" + family.howLongHaveYouBeen + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Smoke?: "  + "<span class='label label-table'>" + family.acceptSmokeStudent + "</span></span>" +
-	    		"<span class='label label-tableMain'>Type: "  + "<span class='label label-table'>" + family.type + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Police ok?: "  + "<span class='label label-table'>" + police + "</span></span>",
+	    		"<span class='text text-table-main'>Internet: "  + "<span class='text text-table'>" + family.offerInternet + "</span></span>" +
+	    		"<span class='text text-table-main'> Dogs: "  + "<span class='text text-table'>" + family.haveDogs + "</span></span></br>" +
+	    		"<span class='text text-table-main'>Cats: "  + "<span class='text text-table'>" + family.haveCats + "</span></span>" +
+	    		"<span class='text text-table-main'> Other: "  + "<span class='text text-table'>" + family.haveOtherPet + "</span></span></br>" +
+	    		"<span class='text text-table-main'>Backgroud: "  + "<span class='text text-table'>" + family.background + "</span></span></br>" +
+	    		"<span class='text text-table-main'> In Canada: "  + "<span class='text text-table'>" + family.howLongHaveYouBeen + "</span></span></br>" +
+	    		"<span class='text text-table-main'>Smoke?: "  + "<span class='text text-table'>" + family.acceptSmokeStudent + "</span></span>" +
+	    		"<span class='text text-table-main'> Type: "  + "<span class='text text-table'>" + family.type + "</span></span></br>" +
+	    		"<span class='text text-table-main'>Police ok?: "  + "<span class='text text-table'>" + police + "</span></span>",
             "preferences":
-	    		"<span class='label label-tableMain'>Age: "  + "<span class='label label-table'>" + family.preferAgeStudent + "</span></span>" +
-	    		"<span class='label label-tableMain'>Gender: "  + "<span class='label label-table'>" + family.preferGenderStudent + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Meal: "  + "<span class='label label-table'>" + family.mealPlan + "</span></span>" +
-	    		"<span class='label label-tableMain'>Diet: "  + "<span class='label label-table'>" + family.specialDiet + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Don't host: "  + "<span class='label label-table'>" + family.dontHostNationality + "</span></span>",
+	    		"<span class='text text-table-main'>Age: "  + "<span class='text text-table'>" + family.preferAgeStudent + "</span></span>" +
+	    		"<span class='text text-table-main'> Gender: "  + "<span class='text text-table'>" + family.preferGenderStudent + "</span></span></br>" +
+	    		"<span class='text text-table-main'>Meal: "  + "<span class='text text-table'>" + family.mealPlan + "</span></span>" +
+	    		"<span class='text text-table-main'> Diet: "  + "<span class='text text-table'>" + family.specialDiet + "</span></span></br>" +
+	    		"<span class='text text-table-main'>Don't host: "  + "<span class='text text-table'>" + family.dontHostNationality + "</span></span>",
             "reviews": "",
             "comments": notes, 
             'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
