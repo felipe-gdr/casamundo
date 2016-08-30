@@ -532,15 +532,11 @@ public class Rest_Student {
 					};
 			    };
 			    if (element[0].equals("filter_check_in")){
-			    	Long teste1 = calcTime((String)jsonTrip.get("start"));
-			    	Long teste2 = calcTime(element[1].replace("-", ""));
 					if (calcTime((String)jsonTrip.get("start")) <= calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_out")){
-			    	Long teste3 = calcTime((String)jsonTrip.get("start"));
-			    	Long teste4 = calcTime(element[1].replace("-", ""));
 					if (calcTime((String)jsonTrip.get("start")) >= calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
@@ -619,11 +615,12 @@ public class Rest_Student {
 			    	ArrayList arrayListMeals = new ArrayList(); 
 			    	arrayListMeals = (ArrayList) jsonTrip.get("mealPlan");
 			    	Object arrayMeals[] = arrayListMeals.toArray(); 
-					Boolean resultMeals = true;
+					Boolean resultMeals = false;
 					int w = 0;
 					while (w < arrayMeals.length) {
 						if (((String) arrayMeals[w]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-							resultMeals = false;
+						}else{
+							resultMeals = true;
 						};
 						++w;
 					};
@@ -635,11 +632,12 @@ public class Rest_Student {
 			    	ArrayList arrayListDiet = new ArrayList(); 
 			    	arrayListDiet = (ArrayList) jsonTrip.get("specialDiet");
 			    	Object arrayDiet[] = arrayListDiet.toArray(); 
-					Boolean resultDiet = true;
+					Boolean resultDiet = false;
 					int z = 0;
 					while (z < arrayDiet.length) {
 						if (((String) arrayDiet[z]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-							resultDiet = false;
+						}else{
+							resultDiet = true;
 						};
 						++z;
 					};
@@ -720,5 +718,5 @@ public class Rest_Student {
 	    	mesNumber = "12";
 	    };
 		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
-	}
+	};
 };

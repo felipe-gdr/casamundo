@@ -85,12 +85,13 @@
             "charset" : "UTF-8",
             "bDestroy": true,
             "iDisplayLength": 30,
-            "order": [[2, 'asc']],
+            "order": [[1, 'asc']],
             "fnDrawCallback": function( oSettings ) {
     	       runAllCharts()
     	    }
     	
         });
+
         var objJson = JSON.parse(localStorage.getItem("students"));
         
         student_table.clear();

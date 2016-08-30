@@ -60,8 +60,8 @@
         "responsive": true,
         "charset" : "UTF-8",
         "bDestroy": true,
-        "iDisplayLength": 15,
-        "order": [[3, 'desc']],
+        "iDisplayLength": 30,
+        "order": [[1, 'asc']],
         "fnDrawCallback": function( oSettings ) {
 	       runAllCharts()
 	    }

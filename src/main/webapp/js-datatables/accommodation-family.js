@@ -95,14 +95,17 @@
 	        "responsive": true,
 	        "charset" : "UTF-8",
 	        "bDestroy": true,
-	        "iDisplayLength": 15,
+	        "iDisplayLength": 30,
 	        "order": [[1, 'desc']],
 	        "fnDrawCallback": function( oSettings ) {
 		       runAllCharts()
 		    }
 		
 	    });
-    	family_table.clear();
+    	
+	    family_table.clear();
+	    family_table.rows().remove();
+    	
 	    var objJson = JSON.parse(localStorage.getItem("families"));
 	    $.each(objJson, function (i, family) {
 	    	if (family.address.latitude && family.address.longitude && localStorage.latitudeSchool && localStorage.longitudeSchool){
@@ -171,12 +174,13 @@
 	    });
 	    
 	    // Apply the filter
-	    $("#families_list thead th input[type=text]").on('keyup change', function () {
-	    	family_table
-	            .column( $(this).parent().index()+':visible' )
-	            .search( this.value )
-	            .draw();
-	    });
+//	    $("#families_list thead th input[type=text]").off('keyup change');
+//	    $("#families_list thead th input[type=text]").on('keyup change', function () {
+//	    	family_table
+//	            .column( $(this).parent().index()+':visible' )
+//	            .search( this.value )
+//	            .draw();
+//	    });
 	    /* end trip list */   
 
 	};
@@ -404,7 +408,16 @@
 		    	notes = notes + "<span class='label label-table'>" + note.note + "</span><br>"
 		    });
         };
-
+        var police = "No";
+        if (family.contact.docDate){
+        	if (family.contact.docDate != ""){
+				var policeDate = Date.parse(new Date(separaAnoMesDia(family.contact.docDate)));
+				var todaysDate = Date.parse(new Date());
+				if (policeDate > todaysDate){
+					police = "Yes";
+				}
+        	};
+        };
         var objStudent = JSON.parse(localStorage.getItem("student"));
         var distances = "";
         if (results){
@@ -449,7 +462,7 @@
 	    		"<span class='label label-tableMain'>In Canada: "  + "<span class='label label-table'>" + family.howLongHaveYouBeen + "</span></span></br>" +
 	    		"<span class='label label-tableMain'>Smoke?: "  + "<span class='label label-table'>" + family.acceptSmokeStudent + "</span></span>" +
 	    		"<span class='label label-tableMain'>Type: "  + "<span class='label label-table'>" + family.type + "</span></span></br>" +
-	    		"<span class='label label-tableMain'>Police ok?: "  + "<span class='label label-table'>" + family.contact.docDate + "</span></span>",
+	    		"<span class='label label-tableMain'>Police ok?: "  + "<span class='label label-table'>" + police + "</span></span>",
             "preferences":
 	    		"<span class='label label-tableMain'>Age: "  + "<span class='label label-table'>" + family.preferAgeStudent + "</span></span>" +
 	    		"<span class='label label-tableMain'>Gender: "  + "<span class='label label-table'>" + family.preferGenderStudent + "</span></span></br>" +

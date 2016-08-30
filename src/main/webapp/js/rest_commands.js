@@ -137,29 +137,21 @@
     	});
     };
 
-    function rest_obterFamiliesAll(action_ok, action_notok, destination, occupancy) {
+    function rest_obterFamiliesAll(action_ok, action_notok, destination, filters, var1) {
     	var parameters = "";
-    	if (destination && occupancy){
-    		parameters = "?destination=" + destination + "&occupancy=" + occupancy;
-    	}else{
-        	if (destination){
-        		parameters = "?destination=" + destination;
-        	}else{
-            	if (occupancy){
-            		parameters = "?occupancy=" + occupancy;
-            	};
-        	};
+    	if (destination){
+    		parameters = "?destination=" + destination;
     	};
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/lista" + parameters,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/lista" + parameters  + "&filters=" + filters,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data);
+    		action_ok(data, var1);
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1) {
     		action_notok
     	})
     	.always(function(data) {

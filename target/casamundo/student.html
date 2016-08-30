@@ -1352,7 +1352,7 @@
 								</header>
 								<div class="widget row">
 									<div class="col-sm-12">
-										<h2><span class="semi-bold">Filters</span><br>
+										<h2><span class="semi-bold">Filterss</span><br>
 										</h2>
 										<span class='text-muted'>(Click in a button to change the filters, green applied, blue not applied)</span><br>
 			
@@ -1386,32 +1386,130 @@
 											
 											<table id="families_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 										        <thead>
-													<tr class="hide">
-														<th class="hasinput" >
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Family" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Location" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Dates" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Characteristics" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Preferences" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Reviews" />
-														</th>
-														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Comments" />
-														</th>
-														</th>
-													</tr>
+												<tr class="">
+													<th class="hasinput" >
+													</th>
+													<th class="hasinput" >
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_student" type="text" class="form-control text-filter" placeholder="Student" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_gender" type="text" class="form-control text-filter" placeholder="Gender" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_nationality" type="text" class="form-control text-filter" placeholder="Nationality" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_age_from" type="text" class="form-control text-filter" placeholder="Age from" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_age_to" type="text" class="form-control text-filter" placeholder="Age to" />
+															</section>
+														</div>
+													</th>
+													<th class="hasinput" >
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_check_in" type="text" name="filter_check_in" placeholder="from" class="datepicker form-control text-filter " data-dateformat='dd-M-yy' >
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_check_out" type="text" name="filter_check_out" placeholder="to" class="datepicker form-control text-filter " data-dateformat='dd-M-yy' >
+															</section>
+														</div>
+													</th>
+													<th class="hasinput" >
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_status" type="text" class="form-control text-filter" placeholder="Status" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_payment" type="text" class="form-control text-filter" placeholder="Payment" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_visa" type="text" class="form-control text-filter" placeholder="Visa" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_flight" type="text" class="form-control text-filter" placeholder="Flight" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_pickup" type="text" class="form-control text-filter" placeholder="Pickup" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_dropoff" type="text" class="form-control text-filter" placeholder="Dropoff" />
+															</section>
+														</div>
+													</th>
+													<th class="hasinput" >
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_school" type="text" class="form-control text-filter" placeholder="School" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_agent" type="text" class="form-control text-filter" placeholder="Agent" />
+															</section>
+														</div>
+													</th>
+													<th class="hasinput" >
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_host" type="text" class="form-control text-filter" placeholder="Host" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_driver" type="text" class="form-control text-filter" placeholder="Driver" />
+															</section>
+														</div>
+													</th>
+													<th class="hasinput" >
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_occupancy" type="text" class="form-control text-filter" placeholder="Occupancy" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-12">							
+																<input id="filter_private_wc" type="text" class="form-control text-filter" placeholder="Private WC" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_dogs" type="text" class="form-control text-filter" placeholder="dogs" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_cats" type="text" class="form-control text-filter" placeholder="cats" />
+															</section>
+														</div>
+														<div class="row">							
+															<section class="col-xs-6">							
+																<input id="filter_meals" type="text" class="form-control text-filter" placeholder="meals" />
+															</section>
+															<section class="col-xs-6">							
+																<input id="filter_diet" type="text" class="form-control text-filter" placeholder="diet" />
+															</section>
+														</div>
+													</th>
+													<th class="hasinput" >
+															<section class="col-xs-12">							
+																<input id="filter_comments" type="text" class="form-control text-filter" placeholder="Comments" />
+															</section>
+													</th>
+												</tr>
 										            <tr>
 										                <th></th>
 										                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>

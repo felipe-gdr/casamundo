@@ -12,6 +12,34 @@
 		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
 	};
 	
+	// 
+	// **** montagem do filtro para submissão ao server
+	//
+
+		// **** testa existencia do email
+		$(".text-filter").blur(function(){
+			var filters = 
+					'filter_family:' + $("#filters_family").val() + ',' +
+					'filter_mainIntersection:' + $("#filters_mainIntersection").val() + ',' +
+					'filter_subway:' + $("#filters_subway").val() + ',' +
+					'filter_internet:' + $("#filters_internet").val() + ',' +
+					'filter_dogs:' + $("#filters_dogs").val() + ',' +
+					'filter_cats:' + $("#filters_cats").val() + ',' +
+					'filter_other:' + $("#filters_other").val() + ',' +
+					'filter_background:' + $("#filters_background").val() + ',' +
+					'filter_inCanada:' + $("#filters_inCanada").val() + ',' +
+					'filter_smoke:' + $("#filters_smoke").val() + ',' +
+					'filter_type:' + $("#filters_type").val() + ',' +
+					'filter_police:' + $("#filters_police").val() + ',' +
+					'filter_ageFrom:' + $("#filters_ageFrom").val() + ',' +
+					'filter_ageTo:' + $("#filters_ageTo").val() + ',' +
+					'filter_gender:' + $("#filters_gender").val() + ',' +
+					'filter_meals:' + $("#filters_meals").val() + ',' +
+					'filter_diet:' + $("#filters_diet").val() + ',' +
+					'filter_dontHost:' + $("#filters_dontHost").val();
+					var objStudent = JSON.parse(localStorage.getItem("student"));
+					rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination, filters, "true");
+		});	
 	
 	 	 
 	/**
