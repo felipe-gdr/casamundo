@@ -279,20 +279,15 @@
 	        	var roomsAvailable = false;
 	        	// ** literal para constar na linha
 	            var rooms = "";
-	            var studentOccupancyData =
-	            	{
-	            		lastEmail : "",
-	            		nextEmail : "",
-	            		lastDate : 0,
-	            		nextDate : 999999999999999999999999999999999999
-	            	};
 			    $.each(family.rooms, function (i, room) {
-		            studentOccupancyData =
+		            var studentOccupancyData =
 		            	{
 		            		lastEmail : "",
 		            		nextEmail : "",
+		            		lastDateShow : 0,
 		            		lastDate : 0,
-		            		nextDate : 999999999999999999999999999999999999
+		            		nextDate : 999999999999999999999999999999999999,
+		            		nextDateShow : 0
 		            	};
 			    	// ** montar literal dos quartos
 			    	rooms = rooms + 
@@ -383,12 +378,16 @@
 			        		"<span class='label label-tableMain'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
 				    		"<span class='label label-tableMain'>OUT " + 
 				    			"<a href='student.html?email=" + studentOccupancyData.lastEmail + "&typePage=change'>" +
+					    			"<span class='label label-table'>" + separaDataMes(studentOccupancyData.lastDateShow, "/") + 
+					    			"</span><br>" + 
 					    			"<span class='label label-table'>" + studentOccupancyData.lastEmail + 
-					    			"</span>" + 
+					    			"</span><br>" + 
 					    		"</a>" +
 				    		"</span><br>" +
 				    		"<span class='label label-tableMain'>IN " +
 				    			"<a href='student.html?email=" + studentOccupancyData.nextEmail + "&typePage=change'>" +
+				    				"<span class='label label-table'>" + separaDataMes(studentOccupancyData.nextDateShow, "/") + 
+				    				"</span><br>" + 
 				    				"<span class='label label-table'>" + studentOccupancyData.nextEmail + 
 				    				"</span>" + 
 				    			"</a>" +
@@ -491,12 +490,14 @@
 					if (endOccupancy > studentOccupancyData.lastDate){	
 						studentOccupancyData.lastDate = endTrip;
 						studentOccupancyData.lastEmail = occupancy.emailStudent;
+						studentOccupancyData.lastDateShow = occupancy.endOccupancy;
 					};
 				};
 				if (startOccupancy > endTrip){
 					if (startOccupancy < studentOccupancyData.nextDate){	
 						studentOccupancyData.nextDate = endTrip;
 						studentOccupancyData.nextEmail = occupancy.emailStudent;
+						studentOccupancyData.nextDateShow = occupancy.startOccupancy;
 					};
 				};
 			};
