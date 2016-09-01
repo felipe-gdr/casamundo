@@ -116,7 +116,7 @@
     	});
     };
 
-    function rest_atualizaTable(objJson, action_ok, action_not_ok) {
+    function rest_atualizaTable(objJson, action_ok, action_not_ok, var1, var2, var3) {
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/atualizar",
@@ -124,7 +124,7 @@
             dataType: 'json',
             data : JSON.stringify(objJson)
 		})        	
-		.done(function(data) {
+		.done(function(data, var1, var2, var3) {
     	})
     	.fail(function(data) {
     	})

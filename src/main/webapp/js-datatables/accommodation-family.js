@@ -421,7 +421,7 @@
         var distances = "";
         if (results){
             if (results.rows[0].elements[0].duration){
-            	var distances = "<span class='text text-table'><i>" + results.rows[0].elements[0].duration.text +"<i></small><br>";
+            	var distances = "<span class='text text-table'><i>" + results.rows[0].elements[0].duration.text +"<i></small>";
             };
         };
 //        if (student.documento.trips[actualTrip].status == "Available"){

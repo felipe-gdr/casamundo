@@ -108,7 +108,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-<body class="smart-style-6 body-background-color-price-table">
+<body class="smart-style-6 body-background-color-finance">
   <!-- Cabeçalho-->
 		<!-- HEADER -->
 		<header id="header">
@@ -455,12 +455,12 @@
 							</div>
 							<!-- end row -->
 						</article>
-						<article class="col-sm-12 col-md-12 col-lg-12">
+						<article class="col-sm-5 col-md-5 col-lg-5">
 
 							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Price table values</h2>
+									<h2>Main values</h2>
 									<div class="widget-toolbar">
 										<!-- add: non-hidden - to disable auto hide -->
 									</div>
@@ -484,28 +484,86 @@
 														<th class="hasinput" >
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Main" />
+															<input type="text" class="form-control" placeholder="Interval" />
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Localization" />
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Gross" />
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Net" />
+														</th>
+													</tr>
+										            <tr>
+										                <th></th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Interval</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Localization</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Gross</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Net</th>
+										            </tr>
+										        </thead>
+										    </table>
+										</div>
+										<!-- end widget content -->
+									</div>
+								<!-- end widget content -->
+								</div>
+							</div>
+							<!-- end widget content -->
+						</article>
+						<article class="col-sm-6 col-md-6 col-lg-6">
+
+							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2>Agency values</h2>
+									<div class="widget-toolbar">
+										<!-- add: non-hidden - to disable auto hide -->
+									</div>
+								</header>
+								<div class="col-sm-12">
+									<!-- widget div-->
+									<div>
+										<!-- widget edit box -->
+										<div class="jarviswidget-editbox">
+											<!-- This area used as dropdown edit box -->
+											<input class="form-control" type="text">	
+										</div>
+										<!-- end widget edit box -->
+										
+										<!-- widget content -->
+										<div class="widget-body no-padding">
+											
+											<table id="price_table_values_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										        <thead>
+													<tr>
+														<th class="hasinput" >
+														</th>
+														<th class="hasinput" >
+															<input type="text" class="form-control" placeholder="Interval" />
 														</th>
 														<th class="hasinput" >
 															<input type="text" class="form-control" placeholder="Agency" />
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Family" />
+															<input type="text" class="form-control" placeholder="Localization"/>
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="City" />
+															<input type="text" class="form-control" placeholder="Gross" />
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Value" />
+															<input type="text" class="form-control" placeholder="Net" />
 														</th>
 													</tr>
 										            <tr>
 										                <th></th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Main</th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Agency</th>
-										                <th><i class="fa fa-fw fa-times text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
-										                <th><i class="fa fa-fw fa-times text-muted hidden-md hidden-sm hidden-xs"></i>City</th>
-										                <th><i class="fa fa-fw fa-pause text-muted hidden-md hidden-sm hidden-xs"></i>Value</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Interval</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Agency</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Localization</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Gross</th>
+										                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Net</th>
 										            </tr>
 										        </thead>
 										    </table>

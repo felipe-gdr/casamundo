@@ -104,8 +104,8 @@ public class Rest_PriceTable {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(PriceTable doc, @QueryParam("id") String idParam) throws MongoException, JsonParseException, JsonMappingException, IOException {
-		ObjectId id = new ObjectId(idParam);
+	public Response AtualizarDocumento(PriceTable doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+		ObjectId id = new ObjectId(doc.documento.id);
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection("priceTable");

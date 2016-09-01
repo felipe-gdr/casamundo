@@ -11,7 +11,7 @@
     /**
 	 * 				obter os dados
 	 */
-	rest_obterPriceTableAll(carregaAgencies, semAcao);
+	rest_obterPriceTableAll(carregaPriceTable, semAcao);
 
     
     /* Formatting function for row details - modify as you need */
@@ -25,7 +25,7 @@
 	    '</table>';
 */	};
 	
-	function carregaAgencies (objJson) {
+	function carregaPriceTable (objJson) {
 		/* BASIC datatables*/
 
 		var responsiveHelper_price_table_list = undefined;
@@ -56,7 +56,7 @@
 			"columns": [
 			            { "data": "name" },
 			            { "data": "descricao" },
-			            { "data": "active" },
+			            { "data": "valid" },
 			            { "data": "actions" },
 			            ],
 	        "responsive": true,
@@ -105,11 +105,24 @@
     	    	"name": "<a href='price-table.html?id=" + price_table.id + "'>" +
     	    			"<span>" + price_table.name +  "</span></a>",
                 'descricao':'<small class="text-muted">' + price_table.description + '</small>',
-                'active':'<small class="text-muted">' + price_table.valid + '</small>',
+                'valid':'<small class="text-muted">' + price_table.valid + '</small>',
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                				'Action <span class="caret"></span></button>' + 
+                					'<ul id="listPriceTable" class="dropdown-menu">' +
+                						"<li'><a id='" + price_table.id + "' data-process='changeitempricetable' data-id='" + price_table.id + " ' data-name='" + price_table.name + "'' data-description='" + price_table.description + "'' data-valid='" + price_table.valid + "'href='#priceModal' data-toggle='modal' >Change</a></li>" +
+                					'</ul>' +
+                '</div>'
     	    }).draw( false );
+    		// Add event listener for opening and closing details
+    	    $('#' + price_table.id).off('click');
+    	    $('#' + price_table.id).on('click',function(){
+    			$("#priceId").val($(this).attr('data-id'));
+    			$("#priceName").val($(this).attr('data-name'));
+    			$("#priceDescription").val($(this).attr('data-description'));
+    			if ($(this).attr('data-valid') == "Yes"){
+    				$("#priceValid").prop("checked", true)
+    			};
+    			localStorage.priceTableExistente = "true";
+    	    });
         });
 	};

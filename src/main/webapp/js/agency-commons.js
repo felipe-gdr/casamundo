@@ -61,12 +61,14 @@
 		}
 	});
 	
-	$('#agencyInclusao').bind('click', function () {
+	$('#agencyInclusao').off('click');
+	$('#agencyInclusao').on('click', function () {
     	localStorage.agencyExistente = "false";
     	localStorage.consultants = "[]";
     	carregaInclusaoAgency();
     });
 	
+	$("#agencyModal").off('hidden.bs.modal');
 	$("#agencyModal").on('hidden.bs.modal', function(event){
     	$('#agencyName').attr("disabled", false);
     	$("#agencyName").val("");

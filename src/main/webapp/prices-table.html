@@ -104,7 +104,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-6 body-background-color-administrator">
+	<body class="smart-style-6 body-background-color-finance">
 
 		<!-- HEADER -->
 		<header id="header">
@@ -436,7 +436,7 @@
 										<div class="col-sm-4"></div>
 										<div class="col-sm-1">
 											<div class="col-sm-1 profile-pic">
-												<a id="agencyInclusao" data-toggle="modal" data-target="#agencyModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+												<a id="priceInclusao" data-toggle="modal" data-target="#priceModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
 											</div>
 										</div>
 									</div>
@@ -503,6 +503,59 @@
 
 		</div>
 		<!-- END MAIN PANEL -->
+		<!-- Modal -->
+		<div class="modal fade" id="priceModal" tabindex="-1" role="dialog" aria-labelledby="priceModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="priceModalLabel">Price data</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-11">
+									<form id="priceModal-form" class="smart-form" novalidate="novalidate">
+										<div>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="pricename">Item</label>
+													<input id="priceName" name="name" type="text" class="form-control" value="" placeholder="" required />
+													<input id="priceId" name="id" type="text" class="form-control hide" value="" placeholder="" required />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-8">
+													<label for="priceDescription">Description</label>
+													<label class="textarea textarea-resizable state-disabled"> 										
+													<textarea rows="3" id="priceDescription" name="description"class="custom-scroll"></textarea> </label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-2">
+													<label class="toggle text-info">
+													<input type="checkbox" id="priceValid" name="valid">
+													<i data-swchon-text="Yes" data-swchoff-text="No"></i>Active</label>
+												</div>
+											</div>
+											<br><br>
+											<div class="modal-footer col-md-10">
+												<button type="submit" class="btn btn-primary">Submit</button>
+												<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+											</div>
+										</div>
+									</form>
+									<br><br>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
@@ -696,8 +749,11 @@
 		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 		
-		<!-- monta lst of agency -->
+		<!-- monta lst of prices -->
 		<script src="js-datatables/prices-table.js"></script>
+		
+		<!-- commons -->
+		<script src="js/price-table-commons.js"></script>
 
 		<script type="text/javascript">
 		
