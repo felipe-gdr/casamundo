@@ -717,3 +717,82 @@
     	.always(function(data) {
     	});
     };
+
+
+    function rest_obterPriceTableValueAll(idPriceTable, action_ok, action_notok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/lista?id="  + idPriceTable,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data) {
+    		action_notok(data, var1, var2);
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_atualizaPriceTableValue(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		action_not_ok(message)
+        	};
+    	});
+    };
+
+    function rest_incluiPriceTableValue(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		actio_not_ok(message)
+        	};
+       	});
+    };
+
+    function rest_obterPriceTableValue(id, action_ok, action_not_ok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/obterPriceTable?id="  + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data, var1, var2) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };

@@ -531,11 +531,17 @@ function calculaIdade ( dataNascimento ) {
 	        			$("#destinationAgency").append( $(option(optionValue)));
 	        			$("#mainIntersectionDestination").append( $(option(optionValue)));
 	        			$("#subwayDestination").append( $(option(optionValue)));
+	        			$("#mainDestination").append( $(option(optionValue)));
+	        			$("#agencyDestination").append( $(option(optionValue)));
 	    		    });
         }else{
 			$("#destination").append( $(option(localStorage.usuarioCity)));
 			$("#destinationSchool").append( $(option(localStorage.usuarioCity)));
-			$("#destinationAgency").append( $(option(localStorage.usuarioCity)));        	
+			$("#destinationAgency").append( $(option(localStorage.usuarioCity)));   
+			$("#mainIntersectionDestination").append( $(option(localStorage.usuarioCity)));
+			$("#subwayDestination").append( $(option(localStorage.usuarioCity)));
+			$("#mainDestination").append( $(option(localStorage.usuarioCity)));
+			$("#agencyDestination").append( $(option(localStorage.usuarioCity)));
         }
         $.each(table.documento.accommodation
     		    , function (i, optionValue) {

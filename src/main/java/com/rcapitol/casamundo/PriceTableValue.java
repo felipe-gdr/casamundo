@@ -31,11 +31,15 @@ public class PriceTableValue {
 
 	public static final class Documento {
 
+		public String id;
+		public String type;
 		public String idPriceTable;
 		public String agency;
-		public String family;
 		public String destination;
-		public Values values [];
+		public String gross;
+		public String net;
+		public String from;
+		public String to;
 
 		public Documento() {
 
@@ -43,43 +47,31 @@ public class PriceTableValue {
 
 		@JsonCreator
 		public Documento(
+				String id,
+				String type,
 				String idPriceTable,
 				String agency,
-				String family,
 				String destination,
-				Values values[]
+        		String gross,
+        		String net,
+        		String from,
+        		String to
 						) {
-						this.idPriceTable = idPriceTable;  
+						this.id = id;
+						this.type = type;
+						this.idPriceTable = idPriceTable;
 						this.agency = agency; 
-						this.family = family;
 						this.destination = destination;
-						this.values = values; 
+		        		this.gross = gross;
+		        		this.net = net;
+		        		this.from = from;
+		        		this.to = to;
 		}
 
 
 		@Override
 		public String toString() {
 			return new StringBuffer(" IdPriceTable : ").append(this.idPriceTable).toString();
-		}
-
-		public static final class Values {
-    		public Long value;
-    		public String from;
-
-    		public Values() {
-
-			}
-   
-            @JsonCreator
-            public Values(
-            		Long value,
-            		String from
-            			)
-            {
-        		this.value = value;
-        		this.from = from;
-            };
-
 		}
 	}
 } 

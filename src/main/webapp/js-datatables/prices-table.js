@@ -102,20 +102,20 @@
         var objJson = JSON.parse(localStorage.getItem("priceTables"));
         $.each(objJson, function (i, price_table) {
         	price_table_table.row.add( {
-    	    	"name": "<a href='price-table.html?id=" + price_table.id + "'>" +
+    	    	"name": "<a id='" + price_table.id + "' href='price-table.html?id=" + price_table.id + "'>" +
     	    			"<span>" + price_table.name +  "</span></a>",
                 'descricao':'<small class="text-muted">' + price_table.description + '</small>',
                 'valid':'<small class="text-muted">' + price_table.valid + '</small>',
                 'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
                 				'Action <span class="caret"></span></button>' + 
                 					'<ul id="listPriceTable" class="dropdown-menu">' +
-                						"<li'><a id='" + price_table.id + "' data-process='changeitempricetable' data-id='" + price_table.id + " ' data-name='" + price_table.name + "'' data-description='" + price_table.description + "'' data-valid='" + price_table.valid + "'href='#priceModal' data-toggle='modal' >Change</a></li>" +
+                						"<li'><a id='change" + price_table.id + "' data-process='changeitempricetable' data-id='" + price_table.id + "' data-name='" + price_table.name + "'' data-description='" + price_table.description + "'' data-valid='" + price_table.valid + "'href='#priceModal' data-toggle='modal' >Change</a></li>" +
                 					'</ul>' +
-                '</div>'
+                			'</div>'
     	    }).draw( false );
     		// Add event listener for opening and closing details
-    	    $('#' + price_table.id).off('click');
-    	    $('#' + price_table.id).on('click',function(){
+    	    $('#change' + price_table.id).off('click');
+    	    $('#change' + price_table.id).on('click',function(){
     			$("#priceId").val($(this).attr('data-id'));
     			$("#priceName").val($(this).attr('data-name'));
     			$("#priceDescription").val($(this).attr('data-description'));

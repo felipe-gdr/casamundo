@@ -1,7 +1,5 @@
-
-
 	/**
-	 * 		setup dos input do form
+	 * 		setup dos input do form price table
 	 */
 	var $tablesForm = $("#priceModal-form").validate({
 		// Rules for form validation
@@ -70,8 +68,6 @@
 	$('#priceTableInclusao').off('click');
 	$('#priceTableInclusao').on('click', function () {
 		localStorage.priceTableExistente = "false";
-		localStorage.consultants = "[]";
-		carregaInclusaoAgency();
 	});
 
 	$("#priceModal").off('hidden.bs.modal');

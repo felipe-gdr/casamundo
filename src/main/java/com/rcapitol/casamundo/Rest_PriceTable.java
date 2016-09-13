@@ -50,7 +50,7 @@ public class Rest_PriceTable {
 	@Path("/obterPriceTable")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterAgencyName(@QueryParam("id") String idParam ) throws UnknownHostException, MongoException {
+	public JSONObject ObterPriceTable(@QueryParam("id") String idParam ) throws UnknownHostException, MongoException {
 		ObjectId id = new ObjectId(idParam);
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -105,9 +105,10 @@ public class Rest_PriceTable {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response AtualizarDocumento(PriceTable doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
-		ObjectId id = new ObjectId(doc.documento.id);
+		String idString = doc.documento.id;
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
+		ObjectId id = new ObjectId(idString);
 		DBCollection collection = db.getCollection("priceTable");
 		Gson gson = new Gson();
 		String jsonDocumento = gson.toJson(doc);

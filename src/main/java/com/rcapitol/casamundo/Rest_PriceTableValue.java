@@ -45,7 +45,7 @@ public class Rest_PriceTableValue {
 	@Path("/obterPriceTableValue")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterAgencyName(@QueryParam("_id") String idParam, @QueryParam("idPriceTable") String idPriceTable, @QueryParam("agency") String agency, @QueryParam("family") String family, @QueryParam("city") String city ) throws UnknownHostException, MongoException {
+	public JSONObject ObterPriceTableValue(@QueryParam("_id") String idParam, @QueryParam("idPriceTable") String idPriceTable, @QueryParam("agency") String agency, @QueryParam("family") String family, @QueryParam("city") String city ) throws UnknownHostException, MongoException {
 		ObjectId id = new ObjectId(idParam);
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -114,10 +114,11 @@ public class Rest_PriceTableValue {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(PriceTableValue doc, @QueryParam("id") String idParam) throws MongoException, JsonParseException, JsonMappingException, IOException {
-		ObjectId id = new ObjectId(idParam);
+	public Response AtualizarDocumento(PriceTableValue doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+		String idString = doc.documento.id;
 		Mongo mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
+		ObjectId id = new ObjectId(idString);
 		DBCollection collection = db.getCollection("priceTableValue");
 		Gson gson = new Gson();
 		String jsonDocumento = gson.toJson(doc);
@@ -143,7 +144,7 @@ public class Rest_PriceTableValue {
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterPriceTableValues() {
+	public JSONArray ObterPriceTableValues(@QueryParam("idPriceTable") String idPriceTable) throws UnknownHostException, MongoException {
 
 		Mongo mongo;
 		try {
@@ -151,8 +152,11 @@ public class Rest_PriceTableValue {
 			DB db = (DB) mongo.getDB("documento");
 
 			DBCollection collection = db.getCollection("priceTableValue");
-			
-			DBCursor cursor = collection.find();
+			BasicDBObject setQuery = new BasicDBObject();
+			if (idPriceTable != null){
+		    	setQuery.put("documento.idPriceTable", idPriceTable);
+			};			
+			DBCursor cursor = collection.find(setQuery);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
@@ -163,11 +167,26 @@ public class Rest_PriceTableValue {
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
 					jsonDocumento.put("_id", objStudent.getString("_id"));
+					jsonDocumento.put("type", jsonObject.get("type"));
 					jsonDocumento.put("idPriceTable", jsonObject.get("idPriceTable"));
-					jsonDocumento.put("agency", jsonObject.get("agency"));
-					jsonDocumento.put("family", jsonObject.get("family"));
-					jsonDocumento.put("city", jsonObject.get("city"));
-					jsonDocumento.put("values", jsonObject.get("values"));
+					jsonDocumento.put("agencyId", jsonObject.get("agency"));
+					jsonDocumento.put("destination", jsonObject.get("destination"));
+					jsonDocumento.put("from", jsonObject.get("from"));
+					jsonDocumento.put("to", jsonObject.get("to"));
+					jsonDocumento.put("gross", jsonObject.get("gross"));
+					jsonDocumento.put("net", jsonObject.get("net"));
+					String agencyId = (String) jsonObject.get("agency");
+					if (agencyId != null && !agencyId.equals("")){
+						ObjectId objectIdAgency = new ObjectId(agencyId);
+						Mongo mongoAgency = new Mongo();
+						DB dbAgency = (DB) mongoAgency.getDB("documento");
+						DBCollection collectionAgency = dbAgency.getCollection("agency");
+						BasicDBObject searchQueryAgency = new BasicDBObject("_id", objectIdAgency);
+						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
+						BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+						jsonDocumento.put("agency", obj.get("name"));
+						mongoAgency.close();
+					};
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {

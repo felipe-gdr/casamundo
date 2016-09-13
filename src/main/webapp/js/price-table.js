@@ -11,7 +11,7 @@
 	/**
 	 * 		carrega tabelas
 	 */
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
 	//
 	//***   chamar tela de alteração com o student da pagina
@@ -23,8 +23,16 @@
 /**
  * 
  */
+	$("#priceValueMainIdPriceTable").val(id);
+	$("#priceValueAgencyIdPriceTable").val(id);
 	
+	/**
+	 * 
+	 */
 	var data = rest_obterPriceTable(id, carregaTelaPriceTable, obtencaoNaoEfetuada, "consulta");
+	rest_obterPriceTableValueAll(id, carregaTableValueMain , semAcao);
+	rest_obterPriceTableValueAll(id, carregaTableValueAgency, semAcao);
+
 	var table = JSON.parse(localStorage.getItem("table"));
+
 		    
-    
