@@ -95,7 +95,7 @@
         $.each(objJson, function (i, price_table) {
         	if (price_table.type == "agency"){
 	        	price_table_values_agency.row.add( {
-	    	    	"interval": "<a id='" + price_table._id + "' href='#priceValueMainModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
+	    	    	"interval": "<a id='" + price_table._id + "' href='#priceValueAgencyModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
 									"<span class='hide'>" + (separaAnoMesDia(price_table.from)) +  "</span>" +
 									"<span>From: " + (separaDataMes(price_table.from, "/")) +  "</span><br>" +
 									"<span>To: " + (separaDataMes(price_table.to, "/")) +  "</span>" +
@@ -107,14 +107,16 @@
 	    	    }).draw( false );
 	    	    $('#' + price_table._id).off('click');
 	    	    $('#' + price_table._id).on('click',function(){
-	    			$("#priceValueMainId").val(price_table._id);
+	    			$("#priceValueAgencyId").val(price_table._id);
 	    			$("#priceValueMainIdPriceTable").val(price_table.idPriceTable);
-	    			$("#mainFrom").val(price_table.from);
-	    			$("#mainTo").val(price_table.to);
-	    			$("#mainDestination").val(price_table.destination);
-	    			$("#mainGross").val(price_table.gross);
-	    			$("#mainNet").val(price_table.net);
-	    			localStorage.priceValueMainExistente = "true";
+	    			$("#agencyFrom").val(price_table.from);
+	    			$("#agencyTo").val(price_table.to);
+	    			$("#agencyDestination").val(price_table.destination);
+	    			$("#agencyName").val(price_table.agency);
+	    			$("#agencyId").val(price_table.agencyId);
+	    			$("#agencyGross").val(price_table.gross);
+	    			$("#agencyNet").val(price_table.net);
+	    			localStorage.priceValueAgencyExistente = "true";
 	    	    });
         	};
         });

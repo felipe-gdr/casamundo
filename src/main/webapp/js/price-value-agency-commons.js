@@ -1,13 +1,16 @@
 	/**
 	 * 		setup dos input do form price table
 	 */
-	var $tablesForm = $("#priceValueAgencyModal-form").validate({
+	var $tablesFormAgency = $("#priceValueAgencyModal-form").validate({
 		// Rules for form validation
 		rules : {
 			from : {
 				required : true,
 			},
 			to : {
+				required : true,
+			},
+			agency : {
 				required : true,
 			},
 			gross : {
@@ -25,6 +28,9 @@
 			},
 			to : {
 				required : 'Please enter to interval ',
+			},
+			agency : {
+				required : 'Please enter agency',
 			},
 			gross : {
 				required : 'Please enter gross value ',

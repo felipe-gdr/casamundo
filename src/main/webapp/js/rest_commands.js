@@ -220,7 +220,7 @@
 
     };
 
-    function rest_obterAgencyAll(action_ok) {
+    function rest_obterAgencyAll(action_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/agency/lista",
             contentType: "application/json; charset=utf-8",
@@ -228,11 +228,11 @@
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data);
+    		action_ok(data, var1, var2);
     	})
-    	.fail(function(data) {
+    	.fail(function(data, var1, var2) {
     	})
-    	.always(function(data) {
+    	.always(function(data, var1, var2) {
     	});
     };
     

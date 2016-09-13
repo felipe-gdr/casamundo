@@ -1,7 +1,7 @@
 	/**
 	 * 		setup dos input do form price table
 	 */
-	var $tablesForm = $("#priceValueMainModal-form").validate({
+	var $tablesFormMain = $("#priceValueMainModal-form").validate({
 		// Rules for form validation
 		rules : {
 			from : {
@@ -90,6 +90,7 @@
 		$("#mainFrom").val("");
 		$("#mainTo").val("");
 		$("#mainDestination").val("");
+		$("#mainAgency").val("");
 		$("#mainGross").val("");
 		$("#mainNet").val("");
 	 });

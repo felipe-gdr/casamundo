@@ -604,13 +604,35 @@ function calculaIdade ( dataNascimento ) {
         
         localStorage.carragendoTags = false;
     };    
+
+    function carregaSelectAgencies(data, usaId) {
+        $.each(data
+    		    , function (i, optionValue) {
+        			$("#agencyName").append( $(option(optionValue.name, "", usaId, optionValue._id)));
+        });
+    };
+
+    function carregaSelectSchool(data) {
+        $.each(data
+    		    , function (i, optionValue) {
+        			$("#schoolName").append( $(option(optionValue.name)));
+        });
+    };
         
-    function option(value, selectValue) {
-    	if (value == selectValue){
-    		return '<option value="' + value + '" selected="selected">' + value +'</option>';
+    function option(value, selectValue, usaId, id) {
+    	if (usaId){
+	    	if (value == selectValue){
+	    		return '<option value="' + id + '" selected="selected">' + value +'</option>';
+	    	}else{
+	    		return '<option value="' + id + '">' + value +'</option>';
+	    	}
     	}else{
-    		return '<option value="' + value + '">' + value +'</option>';
-    	}
+	    	if (value == selectValue){
+	    		return '<option value="' + value + '" selected="selected">' + value +'</option>';
+	    	}else{
+	    		return '<option value="' + value + '">' + value +'</option>';
+	    	}
+    	};
     };
     function checkbox(value, field) {
     	return '<label class="checkbox"><input type="checkbox" id="' + field +'" name="' + field +'"><i></i>' + value +'</label>';

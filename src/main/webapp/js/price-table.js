@@ -12,6 +12,7 @@
 	 * 		carrega tabelas
 	 */
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
+	rest_obterAgencyAll(carregaSelectAgencies, true);
 
 	//
 	//***   chamar tela de alteração com o student da pagina

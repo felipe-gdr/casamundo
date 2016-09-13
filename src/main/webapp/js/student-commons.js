@@ -214,20 +214,6 @@ function carregaDadosSchool(data, consult, consultName) {
 	localStorage.longitudeSchool = data.documento.longitude;
 };
 
-function carregaSelectAgencies(data) {
-    $.each(data
-		    , function (i, optionValue) {
-    			$("#agencyName").append( $(option(optionValue.name)));
-    });
-};
-
-function carregaSelectSchool(data) {
-    $.each(data
-		    , function (i, optionValue) {
-    			$("#schoolName").append( $(option(optionValue.name)));
-    });
-};
-
 /**
  * 
  */
