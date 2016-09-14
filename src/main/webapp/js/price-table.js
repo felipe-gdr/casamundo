@@ -30,7 +30,7 @@
 	/**
 	 * 
 	 */
-	var data = rest_obterPriceTable(id, carregaTelaPriceTable, obtencaoNaoEfetuada, "consulta");
+	var data = rest_obterPriceTable(id, carregaTelaPriceTable, obtencaoNaoEfetuada);
 	rest_obterPriceTableValueAll(id, carregaTableValueMain , semAcao);
 	rest_obterPriceTableValueAll(id, carregaTableValueAgency, semAcao);
 

@@ -160,13 +160,13 @@ public class Rest_PriceTableValue {
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
-				BasicDBObject objStudent = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-				String documento = objStudent.getString("documento");
+				BasicDBObject objPriceValue = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				String documento = objPriceValue.getString("documento");
 				try {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("_id", objStudent.getString("_id"));
+					jsonDocumento.put("_id", objPriceValue.getString("_id"));
 					jsonDocumento.put("type", jsonObject.get("type"));
 					jsonDocumento.put("idPriceTable", jsonObject.get("idPriceTable"));
 					jsonDocumento.put("agencyId", jsonObject.get("agency"));
@@ -188,7 +188,6 @@ public class Rest_PriceTableValue {
 						mongoAgency.close();
 					};
 					documentos.add(jsonDocumento);
-					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

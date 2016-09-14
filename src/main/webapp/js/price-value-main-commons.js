@@ -51,6 +51,9 @@
 				if (field.name == "id"){
 					id = field.value;
 				}
+				if (field.name == "from" | field.name == "to"){
+					value = limpaData(value)
+				}
 				if (field.value){
 					objJson.documento[field.name] = value;
 				};
@@ -102,7 +105,7 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+			$('#mainTo').datepicker('option', 'minDate', selectedDate);
 			}
 	});
 
@@ -114,9 +117,12 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+//			$('#mainFrom').datepicker('option', 'minDate', selectedDate);
 			}
 	});
+	
+	$('#mainGross').maskMoney({thousands:'', decimal:'.', allowZero:true});
+	$('#mainNet').maskMoney({thousands:'', decimal:'.', allowZero:true});
 
  function fechaModalPriceValueMain () {
 	$("#priceValueMainModal").modal('hide');

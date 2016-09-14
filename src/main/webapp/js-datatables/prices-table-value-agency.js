@@ -112,7 +112,7 @@
 	    			$("#agencyFrom").val(price_table.from);
 	    			$("#agencyTo").val(price_table.to);
 	    			$("#agencyDestination").val(price_table.destination);
-	    			$("#agencyName").val(price_table.agency);
+	    			$("#agencyName").val(price_table.agencyId);
 	    			$("#agencyId").val(price_table.agencyId);
 	    			$("#agencyGross").val(price_table.gross);
 	    			$("#agencyNet").val(price_table.net);

@@ -57,6 +57,10 @@
 				if (field.name == "id"){
 					id = field.value;
 				}
+				if (field.name == "from" | field.name == "to"){
+					value = limpaData(value)
+				}
+				
 				if (field.value){
 					objJson.documento[field.name] = value;
 				};
@@ -107,7 +111,7 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+			$('#agencyTo').datepicker('option', 'minDate', selectedDate);
 			}
 	});
 
@@ -119,10 +123,13 @@
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+//			$('#agencyFrom').datepicker('option', 'minDate', selectedDate);
 			}
 	});
-
+	
+	$('#agencyGross').maskMoney({thousands:'', decimal:'.', allowZero:true});
+	$('#agencyNet').maskMoney({thousands:'', decimal:'.', allowZero:true});
+	
  function fechaModalPriceValueAgency () {
 	$("#priceValueAgencyModal").modal('hide');
 	

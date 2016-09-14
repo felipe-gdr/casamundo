@@ -640,9 +640,9 @@
     	});
     };
 
-    function rest_obterPriceTableAll(action_ok, action_notok, var1, var2) {
+    function rest_obterPriceTableAll(action_ok, action_notok, date, agency, destination, var1, var2) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/lista",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/lista?date="  + date + "&agency="  + agency + "&destination="  + destination,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
@@ -721,7 +721,7 @@
 
     function rest_obterPriceTableValueAll(idPriceTable, action_ok, action_notok, var1, var2) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/lista?id="  + idPriceTable,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/lista?idPriceTable="  + idPriceTable,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false

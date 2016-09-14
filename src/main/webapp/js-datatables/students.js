@@ -250,6 +250,7 @@
             };
 		    
 	        var actions = "";
+	        var invoices = "";
 	        var actualTrip = student.actualTrip;
 	        var emailStudent = student.mail;
 		    var accommodation = "Not yet acomodate";
@@ -266,6 +267,7 @@
     			"<small class='text-muted text-column'><i>Email: " + student.familyContact.email +  "<i></small><br></a>";
 		    };
 	        var familyName = student.trip.familyName;
+        	invoices = "<li><a href='create-invoice.html?mail=" + student.mail + "&typePage=create'>Create invoice</a></li>";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator"){
 		        if (student.trip.status == "Available"){
 		        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
@@ -348,10 +350,17 @@
     	    				"<small class='text-muted text-column'>" + student.trip.mealPlan + "</small>&nbsp;&nbsp;" +
     	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",    	    				
        	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
-    			'<ul id="listStudent" class="dropdown-menu">' +
-    				actions +
-    			'</ul></div>'
+                'actions': 
+                	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+	    				'<ul id="listStudent" class="dropdown-menu">' +
+	    					actions +
+	    				'</ul>' +
+	    			'</div>&nbsp;&nbsp;&nbsp;&nbsp;' + 
+                	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Invoice <span class="caret"></span></button>' +
+	    				'<ul id="listStudent" class="dropdown-menu">' +
+	    					invoices +
+	    				'</ul>' +
+	    			'</div>' 
     	    }).draw( false );
         });
         

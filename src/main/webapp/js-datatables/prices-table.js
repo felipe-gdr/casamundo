@@ -11,7 +11,7 @@
     /**
 	 * 				obter os dados
 	 */
-	rest_obterPriceTableAll(carregaPriceTable, semAcao);
+	rest_obterPriceTableAll(carregaPriceTable, semAcao, null, null, null);
 
     
     /* Formatting function for row details - modify as you need */

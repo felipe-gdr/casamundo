@@ -144,13 +144,13 @@ public class Rest_Agency {
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
-				BasicDBObject objStudent = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-				String documento = objStudent.getString("documento");
+				BasicDBObject objAgency = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				String documento = objAgency.getString("documento");
 				try {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("_id", objStudent.getString("_id"));
+					jsonDocumento.put("_id", objAgency.getString("_id"));
 					jsonDocumento.put("name", jsonObject.get("name"));
 					jsonDocumento.put("agencyPhone", jsonObject.get("agencyPhone"));
 					jsonDocumento.put("agencyEmail", jsonObject.get("agencyEmail"));

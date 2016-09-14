@@ -80,26 +80,9 @@
 
 function carregaTelaPriceTable(data, tipo) {
 	
-
-	if (tipo == "consulta"){
-	//
-	// **** carrega tela consulta
-	//
-		$("#name").html(data.documento.name);
-		$("#description").html(data.documento.description);	
-		$("#valid").html(data.documento.valid);
-	};	
-
-	if (tipo == "alteracao"){
-		//
-		// **** carrega tela alteração
-		//
-		$("#name").val(data.documento.name);
-		$("#description").val(data.documento.description);	
-		if (data.documento.valid == "Yes"){
-			$("#valid").prop("checked", true)
-		};
-	};
+	$("#name").html(data.documento.name);
+	$("#description").html(data.documento.description);	
+	$("#valid").html(data.documento.valid);
 	
 	localStorage.setItem("pricetable", JSON.stringify(data));
 };    
