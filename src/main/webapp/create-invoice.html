@@ -120,7 +120,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-6 body-background-color-student">
+	<body class="smart-style-6 body-background-color-invoice">
 
   <!-- Cabeçalho-->
 		<!-- HEADER -->
@@ -537,8 +537,11 @@
 												</div>
 												<div class="col-xs-5">
 													<div class="col-xs-12">
-														<fieldset ">					
-													        <small class='text-muted'>Total: </small><small  class='text-primary text-right' id="totalValue"  data-original-title="Total value">0,00</small>
+														<fieldset class="net">					
+													        <small class='text-bold'>Total net: </small><small  class='text-primary text-right' id="totalValue"  data-original-title="Total value">0,00</small>
+														</fieldset>
+														<fieldset class="gross hide">					
+													        <small class='text-bold'>Total gross: </small><small  class='text-primary text-right' id="totalValueGross"  data-original-title="Total gross value">0,00</small>
 														</fieldset>
 													</div>
 													<div class="col-xs-12">

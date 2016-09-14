@@ -41,7 +41,11 @@
 		$(".notChange" ).addClass("hide");
 		$(".caretaker" ).removeClass("hide");
 	};
+/**
+ *     Guarda o primeiro item do due date 
+ */
 	
+	localStorage.primeiroDue = 0;
 /**
  * 
  */
@@ -49,42 +53,16 @@
 	var table = JSON.parse(localStorage.getItem("table"));
     var actualTrip = getValueStudent("actualTrip");	    
 
-/*
-	  		setup dos input do form
-	var $tablesForm = $("#invoice-form").validate({
-		// Rules for form validation
-		rules : {
-		},
-
-		// Messages for form validation
-		messages : {
-		},
-		// form submition
-		submitHandler : function(form) {
-			limpaStorageInvoice();
-			var objJson = JSON.parse(localStorage.getItem("invoice"));
-			$.each(form
-			    , function (i, field) {
-				if (field.value){
-//			        objJson.documento[field.name] = field.value;
-				};
-			});
-			localStorage.setItem("invoice", JSON.stringify(objJson));
-			retornaInvoice();
-		},	
-		// Do not change code below
-		errorPlacement : function(error, element) {
-			error.insertAfter(element.parent());
-			$.smallBox({
-				title : "Error",
-				content : "<i class='fa fa-clock-o'></i> <i>There is a error</i>",
-				color : "#ff8080",
-				iconSmall : "fa fa-check fa-2x fadeInRight animated",
-				timeout : 4000
-			});
+	$('#type').off('click');
+	$('#type').on('click', function () {
+		if ($(this).is(':checked')){
+			$(".net").addClass("hide");
+			$(".gross").removeClass("hide");
+		}else{
+			$(".gross").addClass("hide");
+			$(".net").removeClass("hide");			
 		}
 	});
-*/
 	
 	$('#invoiceSubmmit').off('click');
 	$('#invoiceSubmmit').on('click', function () {
@@ -132,7 +110,7 @@
 			if (!$('#due_' + i).val()){
 				$.smallBox({
 					title : "Error",
-					content : "<i class='fa fa-clock-o'></i> <i>Missing due</i>",
+					content : "<i class='fa fa-clock-o'></i> <i>Missing due date</i>",
 					color : "#ff8080",
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
@@ -283,11 +261,11 @@ function retornaInvoice(){
 function createItem(i, date, agency, destination, type){
 	
 	var item = 
-		'<div id="item_' + i + '" class="row item">' +
+		'<div id="item_' + i + '" class="row item net">' +
 			'<section class="col-xs-4">' +
 				'<label class="label text-info">Item</label>' +							
 				'<label class="select">' +
-					'<select id="itemName_' + i + '" name="itemName_' + i + '">' +
+					'<select class="iteName' + i + '" id="itemName_' + i + '" name="itemName_' + i + '">' +
 						'<option value="" selected="" disabled="">Choose one item</option>' +
 					'</select><i></i>' +
 				'</label>' +
@@ -296,7 +274,7 @@ function createItem(i, date, agency, destination, type){
 			'<section class="col-xs-2">' +
 				'<label class="label text-info">Value</label>' +								
 				'<label class="input">' +
-					'<input class="text-right" type="text" id="itemValue_' + i + '" name="itemValue_' + i + '" placeholder="ex: 9999.99" >' +
+					'<input class="text-right itemValue" type="text" id="itemValue_' + i + '" name="itemValue_' + i + '" placeholder="ex: 9999.99" >' +
 				'</label>' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
@@ -308,68 +286,103 @@ function createItem(i, date, agency, destination, type){
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-1">' +
-				'<a id="newItem_' + i + '"  class=""><i class="glyphicon glyphicon-plus"></i></a>' +
+				'<a id="newItem_' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
 			'</section>' +
 			'<section class="col-xs-1">' +
-				'<a id="delItem_' + i + '"  class=""><i class="glyphicon glyphicon-minus"></i></a>' +
+				'<a id="delItem_' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
+			'</section>' +
+		'</div>' +
+		'<div id="itemGross_' + i + '" class="row itemGross hide gross">' +
+			'<section class="col-xs-4">' +
+				'<label class="label text-info">Item</label>' +							
+				'<label class="select">' +
+					'<select class="itemName' + i + '" id="itemNameGross_' + i + '" name="itemNameGross_' + i + '">' +
+						'<option value="" selected="" disabled="">Choose one item</option>' +
+					'</select><i></i>' +
+				'</label>' +
+			'</section>' +
+			'<section class="col-xs-1"></section>' +
+			'<section class="col-xs-2">' +
+				'<label class="label text-info">Value</label>' +								
+				'<label class="input">' +
+					'<input class="text-right itemValue" type="text" id="itemValueGross_' + i + '" name="itemValueGross_' + i + '" placeholder="ex: 9999.99" >' +
+				'</label>' +
+			'</section>' +
+			'<section class="col-xs-1"></section>' +
+			'<section class="col-xs-1">' +
+				'<label class="label text-info">Amount</label>' +								
+				'<label class="input">' +
+					'<input value="1.00" class="text-right itemAmount" type="text" id="itemAmountGross_' + i + '" name="itemAmountGross_' + i + '" placeholder="ex: 99.99" >' +
+				'</label>' +
+			'</section>' +
+			'<section class="col-xs-1"></section>' +
+			'<section class="col-xs-1">' +
+				'<a id="newItemGross_' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
+			'</section>' +
+			'<section class="col-xs-1">' +
+				'<a id="delItemGross_' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
 			'</section>' +
 		'</div>';
 	
 	$("#itensInvoice").append(item);
 
-	if (i == 0){
-		$("#delItem_0").addClass("hide");
-	};
+	acertaSinalItem ();
 	
 	$('#newItem_' + i).off('click');
 	$('#newItem_' + i).on('click', function () {
 		createItem (i + 1, date, agency, destination, type);
-		$('#newItem_' + i).addClass('hide');
-		$('#delItem_' + i).removeClass("hide");
+		acertaSinalItem ()
 	});
 	
+	$('#newItemGross_' + i).off('click');
+	$('#newItemGross_' + i).on('click', function () {
+		createItem (i + 1, date, agency, destination, type);
+		acertaSinalItem ()
+	});
+
 	$('#delItem_' + i).off('click');
 	$('#delItem_' + i).on('click', function () {
 		$('#item_' + i).remove();
+		$('#itemGross_' + i).remove();
+		acertaSinalItem ()
+		calcTotal();
+	});
+
+	$('#delItemGross_' + i).off('click');
+	$('#delItemGross_' + i).on('click', function () {
+		$('#item_' + i).remove();
+		$('#itemGross_' + i).remove();
+		acertaSinalItem ()
 		calcTotal();
 	});
 
 	$('#itemValue_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 	$('#itemAmount_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
+	$('#itemValueGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
+	$('#itemAmountGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 
 	$('#itemValue_' + i).off('blur');
 	$('#itemValue_' + i).on('blur', function () {
 		calcTotal();
 	});	
+
+	$('#itemValueGross_' + i).off('blur');
+	$('#itemValueGross_' + i).on('blur', function () {
+		calcTotal();
+	});	
 	
 	$('#itemAmount_' + i).off('blur');
 	$('#itemAmount_' + i).on('blur', function () {
+		$('#itemAmountGross_' + i).val($('#itemAmount_' + i).val())
+		calcTotal();
+	});	
+	
+	$('#itemAmountGross_' + i).off('blur');
+	$('#itemAmountGross_' + i).on('blur', function () {
+		$('#itemAmount_' + i).val($('#itemAmountGross_' + i).val())
 		calcTotal();
 	});	
 
-/*
-	$("#invoice-form").validate();
-	$('#itemName_' + i).rules( "add", {
-		  required: true,
-		  messages: {
-		    required: "Required input",
-		  }
-	});
-	$("#invoice-form").validate();
-	$('#itemValue_' + i).rules( "add", {
-		  required: true,
-		  messages: {
-		    required: "Required input",
-		  }
-	});
-	$("#invoice-form").validate();
-	$('#itemAmount_' + i).rules( "add", {
-		  required: true,
-		  messages: {
-		    required: "Required input",
-		  }
-	});
-*/
 	rest_obterPriceTableAll(carregaAppendPriceTable, semAcao, date, agency, destination, i, type);
 };	
 	
@@ -378,17 +391,21 @@ function carregaAppendPriceTable (data, i, type){
     $.each(data
 		    , function (w, optionValue) {
     			if (optionValue.valid == "Yes" && optionValue.gross && optionValue.net){
-    				if (type == "gross"){
-    					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.gross)));
-    				}else{
-    					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.net)));
-    				}
+   					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross)));
+   					$('#itemNameGross_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross)));
     			};
     });
-    
-	
+    	
 	$('#itemName_' + i).change(function() {
-		$('#itemValue_' + i).val($( this ).val());
+		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
+		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
+		$('#itemNameGross_' + i).val($('#itemName_' + i).val())
+		calcTotal();
+	});
+	$('#itemNameGross_' + i).change(function() {
+		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
+		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
+		$('#itemName_' + i).val($('#itemNameGross_' + i).val())
 		calcTotal();
 	});
 
@@ -398,9 +415,9 @@ function carregaAppendPriceTable (data, i, type){
 function createDue(i){
 	
 	var item = 
-		'<div id="dueItem_' + i + '"class="row due">' +
+		'<div id="dueItem_' + i + '"class="row dueItem net">' +
 			'<section class="col-xs-3">' +
-				'<label class="label text-info">Installment</label>' +								
+				'<label class="label text-info">Due date</label>' +								
 				'<label class="input">' +
 					'<input id="due_' + i + '" type="text" name="due_' + i + '" placeholder="" class="datepicker form-control" data-dateformat="dd-M-yy" >' +	
 				'</label>' +
@@ -419,15 +436,34 @@ function createDue(i){
 			'<section class="col-xs-1">' +
 				'<a id="delDue_' + i + '"  class=""><i class="glyphicon glyphicon-minus"></i></a>' +
 			'</section>' +
+		'</div>' +
+		'<div id="dueItemGross_' + i + '" class="row dueItemGross hide gross">' +
+			'<section class="col-xs-3">' +
+				'<label class="label text-info">Due date</label>' +								
+				'<label class="input">' +
+					'<input id="dueGross_' + i + '" type="text" name="dueGross_' + i + '" placeholder="" class="datepicker form-control" data-dateformat="dd-M-yy" >' +	
+				'</label>' +
+			'</section>' +
+			'<section class="col-xs-1"></section>' +
+			'<section class="col-xs-3">' +
+				'<label class="label text-info">Value</label>' +								
+				'<label class="input">' +
+					'<input class="text-right dueValue disable" type="text" id="dueValueGross_' + i + '" name="dueValueGross_' + i + '" placeholder="" >' +
+				'</label>' +
+			'</section>' +
+			'<section class="col-xs-1"></section>' +
+			'<section class="col-xs-1">' +
+				'<a id="newDueGross_' + i + '"  class=""><i class="glyphicon glyphicon-plus"></i></a>' +
+			'</section>' +
+			'<section class="col-xs-1">' +
+				'<a id="delDueGross_' + i + '"  class=""><i class="glyphicon glyphicon-minus"></i></a>' +
+			'</section>' +
 		'</div>';
 
 	$("#dues").append(item);
 
 	$('#dueValue_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-
-	if (i == 0){
-		$("#delDue_0").addClass("hide");
-	};
+	$('#dueValueGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 
 	$('#due_' + i).datepicker({
 	    changeMonth: true,
@@ -436,30 +472,121 @@ function createDue(i){
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		onSelect : function(selectedDate) {
+			$('#dueGross_' + i).val($(this).val())
 			if (i > 0){
-				$('#due' + (i-1)).datepicker('option', 'maxDate', selectedDate);
+				$('#due_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
+				$('#dueGross_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
 			};
 		}
 	});
 
+	$('#dueGross_' + i).datepicker({
+	    changeMonth: true,
+	    changeYear: true,
+	    dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+			$('#due_' + i).val($(this).val())
+			if (i > 0){
+				$('#due_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
+				$('#dueGross_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
+			};
+		}
+	});
+
+	acertaSinalDue ();
+	
 	$('#newDue_' + i).off('click');
 	$('#newDue_' + i).on('click', function () {
 		createDue (i + 1);
-		$('#newDue_' + i).addClass('hide');
-		$("#delDue_0").removeClass("hide");
+		acertaSinalDue ()
 	});
 
+
+	$('#newDueGross_' + i).off('click');
+	$('#newDueGross_' + i).on('click', function () {
+		createDue (i + 1);
+		acertaSinalDue ()
+	});
+
+	$('#delDue_' + i).off('click');
+	$('#delDue_' + i).on('click', function () {
+		$('#dueItem_' + i).remove();
+		$('#dueItemGross_' + i).remove();
+		acertaSinalDue ()
+	});
+
+	$('#delDueGross_' + i).off('click');
+	$('#delDueGross_' + i).on('click', function () {
+		$('#dueItem_' + i).remove();
+		$('#dueItemGross_' + i).remove();
+		acertaSinalDue ()
+	});
 };
 
 function calcTotal(){
 	var total = 0;
-	$(".item").each(function() {
+	var totalGross = 0;
+	$(".item").each(function(w) {
 		var id = $(this).attr('id');
 		var i = id.split("_")[1];
 		total = parseFloat(total) + ((parseFloat($('#itemValue_' + i).val()) * parseFloat($('#itemAmount_' + i).val())));
+		totalGross = parseFloat(totalGross) + ((parseFloat($('#itemValueGross_' + i).val()) * parseFloat($('#itemAmountGross_' + i).val())));
 	});
 	
-	$('#totalValue').html(total.toFixed(2));
-	$('#dueValue_0').val(total.toFixed(2));
+	if (total){
+		$('#totalValue').html(total.toFixed(2));
+		$('#dueValue_' + localStorage.primeiroDue).val(total.toFixed(2));
+	};
+	if (totalGross){
+		$('#totalValueGross').html(totalGross.toFixed(2));
+		$('#dueValueGross_' + localStorage.primeiroDue).val(totalGross.toFixed(2));
+	};	
+};
+
+function acertaSinalItem (){
+	var ultimoItem = 0;
+	$(".item").each(function() {
+		var id = $(this).attr('id');
+		var i = id.split("_")[1];
+		$("#delItem_" + i).removeClass("hide");
+		$("#delItemGross_" + i).removeClass("hide");
+		$("#newItem_" + i).addClass("hide");
+		$("#newItemGross_" + i).addClass("hide");
+		ultimoItem = i;
+	});
+	$("#newItem_" + ultimoItem).removeClass("hide");
+	$("#newItemGross_" + ultimoItem).removeClass("hide");
+	if ($(".item").length == 1){
+		$("#delItem_" + ultimoItem).addClass("hide");
+		$("#delItemGross_" + ultimoItem).addClass("hide");
+	};
+}
+
+function acertaSinalDue (){
+	var ultimoItem = 0;
+	localStorage.primeiroDue = 0;
+	$(".dueItem").each(function(w) {
+		var id = $(this).attr('id');
+		var i = id.split("_")[1];
+		if (w == 0){
+			localStorage.primeiroDue = i;
+		};
+		$("#delDue_" + i).removeClass("hide");
+		$("#delDueGross_" + i).removeClass("hide");
+		$("#newDue_" + i).addClass("hide");
+		$("#newDueGross_" + i).addClass("hide");
+		$("#dueValue_" + i).val("");
+		$("#dueValueGross_" + i).val("");
+		ultimoItem = i;
+	});
+	$("#newDue_" + ultimoItem).removeClass("hide");
+	$("#newDueGross_" + ultimoItem).removeClass("hide");
+	if ($(".dueItem").length == 1){
+		$("#delDue_" + ultimoItem).addClass("hide");
+		$("#delDueGross_" + ultimoItem).addClass("hide");
+	};
 	
+	calcTotal();
 }
