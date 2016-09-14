@@ -182,8 +182,11 @@ function carregaDadosAgency(data, consult, consultName) {
     		$("#agencyConsultMobile").html(consultants.celPhone);
     		$("#agencyConsultPhone").html(consultants.phone);
     		$("#agencyConsultEmail").html(consultants.email);
+    		$("#agencyConsultName").html(consultants.name);
     	};
-    	$("#agencyConsultName").append( $(option(consultants.name)));
+    	if (!consult){
+    		$("#agencyConsultName").append( $(option(consultants.name)));
+    	};
     });
 	$("#agencyPhone").html(data.documento.agencyPhone);
 	$("#agencyEmail").html(data.documento.agencyEmail);
