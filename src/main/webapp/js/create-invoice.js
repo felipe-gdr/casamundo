@@ -53,6 +53,9 @@
 	var table = JSON.parse(localStorage.getItem("table"));
     var actualTrip = getValueStudent("actualTrip");	    
 
+/**
+ * 
+ */
 	$('#type').off('click');
 	$('#type').on('click', function () {
 		if ($(this).is(':checked')){
@@ -62,6 +65,33 @@
 			$(".gross").addClass("hide");
 			$(".net").removeClass("hide");			
 		}
+	});
+	
+/**
+ * 
+ */
+	var doc = new jsPDF();
+	var specialElementHandlers = {
+	    '#editor': function (element, renderer) {
+	        return true;
+	    }
+	};
+	$('#geraPDF').click(function () {
+		html2canvas($("#div-pdf"), {
+	        onrendered: function(canvas) {
+	        	return Canvas2Image.saveAsPNG(canvas);
+	        }
+	    });
+		/*		html2canvas(document.getElementById("testepdf"),{
+			onrendered: function (canvas){
+				var img = canvas.toDataURL("image/png");
+				window.open(img);
+				var doc = new jsPDF();
+				doc.addImage (img, JPEG, 100, 100);
+			    doc.save('invoice_' + mailUrl + '.pdf');				
+			}
+		})
+*/
 	});
 	
 	$('#invoiceSubmmit').off('click');

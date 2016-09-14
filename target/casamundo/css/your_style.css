@@ -340,6 +340,97 @@ Finance
 	background-color: #c4ffc4!important;
 }
 
+/*
+invoice
+*/
+
+
+.body-background-color-invoice{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .well{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice footer{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice input{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice fieldset{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .jarviswidget{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .jarviswidget div{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .jarviswidget header{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice select{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice label{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice textarea{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .widget-body{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice th{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice tr{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice td{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .dt-toolbar{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .dt-toolbar-footer{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .modal-dialog{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .modal-content{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .modal-header{
+	background-color: #ffffff!important;
+}
+
+.body-background-color-invoice .modal-body{
+	background-color: #ffffff!important;
+}
+
+
+
 .miniDasboard{
 	background-color: #ffb66c!important;
 	padding-top: 2%;
