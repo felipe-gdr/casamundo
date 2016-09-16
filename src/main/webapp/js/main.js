@@ -365,6 +365,73 @@ function calculaIdade ( dataNascimento ) {
 	 return idade;
 	};				
 
+	function calculaData (date, days, weekDay ) {
+
+		date1 = separaConverteDataMes(date, "/").split("/");
+		 
+		var newDate = new Date(date1[1]+"/"+date1[0]+"/"+date1[2]);
+		 
+		newDate.setDate(newDate.getDate() + days);
+		
+		if (newDate.getDay() == 0){
+			newDate.setDate(newDate.getDate() + 1);	
+		};
+		if (newDate.getDay() == 7){
+			newDate.setDate(newDate.getDate() + 2);	
+		};
+
+		return newDate.getDate() + "-" + converteMesAlfa(newDate.getMonth()) + "-" + newDate.getFullYear();
+
+	};
+	
+	function converteMesAlfa ( mesNum) {
+		if (mesNum){
+			switch(mesNum) {
+		    case 0:
+		    	mesAlfa = "Jan"
+		        break;
+		    case 1:
+		    	mesAlfa = "Feb"
+		        break;
+		    case 2:
+		    	mesAlfa = "Mar"
+		        break;
+		    case 3:
+		    	mesAlfa = "Apr"
+		        break;
+		    case 4:
+		    	mesAlfa = "May"
+		        break;
+		    case 5:
+		    	mesAlfa = "Jun"
+		        break;
+		    case 6:
+		    	mesAlfa = "Jul"
+		        break;
+		    case 7:
+		    	mesAlfa = "Ago"
+		        break;
+		    case 8:
+		    	mesAlfa = "Sep"
+		        break;
+		    case 9:
+		    	mesAlfa = "Oct"
+		        break;
+		    case 10:
+		    	mesAlfa = "Nov"
+		        break;
+		    case 11:
+		    	mesAlfa = "Dec"
+		        break;
+		    default:
+		    	mesAlfa = "Jan"
+			};
+			return mesAlfa;
+		}else{
+			return "Jan";
+		}
+	};
+
 	function calculaDias (dateStart, dateEnd ) {
 		date1 = dateStart.split("/");
 		date2 = dateEnd.split("/");		 

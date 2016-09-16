@@ -424,9 +424,9 @@
             	var distances = "<span class='text text-table'><i>" + results.rows[0].elements[0].duration.text +"<i></small>";
             };
         };
-//        if (student.documento.trips[actualTrip].status == "Available"){
-//       	actions = actions + "<li  data-process='offertofamily' data-roomCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
-//        };
+        if (student.documento.trips[actualTrip].status == "Available"){
+        	actions = actions + "<li  data-process='offertofamily' data-roomCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
+        };
         if (student.documento.trips[actualTrip].status == "Confirmed"){
         	actions = "<li data-process='sendlettertostudent' data-idFamily='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
         };
