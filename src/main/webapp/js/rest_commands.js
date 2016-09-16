@@ -76,6 +76,7 @@
     };
 
     function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK) {
+    	objJson.remove (_id);
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",
@@ -808,18 +809,19 @@
     //**** Invoice
     //
 
-    function rest_obterInvoiceAll(action_ok, action_notok, var1, var2) {
+    
+    function rest_obterInvoicesAll(action_ok, action_notOk, destination, filters, var1, var2) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/lista?",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/lista?destination=" + destination + "&filters=" + filters,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data, var1, var2);
+    		action_ok(data, var1);
     	})
     	.fail(function(data) {
-    		action_notok(data, var1, var2);
+    		action_notOk(data, var1);
     	})
     	.always(function(data) {
     	});

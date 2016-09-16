@@ -4,9 +4,13 @@
 	//**    carrega dados url
 	//
 
+	var idInvoice = 1; 
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
+	if (parametrosDaUrl.split("&")[2]){
+		idInvoice = parametrosDaUrl.split("&")[2].split("=")[1];
+	};
 	var parameter = parametrosDaUrl.split("&");
 	if (parameter[1]) {
 		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
@@ -20,7 +24,7 @@
 		saveUltimaInvoice();
 	}else{
 		primeiraInvoice();
-	}
+	};
 		
 
 	
@@ -31,8 +35,8 @@
 	//
 	//***   setar pagina como accommodation
 	//
-	if (typePage == "accommodation"){
-		$(".notAccommodation" ).addClass("hide");
+	if (typePage == "change"){
+		rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
 	}
 	//
 	//***   setar pagina como somente consulta student
@@ -45,13 +49,6 @@
 	//
 	if (typePage == "change"){
 		$(".notChange" ).addClass("hide");
-	};
-	//
-	//***   setar pagina como somente consulta student
-	//
-	if (typePage == "caretaker"){
-		$(".notChange" ).addClass("hide");
-		$(".caretaker" ).removeClass("hide");
 	};
 /**
  *     Guarda o primeiro item do due date 
@@ -169,13 +166,12 @@
 			}
 		});
 		if (valid){
-			criaInvoice();
-			retornaInvoice();
+			criaInvoice(idInvoice);
 		}
 	});
  
 function saveUltimaInvoice (data) {
-	localStorage.numberInvoice = localStorage.numberInvoice + 1;
+	localStorage.numberInvoice = parseInt(localStorage.numberInvoice) + 1;
 };
 
 
@@ -187,7 +183,7 @@ function limpaStorageInvoice () {
 	
 };
 
-function criaInvoice(){
+function criaInvoice(id){
 
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 		
@@ -195,12 +191,15 @@ function criaInvoice(){
 		{
 			documento:
 				{
-					idStudent : objStudent.id,
-					actualTrip : objStudent.actualTrip,
-					number : localStorage.numberInvoice + 1,
+					id : id,
+					idStudent : objStudent._id,
+					actualTrip : objStudent.documento.actualTrip,
+					number : localStorage.numberInvoice,
+					status : "new",
 					dueDate : limpaData($('#due_0').val()),
-					totalAmountNet : $('#dueValue_0').val(),
-					totalAmountGross : $('#dueValueGross_0').val(),
+					amountNet : $('#dueValue_0').val(),
+					amountGross : $('#dueValueGross_0').val(),
+					destination : objStudent.destination,
 					itensNet : [],
 					itensGross : [],
 					
@@ -213,25 +212,29 @@ function criaInvoice(){
 		var i = id.split("_")[1];
 		var itemNet = 
 			{
-				item : $('#itemName_' + i).val().split("_")[2],
+				item : $('#itemName_' + i).val(),
 				value : $('#itemValue_' + i).val(),
 				amount : $('#itemAmount_' + i).val(),
 			}
 		var itemGross = 
-		{
-			item : $('#itemNameGross_' + i).val().split("_")[2],
-			value : $('#itemValueGross_' + i).val(),
-			amount : $('#itemAmountGross_' + i).val(),
-		}
+			{
+				item : $('#itemNameGross_' + i).val(),
+				value : $('#itemValueGross_' + i).val(),
+				amount : $('#itemAmountGross_' + i).val(),
+			}
 		objInvoice.documento.itensNet.push(itemNet);
 		objInvoice.documento.itensGross.push(itemGross);
 	});
 	
-	rest_incluiInvoice(objInvoice, retornaInvoice, semAcao)
+	if (typePage == "change"){
+		rest_atualizaInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
+	}else{
+		rest_incluiInvoice(objInvoice, retornaInvoice, semAcao, "students.html")
+	};
 
 };
 
-function retornaInvoice(){
+function retornaInvoice(telaRetorno){
 	$.smallBox({
 		title : "Ok",
 		content : "<i class='fa fa-clock-o'></i> <i>Invoice created</i>",
@@ -240,7 +243,7 @@ function retornaInvoice(){
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});
-	window.location="students.html"; 
+	window.location = telaRetorno; 
 };
 
 function createItem(i, date, agency, destination, type){
@@ -396,6 +399,29 @@ function carregaAppendPriceTable (data, i, type){
 
 
 };
+
+function carregaTelaInvoice(data){
+
+	$.each(data.documento.itensNet, function (i, item) {
+		var actualTrip = data.student.actualTrip;
+		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
+		$('#itemName_' + i).val(item.item);
+		$('#itemValue_' + i).val(item.value);
+		$('#itemAmount_' + i).val(item.amount);
+    });
+	$.each(data.documento.itensGross, function (i, item) {
+		$('#itemNameGross_' + i).val(item.item);
+		$('#itemValueGross_' + i).val(item.value);
+		$('#itemAmountGross_' + i).val(item.amount);
+    });
+
+	createDue(0);
+	$('#due_0').val(data.documento.dueDate);
+	$('#dueGross_0').val(data.documento.dueDate);
+	$('#dueValue_0').val(data.documento.amountNet);
+	$('#dueValueGross_0').val(data.documento.amountGross);
+	
+}
 
 function createDue(i){
 	
@@ -664,8 +690,11 @@ function carregaDadosTelaInvoice(data){
 	/**
 	 *      Criar o primeira item 
 	 */
-	createItem(0, data.documento.trips[actualTrip].start, data.documento.trips[actualTrip].agencyName, data.documento.trips[actualTrip].destination, "net");
-	createDue(0);
+	if (typePage != "change"){
+		createItem(0, data.documento.trips[actualTrip].start, data.documento.trips[actualTrip].agencyName, data.documento.trips[actualTrip].destination, "net");
+		createDue(0);
+	};
+
 	
 	$('#due_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
 	$('#dueGross_0').val(calculaData(data.documento.trips[actualTrip].start, -14));

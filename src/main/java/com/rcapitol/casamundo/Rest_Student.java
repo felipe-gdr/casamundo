@@ -21,6 +21,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -59,6 +60,9 @@ public class Rest_Student {
 			DBObject cursor = collection.findOne(searchQuery);
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			ObjectId studentObject = (ObjectId) cursor.get("_id");
+			String studentId = studentObject.toString();
+			documento.put("_id", studentId);
 			documento.put("documento", obj);
 			mongo.close();
 			String docStudent = obj.toString();
@@ -201,7 +205,6 @@ public class Rest_Student {
 			DB db = (DB) mongo.getDB("documento");
 
 			BasicDBObject setQuery = new BasicDBObject();
-			String literal = "all";
 			if(!destination.equals("all")){
 		    	setQuery.put("documento.trips.destination", destination);
 		    };

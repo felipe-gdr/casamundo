@@ -32,10 +32,12 @@ public class Invoice {
 		public String id;
 		public String idStudent;
 		public String actualTrip;
+		public String status;
 		public String number;
 		public String dueDate;
-		public String totalAmountNet;
-		public String totalAmountGross;
+		public String amountNet;
+		public String amountGross;
+		public String destination;
 		public ItensNet itensNet[];
 		public ItensGross itensGross[];
 		public Documento() {
@@ -47,20 +49,24 @@ public class Invoice {
 						String id,
 						String idStudent,
 						String actualTrip,
+						String status,
 						String number,
 						String dueDate,
-						String totalAmountNet,
-						String totalAmountGross,
+						String amountNet,
+						String amountGross,
+						String destination,
 						ItensNet itensNet[],
 						ItensGross itensGross[]
 								) {
 						this.id = id; 
 						this.idStudent = idStudent; 
-						this.actualTrip = actualTrip; 
+						this.actualTrip = actualTrip;
+						this.status = status; 
 						this.number = number; 
 						this.dueDate = dueDate; 
-						this.totalAmountNet = totalAmountNet; 
-						this.totalAmountGross = totalAmountGross; 
+						this.amountNet = amountNet; 
+						this.amountGross = amountGross;
+						this.destination = destination;
 						this.itensNet = itensNet;
 						this.itensGross = itensGross;
 		}

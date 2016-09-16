@@ -26,7 +26,8 @@
 		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
-		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Finance"));
+		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
+		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "student"){
