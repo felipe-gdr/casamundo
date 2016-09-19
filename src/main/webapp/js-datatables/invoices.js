@@ -70,11 +70,11 @@
     		            { "data": "student",
     		            	"width": "20%"},
     		            { "data": "additional",
-    		            	"width": "20%"},
+    		            	"width": "15%"},
     		            { "data": "dates",
     		            	"width": "15%"},
     		            { "data": "invoice",
-    		            	"width": "10%"},
+    		            	"width": "15%"},
     		            { "data": "customer",
     		            	"width": "10%"},
     		            { "data": "comments",
@@ -144,18 +144,9 @@
             	durationTrip = durationTrip;
             };
             var age = calculaIdade(separaConverteDataMes(invoice.student.birthDay, "/"));
-        	switch (invoice.trip.status) {
-        	case "available":
+        	switch (invoice.status) {
+        	case "new":
         		statusCollor = "label-available"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-            	statusCollor = "label-placement-offered"
-                break;
-            case "Terminated":
-            	statusCollor = "label-terminated"
                 break;
             default: 
         		statusCollor = "label-available"
@@ -290,7 +281,7 @@
     	    			"<small class='label text-column " + statusCollor + "'>Status: " + invoice.status + "</small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + invoice.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + invoice.amountNet + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Due date: " + invoice.dueDate + "</small><br>",
+    	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(invoice.dueDate,"-") + "</small><br>",
     	    	"customer":
    	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + invoice.agencySigla + "</small><br>",
        	    	"comments":"<small class='text-muted text-column'>" + invoice.trip.comments + "</small>",

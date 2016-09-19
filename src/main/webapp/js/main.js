@@ -381,7 +381,11 @@ function calculaIdade ( dataNascimento ) {
 			newDate.setDate(newDate.getDate() + 2);	
 		};
 
-		return newDate.getDate() + "-" + converteMesAlfa(newDate.getMonth()) + "-" + newDate.getFullYear();
+		var day = newDate.getDate();
+		if (day < 10){
+			day = "0" + day;
+		}
+		return day + "-" + converteMesAlfa(newDate.getMonth()) + "-" + newDate.getFullYear();
 
 	};
 	

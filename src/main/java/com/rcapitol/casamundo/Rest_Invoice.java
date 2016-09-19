@@ -172,7 +172,7 @@ public class Rest_Invoice {
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterInvoices(@QueryParam("destination") String destination, @QueryParam("accommodation") String accommodation,@QueryParam("filters") String filters) {
+	public JSONArray ObterInvoices(@QueryParam("destination") String destination, @QueryParam("filters") String filters) {
 
 		Mongo mongo;
 		try {
@@ -200,9 +200,11 @@ public class Rest_Invoice {
 					jsonDocumento.put("idStudent", jsonObject.get("idStudent"));
 					jsonDocumento.put("actualTrip", jsonObject.get("actualTrip"));
 					jsonDocumento.put("status", jsonObject.get("status"));
+					jsonDocumento.put("destination", jsonObject.get("destination"));
 					jsonDocumento.put("number", jsonObject.get("number"));
 					jsonDocumento.put("dueDate", jsonObject.get("dueDate"));
-					jsonDocumento.put("totalAmount", jsonObject.get("totalAmount"));
+					jsonDocumento.put("amountNet", jsonObject.get("amountNet"));
+					jsonDocumento.put("amountGross", jsonObject.get("amountGross"));
 					jsonDocumento.put("itensNet", jsonObject.get("itensNet"));
 					jsonDocumento.put("itensGross", jsonObject.get("itensGross"));
 					//
@@ -271,48 +273,17 @@ public class Rest_Invoice {
 		Boolean response = true;
 		String array[] = new String[24];
 		array = filters.split(",");
+		BasicDBObject objStudent = (BasicDBObject) objJson.get("student");
 		int i = 0;
 		while (i < array.length) {
 			String element[] = new String[2];
 			element = array[i].split (":");
 			if (element.length > 1){
 			    if (element[0].equals("filter_student")){
-					if (((String) objJson.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						if (((String) objJson.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+					if (((String) objStudent.get("firstName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						if (((String) objStudent.get("lastName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 							response = false;
 						};
-					};
-			    };
-			    if (element[0].equals("filter_gender")){
-					if (element[1].toLowerCase().equals("male") ){
-						if (!((String) objJson.get("gender")).toLowerCase().equals("male")){
-							response = false;
-						};
-					}else{
-						if (element[1].toLowerCase().equals("female") ){
-							if (!((String) objJson.get("gender")).toLowerCase().equals("female")){
-								response = false;
-							};
-						}else{
-							response = false;
-						};
-					};
-			    };
-			    if (element[0].equals("filter_nationality")){
-					if (((String) objJson.get("nationality")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_age_from")){
-			    	Long ageFrom = calcAge((String)objJson.get("birthDay"));
-					if (ageFrom <= Integer.parseInt((String) element[1])){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_age_to")){
-			    	Long ageTo = calcAge((String)objJson.get("birthDay"));
-					if (ageTo >= Integer.parseInt((String) element[1])){
-						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_in")){
@@ -325,38 +296,18 @@ public class Rest_Invoice {
 						response = false;
 					};
 			    };
+			    if (element[0].equals("filter_due_date_from")){
+					if (calcTime((String)objJson.get("dueDate")) <= calcTime(element[1].replace("-", ""))){
+						response = false;
+					};
+			    };
+			    if (element[0].equals("filter_due_date_to")){
+					if (calcTime((String)objJson.get("dueDate")) >= calcTime(element[1].replace("-", ""))){
+						response = false;
+					};
+			    };
 			    if (element[0].equals("filter_status")){
-					if (((String) jsonTrip.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_payment")){
-					if (((String) jsonTrip.get("payment")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_visa")){
-//					if (((String) jsonTrip.get("visa")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-//						response = false;
-//					};
-			    };
-			    if (element[0].equals("filter_flight")){
-					if (((String) jsonTrip.get("arrivalFlightNumber")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_pickup")){
-					if (((String) jsonTrip.get("pickup")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_dropoff")){
-					if (((String) jsonTrip.get("dropoff")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_school")){
-					if (schoolSigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+					if (((String) objJson.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
 			    };
@@ -365,90 +316,17 @@ public class Rest_Invoice {
 						response = false;
 					};
 			    };
-			    if (element[0].equals("filter_host")){
-					if (((String) jsonTrip.get("familyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_driver")){
-//					if (((String) jsonTrip.get("driver")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-//						response = false;
-//					};
-			    };
-			    if (element[0].equals("filter_occupancy")){
-					if (((String) jsonTrip.get("occupancy")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
 			    if (element[0].equals("filter_private_wc")){
 					if (((String) jsonTrip.get("privateWashroom")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 						response = false;
 					};
-			    };
-			    if (element[0].equals("filter_dogs")){
-					if (((String) jsonTrip.get("liveDogs")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_cats")){
-					if (((String) jsonTrip.get("liveCats")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_meals")){
-			    	ArrayList arrayListMeals = new ArrayList(); 
-			    	arrayListMeals = (ArrayList) jsonTrip.get("mealPlan");
-			    	Object arrayMeals[] = arrayListMeals.toArray(); 
-					Boolean resultMeals = false;
-					int w = 0;
-					while (w < arrayMeals.length) {
-						if (((String) arrayMeals[w]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						}else{
-							resultMeals = true;
-						};
-						++w;
-					};
-					if (!resultMeals){
-						response = false;
-					}
-			    };
-			    if (element[0].equals("filter_diet")){
-			    	ArrayList arrayListDiet = new ArrayList(); 
-			    	arrayListDiet = (ArrayList) jsonTrip.get("specialDiet");
-			    	Object arrayDiet[] = arrayListDiet.toArray(); 
-					Boolean resultDiet = false;
-					int z = 0;
-					while (z < arrayDiet.length) {
-						if (((String) arrayDiet[z]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						}else{
-							resultDiet = true;
-						};
-						++z;
-					};
-					if (!resultDiet){
-						response = false;
-					}
 			    };
 			};
 			++i;
 		};
 		return response;
 	};
-		
-	public Long calcAge (String birthDate){
-		
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-		try {
-			Date d1 = df.parse (convertDateMes (birthDate));
-			Date d2 = new Date(System.currentTimeMillis()); 
-			long dt = (d2.getTime() - d1.getTime()) + 3600000;
-			return ((dt / 86400000L) / 365L);
-		} catch (java.text.ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	};
-	
+
 	public Long calcTime (String date){
 		System.out.println("date=" + date);
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");

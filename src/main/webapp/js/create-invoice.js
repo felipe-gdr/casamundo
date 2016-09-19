@@ -416,8 +416,8 @@ function carregaTelaInvoice(data){
     });
 
 	createDue(0);
-	$('#due_0').val(data.documento.dueDate);
-	$('#dueGross_0').val(data.documento.dueDate);
+	$('#due_0').val(separaDataMes(data.documento.dueDate, "-"));
+	$('#dueGross_0').val(separaDataMes(data.documento.dueDate, "-"));
 	$('#dueValue_0').val(data.documento.amountNet);
 	$('#dueValueGross_0').val(data.documento.amountGross);
 	
@@ -693,11 +693,8 @@ function carregaDadosTelaInvoice(data){
 	if (typePage != "change"){
 		createItem(0, data.documento.trips[actualTrip].start, data.documento.trips[actualTrip].agencyName, data.documento.trips[actualTrip].destination, "net");
 		createDue(0);
+		$('#due_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
+		$('#dueGross_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
 	};
-
-	
-	$('#due_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
-	$('#dueGross_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
-	
 	
 };
