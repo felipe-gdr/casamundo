@@ -97,22 +97,6 @@
         
         $.each(objJson, function (i, invoice) {
         	var age = calculaIdade(separaData(invoice.student.birthDay, "/"));
-        	switch (invoice.trip.status) {
-        	case "Available":
-        		statusCollor = "label-avaliable"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-            	statusCollor = "label-placement-offered"
-                break;
-            case "Terminated":
-            	statusCollor = "label-terminated"
-                break;
-            default: 
-        		statusCollor = "label-avaliable"
-            };	    
         	switch (invoice.gender) {
         	case "Male":
         		genderCollor = "label-male"
@@ -163,19 +147,6 @@
         		genderCollor = "label-male"
             };	    
 
-            switch (invoice.trip.status) {
-        	case "Available":
-        		statusCollor = "label-available"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-        		statusCollor = "label-placement-offered"
-       			break;
-            default: 
-        		genderCollor = "label-primary"
-            };	    
         	switch (invoice.trip.smoke) {
         	case "Yes":
         		smokeCollor = "label-warning"
