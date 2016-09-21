@@ -135,12 +135,13 @@
 							data-widget-sortable="false"
 							
 						-->
-						<div class="row">
+						<div id="editor"></div>	
+						<div  class="row">
 							<div class="well well-sm">
 								<div class="row">				
 									<div class="col-sm-12 col-md-12 col-lg-12">
 										<div class="well well-light well-sm no-margin no-padding">
-											<div class="row">							
+											<div id="contentPDF" class="row">							
 												<div class="col-sm-12">				
 													<div class="row">
 														<div class="col-sm-3 profile-pic">
@@ -1729,6 +1730,11 @@
 		<!-- send email -->
 		<script src="js-email/sendEmail.js"></script>
 		<script src="js-template-email/offertofamily.js"></script>
+
+		<!-- gera pdf -->
+		<script src="js/plugin/jspdf/jspdf.min.js"></script>
+		<script src="js/plugin/jspdf/html2canvas.js"></script>
+		<script src="js/plugin/jspdf/canvas2image.js"></script>
 
 		<!-- out scripts -->
 		<script src="js/student-commons.js"></script>

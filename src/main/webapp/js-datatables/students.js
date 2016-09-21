@@ -11,7 +11,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity);
+	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, null, null);
 
 
     /* Formatting function for row details - modify as you need */
@@ -324,6 +324,7 @@
 	        if (student.trip.dropoff == "Yes"){
 	        	dropoffCollor = "danger";
 	        }
+	        console.log ("email - " + i + " - " + student.mail);
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 

@@ -2,8 +2,8 @@
  * 
  */
     function rest_incluiStudent(objJson, action_ok, action_not_ok) {
-        var actualTrip = objJson.documento.actualTrip;
-        objJson.documento.trips[actualTrip].status = 'Available';
+//        var actualTrip = objJson.documento.actualTrip;
+//        objJson.documento.trips[actualTrip].status = 'Available';
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/incluir",
@@ -31,8 +31,12 @@
             dataType: 'json',
             async:false
     	})
-    	.done(function( data ) {
-    		action_ok(data, var1, var2);
+    	.done(function(data) {
+    		if (typeof data !== "undefined") {
+    			action_ok(data, var1, var2);
+    		}else{
+    			action_not_ok (data, var1, var2)	
+    		};
     	})
     	.fail(function(data) {
     		action_not_ok (data, var1, var2)
@@ -76,7 +80,7 @@
     };
 
     function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK) {
-    	objJson.remove (_id);
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",

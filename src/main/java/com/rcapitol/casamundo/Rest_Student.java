@@ -59,6 +59,9 @@ public class Rest_Student {
 			BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
 			DBObject cursor = collection.findOne(searchQuery);
 			JSONObject documento = new JSONObject();
+			if (cursor == null){
+				return null;
+			};
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 			ObjectId studentObject = (ObjectId) cursor.get("_id");
 			String studentId = studentObject.toString();
@@ -83,11 +86,23 @@ public class Rest_Student {
 					DBCollection collectionSchool = dbFamily.getCollection("family");
 					BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
 					DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
-					BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
-					BasicDBObject objContact = (BasicDBObject) objFamily.get("contact");
-					documento.put("contact", objContact);
-					List rooms = (List) objFamily.get("rooms");
-					documento.put("rooms", rooms);
+					if (cursorFamily != null){
+						BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
+						BasicDBObject objContact = (BasicDBObject) objFamily.get("contact");
+						documento.put("contact", objContact);
+						List rooms = (List) objFamily.get("rooms");
+						documento.put("rooms", rooms);
+					}else{
+		    			JSONObject docFamily = new JSONObject();
+						docFamily.put("contact.firstName", "");
+						docFamily.put("contact.lastName", "");
+						docFamily.put("contact.gender", "");
+						docFamily.put("contact.email", "");
+						docFamily.put("contact.phoneNumber", "");
+						docFamily.put("contact.mobilePhoneNumber", "");						
+						documento.put("rooms", "");
+						documento.put("family", docFamily);						
+					}
 					mongoFamily.close();
 				}else{
 	    			JSONObject docFamily = new JSONObject();
@@ -98,6 +113,7 @@ public class Rest_Student {
 					docFamily.put("contact.phoneNumber", "");
 					docFamily.put("contact.mobilePhoneNumber", "");						
 					documento.put("family", docFamily);
+					documento.put("rooms", "");
 				};
 				return documento;
 			} catch (ParseException e) {
@@ -219,6 +235,7 @@ public class Rest_Student {
 			
 			DBCursor cursor = collection.find(setQuery).sort(setSort);
 			JSONArray documentos = new JSONArray();
+			int i = 0;
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
 				BasicDBObject objStudent = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
@@ -258,10 +275,12 @@ public class Rest_Student {
 				    String agencySigla = null;
 				    String schoolSigla = null;
 				    String familyName = null;
+				    String status = null;
 				    if (tripIndex != null){
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
+						status = (String) jsonTrip.get("status");
 						agencyName = (String) jsonTrip.get("agencyName");
 						schoolName = (String) jsonTrip.get("schoolName");
 						familyName = (String) jsonTrip.get("familyName");
@@ -273,9 +292,20 @@ public class Rest_Student {
 						BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
 						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
 						JSONObject documentoAgency = new JSONObject();
-						BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
-						agencySigla = (String) obj.get("agencySigla");
-						jsonDocumento.put("agency", obj);
+						if (cursorAgency != null){
+							BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+							agencySigla = (String) obj.get("agencySigla");
+							jsonDocumento.put("agency", obj);
+						}else{
+							System.out.println("agency " + agencyName);
+		        			JSONObject docAgency = new JSONObject();
+							docAgency.put("name", agencyName);
+							docAgency.put("agencySigla", agencyName);
+							docAgency.put("celPhone", "");
+							docAgency.put("phone", "");
+							docAgency.put("email", "");						
+							jsonDocumento.put("agency", docAgency);
+						};
 						mongoAgency.close();
 					}else{
 	        			JSONObject docAgency = new JSONObject();
@@ -293,9 +323,20 @@ public class Rest_Student {
 						BasicDBObject searchQuerySchool = new BasicDBObject("documento.name", schoolName);
 						DBObject cursorSchool = collectionSchool.findOne(searchQuerySchool);
 						JSONObject documentoSchool = new JSONObject();
-						BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
-						schoolSigla = (String) obj.get("sigla");
-						jsonDocumento.put("school", obj);
+						if (cursorSchool != null){
+							BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
+							schoolSigla = (String) obj.get("sigla");
+							jsonDocumento.put("school", obj);
+						}else{
+							System.out.println("school " + schoolName);
+		        			JSONObject docSchool = new JSONObject();
+							docSchool.put("name", schoolName);
+							docSchool.put("sigla", schoolName);
+							docSchool.put("celPhone", "");
+							docSchool.put("phone", "");
+							docSchool.put("email", "");						
+							jsonDocumento.put("school", docSchool);							
+						}
 						mongoSchool.close();
 					}else{
 	        			JSONObject docSchool = new JSONObject();
@@ -313,11 +354,24 @@ public class Rest_Student {
 						BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
 						DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
 						JSONObject documentoFamily = new JSONObject();
-						BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
-						BasicDBObject objContact = (BasicDBObject) obj.get("contact");
-						jsonDocumento.put("familyContact", objContact);
-						List rooms = (List) obj.get("rooms");
-						jsonDocumento.put("rooms", rooms);
+						if (cursorFamily != null){
+							BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
+							BasicDBObject objContact = (BasicDBObject) obj.get("contact");
+							jsonDocumento.put("familyContact", objContact);
+							List rooms = (List) obj.get("rooms");
+							jsonDocumento.put("rooms", rooms);
+						}else{
+		        			JSONObject docFamily = new JSONObject();
+		        			JSONObject docRooms = new JSONObject();
+							docFamily.put("firstName", "");
+							docFamily.put("lastName", "");
+							docFamily.put("gender", "");
+							docFamily.put("email", "");
+							docFamily.put("phoneNumber", "");
+							docFamily.put("mobilePhoneNumber", "");						
+							jsonDocumento.put("familyContact", docFamily);
+							jsonDocumento.put("rooms", docRooms);							
+						}
 						mongoFamily.close();
 					}else{
 	        			JSONObject docFamily = new JSONObject();
@@ -331,11 +385,24 @@ public class Rest_Student {
 						jsonDocumento.put("contact", docFamily);
 						jsonDocumento.put("rooms", docRooms);
 					};
-					Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla);
-					if (filter_ok){
-						documentos.add(jsonDocumento);
+					if (!filters.equals("null")){
+						Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla);
+						if (filter_ok){
+							documentos.add(jsonDocumento);
+							++i;
+							if (i > 200){
+//								break;
+							}
+						};
+					}else{
+						if (!status.equals("Checked out")){
+							documentos.add(jsonDocumento);
+							++i;
+							if (i > 200){
+//								break;
+							}
+						};
 					};
-					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -355,7 +422,6 @@ public class Rest_Student {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String ChangeStatus(@QueryParam("params") String params)  {
-		System.out.println("params : " + params);
 		String array[] = new String[6];
 		array = params.split("/");
 		String mail = array [0].split(":")[1]; 
@@ -669,7 +735,6 @@ public class Rest_Student {
 	};
 	
 	public Long calcTime (String date){
-		System.out.println("date=" + date);
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 		try {
 			Date d1 = df.parse (convertDateMes (date));

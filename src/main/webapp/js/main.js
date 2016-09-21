@@ -30,6 +30,15 @@
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
+	if (localStorage.usuarioPerfil == "tools"){
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
+		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
+		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
+		$("#asideMenu").append(lineMenuAside ("carregaStudents", "#", "Carrega Students"));
+		$("#asideMenu").parent().find('ul').slideToggle();
+	}; 
 	if (localStorage.usuarioPerfil == "student"){
 		$("#asideMenu").append(lineMenuAside ("menuStudent", "student.html", "Student"));
 		$("#asideMenu").parent().find('ul').slideToggle();
@@ -40,10 +49,18 @@
 	}; 
 	// ** tirar menu caretaker por hora
 	$("#menuCaretaker").addClass ("hide");
+
+	//
+	//***   carrega base estudantes
+	//
+	$( "#carregaStudents" ).on( "click", function() {
+		carregaStudents();
+	});
+
 	
 	$("#usuarioNome").html(localStorage.usuarioFirstName);
 
-		function executaLogin(email, senha) {
+	function executaLogin(email, senha) {
 
 		rest_obterUsuario(email, usuarioOk, usuarioFail, senha)
 
@@ -66,6 +83,9 @@
 			localStorage.loginOk = true;
 			switch(localStorage.usuarioPerfil) {
 		    case "administrator":
+				$(window.document.location).attr('href','students.html');
+		        break;
+		    case "tools":
 				$(window.document.location).attr('href','students.html');
 		        break;
 		    case "caretaker":
@@ -366,6 +386,22 @@ function calculaIdade ( dataNascimento ) {
 	 return idade;
 	};				
 
+
+	function maiorDataHoje (data) {
+
+		var hoje = new Date();
+		date1 = separaConverteDataMes(data, "/").split("/");
+		var newDate = new Date(date1[1]+"/"+date1[0]+"/"+date1[2]);
+		 
+		if (newDate < hoje) {
+			return false;
+		}else{
+			return true;
+		}
+		 return false;
+	};				
+
+		
 	function calculaData (date, days, weekDay ) {
 
 		date1 = separaConverteDataMes(date, "/").split("/");

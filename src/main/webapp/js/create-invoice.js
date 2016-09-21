@@ -84,21 +84,33 @@
 	        return true;
 	    }
 	};
+	var doc = new jsPDF();
+	var specialElementHandlers = {
+	    '#editor': function (element, renderer) {
+	        return true;
+	    }
+	};
 	$('#geraPDF').click(function () {
 //		html2canvas($("#div-pdf"), {
 //	        onrendered: function(canvas) {
 //	        	return Canvas2Image.saveAsPNG(canvas);
 //	        }
 //	    });
-		html2canvas($("#div-pdf"),{
-			onrendered: function (canvas){
-				var img = canvas.toDataURL("image/png");
+//		html2canvas($("#div-pdf"),{
+//			onrendered: function (canvas){
+//				var img = canvas.toDataURL("image/png");
 //				window.open(img);
-				var doc = new jsPDF();
-				doc.addImage (img, JPEG, 100, 100);
-			    doc.save('invoice_' + mailUrl + '.pdf');				
-			}
-		})
+//				var doc = new jsPDF();
+//				doc.addImage (img, JPEG, 100, 100);
+//			    doc.save('invoice_' + mailUrl + '.pdf');				
+//			}
+//		})
+
+	    doc.fromHTML($('#content').html(), 5, 5, {
+	        'width': 170,
+	            'elementHandlers': specialElementHandlers
+	    });
+	    doc.save('sample-file.pdf');
 	});
 	
 	$('#invoiceSubmmit').off('click');

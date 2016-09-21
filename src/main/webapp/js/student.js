@@ -80,8 +80,19 @@
 	//
 	//  ** send email to offer a family
 	//
+	var doc = new jsPDF();
+	var specialElementHandlers = {
+	    '#editor': function (element, renderer) {
+	        return true;
+	    }
+	};
 
     $('#sendEmailOfferToFamily').bind( "click", function() {
+//	    doc.fromHTML($('#contentPDF').html(), 15, 15, {
+//	        'width': 170,
+//	            'elementHandlers': specialElementHandlers
+//	    });
+//	    doc.save('sample-file.pdf');
     	rest_sendEmailHtml(localStorage.hostNameEmail, localStorage.userNameEmail , localStorage.passwordEmail, "grenneglr@gmail.com", $('#emailFamily').val(), "Offer accommodation", templateOffertoFamily(), emailEnviado, emailComProblemas );
     });
 /**
