@@ -121,7 +121,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-6 fixed-header body-background-color-dorm">
+	<body class="smart-style-6 fixed-header body-background-color-room">
 
   <!-- Cabeçalho-->
 		<!-- HEADER -->
@@ -233,7 +233,7 @@
 				<!-- input: search field -->
 				<form action="search.html" class="header-search pull-right">
 					<input id="search-fld"  type="text" name="param" placeholder="Find reports and more" data-autocomplete='[
-					"Dorm"]'>
+					"Room"]'>
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -274,29 +274,8 @@
 							<li class="active">
 								<a href="#main">Top</a>
 							</li>
-							<li class="active">
-								<a href="#address">Address</a>
-							</li>
 							<li>
-								<a href="#characteristics">Characteristics</a>
-							</li>
-							<li>
-								<a href="#payment">Payment</a>
-							</li>
-							<li>
-								<a href="#dormDescription">Dorm Description</a>
-							</li>
-							<li>
-								<a href="#preferences">Preferences</a>
-							</li>
-							<li>
-								<a href="#dormMembers">Dorm Members</a>
-							</li>	
-							<li>
-								<a href="#rooms">Rooms</a>
-							</li>	
-							<li>
-								<a href="#notes">Notes</a>
+								<a href="#comments">Comments</a>
 							</li>
 							<li>
 								<a href="#visits">Visits</a>
@@ -304,9 +283,6 @@
 							<li>
 								<a href="#photos">Photos</a>
 							</li>						
-							<li>
-								<a href="#contract">Contract</a>
-							</li>																
 						</ul>
 					</li>
 				</ul>
@@ -419,7 +395,7 @@
 
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Dorms</li><li>New Dorm</li>
+					<li>Home</li><li>Rooms</li><li>New Room</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -444,13 +420,13 @@
 						<div class="col-sm-9"></div>
 						<div class="col-sm-1">
 							<div class="col-sm-1 profile-pic">
-								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new dorm."></i></a>
+								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new room."></i></a>
 							</div>
 						</div>
 					</div>
 					<!-- end row -->
 						
-						<form id="dorm-form" class="smart-form "  novalidate="novalidate">
+						<form id="room-form" class="smart-form "  novalidate="novalidate">
 	
 							<div class="well well-light well-sm no-margin no-padding ">
 								<div class="row">							
@@ -466,7 +442,7 @@
 												<div class="row">							
 													<section class="col-sm-4">								
 														<label class="input"> <i class="icon-prepend fa fa-home"></i>
-															<input class="" type="text" id="name" name="name" placeholder="Dorm Name">
+															<input class="" type="text" id="name" name="name" placeholder="Room Name">
 															<input class="hide" type="text" id="id" name="id" >
 														</label>
 													</section>
@@ -482,124 +458,7 @@
 										</div>
 										<div class="col-sm-1"></div>
 										<div class="col-sm-11">
-											<div class="row">
-												<div class="col-xs-11">
-													<legend>
-													<h7>Contact</h7>
-													</legend>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-xs-4">
-													<fieldset class="">					
-														<section class="col-xs-10">
-															<label class="label text-info">Last name</label>							
-															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input class="" type="text" id="contact_lastName" name="contact_lastName" placeholder="">
-															</label>
-														</section>
-														<section class="col-xs-10">							
-															<label class="label text-info">First name</label>
-															<label class="input"> <i class="icon-prepend fa fa-user"></i>
-																<input class="" type="text" id="contact_firstName" name="contact_firstName" placeholder="">
-															</label>
-														</section>
-														<section class="col-sm-8">								
-															<label class="input"> <i class="icon-prepend fa fa-phone"></i>
-																<input class="" type="text" id="contact_phoneNumber" name="contact_phoneNumber" placeholder="ex:+5511999999999">
-															</label>
-														</section>
-														<section class="col-sm-8">								
-															<label class="input"> <i class="icon-prepend fa fa-mobile-phone"></i>
-																<input class="" type="text" id="contact_mobilePhoneNumber" name="contact_mobilePhoneNumber" placeholder="ex:+5511999999999"  data-mask-placeholder= "+5511999999999">
-															</label>
-														</section>
-														<section class="col-sm-8">								
-															<label class="input"> <i class="icon-prepend fa fa-envelope-o"></i>
-																<input class="" type="email" id="contact_email" name="contact_email" placeholder="E-mail">
-															</label>
-														</section>
-													</fieldset>
-												</div>
-											</div>
-											<div id="address" class="row">
-												<div class="col-xs-11">
-													<legend>
-													<h7>Address</h7>
-													</legend>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-xs-6">
-													<fieldset class="">					
-														<section class="col-xs-8">	
-															<label for="destination">Localization</label>
-															<label class="select ">
-																<select id="destination" name="destination" class="">
-																	<option value="0" selected="" disabled="">Choose one item</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-8">	
-															<label class="label text-info">Street name</label>	
-															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
-																<input class="" type="text" id="address_street" name="address_street" placeholder="">
-															</label>
-														</section>
-														<section class="col-xs-8">	
-															<label class="label text-info">Unit Number/ Buzz Code<span class="label text-warning text-advise" >(Type NA if not applicable)</span></label>	
-															<label class="input"> <i class="icon-prepend fa  fa-map-marker"></i>
-																<input class="" type="text" id="address_complement" name="address_complement" placeholder="">
-															</label>
-														</section>
-														<section class="col-xs-8 hide addressMap">	
-															<div class="col-xs-1"></div>
-															<div class="col-xs-10">
-																<div class="widget-body no-padding">
-																	<div id="map_canvas7" class="google_maps"></div>
-																</div>
-															</div>
-														</section>
-													</fieldset>
-												</div>
-												<div class="col-xs-5">
-													<fieldset class="">					
-														<section class="col-xs-11">
-															<label class="label text-info">Main Intersection</label>								
-															<label class="select">
-																<select id="address_mainIntersection" name="address_mainIntersection" class="">
-																	<option value="0" selected="" disabled=""></option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-7">
-															<label class="label text-info">Subway Station</label>							
-															<label class="select ">
-																<select id="address_subwayStation" name="address_subwayStation" class="">
-																	<option value="" selected="" disabled=""></option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-7">
-															<label class="label text-info">Nearest Subway Station</label>							
-															<label class="select ">
-																<select id="address_nearestSubwayStation" name="address_nearestSubwayStation" class="">
-																	<option value="" selected="" disabled=""></option>
-																	<option value="Walking">Walking</option>
-																	<option value="Bus">Bus</option>
-																</select><i></i>
-															</label>
-														</section>
-														<section class="col-xs-3">
-															<label class="label text-info">Time</label>								
-															<label class="input"> <i class="icon-prepend fa fa-clock-o"></i>
-																<input class="" type="text" id="address_timeSubwayStation" name="address_timeSubwayStation" placeholder="">
-															</label>
-														</section>
-													</fieldset>
-												</div>
-											</div>
-											<div id="dormDescription" class="row">
+											<div id="roomDescription" class="row">
 												<div class="col-xs-11">
 													<legend>
 													<h7>Description</h7>
@@ -619,24 +478,20 @@
 											<div id="rooms" class="row">
 												<div class="col-xs-11">
 													<legend>
-													<h7>Floors</h7>
+													<h7>Beds</h7>
 													</legend>
 												</div>
 											</div>
-											<ul class="list-unstyled" id="floorsList">
+											<ul class="list-unstyled" id="bedsList">
 												<li>
 													<div class="row">
 														<div class="col-xs-11">
 															<fieldset class="roomList ">					
 																<section class="col-xs-2">	
-																	<label class="label text-info">Name</label>	
+																	<label class="label text-info">Type</label>	
 																</section>
 																<section class="col-xs-1">	
 																</section>
-																<section class="col-xs-2">		
-																	<label class="label text-info">Key Door</label>
-																</section>
-																<section class="col-xs-3">	
 																</section>
 																<section class="col-xs-3">
 																	<label class="label text-info">Description</label>
@@ -945,8 +800,8 @@
 
 		<!-- out scripts -->
 		<script src="js/main.js"></script>
-		<script src="js/dorm-commons.js"></script>
-		<script src="js/dorm_input.js"></script>
+		<script src="js/room-commons.js"></script>
+		<script src="js/room_input.js"></script>
 
 		<script type="text/javascript">
 		

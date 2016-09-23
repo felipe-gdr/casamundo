@@ -975,3 +975,86 @@
     	.always(function(data) {
     	});
     };
+    //
+    //**** Room
+    //
+
+    
+    function rest_obterRoomsAll(idDorm, action_ok, action_notOk, destination, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/lista?idDorm=" + idDorm,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1);
+    	})
+    	.fail(function(data) {
+    		action_notOk(data, var1);
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_atualizaRoom(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		action_not_ok(message)
+        	};
+    	});
+    };
+
+    function rest_incluiRoom(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		actio_not_ok(message)
+        	};
+       	});
+    };
+
+    function rest_obterRoom(id, action_ok, action_not_ok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/obterRoom?id="  + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data, var1, var2) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };

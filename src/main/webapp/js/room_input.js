@@ -1,5 +1,5 @@
 	// ** setar menu
-	$("#menuDorms_li").addClass("active");
+	$("#menuRooms_li").addClass("active");
 	
 	/**
 	 * 		esconde mapa
@@ -24,20 +24,20 @@
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 	
 	if (id){
-		localStorage.dormExistente = "true";
-		var data = rest_obterDorm(id, carregaTelaDorm, carregaInclusao, "alteracao");
+		localStorage.roomExistente = "true";
+		var data = rest_obterRoom(id, carregaTelaRoom, carregaInclusao, "alteracao");
 	}else{
-		localStorage.dormExistente = "false";
-		criaLinhaFloor(0, 0);
+		localStorage.roomExistente = "false";
+		criaLinhaBed(0, 0);
 		criaLinhaComment(0);
 		criaLinhaVisit(0);
 	};
 
-	var objJson = JSON.parse(localStorage.getItem("dorm"));
+	var objJson = JSON.parse(localStorage.getItem("room"));
 	//
 	//  *** limpa storage para pegar sempre o layout novo
 	//
-	limpaStorageDorm ();
+	limpaStorageRoom ();
 	
     // Método de validação  - Adiciona método JQuery Validation
     $.validator.addMethod("regex", function(value, element, regexp) {
@@ -48,7 +48,7 @@
 *          valida formulário   
 */
 
-	var $dormForm = $("#dorm-form").validate({
+	var $roomForm = $("#room-form").validate({
 		rules : {
 			name : {
 				required : true,
@@ -57,12 +57,12 @@
 		// Messages for form validation
 		messages : {
 			name : {
-				required : 'Please enter dorm name',
+				required : 'Please enter room name',
 			},
 		},
 		// form submition
 		submitHandler : function(form) {
-			var objJson = limpaStorageDorm();
+			var objJson = limpaStorageRoom();
 			$.each(form
 			    , function (i, field) {
 					var value = field.value;
@@ -99,8 +99,8 @@
 						};						
 					};
 			});
-			$(".floorItem").each(function(i, value) {
-				var floorItem = 
+			$(".bedItem").each(function(i, value) {
+				var bedItem = 
 					{
 						id: $("#id-" + i).val(), 
 						name:$("#name-" + i).val(), 
@@ -108,7 +108,7 @@
 						description:$("#description-" + i).val()
 					};
 				console.log ("id:" + $("#id-" + i).val())
-				objJson.documento.floors.push(floorItem);
+				objJson.documento.beds.push(bedItem);
 			});
 			$(".commentItem").each(function(i, value) {
 				var commentItem = 
@@ -128,11 +128,11 @@
 				};
 				objJson.documento.visits.push(visitItem);
 			});
-			localStorage.setItem("dorm", JSON.stringify(objJson));
-			if (localStorage.dormExistente == "true"){
-				rest_atualizaDorm(objJson, retornaDorm, atualizacaoNaoEfetuada);
+			localStorage.setItem("room", JSON.stringify(objJson));
+			if (localStorage.roomExistente == "true"){
+				rest_atualizaRoom(objJson, retornaRoom, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluiDorm(objJson, retornaListaDorm, inclusaoNaoEfetuada);
+				rest_incluiRoom(objJson, retornaListaRoom, inclusaoNaoEfetuada);
 			}
 		},	
 
@@ -149,23 +149,7 @@
 		}
 	});
 
-	$('#address_street').bind('blur', function () {
-    	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
-    });
-	
-	$('#destination').change(function() {
-		$("#address_mainIntersection option").remove();
-		$("#address_mainIntersection").append($(option("Choose one item")));
-		$('#address_mainIntersection option[value="Choose one item"]').attr('disabled','disabled');
-		$("#address_subwayStation option").remove();
-		$("#address_subwayStation").append($(option("Choose one item")));
-		$('#address_subwayStation option[value="Choose one item"]').attr('disabled','disabled');
-		rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, $(this).val());
-		rest_obterSubwayAll(carregaSelectSubway, semAcao, $(this).val());
-	});
-
-
-	function limpaStorageDorm () {
+	function limpaStorageRoom () {
 		
 		var data  =
 		
@@ -202,13 +186,13 @@
 			            destination : "",
 			        },
 			        fotos : [],
-			        floors : [],
+			        beds : [],
 			        visits : [],
 			        comments : []
 			    }
 			}
 		
-		localStorage.setItem("dorm", JSON.stringify(data));
+		localStorage.setItem("room", JSON.stringify(data));
 		
 		return data;
 	};		

@@ -1,26 +1,7 @@
- 
- function carregaMapa (results) {
-	$('#address_street').val(results[0].formatted_address);
-	$('.addressMap').removeClass("hide");
-	generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());	
-	var objJson = JSON.parse(localStorage.getItem("dorm"));
-	objJson.documento.address.latitude = results[0].geometry.location.lat();
-	objJson.documento.address.longitude = results[0].geometry.location.lng();
-	localStorage.setItem("dorm", JSON.stringify(objJson));
-};
-
-function enderecoComErro (data) {
-	$('.addressMap').addClass("hide");		
-};
 
 
-function carregaTelaDorm(data, tipo) {
+function carregaTelaRoom(data, tipo) {
 	
-	// *** carga do select do mainintersection e subway
-	if (data.documento.address.destination){
-		rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, data.documento.address.destination);
-		rest_obterSubwayAll(carregaSelectSubway, semAcao, data.documento.address.destination);
-	};
 
 	if (tipo == "consulta"){
 	//
@@ -31,39 +12,19 @@ function carregaTelaDorm(data, tipo) {
 		$("#type").html(data.documento.type);	
 		$("#keyDoor").html(data.documento.keyDoor);	
 		$("#description").html(data.documento.description);
-	  	$("#contact_name").html(data.documento.contact.firstName + " " + data.documento.contact.lastName);
-	  	$("#contact_gender").html(data.documento.contact.gender);
-	  	$("#contact_email").html(data.documento.contact.email);
-	  	$("#contact_phoneNumber").html(data.documento.contact.phoneNumber);
-	  	$("#contact_mobilePhoneNumber").html(data.documento.contact.mobilePhoneNumber);
-	  	$("#contact_workPhoneNumber").html(data.documento.contact.workPhoneNumber);
-	  	$("#address_street").html(data.documento.address.street);
-	  	if (data.documento.address.street){
-	  		getMapCoordinate(data.documento.address.street, localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
-	  	};
-	  	$("#address_number").html(data.documento.address.number);
-	  	$("#address_city").html(data.documento.address.city);
-	  	$("#address_state").html(data.documento.address.state);
-	  	$("#address_postalCode").html(data.documento.address.postalCode);
-	  	$("#address_complement").html(data.documento.address.complement);
-	  	$("#address_mainIntersection").html(data.documento.address.mainIntersection);
-	  	$("#address_nearestSubwayStation").html(data.documento.address.nearestSubwayStation);
-	  	$("#address_timeSubwayStation").html(data.documento.address.timeSubwayStation);
-	  	$("#address_subwayStation").html(data.documento.address.subwayStation);
-	  	$("#address_destination").html(data.documento.address.destination);
 	  	
-	    $.each(data.documento.floors , function (i, floor) {
-	    	var floorLine = 
+	    $.each(data.documento.beds , function (i, bed) {
+	    	var bedLine = 
 		    	'<li>' +
 					'<p class="text-muted">' +
 						'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
-							'<span class="txt-color-darken"><small class="hide" id="' + floor.id + '" data-original-title="Number - "></small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + floor.name + '</small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + floor.keyDoor + '</small></span><br>' +
-							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + floor.description + '</textarea></span>' +
+							'<span class="txt-color-darken"><small class="hide" id="' + bed.id + '" data-original-title="Number - "></small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + bed.name + '</small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + bed.keyDoor + '</small></span><br>' +
+							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + bed.description + '</textarea></span>' +
 				    '</p>' +
 				'</li>'
-	    	$("#floorsList").append(floorLine);
+	    	$("#bedsList").append(bedLine);
 	    });
 	    $.each(data.documento.comments
 			    , function (i, value) {
@@ -102,38 +63,16 @@ function carregaTelaDorm(data, tipo) {
 		$("#type").val(data.documento.type);	
 		$("#keyDoor").val(data.documento.keyDoor);	
 		$("#description").val(data.documento.description);
-	  	$("#contact_lastName").val(data.documento.contact.lastName);
-	  	$("#contact_firstName").val(data.documento.contact.firstName);
-	  	$("#contact_gender").val(data.documento.contact.gender);
-	  	$("#contact_email").val(data.documento.contact.email);
-	  	$("#contact_phoneNumber").val(data.documento.contact.phoneNumber);
-	  	$("#contact_mobilePhoneNumber").val(data.documento.contact.mobilePhoneNumber);
-	  	$("#contact_workPhoneNumber").val(data.documento.contact.workPhoneNumber);
-	  	$("#address_street").val(data.documento.address.street);
-	  	if (data.documento.address.street){
-	  		getMapCoordinate(data.documento.address.street, localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
-	  	};
-	  	$("#address_number").val(data.documento.address.number);
-	  	$("#address_city").val(data.documento.address.city);
-	  	$("#address_state").val(data.documento.address.state);
-	  	$("#address_postalCode").val(data.documento.address.postalCode);
-	  	$("#address_complement").val(data.documento.address.complement);
-	  	$("#address_mainIntersection").val(data.documento.address.mainIntersection);
-	  	$("#address_nearestSubwayStation").val(data.documento.address.nearestSubwayStation);
-	  	$("#address_timeSubwayStation").val(data.documento.address.timeSubwayStation);
-	  	$("#address_subwayStation").val(data.documento.address.subwayStation);
-	  	$("#address_destination").val(data.documento.address.destination);
-	  	if (data.documento.floors.length > 0){
-		    $.each(data.documento.floors
+	  	if (data.documento.beds.length > 0){
+		    $.each(data.documento.beds
 				    , function (i, value) {
-			    criaLinhaFloor(i);
+			    criaLinhaBed(i);
 			    $('#id-' + i).val(value.id);
 		    	$('#name-' + i).val(value.name);
-		    	$('#keyDoor-' + i).val(value.keyDoor);
 		    	$('#description-' + i).val(value.description);
 		    });
 	  	}else{
-	  		criaLinhaFloor(0, 0);
+	  		criaLinhaBed(0, 0);
 	  	};
 	  	if (data.documento.comments.length > 0){
 		    $.each(data.documento.comments
@@ -159,31 +98,24 @@ function carregaTelaDorm(data, tipo) {
 	  	};
 	};
 	
-	localStorage.setItem("dorm", JSON.stringify(data));
+	localStorage.setItem("room", JSON.stringify(data));
 };    
 
-function criaLinhaFloor (i) {
-	var floorLine = 
-		'<li class="floorItem" id="floorItem-' + i + '">' +
+function criaLinhaBed (i) {
+	var bedLine = 
+		'<li class="bedItem" id="bedItem-' + i + '">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList body-background-color-dorm">' +					
+				'<fieldset class="memberList body-background-color-room">' +					
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input class="body-background-color-dorm" type="text" id="name-' + i + '" name="name-' + i + '" placeholder="" >' +
+							'<input class="body-background-color-room" type="text" id="name-' + i + '" name="name-' + i + '" placeholder="" >' +
 							'<input class="hide" type="text" id="id-' + i + '" name="id-' + i + '" placeholder="" >' +
-						'</label>' +
-					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-2">' +
-						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input class="body-background-color-dorm" type="text" id="keyDoor-' + i + '" name="keyDoor-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-2">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
-						'<textarea rows="3" cols="30" id="description-' + i + '" name="description-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
+						'<textarea rows="3" cols="30" id="description-' + i + '" name="description-' + i + '" class="custom-scroll body-background-color-room"></textarea>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
 						'<a id="newItem-' + i + '"  class="newItemVisit"><i class="glyphicon glyphicon-plus"></i></a>' +
@@ -194,20 +126,20 @@ function criaLinhaFloor (i) {
 				'</fieldset>' +
 			'</div>' +
 		'</li>';
-	$("#floorsList").append(floorLine);
+	$("#bedsList").append(bedLine);
 
-	acertaSinalItem ("floorItem", "");
+	acertaSinalItem ("bedItem", "");
 	
 	$('#newItem-' + i).off('click');
 	$('#newItem-' + i).on('click', function () {
-		criaLinhaFloor (i + 1);
-		acertaSinalItem ("floorItem", "");
+		criaLinhaBed (i + 1);
+		acertaSinalItem ("bedItem", "");
 	});
 	
 	$('#delItem-' + i).off('click');
 	$('#delItem-' + i).on('click', function () {
-		$('#floorItem-' + i).remove();
-		acertaSinalItem ("floorItem", "");
+		$('#bedItem-' + i).remove();
+		acertaSinalItem ("bedItem", "");
 	});
 
 };
@@ -353,44 +285,29 @@ function acertaSinalItem (assunto, item){
 	};
 }
 function carregaInclusao(data) { 	   	
-	localStorage.dormExistente = "false";
+	localStorage.roomExistente = "false";
 };    
 
-function retornaDorm(){
+function retornaRoom(){
 	$.smallBox({
 		title : "Ok",
-		content : "<i class='fa fa-clock-o'></i> <i>Dorm updated</i>",
+		content : "<i class='fa fa-clock-o'></i> <i>Room updated</i>",
 		color : "#659265",
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});
-	var objJson = JSON.parse(localStorage.getItem("dorm"));
-	window.location="dorm.html?id=" + objJson.documento.id; 
+	var objJson = JSON.parse(localStorage.getItem("room"));
+	window.location="room.html?id=" + objJson.documento.id; 
 };
 
-function retornaListaDorm(){
+function retornaListaRoom(){
 	$.smallBox({
 		title : "Ok",
-		content : "<i class='fa fa-clock-o'></i> <i>Dorm included</i>",
+		content : "<i class='fa fa-clock-o'></i> <i>Room included</i>",
 		color : "#659265",
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});
-	window.location="dorms.html"; 
-};
-
-
-function carregaSelectMainIntersection(data) {
-    $.each(data
-		    , function (i, optionValue) {
-    			$("#address_mainIntersection").append( $(option(optionValue.name)));
-    });
-};
-
-function carregaSelectSubway(data) {
-    $.each(data
-		    , function (i, optionValue) {
-    			$("#address_subwayStation").append( $(option(optionValue.name)));
-    });
+	window.location="rooms.html"; 
 };
 

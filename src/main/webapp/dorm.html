@@ -567,7 +567,7 @@
 							<!-- end row -->
 
 							<!-- new widget -->
-							<div class="jarviswidget jarviswidget-color-blue hide" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+							<div class="jarviswidget jarviswidget-color-blue" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 
 								<!-- widget options:
 								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
@@ -585,9 +585,14 @@
 
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Trips</h2>
-									<div class="widget-toolbar">
-										<!-- add: non-hidden - to disable auto hide -->
+									<h2>Rooms</h2>
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-1">
+											<div class="col-sm-1 profile-pic">
+												<a href="room_input.html" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus" title="Click to insert a new room."></i></a>
+											</div>
+										</div>
 									</div>
 								</header>
 
@@ -604,38 +609,26 @@
 									<!-- widget content -->
 									<div class="widget-body no-padding">
 										
-										<table id="room_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<table id="rooms_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									        <thead>
 												<tr>
 													<th class="hasinput" >
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Status" />
+														<input type="text" class="form-control" placeholder="Room" />
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Destination" />
+														<input type="text" class="form-control" placeholder="Description" />
 													</th>
 													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Start" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="End" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Arrival" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Accommodation" />
+														<input type="text" class="form-control" placeholder="Beds" />
 													</th>
 												</tr>
 									            <tr>
 									                <th></th>
-									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
-									                <th><i class="fa fa-fw fa-calendar hidden-md hidden-sm hidden-xs"></i>Destination</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Start</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>End</th>
-									                <th><i class="fa fa-fw fa-plane text-muted hidden-md hidden-sm hidden-xs"></i>Arrival</th>
-									                <th><i class="fa fa-fw fa-bank text-muted hidden-md hidden-sm hidden-xs"></i>Accommodation</th>
+									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Room</th>
+									                <th><i class="fa fa-fw fa-calendar hidden-md hidden-sm hidden-xs"></i>Description</th>
+									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Beds</th>
 									            </tr>
 									        </thead>
 									    </table>
