@@ -27,7 +27,8 @@ public class ApplicationConfig extends Application {
         		Rest_Usuario.class,
         		Rest_PriceTable.class,
         		Rest_PriceTableValue.class,
-        		Rest_Invoice.class
+        		Rest_Invoice.class,
+        		Rest_Dorm.class
         		));
     }
 }

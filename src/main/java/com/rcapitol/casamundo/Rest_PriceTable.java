@@ -302,7 +302,6 @@ public class Rest_PriceTable {
 						mongoValue.close();
 				    };
 					documentos.add(jsonDocumento);
-					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

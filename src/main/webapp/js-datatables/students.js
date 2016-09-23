@@ -8,6 +8,8 @@
      * 			adendo a lista student
      */
 
+    console.log ("1 - " + new Date().getTime());
+
 	/**
 	 * 				obter os dados
 	 */
@@ -26,7 +28,9 @@
 	};
 	function carregaLocalStorageStudents (objJson, destroy) {
 
-		localStorage.setItem("students", JSON.stringify(objJson));
+        console.log ("2 - " + new Date().getTime());
+
+        localStorage.setItem("students", JSON.stringify(objJson));
 
     	/* BASIC datatables*/
 
@@ -91,12 +95,14 @@
     	    }
     	
         });
+        console.log ("3 - " + new Date().getTime());
 
         var objJson = JSON.parse(localStorage.getItem("students"));
         
         student_table.clear();
         
         $.each(objJson, function (i, student) {
+	        console.log ("4 - " + new Date().getTime());
         	var age = calculaIdade(separaData(student.birthDay, "/"));
         	switch (student.trip.status) {
         	case "Available":
@@ -256,6 +262,7 @@
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
 	        var typePage = "accommodation";
+	        console.log ("5 - " + new Date().getTime());
 		    if (student.trip.familyName) {
 		        familyName = student.trip.familyName;	
 		        accommodation =
@@ -324,7 +331,7 @@
 	        if (student.trip.dropoff == "Yes"){
 	        	dropoffCollor = "danger";
 	        }
-	        console.log ("email - " + i + " - " + student.mail);
+	        console.log ("8 - " + new Date().getTime());
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
@@ -363,8 +370,11 @@
 	    				'</ul>' +
 	    			'</div>' 
     	    }).draw( false );
+	        console.log ("9 - " + new Date().getTime());
         });
-        
+
+        console.log ("10 - " + new Date().getTime());
+
     	// Add event listener for opening and closing details
         $('#students_list tbody').off('click');
         $('#students_list tbody').on('click', 'td.details-control', function () {

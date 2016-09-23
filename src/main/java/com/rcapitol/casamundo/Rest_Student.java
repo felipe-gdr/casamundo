@@ -60,6 +60,7 @@ public class Rest_Student {
 			DBObject cursor = collection.findOne(searchQuery);
 			JSONObject documento = new JSONObject();
 			if (cursor == null){
+				mongo.close();
 				return null;
 			};
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
@@ -390,16 +391,16 @@ public class Rest_Student {
 						if (filter_ok){
 							documentos.add(jsonDocumento);
 							++i;
-							if (i > 200){
-//								break;
+							if (i > 50){
+								break;
 							}
 						};
 					}else{
 						if (!status.equals("Checked out")){
 							documentos.add(jsonDocumento);
 							++i;
-							if (i > 200){
-//								break;
+							if (i > 50){
+								break;
 							}
 						};
 					};

@@ -9,6 +9,7 @@
 	if (localStorage.usuarioPerfil == "caretaker"){
 		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
@@ -25,6 +26,7 @@
 	if (localStorage.usuarioPerfil == "administrator"){
 		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
@@ -33,6 +35,7 @@
 	if (localStorage.usuarioPerfil == "tools"){
 		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
+		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
