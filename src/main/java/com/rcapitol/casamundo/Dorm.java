@@ -41,7 +41,7 @@ public class Dorm {
 		public String keyDoor;
 		public Contact contact;
 		public Address address;
-		public Fotos fotos;
+		public Fotos fotos[];
 		public Floors floors[];
 		public Visits visits[];
 		public Comments comments[];
@@ -59,7 +59,7 @@ public class Dorm {
 						String keyDoor,
 						Contact contact,
 						Address address,
-						Fotos fotos,						
+						Fotos fotos[],						
 						Floors floors[],
 						Visits visits[],						
 						Comments comments[]
@@ -190,7 +190,7 @@ public class Dorm {
 			public String id;
 			public String name;
 			public String description;
-			public String keyDoors;
+			public String keyDoor;
 
 			public Floors() {
 
@@ -201,12 +201,12 @@ public class Dorm {
 					String id,
 					String name,
 					String description,
-					String keyDoors
+					String keyDoor
 			){
 				this.id = id;
 				this.name = name;
 				this.description = description;
-				this.keyDoors = keyDoors; 
+				this.keyDoor = keyDoor; 
 			}
 
 		}

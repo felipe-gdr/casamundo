@@ -60,6 +60,7 @@ public class Rest_Dorm {
 			DBObject cursor = collection.findOne(setQuery);
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			obj.put("id", idParam);			
 			documento.put("documento", obj);
 			mongo.close();
 			return documento;

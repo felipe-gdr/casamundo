@@ -915,6 +915,7 @@
     };
     
     function rest_atualizaDorm(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/dorm/atualizar",

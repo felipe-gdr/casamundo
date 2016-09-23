@@ -61,11 +61,9 @@
 			},
 			celPhone : {
 				required : true,
-				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			phone : {
 				required : true,
-				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			lastName : {
 				required : true,
@@ -94,7 +92,6 @@
 				required : true,
 			},
 			secondaryTelephone : {
-				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			streetNumber : {
 				required : true,
@@ -118,7 +115,6 @@
 				email : true
 			},
 			emergencyContactPhone : {
-				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
 			status : {
 				required : true,
@@ -171,12 +167,10 @@
 			},
 			celPhone : {
 				required : 'Please enter student cel phone',
-				regex : 'invalid phone number'
 
 			},
 			phone : {
 				required : 'Please enter student phone',
-				regex : 'invalid phone number'
 			},
 			lastName : {
 				required : 'Please enter student last name',
@@ -204,7 +198,6 @@
 				required : 'Please enter student english level'
 			},
 			secondaryTelephone : {
-				regex : 'invalid secondary phone'
 			},
 			streetNumber : {
 				required : 'Please enter address number'
@@ -225,8 +218,6 @@
 				required : 'Please enter address country'
 			},
 			secondaryTelephone : {
-				minlength : 'Fill area code',
-				maxlength : 'Number too long',
 			},
 			emergencyContactName : {
 				minlength : 'Minimum 2 caracters',
@@ -236,7 +227,6 @@
 				email : 'Please enter a VALID email address'
 			},
 			emergencyContactPhone : {
-				regex : 'invalid emergency contact phone'
 			},
 			status : {
 				required : 'Please enter status'

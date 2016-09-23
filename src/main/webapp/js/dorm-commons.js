@@ -26,9 +26,10 @@ function carregaTelaDorm(data, tipo) {
 	//
 	// **** carrega tela consulta
 	//
+		$("#id").val(data.documento.id);
 		$("#name").html(data.documento.name);
 		$("#type").html(data.documento.type);	
-		$("#keyDoors").html(data.documento.keyDoor);	
+		$("#keyDoor").html(data.documento.keyDoor);	
 		$("#description").html(data.documento.description);
 	  	$("#contact_name").html(data.documento.contact.firstName + " " + data.documento.contact.lastName);
 	  	$("#contact_gender").html(data.documento.contact.gender);
@@ -58,7 +59,7 @@ function carregaTelaDorm(data, tipo) {
 						'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
 							'<span class="txt-color-darken"><small class="hide" id="' + floor.id + '" data-original-title="Number - "></small></span>' +
 							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + floor.name + '</small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="keyDoors' + i + '" data-original-title="Key door"> - key door: ' + floor.keyDoor + '</small></span><br>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + floor.keyDoor + '</small></span><br>' +
 							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + floor.description + '</textarea></span>' +
 				    '</p>' +
 				'</li>'
@@ -96,11 +97,13 @@ function carregaTelaDorm(data, tipo) {
 		//
 		// **** carrega tela alteração
 		//
+		$("#id").val(data.documento.id);
 		$("#name").val(data.documento.name);
 		$("#type").val(data.documento.type);	
-		$("#keyDoors").val(data.documento.keyDoor);	
+		$("#keyDoor").val(data.documento.keyDoor);	
 		$("#description").val(data.documento.description);
-	  	$("#contact_name").val(data.documento.contact.firstName + " " + data.documento.contact.lastName);
+	  	$("#contact_lastName").val(data.documento.contact.lastName);
+	  	$("#contact_firstName").val(data.documento.contact.firstName);
 	  	$("#contact_gender").val(data.documento.contact.gender);
 	  	$("#contact_email").val(data.documento.contact.email);
 	  	$("#contact_phoneNumber").val(data.documento.contact.phoneNumber);
@@ -124,10 +127,10 @@ function carregaTelaDorm(data, tipo) {
 		    $.each(data.documento.floors
 				    , function (i, value) {
 			    criaLinhaFloor(i);
-			    $('#id_' + i).val(value.id);
-		    	$('#name_' + i).val(value.name);
-		    	$('#keyDoor_' + i).val(value.keyDoor);
-		    	$('#description_' + i).val(value.description);
+			    $('#id-' + i).val(value.id);
+		    	$('#name-' + i).val(value.name);
+		    	$('#keyDoor-' + i).val(value.keyDoor);
+		    	$('#description-' + i).val(value.description);
 		    });
 	  	}else{
 	  		criaLinhaFloor(0, 0);
@@ -136,9 +139,9 @@ function carregaTelaDorm(data, tipo) {
 		    $.each(data.documento.comments
 				    , function (i, value) {
 			    criaLinhaComment(i);
-			    $('#commentsDate_' + i).val(value.date);
-		    	$('#commentsUser_' + i).val(value.user);
-		    	$('#commentsComment_' + i).val(value.comments);
+			    $('#commentsDate-' + i).val(value.date);
+		    	$('#commentsUser-' + i).val(value.user);
+		    	$('#commentsComment-' + i).val(value.comments);
 		    });
 	  	}else{
 	  		criaLinhaComment(0);
@@ -147,9 +150,9 @@ function carregaTelaDorm(data, tipo) {
 		    $.each(data.documento.visits
 				    , function (i, value) {
 			    criaLinhaVisit(i);
-			    $('#visitsDate_' + i).val(value.date);
-		    	$('#visitsUser_' + i).val(value.user);
-		    	$('#visitsComments_' + i).val(value.comments);
+			    $('#visitsDate-' + i).val(value.date);
+		    	$('#visitsUser-' + i).val(value.user);
+		    	$('#visitsComments-' + i).val(value.comments);
 		    });
 	  	}else{
 	  		criaLinhaVisit(0);
@@ -161,32 +164,32 @@ function carregaTelaDorm(data, tipo) {
 
 function criaLinhaFloor (i) {
 	var floorLine = 
-		'<li class="floorItem" id="floorItem_' + i + '">' +
+		'<li class="floorItem" id="floorItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input class="body-background-color-dorm" type="text" id="name_' + i + '" name="name_' + i + '" placeholder="" disabled="disabled">' +
-							'<input class="hide" type="text" id="id_' + i + '" name="id_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="body-background-color-dorm" type="text" id="name-' + i + '" name="name-' + i + '" placeholder="" >' +
+							'<input class="hide" type="text" id="id-' + i + '" name="id-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input class="body-background-color-dorm" type="text" id="keyDoors_' + i + '" name="keyDoors_' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="body-background-color-dorm" type="text" id="keyDoor-' + i + '" name="keyDoor-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
+					'<section class="col-xs-2">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
-						'<textarea rows="3" cols="30" id="description_' + i + '" name="description_' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
+						'<textarea rows="3" cols="30" id="description-' + i + '" name="description-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
-						'<a id="newItem_' + i + '"  class="newItemVisit"><i class="glyphicon glyphicon-plus"></i></a>' +
+						'<a id="newItem-' + i + '"  class="newItemVisit"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
-						'<a id="delItem_' + i + '"  class="delItemVisit"><i class="glyphicon glyphicon-minus"></i></a>' +
+						'<a id="delItem-' + i + '"  class="delItemVisit"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
 			'</div>' +
@@ -195,15 +198,15 @@ function criaLinhaFloor (i) {
 
 	acertaSinalItem ("floorItem", "");
 	
-	$('#newItem_' + i).off('click');
-	$('#newItem_' + i).on('click', function () {
+	$('#newItem-' + i).off('click');
+	$('#newItem-' + i).on('click', function () {
 		criaLinhaFloor (i + 1);
 		acertaSinalItem ("floorItem", "");
 	});
 	
-	$('#delItem_' + i).off('click');
-	$('#delItem_' + i).on('click', function () {
-		$('#floorItem_' + i).remove();
+	$('#delItem-' + i).off('click');
+	$('#delItem-' + i).on('click', function () {
+		$('#floorItem-' + i).remove();
 		acertaSinalItem ("floorItem", "");
 	});
 
@@ -212,33 +215,33 @@ function criaLinhaFloor (i) {
 function criaLinhaComment (i, comment) {
 
 	var commentLine = 
-		'<li class="commentItem" id="commentItem_' + i + '">' +
+		'<li class="commentItem" id="commentItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="commentsDate_' + i + '" name="commentsDate_' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="commentsDate-' + i + '" name="commentsDate-' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input class="body-background-color-dorm"type="text" id="commentsUser_' + i + '" name="commentsUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class="body-background-color-dorm"type="text" id="commentsUser-' + i + '" name="commentsUser-' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input">'  +
-							'<textarea rows="3" cols="30" id="commentsComment_' + i + '" name="commentsComment_' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
+							'<textarea rows="3" cols="30" id="commentsComment-' + i + '" name="commentsComment-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
-						'<a id="newItemComment_' + i + '"  class="newItemComment"><i class="glyphicon glyphicon-plus"></i></a>' +
+						'<a id="newItemComment-' + i + '"  class="newItemComment"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
-						'<a id="delItemComment_' + i + '"  class="delItemComment"><i class="glyphicon glyphicon-minus"></i></a>' +
+						'<a id="delItemComment-' + i + '"  class="delItemComment"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
 			'</div>' +
@@ -246,7 +249,7 @@ function criaLinhaComment (i, comment) {
 
 	$("#commentsList").append(commentLine);
 
-	$('#commentsDate_' + i).datepicker({
+	$('#commentsDate-' + i).datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
@@ -256,15 +259,15 @@ function criaLinhaComment (i, comment) {
 
 	acertaSinalItem ("commentItem", "Comment");
 	
-	$('#newItemComment_' + i).off('click');
-	$('#newItemComment_' + i).on('click', function () {
+	$('#newItemComment-' + i).off('click');
+	$('#newItemComment-' + i).on('click', function () {
 		criaLinhaComment (i + 1);
 		acertaSinalItem ("commentItem", "Comment");
 	});
 	
-	$('#delItemComment_' + i).off('click');
-	$('#delItemComment_' + i).on('click', function () {
-		$('#commentItem_' + i).remove();
+	$('#delItemComment-' + i).off('click');
+	$('#delItemComment-' + i).on('click', function () {
+		$('#commentItem-' + i).remove();
 		acertaSinalItem ("commentItem", "Comment");
 	});
 
@@ -274,33 +277,33 @@ function criaLinhaComment (i, comment) {
 function criaLinhaVisit (i, visit) {
 
 	var visitLine = 
-		'<li class="visitItem" id="visitItem_' + i + '">' +
+		'<li class="visitItem" id="visitItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="visitsDate_' + i + '" name="visitsDate_' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="visitsDate-' + i + '" name="visitsDate-' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input class="body-background-color-dorm" type="text" id="visitsUser_' + i + '" name="visitsUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class="body-background-color-dorm" type="text" id="visitsUser-' + i + '" name="visitsUser-' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input">'  +
-							'<textarea rows="3" cols="30" id="visitsComments_' + i + '" name="visitsComments_' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
+							'<textarea rows="3" cols="30" id="visitsComments-' + i + '" name="visitsComments-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
-						'<a id="newItemVisit_' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
+						'<a id="newItemVisit-' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
-						'<a id="delItemVisit_' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
+						'<a id="delItemVisit-' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
 			'</div>' +
@@ -308,7 +311,7 @@ function criaLinhaVisit (i, visit) {
 
 	$("#visitsList").append(visitLine);
 
-	$('#visitsDate_' + i).datepicker({
+	$('#visitsDate-' + i).datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
@@ -318,15 +321,15 @@ function criaLinhaVisit (i, visit) {
 
 	acertaSinalItem ("visitItem", "Visit");
 	
-	$('#newItemVisit_' + i).off('click');
-	$('#newItemVisit_' + i).on('click', function () {
+	$('#newItemVisit-' + i).off('click');
+	$('#newItemVisit-' + i).on('click', function () {
 		criaLinhaVisit (i + 1);
 		acertaSinalItem ("visitItem", "Visit");
 	});
 	
-	$('#delItemVisit_' + i).off('click');
-	$('#delItemVisit_' + i).on('click', function () {
-		$('#visitItem_' + i).remove();
+	$('#delItemVisit-' + i).off('click');
+	$('#delItemVisit-' + i).on('click', function () {
+		$('#visitItem-' + i).remove();
 		acertaSinalItem ("visitItem", "Visit");
 	});
 
@@ -337,310 +340,20 @@ function acertaSinalItem (assunto, item){
 	var ultimoItem = 0;
 	$("." + assunto).each(function() {
 		var id = $(this).attr('id');
-		var i = id.split("_")[1];
-		$("#delItem" + item +"_" + i).removeClass("hide");
-		$("#newItem" + item +"_" + i).addClass("hide");
+		var i = id.split("-")[1];
+		$("#delItem" + item +"-" + i).removeClass("hide");
+		$("#newItem" + item +"-" + i).addClass("hide");
 		ultimoItem = i;
 	});
-	$("#newItem" + item +"_" + ultimoItem).removeClass("hide");
+	$("#newItem" + item +"-" + ultimoItem).removeClass("hide");
 	if ($("." + assunto).length == 1){
-		$("#delItem" + item +"_" + ultimoItem).addClass("hide");
+		$("#delItem" + item +"-" + ultimoItem).addClass("hide");
 	};
 }
-
-function limpaStorageDorm () {
-	
-	var data  =
-			{ 
-				documento :   
-				  { 
-				    dormName : "", 
-				    type : "", 
-				    numbersBedroom : "", 
-				    numbersStudentsBedroom : "", 
-				    offerPrivateWashroom : "", 
-				    numberPrivateWashroom : "", 
-				    offerInternet : "", 
-				    haveDogs : "", 
-				    haveCats : "", 
-				    haveOtherPet : "", 
-				    otherPet : "", 
-				    firstLanguage : "", 
-				    background : "", 
-				    othersLanguage : [], 
-				    acceptSmokeStudent : "", 
-				    preferAgeStudent : [], 
-				    preferGenderStudent : [], 
-				    mealPlan : [], 
-				    specialDiet : [], 
-				    dontHostNationality : [], 
-				    acceptSmokeInsideHome : "", 
-				    howLongHaveYouBeen : "",
-					description : "",
-					uploadContract : "",				    
-				    contact : { 
-				      firstName : "", 
-				      lastName : "", 
-				      gender : "", 
-				      birthDate : "",
-				      ocuppation : "", 
-				      employer : "", 
-				      email : "", 
-				      phoneNumber : "", 
-				      mobilePhoneNumber : "", 
-				      workPhoneNumber : "", 
-				      docDate : ""
-				    }, 
-				    address : { 
-				      street : "", 
-				      number : "", 
-				      city : "", 
-				      state : "", 
-				      postalCode : "", 
-				      mainIntersection : "", 
-				      nearestSubwayStation : "", 
-				      timeSubwayStation : "",
-				      subwayStation : "", 
-				      destination:"", 
-				      latitude:"", 
-				      longitude:"" 
-				    }, 
-				    payment : { 
-				    	financialInstitution : "", 
-				    	bankNumber : "", 
-				    	branchNumber : "", 
-				    	accountNumber : "" 
-					    }, 
-				    fotos : { 
-				      photo01 : "", 
-				      photo02 : "", 
-				      photo03 : "", 
-				      photo04 : "", 
-				      photo05 : "", 
-				      photo06 : "" 
-				    }, 
-				    docs : { 
-				      docs0 : "", 
-				      docs1 : "", 
-				      docs2 : "", 
-				      docs3 : "", 
-				      docs4 : "", 
-				      docs5 : "", 
-				      docs6 : "" 
-				    }, 
-				    dormMembers : [{ 
-				        name : "", 
-				        gender : "", 
-				        relatioship : "", 
-				        birthDate : "", 
-				        ocuppation : "",
-				        docDate : ""
-				      }], 
-				    rooms : [{ 
-				        number : 0, 
-				        singleBed : 0, 
-				        coupleBed : 0, 
-				        privateWashroom : "no",
-				        level : "",
-				    	photo : "",
-				    	note : "",
-				        occupancySingleBed : [ 
-			                 { 
-	   		                 emailStudent : "", 
-	   		                 startOccupancy : "", 
-	   		                 endOccupancy : "" 
-	   		                 } 
-	   		                 ], 
-				        coupleBedAvailable : [ 
-			                 { 
-	   		                 emailStudent : "", 
-	   		                 startOccupancy : "", 
-	   		                 endOccupancy : "" 
-	   		                 } 
-	   		                 ] 
-				      }], 
-				    comments : [],
-				    visits : [] 
-				  } 
-			};
-
-	localStorage.setItem("dorm", JSON.stringify(data));
-};		
 function carregaInclusao(data) { 	   	
 	localStorage.dormExistente = "false";
 };    
 
-function setValueDorm (field, value) {
-	
-	var objJson = JSON.parse(localStorage.getItem("dorm"));
-	
-	/*
-	if (objJson.documento[field]){
-        objJson.documento[field] = value;
-	};
-*/
-	if (field == "dormName"){
-        objJson.documento.dormName = value;
-	};
-	if (field == "type"){
-        objJson.documento.type = value;
-	};
-	if (field == "numbersBedroom"){
-        objJson.documento.numbersBedroom = value;
-	};
-	if (field == "numbersStudentsBedroom"){
-        objJson.documento.numbersStudentsBedroom = value;
-	};
-	if (field == "offerPrivateWashroom"){
-        objJson.documento.offerPrivateWashroom = value;
-	};
-	if (field == "numberPrivateWashroom"){
-        objJson.documento.numberPrivateWashroom = value;
-	};
-	if (field == "offerInternet"){
-        objJson.documento.offerInternet = value;
-	};
-	if (field == "haveDogs"){
-        objJson.documento.haveDogs = value;
-	};
-	if (field == "haveCats"){
-        objJson.documento.haveCats = value;
-	};
-	if (field == "haveOtherPet"){
-        objJson.documento.haveOtherPet = value;
-	};
-	if (field == "otherPet"){
-        objJson.documento.otherPet = value;
-	};
-	if (field == "firstLanguage"){
-        objJson.documento.firstLanguage = value;
-	};
-	if (field == "background"){
-        objJson.documento.background = value;
-	};
-	if (field == "othersLanguage"){
-		var array = value.split(",");
-        objJson.documento.othersLanguage = array;
-	};
-	if (field == "acceptSmokeStudent"){
-        objJson.documento.acceptSmokeStudent = value;
-	};
-	if (field == "preferAgeStudent"){
-		var array = value.split(",");
-        objJson.documento.preferAgeStudent = array;
-	};
-	if (field == "preferGenderStudent"){
-		var array = value.split(",");
-        objJson.documento.preferGenderStudent = array;
-	};
-	if (field == "mealPlan"){
-		var array = value.split(",");
-        objJson.documento.mealPlan = array;
-	};
-	if (field == "specialDiet"){
-		var array = value.split(",");
-        objJson.documento.specialDiet = array;
-	};
-	if (field == "dontHostNationality"){
-		var array = value.split(",");
-        objJson.documento.dontHostNationality = array;
-	};
-	if (field == "acceptSmokeInsideHome"){
-        objJson.documento.acceptSmokeInsideHome = value;
-	};
-	if (field == "howLongHaveYouBeen"){
-        objJson.documento.howLongHaveYouBeen = value;
-	};
-	if (field == "description"){
-        objJson.documento.description = value;
-	};
-  	if (field == "contact_firstName"){
-        objJson.documento.contact.firstName = value;
-	};
-  	if (field == "contact_lastName"){
-        objJson.documento.contact.lastName = value;
-	};
-  	if (field == "contact_gender"){
-        objJson.documento.contact.gender = value;
-	};
-  	if (field == "contact_ocuppation"){
-        objJson.documento.contact.ocuppation = value;
-	};
-  	if (field == "contact_employer"){
-        objJson.documento.contact.employer = value;
-	};
-  	if (field == "contact_email"){
-        objJson.documento.contact.email = value;
-	};
-  	if (field == "contact_phoneNumber"){
-        objJson.documento.contact.phoneNumber = value;
-	};
-  	if (field == "contact_mobilePhoneNumber"){
-        objJson.documento.contact.mobilePhoneNumber = value;
-	};
-  	if (field == "contact_workPhoneNumber"){
-        objJson.documento.contact.workPhoneNumber = value;
-	};
-  	if (field == "contact_birthDate"){
-        objJson.documento.contact.birthDate = limpaData(value);
-	};
-  	if (field == "address_street"){
-        objJson.documento.address.street = value;
-	};
-  	if (field == "address_number"){
-        objJson.documento.address.number = value;
-	};
-  	if (field == "address_city"){
-        objJson.documento.address.city = value;
-	};
-  	if (field == "address_state"){
-        objJson.documento.address.state = value;
-	};
-  	if (field == "address_postalCode"){
-        objJson.documento.address.postalCode = value;
-	};
-  	if (field == "address_complement"){
-        objJson.documento.address.complement = value;
-	};
-  	if (field == "address_mainIntersection"){
-        objJson.documento.address.mainIntersection = value;
-	};
-  	if (field == "address_nearestSubwayStation"){
-        objJson.documento.address.nearestSubwayStation = value;
-	};
-  	if (field == "address_timeSubwayStation"){
-        objJson.documento.address.timeSubwayStation = value;
-	};
-  	if (field == "address_subwayStation"){
-        objJson.documento.address.subwayStation = value;
-	};
-  	if (field == "payment_financialInstitution"){
-        objJson.documento.payment.financialInstitution = value;
-	};
-  	if (field == "payment_bankNumber"){
-        objJson.documento.payment.bankNumber = value;
-	};
-  	if (field == "payment_branchNumber"){
-        objJson.documento.payment.branchNumber = value;
-	};
-  	if (field == "payment_accountNumber"){
-        objJson.documento.payment.accountNumber = value;
-	};
-	if (field == "destination"){
-        objJson.documento.address.destination = value;
-	};
-	if (field == "uploadContract"){
-        objJson.documento.uploadContract = value;
-	};
-	if (field.slice(0, 5) == "photo"){
-        objJson.documento.fotos[field] = value;
-	};
-	if (field.slice(0, 4) == "docs"){
-        objJson.documento.docs[field] = value;
-	};
-
-	localStorage.setItem("dorm", JSON.stringify(objJson));
-};		
 function retornaDorm(){
 	$.smallBox({
 		title : "Ok",
@@ -650,7 +363,7 @@ function retornaDorm(){
 		timeout : 4000
 	});
 	var objJson = JSON.parse(localStorage.getItem("dorm"));
-	window.location="dorm.html?mail=" + objJson.documento.dormName; 
+	window.location="dorm.html?id=" + objJson.documento.id; 
 };
 
 function retornaListaDorm(){

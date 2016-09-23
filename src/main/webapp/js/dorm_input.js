@@ -27,8 +27,9 @@
 		localStorage.dormExistente = "true";
 		var data = rest_obterDorm(id, carregaTelaDorm, carregaInclusao, "alteracao");
 	}else{
+		localStorage.dormExistente = "false";
 		criaLinhaFloor(0, 0);
-		criaLinhaComments(0);
+		criaLinhaComment(0);
 		criaLinhaVisit(0);
 	};
 
@@ -51,18 +52,17 @@
 		rules : {
 			name : {
 				required : true,
-				regex : /^\S+$/
 			},
 		},
 		// Messages for form validation
 		messages : {
 			name : {
 				required : 'Please enter dorm name',
-				regex : 'Do not use whitespace in dorm name'
 			},
 		},
 		// form submition
 		submitHandler : function(form) {
+			var objJson = limpaStorageDorm();
 			$.each(form
 			    , function (i, field) {
 					var value = field.value;
@@ -87,38 +87,50 @@
 					    	}				    			
 					    });
 					};
-					if (field.value){
-						objJson.documento[field.name] = value;
+					var validField = field.name.split("-");
+					if (validField.length == 1){
+						var typeField = field.name.split("_");
+						if (typeField.length > 1){
+							objJson.documento[typeField[0]][typeField[1]] = value;
+						}else{
+							if (field.value){
+								objJson.documento[field.name] = value;
+							};
+						};						
 					};
 			});
-			var objJson = JSON.parse(localStorage.getItem("dorm"));
 			$(".floorItem").each(function(i, value) {
-				objJson.documento.notes.push(JSON.parse('{"id":"' + $("#id_" + i).val() 
-														+ '","name":"' + $("#name_" + i).val() 
-														+ '","keyDoors":"' + $("#keyDoors_" + i).val()
-														+ '","description":"' + $("#description_" + i).val()
-														+  '"}'
-														));
+				var floorItem = 
+					{
+						id: $("#id-" + i).val(), 
+						name:$("#name-" + i).val(), 
+						keyDoor:$("#keyDoor-" + i).val(),
+						description:$("#description-" + i).val()
+					};
+				objJson.documento.floors.push(floorItem);
 			});
 			$(".commentItem").each(function(i, value) {
-				objJson.documento.comments.push(JSON.parse('{"date":"' + $("#commentsDate_" + i).val() 
-														+ '","user":"' + $("#commentsUser_" + i).val() 
-														+ '","comments":"' + $("#commentsNote_" + i).val() 
-														+  '"}'
-														));
+				var commentItem = 
+					{
+						date: $("#commentsDate-" + i).val(), 
+						user: $("#commentsUser-" + i).val(), 
+						comments: $("#commentsNote-" + i).val()
+					};
+			objJson.documento.comments.push(commentItem);
 			});
 			$(".visitItem").each(function(i, value) {
-				objJson.documento.visits.push(JSON.parse('{"date":"' + $("#visitsDate_" + i).val() 
-														+ '","user":"' + $("#visitsUser_" + i).val() 
-														+ '","comments":"' + $("#visitsComments_" + i).val() 
-														+  '"}'
-														));
+				var visitItem = 
+				{
+					date: $("#visitsDate-" + i).val(), 
+					user: $("#visitsUser-" + i).val(), 
+					comments: $("#visitsComments-" + i).val()
+				};
 			});
 			localStorage.setItem("dorm", JSON.stringify(objJson));
 			if (localStorage.dormExistente == "true"){
-				rest_atualizaDorm(JSON.parse(localStorage.getItem("dorm")), retornaDorm, atualizacaoNaoEfetuada);
+				rest_atualizaDorm(objJson, retornaDorm, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluiDorm(JSON.parse(localStorage.getItem("dorm")), retornaListaDorm, inclusaoNaoEfetuada);
+				rest_incluiDorm(objJson, retornaListaDorm, inclusaoNaoEfetuada);
 			}
 		},	
 
@@ -149,3 +161,52 @@
 		rest_obterMainIntersectionAll(carregaSelectMainIntersection, semAcao, $(this).val());
 		rest_obterSubwayAll(carregaSelectSubway, semAcao, $(this).val());
 	});
+
+
+	function limpaStorageDorm () {
+		
+		var data  =
+		
+			{	
+			    documento : {
+			        id : "",
+			        name : "",
+			        type : "",
+			        description : "",
+			        destination : "",
+			        keyDoor : "",
+			        contact : {
+			            firstName : "",
+			            lastName : "",
+			            gender : "",
+			            email : "",
+			            phoneNumber : "",
+			            mobilePhoneNumber : "",
+			            workPhoneNumber : "",
+			        },
+			        address : {
+			            street : "",
+			            number : "",
+			            city : "",
+			            state : "",
+			            postalCode : "",
+			            complement : "",
+			            mainIntersection : "",
+			            nearestSubwayStation : "",
+			            timeSubwayStation : "",
+			            subwayStation : "",
+			            latitude : "",
+			            longitude : "",
+			            destination : "",
+			        },
+			        fotos : [],
+			        floors : [],
+			        visits : [],
+			        comments : []
+			    }
+			}
+		
+		localStorage.setItem("dorm", JSON.stringify(data));
+		
+		return data;
+	};		
