@@ -1,6 +1,16 @@
 	// ** setar menu
 	$("#menuStudents_li").addClass("active");
-	
+
+	// 
+	//**    carrega dados url
+	//
+
+	var url   = window.location.search.replace();
+	var parametrosDaUrl = url.split("?")[1];
+	if (parametrosDaUrl){
+		localStorage.accommodation = parametrosDaUrl.split("=")[1];
+	};
+
 	// *** flag para não permitir setar evento click na tabela
 	localStorage.setClickTable = "false";
 	
@@ -28,7 +38,37 @@
 		}
 		});
 
+	// 
+	// **** limpa filtros
+	//
 
+	var filters = 
+		'filter_student:""' + ',' +
+		'filter_gender:""' + ',' +
+		'filter_nationality:""' + ',' +
+		'filter_age_from:""' + ',' +
+		'filter_age_to:""' + ',' +
+		'filter_check_in:""' + ',' +
+		'filter_check_out:""' + ',' +
+		'filter_status:""' + ',' +
+		'filter_payment:""' + ',' +
+		'filter_visa:""' + ',' +
+		'filter_flight:""' + ',' +
+		'filter_pickup:""' + ',' +
+		'filter_dropoff:""' + ',' +
+		'filter_school:""' + ',' +
+		'filter_agent:""' + ',' +
+		'filter_host:""' + ',' +
+		'filter_driver:""' + ',' +
+		'filter_occupancy:""' + ',' +
+		'filter_private_wc:""' + ',' +
+		'filter_dogs:""' + ',' +
+		'filter_cats:""' + ',' +
+		'filter_meals:""' + ',' +
+		'filter_diet:""' + ',' +
+		'filter_comments:""';
+
+	localStorage.setItem("filters", filters);
 
 // 
 // **** montagem do filtro para submissão ao server
@@ -61,6 +101,8 @@
 				'filter_meals:' + $("#filter_meals").val() + ',' +
 				'filter_diet:' + $("#filter_diet").val() + ',' +
 				'filter_comments:' + $("#filter_comments").val();
-
-		rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, filters, "true");
+		if (filters != localStorage.getItem("filters")){
+			localStorage.setItem("filters", filters);
+			rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, localStorage.accommodation , filters, null, null);
+		};
 	});	

@@ -8,7 +8,7 @@
 	 * 				obter os dados
 	 */
 
-	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, "Homestay");
+	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, localStorage.accommodation);
 
 
 	function carregaLocalStorageStudents (objJson) {

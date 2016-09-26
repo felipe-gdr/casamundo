@@ -7,14 +7,16 @@
 	});
 
 	if (localStorage.usuarioPerfil == "caretaker"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "user"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").parent().find('ul').slideToggle();
@@ -24,7 +26,8 @@
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "administrator"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
@@ -33,7 +36,8 @@
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "tools"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html", "Students"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
@@ -86,13 +90,13 @@
 			localStorage.loginOk = true;
 			switch(localStorage.usuarioPerfil) {
 		    case "administrator":
-				$(window.document.location).attr('href','students.html');
+				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 		        break;
 		    case "tools":
-				$(window.document.location).attr('href','students.html');
+		    	$(window.document.location).attr('href','students.html?accommodation=Homestay');
 		        break;
 		    case "caretaker":
-				$(window.document.location).attr('href','students.html');
+		    	$(window.document.location).attr('href','students.html?accommodation=Homestay');
 		        break;
 		    case "agency":
 				$(window.document.location).attr('href','agency.html');
@@ -104,7 +108,7 @@
 				$(window.document.location).attr('href','student.html');
 		        break;
 		    case "user":
-				$(window.document.location).attr('href','students.html');
+		    	$(window.document.location).attr('href','students.html?accommodation=Homestay');
 		        break;
 		    default:
 				$.smallBox({

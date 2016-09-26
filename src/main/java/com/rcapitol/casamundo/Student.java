@@ -284,6 +284,13 @@ public class Student {
     		public String status;          
     		public String destination;     
     		public String familyName;     
+    		public String idFamily;
+    		public String idRoom;
+    		public String idBed;
+    		public String dormName;
+    		public String floorName;
+    		public String roomName;
+    		public String bedName;
     		public String start;           
     		public String end;             
     		public String extend;          
@@ -333,9 +340,11 @@ public class Student {
     		public String guest_04;        
     		public String guest_05;        
     		public String agreeDebitSuite; 
-    		public String agreeSuite;      
+    		public String agreeSuite;
+    		public String agencyId;
     		public String agencyName;
     		public String agencyConsultName;
+    		public String schoolId;
     		public String schoolName;
     		public String schoolConsultName;
 
@@ -348,6 +357,13 @@ public class Student {
         	    		String status,          
         	    		String destination,     
         	    		String familyName,     
+        	    		String idFamily,
+        	    		String idRoom,
+        	    		String idBed,
+        	    		String dormName,
+        	    		String floorName,
+        	    		String roomName,
+        	    		String bedName,
         	    		String start,           
         	    		String end,             
         	    		String extend,          
@@ -398,15 +414,24 @@ public class Student {
         	    		String guest_05,        
         	    		String agreeDebitSuite, 
         	    		String agreeSuite,
+        	    		String agencyId,
         	    		String agencyName,
         	    		String agencyConsultName,
+        	    		String schoolId,
         	    		String schoolName,
-        	    		String schoolContaactName
+        	    		String schoolConsultName
             		)
             {
 	    		this.status = status;           
 	    		this.destination = destination;      
 	    		this.familyName = familyName;      
+	    		this.idFamily = idFamily;
+	    		this.idRoom = idRoom;
+	    		this.idBed = idBed;
+	    		this.dormName = dormName;
+	    		this.floorName = floorName;
+	    		this.roomName = roomName;
+	    		this.bedName = bedName;
 	    		this.start = start;            
 	    		this.end = end;              
 	    		this.extend = extend;           
@@ -457,8 +482,11 @@ public class Student {
 	    		this.guest_05 = guest_05;         
 	    		this.agreeDebitSuite = agreeDebitSuite;  
 	    		this.agreeSuite = agreeSuite;
+	    		this.agencyId = agencyId;
 	    		this.agencyName = agencyName;
 	    		this.agencyConsultName = agencyConsultName;
+	    		this.schoolId = schoolId;
+	    		this.schoolName = schoolName;
 	    		this.schoolConsultName = schoolConsultName;
             }
 

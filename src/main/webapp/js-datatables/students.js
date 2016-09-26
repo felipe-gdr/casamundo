@@ -1,3 +1,24 @@
+	// 
+	//**    carrega dados url
+	//
+
+	var url   = window.location.search.replace();
+	var parametrosDaUrl = url.split("?")[1];
+	if (parametrosDaUrl){
+		localStorage.accommodation = parametrosDaUrl.split("=")[1];
+	};
+	
+	$(".homestay").addClass("hide");
+	$(".dorms").addClass("hide");
+	
+	if (localStorage.accommodation == "Homestay"){
+		$(".homestay").removeClass("hide");	
+	};
+
+	if (localStorage.accommodation == "Dorms"){
+		$(".dorms").removeClass("hide");	
+	};
+
 	/**
 	 * 		carrega tabelas
 	 */
@@ -13,7 +34,7 @@
 	/**
 	 * 				obter os dados
 	 */
-	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, null, null);
+	rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, localStorage.accommodation , null, null);
 
 
     /* Formatting function for row details - modify as you need */
@@ -331,6 +352,29 @@
 	        if (student.trip.dropoff == "Yes"){
 	        	dropoffCollor = "danger";
 	        }
+	        var accommadation = "";
+	        if (student.trip.accommodation == "Homestay"){
+	        	accommodation = "<small class='text-muted text-column'>Host: </small><small class='text-bold text-column'>" + student.trip.familyName + "</small><br>";
+	        };
+	        if (student.trip.accommodation == "Dorms"){
+	        	var dormName = "";
+	        	if (student.trip.dormName){
+	        		dormName = student.trip.dormName;
+	        	}
+	        	var floorName = "";
+	        	if (student.trip.floorName){
+	        		floorName = student.trip.floorName;
+	        	}
+	        	var roomName = "";
+	        	if (student.trip.roomName){
+	        		roomName = student.trip.roomName;
+	        	}
+	        	accommodation = "<small class='text-muted text-column'>Dorm: </small><small class='text-bold text-column'>" + dormName + "</small><br>" +
+	        					"<small class='text-muted text-column'>Floor: </small><small class='text-bold text-column'>" + floorName + "</small><br>" +
+	        					"<small class='text-muted text-column'>Room: </small><small class='text-bold text-column'>" + roomName + "</small><br>";
+	        	
+	        };
+	        
 	        console.log ("8 - " + new Date().getTime());
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
@@ -349,7 +393,8 @@
     	    			"<small class='text-muted text-column'>Dropoff: </small><small class='text-" + dropoffCollor + " text-column '>" + student.trip.dropoff + "</small>&nbsp;&nbsp;",
     	    	"institution":"<small class='text-muted text-column'>School: </small><small class='text-bold text-column'>" + student.school.sigla + "</small><br>" +
     	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + student.agency.agencySigla + "</small><br>",
-    	    	"people":"<small class='text-muted text-column'>Host: </small><small class='text-bold text-column'>" + student.trip.familyName + "</small><br>" +
+    	    	"people":
+    	    			accommodation +
     	    			"<small class='text-muted text-column'>Driver: " + "Available" + "</small><br>",
        	    	"preferences":"<small class='text-muted text-column'>" + student.trip.occupancy + "</small>&nbsp;&nbsp;" +
     	    				"<small class='text-muted text-column'>Pvt WC: " + student.trip.privateWashroom + "</small><br>" +

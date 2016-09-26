@@ -45,9 +45,9 @@
     	});
     };
     
-    function rest_obterStudentsAll(action_ok, action_notOk, destination, filters, var1) {
+    function rest_obterStudentsAll(action_ok, action_notOk, destination, accommodation, filters, var1) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista?destination=" + destination + "&filters=" + filters,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista?destination=" + destination + "&accommodation=" + accommodation + "&filters=" + filters,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
