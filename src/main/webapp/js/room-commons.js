@@ -8,6 +8,10 @@ function carregaTelaRoom(data, tipo) {
 	// **** carrega tela consulta
 	//
 		$("#id").val(data.documento.id);
+		$("#dormName").html(data.documento.dormName);
+		$("#idDorm").val(data.dorm.idDorm);
+		$("#floorName").html(data.documento.floorName);
+		$("#idFloor").val(data.dorm.idFloor);
 		$("#name").html(data.documento.name);
 		$("#type").html(data.documento.type);	
 		$("#keyDoor").html(data.documento.keyDoor);	
@@ -19,7 +23,7 @@ function carregaTelaRoom(data, tipo) {
 					'<p class="text-muted">' +
 						'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
 							'<span class="txt-color-darken"><small class="hide" id="' + bed.id + '" data-original-title="Number - "></small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + bed.name + '</small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="type' + i + '" data-original-title="Name">' + bed.type + '</small></span>' +
 							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + bed.keyDoor + '</small></span><br>' +
 							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + bed.description + '</textarea></span>' +
 				    '</p>' +
@@ -59,6 +63,10 @@ function carregaTelaRoom(data, tipo) {
 		// **** carrega tela alteração
 		//
 		$("#id").val(data.documento.id);
+		$("#idDorm").val(data.documento.idDorm);
+		$("#idFloor").val(data.documento.idFloor);
+		$("#dormName").val(data.documento.dormName);
+		$("#floorName").val(data.documento.floorName);
 		$("#name").val(data.documento.name);
 		$("#type").val(data.documento.type);	
 		$("#keyDoor").val(data.documento.keyDoor);	
@@ -68,7 +76,7 @@ function carregaTelaRoom(data, tipo) {
 				    , function (i, value) {
 			    criaLinhaBed(i);
 			    $('#id-' + i).val(value.id);
-		    	$('#name-' + i).val(value.name);
+		    	$('#type-' + i).val(value.type);
 		    	$('#description-' + i).val(value.description);
 		    });
 	  	}else{
@@ -84,6 +92,7 @@ function carregaTelaRoom(data, tipo) {
 		    });
 	  	}else{
 	  		criaLinhaComment(0);
+			$('#commentsUser-0').val(localStorage.userNameEmail);
 	  	};
 	  	if (data.documento.visits.length > 0){
 		    $.each(data.documento.visits
@@ -95,7 +104,13 @@ function carregaTelaRoom(data, tipo) {
 		    });
 	  	}else{
 	  		criaLinhaVisit(0);
+			$('#visitsUser-0').val(localStorage.userNameEmail);
 	  	};
+		var objDorm = JSON.parse(localStorage.getItem("dorm"));
+	    $.each(objDorm.documento.floors, function (i, floor) {
+			$('#idFloor').append( $(option(floor.name, "", true, floor.id)));
+	    });
+		$("#idFloor").val(data.documento.idFloor);
 	};
 	
 	localStorage.setItem("room", JSON.stringify(data));
@@ -108,7 +123,7 @@ function criaLinhaBed (i) {
 				'<fieldset class="memberList body-background-color-room">' +					
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input class="body-background-color-room" type="text" id="name-' + i + '" name="name-' + i + '" placeholder="" >' +
+							'<input class="body-background-color-room" type="text" id="type-' + i + '" name="type-' + i + '" placeholder="" >' +
 							'<input class="hide" type="text" id="id-' + i + '" name="id-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
@@ -296,8 +311,8 @@ function retornaRoom(){
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});
-	var objJson = JSON.parse(localStorage.getItem("room"));
-	window.location="room.html?id=" + objJson.documento.id; 
+	var objJson = JSON.parse(localStorage.getItem("dorm"));
+	window.location="dorm.html?id=" + objJson.documento.id; 
 };
 
 function retornaListaRoom(){
@@ -308,6 +323,7 @@ function retornaListaRoom(){
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
 		timeout : 4000
 	});
-	window.location="rooms.html"; 
+	var objJson = JSON.parse(localStorage.getItem("dorm"));
+	window.location="dorm.html?id=" + objJson.documento.id; 
 };
 

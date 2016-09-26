@@ -584,10 +584,14 @@ public class Rest_Student {
 						};
 					};
 			    };
-			    if (element[0].equals("filter_nationality")){
-					if (((String) objJson.get("nationality")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (objJson.get("nationality") != null) {
+				    if (element[0].equals("filter_nationality")){
+						if (((String) objJson.get("nationality")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
 			    if (element[0].equals("filter_age_from")){
 			    	Long ageFrom = calcAge((String)objJson.get("birthDay"));
@@ -611,109 +615,165 @@ public class Rest_Student {
 						response = false;
 					};
 			    };
-			    if (element[0].equals("filter_status")){
-					if (((String) jsonTrip.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (jsonTrip.get("status") != null) {
+				    if (element[0].equals("filter_status")){
+						if (((String) jsonTrip.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_payment")){
-					if (((String) jsonTrip.get("payment")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (jsonTrip.get("payment") != null) {
+				    if (element[0].equals("filter_payment")){
+						if (((String) jsonTrip.get("payment")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
 			    if (element[0].equals("filter_visa")){
 //					if (((String) jsonTrip.get("visa")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 //						response = false;
 //					};
 			    };
-			    if (element[0].equals("filter_flight")){
-					if (((String) jsonTrip.get("arrivalFlightNumber")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (jsonTrip.get("arrivalFlightNumber") != null) {
+				    if (element[0].equals("filter_flight")){
+						if (((String) jsonTrip.get("arrivalFlightNumber")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_pickup")){
-					if (((String) jsonTrip.get("pickup")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (jsonTrip.get("pickup") != null) {
+				    if (element[0].equals("filter_pickup")){
+						if (((String) jsonTrip.get("pickup")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_dropoff")){
-					if (((String) jsonTrip.get("dropoff")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (jsonTrip.get("dropoff") != null) {
+				    if (element[0].equals("filter_dropoff")){
+						if (((String) jsonTrip.get("dropoff")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_school")){
-					if (schoolSigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (schoolSigla != null) {
+				    if (element[0].equals("filter_school")){
+						if (schoolSigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_agent")){
-					if (agencySigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (agencySigla != null) {
+				    if (element[0].equals("filter_agent")){
+						if (agencySigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_host")){
-					if (((String) jsonTrip.get("familyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    if (jsonTrip.get("familyName") != null) {
+				    if (element[0].equals("filter_host")){
+						if (((String) jsonTrip.get("familyName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
 			    };
 			    if (element[0].equals("filter_driver")){
 //					if (((String) jsonTrip.get("driver")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 //						response = false;
 //					};
 			    };
-			    if (element[0].equals("filter_occupancy")){
-					if (((String) jsonTrip.get("occupancy")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_private_wc")){
-					if (((String) jsonTrip.get("privateWashroom")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_dogs")){
-					if (((String) jsonTrip.get("liveDogs")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_cats")){
-					if (((String) jsonTrip.get("liveCats")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
-			    };
-			    if (element[0].equals("filter_meals")){
-			    	ArrayList arrayListMeals = new ArrayList(); 
-			    	arrayListMeals = (ArrayList) jsonTrip.get("mealPlan");
-			    	Object arrayMeals[] = arrayListMeals.toArray(); 
-					Boolean resultMeals = false;
-					int w = 0;
-					while (w < arrayMeals.length) {
-						if (((String) arrayMeals[w]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						}else{
-							resultMeals = true;
+			    if (jsonTrip.get("occupancy") != null) {
+				    if (element[0].equals("filter_occupancy")){
+						if (((String) jsonTrip.get("occupancy")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
 						};
-						++w;
-					};
-					if (!resultMeals){
-						response = false;
-					}
+				    };
+			    }else{
+			    	response = false;
 			    };
-			    if (element[0].equals("filter_diet")){
-			    	ArrayList arrayListDiet = new ArrayList(); 
-			    	arrayListDiet = (ArrayList) jsonTrip.get("specialDiet");
-			    	Object arrayDiet[] = arrayListDiet.toArray(); 
-					Boolean resultDiet = false;
-					int z = 0;
-					while (z < arrayDiet.length) {
-						if (((String) arrayDiet[z]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						}else{
-							resultDiet = true;
+			    if (jsonTrip.get("privateWashroom") != null) {
+				    if (element[0].equals("filter_private_wc")){
+						if (((String) jsonTrip.get("privateWashroom")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
 						};
-						++z;
-					};
-					if (!resultDiet){
-						response = false;
-					}
+				    };
+			    }else{
+			    	response = false;
+			    };
+			    if (jsonTrip.get("liveDogs") != null) {
+				    if (element[0].equals("filter_dogs")){
+						if (((String) jsonTrip.get("liveDogs")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
+			    };
+			    if (jsonTrip.get("liveCats") != null) {
+				    if (element[0].equals("filter_cats")){
+						if (((String) jsonTrip.get("liveCats")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    };
+			    }else{
+			    	response = false;
+			    };
+			    if (jsonTrip.get("mealPlan") != null) {
+				    if (element[0].equals("filter_meals")){
+				    	ArrayList arrayListMeals = new ArrayList(); 
+				    	arrayListMeals = (ArrayList) jsonTrip.get("mealPlan");
+				    	Object arrayMeals[] = arrayListMeals.toArray(); 
+						Boolean resultMeals = false;
+						int w = 0;
+						while (w < arrayMeals.length) {
+							if (((String) arrayMeals[w]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							}else{
+								resultMeals = true;
+							};
+							++w;
+						};
+						if (!resultMeals){
+							response = false;
+						}
+				    };
+			    }else{
+			    	response = false;
+			    };
+			    if (jsonTrip.get("specialDiet") != null) {
+				    if (element[0].equals("filter_diet")){
+				    	ArrayList arrayListDiet = new ArrayList(); 
+				    	arrayListDiet = (ArrayList) jsonTrip.get("specialDiet");
+				    	Object arrayDiet[] = arrayListDiet.toArray(); 
+						Boolean resultDiet = false;
+						int z = 0;
+						while (z < arrayDiet.length) {
+							if (((String) arrayDiet[z]).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							}else{
+								resultDiet = true;
+							};
+							++z;
+						};
+						if (!resultDiet){
+							response = false;
+						}
+				    };
+			    }else{
+			    	response = false;
 			    };
 			};
 			++i;

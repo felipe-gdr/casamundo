@@ -103,7 +103,7 @@
 				var bedItem = 
 					{
 						id: $("#id-" + i).val(), 
-						name:$("#name-" + i).val(), 
+						type:$("#type-" + i).val(), 
 						keyDoor:$("#keyDoor-" + i).val(),
 						description:$("#description-" + i).val()
 					};
@@ -156,35 +156,12 @@
 			{	
 			    documento : {
 			        id : "",
-			        name : "",
-			        type : "",
+			        idDorm : "",
+			        idFloor : "",
+			        name:"",
+			        type:"",
 			        description : "",
-			        destination : "",
 			        keyDoor : "",
-			        contact : {
-			            firstName : "",
-			            lastName : "",
-			            gender : "",
-			            email : "",
-			            phoneNumber : "",
-			            mobilePhoneNumber : "",
-			            workPhoneNumber : "",
-			        },
-			        address : {
-			            street : "",
-			            number : "",
-			            city : "",
-			            state : "",
-			            postalCode : "",
-			            complement : "",
-			            mainIntersection : "",
-			            nearestSubwayStation : "",
-			            timeSubwayStation : "",
-			            subwayStation : "",
-			            latitude : "",
-			            longitude : "",
-			            destination : "",
-			        },
 			        fotos : [],
 			        beds : [],
 			        visits : [],

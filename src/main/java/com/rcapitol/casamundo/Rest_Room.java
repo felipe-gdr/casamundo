@@ -62,7 +62,27 @@ public class Rest_Room {
 			DBObject cursor = collection.findOne(setQuery);
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-			obj.put("id", idParam);			
+			obj.put("id", idParam);
+			String idDorm = (String) obj.get("idDorm");
+			String idFloor = (String) obj.get("idFloor");
+			if (idDorm != null && !idDorm.equals("")){
+				ObjectId objectIdDorm = new ObjectId(idDorm);
+				Mongo mongoDorm = new Mongo();
+				DB dbDorm = (DB) mongoDorm.getDB("documento");
+				DBCollection collectionDorm = dbDorm.getCollection("dorm");
+				BasicDBObject searchQueryDorm = new BasicDBObject("_id", objectIdDorm);
+				DBObject cursorDorm = collectionDorm.findOne(searchQueryDorm);
+				BasicDBObject objDorm = (BasicDBObject) cursorDorm.get("documento");
+				obj.put("dormName", objDorm.get("name"));
+				@SuppressWarnings("rawtypes")
+				List<JSONObject> floors = (List) objDorm.get("floors");
+				for(Object floor : floors){
+					if (idFloor.equals(((BasicBSONObject) floor).get("id"))){
+						obj.put("floorName", ((BasicBSONObject) floor).get("name"));								
+					}
+				};
+				mongoDorm.close();
+			};
 			documento.put("documento", obj);
 			mongo.close();
 			return documento;
@@ -212,23 +232,25 @@ public class Rest_Room {
 					for(JSONObject bed : beds){
 						System.out.println("idUser " + bed.get("idUser"));
 						String idStudent = (String) bed.get("idUser");
-						ObjectId objectStudent = new ObjectId(idStudent);
-						Mongo mongoStudent = new Mongo();
-						DB dbDorm = (DB) mongoStudent.getDB("documento");
-						DBCollection collectionStudent = dbDorm.getCollection("student");
-						BasicDBObject searchQueryStudent = new BasicDBObject("_id", objectStudent);
-						DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
-						BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
-						bed.put("lastName", objStudent.get("lastName"));
-						bed.put("firstName", objStudent.get("firstName"));
-						bed.put("email", objStudent.get("mail"));
-					    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
-					    if (tripIndex != null){
-							@SuppressWarnings("rawtypes")
-							List trips = (List) objStudent.get("trips");
-							BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
-							bed.put("trip", jsonTrip);
-					    };
+						if (idStudent != null){
+							ObjectId objectStudent = new ObjectId(idStudent);
+							Mongo mongoStudent = new Mongo();
+							DB dbDorm = (DB) mongoStudent.getDB("documento");
+							DBCollection collectionStudent = dbDorm.getCollection("student");
+							BasicDBObject searchQueryStudent = new BasicDBObject("_id", objectStudent);
+							DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
+							BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
+							bed.put("lastName", objStudent.get("lastName"));
+							bed.put("firstName", objStudent.get("firstName"));
+							bed.put("email", objStudent.get("mail"));
+						    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+						    if (tripIndex != null){
+								@SuppressWarnings("rawtypes")
+								List trips = (List) objStudent.get("trips");
+								BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
+								bed.put("trip", jsonTrip);
+						    };
+						};
 						bedsOut.add(bed);
 					}
 					jsonDocumento.put("beds", bedsOut);

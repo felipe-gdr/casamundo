@@ -35,7 +35,9 @@ public class Room {
 
 		public String id;
 		public String idDorm;
+		public String dormName;
 		public String idFloor;
+		public String floorName;
 		public String name;
 		public String type;
 		public String description;
@@ -98,7 +100,7 @@ public class Room {
 
 		public static final class Beds {
 			public String id;
-			public String name;
+			public String type;
 			public String description;
 			public String idUser;
 
@@ -109,12 +111,12 @@ public class Room {
 			@JsonCreator
 			public Beds(
 					String id,
-					String name,
+					String type,
 					String description,
 					String idUser
 			){
 				this.id = id;
-				this.name = name;
+				this.type = type;
 				this.description = description;
 				this.idUser = idUser; 
 			}
