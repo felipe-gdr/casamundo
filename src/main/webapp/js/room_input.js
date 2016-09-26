@@ -16,6 +16,16 @@
 	if (parametrosDaUrl){
 		var id = parametrosDaUrl.split("=")[1];
 	};
+	
+	var objDorm = JSON.parse(localStorage.getItem("dorm"));
+	//
+	// **** carrega dados dorm
+	//
+	$("#idDorm").val(objDorm.documento.id);
+	$("#dormName").val(objDorm.documento.name);
+    $.each(objDorm.documento.units, function (i, unit) {
+		$('#idUnit').append( $(option(unit.name, "", true, unit.id)));
+    });
 
 	/**
 	 * 		carrega tabelas
@@ -157,7 +167,7 @@
 			    documento : {
 			        id : "",
 			        idDorm : "",
-			        idFloor : "",
+			        idUnit : "",
 			        name:"",
 			        type:"",
 			        description : "",

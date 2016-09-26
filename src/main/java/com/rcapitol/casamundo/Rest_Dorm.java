@@ -186,7 +186,7 @@ public class Rest_Dorm {
 					jsonDocumento.put("keyDoor", jsonObject.get("keyDoor"));
 					jsonDocumento.put("contact", jsonObject.get("contact"));
 					jsonDocumento.put("address", jsonObject.get("address"));
-					jsonDocumento.put("floors", jsonObject.get("floors"));
+					jsonDocumento.put("units", jsonObject.get("units"));
 					documentos.add(jsonDocumento);
 				} catch (ParseException e) {
 					e.printStackTrace();

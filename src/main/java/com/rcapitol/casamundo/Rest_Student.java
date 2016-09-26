@@ -702,9 +702,9 @@ public class Rest_Student {
 				    	response = false;
 				    };
 			    };
-			    if (element[0].equals("filter_floor")){
-				    if (jsonTrip.get("floorName") != null) {
-						if (((String) jsonTrip.get("floorName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+			    if (element[0].equals("filter_unit")){
+				    if (jsonTrip.get("unitName") != null) {
+						if (((String) jsonTrip.get("unitName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 							response = false;
 						};
 				    }else{

@@ -52,18 +52,19 @@ function carregaTelaDorm(data, tipo) {
 	  	$("#address_subwayStation").html(data.documento.address.subwayStation);
 	  	$("#address_destination").html(data.documento.address.destination);
 	  	
-	    $.each(data.documento.floors , function (i, floor) {
-	    	var floorLine = 
+	    $.each(data.documento.units , function (i, unit) {
+	    	var unitLine = 
 		    	'<li>' +
 					'<p class="text-muted">' +
 						'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
-							'<span class="txt-color-darken"><small class="hide" id="' + floor.id + '" data-original-title="Number - "></small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + floor.name + '</small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + floor.keyDoor + '</small></span><br>' +
-							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + floor.description + '</textarea></span>' +
+							'<span class="txt-color-darken"><small class="hide" id="' + unit.id + '" data-original-title="Number - "></small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + unit.name + '</small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + unit.keyDoor + '</small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="wifiCode' + i + '" data-original-title="Wi Fi code"> - wifi code: ' + unit.wifiCode + '</small></span><br>' +
+							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + unit.description + '</textarea></span>' +
 				    '</p>' +
 				'</li>'
-	    	$("#floorsList").append(floorLine);
+	    	$("#unitsList").append(unitLine);
 	    });
 	    $.each(data.documento.comments
 			    , function (i, value) {
@@ -123,17 +124,18 @@ function carregaTelaDorm(data, tipo) {
 	  	$("#address_timeSubwayStation").val(data.documento.address.timeSubwayStation);
 	  	$("#address_subwayStation").val(data.documento.address.subwayStation);
 	  	$("#address_destination").val(data.documento.address.destination);
-	  	if (data.documento.floors.length > 0){
-		    $.each(data.documento.floors
+	  	if (data.documento.units.length > 0){
+		    $.each(data.documento.units
 				    , function (i, value) {
-			    criaLinhaFloor(i);
+			    criaLinhaUnit(i);
 			    $('#id-' + i).val(value.id);
 		    	$('#name-' + i).val(value.name);
 		    	$('#keyDoor-' + i).val(value.keyDoor);
+		    	$('#wifiCode-' + i).val(value.wifiCode);
 		    	$('#description-' + i).val(value.description);
 		    });
 	  	}else{
-	  		criaLinhaFloor(0, 0);
+	  		criaLinhaUnit(0, 0);
 	  	};
 	  	if (data.documento.comments.length > 0){
 		    $.each(data.documento.comments
@@ -162,52 +164,53 @@ function carregaTelaDorm(data, tipo) {
 	localStorage.setItem("dorm", JSON.stringify(data));
 };    
 
-function criaLinhaFloor (i) {
-	var floorLine = 
-		'<li class="floorItem" id="floorItem-' + i + '">' +
+function criaLinhaUnit (i) {
+	var unitLine = 
+		'<li class="unitItem" id="unitItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
 							'<input class="body-background-color-dorm" type="text" id="name-' + i + '" name="name-' + i + '" placeholder="" >' +
 							'<input class="hide" type="text" id="id-' + i + '" name="id-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
 							'<input class="body-background-color-dorm" type="text" id="keyDoor-' + i + '" name="keyDoor-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-2">' +	
+					'<section class="col-xs-2 columns-table">' +
+						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
+							'<input class="body-background-color-dorm" type="text" id="wifiCode-' + i + '" name="wifiCode-' + i + '" placeholder="" >' +
+						'</label>' +
 					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<textarea rows="3" cols="30" id="description-' + i + '" name="description-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="newItem-' + i + '"  class="newItemVisit"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="delItem-' + i + '"  class="delItemVisit"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
 			'</div>' +
 		'</li>';
-	$("#floorsList").append(floorLine);
+	$("#unitsList").append(unitLine);
 
-	acertaSinalItem ("floorItem", "");
+	acertaSinalItem ("unitItem", "");
 	
 	$('#newItem-' + i).off('click');
 	$('#newItem-' + i).on('click', function () {
-		criaLinhaFloor (i + 1);
-		acertaSinalItem ("floorItem", "");
+		criaLinhaUnit (i + 1);
+		acertaSinalItem ("unitItem", "");
 	});
 	
 	$('#delItem-' + i).off('click');
 	$('#delItem-' + i).on('click', function () {
-		$('#floorItem-' + i).remove();
-		acertaSinalItem ("floorItem", "");
+		$('#unitItem-' + i).remove();
+		acertaSinalItem ("unitItem", "");
 	});
 
 };
@@ -218,29 +221,25 @@ function criaLinhaComment (i, comment) {
 		'<li class="commentItem" id="commentItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
 							'<input type="text" id="commentsDate-' + i + '" name="commentsDate-' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
 						'<input class="body-background-color-dorm"type="text" id="commentsUser-' + i + '" name="commentsUser-' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input">'  +
 							'<textarea rows="3" cols="30" id="commentsComments-' + i + '" name="commentsComments-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="newItemComment-' + i + '"  class="newItemComment"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="delItemComment-' + i + '"  class="delItemComment"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
@@ -281,29 +280,25 @@ function criaLinhaVisit (i, visit) {
 		'<li class="visitItem" id="visitItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
 							'<input type="text" id="visitsDate-' + i + '" name="visitsDate-' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
 						'<input class="body-background-color-dorm" type="text" id="visitsUser-' + i + '" name="visitsUser-' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input">'  +
 							'<textarea rows="3" cols="30" id="visitsComments-' + i + '" name="visitsComments-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="newItemVisit-' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="delItemVisit-' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +

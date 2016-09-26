@@ -7,16 +7,16 @@
 	});
 
 	if (localStorage.usuarioPerfil == "caretaker"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
+		$("#asideMenu").append(lineMenuAside ("menuHomestay", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuShare", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "user"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
+		$("#asideMenu").append(lineMenuAside ("menuHomestay", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuShare", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").parent().find('ul').slideToggle();
@@ -26,20 +26,20 @@
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "administrator"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
+		$("#asideMenu").append(lineMenuAside ("menuHomestay", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuShare", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
-		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
+		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Buildings"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "tools"){
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Homestay", "Homestay"));
-		$("#asideMenu").append(lineMenuAside ("menuStudents", "students.html?accommodation=Dorms", "Share"));
+		$("#asideMenu").append(lineMenuAside ("menuHomestay", "students.html?accommodation=Homestay", "Homestay"));
+		$("#asideMenu").append(lineMenuAside ("menuShare", "students.html?accommodation=Dorms", "Share"));
 		$("#asideMenu").append(lineMenuAside ("menuFamilies", "families.html", "Families"));
-		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Dorms"));
+		$("#asideMenu").append(lineMenuAside ("menuDorms", "dorms.html", "Buildings"));
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));

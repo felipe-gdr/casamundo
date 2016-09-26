@@ -288,7 +288,7 @@ public class Student {
     		public String idRoom;
     		public String idBed;
     		public String dormName;
-    		public String floorName;
+    		public String unitName;
     		public String roomName;
     		public String bedName;
     		public String start;           
@@ -361,7 +361,7 @@ public class Student {
         	    		String idRoom,
         	    		String idBed,
         	    		String dormName,
-        	    		String floorName,
+        	    		String unitName,
         	    		String roomName,
         	    		String bedName,
         	    		String start,           
@@ -429,7 +429,7 @@ public class Student {
 	    		this.idRoom = idRoom;
 	    		this.idBed = idBed;
 	    		this.dormName = dormName;
-	    		this.floorName = floorName;
+	    		this.unitName = unitName;
 	    		this.roomName = roomName;
 	    		this.bedName = bedName;
 	    		this.start = start;            

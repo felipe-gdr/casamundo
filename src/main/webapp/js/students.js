@@ -1,6 +1,3 @@
-	// ** setar menu
-	$("#menuStudents_li").addClass("active");
-
 	// 
 	//**    carrega dados url
 	//
@@ -11,6 +8,15 @@
 		localStorage.accommodation = parametrosDaUrl.split("=")[1];
 	};
 
+	// ** setar menu
+
+	if (localStorage.accommodation == "Homestay"){
+		$("#menuHomestay_li").addClass("active");
+	};
+
+	if (localStorage.accommodation == "Dorms"){
+		$("#menuShare_li").addClass("active");
+	};
 	// *** flag para não permitir setar evento click na tabela
 	localStorage.setClickTable = "false";
 	

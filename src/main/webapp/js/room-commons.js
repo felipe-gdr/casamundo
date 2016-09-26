@@ -10,8 +10,8 @@ function carregaTelaRoom(data, tipo) {
 		$("#id").val(data.documento.id);
 		$("#dormName").html(data.documento.dormName);
 		$("#idDorm").val(data.dorm.idDorm);
-		$("#floorName").html(data.documento.floorName);
-		$("#idFloor").val(data.dorm.idFloor);
+		$("#unitName").html(data.documento.unitName);
+		$("#idUnit").val(data.dorm.idUnit);
 		$("#name").html(data.documento.name);
 		$("#type").html(data.documento.type);	
 		$("#keyDoor").html(data.documento.keyDoor);	
@@ -59,14 +59,16 @@ function carregaTelaRoom(data, tipo) {
 	};	
 
 	if (tipo == "alteracao"){
+		
+		var objDorm = JSON.parse(localStorage.getItem("dorm"));
 		//
 		// **** carrega tela alteração
 		//
 		$("#id").val(data.documento.id);
-		$("#idDorm").val(data.documento.idDorm);
-		$("#idFloor").val(data.documento.idFloor);
-		$("#dormName").val(data.documento.dormName);
-		$("#floorName").val(data.documento.floorName);
+		$("#idDorm").val(objDorm.documento.id);
+		$("#idUnit").val(data.documento.idUnit);
+		$("#dormName").val(objDorm.documento.name);
+		$("#unitName").val(data.documento.unitName);
 		$("#name").val(data.documento.name);
 		$("#type").val(data.documento.type);	
 		$("#keyDoor").val(data.documento.keyDoor);	
@@ -106,11 +108,6 @@ function carregaTelaRoom(data, tipo) {
 	  		criaLinhaVisit(0);
 			$('#visitsUser-0').val(localStorage.userNameEmail);
 	  	};
-		var objDorm = JSON.parse(localStorage.getItem("dorm"));
-	    $.each(objDorm.documento.floors, function (i, floor) {
-			$('#idFloor').append( $(option(floor.name, "", true, floor.id)));
-	    });
-		$("#idFloor").val(data.documento.idFloor);
 	};
 	
 	localStorage.setItem("room", JSON.stringify(data));

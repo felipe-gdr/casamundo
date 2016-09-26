@@ -64,7 +64,7 @@ public class Rest_Room {
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 			obj.put("id", idParam);
 			String idDorm = (String) obj.get("idDorm");
-			String idFloor = (String) obj.get("idFloor");
+			String idUnit = (String) obj.get("idUnit");
 			if (idDorm != null && !idDorm.equals("")){
 				ObjectId objectIdDorm = new ObjectId(idDorm);
 				Mongo mongoDorm = new Mongo();
@@ -75,10 +75,10 @@ public class Rest_Room {
 				BasicDBObject objDorm = (BasicDBObject) cursorDorm.get("documento");
 				obj.put("dormName", objDorm.get("name"));
 				@SuppressWarnings("rawtypes")
-				List<JSONObject> floors = (List) objDorm.get("floors");
-				for(Object floor : floors){
-					if (idFloor.equals(((BasicBSONObject) floor).get("id"))){
-						obj.put("floorName", ((BasicBSONObject) floor).get("name"));								
+				List<JSONObject> units = (List) objDorm.get("units");
+				for(Object unit : units){
+					if (idUnit.equals(((BasicBSONObject) unit).get("id"))){
+						obj.put("unitName", ((BasicBSONObject) unit).get("name"));								
 					}
 				};
 				mongoDorm.close();
@@ -202,12 +202,12 @@ public class Rest_Room {
 					JSONObject jsonDocumento = new JSONObject();
 					jsonDocumento.put("id", objRoom.getString("_id"));
 					jsonDocumento.put("idDorm", jsonObject.get("idDorm"));
-					jsonDocumento.put("idFloor", jsonObject.get("idFloor"));
+					jsonDocumento.put("idUnit", jsonObject.get("idUnit"));
 					jsonDocumento.put("name", jsonObject.get("name"));
 					jsonDocumento.put("type", jsonObject.get("type"));
 					jsonDocumento.put("description", jsonObject.get("description"));
 					jsonDocumento.put("keyDoor", jsonObject.get("keyDoor"));
-					String idFloor = (String) jsonObject.get("idFloor");
+					String idUnit = (String) jsonObject.get("idUnit");
 					if (idDorm != null && !idDorm.equals("")){
 						ObjectId objectIdDorm = new ObjectId(idDorm);
 						Mongo mongoDorm = new Mongo();
@@ -218,10 +218,10 @@ public class Rest_Room {
 						BasicDBObject objDorm = (BasicDBObject) cursorDorm.get("documento");
 						jsonDocumento.put("dorm", objDorm.get("name"));
 						@SuppressWarnings("rawtypes")
-						List<JSONObject> floors = (List) objDorm.get("floors");
-						for(Object floor : floors){
-							if (idFloor.equals(((BasicBSONObject) floor).get("id"))){
-								jsonDocumento.put("floor", ((BasicBSONObject) floor).get("name"));								
+						List<JSONObject> units = (List) objDorm.get("units");
+						for(Object unit : units){
+							if (idUnit.equals(((BasicBSONObject) unit).get("id"))){
+								jsonDocumento.put("unit", ((BasicBSONObject) unit).get("name"));								
 							}
 						};
 						mongoDorm.close();

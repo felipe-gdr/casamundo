@@ -42,7 +42,7 @@ public class Dorm {
 		public Contact contact;
 		public Address address;
 		public Fotos fotos[];
-		public Floors floors[];
+		public Units units[];
 		public Visits visits[];
 		public Comments comments[];
 		public Documento() {
@@ -60,7 +60,7 @@ public class Dorm {
 						Contact contact,
 						Address address,
 						Fotos fotos[],						
-						Floors floors[],
+						Units units[],
 						Visits visits[],						
 						Comments comments[]
 								) {
@@ -73,7 +73,7 @@ public class Dorm {
 						this.contact = contact; 
 						this.address = address; 
 						this.fotos = fotos;
-						this.floors = floors;
+						this.units = units;
 						this.visits = visits;
 						this.comments = comments;
 		}
@@ -186,27 +186,30 @@ public class Dorm {
 
 		}
 
-		public static final class Floors {
+		public static final class Units {
 			public String id;
 			public String name;
 			public String description;
 			public String keyDoor;
+			public String wifiCode;
 
-			public Floors() {
+			public Units() {
 
 			}
 
 			@JsonCreator
-			public Floors(
+			public Units(
 					String id,
 					String name,
 					String description,
-					String keyDoor
+					String keyDoor,
+					String wifiCode
 			){
 				this.id = id;
 				this.name = name;
 				this.description = description;
-				this.keyDoor = keyDoor; 
+				this.keyDoor = keyDoor;
+				this.wifiCode = wifiCode;
 			}
 
 		}

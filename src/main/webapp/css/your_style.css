@@ -67,6 +67,9 @@
 .text-italic {
 	font-style: italic !important;
 }
+ .columns-table {
+	padding-right: 10px!important;
+}
 
 .body-background-color-family{
 	background-color: #dffeff!important;

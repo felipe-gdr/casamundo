@@ -993,7 +993,7 @@ function limpaStorageStudent () {
 		        	    		idRoom:"",
 		        	    		idBed:"",
 		        	    		dormName:"",
-		        	    		floorName:"",
+		        	    		unitName:"",
 		        	    		roomName:"",
 		        	    		bedName:"",
 					    		start:"", 

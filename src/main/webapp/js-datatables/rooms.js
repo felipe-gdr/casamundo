@@ -118,7 +118,7 @@
 	    	"room": 
 	    			"<a href='room_input.html?id=" + room.id + "'>" +
 	    			"<span>" + room.name +  "</span><br>" +
-	    			"<small class='text-muted'>Floor: " + room.floor +  "</small><br></a>",
+	    			"<small class='text-muted'>Unit: " + room.unit +  "</small><br></a>",
             "description":
             	"<small class='text-muted'>" + room.description +  "</small><br></a>",
             "beds":

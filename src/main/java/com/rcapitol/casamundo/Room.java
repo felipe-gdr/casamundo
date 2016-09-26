@@ -36,8 +36,8 @@ public class Room {
 		public String id;
 		public String idDorm;
 		public String dormName;
-		public String idFloor;
-		public String floorName;
+		public String idUnit;
+		public String unitName;
 		public String name;
 		public String type;
 		public String description;
@@ -54,7 +54,7 @@ public class Room {
 		public Documento(
 						String id,
 						String idDorm,
-						String idFloor,
+						String idUnit,
 						String name,
 						String type,
 						String description,
@@ -66,7 +66,7 @@ public class Room {
 								) {
 						this.id = id;
 						this.idDorm = idDorm;
-						this.idFloor = idFloor;
+						this.idUnit = idUnit;
 						this.name = name; 
 						this.type = type; 
 						this.description = description;

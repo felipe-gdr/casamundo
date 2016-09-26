@@ -28,7 +28,7 @@
 		var data = rest_obterDorm(id, carregaTelaDorm, carregaInclusao, "alteracao");
 	}else{
 		localStorage.dormExistente = "false";
-		criaLinhaFloor(0, 0);
+		criaLinhaUnit(0, 0);
 		criaLinhaComment(0);
 		criaLinhaVisit(0);
 	};
@@ -99,16 +99,17 @@
 						};						
 					};
 			});
-			$(".floorItem").each(function(i, value) {
-				var floorItem = 
+			$(".unitItem").each(function(i, value) {
+				var unitItem = 
 					{
 						id: $("#id-" + i).val(), 
 						name:$("#name-" + i).val(), 
 						keyDoor:$("#keyDoor-" + i).val(),
+						wifiCode:$("#wifiCode-" + i).val(),
 						description:$("#description-" + i).val()
 					};
 				console.log ("id:" + $("#id-" + i).val())
-				objJson.documento.floors.push(floorItem);
+				objJson.documento.units.push(unitItem);
 			});
 			$(".commentItem").each(function(i, value) {
 				var commentItem = 
@@ -202,7 +203,7 @@
 			            destination : "",
 			        },
 			        fotos : [],
-			        floors : [],
+			        units : [],
 			        visits : [],
 			        comments : []
 			    }

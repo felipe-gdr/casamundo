@@ -56,7 +56,7 @@
 		            { "data": "contact" , "width": "20%" },
 		            { "data": "address" , "width": "25%" },
 		            { "data": "addressInfo" , "width": "20%" },
-		            { "data": "floors" , "width": "20%" },
+		            { "data": "units" , "width": "20%" },
 		            ],
         "responsive": true,
         "charset" : "UTF-8",
@@ -70,12 +70,12 @@
     });
     var objJson = JSON.parse(localStorage.getItem("dorms"));
     $.each(objJson, function (i, dorm) {
-    	var floors = "";
-        if (dorm.floors){
-    	    $.each(dorm.floors, function (i, floor) {
-    	    	floors = floors + 
-    	    		"<span class='text text-table'>" + floor.name + "</span><br>" +
-    	    		"<span class='text text-muted'>" + floor.description + "</span><br>";
+    	var units = "";
+        if (dorm.units){
+    	    $.each(dorm.units, function (i, unit) {
+    	    	units = units + 
+    	    		"<span class='text text-table'>" + unit.name + "</span><br>" +
+    	    		"<span class='text text-muted'>" + unit.description + "</span><br>";
     	    });
         };        
 
@@ -97,8 +97,8 @@
             		"<small class='text-muted'>Nearest subway station:" + dorm.address.nearestSubwayStation + "</small><br>" +
             		"<small class='text-muted'>Time to subway station:" + dorm.address.timeSubwayStation + "</small><br>" +
             		"<small class='text-muted'>Subway station:" + dorm.address.subwayStation + "</small><br>",
-            "floors":
-            		floors,
+            "units":
+            		units,
             'actions': 
             		'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
 	    }).draw( false );
