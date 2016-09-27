@@ -113,6 +113,7 @@
 				var bedItem = 
 					{
 						id: $("#id-" + i).val(), 
+						name:$("#name-" + i).val(), 
 						type:$("#type-" + i).val(), 
 						keyDoor:$("#keyDoor-" + i).val(),
 						description:$("#description-" + i).val()

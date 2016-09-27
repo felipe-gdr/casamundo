@@ -81,37 +81,10 @@
     	var beds = "";
         if (room.beds){
     	    $.each(room.beds, function (i, bed) {
-            	var student = "";
-            	if (bed.firstName){
-            		student = bed.firstName;
-            	}
-            	if (bed.firstName){
-            		student = student + " " + bed.lastName;
-            	}
-            	var email = "";
-            	if (bed.email){
-            		email = " - " + bed.email;
-            	}
-            	var datesTrip = "";
-            	if (bed.trip){
-                	if (bed.trip.start){
-                		datesTrip = separaDataMes(bed.trip.start, "-");
-                	};
-	            	if (bed.trip.end){
-	            		datesTrip = datesTrip + " - " + separaDataMes(bed.trip.end, "-");
-	            	};
-            	};
-            	studentData = "";
-            	if (student != ""){
-            		studentData =
-            		"<span class='text text-muted'>" + student + "</span>" +
-    	    		"<span class='text text-muted'>" + email + "</span><br>" +
-    	    		"<span class='text text-muted'>" + datesTrip + "</span><br>";            			
-            	};
     	    	beds = beds + 
-    	    		"<span class='text text-table'>" + bed.type + "</span><br>" +
-    	    		"<span class='text text-muted'>" + bed.description + "</span><br>" +
-    	    		studentData;
+    	    		"<span class='text text-table'>" + bed.name + "</span><br>" +
+    	    		"<span class='text text-muted'>" + bed.type + "</span><br>" +
+    	    		"<span class='text text-muted'>" + bed.description + "</span><br>";
     	    });
         };        
     	room_table.row.add( {

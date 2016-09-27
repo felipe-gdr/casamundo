@@ -29,7 +29,7 @@
      * 			adendo a lista student
      */
 
-    console.log ("1 - " + new Date().getTime());
+//    console.log ("1 - " + new Date().getTime());
 
 	/**
 	 * 				obter os dados
@@ -49,7 +49,7 @@
 	};
 	function carregaLocalStorageStudents (objJson, destroy) {
 
-        console.log ("2 - " + new Date().getTime());
+//        console.log ("2 - " + new Date().getTime());
 
         localStorage.setItem("students", JSON.stringify(objJson));
 
@@ -116,14 +116,14 @@
     	    }
     	
         });
-        console.log ("3 - " + new Date().getTime());
+//       console.log ("3 - " + new Date().getTime());
 
         var objJson = JSON.parse(localStorage.getItem("students"));
         
         student_table.clear();
         
         $.each(objJson, function (i, student) {
-	        console.log ("4 - " + new Date().getTime());
+//	        console.log ("4 - " + new Date().getTime());
         	var age = calculaIdade(separaData(student.birthDay, "/"));
         	switch (student.trip.status) {
         	case "Available":
@@ -283,7 +283,7 @@
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
 	        var typePage = "accommodation";
-	        console.log ("5 - " + new Date().getTime());
+//	        console.log ("5 - " + new Date().getTime());
 		    if (student.trip.familyName) {
 		        familyName = student.trip.familyName;	
 		        accommodation =
@@ -346,6 +346,14 @@
 			        };
 	        	};
 	        };
+	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
+	        	if (localStorage.accommodation == "Dorms"){
+		        	if (student.trip.status == "Available"){
+			        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
+			        			  "<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        };
+	        	};
+	        };
 		    var pickupCollor = "success";
 	        if (student.trip.pickup == "Yes"){
 	        	pickupCollor = "danger";
@@ -377,7 +385,7 @@
 	        	
 	        };
 	        
-	        console.log ("8 - " + new Date().getTime());
+//	        console.log ("8 - " + new Date().getTime());
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
@@ -417,10 +425,10 @@
 	    				'</ul>' +
 	    			'</div>' 
     	    }).draw( false );
-	        console.log ("9 - " + new Date().getTime());
+//	        console.log ("9 - " + new Date().getTime());
         });
 
-        console.log ("10 - " + new Date().getTime());
+//        console.log ("10 - " + new Date().getTime());
 
     	// Add event listener for opening and closing details
         $('#students_list tbody').off('click');

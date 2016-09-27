@@ -59,6 +59,12 @@
 		$(".notAccommodation" ).addClass("hide");
 	}
 	//
+	//***   setar pagina como accommodation
+	//
+	if (typePage == "accommodation-dorms"){
+		$(".notAccommodationDorms" ).addClass("hide");
+	}
+	//
 	//***   setar pagina como somente consulta student
 	//
 	if (typePage == "onlyStudent"){
@@ -147,10 +153,6 @@
     $('#contactPhone').html(getValueStudent("contactPhone",actualTrip));
     $('#contactMobilePhone').html(getValueStudent("contactMobilePhone",actualTrip));
     
-    if (getValueStudent("familyName",actualTrip)){
-    	$(".family" ).removeClass("hide");
-    };
-    
     $("#start").html(separaDataMes(getValueStudent("start", actualTrip), "-"));
     $("#end").html(separaDataMes(getValueStudent("end", actualTrip), "-"), actualTrip);
     $("#arrivalDate").html(separaDataMes(getValueStudent("arrivalDate", actualTrip), "-"));
@@ -166,15 +168,20 @@
     $('#dropoff').html(getValueStudent("dropoff",actualTrip));
     $('#accommodation').html(getValueStudent("accommodation",actualTrip));
 	if (getValueStudent("accommodation", actualTrip) == "Homestay"){
-		$(".homestay").removeClass("hide");
+    	$(".homestay" ).removeClass("hide");
+	    if (getValueStudent("familyName",actualTrip)){
+	    	$(".family" ).removeClass("hide");
+	    }else{
+	    	$(".family" ).addClass("hide");	
+	    };
 	}else{
 		if (getValueStudent("accommodation", actualTrip) == "Dorms"){
-    		$(".dorms").removeClass("hide");
-    	}else{
+	   		$(".dorms").removeClass("hide");
+	  	}else{
         	if (getValueStudent("accommodation", actualTrip) == "Suite"){
-        		$(".suite").removeClass("hide");
-        	}
-    	}
+	       		$(".suite").removeClass("hide");
+	      	}
+	 	}
 	};
     
     var room = getValueStudent("roomData",actualTrip);

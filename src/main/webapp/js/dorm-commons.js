@@ -204,6 +204,7 @@ function criaLinhaUnit (i) {
 	$('#newItem-' + i).off('click');
 	$('#newItem-' + i).on('click', function () {
 		criaLinhaUnit (i + 1);
+		$('#id-' + (i + 1)).val(parseInt($('#id-' + i).val()) + 1);
 		acertaSinalItem ("unitItem", "");
 	});
 	

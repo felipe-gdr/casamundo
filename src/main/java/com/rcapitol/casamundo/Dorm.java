@@ -37,7 +37,6 @@ public class Dorm {
 		public String name;
 		public String type;
 		public String description;
-		public String destination;
 		public String keyDoor;
 		public Contact contact;
 		public Address address;
@@ -55,7 +54,6 @@ public class Dorm {
 						String name,
 						String type,
 						String description,
-						String destination,
 						String keyDoor,
 						Contact contact,
 						Address address,
@@ -68,7 +66,6 @@ public class Dorm {
 						this.name = name; 
 						this.type = type; 
 						this.description = description;
-						this.destination = destination;
 						this.keyDoor = keyDoor;
 						this.contact = contact; 
 						this.address = address; 

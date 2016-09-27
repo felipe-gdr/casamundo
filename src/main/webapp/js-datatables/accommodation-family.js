@@ -516,7 +516,6 @@
 	    });
 	    return studentOccupancyData;
 	};
-
 	
 	function bedsOccupied (occupancyRows) {
 		var objJson = JSON.parse(localStorage.getItem("student"));

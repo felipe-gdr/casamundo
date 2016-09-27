@@ -154,7 +154,7 @@
     	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
     });
 	
-	$('#destination').change(function() {
+	$('#address_destination').change(function() {
 		$("#address_mainIntersection option").remove();
 		$("#address_mainIntersection").append($(option("Choose one item")));
 		$('#address_mainIntersection option[value="Choose one item"]').attr('disabled','disabled');
@@ -176,7 +176,6 @@
 			        name : "",
 			        type : "",
 			        description : "",
-			        destination : "",
 			        keyDoor : "",
 			        contact : {
 			            firstName : "",

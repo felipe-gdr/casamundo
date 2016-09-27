@@ -6,6 +6,8 @@ import javax.ws.rs.QueryParam;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import com.rcapitol.casamundo.Family.Documento.Rooms.OccupancySingleBed;
+
 public class Room {
 
 	public Documento documento;
@@ -100,9 +102,10 @@ public class Room {
 
 		public static final class Beds {
 			public String id;
+			public String name;
 			public String type;
 			public String description;
-			public String idUser;
+    		public OccupancyBed occupancyBed[];
 
 			public Beds() {
 
@@ -111,14 +114,16 @@ public class Room {
 			@JsonCreator
 			public Beds(
 					String id,
+					String name,
 					String type,
 					String description,
-					String idUser
+        			OccupancyBed[] occupancyBed
 			){
 				this.id = id;
+				this.name = name;
 				this.type = type;
 				this.description = description;
-				this.idUser = idUser; 
+	    		this.occupancyBed = occupancyBed;
 			}
 
 		}
@@ -167,5 +172,29 @@ public class Room {
 	    		this.comments = comments;
             };
 		};
+		  
+        public static final class OccupancyBed {
+    		public String emailStudent;
+    		public String startOccupancy;
+    		public String endOccupancy;
+
+    		public OccupancyBed() {
+
+			}
+   
+            @JsonCreator
+            public OccupancyBed(
+            			String emailStudent,
+            			String startOccupancy,
+            			String endOccupancy
+            		)
+            {
+	    		this.emailStudent = emailStudent;
+	    		this.startOccupancy = startOccupancy;
+	    		this.endOccupancy = endOccupancy;
+            }
+
+		}
+
 	};
 }; 

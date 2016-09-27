@@ -23,7 +23,8 @@ function carregaTelaRoom(data, tipo) {
 					'<p class="text-muted">' +
 						'<i class="fa fa-home"></i>&nbsp;&nbsp;' +
 							'<span class="txt-color-darken"><small class="hide" id="' + bed.id + '" data-original-title="Number - "></small></span>' +
-							'<span class="txt-color-darken"><small class="text-muted" id="type' + i + '" data-original-title="Name">' + bed.type + '</small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="name' + i + '" data-original-title="Name">' + bed.name + '</small></span>' +
+							'<span class="txt-color-darken"><small class="text-muted" id="type' + i + '" data-original-title="Type">' + bed.type + '</small></span>' +
 							'<span class="txt-color-darken"><small class="text-muted" id="keyDoor' + i + '" data-original-title="Key door"> - key door: ' + bed.keyDoor + '</small></span><br>' +
 							'<span class="txt-color-darken"><textarea rows="2"  cols="60" id="description' + i + '" name="description' + i + '" class="custom-scroll" disabled="disabled">' + bed.description + '</textarea></span>' +
 				    '</p>' +
@@ -78,11 +79,13 @@ function carregaTelaRoom(data, tipo) {
 				    , function (i, value) {
 			    criaLinhaBed(i);
 			    $('#id-' + i).val(value.id);
+		    	$('#name-' + i).val(value.name);
 		    	$('#type-' + i).val(value.type);
 		    	$('#description-' + i).val(value.description);
 		    });
 	  	}else{
 	  		criaLinhaBed(0, 0);
+	  		$('#id-0').val(0);
 	  	};
 	  	if (data.documento.comments.length > 0){
 		    $.each(data.documento.comments
@@ -117,22 +120,29 @@ function criaLinhaBed (i) {
 	var bedLine = 
 		'<li class="bedItem" id="bedItem-' + i + '">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList body-background-color-room">' +					
-					'<section class="col-xs-2">' +
+				'<fieldset class="memberList ">' +					
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-home"></i>' +
-							'<input class="body-background-color-room" type="text" id="type-' + i + '" name="type-' + i + '" placeholder="" >' +
+							'<input class="" type="text" id="name-' + i + '" name="name-' + i + '" placeholder="" >' +
 							'<input class="hide" type="text" id="id-' + i + '" name="id-' + i + '" placeholder="" >' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-2">' +	
+					'<section class="col-xs-2 columns-table">' +
+						'<label class="select ">' +
+							'<select class="" id="type-' + i + '" name="type-' + i + '">' +
+								'<option value="" selected="" disabled=""></option>' +
+								'<option value="Single">Single</option>' +
+								'<option value="Couple">Couple</option>' +
+							'</select><i></i>' +
+						'</label>' +
 					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<textarea rows="3" cols="30" id="description-' + i + '" name="description-' + i + '" class="custom-scroll body-background-color-room"></textarea>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="newItem-' + i + '"  class="newItemVisit"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="delItem-' + i + '"  class="delItemVisit"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
@@ -145,6 +155,7 @@ function criaLinhaBed (i) {
 	$('#newItem-' + i).off('click');
 	$('#newItem-' + i).on('click', function () {
 		criaLinhaBed (i + 1);
+		$('#id-' + (i + 1)).val(parseInt($('#id-' + i).val()) + 1);
 		acertaSinalItem ("bedItem", "");
 	});
 	
@@ -162,29 +173,25 @@ function criaLinhaComment (i, comment) {
 		'<li class="commentItem" id="commentItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
 							'<input type="text" id="commentsDate-' + i + '" name="commentsDate-' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
 						'<input class="body-background-color-dorm"type="text" id="commentsUser-' + i + '" name="commentsUser-' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input">'  +
 							'<textarea rows="3" cols="30" id="commentsComments-' + i + '" name="commentsComments-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="newItemComment-' + i + '"  class="newItemComment"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="delItemComment-' + i + '"  class="delItemComment"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
@@ -225,29 +232,25 @@ function criaLinhaVisit (i, visit) {
 		'<li class="visitItem" id="visitItem-' + i + '">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-dorm">' +					
-					'<section class="col-xs-2">' +
+					'<section class="col-xs-2 columns-table">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
 							'<input type="text" id="visitsDate-' + i + '" name="visitsDate-' + i + '" class="datepicker body-background-color-dorm" data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
 						'<input class="body-background-color-dorm" type="text" id="visitsUser-' + i + '" name="visitsUser-' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +	
-					'</section>' +
-					'<section class="col-xs-3">' +
+					'<section class="col-xs-3 columns-table">' +
 						'<label class="input">'  +
 							'<textarea rows="3" cols="30" id="visitsComments-' + i + '" name="visitsComments-' + i + '" class="custom-scroll body-background-color-dorm"></textarea>' +
 						'</label>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="newItemVisit-' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
 					'</section>' +
-					'<section class="col-xs-1">' +
+					'<section class="col-xs-1 columns-table">' +
 						'<a id="delItemVisit-' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
 					'</section>' +
 				'</fieldset>' +
