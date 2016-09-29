@@ -65,21 +65,21 @@
     	$("#bankNumber").val("");
 	 });
 
-    function fechaModalBank (field) {
-    	$("#bankModal").modal('hide');
-    	$('#bankName').attr("disabled", false);
-    	
-    	$("#bankName").val("");
-    	$("#bankNumber").val("");
-    	
-    	rest_obterBankAll(carregaBanks);
-    };
+function fechaModalBank (field) {
+	$("#bankModal").modal('hide');
+	$('#bankName').attr("disabled", false);
+	
+	$("#bankName").val("");
+	$("#bankNumber").val("");
+	
+	rest_obterBankAll(carregaBanks);
+};
 
-    function carregaLocalStorageBank (data, tipo) {
-    	localStorage.setItem("bank", JSON.stringify(data));
-    	localStorage.bankExistente = "true";
-    	
-    };
+function carregaLocalStorageBank (data, tipo) {
+	localStorage.setItem("bank", JSON.stringify(data));
+	localStorage.bankExistente = "true";
+	
+};
 
 function carregaInclusaoBank(data) { 	   	
 	localStorage.bankExistente = "false";

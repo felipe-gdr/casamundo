@@ -948,6 +948,254 @@ function carregaInclusao(data) {
 function carregaStudent(data) { 	
 	
 	localStorage.setItem("student", JSON.stringify(data));
+    
+    var actualTrip = getValueStudent("actualTrip");
+
+	$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
+	$("#celPhone").html(getValueStudent("celPhone"));
+    $('#phone').html(getValueStudent("phone"));
+    $('#mail').html(getValueStudent("mail"));
+    $('#lastName').html(getValueStudent("lastName"));
+    $('#firstName').html(getValueStudent("firstName"));
+    $("#birthDay").html(separaDataMes(getValueStudent("birthDay"), "-"));
+    $("#age").html(calculaIdade(separaConverteDataMes(getValueStudent("birthDay"), "/")));
+    $('#gender').html(getValueStudent("gender"));
+    $('#nationality').html(getValueStudent("nationality"));
+    $('#firstLanguage').html(getValueStudent("firstLanguage"));
+    $('#profession').html(getValueStudent("profession"));
+//    $('#mainPurposeTrip').html(getValueStudent("mainPurposeTrip"));
+    $('#englishLevel').html(getValueStudent("englishLevel"));
+    $('#streetNumber').html(getValueStudent("streetNumber"));
+    $('#streetName').html(getValueStudent("streetName"));
+    $('#state').html(getValueStudent("state"));
+    $('#postalCode').html(getValueStudent("postalCode"));
+    $('#city').html(getValueStudent("city"));
+    $('#country').html(getValueStudent("country"));
+    $('#complement').html(getValueStudent("complement"));
+
+	// ** carrega mapa endereco
+	generate_map_6(getValueStudent("latitude"), getValueStudent("longitude"));
+	$('.addressMap').removeClass("hide");
+
+	$('#secondaryTelephone').html(getValueStudent("secondaryTelephone"));
+    $('#emergencyContactName').html(getValueStudent("emergencyContactName"));
+    $('#emergencyContactPhone').html(getValueStudent("emergencyContactPhone"));
+    $('#emergencyContactMail').html(getValueStudent("emergencyContactMail"));
+    $('#emergencyContactRelationship').html(getValueStudent("emergencyContactRelationship"));
+    $('#photoPassport').html(getValueStudent("photoPassport"));
+	if (getValueStudent("photoPassport")){
+		carregaPhoto (localStorage.app, getValueStudent("photoPassport"), "photoPassport");
+	};
+    $('#status').html(getValueStudent("status",actualTrip));
+    $('#destination').html(getValueStudent("destination",actualTrip));
+    $('#contactFamilyName').html(getValueStudent("contactFamilyName",actualTrip));
+    
+    $('#contactName').html(getValueStudent("contactName",actualTrip));
+    $('#contactGender').html(getValueStudent("contactGender",actualTrip));
+    $('#contactEmail').html(getValueStudent("contactEmail",actualTrip));
+    $('#contactPhone').html(getValueStudent("contactPhone",actualTrip));
+    $('#contactMobilePhone').html(getValueStudent("contactMobilePhone",actualTrip));
+    
+    $("#start").html(separaDataMes(getValueStudent("start", actualTrip), "-"));
+    $("#end").html(separaDataMes(getValueStudent("end", actualTrip), "-"), actualTrip);
+    $("#arrivalDate").html(separaDataMes(getValueStudent("arrivalDate", actualTrip), "-"));
+    $("#arrivalTime").html(separaHora(getValueStudent("arrivalTime", actualTrip), ":"));
+    $('#arrivalFlightNumber').html(getValueStudent("arrivalFlightNumber",actualTrip));
+    $('#arrivalAirline').html(getValueStudent("arrivalAirline",actualTrip));
+    $("#departureDate").html(separaDataMes(getValueStudent("departureDate", actualTrip), "-"));
+    $("#departureTime").html(separaHora(getValueStudent("departureTime", actualTrip), ":"));
+    $('#departureFlightNumber').html(getValueStudent("departureFlightNumber",actualTrip));
+    $('#departureAirline').html(getValueStudent("departureAirline",actualTrip));
+    $('#extend').html(getValueStudent("extend",actualTrip));
+    $('#pickup').html(getValueStudent("pickup",actualTrip));
+    $('#dropoff').html(getValueStudent("dropoff",actualTrip));
+    $('#accommodation').html(getValueStudent("accommodation",actualTrip));
+	if (getValueStudent("accommodation", actualTrip) == "Homestay"){
+    	$(".homestay" ).removeClass("hide");
+	    if (getValueStudent("familyName",actualTrip)){
+	    	$(".family" ).removeClass("hide");
+	    }else{
+	    	$(".family" ).addClass("hide");	
+	    };
+	}else{
+		if (getValueStudent("accommodation", actualTrip) == "Dorms"){
+	   		$(".dorms").removeClass("hide");
+	  	}else{
+        	if (getValueStudent("accommodation", actualTrip) == "Suite"){
+	       		$(".suite").removeClass("hide");
+	      	}
+	 	}
+	};
+    
+    var room = getValueStudent("roomData",actualTrip);
+    if (room){
+    	if (room.number){
+	    	$('#roomNumberHomestay').html((parseInt(room.number) + 1));
+	    	$('#singleBed').html(room.singleBed);
+	    	$('#coupleBed').html(room.coupleBed);
+	    	$('#note').html(room.note);
+	    	$('#studentOcuppancy').html(room.studentOccupancy);
+	    	$('#startOccupancy').html(room.startOccupancy);
+	    	$('#endOccupancy').html(room.endOccupancy);
+    	}else{
+        	$('.room').addClass("hide");
+    	}
+    }else{
+    	$('.room').addClass("hide");
+    }
+//
+//	***  carrega dados tela email	
+//	
+	$("#studentCompleteNameEmail").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
+	$("#celPhoneEmail").html(getValueStudent("celPhone"));
+    $('#phoneEmail').html(getValueStudent("phone"));
+    $('#mailEmail').html(getValueStudent("mail"));
+    $('#lastNameEmail').html(getValueStudent("lastName"));
+    $('#firstNameEmail').html(getValueStudent("firstName"));
+    $("#birthDayEmail").html(separaDataMes(getValueStudent("birthDay"), "-"));
+    $("#ageEmail").html(calculaIdade(separaConverteDataMes(getValueStudent("birthDay"), "/")));
+    $('#genderEmail').html(getValueStudent("gender"));
+    $('#nationalityEmail').html(getValueStudent("nationality"));
+    $('#firstLanguageEmail').html(getValueStudent("firstLanguage"));
+    $('#professionEmail').html(getValueStudent("profession"));
+//    $('#mainPurposeTripEmail').html(getValueStudent("mainPurposeTrip"));
+    $('#englishLevelEmail').html(getValueStudent("englishLevel"));
+    $('#streetNumberEmail').html(getValueStudent("streetNumber"));
+    $('#streetNameEmail').html(getValueStudent("streetName"));
+    $('#stateEmail').html(getValueStudent("state"));
+    $('#postalCodeEmail').html(getValueStudent("postalCode"));
+    $('#cityEmail').html(getValueStudent("city"));
+    $('#countryEmail').html(getValueStudent("country"));
+    $('#secondaryTelephoneEmail').html(getValueStudent("secondaryTelephone"));
+    $('#emergencyContactNameEmail').html(getValueStudent("emergencyContactName"));
+    $('#emergencyContactPhoneEmail').html(getValueStudent("emergencyContactPhone"));
+    $('#emergencyContactMailEmail').html(getValueStudent("emergencyContactMail"));
+    $('#statusEmail').html(getValueStudent("status",actualTrip));
+    $('#destinationEmail').html(getValueStudent("destination",actualTrip));
+    $("#startEmail").html(separaDataMes(getValueStudent("start", actualTrip), "."), "-");
+    $("#endEmail").html(separaDataMes(getValueStudent("end", actualTrip), "."), "-");
+    $("#arrivalDateEmail").html(separaDataMes(getValueStudent("arrivalDate", actualTrip), "."), "-");
+    $("#arrivalDateEmail").html(separaHora(getValueStudent("arrivalTime", actualTrip), ":"));
+    $('#arrivalFlightNumberEmail').html(getValueStudent("arrivalFlightNumber",actualTrip));
+    $('#arrivalAirlineEmail').html(getValueStudent("arrivalAirline",actualTrip));
+    $("#departureDateEmail").html(separaDataMes(getValueStudent(("departureDate", actualTrip)), "-"));
+    $("#departureTimeEmail").html(separaHora(getValueStudent("departureTime", actualTrip), ":"));
+    $('#departureFlightNumberEmail').html(getValueStudent("departureFlightNumber",actualTrip));
+    $('#departureAirlineEmail').html(getValueStudent("departureAirline",actualTrip));
+    $('#extendEmail').html(getValueStudent("extend",actualTrip));
+    $('#pickupEmail').html(getValueStudent("pickup",actualTrip));
+    $('#dropoffEmail').html(getValueStudent("dropoff",actualTrip));
+    $('#accommodationEmail').html(getValueStudent("accommodation",actualTrip));
+    //
+    //    *** homestay
+    //
+    $('#occupancy').html(getValueStudent("occupancy",actualTrip));
+	if (getValueStudent("occupancy", actualTrip) == "Twin" || getValueStudent("occupancy", actualTrip) == "Couple"){
+		$(".guest").removeClass("hide");
+	}else{
+		$(".guest").addClass("hide");
+	}
+    $('#guestName').html(getValueStudent("guestName",actualTrip));
+    $('#guestEmail').html(getValueStudent("guestEmail",actualTrip));
+    $('#relationship').html(getValueStudent("relationship",actualTrip));
+    $('#mealPlan').html(getValueStudent("mealPlan",actualTrip));
+    $('#specialDiet').html(getValueStudent("specialDiet",actualTrip));
+    $('#privateWashroom').html(getValueStudent("privateWashroom",actualTrip));
+    $('#smoke').html(getValueStudent("smoke",actualTrip));
+    $('#liveDogs').html(getValueStudent("liveDogs",actualTrip));
+    $('#liveCats').html(getValueStudent("liveCats",actualTrip));
+    $('#liveWithChildren').html(getValueStudent("liveWithChildren",actualTrip));
+    $('#hobbies').html(getValueStudent("hobbies",actualTrip));
+    $('#medical').html(getValueStudent("medical",actualTrip));
+    $('#comments').html(getValueStudent("comments",actualTrip));
+    $('#agreeTerm').html(getValueStudent("agreeTerm",actualTrip));
+    //
+    //    *** carrega dadps homestay do email
+    //
+    $('#occupancyEmail').html(getValueStudent("occupancy",actualTrip));
+    $('#guestNameEmail').html(getValueStudent("guestName",actualTrip));
+    $('#relationshipEmail').html(getValueStudent("relationship",actualTrip));
+    $('#mealPlanEmail').html(getValueStudent("mealPlan",actualTrip));
+    $('#specialDietEmail').html(getValueStudent("specialDiet",actualTrip));
+    $('#privateWashroomEmail').html(getValueStudent("privateWashroom",actualTrip));
+    $('#smokeEmail').html(getValueStudent("smoke",actualTrip));
+    $('#liveDogsEmail').html(getValueStudent("liveDogs",actualTrip));
+    $('#liveCatsEmail').html(getValueStudent("liveCats",actualTrip));
+    $('#hobbiesEmail').html(getValueStudent("hobbies",actualTrip));
+    $('#medicalEmail').html(getValueStudent("medical",actualTrip));
+    $('#commentsEmail').html(getValueStudent("comments",actualTrip));
+    $('#agreeTermEmail').html(getValueStudent("agreeTerm",actualTrip));
+    //
+    // *** dorms
+    //
+    $('#usuallyStudy').html(getValueStudent("usuallyStudy",actualTrip));
+    $('#keepBedroom').html(getValueStudent("keepBedroom",actualTrip));
+    $('#iAmUsually').html(getValueStudent("iAmUsually",actualTrip));
+    $('#creditCardType').html(getValueStudent("creditCardType",actualTrip));
+    $('#creditCardNumber').html(getValueStudent("creditCardNumber",actualTrip));
+    var expireDate = getValueStudent("creditCardExpire", actualTrip);
+    $('#creditCardExpire').html(getValueStudent("creditCardExpire",actualTrip));
+    $('#creditCardCVC').html(getValueStudent("creditCardCVC",actualTrip));
+    $('#apartamentType').html(getValueStudent("apartamentType",actualTrip));
+    $('#petQuantity').html(getValueStudent("petQuantity",actualTrip));
+    $('#petType').html(getValueStudent("petType",actualTrip));
+    $('#parking').html(getValueStudent("parking",actualTrip));
+    $('#wifi').html(getValueStudent("wifi",actualTrip));
+    $('#peopleQuantity').html(getValueStudent("peopleQuantity",actualTrip));
+    var peopleQuantity = getValueStudent("peopleQuantity", actualTrip); 
+    $('.g' + getValueStudent("peopleQuantity", actualTrip)).removeClass("hide");
+    $('#guest_01').html(getValueStudent("guest_01",actualTrip));
+    $('#guest_02').html(getValueStudent("guest_02",actualTrip));
+    $('#guest_03').html(getValueStudent("guest_03",actualTrip));
+    $('#guest_04').html(getValueStudent("guest_04",actualTrip));
+    $('#guest_05').html(getValueStudent("guest_05",actualTrip));
+    $('#agreeDebit').html(getValueStudent("agreeDebit",actualTrip));
+    $('#agreeDebitSuite').html(getValueStudent("agreeDebitSuite",actualTrip));
+    $('#agreeSuite').html(getValueStudent("agreeSuite",actualTrip));
+    
+	if (getValueStudent("agencyName",actualTrip)){
+		rest_obterAgency (getValueStudent("agencyName",actualTrip), carregaDadosAgency, semAcao, true, getValueStudent("agencyConsultName",actualTrip))
+	};
+	$("#agencyConsultName").html(getValueStudent("agencyConsultName",actualTrip));
+	
+	if (getValueStudent("schoolName",actualTrip)){
+		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true, getValueStudent("schoolConsultName",actualTrip))
+	};
+	$("#schoolConsultName").html(getValueStudent("schoolConsultName",actualTrip));
+//	
+//*** setar datas do modal
+//	
+	date = separaConverteDataMes(objJson.documento.trips[actualTrip].start, "/").split("/");
+	var start = new Date(date[1]+"/"+date[0]+"/"+date[2]);
+	date = separaConverteDataMes(objJson.documento.trips[actualTrip].end, "/").split("/");
+	var end = new Date(date[1]+"/"+date[0]+"/"+date[2]);
+	$('#bedAlocationStart').datepicker({
+	    changeMonth: true,
+	    changeYear: true,
+	    dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		maxDate: end,
+		minDate: start,		
+		onSelect : function(selectedDate) {
+			$('#bedAlocationEnd').datepicker('option', 'minDate', selectedDate);
+			}
+		});
+
+	$('#bedAlocationEnd').datepicker({
+	    changeMonth: true,
+	    changeYear: true,
+	    dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		maxDate: end,
+		minDate: start,		
+		onSelect : function(selectedDate) {
+//			$('#bedAlocationStart').datepicker('option', 'minDate', selectedDate);
+			}
+		});
+	
+	
 };
 
 function limpaStorageStudent () {

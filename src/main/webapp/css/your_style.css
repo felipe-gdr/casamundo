@@ -71,6 +71,10 @@
 	padding-right: 20px!important;
 }
 
+/*
+family
+*/
+
 .body-background-color-family{
 	background-color: #dffeff!important;
 }
@@ -126,6 +130,10 @@
 .body-background-color-family .dt-toolbar-footer{
 	background-color: #dffeff!important;
 }
+
+/*
+student
+*/
 
 .body-background-color-student{
 	background-color: #ffffcc!important;
@@ -186,6 +194,26 @@
 .body-background-color-student .dt-toolbar-footer{
 	background-color: #ffffcc!important;
 }
+
+.body-background-color-student .modal-dialog{
+	background-color: #ffffcc!important;
+}
+
+.body-background-color-student .modal-content{
+	background-color: #ffffcc!important;
+}
+
+.body-background-color-student .modal-header{
+	background-color: #ffffcc!important;
+}
+
+.body-background-color-student .modal-body{
+	background-color: #ffffcc!important;
+}
+
+/*
+admnistrator
+*/
 
 .body-background-color-administrator{
 	background-color: #ede9ea!important;
@@ -252,6 +280,22 @@
 }
 
 .body-background-color-administrator .dt-toolbar-footer{
+	background-color: #ede9ea!important;
+}
+
+.body-background-color-administrator .modal-dialog{
+	background-color: #ede9ea!important;
+}
+
+.body-background-color-administrator .modal-content{
+	background-color: #ede9ea!important;
+}
+
+.body-background-color-administrator .modal-header{
+	background-color: #ede9ea!important;
+}
+
+.body-background-color-administrator .modal-body{
 	background-color: #ede9ea!important;
 }
 

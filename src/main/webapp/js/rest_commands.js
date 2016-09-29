@@ -1038,6 +1038,31 @@
     	});
     };
 
+
+    function rest_AtualizaBed(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/atualizar/bed",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		action_not_ok(message)
+        	};
+    	});
+    };
+
     function rest_incluiRoom(objJson, action_ok, action_not_ok, message) {
 		$.ajax({
 			type: "POST",

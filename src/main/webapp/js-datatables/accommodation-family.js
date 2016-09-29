@@ -837,6 +837,7 @@
 		delete objStudent.contact;
 		delete objStudent.rooms;
 		delete objStudent.family;
+		delete objStudent.room;
 		rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Family name included", "Problems to update student, try again")
 		
 	};

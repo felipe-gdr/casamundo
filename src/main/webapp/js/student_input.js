@@ -330,10 +330,12 @@
 	    dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
+		yearRange: "1940:2020",
 		onSelect : function(selectedDate) {
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
+
 	if (!mailUrl){
 		$(".homestay").removeClass("hide");
 	};
