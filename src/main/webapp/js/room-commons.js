@@ -86,7 +86,7 @@ function carregaTelaRoom(data, tipo) {
 		    });
 	  	}else{
 	  		criaLinhaBed(0, 0);
-	  		$('#id-0').val(0);
+	  		$('#id-0').val("0");
 	  	};
 	  	if (data.documento.comments.length > 0){
 		    $.each(data.documento.comments
