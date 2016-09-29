@@ -230,7 +230,8 @@ public class Rest_Student {
 			    	setQuery.put("documento.trips.accommodation", accommodation);
 			    };
 			};
-		    BasicDBObject setSort = new BasicDBObject();
+
+			BasicDBObject setSort = new BasicDBObject();
 			setSort.put("documento.firstName", 1);
 
 			DBCollection collection = db.getCollection("student");

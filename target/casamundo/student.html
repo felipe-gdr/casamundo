@@ -1221,33 +1221,35 @@
 																	</div>
 																	<br>
 																	<div class="row">
-																		<div class="col-xs-4 hide homestay dorms">
-																			<small class='text-muted hide family homestay hide'>Family: </small><small class='homestay text-primary' id="contactFamilyName"   data-original-title="Family name"></small><br>
+																		<div class="col-xs-4 hide homestay">
+																			<small class='text-muted family hide homestay'>Family: </small><small class='text-primary family hide homestay' id="contactFamilyName"   data-original-title="Family name"></small><br>
 																			<br>
 																			<small class='text-warning text-center hide family homestay hide'>Contact </small><br>
-																			<small class='text-muted hide family homestay hide'>name: </small><small class='homestay text-primary' id="contactName"   data-original-title="Contact name"></small><br>
-																			<small class='text-muted hide family homestay hide'>gender: </small><small class='homestay text-primary' id="contactGender"   data-original-title="Contact gender"></small><br>
-																			<small class='text-muted hide family homestay hide'>email: </small><small class='homestay text-primary' id="contactEmail"   data-original-title="Contact email"></small><br>
-																			<small class='text-muted hide family homestay hide'>phone: </small><small class='homestay text-primary' id="contactPhone"   data-original-title="Contact phone"></small><br>
-																			<small class='text-muted hide family homestay hide'>cell phone: </small><small class='homestay text-primary' id="contactMobilePhone"   data-original-title="Contact mobile phone"></small><br>
+																			<small class='text-muted  family hide homestay'>name: </small><small class='text-primary hide homestay' id="contactName"   data-original-title="Contact name"></small><br>
+																			<small class='text-muted  family hide homestay'>gender: </small><small class='text-primary hide homestay' id="contactGender"   data-original-title="Contact gender"></small><br>
+																			<small class='text-muted  family hide homestay'>email: </small><small class='text-primary hide homestay' id="contactEmail"   data-original-title="Contact email"></small><br>
+																			<small class='text-muted  family hide homestay'>phone: </small><small class='text-primary hide homestay' id="contactPhone"   data-original-title="Contact phone"></small><br>
+																			<small class='text-muted  family hide homestay'>cell phone: </small><small class='text-primary hide homestay' id="contactMobilePhone"   data-original-title="Contact mobile phone"></small><br>
 																			<br>
+																			<div class='room'>
+																				<small class='text-warning text-center hide room homestay hide'>Room </small><br>
+																				<small class='text-muted hide room homestay '>Number: </small><small class='room hide homestay text-primary' id="roomNumberHomestay"  data-original-title="Room number"></small><br>
+																				<small class='text-muted hide room homestay '>Single bed's: </small><small class='room hide homestay text-primary' id="singleBed"  data-original-title="Room number"></small>
+																				<small class='text-muted hide room homestay '> Couple bed's: </small><small class='room hide homestay text-primary' id="coupleBed"  data-original-title="Room number"></small><br>
+																				<small class='text-muted hide room homestay '>Start: </small><small class='room hide homestay text-primary' id="startOccupancy"  data-original-title="Start Occupancy"></small>
+																				<small class='text-muted hide room homestay '> End: </small><small class='room hide homestay text-primary' id="endOccupancy"  data-original-title="End Occupancy"></small><br>
+																				<small class='text-muted hide room homestay '>Note: </small><small class='room hide homestay text-primary' id="note"  data-original-title="Note"></small><br>
+																				<br>
+																			</div>
+																		</div>
+																		<div class="col-xs-4 hide guest dorms homestay">
 																			<div class='guest'>
-																				<small class='text-warning text-center hide guest homestay hide'>Guest </small><br>
+																				<small class='text-warning text-center hide guest homestay dorms'>Guest </small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest name: </small><small class='guest hide homestay dorms text-primary' id="guestName"  data-original-title="Guest Name"></small><br>
 																				<small class='text-muted guest hide homestay dorms'>Guest email: </small><small class='guest hide homestay dorms text-primary' id="guestEmail"  data-original-title="Guest email"></small><br>
 																		        <small class='text-muted guest hide homestay dorms'>Relationship: </small><small class='guest hide homestay dorms text-primary' id="relationship"   data-original-title="Relationship"></small><br>
 																		   	</div>
 																		   	<br>
-																			<div class='room'>
-																				<small class='text-warning text-center hide room homestay hide'>Room </small><br>
-																				<small class='text-muted hide room homestay dorms'>Number: </small><small class='room hide homestay dorms text-primary' id="roomNumberHomestay"  data-original-title="Room number"></small><br>
-																				<small class='text-muted hide room homestay dorms'>Single bed's: </small><small class='room hide homestay dorms text-primary' id="singleBed"  data-original-title="Room number"></small>
-																				<small class='text-muted hide room homestay dorms'> Couple bed's: </small><small class='room hide homestay dorms text-primary' id="coupleBed"  data-original-title="Room number"></small><br>
-																				<small class='text-muted hide room homestay dorms'>Start: </small><small class='room hide homestay dorms text-primary' id="startOccupancy"  data-original-title="Start Occupancy"></small>
-																				<small class='text-muted hide room homestay dorms'> End: </small><small class='room hide homestay dorms text-primary' id="endOccupancy"  data-original-title="End Occupancy"></small><br>
-																				<small class='text-muted hide room homestay dorms'>Note: </small><small class='room hide homestay dorms text-primary' id="note"  data-original-title="Note"></small><br>
-																				<br>
-																			</div>
 																		</div>
 																		<div class="col-xs-4 hide suite">
 																				<small class='text-muted '>Apartament Type: </small><small class='suite text-primary' id="apartamentType"   data-original-title="Apartartament Type"></small><br>
@@ -1854,10 +1856,10 @@
 		<script src="js/student-commons.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js-datatables/student.js"></script>
-		<script src="js/student.js"></script>
 		<script src="js/family-commons.js"></script>
 		<script src="js-datatables/accommodation-family.js"></script>
 		<script src="js-datatables/accommodation-room.js"></script>
+		<script src="js/student.js"></script>
 
 		<script>
 			$(document).ready(function() {

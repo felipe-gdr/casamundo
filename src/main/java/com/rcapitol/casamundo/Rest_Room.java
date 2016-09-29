@@ -74,6 +74,8 @@ public class Rest_Room {
 				DBObject cursorDorm = collectionDorm.findOne(searchQueryDorm);
 				BasicDBObject objDorm = (BasicDBObject) cursorDorm.get("documento");
 				obj.put("dormName", objDorm.get("name"));
+				BasicDBObject objAddress = (BasicDBObject) objDorm.get("address");
+				obj.put("destination", objAddress.get("destination"));
 				@SuppressWarnings("rawtypes")
 				List<JSONObject> units = (List) objDorm.get("units");
 				for(Object unit : units){
@@ -176,20 +178,30 @@ public class Rest_Room {
 		}
 		return null;
 	};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterRooms(@QueryParam("idDorm") String idDorm) {
+	public JSONArray ObterRooms(@QueryParam("idDorm") String idDorm, @QueryParam("destination") String destination) {
 
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
-
+			
 			DBCollection collection = db.getCollection("room");
-			BasicDBObject setQuery = new BasicDBObject("documento.idDorm", idDorm);			
-			DBCursor cursor = collection.find(setQuery);
+			BasicDBObject setQuery = new BasicDBObject();
+			if (idDorm != null && !idDorm.equals("null")){
+				setQuery.put("documento.idDorm", idDorm);
+			};
+			if (destination != null && !destination.equals("all") ){
+				setQuery.put("documento.address.destination", destination);
+			};
+
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.dormName", 1);
+
+			DBCursor cursor = collection.find(setQuery).sort(setSort);;
 			JSONArray documentos = new JSONArray();
 			//
 			while (((Iterator<DBObject>) cursor).hasNext()) {
@@ -217,7 +229,6 @@ public class Rest_Room {
 						DBObject cursorDorm = collectionDorm.findOne(searchQueryDorm);
 						BasicDBObject objDorm = (BasicDBObject) cursorDorm.get("documento");
 						jsonDocumento.put("dorm", objDorm.get("name"));
-						@SuppressWarnings("rawtypes")
 						List<JSONObject> units = (List) objDorm.get("units");
 						for(Object unit : units){
 							if (idUnit.equals(((BasicBSONObject) unit).get("id"))){
@@ -226,7 +237,6 @@ public class Rest_Room {
 						};
 						mongoDorm.close();
 					};
-					@SuppressWarnings("rawtypes")
 					List<JSONObject> beds = (List) jsonObject.get("beds");
 					ArrayList <JSONObject> bedsOut = new ArrayList(); 
 					for(JSONObject bed : beds){
@@ -245,7 +255,6 @@ public class Rest_Room {
 							bed.put("email", objStudent.get("mail"));
 						    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
 						    if (tripIndex != null){
-								@SuppressWarnings("rawtypes")
 								List trips = (List) objStudent.get("trips");
 								BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
 								bed.put("trip", jsonTrip);
@@ -268,4 +277,103 @@ public class Rest_Room {
 		}
 		return null;
 	};
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Path("/lista/beds")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONArray ObterBeds(@QueryParam("destination") String destination) {
+
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			DBCollection collection = db.getCollection("room");
+			BasicDBObject setQuery = new BasicDBObject();
+			if (destination != null && !destination.equals("all") ){
+				setQuery.put("documento.destination", destination);
+			};
+
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.dormName", 1);
+
+			DBCursor cursor = collection.find(setQuery).sort(setSort);;
+			JSONArray documentos = new JSONArray();
+			//
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				JSONParser parser = new JSONParser(); 
+				BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				String documento = objRoom.getString("documento");
+				try {
+					JSONObject jsonObject; 
+					jsonObject = (JSONObject) parser.parse(documento);
+					JSONObject jsonDocumento = new JSONObject();
+					jsonDocumento.put("id", objRoom.getString("_id"));
+					jsonDocumento.put("idDorm", jsonObject.get("idDorm"));
+					jsonDocumento.put("idUnit", jsonObject.get("idUnit"));
+					jsonDocumento.put("name", jsonObject.get("name"));
+					jsonDocumento.put("type", jsonObject.get("type"));
+					jsonDocumento.put("description", jsonObject.get("description"));
+					jsonDocumento.put("keyDoor", jsonObject.get("keyDoor"));
+					String idUnit = (String) jsonObject.get("idUnit");
+					String idDorm = (String) jsonObject.get("idDorm");
+					if (idDorm != null && !idDorm.equals("")){
+						ObjectId objectIdDorm = new ObjectId(idDorm);
+						Mongo mongoDorm = new Mongo();
+						DB dbDorm = (DB) mongoDorm.getDB("documento");
+						DBCollection collectionDorm = dbDorm.getCollection("dorm");
+						BasicDBObject searchQueryDorm = new BasicDBObject("_id", objectIdDorm);
+						DBObject cursorDorm = collectionDorm.findOne(searchQueryDorm);
+						BasicDBObject objDorm = (BasicDBObject) cursorDorm.get("documento");
+						jsonDocumento.put("dorm", objDorm.get("name"));
+						List<JSONObject> units = (List) objDorm.get("units");
+						for(Object unit : units){
+							if (idUnit.equals(((BasicBSONObject) unit).get("id"))){
+								jsonDocumento.put("unit", ((BasicBSONObject) unit).get("name"));								
+							}
+						};
+						mongoDorm.close();
+					};
+					List<JSONObject> beds = (List) jsonObject.get("beds");
+					for(JSONObject bed : beds){
+						JSONObject jsonBed = new JSONObject();
+						jsonBed.putAll(jsonDocumento);
+						List<JSONObject> occupancies = (List) bed.get("occupancies");
+						List<JSONObject> occupanciesOut =  new ArrayList(); 
+						if (occupancies != null){
+							for(JSONObject occupancy : occupancies){
+								String idStudent = (String) occupancy.get("idStudent");
+								if (idStudent != null){
+									ObjectId objectStudent = new ObjectId(idStudent);
+									Mongo mongoStudent = new Mongo();
+									DB dbDorm = (DB) mongoStudent.getDB("documento");
+									DBCollection collectionStudent = dbDorm.getCollection("student");
+									BasicDBObject searchQueryStudent = new BasicDBObject("_id", objectStudent);
+									DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
+									if (cursorStudent != null){
+										BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
+										occupancy.put("student", objStudent);
+									};
+								};
+								occupanciesOut.add(occupancy);
+							};
+							bed.put("occupancies", occupanciesOut);
+						};
+						jsonBed.put("bed", bed);
+						documentos.add(jsonBed);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			};
+			mongo.close();
+			return documentos;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
 };

@@ -16,7 +16,7 @@
 	// **** montagem do filtro para submissão ao server
 	//
 
-		// **** testa existencia do email
+		// **** testa filtros
 		$(".text-filter").blur(function(){
 			var filters = 
 					'filter_family:' + $("#filters_family").val() + ',' +
@@ -40,6 +40,20 @@
 					var objStudent = JSON.parse(localStorage.getItem("student"));
 					rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination, filters, "true");
 		});	
+
+		
+		// **** testa filtro availability
+		localStorage.filters = "";
+		$(".text-filter-bed").blur(function(){
+			var filters = 
+				'filters_dorm:' + $("#filters_dorm").val() + ',' +
+				'filters_uni:' + $("#filters_uni").val() + ',' +
+				'filters_room:' + $("#filters_room").val() + ',' +
+				'filters_bed:' + $("#filters_bed").val() + ',' +
+				'filters_availability:' + $("#filters_availability").val();
+			carregaLocalStorageRooms(JSON.parse(localStorage.getItem("rooms")), filters);
+			localStorage.filters = filters;
+		});
 	
 	 	 
 	/**
@@ -57,12 +71,16 @@
 	//
 	if (typePage == "accommodation"){
 		$(".notAccommodation" ).addClass("hide");
+		$(".pageFamily" ).removeClass("hide");
+		montaAccommodationFamily ();
 	}
 	//
 	//***   setar pagina como accommodation
 	//
 	if (typePage == "accommodation-dorms"){
 		$(".notAccommodationDorms" ).addClass("hide");
+		$(".pageBeds" ).removeClass("hide");
+		montaAccommodationRoom ();
 	}
 	//
 	//***   setar pagina como somente consulta student

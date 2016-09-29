@@ -43,6 +43,7 @@ public class Room {
 		public String name;
 		public String type;
 		public String description;
+		public String destination;
 		public String keyDoor;
 		public Fotos fotos[];
 		public Beds beds[];
@@ -56,10 +57,13 @@ public class Room {
 		public Documento(
 						String id,
 						String idDorm,
+						String dormName,
 						String idUnit,
+						String unitName,
 						String name,
 						String type,
 						String description,
+						String destination,
 						String keyDoor,
 						Fotos fotos[],						
 						Beds beds[],
@@ -68,10 +72,13 @@ public class Room {
 								) {
 						this.id = id;
 						this.idDorm = idDorm;
+						this.dormName = dormName;
 						this.idUnit = idUnit;
+						this.unitName = unitName;
 						this.name = name; 
 						this.type = type; 
 						this.description = description;
+						this.destination = destination;
 						this.keyDoor = keyDoor;
 						this.fotos = fotos;
 						this.beds = beds;
@@ -105,7 +112,7 @@ public class Room {
 			public String name;
 			public String type;
 			public String description;
-    		public OccupancyBed occupancyBed[];
+    		public Occupancies occupancies[];
 
 			public Beds() {
 
@@ -117,13 +124,13 @@ public class Room {
 					String name,
 					String type,
 					String description,
-        			OccupancyBed[] occupancyBed
+        			Occupancies[] occupancies
 			){
 				this.id = id;
 				this.name = name;
 				this.type = type;
 				this.description = description;
-	    		this.occupancyBed = occupancyBed;
+	    		this.occupancies = occupancies;
 			}
 
 		}
@@ -173,23 +180,23 @@ public class Room {
             };
 		};
 		  
-        public static final class OccupancyBed {
-    		public String emailStudent;
+        public static final class Occupancies {
+    		public String idStudent;
     		public String startOccupancy;
     		public String endOccupancy;
 
-    		public OccupancyBed() {
+    		public Occupancies() {
 
 			}
    
             @JsonCreator
-            public OccupancyBed(
-            			String emailStudent,
+            public Occupancies(
+            			String idStudent,
             			String startOccupancy,
             			String endOccupancy
             		)
             {
-	    		this.emailStudent = emailStudent;
+	    		this.idStudent = idStudent;
 	    		this.startOccupancy = startOccupancy;
 	    		this.endOccupancy = endOccupancy;
             }

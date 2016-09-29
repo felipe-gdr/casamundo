@@ -1,31 +1,34 @@
-	/*** 		carrega student
-	 */
-	var objStudent = JSON.parse(localStorage.getItem("student"));
-	/**
-	 * 		carrega tabelas
-	 */
-
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
-
-	/**
-	 * 				obter os dados
-	 */
-	if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
-		rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
+	
+	function montaAccommodationFamily (){
+		/*** 		carrega student
+		 */
+		var objStudent = JSON.parse(localStorage.getItem("student"));
+		/**
+		 * 		carrega tabelas
+		 */	
+		rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	
+		/**
+		 * 				obter os dados
+		 */
+		if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
+			rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
+		};
+		
+	    // set filters
+		setFilter ("occupancy");
+		setFilter ("privateWashroom");
+		setFilter ("gender");
+		setFilter ("age");
+		setFilter ("smoke");
+		setFilter ("dogs");
+		setFilter ("cats");
+		setFilter ("nationality");
+		setFilter ("mealPlan");
+		setFilter ("specialDiet");
+		
 	};
 	
-    // set filters
-	setFilter ("occupancy");
-	setFilter ("privateWashroom");
-	setFilter ("gender");
-	setFilter ("age");
-	setFilter ("smoke");
-	setFilter ("dogs");
-	setFilter ("cats");
-	setFilter ("nationality");
-	setFilter ("mealPlan");
-	setFilter ("specialDiet");
-
 	function setFilter (filter) {
 		$('#filter_' + filter).click(function() {
 			if ($('#filter_' + filter).hasClass( "btn-primary")){
@@ -165,7 +168,7 @@
 //	    				$(".notChange" ).addClass("hide");
 //	    				$("#accommodation" ).focus();	    				
 	    				// *** refresh students list
-	    				$(window.document.location).attr('href','students.html');
+	    				$(window.document.location).attr('href','students.html?typePage=accommodation');
 
 	    			};
 	    		});
@@ -397,8 +400,8 @@
 				    		"</span><br>";
 		    		};
 			    });
-			    if (roomsAvailable != "true"){
-			    	actions = actions + "<li  id='room_'" + room.number + "' data-process='noroomsavailable' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>No rooms available</a></li>";
+			    if (!roomsAvailable){
+			    	actions = actions + "<li data-process='noroomsavailable'  data-idFamily='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#'>No rooms available</a></li>";
 			    }
 	        };
         };
@@ -639,7 +642,7 @@
 		};
 		if ($('#filter_age').hasClass( "btn-success")){
 			var preferAgeOk = false;
-			var age = calculaIdade(separaData(objStudent.documento.birthDay, "/"));
+			var age = calculaIdade(separaData(student.documento.birthDay, "/"));
 			var ageCompar = "0-0";
 			if (age < 15) {
 				ageCompar = "0-14"

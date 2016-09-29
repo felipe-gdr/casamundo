@@ -167,11 +167,14 @@
 			{	
 			    documento : {
 			        id : "",
-			        idDorm : "",
-			        idUnit : "",
+					idDorm:"",
+					dormName:"",
+					idUnit:"",
+					unitName:"",
 			        name:"",
 			        type:"",
 			        description : "",
+			        destination : "",
 			        keyDoor : "",
 			        fotos : [],
 			        beds : [],

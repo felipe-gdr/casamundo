@@ -1,31 +1,35 @@
-	/*** 		carrega student
-	 */
-	var objStudent = JSON.parse(localStorage.getItem("student"));
-	/**
-	 * 		carrega tabelas
-	 */
-
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
-
-	/**
-	 * 				obter os dados
-	 */
-	if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
-		rest_obterRoomsAll(carregaLocalStorageRooms, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
+	
+	function montaAccommodationRoom (){
+	
+		/*** 		carrega student
+		 */
+		var objStudent = JSON.parse(localStorage.getItem("student"));
+		/**
+		 * 		carrega tabelas
+		 */
+	
+		rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	
+		/**
+		 * 				obter os dados
+		 */
+		if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
+			rest_obterBedsAll(carregaLocalStorageRooms, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
+		};
+		
+	    // set filters
+		setFilter ("occupancy");
+		setFilter ("privateWashroom");
+		setFilter ("gender");
+		setFilter ("age");
+		setFilter ("smoke");
+		setFilter ("dogs");
+		setFilter ("cats");
+		setFilter ("nationality");
+		setFilter ("mealPlan");
+		setFilter ("specialDiet");
 	};
 	
-    // set filters
-	setFilter ("occupancy");
-	setFilter ("privateWashroom");
-	setFilter ("gender");
-	setFilter ("age");
-	setFilter ("smoke");
-	setFilter ("dogs");
-	setFilter ("cats");
-	setFilter ("nationality");
-	setFilter ("mealPlan");
-	setFilter ("specialDiet");
-
 	function setFilter (filter) {
 		$('#filter_' + filter).click(function() {
 			if ($('#filter_' + filter).hasClass( "btn-primary")){
@@ -41,7 +45,7 @@
 		});
 	};
 
-	function carregaLocalStorageRooms (objJson) {
+	function carregaLocalStorageRooms (objJson, filters) {
 
 		localStorage.setItem("rooms", JSON.stringify(objJson));
 
@@ -82,15 +86,14 @@
 			                "class":          'details-control',
 			                "orderable":      true,
 			                "data":           null,
-			                "defaultContent": ''
+			                "defaultContent": '',
+			                "width": "5%"
 			            },
-			            { "data": "room", "width": "15%"},
-			            { "data": "location", "width": "15%"},
-			            { "data": "dates", "width": "15%"},
-			            { "data": "characteristics", "width": "15%"},
-			            { "data": "preferences", "width": "15%"},
-			            { "data": "reviews", "width": "10%"},
-			            { "data": "comments", "width": "15%"},
+			            { "data": "building", "width": "25%"},
+			            { "data": "current", "width": "20%"},
+			            { "data": "dates_01", "width": "15%"},
+			            { "data": "next", "width": "20%"},
+			            { "data": "dates_02", "width": "15%"},
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -107,11 +110,7 @@
     	
 	    var objJson = JSON.parse(localStorage.getItem("rooms"));
 	    $.each(objJson, function (i, room) {
-	    	if (room.address.latitude && room.address.longitude && localStorage.latitudeSchool && localStorage.longitudeSchool){
-	    		getMapDistance(room.address.latitude, room.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaRoom, montaLinhaRoom, room_table, room);
-	    	}else{
-	    		montaLinhaRoom(0, room_table, room);
-	    	};
+    		montaLinhaRoom(i, room_table, room, filters);
 	    });
 		
 		// Add event listener for opening and closing details
@@ -161,11 +160,7 @@
 	    				$('#startOccupancy').html($(this).attr('data-start'));
 	    				$('#endOccupancy').html($(this).attr('data-end'));
 	    				$('#note').html($(this).attr('data-note'));
-//	    				$('.room').removeClass("hide");
-//	    				$(".notChange" ).addClass("hide");
-//	    				$("#accommodation" ).focus();	    				
-	    				// *** refresh students list
-	    				$(window.document.location).attr('href','students.html');
+	    				$(window.document.location).attr('href','students.html?typePage=accommodation-dorms');
 
 	    			};
 	    		});
@@ -184,7 +179,7 @@
 
 	};
 
-	function montaLinhaRoom(results, room_table, room){
+	function montaLinhaRoom(results, room_table, room, filters){
 
 		var actions = "";
         var occupancy = "";
@@ -193,105 +188,199 @@
         var student = JSON.parse(localStorage.getItem("student"));
         var actualTrip = student.documento.actualTrip;
         var emailStudent = student.documento.mail;
-        if (room.beds){
-	        if (room.beds[0]){
-	            var beds = "";
-			    $.each(room.beds, function (i, bed) {
-		            var studentOccupancyData =
-		            	{
-		            		lastEmail : "",
-		            		nextEmail : "",
-		            		lastDateShow : 0,
-		            		lastDate : 0,
-		            		nextDate : 999999999999999999999999999999999999,
-		            		nextDateShow : 0
-		            	};
-		            var bedOccupied = false;
-		        	if (bed.occupancyBed){
-		        		bedOccupied = bedsOccupied(room.occupancyBed);
-		        	};
-		        	var availableBedText = "available";
-		    		if (bedOccupied){
-		    			availableBedText = "no available"
-			    		studentOccupancyData = lastNextOccupancy(room.occupancyBed, studentOccupancyData);
-		    			roomSingle = i;
-		    			if ((student.documento.trips[actualTrip].occupancy == "Single" && bed.type == "Single") |
-	    					(student.documento.trips[actualTrip].occupancy == "Couple" && bed.type == "Couple")){
-	    					roomsAvailable = true;
-	    					actions = actions + "<li  id='bed_'" + bed.name + "' data-process='offerroom,' data-roomNumber='" + bed.name + "' data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + bed.id + "_" + room.id + "'>Allocate bed " + bed.name + "</a></li>";
-		    			};
-		    		};
-			    	beds = beds + 
-			    		"<span class='text text-table'>" + bed.type + " - " + availableBedText + "</span><br>" +
-			    		"<span class='text text-muted'>" + bed.description + "</span><br>" +
-			    		"<span class='text text-table-main'>OUT " + 
-			    			"<a href='student.html?email=" + studentOccupancyData.lastEmail + "&typePage=change'>" +
-				    			"<span class='text text-table'>" + separaDataMes(studentOccupancyData.lastDateShow, "/") + 
-				    			"</span><br>" + 
-				    			"<span class='text text-table'>" + studentOccupancyData.lastEmail + 
-				    			"</span><br>" + 
-				    		"</a>" +
-			    		"</span><br>" +
-			    		"<span class='text text-table-main'>IN " +
-			    			"<a href='student.html?email=" + studentOccupancyData.nextEmail + "&typePage=change'>" +
-			    				"<span class='text text-table'>" + separaDataMes(studentOccupancyData.nextDateShow, "/") + 
-			    				"</span><br>" + 
-			    				"<span class='text text-table'>" + studentOccupancyData.nextEmail + 
-			    				"</span>" + 
-			    			"</a>" +
-			    		"</span><br>";
-			    });
-	        };
-        };
-        if (room.comments){
-		    $.each(room.comments, function (i, note) {
-		    	comments = comments + "<span class='text text-table'>" + note.note + "</span><br>"
-		    });
-        };
-        var objStudent = JSON.parse(localStorage.getItem("student"));
-        var distances = "";
-        if (results){
-            if (results.rows[0].elements[0].duration){
-            	var distances = "<span class='text text-table'><i>" + results.rows[0].elements[0].duration.text +"<i></small>";
-            };
-        };
-//        if (student.documento.trips[actualTrip].status == "Available"){
-//        	actions = actions + "<li  data-process='offertoroom' data-roomCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idRoom='" + room.roomName + "'  data-emailRoom='" + room.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseRoom_" + room.roomName + "' data-toggle='modal' data-target='#offerToRoom'>Offer to Room</a></li>";
-//        };
+        var beds = "";
+        var studentOccupancyData =
+        	{
+        		lastName : "",
+        		lastGender : "",
+        		lastNationality : "",
+        		lastVisa : "",
+        		lastPayment : "",
+        		lastStatus : "",
+        		lastFlight : "",
+        		lastOccupancy : "",
+        		lastEmail : "",
+        		lastIn : "",
+        		lastOut : "",
+        		nextName : "",
+        		nextGender : "",
+        		nextNationality : "",
+        		nextVisa : "",
+        		nextPayment : "",
+        		nextStatus : "",
+        		nextFlight : "",
+        		nextOccupancy : "",
+        		nextEmail : "",
+        		nextIn : "",
+        		nextOut : "",
+        		lastDateShow : 0,
+        		lastDate : 0,
+        		nextDate : 999999999999999999999999999999999999,
+        		nextDateShow : 0
+        	};
+        var bedStatus = false;
+    	if (room.bed.occupancies){
+    		bedStatus = bedsOccupied(room.bed.occupancies, studentOccupancyData);
+        	studentOccupancyData = lastNextOccupancy(room.bed.occupancies, studentOccupancyData);
+    	};
+    	var availableBedText = "available";
+    	var availableBedCollor = "text-success";
+
+    	var bedAvailable = false;
+		if (bedStatus){
+			availableBedText = bedStatus;
+			availableBedCollor = "text-warning"
+		}else{
+			if ((student.documento.trips[actualTrip].occupancy == "Single" && room.bed.type == "Single") |
+				(student.documento.trips[actualTrip].occupancy == "Couple" && room.bed.type == "Couple")){
+				bedAvailable = true;
+				actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='offerbed,'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Allocate bed</a></li>";
+			};
+		};
         if (student.documento.trips[actualTrip].status == "Confirmed"){
-        	actions = "<li data-process='sendlettertostudent' data-idRoom='" + room.id + "' data-emailRoom='" + room.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseRoom_" + room.id + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
+        	actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='sendlettertostudent,'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Send confirmation letter</a></li>";
         };
         if (student.documento.trips[actualTrip].status == "DocsOk"){
-        	actions = "<li data-process='studentinhouse' data-idRoom='" + room.id + "' data-emailRoom='" + room.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseRoom_" + room.id + "' data-toggle='modal' data-target='#offerToRoom'>Student in house</a></li>" +
-        				"<li data-process='cancel' data-idRoom='" + room.id + "' data-emailRoom='" + room.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseRoom_" + room.id + "' data-toggle='modal' data-target='#offerToRoom'>Cancel></li>"
+        	actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='studentinhouse,'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Student in house</a></li>";
+    		actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='cancel'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Cancel</a></li>";
         };
         if (student.documento.trips[actualTrip].status == "InHouse"){
-        	actions = "<li data-process='terminate' data-idRoom='" + room.id + "' data-emailRoom='" + room.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseRoom_" + room.id + "' data-toggle='modal' data-target='#offerToRoom'>Terminated</a></li>" +
-        				"<li data-process='cancel' data-idRoom='" + room.id + "' data-emailRoom='" + room.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseRoom_" + room.id + "' data-toggle='modal' data-target='#offerToRoom'>Cancel></li>"
+        	actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='terminate,'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Terminated</a></li>";
+    		actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='cancel'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Cancel</a></li>";
+        };
+        var visaCurrent = "";
+        if (studentOccupancyData.lastVisa){
+        	visaCurrent = "Visa: " + studentOccupancyData.lastVisa;
+        };
+        var paymentCurrent = "";
+        if (studentOccupancyData.lastPayment){
+        	paymentCurrent = studentOccupancyData.lastPayment;
+        };
+        var flightCurrent = "";
+        if (studentOccupancyData.lastFlight){
+        	flightCurrent = "Flight: " + studentOccupancyData.lastFlight;
+        };
+        var visaNext = "";
+        if (studentOccupancyData.nextVisa){
+        	visaNext = "Visa: " + studentOccupancyData.nextVisa;
+        };
+        var paymentNext = "";
+        if (studentOccupancyData.nextPayment){
+        	paymentNext = studentOccupancyData.nextPayment;
+        };
+        var flightNext = "";
+        if (studentOccupancyData.nextFlight){
+        	flightNext = "Flight: " + studentOccupancyData.nextFlight;
+        };
+        var litCurrentIn = "";
+        var inCurrent = "";
+        if (studentOccupancyData.lastIn){
+        	litCurrentIn = "IN:";
+        	inCurrent = separaDataMes(studentOccupancyData.lastIn, "-");
+        };
+        var litCurrentOut = "";
+        var outCurrent = "";
+        if (studentOccupancyData.lastOut){
+        	litCurrentOut = "OUT:";
+        	outCurrent = separaDataMes(studentOccupancyData.lastOut, "-");
+        };
+        var litNextIn = "";
+        var inNext = "";
+        if (studentOccupancyData.nextIn){
+        	litNextIn = "IN:";
+        	inNext = separaDataMes(studentOccupancyData.nextIn, "-");
+        };
+        var litNextOut = "";
+        var outNext = "";
+        if (studentOccupancyData.nextOut){
+        	litNextOut = "OUT:";
+        	outNext = separaDataMes(studentOccupancyData.nextOut, "-");
+        };
+
+        var bedValid = true;
+        
+        if (filters){
+        	if (filters != localStorage.filters){
+	        	var filter = filters.split(",");
+	        	if (filter[0] != ""){
+	        		var value = filter[0].split(":")[1];
+					if (room.dorm.toLowerCase().indexOf(value.toLowerCase()) < 0){
+						bedValid = false;
+					};
+	        	};
+	        	if (filter[1] != ""){
+	        		var value = filter[1].split(":")[1];
+					if (room.unit.toLowerCase().indexOf(value.toLowerCase()) < 0){
+						bedValid = false;
+					};
+	        	};
+	        	if (filter[2] != ""){
+	        		var value = filter[2].split(":")[1];
+					if (room.name.toLowerCase().indexOf(value.toLowerCase()) < 0){
+						bedValid = false;
+					};
+	        	};
+	        	if (filter[3] != ""){
+	        		var value = filter[3].split(":")[1];
+					if (room.bed.name.toLowerCase().indexOf(value.toLowerCase()) < 0){
+						bedValid = false;
+					};
+	        	};
+	        	if (filter[4] != ""){
+	        		var value = filter[4].split(":")[1];
+	        		if (availableBedText.toLowerCase().indexOf(value.toLowerCase()) < 0){
+	        			bedValid = false;
+					};
+	        	};
+        	};
         };
         
-        room_table.row.add( {
-	    	"room":
-	    		"<span class='hide'>" + calculaPontuacaoRoom(room,JSON.parse(localStorage.getItem("student"))) + "</span>" +
-	    		"<a href='room.html?roomName=" + room.roomName + "'>" +
-	    			"<span>" + room.roomName +  "</span><br>" +
-	    			rooms + 
-	    		"</a>",
-	    	"location": 
-	    		"<span class='text text-table-main'>Distance to school "  + "<span class='text text-table'>" + distances + "</span></span><br>" +
-	    		"<span class='text text-table-main'>Main Intersection "  + "<span class='text text-table'>" + room.address.mainIntersection + " </span></span><br>" +
-	    		"<span class='text text-table-main'>Subway "  + "<span class='text text-table'>" + room.address.subwayStation + " </span></span><br>" +
-	    		"<span class='text text-table-main'>Walking time "  + "<span class='text text-table'>" + room.address.timeSubwayStation + " </span></span><br>",
-            "dates": dates,
-            "characteristics": "",
-            "preferences": "",
-            "reviews": "",
-            "comments": comments, 
-            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
-            			'<ul id="listRoom" class="dropdown-menu">' +
-            				actions +
-            			'</ul></div>'
-	    }).draw();
+        if (bedValid){
+	        room_table.row.add( {
+		    	"building":
+		    		"<span class='hide'>" + calculaPontuacaoRoom(room,JSON.parse(localStorage.getItem("student"))) + "</span>" +
+		    		"<a href='dorm.html?idName=" + room.idDorm + "'>" +
+		    			"<span>" + room.dorm +  "</span>" +
+		    		"</a><br>" +
+	    			"<span class='text text-table-main'>" + room.unit +  "</span><br>" +
+	    			"<span class='text text-table-main'>" + room.name +  "</span><br>" +
+	    			"<span class='text text-table-main'>" + room.bed.name +  "</span>" +
+	    			"<span class='text text-table-main'> - " + room.bed.type +  "</span>" +
+	    			"<span class='text text-table-main " + availableBedCollor + "'> - " + availableBedText +  "</span>",
+		    	"current": 
+	    			"<span class='text text-table-main'>" + studentOccupancyData.lastName + "</span><br>" +
+	    			"<span class='text text-table-main'>" + studentOccupancyData.lastGender + " " + "</span>" +
+	    			"<span class='text text-table-main'>" + studentOccupancyData.lastNationality + " " + "</span>" +
+	    			"<span class='text text-table-main'>" + visaCurrent + " " + "</span><br>" +
+	    			"<span class='text text-table-main'>" + paymentCurrent + " " + "</span>" +
+	    			"<span class='text text-table-main'>" + studentOccupancyData.lastStatus + " " + "</span>" +
+	    			"<span class='text text-table-main'>" + flightCurrent + " " + "</span>" +
+	    			"<span class='text text-table-main'>" + studentOccupancyData.lastOccupancy + " " + "</span>",
+	            "dates_01":
+		    		"<span class='text text-table-main'>" + litCurrentIn +
+	    			"<span class='text text-table-main'>" + inCurrent + "</span><br>" +
+		    		"<span class='text text-table-main'>" + litCurrentOut + 
+	    			"<span class='text text-table-main'>" + outCurrent + "</span><br>",
+	            "next":
+					"<span class='text text-table-main'>" + studentOccupancyData.nextName + "</span><br>" +
+					"<span class='text text-table-main'>" + studentOccupancyData.nextGender + " " + "</span>" +
+					"<span class='text text-table-main'>" + studentOccupancyData.nextNationality + " " + "</span>" +
+					"<span class='text text-table-main'>" + visaNext + " " + "</span><br>" +
+					"<span class='text text-table-main'>" + paymentNext + " " + "</span>" +
+					"<span class='text text-table-main'>" + studentOccupancyData.nextStatus + " " + "</span>" +
+					"<span class='text text-table-main'>" + flightNext + " " + "</span>" +
+					"<span class='text text-table-main'>" + studentOccupancyData.nextOccupancy + " " + "</span>",
+	            "dates_02":
+		    		"<span class='text text-table-main'>" + litNextIn + 
+					"<span class='text text-table-main'>" + inNext + "</span><br>" +
+		    		"<span class='text text-table-main'>" + litNextOut +
+					"<span class='text text-table-main'>" + outNext + "</span><br>",
+	            'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+	            			'<ul id="listRoom" class="dropdown-menu">' +
+	            				actions +
+	            			'</ul></div>'
+		    }).draw();
+        };
 	};
 	
 	/* Formatting function for row details - modify as you need */
@@ -305,28 +394,50 @@
 	    '</table>';
 	};
 	
-	function lastNextOccupancy (occupancyRows, studentOccupancyData) {
+	function lastNextOccupancy (occupancies, studentOccupancyData) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
 		var actualTrip = objJson.documento.actualTrip;
 		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
 		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
-	    $.each(occupancyRows, function (i, occupancy) {
-			if (occupancy.emailStudent){
+	    $.each(occupancies, function (i, occupancy) {
+			if (occupancy.idStudent){
 				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
 				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
 				
 				if (endOccupancy < startTrip ){
 					if (endOccupancy > studentOccupancyData.lastDate){	
+						studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
+						studentOccupancyData.lastGender = occupancy.student.gender;
+						studentOccupancyData.lastNationality = occupancy.student.nationality;
+						studentOccupancyData.lastVisa = occupancy.student.visa;
+						studentOccupancyData.lastPayment = occupancy.student.payment;
+						studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
+						studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
+						studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
+						studentOccupancyData.lastEmail = occupancy.student.mail,
+						studentOccupancyData.lastIn = occupancy.startOccupancy,
+						studentOccupancyData.lastOut = occupancy.endOccupancy,
 						studentOccupancyData.lastDate = endTrip;
-						studentOccupancyData.lastEmail = occupancy.emailStudent;
-						studentOccupancyData.lastDateShow = occupancy.endOccupancy;
+						studentOccupancyData.lastEmail = occupancy.student.mail;
+						studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
 					};
 				};
 				if (startOccupancy > endTrip){
 					if (startOccupancy < studentOccupancyData.nextDate){	
+						studentOccupancyData.nextName = occupancy.student.firstName + " " + occupancy.student.lastName
+						studentOccupancyData.nextGender = occupancy.student.gender;
+						studentOccupancyData.nextNationality = occupancy.student.nationality;
+						studentOccupancyData.nextVisa = occupancy.student.visa;
+						studentOccupancyData.nextPayment = occupancy.student.payment;
+						studentOccupancyData.nextStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
+						studentOccupancyData.nextFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
+						studentOccupancyData.nextOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
+						studentOccupancyData.nextEmail = occupancy.student.mail,
+						studentOccupancyData.nextIn = occupancy.startOccupancy,
+						studentOccupancyData.nextOut = occupancy.endOccupancy,
 						studentOccupancyData.nextDate = endTrip;
-						studentOccupancyData.nextEmail = occupancy.emailStudent;
-						studentOccupancyData.nextDateShow = occupancy.startOccupancy;
+						studentOccupancyData.nextEmail = occupancy.student.mail;
+						studentOccupancyData.nextDateShow = occupancy.student.startOccupancy;
 					};
 				};
 			};
@@ -335,25 +446,67 @@
 	};
 
 	
-	function bedsOccupied (occupancyRows) {
+	function bedsOccupied (occupancies, studentOccupancyData) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
 		var actualTrip = objJson.documento.actualTrip;
 		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
 		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
-		var occupied = false;
-	    $.each(occupancyRows, function (i, occupancy) {
-			if (occupancy.emailStudent){
+		var occupied = null;
+	    $.each(occupancies, function (i, occupancy) {
+			if (occupancy.idStudent){
 				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
 				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
 				
 				if (startTrip >= startOccupancy && startTrip <= endOccupancy){
-					occupied = true;
+					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;
+					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
+					studentOccupancyData.lastGender = occupancy.student.gender;
+					studentOccupancyData.lastNationality = occupancy.student.nationality;
+					studentOccupancyData.lastVisa = occupancy.student.visa;
+					studentOccupancyData.lastPayment = occupancy.student.payment;
+					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
+					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
+					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
+					studentOccupancyData.lastEmail = occupancy.student.mail,
+					studentOccupancyData.lastIn = occupancy.startOccupancy,
+					studentOccupancyData.lastOut = occupancy.endOccupancy,
+					studentOccupancyData.lastDate = endTrip;
+					studentOccupancyData.lastEmail = occupancy.student.mail;
+					studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
 				};
 				if (endTrip >= startOccupancy && endTrip <= endOccupancy){
-					occupied = true;				
+					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;				
+					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
+					studentOccupancyData.lastGender = occupancy.student.gender;
+					studentOccupancyData.lastNationality = occupancy.student.nationality;
+					studentOccupancyData.lastVisa = occupancy.student.visa;
+					studentOccupancyData.lastPayment = occupancy.student.payment;
+					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
+					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
+					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
+					studentOccupancyData.lastEmail = occupancy.student.mail,
+					studentOccupancyData.lastIn = occupancy.startOccupancy,
+					studentOccupancyData.lastOut = occupancy.endOccupancy,
+					studentOccupancyData.lastDate = endTrip;
+					studentOccupancyData.lastEmail = occupancy.student.mail;
+					studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
 				};
 				if (startTrip <= startOccupancy && endTrip >= endOccupancy){
-					occupied = true;				
+					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;
+					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
+					studentOccupancyData.lastGender = occupancy.student.gender;
+					studentOccupancyData.lastNationality = occupancy.student.nationality;
+					studentOccupancyData.lastVisa = occupancy.student.visa;
+					studentOccupancyData.lastPayment = occupancy.student.payment;
+					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
+					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
+					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
+					studentOccupancyData.lastEmail = occupancy.student.mail,
+					studentOccupancyData.lastIn = occupancy.startOccupancy,
+					studentOccupancyData.lastOut = occupancy.endOccupancy,
+					studentOccupancyData.lastDate = endTrip;
+					studentOccupancyData.lastEmail = occupancy.student.mail;
+					studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
 				};
 			};
 	    });
@@ -453,7 +606,7 @@
 		};
 		if ($('#filter_age').hasClass( "btn-success")){
 			var preferAgeOk = false;
-			var age = calculaIdade(separaData(objStudent.documento.birthDay, "/"));
+			var age = calculaIdade(separaData(student.documento.birthDay, "/"));
 			var ageCompar = "0-0";
 			if (age < 15) {
 				ageCompar = "0-14"

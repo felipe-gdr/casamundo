@@ -978,25 +978,42 @@
     //
     //**** Room
     //
-
     
     function rest_obterRoomsAll(idDorm, action_ok, action_notOk, destination, var1, var2) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/lista?idDorm=" + idDorm,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/lista?idDorm=" + idDorm + "&destination=" + destination,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data, var1);
+    		action_ok(data, var1, var2);
     	})
     	.fail(function(data) {
-    		action_notOk(data, var1);
+    		action_notOk(data, var1, var2);
     	})
     	.always(function(data) {
     	});
     };
     
+    
+    function rest_obterBedsAll(action_ok, action_notOk, destination, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/lista/beds?destination=" + destination,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data) {
+    		action_notOk(data, var1, var2);
+    	})
+    	.always(function(data) {
+    	});
+    };
+
     function rest_atualizaRoom(objJson, action_ok, action_not_ok, message) {
     	delete objJson["_id"];
 		$.ajax({

@@ -67,6 +67,7 @@ function carregaTelaRoom(data, tipo) {
 		//
 		$("#id").val(data.documento.id);
 		$("#idDorm").val(objDorm.documento.id);
+		$("#destination").val(objDorm.documento.address.destination);
 		$("#idUnit").val(data.documento.idUnit);
 		$("#dormName").val(objDorm.documento.name);
 		$("#unitName").val(data.documento.unitName);

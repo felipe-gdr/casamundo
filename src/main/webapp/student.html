@@ -1343,7 +1343,7 @@
 							</div>
 							<!-- end row -->
 						</article>
-						<article class="col-sm-12 col-md-12 col-lg-12">
+						<article class="col-sm-12 col-md-12 col-lg-12 hide pageFamily">
 
 							<div class="jarviswidget jarviswidget-color-blue notAccommodationDorms notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 								<header>
@@ -1505,12 +1505,12 @@
 							</div>
 							<!-- end widget content -->
 						</article>
-						<article class="col-sm-12 col-md-12 col-lg-12">
+						<article class="col-sm-12 col-md-12 col-lg-12 hide pageBeds">
 
 							<div class="jarviswidget jarviswidget-color-blue notAccommodation notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Rooms</h2>
+									<h2>Beds</h2>
 									<div class="widget-toolbar">
 										<!-- add: non-hidden - to disable auto hide -->
 									</div>
@@ -1556,36 +1556,27 @@
 														<th class="hasinput" >
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_room" type="text" class="form-control text-filter" placeholder="Rooms" />
+																	<input id="filters_dorm" type="text" class="form-control text-filter-bed" placeholder="Building" />
 																</section>
 															</div>
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_dorm" type="text" class="form-control text-filter" placeholder="Building" />
+																	<input id="filters_uni" type="text" class="form-control text-filter-bed" placeholder="Unit" />
 																</section>
 															</div>
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_unit" type="text" class="form-control text-filter" placeholder="Unit" />
-																</section>
-															</div>
-														</th>
-														<th class="hasinput" >
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_mainIntersection" type="text" class="form-control text-filter" placeholder="Main intersection" />
+																	<input id="filters_room" type="text" class="form-control text-filter-bed" placeholder="Room" />
 																</section>
 															</div>
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_subway" type="text" class="form-control text-filter" placeholder="Subway station" />
+																	<input id="filters_bed" type="text" class="form-control text-filter-bed" placeholder="Bed" />
 																</section>
 															</div>
-														</th>
-														<th class="hasinput" >
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_bedAvailable" type="text" class="form-control text-filter" placeholder="Bed available" />
+																	<input id="filters_availability" type="text" class="form-control text-filter-bed" placeholder="Availability" />
 																</section>
 															</div>
 														</th>
@@ -1596,18 +1587,15 @@
 														<th class="hasinput" >
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Comments" />
 														</th>
 													</tr>
 										            <tr>
 										                <th></th>
-										                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
-										                <th><i class="fa fa-fw fa-marked text-muted hidden-md hidden-sm hidden-xs"></i>Location</th>
-										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-eye text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-eye text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-file-text-o text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
+										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Building</th>
+										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i>Current</th>
+										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
+										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i>Next</th>
+										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
 										            </tr>
 										        </thead>
 										    </table>
@@ -1856,10 +1844,10 @@
 		<script src="js/student-commons.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js-datatables/student.js"></script>
-		<script src="js/student.js"></script>
 		<script src="js/family-commons.js"></script>
 		<script src="js-datatables/accommodation-family.js"></script>
 		<script src="js-datatables/accommodation-room.js"></script>
+		<script src="js/student.js"></script>
 
 		<script>
 			$(document).ready(function() {
