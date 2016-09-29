@@ -150,7 +150,7 @@
     				};
     				localStorage.setItem("bedAllocation", JSON.stringify(objJson));
 	    			if ($(this).attr('data-process') == "allocatebed") {
-	    				rest_obterRoom($(this).attr('data-idRoom'), updateRooms, semAcao, objJson);
+	    				rest_obterRoom($(this).attr('data-idRoom'), updateBeds, semAcao, objJson);
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "allocatebeddata") {
@@ -223,8 +223,7 @@
 			availableBedText = bedStatus;
 			availableBedCollor = "text-warning"
 		}else{
-			if ((student.documento.trips[actualTrip].occupancy == "Single" && room.bed.type == "Single") |
-				(student.documento.trips[actualTrip].occupancy == "Couple" && room.bed.type == "Couple")){
+			if (student.documento.trips[actualTrip].occupancy == room.bed.type){
 				bedAvailable = true;
 				actions = actions + 
 									"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
@@ -249,10 +248,13 @@
 									"' data-start='" + student.documento.trips[actualTrip].start + 
 									"' data-end='" + student.documento.trips[actualTrip].end + 
 									"' data-occupancy='" + student.documento.trips[actualTrip].occupancy + 
-									"'><a data-toggle='modal' data-target='#bedAlocationModal' id='allocateRoom_" + room.bed.id + "_" + room.id + 
-									"'>Allocate bed diferent date</a></li>";
+									"'><a data-toggle='modal' data-target='#bedAllocationModal' id='allocateRoom_" + room.bed.id + "_" + room.id + 
+									"'>Allocate bed different date</a></li>";
 									
-			};
+			}else{
+				availableBedText = "different type of bed";
+				availableBedCollor = "text-warning"				
+			}
 		};
         if (student.documento.trips[actualTrip].status == "Confirmed"){
         	actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='sendlettertostudent'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Send confirmation letter</a></li>";
@@ -529,7 +531,7 @@
 	    return occupied;
 	};	
 	
-	function updateRooms (objRoom, objBed) {
+	function updateBeds (objRoom, objBed) {
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 		var occupancy = 
 			{
@@ -549,6 +551,8 @@
 	    });
 		rest_atualizaRoom(objRoom, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again")
 		var objStudent = JSON.parse(localStorage.getItem("student"));
+		objStudent.documento.trips[objStudent.documento.actualTrip].idRoom = objBed.idRoom;
+		objStudent.documento.trips[objStudent.documento.actualTrip].idBed = objBed.idBed;
 		objStudent.documento.trips[objStudent.documento.actualTrip].dormName = objBed.dormName;
 		objStudent.documento.trips[objStudent.documento.actualTrip].unitName = objBed.unitName;
 		objStudent.documento.trips[objStudent.documento.actualTrip].roomName = objBed.roomName;

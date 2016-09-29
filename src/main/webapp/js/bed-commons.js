@@ -2,23 +2,23 @@
 	/**
 	 * 		setup dos input do form
 	 */
-	var $tablesForm = $("#bedAlocationModal-form").validate({
+	var $tablesForm = $("#bedAllocationModal-form").validate({
 		// Rules for form validation
 		rules : {
-			bedAlocationStart : {
+			bedAllocationStart : {
 				required : true,
 			},
-			bedAlocationEnd : {
+			bedAllocationEnd : {
 				required : true,
 			},
 		},
 
 		// Messages for form validation
 		messages : {
-			bedAlocationStart : {
+			bedAllocationStart : {
 				required : 'Please enter start date',
 			},
-			bedAlocationEnd : {
+			bedAllocationEnd : {
 				required : 'Please enter bank end date',
 			},
 		},
@@ -28,10 +28,10 @@
 			$.each(form
 				    , function (i, field) {
 					if (field.value){
-						if (field.name == 'bedAlocationStart'){	
+						if (field.name == 'bedAllocationStart'){	
 							objJson.start = limpaData(field.value);
 						};
-						if (field.name == 'bedAlocationEnd'){	
+						if (field.name == 'bedAllocationEnd'){	
 							objJson.end =  limpaData(field.value);
 						};
 					};
@@ -54,7 +54,7 @@
 	
 	$("#bankModal").on('hidden.bs.modal', function(event){
 		var student = JSON.parse(localStorage.getItem("student"));
-    	$('#bedAlocationStart').val(separaDataMes(data.documento.trips[student.actualTrip].start, "-"));
-    	$("#bedAlocationEnd").val(separaDataMes(data.documento.trips[student.actualTrip].end, "-"));
+    	$('#bedAllocationStart').val(separaDataMes(data.documento.trips[student.actualTrip].start, "-"));
+    	$("#bedAllocationEnd").val(separaDataMes(data.documento.trips[student.actualTrip].end, "-"));
 	});
 

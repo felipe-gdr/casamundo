@@ -299,58 +299,101 @@
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 	        	if (localStorage.accommodation == "Homestay"){
 		        	if (student.trip.status == "Available"){
-			        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
-			        			  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions = 
+			        		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Allocated"){
-			        	actions = "<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
-			        			  "<li data-process='manualconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Manual confirm</a></li>" +
-			        			  "<li data-process='sendemailtofamilytoconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send email to family to confirm</a></li>" +
-			        			  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions = 
+			        		"<li data-process='manualconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Manual confirm</a></li>" +
+			        		"<li data-process='sendemailtofamilytoconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send email to family to confirm</a></li>" +
+			        		"<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Offered"){
-			        	actions = "<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
-			        			  "<li data-process='manualconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Manual confirm</a></li>" +
-			        			  "<li data-process='sendemailtofamilytoconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send email to family to confirm</a></li>" +
-			        			  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions = 
+			        		"<li data-process='manualconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Manual confirm</a></li>" +
+			        		"<li data-process='sendemailtofamilytoconfirm' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send email to family to confirm</a></li>" +
+			        		"<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Confirmed"){
 			        	typePage = "change";
-			        	actions = "<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
-			        			  "<li data-process='sendlettertostudent' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>" +
-			        			  "<li data-process='changestatustodocuments' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to documents ok</a></li>" +
-			        			  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions =
+			        		"<li data-process='changestatustodocuments' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>" +
+			        		"<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Documents"){
 			        	typePage = "change";
-			        	actions = "<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
-		        				  "<li data-process='changestatustoinhouse' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to in house</a></li>" +
-		        				  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions = 
+		        			"<li data-process='changestatustoinhouse' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to in house</a></li>" +
+			        		"<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
+		        			"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "In house"){
 			        	typePage = "change";
-			        	actions = "<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
-			        			  "<li data-process='changestatustocheckout' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to check out</a></li>" +
-			        			  "<li data-process='extendtrip' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Extend trip</a></li>" +
-			        			  "<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions = 
+			        		"<li data-process='changestatustocheckout' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to check out</a></li>" +
+			        		"<li data-process='deallocateroom' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated room</a></li>" +
+			        		"<li data-process='extendtrip' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Extend trip</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Checked out"){
 			        	typePage = "change";
-			        	actions = "<li data-process='sendemailtostudenttoevaluete' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send student email to evaluete</a></li>" +
-			        			  "<li data-process='evaluetereceived' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Evaluete received</a></li>" +
-			        			  "<li data-process='newtrip' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Initiate a new trip</a></li>";
+			        	actions = 
+			        		"<li data-process='sendemailtostudenttoevaluete' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send student email to evaluete</a></li>" +
+			        		"<li data-process='evaluetereceived' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Evaluete received</a></li>" +
+			        		"<li data-process='newtrip' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailFamily='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Initiate a new trip</a></li>";
 			        };
 			        if (student.trip.status == "Canceled"){
 			        	typePage = "change";
-			        	actions = "<li data-process='recovercanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Recover canceled</a></li>";
+			        	actions = 
+			        		"<li data-process='recovercanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Recover canceled</a></li>";
 			        };
 	        	};
 	        };
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 	        	if (localStorage.accommodation == "Dorms"){
 		        	if (student.trip.status == "Available"){
-			        	actions = "<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
-			        			  "<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Canceled</a></li>";
+			        	actions = 
+			        		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
+			        };
+			        if (student.trip.status == "Allocated"){
+			        	actions = 
+			        		"<li data-process='confirmdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Confirm</a></li>" +
+			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
+			        };
+			        if (student.trip.status == "Confirmed"){
+			        	actions = 
+			        		"<li data-process='changestatustodocumentsdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send confirmation letter</a></li>" +
+			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
+			        };
+			        if (student.trip.status == "Documents"){
+			        	actions = 
+			        		"<li data-process='changestatustoinhousedorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send confirmation letter</a></li>" +
+			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
+			        };
+			        if (student.trip.status == "In house"){
+			        	actions = 
+			        		"<li data-process='changestatustocheckoutdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Change to check out</a></li>" +
+			        		"<li data-process='extendtripdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Extend trip</a></li>" +
+			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
+			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
+			        };
+			        if (student.trip.status == "Checked out"){
+			        	actions = 
+			        		"<li data-process='sendemailtostudenttoevaluetedorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Send student email to evaluete</a></li>" +
+			        		"<li data-process='evaluetereceiveddorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Evaluete received</a></li>" +
+			        		"<li data-process='newtripdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Initiate a new trip</a></li>";
+			        };
+			        if (student.trip.status == "Canceled"){
+			        	actions = 
+			        		"<li data-process='recovercanceleddorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Recover canceled</a></li>";
 			        };
 	        	};
 	        };
@@ -452,16 +495,34 @@
 	    		$("#listStudent li").on('click',function(){
 	    			if ($(this).attr('data-process') == "deallocateroom") {
 	    				rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
-	    				rest_obterStudent($(this).attr('data-emailStudent'), clearFamilyName, semAcao, "Available");
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+
+	    			};
+	    			if ($(this).attr('data-process') == "deallocatebed") {
+	    				rest_obterRoom($(this).attr('data-idRoom'), deallocateBed, semAcao, $(this).attr('data-idStudent'), $(this).attr('data-idBed') );
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocanceled") {
 	    				if ($(this).attr('data-idFamily')){
 	    					rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
 	    				};
-	    				rest_obterStudent($(this).attr('data-emailStudent'), clearFamilyName, semAcao, "Canceled");
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Canceled");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "changestatustocanceleddorms") {
+	    				rest_obterRoom($(this).attr('data-idRoom'), deallocateBed, semAcao, $(this).attr('data-idStudent'), $(this).attr('data-idBed') );
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "manualconfirm") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), manualConfirmFamily, semAcao);
+	    				rest_obterStudent($(this).attr('data-emailStudent'), manualConfirmAllocation, semAcao);
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "confirmdorms") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), manualConfirmAllocation, semAcao);
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "sendemailtofamilytoconfirm") {
 	    				rest_obterFamily($(this).attr('data-idFamily'), sendEmailToFamilyToConfirm, semAcao, $(this).attr('data-emailStudent') );
@@ -471,27 +532,62 @@
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustodocuments") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Documents");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "changestatustodocumentsdorms") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Documents");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustoinhouse") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "changestatustoinhousedorms") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocheckout") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Checked out");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "changestatustocheckoutdorms") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Checked out");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustoinhouse") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "changestatustoinhousedorms") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "recovercanceled") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Available");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "recovercanceled") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Available");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "evaluetereceived") {
 	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Evaluete received");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
+	    			if ($(this).attr('data-process') == "evaluetereceiveddorms") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Evaluete received");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "newtrip") {
 	    				if ($(this).attr('data-idFamily')){
 	    					rest_obterFamily($(this).attr('data-idFamily'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
 	    				};
-	    				rest_obterStudent($(this).attr('data-emailStudent'), clearFamilyName, semAcao, "Available");
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
+	    			};
+	    			if ($(this).attr('data-process') == "newtripdorms") {
+	    				rest_obterRoom($(this).attr('data-idRoom'), deallocateBed, semAcao, $(this).attr('data-idStudent'), $(this).attr('data-idBed') );
+	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
+	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    		});
             }
@@ -509,8 +605,6 @@
         } );
         /* end trip list */   
 };
-
-
 
 function deallocateRoom (objFamily, emailStudent) {
 
@@ -538,19 +632,43 @@ function deallocateRoom (objFamily, emailStudent) {
 	
 };
 
-function clearFamilyName (objStudent, status) {
+function deallocateBed (objRoom, idStudent, idBed) {
+
+    $.each(objRoom.documento.beds, function (i, bed) {
+    	if (bed.occupancies){
+	    	var excluded = false;
+	        $.each(bed.occupancies, function (w, occupancy) {
+	        	if (!excluded){
+	        		if (occupancy.idStudent == idStudent){
+	        			objRoom.documento.beds[i].occupancies.splice(w, 1);
+	        			excluded = true;
+	        		};
+	        	};
+	        });
+    	};
+    });
+
+	rest_atualizaRoom(objRoom, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Bed deallocate", "Problems to update bed, try again")
+	
+};
+
+function clearAllocation (objStudent, status) {
 
 	objStudent.documento.trips[objStudent.documento.actualTrip].familyName = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].idRoom = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].idBed = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].familyName = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].dormName = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].unitName = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].roomName = "";
+	objStudent.documento.trips[objStudent.documento.actualTrip].bedName = "";
 	objStudent.documento.trips[objStudent.documento.actualTrip].status = status;
 	delete objStudent.contact;
 	delete objStudent.rooms;
 	delete objStudent.family;
 
-	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Family name cleared", "Problems to update student, try again");
+	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Allocation cleared", "Problems to update student, try again");
 	
-	// *** refresh students list
-	$(window.document.location).attr('href','students.html');
-
 };
 
 function changeStatus (objStudent, status) {
@@ -562,12 +680,9 @@ function changeStatus (objStudent, status) {
 
 	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Status changed", "Problems to update student, try again");
 	
-	// *** refresh students list
-	$(window.document.location).attr('href','students.html');
-
 };
 
-function manualConfirmFamily (objStudent, emailStudent) {
+function manualConfirmAllocation (objStudent, emailStudent) {
 	
 	objStudent.documento.trips[objStudent.documento.actualTrip].status = "Confirmed";
 	delete objStudent.contact;
@@ -575,10 +690,7 @@ function manualConfirmFamily (objStudent, emailStudent) {
 	delete objStudent.family;
 
 	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Status changed to confirm", "Problems to update student, try again");
-	
-	// *** refresh students list
-	$(window.document.location).attr('href','students.html');
-	
+		
 };
 
 function sendEmailToFamilyToConfirm (objFamily, emailStudent) {

@@ -1169,7 +1169,7 @@ function carregaStudent(data) {
 	var start = new Date(date[1]+"/"+date[0]+"/"+date[2]);
 	date = separaConverteDataMes(objJson.documento.trips[actualTrip].end, "/").split("/");
 	var end = new Date(date[1]+"/"+date[0]+"/"+date[2]);
-	$('#bedAlocationStart').datepicker({
+	$('#bedAllocationStart').datepicker({
 	    changeMonth: true,
 	    changeYear: true,
 	    dateFormat : 'dd-M-yy',
@@ -1178,11 +1178,11 @@ function carregaStudent(data) {
 		maxDate: end,
 		minDate: start,		
 		onSelect : function(selectedDate) {
-			$('#bedAlocationEnd').datepicker('option', 'minDate', selectedDate);
+			$('#bedAllocationEnd').datepicker('option', 'minDate', selectedDate);
 			}
 		});
 
-	$('#bedAlocationEnd').datepicker({
+	$('#bedAllocationEnd').datepicker({
 	    changeMonth: true,
 	    changeYear: true,
 	    dateFormat : 'dd-M-yy',
@@ -1191,7 +1191,7 @@ function carregaStudent(data) {
 		maxDate: end,
 		minDate: start,		
 		onSelect : function(selectedDate) {
-//			$('#bedAlocationStart').datepicker('option', 'minDate', selectedDate);
+//			$('#bedAllocationStart').datepicker('option', 'minDate', selectedDate);
 			}
 		});
 	

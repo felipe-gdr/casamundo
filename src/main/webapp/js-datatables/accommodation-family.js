@@ -144,7 +144,7 @@
 	    			if ($(this).attr('data-process') == "sendlettertostudent") {
 	    				rest_obterFamily($(this).attr('data-idFamily'), carregaTelaFamily, semAcao);
 	    			};
-	    			if ($(this).attr('data-process') == "offertofamilyi") {
+	    			if ($(this).attr('data-process') == "offertofamily") {
 	    				var objJson = {
 	    		    			familyName : $(this).attr('data-idFamily'),
 	    		    			emailFamily : $(this).attr('data-emailFamily'),
@@ -168,7 +168,7 @@
 //	    				$(".notChange" ).addClass("hide");
 //	    				$("#accommodation" ).focus();	    				
 	    				// *** refresh students list
-	    				$(window.document.location).attr('href','students.html?typePage=accommodation');
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 
 	    			};
 	    		});

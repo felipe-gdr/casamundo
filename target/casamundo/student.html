@@ -1266,19 +1266,19 @@
 																				<small class='g5 g4 hide text-primary' id="guest_04"  data-original-title="Guest name"></small><br>
 																				<small class='g5 hide text-primary' id="guest_05"  data-original-title="Guest name"></small><br>
 																		</div>
-																		<div class="col-xs-4 hide homestay">
+																		<div class="col-xs-4 hide homestay dorms">
 																			<div class="col-xs-12">
 																				<small class='text-muted hide homestay dorms'>Occupancy: </small><small class='homestay dorms text-primary' id="occupancy"   data-original-title="Occupancy"></small><br>
 																		    	<small class='text-muted hide homestay dorms'>Smoke: </small><small class='homestay dorms hide text-primary' id="smoke"   data-original-title="Do yhou smoke?"></small><br>
 																		  	</div>
 																			<div class="col-xs-12 ">
 																		        <small class='text-muted hide homestay'>Meal Plan: </small>
-																		        <small class='homestay hide text-primary' id="mealPlan" data-type="checklist" data-original-title="Meal Plan"></small>
+																		        <small class='text-primary hide homestay' id="mealPlan" data-type="checklist" data-original-title="Meal Plan"></small>
 																		    </div>
 																		    <br>
 																			<div class="col-xs-12 ">
 																		        <small class='text-muted hide homestay'>Special diet: </small><br>
-																				<small class='homestay hide text-primary' id="specialDiet" data-type="checklist" ] data-original-title="Special Diet"></small>
+																				<small class='text-primary hide homestay' id="specialDiet" data-type="checklist" ] data-original-title="Special Diet"></small>
 																			</div>
 																			<br>
 																		</div>
@@ -1343,7 +1343,7 @@
 							</div>
 							<!-- end row -->
 						</article>
-						<article class="col-sm-12 col-md-12 col-lg-12">
+						<article class="col-sm-12 col-md-12 col-lg-12 hide pageFamily">
 
 							<div class="jarviswidget jarviswidget-color-blue notAccommodationDorms notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 								<header>
@@ -1505,12 +1505,12 @@
 							</div>
 							<!-- end widget content -->
 						</article>
-						<article class="col-sm-12 col-md-12 col-lg-12">
+						<article class="col-sm-12 col-md-12 col-lg-12 hide pageBeds">
 
 							<div class="jarviswidget jarviswidget-color-blue notAccommodation notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Rooms</h2>
+									<h2>Beds</h2>
 									<div class="widget-toolbar">
 										<!-- add: non-hidden - to disable auto hide -->
 									</div>
@@ -1556,36 +1556,27 @@
 														<th class="hasinput" >
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_room" type="text" class="form-control text-filter" placeholder="Rooms" />
+																	<input id="filters_dorm" type="text" class="form-control text-filter-bed" placeholder="Building" />
 																</section>
 															</div>
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_dorm" type="text" class="form-control text-filter" placeholder="Building" />
+																	<input id="filters_uni" type="text" class="form-control text-filter-bed" placeholder="Unit" />
 																</section>
 															</div>
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_unit" type="text" class="form-control text-filter" placeholder="Unit" />
-																</section>
-															</div>
-														</th>
-														<th class="hasinput" >
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_mainIntersection" type="text" class="form-control text-filter" placeholder="Main intersection" />
+																	<input id="filters_room" type="text" class="form-control text-filter-bed" placeholder="Room" />
 																</section>
 															</div>
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_subway" type="text" class="form-control text-filter" placeholder="Subway station" />
+																	<input id="filters_bed" type="text" class="form-control text-filter-bed" placeholder="Bed" />
 																</section>
 															</div>
-														</th>
-														<th class="hasinput" >
 															<div class="row">							
 																<section class="col-xs-12">							
-																	<input id="filters_bedAvailable" type="text" class="form-control text-filter" placeholder="Bed available" />
+																	<input id="filters_availability" type="text" class="form-control text-filter-bed" placeholder="Availability" />
 																</section>
 															</div>
 														</th>
@@ -1596,18 +1587,15 @@
 														<th class="hasinput" >
 														</th>
 														<th class="hasinput" >
-															<input type="text" class="form-control" placeholder="Comments" />
 														</th>
 													</tr>
 										            <tr>
 										                <th></th>
-										                <th><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Family</th>
-										                <th><i class="fa fa-fw fa-marked text-muted hidden-md hidden-sm hidden-xs"></i>Location</th>
-										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-eye text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-eye text-muted hidden-md hidden-sm hidden-xs"></i></th>
-										                <th><i class="fa fa-fw fa-file-text-o text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
+										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Building</th>
+										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i>Current</th>
+										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
+										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i>Next</th>
+										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
 										            </tr>
 										        </thead>
 										    </table>
@@ -1636,6 +1624,46 @@
 
 		</div>
 		<!-- END MAIN PANEL -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="bedAllocationModal" tabindex="-1" role="dialog" aria-labelledby="bedAllocationModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="bedAllocationModalLabel">Allocation bed</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-11">
+									<form id="bedAllocationModal-form" class="smart-form" novalidate="novalidate">
+										<div class="row">
+											<div class="col-md-4">
+												<label for="bedAllocationStart">Start</label>
+												<input id="bedAllocationStart" name="bedAllocationStart" type="text" class="form-control" value="" placeholder="" required />
+											</div>
+											<div class="col-md-1"></div>
+											<div class="col-md-2">
+												<label for="bedAllocationEnd">End</label>
+												<input id="bedAllocationEnd" name="bedAllocationEnd" type="text" class="form-control" value="" placeholder="" required />
+											</div>
+										</div>
+										<br><br>
+										<div class="modal-footer col-md-10">
+											<button type="submit" class="btn btn-primary">Submit</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+										</div>
+									</form>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
@@ -1860,6 +1888,7 @@
 		<script src="js-datatables/accommodation-family.js"></script>
 		<script src="js-datatables/accommodation-room.js"></script>
 		<script src="js/student.js"></script>
+		<script src="js/bed-commons.js"></script>
 
 		<script>
 			$(document).ready(function() {
