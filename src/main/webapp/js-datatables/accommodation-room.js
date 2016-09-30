@@ -223,7 +223,7 @@
 			availableBedText = bedStatus;
 			availableBedCollor = "text-warning"
 		}else{
-			if (student.documento.trips[actualTrip].occupancy == room.bed.type){
+//			if (student.documento.trips[actualTrip].occupancy == room.bed.type){
 				bedAvailable = true;
 				actions = actions + 
 									"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
@@ -251,10 +251,10 @@
 									"'><a data-toggle='modal' data-target='#bedAllocationModal' id='allocateRoom_" + room.bed.id + "_" + room.id + 
 									"'>Allocate bed different date</a></li>";
 									
-			}else{
-				availableBedText = "different type of bed";
-				availableBedCollor = "text-warning"				
-			}
+//			}else{
+//				availableBedText = "different type of bed";
+//				availableBedCollor = "text-warning"				
+//			}
 		};
         if (student.documento.trips[actualTrip].status == "Confirmed"){
         	actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='sendlettertostudent'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Send confirmation letter</a></li>";

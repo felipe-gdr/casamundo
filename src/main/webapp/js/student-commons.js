@@ -1297,7 +1297,7 @@ function limpaStorageStudent () {
 					    		agencyId:"",
 					    		agencyName:"", 
 					    		agencyConsultName:"",
-					    		schoold:"",
+					    		schoolId:"",
 					    		schoolName:"", 
 					    		schoolConsultName:"" 
 					    	} 

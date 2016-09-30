@@ -75,43 +75,6 @@
 		}
 	});
 	
-/**
- * 
- */
-	var doc = new jsPDF();
-	var specialElementHandlers = {
-	    '#editor': function (element, renderer) {
-	        return true;
-	    }
-	};
-	var doc = new jsPDF();
-	var specialElementHandlers = {
-	    '#editor': function (element, renderer) {
-	        return true;
-	    }
-	};
-	$('#geraPDF').click(function () {
-//		html2canvas($("#div-pdf"), {
-//	        onrendered: function(canvas) {
-//	        	return Canvas2Image.saveAsPNG(canvas);
-//	        }
-//	    });
-//		html2canvas($("#div-pdf"),{
-//			onrendered: function (canvas){
-//				var img = canvas.toDataURL("image/png");
-//				window.open(img);
-//				var doc = new jsPDF();
-//				doc.addImage (img, JPEG, 100, 100);
-//			    doc.save('invoice_' + mailUrl + '.pdf');				
-//			}
-//		})
-
-	    doc.fromHTML($('#content').html(), 5, 5, {
-	        'width': 170,
-	            'elementHandlers': specialElementHandlers
-	    });
-	    doc.save('sample-file.pdf');
-	});
 	
 	$('#invoiceSubmmit').off('click');
 	$('#invoiceSubmmit').on('click', function () {
@@ -181,7 +144,226 @@
 			criaInvoice(idInvoice);
 		}
 	});
- 
+
+	/**
+	 * 
+	 */
+	var splitRegex = /\r\n|\r|\n/g;
+	jsPDF.API.textEx = function (text, x, y, hAlign, vAlign) {
+	    var fontSize = this.internal.getFontSize() / this.internal.scaleFactor;
+
+	    // As defined in jsPDF source code
+	    var lineHeightProportion = 1.15;
+
+	    var splittedText = null;
+	    var lineCount = 1;
+	    if (vAlign === 'middle' || vAlign === 'bottom' || hAlign === 'center' || hAlign === 'right') {
+	        splittedText = typeof text === 'string' ? text.split(splitRegex) : text;
+
+	        lineCount = splittedText.length || 1;
+	    }
+
+	    // Align the top
+	    y += fontSize * (2 - lineHeightProportion);
+
+	    if (vAlign === 'middle')
+	        y -= (lineCount / 2) * fontSize;
+	    else if (vAlign === 'bottom')
+	        y -= lineCount * fontSize;
+
+	    if (hAlign === 'center' || hAlign === 'right') {
+	        var alignSize = fontSize;
+	        if (hAlign === 'center')
+	            alignSize *= 0.5;
+
+	        if (lineCount > 1) {
+	            for (var iLine = 0; iLine < splittedText.length; iLine++) {
+	                this.text(splittedText[iLine], x - this.getStringUnitWidth(splittedText[iLine]) * alignSize, y);
+	                y += fontSize;
+	            }
+	            return this;
+	        }
+	        x -= this.getStringUnitWidth(text) * alignSize;
+	    }
+
+	    this.text(text, x, y);
+	    return this;
+	};
+	
+	var doc = new jsPDF('p','mm','a4')
+	var specialElementHandlers = {
+	    '#editor': function (element, renderer) {
+	        return true;
+	    }
+	};
+	var img = new Image();
+	img.addEventListener('load', function() {
+	    doc.addImage(img, 'png', 170, 5, 20, 20);
+	});
+	img.src = 'img/logo/casatoronto.png';		
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(40);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 30, 'INVOICE');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 40, 'Casa Toronto');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 55, 'BILL TO');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(11);
+	doc.setTextColor(0, 51, 102);
+	doc.text(100, 55, 'INVOICE #');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.textEx('0001/2016', 190, 55, 'right', 'middle');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 65, $('#studentCompleteName').html());
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(11);
+	doc.setTextColor(0, 51, 102);
+	doc.text(100, 65, 'INVOICE DATE');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	var hoje = new Date();
+	doc.textEx(hoje.getDate() + "-" + converteMesAlfa(hoje.getMonth()) + "-" + hoje.getFullYear(), 190, 65, 'right', 'middle');
+
+	doc.setLineWidth(1.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 75, 190, 75);
+	
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 81, 'DESCRIPTION');
+	
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.textEx('AMOUNT', 120, 81, 'right', 'middle');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.textEx('VALUE', 190, 81, 'right', 'middle');
+
+	doc.setLineWidth(1.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 85, 190, 85);
+
+	doc.setLineWidth(1.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 250, 190, 250);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(09);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 255, "Bank deposit to date : " + $('#due_0').val());
+
+	doc.setFont("helvetica");
+	doc.setFontType("italic");
+	doc.setFontSize(09);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 260, "Casa Toronto Corp.");
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(08);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 265, "Address: 1512 - 153 Beecroft Rd Toronto,ON M2N 7C5");
+
+	doc.setFont("helvetica");
+	doc.setFontType("italic");
+	doc.setFontSize(09);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 270, "Bank Name: TD Canada Trust Bank");
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(08);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 275, "Address: 5650 Yonge Street Toronto, ON M2M 4G3 Branch/Transit# 19702");
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(08);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 280, "Account# 5254696 Bank# 004 Swift Code: TDOMCATTTOR");
+
+	$('#geraPDF').click(function () {
+		var hight = 95;
+		$(".item").each(function() {
+			var id = $(this).attr('id');
+			var i = id.split("_")[1];
+			if ($('#itemName_' + i).val()) {
+				doc.setFont("helvetica");
+				doc.setFontType("normal");
+				doc.setFontSize(10);
+				doc.setTextColor(0, 0, 0);
+				doc.text(15, hight,$('#itemName_' + i).val().split("_")[2]);
+				
+			};
+			if ($('#itemAmount_' + i).val()) {
+				doc.setFont("helvetica");
+				doc.setFontType("normal");
+				doc.setFontSize(10);
+				doc.setTextColor(0, 0, 0);
+				doc.textEx($('#itemAmount_' + i).val(), 120, hight, 'right', 'middle');
+			};
+			if ($('#itemValue_' + i).val()) {
+				doc.setFont("helvetica");
+				doc.setFontType("normal");
+				doc.setFontSize(10);
+				doc.setTextColor(0, 0, 0);
+				doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
+			};
+			hight = hight + 7;
+		});	
+		hight = hight + 10;
+		doc.setFont("helvetica");
+		doc.setFontType("bold");
+		doc.setFontSize(12);
+		doc.setTextColor(0, 51, 102);
+		doc.textEx('TOTAL', 150, hight, 'right', 'middle');
+		doc.setFont("helvetica");
+		doc.setFontType("normal");
+		doc.setFontSize(10);
+		doc.setTextColor(0, 0, 0);
+		doc.textEx($('#dueValue_0').val(), 190, hight, 'right', 'middle');
+	    doc.fromHTML($('#invoice-pdf').html(), 5, 5, {
+	        'width': 170,
+	            'elementHandlers': specialElementHandlers
+	    });
+	    doc.save("invoice_" + $("#mail").html() + '.pdf');
+	});
+
 function saveUltimaInvoice (data) {
 	localStorage.numberInvoice = parseInt(localStorage.numberInvoice) + 1;
 };
@@ -710,3 +892,38 @@ function carregaDadosTelaInvoice(data){
 	};
 	
 };
+
+function fillSpaces(text, size){
+	
+	var sizeOriginal = text.length;
+	var espacos = size - text.length;
+	var i = 0;
+	while (i < espacos) {
+	    text = " " + text;
+	    i++;
+	};
+	var i = 0;
+	while (i < (espacos / 2)) {
+	    text = " " + text;
+	    i++;
+	};
+	return text;
+};
+function salvaCodigoPDF(){
+//	html2canvas($("#div-pdf"), {
+//    onrendered: function(canvas) {
+//    	return Canvas2Image.saveAsPNG(canvas);
+//    }
+//});
+//html2canvas($("#div-pdf"),{
+//	onrendered: function (canvas){
+//		var img = canvas.toDataURL("image/png");
+//		window.open(img);
+//		var doc = new jsPDF();
+//		doc.addImage (img, JPEG, 100, 100);
+//	    doc.save('invoice_' + mailUrl + '.pdf');				
+//	}
+//})
+
+
+}
