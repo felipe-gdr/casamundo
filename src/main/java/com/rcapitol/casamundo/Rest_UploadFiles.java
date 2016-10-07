@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,13 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 
 	
 @Singleton
@@ -42,9 +50,24 @@ public class Rest_UploadFiles {
 	@Path("/images")
     @Produces("image/*")
     public Response getImage(@QueryParam("image") String image){
- 
-        String tmp = "c:/images/casamundo/";
-        File target = new File(tmp + image);
+
+		String tmp = "c:/images/casamundo/";
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("setup");
+			BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
+			DBObject cursor = collection.findOne(searchQuery);
+			if (cursor != null){
+				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+				tmp = obj.getString("setupValue");
+			};
+		} catch (UnknownHostException | MongoException e) {
+			e.printStackTrace();
+		};
+        
+		File target = new File(tmp + image);
         if(!target.exists()){
             throw new WebApplicationException(404);
         }

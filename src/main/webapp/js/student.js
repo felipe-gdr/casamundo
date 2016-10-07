@@ -51,8 +51,10 @@
 				'filters_room:' + $("#filters_room").val() + ',' +
 				'filters_bed:' + $("#filters_bed").val() + ',' +
 				'filters_availability:' + $("#filters_availability").val();
-			carregaLocalStorageRooms(JSON.parse(localStorage.getItem("rooms")), filters);
-			localStorage.filters = filters;
+        	if (filters != localStorage.filters){
+        		carregaLocalStorageRooms(JSON.parse(localStorage.getItem("rooms")), filters);
+        		localStorage.filters = filters;
+        	};
 		});
 	
 	 	 

@@ -422,7 +422,7 @@
 				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
 				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
 				
-				if (endOccupancy < startTrip ){
+				if (endOccupancy <= startTrip ){
 					if (endOccupancy > studentOccupancyData.lastDate){	
 						studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
 						studentOccupancyData.lastGender = occupancy.student.gender;
@@ -475,7 +475,7 @@
 				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
 				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
 				
-				if (startTrip >= startOccupancy && startTrip <= endOccupancy){
+				if (startTrip >= startOccupancy && startTrip < endOccupancy){
 					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;
 					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
 					studentOccupancyData.lastGender = occupancy.student.gender;
