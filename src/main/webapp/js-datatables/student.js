@@ -1,11 +1,5 @@
-	/**
-	 * 		carrega tabelas
-	 */
-
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
-    /**
-     * 			adendo a lista trip
-     */
+ 
+ function carregaTripsStudent () {
 
 
 	/* BASIC datatables*/
@@ -110,27 +104,28 @@
             .draw();
             
     } );
+    
+ };
     /* end trip list */   
 	/* Formatting function for row details - modify as you need */
-	function formatTrip ( d ) {
-	    // `d` is the original data object for the row
-	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-        	'<tr>'+
-        		'<td>Flight:</td>'+
-        		'<td>'+d.flight+'</td>'+
-        	'</tr>'+
-        	'<tr>'+
-        		'<td>Pickup:</td>'+
-        		'<td>'+d.pickup+'</td>'+
+function formatTrip ( d ) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
+    	'<tr>'+
+    		'<td>Flight:</td>'+
+    		'<td>'+d.flight+'</td>'+
+    	'</tr>'+
+    	'<tr>'+
+    		'<td>Pickup:</td>'+
+    		'<td>'+d.pickup+'</td>'+
+		'</tr>'+
+    	'<tr>'+
+    		'<td>Extend:</td>'+
+    		'<td>'+d.extend+'</td>'+
     		'</tr>'+
-        	'<tr>'+
-        		'<td>Extend:</td>'+
-        		'<td>'+d.extend+'</td>'+
-        		'</tr>'+
-	        '<tr>'+
-	            '<td>Actions:</td>'+
-	            '<td>'+d.actions+'</td>'+
-	        '</tr>'+
-	    '</table>';
-	};
-	
+        '<tr>'+
+            '<td>Actions:</td>'+
+            '<td>'+d.actions+'</td>'+
+        '</tr>'+
+    '</table>';
+};

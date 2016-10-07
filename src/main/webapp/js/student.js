@@ -40,8 +40,7 @@
 					var objStudent = JSON.parse(localStorage.getItem("student"));
 					rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination, filters, "true");
 		});	
-
-		
+	
 		// **** testa filtro availability
 		localStorage.filters = "";
 		$(".text-filter-bed").blur(function(){
@@ -68,22 +67,6 @@
 	$( "#alteracaoButton" ).bind( "click", function() {
 		$(window.document.location).attr('href','student_input.html?mail=' + mailUrl );
 	});
-	//
-	//***   setar pagina como accommodation
-	//
-	if (typePage == "accommodation"){
-		$(".notAccommodation" ).addClass("hide");
-		$(".pageFamily" ).removeClass("hide");
-		montaAccommodationFamily ();
-	}
-	//
-	//***   setar pagina como accommodation
-	//
-	if (typePage == "accommodation-dorms"){
-		$(".notAccommodationDorms" ).addClass("hide");
-		$(".pageBeds" ).removeClass("hide");
-		montaAccommodationRoom ();
-	}
 	//
 	//***   setar pagina como somente consulta student
 	//
@@ -124,5 +107,5 @@
 /**
  * 
  */
-	rest_obterStudent(mailUrl, carregaStudent, obtencaoNaoEfetuada);
+	rest_obterStudent(mailUrl, carregaStudent, obtencaoNaoEfetuada, typePage);
     

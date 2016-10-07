@@ -76,17 +76,19 @@ public class Rest_Student {
 				jsonObject = (JSONObject) parser.parse(docStudent);
 			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 			    String familyName = null;
+			    String idRoom = null;
 			    if (tripIndex != null){
 					List trips = (List) jsonObject.get("trips");
 					JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
 					familyName = (String) jsonTrip.get("familyName");
+					idRoom = (String) jsonTrip.get("idRoom");
 			    };
 				if (familyName != null && !familyName.equals("")){
 					Mongo mongoFamily = new Mongo();
 					DB dbFamily = (DB) mongoFamily.getDB("documento");
-					DBCollection collectionSchool = dbFamily.getCollection("family");
+					DBCollection collectionFamily = dbFamily.getCollection("family");
 					BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
-					DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
+					DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
 					if (cursorFamily != null){
 						BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
 						BasicDBObject objContact = (BasicDBObject) objFamily.get("contact");
@@ -115,6 +117,19 @@ public class Rest_Student {
 					docFamily.put("contact.mobilePhoneNumber", "");						
 					documento.put("family", docFamily);
 					documento.put("rooms", "");
+				};
+				if (idRoom != null && !idRoom.equals("")){
+					Mongo mongoRoom = new Mongo();
+					DB dbRoom = (DB) mongoRoom.getDB("documento");
+					DBCollection collectionRoom = dbRoom.getCollection("room");
+					BasicDBObject searchQueryRoom = new BasicDBObject("documento.beds.occupancies.idStudent", studentId);
+					DBObject cursorRoom = collectionRoom.findOne(searchQueryRoom);
+					JSONArray rooms = new JSONArray();
+					while (((Iterator<DBObject>) cursorRoom).hasNext()) {
+						BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursorRoom).next();
+						rooms.add(objRoom);
+					};
+					documento.put("rooms", rooms);
 				};
 				return documento;
 			} catch (ParseException e) {

@@ -945,7 +945,7 @@ function carregaInclusao(data) {
 	localStorage.studentExistente = "false";
 };    
 
-function carregaStudent(data) { 	
+function carregaStudent(data, typePage) { 	
 	
 	localStorage.setItem("student", JSON.stringify(data));
     
@@ -1165,9 +1165,9 @@ function carregaStudent(data) {
 //	
 //*** setar datas do modal
 //	
-	date = separaConverteDataMes(objJson.documento.trips[actualTrip].start, "/").split("/");
+	date = separaConverteDataMes(data.documento.trips[actualTrip].start, "/").split("/");
 	var start = new Date(date[1]+"/"+date[0]+"/"+date[2]);
-	date = separaConverteDataMes(objJson.documento.trips[actualTrip].end, "/").split("/");
+	date = separaConverteDataMes(data.documento.trips[actualTrip].end, "/").split("/");
 	var end = new Date(date[1]+"/"+date[0]+"/"+date[2]);
 	$('#bedAllocationStart').datepicker({
 	    changeMonth: true,
@@ -1193,9 +1193,27 @@ function carregaStudent(data) {
 		onSelect : function(selectedDate) {
 //			$('#bedAllocationStart').datepicker('option', 'minDate', selectedDate);
 			}
-		});
-	
-	
+	});
+	//
+	//***   setar pagina como accommodation
+	//
+	if (typePage == "accommodation"){
+		$(".notAccommodation" ).addClass("hide");
+		$(".pageFamily" ).removeClass("hide");
+		montaAccommodationFamily ();
+	}
+	//
+	//***   setar pagina como accommodation
+	//
+	if (typePage == "accommodation-dorms"){
+		$(".notAccommodationDorms" ).addClass("hide");
+		$(".pageBeds" ).removeClass("hide");
+		montaAccommodationRoom ();
+	};
+//
+// *** carrega as viagens do estudante
+//
+	 carregaTripsStudent();	
 };
 
 function limpaStorageStudent () {
