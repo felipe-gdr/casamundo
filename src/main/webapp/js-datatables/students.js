@@ -173,7 +173,7 @@
             };
             var age = calculaIdade(separaConverteDataMes(student.birthDay, "/"));
         	switch (student.trip.status) {
-        	case "available":
+        	case "Available":
         		statusCollor = "label-available"
                 break;
             case "Confirmed":
@@ -298,7 +298,7 @@
         	invoices = "<li><a href='create-invoice.html?mail=" + student.mail + "&typePage=create'>Create invoice</a></li>";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 	        	if (localStorage.accommodation == "Homestay"){
-		        	if (student.trip.status == "Available"){
+		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
 			        		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idFamily='" + familyName + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
@@ -355,10 +355,14 @@
 	        };
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 	        	if (localStorage.accommodation == "Dorms"){
-		        	if (student.trip.status == "Available"){
+		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
 			        		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
+			        	if (student.trip.status == "Partially allocated"){
+			        		actions = actions +	
+			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-indexTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>";			        		
+			        	};
 			        };
 			        if (student.trip.status == "Allocated"){
 			        	actions = 

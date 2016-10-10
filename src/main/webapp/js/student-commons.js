@@ -399,34 +399,38 @@ function getValueStudent (field, actualTrip) {
         if (objJson.rooms){
         	var jsonRoom;
             $.each(objJson.rooms, function (i, room) {
-                $.each(room.occupancySingleBed, function (i, occupancy) {
-                	if (occupancy.emailStudent == objJson.documento.mail){
-                		jsonRoom = 
-                			{
-                				number:room.number,
-                				singleBed:room.singleBed,
-                				coupleBed:room.coupleBed,
-                				note:room.note,
-                				startOccupancy:occupancy.startOccupancy,
-                				endOccupancy:occupancy.endOccupancy,
-                				studentOccupancy:"single"
-                			};
-                	};
-                });            	
-                $.each(room.occupancyCoupleBed, function (i, occupancy) {
-                	if (occupancy.emailStudent == objJson.documento.mail){
-                		jsonRoom = 
-                			{
-                				number:room.number,
-                				singleBed:room.singleBed,
-                				coupleBed:room.coupleBed,
-                				note:room.note,
-                				startOccupancy:occupancy.startOccupancy,
-                				endOccupancy:occupancy.endOccupancy,
-                				studentOccupancy:"couple"
-                			};
-                	};
-                });            	
+            	if (room.occupancySingleBed){
+	                $.each(room.occupancySingleBed, function (i, occupancy) {
+	                	if (occupancy.emailStudent == objJson.documento.mail){
+	                		jsonRoom = 
+	                			{
+	                				number:room.number,
+	                				singleBed:room.singleBed,
+	                				coupleBed:room.coupleBed,
+	                				note:room.note,
+	                				startOccupancy:occupancy.startOccupancy,
+	                				endOccupancy:occupancy.endOccupancy,
+	                				studentOccupancy:"single"
+	                			};
+	                	};
+	                });
+            	};
+            	if (room.occupancyCoupleBed){
+	                $.each(room.occupancyCoupleBed, function (i, occupancy) {
+	                	if (occupancy.emailStudent == objJson.documento.mail){
+	                		jsonRoom = 
+	                			{
+	                				number:room.number,
+	                				singleBed:room.singleBed,
+	                				coupleBed:room.coupleBed,
+	                				note:room.note,
+	                				startOccupancy:occupancy.startOccupancy,
+	                				endOccupancy:occupancy.endOccupancy,
+	                				studentOccupancy:"couple"
+	                			};
+	                	};
+	                });
+            	};
             });
     		return jsonRoom;
         }else{

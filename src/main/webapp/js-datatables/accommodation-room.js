@@ -150,7 +150,7 @@
     				};
     				localStorage.setItem("bedAllocation", JSON.stringify(objJson));
 	    			if ($(this).attr('data-process') == "allocatebed") {
-	    				rest_obterRoom($(this).attr('data-idRoom'), updateBeds, semAcao, objJson);
+	    				rest_obterRoom($(this).attr('data-idRoom'), updateBeds, semAcao, objJson, "Allocated");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "allocatebeddata") {
@@ -467,9 +467,35 @@
 	function bedsOccupied (occupancies, studentOccupancyData) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
 		var actualTrip = objJson.documento.actualTrip;
-		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
-		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
 		var occupied = null;
+		if (objJson.rooms == null | objJson.rooms == ""){
+			occupied = checkBedOccupied (occupancies, studentOccupancyData, objJson.documento.trips[actualTrip].start, objJson.documento.trips[actualTrip].end)
+		}else{
+			if (objJson.rooms){
+			    $.each(objJson.rooms, function (i, room) {
+			    	$.each(room.documento.beds, function (i, bed) {
+			    		$.each(bed.occupancies, function (w, occupancy) {
+				    		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
+				    		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
+							var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
+							var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
+							if (startOccupancy != startTrip){
+								occupied = checkBedOccupied (occupancies, studentOccupancyData, objJson.documento.trips[actualTrip].start, occupancy.startOccupancy)						
+							}else{
+								occupied = checkBedOccupied (occupancies, studentOccupancyData, occupancy.endOccupancy, objJson.documento.trips[actualTrip].end)
+							};
+			    		});
+			    	});
+			    });
+			};
+		};
+	    return occupied;
+	};
+	
+	function checkBedOccupied (occupancies, studentOccupancyData, startTripOrigin, endTripOrigin){
+		var occupied = null;
+		var startTrip = Date.parse(new Date(separaAnoMesDia(startTripOrigin))); 
+		var endTrip =  Date.parse(new Date(separaAnoMesDia(endTripOrigin)));
 	    $.each(occupancies, function (i, occupancy) {
 			if (occupancy.idStudent){
 				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
@@ -531,7 +557,7 @@
 	    return occupied;
 	};	
 	
-	function updateBeds (objRoom, objBed) {
+	function updateBeds (objRoom, objBed, status) {
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 		var occupancy = 
 			{
@@ -557,7 +583,7 @@
 		objStudent.documento.trips[objStudent.documento.actualTrip].unitName = objBed.unitName;
 		objStudent.documento.trips[objStudent.documento.actualTrip].roomName = objBed.roomName;
 		objStudent.documento.trips[objStudent.documento.actualTrip].bedName = objBed.bedName;
-		objStudent.documento.trips[objStudent.documento.actualTrip].status = "Allocated";
+		objStudent.documento.trips[objStudent.documento.actualTrip].status = status;
 		delete objStudent.contact;
 		delete objStudent.rooms;
 		delete objStudent.family;

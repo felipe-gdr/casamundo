@@ -123,11 +123,13 @@ public class Rest_Student {
 					DB dbRoom = (DB) mongoRoom.getDB("documento");
 					DBCollection collectionRoom = dbRoom.getCollection("room");
 					BasicDBObject searchQueryRoom = new BasicDBObject("documento.beds.occupancies.idStudent", studentId);
-					DBObject cursorRoom = collectionRoom.findOne(searchQueryRoom);
+					DBCursor cursorRoom = collectionRoom.find(searchQueryRoom);
 					JSONArray rooms = new JSONArray();
-					while (((Iterator<DBObject>) cursorRoom).hasNext()) {
-						BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursorRoom).next();
-						rooms.add(objRoom);
+					if (cursorRoom != null){
+						while (((Iterator<DBObject>) cursorRoom).hasNext()) {
+							BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursorRoom).next();
+							rooms.add(objRoom);
+						};
 					};
 					documento.put("rooms", rooms);
 				};
