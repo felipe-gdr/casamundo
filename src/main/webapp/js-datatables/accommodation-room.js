@@ -223,38 +223,47 @@
 			availableBedText = bedStatus;
 			availableBedCollor = "text-warning"
 		}else{
-//			if (student.documento.trips[actualTrip].occupancy == room.bed.type){
-				bedAvailable = true;
+			bedAvailable = true;
+			if (student.documento.trips[actualTrip].status == "Available"){
 				actions = actions + 
-									"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
-									"' data-process='allocatebed' data-idRoom='" + room.id + 
-									"'  data-dormName='" + room.dorm + "'  data-unitName='" + room.unit + 
-									"'  data-roomName='" + room.name + "' data-bedName='" + room.bed.name + 
-									"' data-idBed='" + room.bed.id + "' data-emailStudent='" + emailStudent + 
-									"' data-idStudent='" + student._id + "' data-indexTrip='" + actualTrip + 
-									"' data-start='" + student.documento.trips[actualTrip].start + 
-									"' data-end='" + student.documento.trips[actualTrip].end + 
-									"' data-occupancy='" + student.documento.trips[actualTrip].occupancy + 
-									"'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + 
-									"'>Allocate bed from " + separaDataMes(student.documento.trips[actualTrip].start, "-") + 
-									" to " + separaDataMes(student.documento.trips[actualTrip].end, "-") + "</a></li>" +
+						"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
+						"' data-process='allocatebed' data-idRoom='" + room.id + 
+						"'  data-dormName='" + room.dorm + "'  data-unitName='" + room.unit + 
+						"'  data-roomName='" + room.name + "' data-bedName='" + room.bed.name + 
+						"' data-idBed='" + room.bed.id + "' data-emailStudent='" + emailStudent + 
+						"' data-idStudent='" + student._id + "' data-indexTrip='" + actualTrip + 
+						"' data-start='" + student.documento.trips[actualTrip].start + 
+						"' data-end='" + student.documento.trips[actualTrip].end + 
+						"' data-occupancy='" + student.documento.trips[actualTrip].occupancy + 
+						"'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + 
+						"'>Allocate bed from " + separaDataMes(student.documento.trips[actualTrip].start, "-") + 
+						" to " + separaDataMes(student.documento.trips[actualTrip].end, "-") + "</a></li>" +
 
-									"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
-									"' data-process='allocatebeddata' data-idRoom='" + room.id + 
-									"'  data-dormName='" + room.dorm + "'  data-unitName='" + room.unit + 
-									"'  data-roomName='" + room.name + "' data-bedName='" + room.bed.name + 
-									"' data-idBed='" + room.bed.id + "' data-emailStudent='" + emailStudent + 
-									"' data-idStudent='" + student._id + "' data-indexTrip='" + actualTrip + 
-									"' data-start='" + student.documento.trips[actualTrip].start + 
-									"' data-end='" + student.documento.trips[actualTrip].end + 
-									"' data-occupancy='" + student.documento.trips[actualTrip].occupancy + 
-									"'><a data-toggle='modal' data-target='#bedAllocationModal' id='allocateRoom_" + room.bed.id + "_" + room.id + 
-									"'>Allocate bed different date</a></li>";
-									
-//			}else{
-//				availableBedText = "different type of bed";
-//				availableBedCollor = "text-warning"				
-//			}
+						"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
+						"' data-process='allocatebeddata' data-idRoom='" + room.id + 
+						"'  data-dormName='" + room.dorm + "'  data-unitName='" + room.unit + 
+						"'  data-roomName='" + room.name + "' data-bedName='" + room.bed.name + 
+						"' data-idBed='" + room.bed.id + "' data-emailStudent='" + emailStudent + 
+						"' data-idStudent='" + student._id + "' data-indexTrip='" + actualTrip + 
+						"' data-start='" + student.documento.trips[actualTrip].start + 
+						"' data-end='" + student.documento.trips[actualTrip].end + 
+						"' data-occupancy='" + student.documento.trips[actualTrip].occupancy + 
+						"'><a data-toggle='modal' data-target='#bedAllocationModal' id='allocateRoom_" + room.bed.id + "_" + room.id + 
+						"'>Allocate bed different date</a></li>";
+			}else{
+				actions = actions + 
+						"<li  id='roomId_'" + room.id + "_" + room.bed.id + 
+						"' data-process='allocatebeddata' data-idRoom='" + room.id + 
+						"'  data-dormName='" + room.dorm + "'  data-unitName='" + room.unit + 
+						"'  data-roomName='" + room.name + "' data-bedName='" + room.bed.name + 
+						"' data-idBed='" + room.bed.id + "' data-emailStudent='" + emailStudent + 
+						"' data-idStudent='" + student._id + "' data-indexTrip='" + actualTrip + 
+						"' data-start='" + student.documento.trips[actualTrip].start + 
+						"' data-end='" + student.documento.trips[actualTrip].end + 
+						"' data-occupancy='" + student.documento.trips[actualTrip].occupancy + 
+						"'><a data-toggle='modal' data-target='#bedAllocationModal' id='allocateRoom_" + room.bed.id + "_" + room.id + 
+						"'>Allocate bed different date</a></li>";				
+			}
 		};
         if (student.documento.trips[actualTrip].status == "Confirmed"){
         	actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='sendlettertostudent'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Send confirmation letter</a></li>";
@@ -575,6 +584,39 @@
 	    		};
 	    	};
 	    });
+	    //
+	    //*** verificar o fim das alocações das datas parciais informadas
+	    //
+	    var initialDateOk = false;
+	    var endDateOk = false;
+	    if (objStudent.documento.trips[objStudent.documento.actualTrip].start == objBed.start){
+	    	initialDateOk = true;
+	    };
+	    if (objStudent.documento.trips[objStudent.documento.actualTrip].end == objBed.end){
+	    	endDateOk = true;
+	    };
+		if (objStudent.rooms != null && objStudent.rooms != ""){
+		    $.each(objStudent.rooms, function (i, room) {
+		    	$.each(room.documento.beds, function (i, bed) {
+		    		$.each(bed.occupancies, function (w, occupancy) {
+						if (occupancy.idStudent == objStudent._id){
+						    if (objStudent.documento.trips[objStudent.documento.actualTrip].start == occupancy.startOccupancy){
+						    	initialDateOk = true;
+						    };
+						    if (objStudent.documento.trips[objStudent.documento.actualTrip].end == endOccupancy){
+						    	endDateOk = true;
+						    };
+						};
+		    		});
+		    	});
+		    });
+		};
+	
+		if (status == "Partially allocated"){
+			if (initialDateOk == true && endDateOk == true){
+				status = "Allocated";
+			};
+		};
 		rest_atualizaRoom(objRoom, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again")
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 		objStudent.documento.trips[objStudent.documento.actualTrip].idRoom = objBed.idRoom;
