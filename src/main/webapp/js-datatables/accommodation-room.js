@@ -585,7 +585,7 @@
 	    	};
 	    });
 	    //
-	    //*** verificar o fim das alocações das datas parciais informadas
+	    //**** verificar o fim das alocações das datas parciais informadas
 	    //
 	    var initialDateOk = false;
 	    var endDateOk = false;

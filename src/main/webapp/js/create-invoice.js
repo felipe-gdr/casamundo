@@ -78,7 +78,7 @@
 	
 	$('#invoiceSubmmit').off('click');
 	$('#invoiceSubmmit').on('click', function () {
-		var valid = true;
+		localStorage.valid = true;
 		$(".item").each(function() {
 			var id = $(this).attr('id');
 			var i = id.split("_")[1];
@@ -90,7 +90,7 @@
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
 				});
-				valid = false;
+				localStorage.valid = false;
 			}
 			if (!$('#itemValue_' + i).val()){
 				$.smallBox({
@@ -100,7 +100,7 @@
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
 				});
-				valid = false;
+				localStorage.valid = false;
 			}
 			if (!$('#itemAmount_' + i).val()){
 				$.smallBox({
@@ -110,7 +110,7 @@
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
 				});
-				valid = false;
+				localStorage.valid = false;
 			}
 		});
 		var total = 0;
@@ -127,7 +127,7 @@
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
 				});
-				valid = false;
+				localStorage.valid = false;
 			}
 			if (!$('#dueValue_' + i).val()){
 				$.smallBox({
@@ -137,10 +137,10 @@
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
 				});
-				valid = false;
+				localStorage.valid = false;
 			}
 		});
-		if (valid){
+		if (localStorage.valid == "true"){
 			criaInvoice(idInvoice);
 		}
 	});
@@ -222,9 +222,15 @@
 
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(65, 55, 'STUDENT NAME');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
 	doc.setFontSize(11);
 	doc.setTextColor(0, 51, 102);
-	doc.text(100, 55, 'INVOICE #');
+	doc.text(125, 55, 'INVOICE #');
 
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
@@ -236,13 +242,19 @@
 	doc.setFontType("bold");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.text(15, 65, $('#studentCompleteName').html());
+	doc.text(15, 65, $('#agencyName').html());
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(65, 65, $('#studentCompleteName').html());
 
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
 	doc.setFontSize(11);
 	doc.setTextColor(0, 51, 102);
-	doc.text(100, 65, 'INVOICE DATE');
+	doc.text(125, 65, 'INVOICE DATE');
 
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
@@ -257,21 +269,33 @@
 	
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
-	doc.setFontSize(12);
+	doc.setFontSize(10);
 	doc.setTextColor(0, 51, 102);
-	doc.text(15, 81, 'DESCRIPTION');
+	doc.text(15, 81, 'ITEM');
 	
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
-	doc.setFontSize(12);
+	doc.setFontSize(10);
 	doc.setTextColor(0, 51, 102);
-	doc.textEx('AMOUNT', 120, 81, 'right', 'middle');
+	doc.text(45, 81, 'DESCRIPTION');
+	
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 51, 102);
+	doc.textEx('QUANTITY', 140, 81, 'right', 'top');
 
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
-	doc.setFontSize(12);
+	doc.setFontSize(10);
 	doc.setTextColor(0, 51, 102);
-	doc.textEx('VALUE', 190, 81, 'right', 'middle');
+	doc.textEx('UNIT PRICE', 163, 81, 'right', 'top');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 51, 102);
+	doc.textEx('VALUE', 190, 81, 'right', 'top');
 
 	doc.setLineWidth(1.5);
 	doc.setDrawColor(238, 111, 26);
@@ -291,7 +315,7 @@
 	doc.setFontType("italic");
 	doc.setFontSize(09);
 	doc.setTextColor(0, 0, 0);
-	doc.text(15, 260, "Casa Toronto Corp.");
+	doc.text(15, 260, "Beneficiary: Casa Toronto Corp.");
 
 	doc.setFont("helvetica");
 	doc.setFontType("normal");
@@ -309,7 +333,7 @@
 	doc.setFontType("normal");
 	doc.setFontSize(08);
 	doc.setTextColor(0, 0, 0);
-	doc.text(15, 275, "Address: 5650 Yonge Street Toronto, ON M2M 4G3 Branch/Transit# 19702");
+	doc.text(15, 275, "Bank Address: 5650 Yonge Street Toronto, ON M2M 4G3 Branch/Transit# 19702");
 
 	doc.setFont("helvetica");
 	doc.setFontType("normal");
@@ -318,50 +342,67 @@
 	doc.text(15, 280, "Account# 5254696 Bank# 004 Swift Code: TDOMCATTTOR");
 
 	$('#geraPDF').click(function () {
-		var hight = 95;
-		$(".item").each(function() {
-			var id = $(this).attr('id');
-			var i = id.split("_")[1];
-			if ($('#itemName_' + i).val()) {
-				doc.setFont("helvetica");
-				doc.setFontType("normal");
-				doc.setFontSize(10);
-				doc.setTextColor(0, 0, 0);
-				doc.text(15, hight,$('#itemName_' + i).val().split("_")[2]);
-				
-			};
-			if ($('#itemAmount_' + i).val()) {
-				doc.setFont("helvetica");
-				doc.setFontType("normal");
-				doc.setFontSize(10);
-				doc.setTextColor(0, 0, 0);
-				doc.textEx($('#itemAmount_' + i).val(), 120, hight, 'right', 'middle');
-			};
-			if ($('#itemValue_' + i).val()) {
-				doc.setFont("helvetica");
-				doc.setFontType("normal");
-				doc.setFontSize(10);
-				doc.setTextColor(0, 0, 0);
-				doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
-			};
-			hight = hight + 7;
-		});	
-		hight = hight + 10;
-		doc.setFont("helvetica");
-		doc.setFontType("bold");
-		doc.setFontSize(12);
-		doc.setTextColor(0, 51, 102);
-		doc.textEx('TOTAL', 150, hight, 'right', 'middle');
-		doc.setFont("helvetica");
-		doc.setFontType("normal");
-		doc.setFontSize(10);
-		doc.setTextColor(0, 0, 0);
-		doc.textEx($('#dueValue_0').val(), 190, hight, 'right', 'middle');
-	    doc.fromHTML($('#invoice-pdf').html(), 5, 5, {
-	        'width': 170,
-	            'elementHandlers': specialElementHandlers
-	    });
-	    doc.save("invoice_" + $("#mail").html() + '.pdf');
+		$('#invoiceSubmmit').trigger( "click" );
+		if (localStorage.valid == "true"){
+			var hight = 95;
+			$(".item").each(function() {
+				var id = $(this).attr('id');
+				var i = id.split("_")[1];
+				if ($('#itemName_' + i).val()) {
+					doc.setFont("helvetica");
+					doc.setFontType("normal");
+					doc.setFontSize(09);
+					doc.setTextColor(0, 0, 0);
+					doc.text(15, hight,$('#itemName_' + i).val().split("_")[2]);					
+				};
+				if ($('#itemDescription_' + i).val()) {
+					doc.setFont("helvetica");
+					doc.setFontType("normal");
+					doc.setFontSize(09);
+					doc.setTextColor(0, 0, 0);
+					doc.text(45, hight,$('#itemDescription_' + i).val());
+					
+				};
+				if ($('#itemAmount_' + i).val()) {
+					doc.setFont("helvetica");
+					doc.setFontType("normal");
+					doc.setFontSize(09);
+					doc.setTextColor(0, 0, 0);
+					doc.textEx($('#itemAmount_' + i).val(), 140, hight, 'right', 'middle');
+				};
+				if ($('#itemName_' + i).val()) {
+					doc.setFont("helvetica");
+					doc.setFontType("normal");
+					doc.setFontSize(09);
+					doc.setTextColor(0, 0, 0);
+					doc.textEx($('#itemName_' + i).val().split("_")[0], 160, hight, 'right', 'middle');
+				};
+				if ($('#itemValue_' + i).val()) {
+					doc.setFont("helvetica");
+					doc.setFontType("normal");
+					doc.setFontSize(09);
+					doc.setTextColor(0, 0, 0);
+					doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
+				};
+				hight = hight + 7;
+			});	
+			hight = hight + 10;
+			doc.setFont("helvetica");
+			doc.setFontType("bold");
+			doc.setFontSize(12);
+			doc.setTextColor(0, 51, 102);
+			doc.textEx('TOTAL', 160, hight, 'right', 'middle');
+			doc.setFont("helvetica");
+			doc.setFontType("normal");
+			doc.setFontSize(10);
+			doc.setTextColor(0, 0, 0);
+			doc.textEx($('#dueValue_0').val(), 190, hight, 'right', 'middle');
+		    doc.fromHTML($('#invoice-pdf').html(), 5, 5, {
+		        'width': 170,
+		            'elementHandlers': specialElementHandlers
+		    });
+		    doc.save("invoice_" + $("#mail").html() + '.pdf');
+		};
 	});
 
 function saveUltimaInvoice (data) {
@@ -409,6 +450,7 @@ function criaInvoice(id){
 				item : $('#itemName_' + i).val(),
 				value : $('#itemValue_' + i).val(),
 				amount : $('#itemAmount_' + i).val(),
+				description : $('#itemDescription_' + i).val(),
 			}
 		var itemGross = 
 			{
@@ -451,6 +493,7 @@ function createItem(i, date, agency, destination, type){
 						'<option value="" selected="" disabled="">Choose one item</option>' +
 					'</select><i></i>' +
 				'</label>' +
+				'<input class="hide" type="text" id="itemDescription_' + i + '" name="itemDescription_' + i + '"  >' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-2">' +
@@ -573,7 +616,7 @@ function carregaAppendPriceTable (data, i, type){
     $.each(data
 		    , function (w, optionValue) {
     			if (optionValue.valid == "Yes" && optionValue.gross && optionValue.net){
-   					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name)));
+   					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name + "_" + optionValue.description)));
    					$('#itemNameGross_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name)));
     			};
     });
@@ -582,12 +625,14 @@ function carregaAppendPriceTable (data, i, type){
 		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
 		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
 		$('#itemNameGross_' + i).val($('#itemName_' + i).val())
+		$('#itemDescription_' + i).val($( this ).val().split("_")[3])
 		calcTotal();
 	});
 	$('#itemNameGross_' + i).change(function() {
 		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
 		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
 		$('#itemName_' + i).val($('#itemNameGross_' + i).val())
+		$('#itemDescription_' + i).val($( this ).val().split("_")[3])
 		calcTotal();
 	});
 
@@ -600,6 +645,7 @@ function carregaTelaInvoice(data){
 		var actualTrip = data.student.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
 		$('#itemName_' + i).val(item.item);
+		$('#itemDescription_' + i).val(item.description);
 		$('#itemValue_' + i).val(item.value);
 		$('#itemAmount_' + i).val(item.amount);
     });
@@ -802,6 +848,7 @@ function carregaDadosTelaInvoice(data){
     
 	var actualTrip = data.documento.actualTrip;	    
 
+	$("#agencyName").html(data.documento.agencyName);
 	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);
 	$("#celPhone").html(data.documento.celPhone);
     $('#phone').html(data.documento.phone);
@@ -877,7 +924,6 @@ function carregaDadosTelaInvoice(data){
     	}
 	};
     
-
 	if (data.documento.trips[actualTrip].agencyName){
 		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao, true, data.documento.trips[actualTrip].agencyConsultName);
 	};

@@ -81,6 +81,7 @@ public class Invoice {
     		public String item;
     		public String value;
     		public String amount;
+    		public String description;
 
     		public ItensNet() {
 
@@ -90,12 +91,14 @@ public class Invoice {
             public ItensNet(
             			String item,
             			String value,
-            			String amount
+            			String amount,
+            			String description
             			)
             {
 	    		this.item = item;
 	    		this.value = value;
 	    		this.amount = amount;
+	    		this.description = description;
             };
 		};
 		public static final class ItensGross {
