@@ -127,7 +127,7 @@
         	var age = calculaIdade(separaData(student.birthDay, "/"));
         	switch (student.trip.status) {
         	case "Available":
-        		statusCollor = "label-avaliable"
+        		statusCollor = "label-available"
                 break;
             case "Confirmed":
             	statusCollor = "label-confirmed"
@@ -139,7 +139,7 @@
             	statusCollor = "label-terminated"
                 break;
             default: 
-        		statusCollor = "label-avaliable"
+        		statusCollor = "label-available"
             };	    
         	switch (student.gender) {
         	case "Male":
@@ -172,47 +172,6 @@
             	durationTrip = durationTrip;
             };
             var age = calculaIdade(separaConverteDataMes(student.birthDay, "/"));
-        	switch (student.trip.status) {
-        	case "Available":
-        		statusCollor = "label-available"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-            	statusCollor = "label-placement-offered"
-                break;
-            case "Terminated":
-            	statusCollor = "label-terminated"
-                break;
-            default: 
-        		statusCollor = "label-available"
-            };	    
-
-            switch (student.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
-
-            switch (student.trip.status) {
-        	case "Available":
-        		statusCollor = "label-available"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-        		statusCollor = "label-placement-offered"
-       			break;
-            default: 
-        		genderCollor = "label-primary"
-            };	    
         	switch (student.trip.smoke) {
         	case "Yes":
         		smokeCollor = "label-warning"

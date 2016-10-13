@@ -277,24 +277,58 @@
     		actions = actions + "<li  id='roomId_'" + room.id + "_" + room.bed.id + "' data-process='cancel'  data-idRoom='" + room.id + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.bed.id + "_" + room.id + "'>Cancel</a></li>";
         };
         var visaCurrent = "";
+		var visaCurrentCollor = "text-success";
         if (studentOccupancyData.lastVisa){
-        	visaCurrent = "Visa: " + studentOccupancyData.lastVisa;
-        };
+        	if (studentOccupancyData.lastVisa != ""){
+            	if (studentOccupancyData.lastVisa == "No"){
+            		visaCurrentCollor = "text-danger";
+            	};
+        		visaCurrent = "Visa: " + studentOccupancyData.lastVisa;
+        	}else{
+        		visaCurrentCollor = "text-danger";
+        		visaCurrent = "Visa: " + "No";
+        	};
+        }
         var paymentCurrent = "";
+		var paymentCurrentCollor = "";
         if (studentOccupancyData.lastPayment){
-        	paymentCurrent = studentOccupancyData.lastPayment;
-        };
+        	if (studentOccupancyData.lastPayment != ""){
+            	if (studentOccupancyData.lastPayment == "No"){
+            		paymentCurrentCollor = "text-danger";
+            	};
+        		paymentCurrent = "Payment: " + studentOccupancyData.lastPayment;
+        	}else{
+        		paymentCurrent = "Payment: No";
+        	};
+        }
         var flightCurrent = "";
         if (studentOccupancyData.lastFlight){
         	flightCurrent = "Flight: " + studentOccupancyData.lastFlight;
         };
         var visaNext = "";
+        var visaNextCollor = "text-success";
         if (studentOccupancyData.nextVisa){
-        	visaNext = "Visa: " + studentOccupancyData.nextVisa;
+            if (studentOccupancyData.nextVisa != ""){
+            	if (studentOccupancyData.nextVisa == "No"){
+            		visaNextCollor = "text-danger";
+            	};
+            	visaNext = "Visa: " + studentOccupancyData.nextVisa;
+            }else{
+        		visaNextCollor = "text-danger";
+            	visaNext = "Visa: " + "No";
+            };
         };
         var paymentNext = "";
+		var paymentNextCollor = "";
         if (studentOccupancyData.nextPayment){
-        	paymentNext = studentOccupancyData.nextPayment;
+            if (studentOccupancyData.nextPayment != ""){
+            	if (studentOccupancyData.nextPayment == "No"){
+            		paymentNextCollor = "text-danger";
+            	};
+	        	paymentNext = "Payment: " + studentOccupancyData.nextPayment;
+	        }else{
+	        	paymentNext = "Payment: " + "No"
+	        }
         };
         var flightNext = "";
         if (studentOccupancyData.nextFlight){
@@ -324,6 +358,72 @@
         	litNextOut = "OUT:";
         	outNext = separaDataMes(studentOccupancyData.nextOut, "-");
         };
+
+		var statusLastCollor = "";
+        switch (studentOccupancyData.lastStatus) {
+    	case "Available":
+    		statusLastCollor = "label-available"
+            break;
+        case "Confirmed":
+        	statusLastCollor = "label-confirmed"
+            break;
+        case "Allocated":
+        	statusLastCollor = "label-confirmed"
+            break;
+        case "Placement offered":
+        	statusLastCollor = "label-placement-offered"
+            break;
+        case "Checked out":
+        	statusLastCollor = "label-terminated"
+            break;
+        default: 
+        	statusLastCollor = "label-available"
+        };	    
+
+		var genderLastCollor = ""
+        switch (studentOccupancyData.lastGender) {
+    	case "Male":
+    		genderLastCollor = "label-male"
+            break;
+        case "Female":
+        	genderLastCollor = "label-female"
+            break;
+        default: 
+        	genderLastCollor = ""
+        };	    
+
+		var statusNextCollor = ""
+        switch (studentOccupancyData.nextStatus) {
+    	case "Available":
+    		statusNextCollor = "label-available"
+            break;
+        case "Confirmed":
+        	statusNextCollor = "label-confirmed"
+            break;
+        case "Allocated":
+        	statusNextCollor = "label-confirmed"
+            break;
+        case "Placement offered":
+        	statusNextCollor = "label-placement-offered"
+            break;
+        case "Checked out":
+        	statusNextCollor = "label-terminated"
+            break;
+        default: 
+        	statusNextCollor = "label-available"
+        };	    
+
+        genderNextCollor = ""
+        switch (studentOccupancyData.nextGender) {
+    	case "Male":
+    		genderNextCollor = "label-male"
+            break;
+        case "Female":
+        	genderNextCollor = "label-female"
+            break;
+        default: 
+        	genderNextCollor = ""
+        };	    
 
         var bedValid = true;
         
@@ -376,11 +476,11 @@
 	    			"<span class='text text-table-main " + availableBedCollor + "'> - " + availableBedText +  "</span>",
 		    	"current": 
 	    			"<span class='text text-table-main'>" + studentOccupancyData.lastName + "</span><br>" +
-	    			"<span class='text text-table-main'>" + studentOccupancyData.lastGender + " " + "</span>" +
+	    			"<span class='label text-column " + genderLastCollor + "'>" + studentOccupancyData.lastGender + " " + "</span>" +
 	    			"<span class='text text-table-main'>" + studentOccupancyData.lastNationality + " " + "</span>" +
-	    			"<span class='text text-table-main'>" + visaCurrent + " " + "</span><br>" +
-	    			"<span class='text text-table-main'>" + paymentCurrent + " " + "</span>" +
-	    			"<span class='text text-table-main'>" + studentOccupancyData.lastStatus + " " + "</span>" +
+	    			"<span class='text text-table-main " + visaCurrentCollor + "'>" + visaCurrent + " " + "</span><br>" +
+	    			"<span class='text text-table-main " + paymentCurrentCollor + "'>" + paymentCurrent + " " + "</span>" +
+	    			"<span class='label text-column " + statusLastCollor + "'>" + studentOccupancyData.lastStatus + " " + "</span>" +
 	    			"<span class='text text-table-main'>" + flightCurrent + " " + "</span>" +
 	    			"<span class='text text-table-main'>" + studentOccupancyData.lastOccupancy + " " + "</span>",
 	            "dates_01":
@@ -390,11 +490,11 @@
 	    			"<span class='text text-table-main'>" + outCurrent + "</span><br>",
 	            "next":
 					"<span class='text text-table-main'>" + studentOccupancyData.nextName + "</span><br>" +
-					"<span class='text text-table-main'>" + studentOccupancyData.nextGender + " " + "</span>" +
+	    			"<span class='label text-column  " + genderNextCollor + "'>" + studentOccupancyData.nextGender + " " + "</span>" +
 					"<span class='text text-table-main'>" + studentOccupancyData.nextNationality + " " + "</span>" +
-					"<span class='text text-table-main'>" + visaNext + " " + "</span><br>" +
-					"<span class='text text-table-main'>" + paymentNext + " " + "</span>" +
-					"<span class='text text-table-main'>" + studentOccupancyData.nextStatus + " " + "</span>" +
+					"<span class='text text-table-main " + visaNextCollor + "'>" + visaNext + " " + "</span><br>" +
+					"<span class='text text-table-main" + paymentNextCollor + "'>" + paymentNext + " " + "</span>" +
+					"<span class='label text-column " + statusNextCollor + "'>" + studentOccupancyData.nextStatus + " " + "</span>" +
 					"<span class='text text-table-main'>" + flightNext + " " + "</span>" +
 					"<span class='text text-table-main'>" + studentOccupancyData.nextOccupancy + " " + "</span>",
 	            "dates_02":
@@ -436,8 +536,8 @@
 						studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
 						studentOccupancyData.lastGender = occupancy.student.gender;
 						studentOccupancyData.lastNationality = occupancy.student.nationality;
-						studentOccupancyData.lastVisa = occupancy.student.visa;
-						studentOccupancyData.lastPayment = occupancy.student.payment;
+						studentOccupancyData.lastVisa = "No";
+						studentOccupancyData.lastPayment = "No";
 						studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
 						studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
 						studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
@@ -454,8 +554,8 @@
 						studentOccupancyData.nextName = occupancy.student.firstName + " " + occupancy.student.lastName
 						studentOccupancyData.nextGender = occupancy.student.gender;
 						studentOccupancyData.nextNationality = occupancy.student.nationality;
-						studentOccupancyData.nextVisa = occupancy.student.visa;
-						studentOccupancyData.nextPayment = occupancy.student.payment;
+						studentOccupancyData.nextVisa = "No";
+						studentOccupancyData.nextPayment = "No";
 						studentOccupancyData.nextStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
 						studentOccupancyData.nextFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
 						studentOccupancyData.nextOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
@@ -515,8 +615,8 @@
 					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
 					studentOccupancyData.lastGender = occupancy.student.gender;
 					studentOccupancyData.lastNationality = occupancy.student.nationality;
-					studentOccupancyData.lastVisa = occupancy.student.visa;
-					studentOccupancyData.lastPayment = occupancy.student.payment;
+					studentOccupancyData.lastVisa = "No";
+					studentOccupancyData.lastPayment = "No";
 					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
 					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
 					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
@@ -532,8 +632,8 @@
 					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
 					studentOccupancyData.lastGender = occupancy.student.gender;
 					studentOccupancyData.lastNationality = occupancy.student.nationality;
-					studentOccupancyData.lastVisa = occupancy.student.visa;
-					studentOccupancyData.lastPayment = occupancy.student.payment;
+					studentOccupancyData.lastVisa = "No";
+					studentOccupancyData.lastPayment = "No";
 					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
 					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
 					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
@@ -549,8 +649,8 @@
 					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
 					studentOccupancyData.lastGender = occupancy.student.gender;
 					studentOccupancyData.lastNationality = occupancy.student.nationality;
-					studentOccupancyData.lastVisa = occupancy.student.visa;
-					studentOccupancyData.lastPayment = occupancy.student.payment;
+					studentOccupancyData.lastVisa = "No";
+					studentOccupancyData.lastPayment = "No";
 					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
 					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
 					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
