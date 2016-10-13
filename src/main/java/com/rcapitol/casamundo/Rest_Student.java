@@ -296,6 +296,10 @@ public class Rest_Student {
 				    String schoolSigla = null;
 				    String familyName = null;
 				    String status = null;
+				    String firstName = (String) jsonObject.get("firstName");
+				    if (firstName.equals("Nurcan")){
+				    	System.out.println("nurcan");
+				    };
 				    if (tripIndex != null){
 						List trips = (List) jsonObject.get("trips");
 						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
@@ -883,7 +887,7 @@ public class Rest_Student {
 	    if (mesAlpha.equals("Sep")){
 	    	mesNumber = "09";
 	    };
-	    if (mesAlpha.equals("Out")){
+	    if (mesAlpha.equals("Oct")){
 	    	mesNumber = "10";
 	    };
 	    if (mesAlpha.equals("Nov")){

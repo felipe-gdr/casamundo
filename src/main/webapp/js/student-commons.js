@@ -1047,6 +1047,35 @@ function carregaStudent(data, typePage) {
     }else{
     	$('.room').addClass("hide");
     }
+
+//
+//	***  carrega dados da alocação dos quartos	
+//	
+    if (data.rooms != null && data.rooms != "") {
+	    $.each(data.rooms, function (i, room) {
+	    	$.each(room.documento.beds, function (z, bed) {
+	    		$.each(bed.occupancies, function (w, occupancy) {
+					if (occupancy.idStudent == data._id){
+						var roomAllocated = 
+							"<small class='text-muted' id='dormName_" + i + "_" + z + "_" + w + "' ></small>" +
+							"<small class='text-muted' id='unitName_" + i + "_" + z + "_" + w + "'  ></small>" +
+							"<small class='text-muted' id='roomName_" + i + "_" + z + "_" + w + "'  ></small>" +
+							"<small class='text-muted' id='bedName_" + i + "_" + z + "_" + w + "'  ></small>" +
+							"<small class='text-muted' id='startOccupancy_" + i + "_" + z + "_" + w + "'  ></small>" +
+							"<small class='text-muted' id='endOccupancy_" + i + "_" + z + "_" + w + "'  ></small>";
+							"<br>";
+						$("#roomsDorms").append(roomAllocated);
+						$("#dormName_" + i + "_" + z + "_" + w).html(room.documento.dormName);
+						$("#unitName_" + i + "_" + z + "_" + w).html(room.documento.unitName);
+						$("#roomName_" + i + "_" + z + "_" + w).html(room.documento.name);
+						$("#bedName_" + i + "_" + z + "_" + w).html(bed.name);
+						$("#startOccupancy_" + i + "_" + z + "_" + w).html(occupancy.startOccupancy);
+						$("#endOccupancy_" + i + "_" + z + "_" + w).html(occupancy.endOccupancy);
+					};
+	    		});
+	    	});
+	    });
+	};
 //
 //	***  carrega dados tela email	
 //	
