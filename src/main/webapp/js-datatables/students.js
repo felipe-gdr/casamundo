@@ -132,10 +132,13 @@
             case "Confirmed":
             	statusCollor = "label-confirmed"
                 break;
+            case "Allocated":
+            	statusCollor = "label-confirmed"
+                break;
             case "Placement offered":
             	statusCollor = "label-placement-offered"
                 break;
-            case "Terminated":
+            case "Checked out":
             	statusCollor = "label-terminated"
                 break;
             default: 

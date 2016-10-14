@@ -298,12 +298,19 @@
             	};
         		paymentCurrent = "Payment: " + studentOccupancyData.lastPayment;
         	}else{
+        		paymentCurrentCollor = "text-danger";
         		paymentCurrent = "Payment: No";
         	};
         }
         var flightCurrent = "";
-        if (studentOccupancyData.lastFlight){
-        	flightCurrent = "Flight: " + studentOccupancyData.lastFlight;
+		flightCurrentCollor = "text-success";
+        if (studentOccupancyData.lastName != ""){
+            if (studentOccupancyData.lastFlight != ""){
+            	flightCurrent = "Flight: " + studentOccupancyData.lastFlight;
+            }else{
+        		flightCurrentCollor = "text-danger";
+            	flightCurrent = " Flight: No";            	
+            };
         };
         var visaNext = "";
         var visaNextCollor = "text-success";
@@ -331,8 +338,14 @@
 	        }
         };
         var flightNext = "";
-        if (studentOccupancyData.nextFlight){
-        	flightNext = "Flight: " + studentOccupancyData.nextFlight;
+		flightNextCollor = "text-success";
+        if (studentOccupancyData.nextName != ""){
+            if (studentOccupancyData.nextFlight != ""){
+            	flightNext = "Flight: " + studentOccupancyData.nextFlight;
+            }else{
+        		flightNextCollor = "text-danger";
+            	flightNext = " Flight: No";            	
+            };
         };
         var litCurrentIn = "";
         var inCurrent = "";
@@ -377,7 +390,7 @@
         	statusLastCollor = "label-terminated"
             break;
         default: 
-        	statusLastCollor = "label-available"
+        	statusLastCollor = ""
         };	    
 
 		var genderLastCollor = ""
@@ -410,7 +423,7 @@
         	statusNextCollor = "label-terminated"
             break;
         default: 
-        	statusNextCollor = "label-available"
+        	statusNextCollor = ""
         };	    
 
         genderNextCollor = ""
@@ -480,9 +493,9 @@
 	    			"<span class='text text-table-main'>" + studentOccupancyData.lastNationality + " " + "</span>" +
 	    			"<span class='text text-table-main " + visaCurrentCollor + "'>" + visaCurrent + " " + "</span><br>" +
 	    			"<span class='text text-table-main " + paymentCurrentCollor + "'>" + paymentCurrent + " " + "</span>" +
-	    			"<span class='label text-column " + statusLastCollor + "'>" + studentOccupancyData.lastStatus + " " + "</span>" +
-	    			"<span class='text text-table-main'>" + flightCurrent + " " + "</span>" +
-	    			"<span class='text text-table-main'>" + studentOccupancyData.lastOccupancy + " " + "</span>",
+	    			"<span class='label text-column " + statusLastCollor + "'>" + studentOccupancyData.lastStatus + " " + "</span><br>" +
+	    			"<span class='text text-table-main'>" + studentOccupancyData.lastOccupancy + " " + "</span>" +
+	    			"<span class='text text-table-main " + flightCurrentCollor + "'>" + flightCurrent + " " + "</span>",
 	            "dates_01":
 		    		"<span class='text text-table-main'>" + litCurrentIn +
 	    			"<span class='text text-table-main'>" + inCurrent + "</span><br>" +
@@ -494,9 +507,9 @@
 					"<span class='text text-table-main'>" + studentOccupancyData.nextNationality + " " + "</span>" +
 					"<span class='text text-table-main " + visaNextCollor + "'>" + visaNext + " " + "</span><br>" +
 					"<span class='text text-table-main" + paymentNextCollor + "'>" + paymentNext + " " + "</span>" +
-					"<span class='label text-column " + statusNextCollor + "'>" + studentOccupancyData.nextStatus + " " + "</span>" +
-					"<span class='text text-table-main'>" + flightNext + " " + "</span>" +
-					"<span class='text text-table-main'>" + studentOccupancyData.nextOccupancy + " " + "</span>",
+					"<span class='label text-column " + statusNextCollor + "'>" + studentOccupancyData.nextStatus + " " + "</span><br>" +
+					"<span class='text text-table-main'>" + studentOccupancyData.nextOccupancy + " " + "</span>" +
+					"<span class='text text-table-main " + flightNextCollor + "'>" + flightNext + " " + "</span>",
 	            "dates_02":
 		    		"<span class='text text-table-main'>" + litNextIn + 
 					"<span class='text text-table-main'>" + inNext + "</span><br>" +

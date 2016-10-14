@@ -29,6 +29,8 @@
 	}else{
 		localStorage.dormExistente = "false";
 		criaLinhaUnit(0, 0);
+		$('#id-0').val("0");
+		console.log ("id=" + $('#id-0').val()); 
 		criaLinhaComment(0);
 		criaLinhaVisit(0);
 	};
@@ -100,32 +102,34 @@
 					};
 			});
 			$(".unitItem").each(function(i, value) {
+				var item = $(this).attr('id').split("-")[1];
 				var unitItem = 
 					{
-						id: $("#id-" + i).val(), 
-						name:$("#name-" + i).val(), 
-						keyDoor:$("#keyDoor-" + i).val(),
-						wifiCode:$("#wifiCode-" + i).val(),
-						description:$("#description-" + i).val()
+						id: $("#id-" + item).val(), 
+						name:$("#name-" + item).val(), 
+						keyDoor:$("#keyDoor-" + item).val(),
+						wifiCode:$("#wifiCode-" + item).val(),
+						description:$("#description-" + item).val()
 					};
-				console.log ("id:" + $("#id-" + i).val())
 				objJson.documento.units.push(unitItem);
 			});
 			$(".commentItem").each(function(i, value) {
+				var item = $(this).attr('id').split("-")[1];
 				var commentItem = 
 					{
-						date: $("#commentsDate-" + i).val(), 
-						user: $("#commentsUser-" + i).val(), 
-						comments: $("#commentsComments-" + i).val()
+						date: $("#commentsDate-" + item).val(), 
+						user: $("#commentsUser-" + item).val(), 
+						comments: $("#commentsComments-" + item).val()
 					};
 				objJson.documento.comments.push(commentItem);
 			});
 			$(".visitItem").each(function(i, value) {
+				var item = $(this).attr('id').split("-")[1];
 				var visitItem = 
 				{
-					date: $("#visitsDate-" + i).val(), 
-					user: $("#visitsUser-" + i).val(), 
-					comments: $("#visitsComments-" + i).val()
+					date: $("#visitsDate-" + item).val(), 
+					user: $("#visitsUser-" + item).val(), 
+					comments: $("#visitsComments-" + item).val()
 				};
 				objJson.documento.visits.push(visitItem);
 			});

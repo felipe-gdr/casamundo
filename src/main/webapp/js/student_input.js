@@ -358,7 +358,10 @@
 		};
 	});
 	$('#occupancy').change(function() {
-		if ($(this).val() == "Twin" || $(this).val() == "Couple"){
+		if (
+				(($(this).val() == "Twin" || $(this).val() == "Couple") && $('#accommodation').val() == "Homestay")
+			)
+		{
 			$(".guest").removeClass("hide");
 		}else{
 			$(".guest").addClass("hide");

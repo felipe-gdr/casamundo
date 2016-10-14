@@ -1715,8 +1715,8 @@ var students =
 			family = "Shared Accommodation"
 		};
 		var occupancy = "Single";
-		if (arrayItensStudents[22] == "shared"){
-			occupancy = "Couple";
+		if (arrayItensStudents[22] != "Single"){
+			occupancy = "Twin";
 		};
 		var birthDay = arrayItensStudents[8];
 		if (arrayItensStudents[8].substring(5, 7)){
