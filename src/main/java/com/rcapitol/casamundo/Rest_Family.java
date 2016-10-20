@@ -218,7 +218,6 @@ public class Rest_Family {
 					if (filter_ok){
 						documentos.add(jsonDocumento);
 					};
-					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

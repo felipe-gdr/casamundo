@@ -6,6 +6,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+  	<name>casamundo</name>
+  	<url>http://maven.apache.org</url>
+  	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -62,17 +67,6 @@
 		</dependency>
 </dependencies>
 	  
-	<repositories>
-	    <repository>
-	      <snapshots>
-	        <enabled>false</enabled>
-	      </snapshots>
-	      <id>central</id>
-	      <name>Central Repository</name>
-	      <url>https://repo.maven.apache.org/maven2</url>
-	    </repository>
-    </repositories>
-
 	<build>
 		<finalName>casamundo</finalName>
 	</build>
@@ -100,11 +94,6 @@
 				<version>3.0.12.Final</version>
 			</dependency>
 			<dependency>
-				<groupId>org.mongodb</groupId>
-				<artifactId>mongo-java-driver</artifactId>
-				<version>2.6.3</version>
-			</dependency>
-			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
 				<version>2.4</version>
@@ -113,11 +102,6 @@
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jackson-provider</artifactId>
 				<version>3.0.4.Final</version>
-			</dependency>
-			<dependency>
-			  <groupId>org.apache.commons</groupId>
-			  <artifactId>commons-email</artifactId>
-			  <version>1.4</version>
 			</dependency>
 			<dependency>
 			    <groupId>javax.mail</groupId>

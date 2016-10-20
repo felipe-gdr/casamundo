@@ -10,19 +10,19 @@ public class Agency {
 
 	public Agency() {
 
-	}
+	};
 
 	public Agency(Documento documento) {
 		this.documento = documento;
-	}
+	};
 
 	public void setDocumento( Documento documento) {
 		this.documento = documento;
-	}
+	};
 
 	public Documento getDocumento() {
 		return this.documento;
-	}
+	};
 
 	@Override
 	public String toString() {

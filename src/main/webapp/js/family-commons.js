@@ -462,14 +462,14 @@ function criaLinhaFamilyMember (i, familyName) {
 	$('#familyMemberBirthdate_' + i).bind('blur', function () {
 		var idade = calculaIdade(montaDataMesNum($('#familyMemberBirthdate_' + i).val(),"/"));
 		if (idade > 17){
-			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs" + w);
-			$('.docs' + w).removeClass("hide");	
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs" + i);
+			$('.docs' + i).removeClass("hide");	
 		}else{
-			var labelId = "docs" + w;
+			var labelId = "docs" + i;
         	obj = JSON.parse(localStorage.getItem("family"));
         	obj.documento.docs[labelId] =  "";
         	localStorage.setItem("family", JSON.stringify(obj));
-			$('.docs' + w).addClass("hide");				
+			$('.docs' + i).addClass("hide");				
 		};
     });
 

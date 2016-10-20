@@ -421,6 +421,8 @@
 		    $( ".roomItem").each(function(i, value) {
 				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0" ) {
 					if (objJsonSaveRooms[i]){
+						var occupancySingleBedSave = "";
+						var occupancyCoupleBedSave = "";
 						if (objJsonSaveRooms[i].occupancySingleBed){
 							occupancySingleBedSave = objJsonSaveRooms[i].occupancySingleBed
 						}else{
@@ -523,6 +525,7 @@
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
+		yearRange: "1930:2099",
 		onSelect : function(selectedDate) {
 	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}

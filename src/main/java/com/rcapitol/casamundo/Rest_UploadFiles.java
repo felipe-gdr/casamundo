@@ -63,7 +63,7 @@ public class Rest_UploadFiles {
 				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 				tmp = obj.getString("setupValue");
 			};
-		} catch (UnknownHostException | MongoException e) {
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		};
         
