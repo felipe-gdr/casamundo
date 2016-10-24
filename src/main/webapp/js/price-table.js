@@ -1,5 +1,5 @@
 	// ** setar menu
-	$("#menuPriceTable_li").addClass("active");
+	$("#menuFinance_li").addClass("active");
 	// 
 	//**    carrega dados url
 	//
@@ -8,22 +8,27 @@
 	var parametrosDaUrl = url.split("?")[1];
 	var id = parametrosDaUrl.split("=")[1];
 	 	 
-	/**
-	 * 		carrega tabelas
-	 */
-	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 	rest_obterAgencyAll(carregaSelectAgencies, true);
 
 	//
 	//***   chamar tela de alteração com o student da pagina
 	//
-	$( "#alteracaoButton" ).bind( "click", function() {
-		$(window.document.location).attr('href','price-table-input.html?id=' + id );
+	$( "#alteracaoItemButton" ).off( "click");
+	$( "#alteracaoItemButton" ).on( "click", function() {
+		$("#priceId").val($("#id").val());
+		$("#priceName").val($("#name").html());
+		$("#priceDescription").val($("#description").html());
+		$("#priceVendorType").val($("#vendorType").html());
+		if ($("#valid").html() == "Yes"){
+			$("#priceValid").prop("checked", true)
+		};
+		localStorage.priceTableExistente = "true";
 	});
-	
-/**
- * 
- */
+
+
+	/**
+	 * 
+	 */
 	$("#priceValueMainIdPriceTable").val(id);
 	$("#priceValueAgencyIdPriceTable").val(id);
 	$("#priceCostMainIdPriceTable").val(id);
@@ -37,7 +42,5 @@
 	rest_obterPriceTableValueAll(id, carregaTableValueAgency, semAcao);
 	rest_obterPriceTableCostAll(id, carregaTableCostMain , semAcao);
 	rest_obterPriceTableCostAll(id, carregaTableCostVendor, semAcao);
-
-	var table = JSON.parse(localStorage.getItem("table"));
 
 		    

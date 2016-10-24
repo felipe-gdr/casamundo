@@ -720,7 +720,7 @@ function calculaIdade ( dataNascimento ) {
     		    });
         $.each(table.documento.vendorType
     		    , function (i, optionValue) {
-        			$("#vendorType").append( $(option(optionValue)));
+        			$("#priceVendorType").append( $(option(optionValue)));
     		    });
         
         localStorage.carragendoTags = false;

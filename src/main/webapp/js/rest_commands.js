@@ -122,6 +122,7 @@
     };
 
     function rest_atualizaTable(objJson, action_ok, action_not_ok, var1, var2, var3) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/atualizar",
@@ -202,6 +203,7 @@
     };
 
     function rest_atualizaFamily(objJson, action_ok, action_not_ok, messageOK, messageNotOk) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/atualizar",
@@ -242,6 +244,7 @@
     };
     
     function rest_atualizaAgency(objJson, action_ok, action_not_ok) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/agency/atualizar",
@@ -320,6 +323,7 @@
     };
     
     function rest_atualizaSchool(objJson, action_ok, action_not_ok) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/school/atualizar",
@@ -414,6 +418,7 @@
     };
     
     function rest_atualizaBank(objJson, action_ok, action_not_ok) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/atualizar",
@@ -508,6 +513,7 @@
     };
     
     function rest_atualizaMainIntersection(objJson, action_ok, action_not_ok) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/mainIntersection/atualizar",
@@ -585,6 +591,7 @@
     };
     
     function rest_atualizaSubway(objJson, action_ok, action_not_ok) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/subway/atualizar",
@@ -667,6 +674,7 @@
     };
     
     function rest_atualizaPriceTable(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/atualizar",
@@ -749,6 +757,7 @@
     };
     
     function rest_atualizaPriceTableValue(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/atualizar",
@@ -831,6 +840,7 @@
     };
     
     function rest_atualizaPriceTableCost(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablecost/atualizar",
@@ -914,6 +924,7 @@
     };
     
     function rest_atualizaInvoice(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/atualizar",

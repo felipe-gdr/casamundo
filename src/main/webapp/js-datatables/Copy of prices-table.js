@@ -17,14 +17,14 @@
     /* Formatting function for row details - modify as you need */
 	function formatPriceTable ( d ) {
 	    // `d` is the original data object for the row
-//	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
-//	        '<tr>'+
-//	            '<td>Actions:</td>'+
-//	            '<td>'+d.actions+'</td>'+
-//	        '</tr>'+
-//	    '</table>';
+	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
+	        '<tr>'+
+	            '<td>Actions:</td>'+
+	            '<td>'+d.actions+'</td>'+
+	        '</tr>'+
+	    '</table>';
 	};
-	 
+	
 	function carregaPriceTable (objJson) {
 		/* BASIC datatables*/
 
@@ -54,6 +54,13 @@
 				responsiveHelper_price_table_list.respond();
 			},		
 			"columns": [
+    		            {
+    		                "class":          'details-control',
+    		                "orderable":      false,
+    		                "data":           null,
+    		                "defaultContent": '',
+    		                "width": "5%"
+    		            },
 			            { "data": "name", "width": "25%" },
 			            { "data": "descricao" , "width": "25%" },
 			            { "data": "valid" , "width": "10%" }
@@ -78,7 +85,13 @@
     	    	"name": "<a id='" + price_table.id + "' href='price-table.html?id=" + price_table.id + "'>" +
     	    			"<span>" + price_table.name +  "</span></a>",
                 'descricao':'<small class="text-muted">' + price_table.description + '</small>',
-                'valid':'<small class="text-muted">' + price_table.valid + '</small>'
+                'valid':'<small class="text-muted">' + price_table.valid + '</small>',
+                'actions': 
+               	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+	    				'<ul id="listPriceTable" class="dropdown-menu">' +
+	    					"<li'><a id='change" + price_table.id + "' data-process='changeitempricetable' data-id='" + price_table.id + "' data-name='" + price_table.name + "'' data-description='" + price_table.description + "' data-valid='" + price_table.valid + "'  data-vendor-type='" + price_table.vendorType + " href='#priceModal' data-toggle='modal' >Change</a></li>" +
+	    				'</ul>' +
+	    			'</div>' 
     	    }).draw( false );
     	    $('#change' + price_table.id).off('click');
     	    $('#change' + price_table.id).on('click',function(){

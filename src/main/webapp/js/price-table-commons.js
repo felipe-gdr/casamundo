@@ -1,5 +1,18 @@
 	// ** setar menu
 	$("#menuFinance_li").addClass("active");
+	
+	$('#priceTableInclusao').off('click');
+	$('#priceTableInclusao').on('click', function () {
+		localStorage.priceTableExistente = "false";
+	});
+
+	$("#priceModal").off('hidden.bs.modal');
+	$("#priceModal").on('hidden.bs.modal', function(event){
+		$("#priceId").val("");
+		$("#priceName").val("");
+		$("#priceDescription").val("");
+		$("#priceValid").val("");
+	 });
 
 	/**
 	 * 		setup dos input do form price table
@@ -43,16 +56,16 @@
 				}
 				if (field.name == "id"){
 					id = field.value;
-				}
+				};
 				if (field.value){
 					objJson.documento[field.name] = value;
 				};
 			});
 			localStorage.setItem("pricetable", JSON.stringify(objJson));
 			if (localStorage.priceTableExistente == "true"){
-				rest_atualizaPriceTable(JSON.parse(localStorage.getItem("pricetable")), fechaModalPriceTable, semAcao);
+				rest_atualizaPriceTable(JSON.parse(localStorage.getItem("pricetable")), fechaModalPriceTable, semAcao, JSON.parse(localStorage.getItem("pricetable")));
 			}else{
-				rest_incluiPriceTable(JSON.parse(localStorage.getItem("pricetable")), fechaModalPriceTable, semAcao);
+				rest_incluiPriceTable(JSON.parse(localStorage.getItem("pricetable")), retornaListaPriceTable, semAcao);
 			};
 		},	
 		// Do not change code below
@@ -68,36 +81,30 @@
 		}
 	});
 
-	$('#priceTableInclusao').off('click');
-	$('#priceTableInclusao').on('click', function () {
-		localStorage.priceTableExistente = "false";
-	});
-
-	$("#priceModal").off('hidden.bs.modal');
-	$("#priceModal").on('hidden.bs.modal', function(event){
-		$("#priceId").val("");
-		$("#priceName").val("");
-		$("#priceDescription").val("");
-		$("#priceValid").val("");
-	 });
-
-function carregaTelaPriceTable(data, tipo) {
+ function carregaTelaPriceTable(data, tipo) {
 	
+	$("#id").val(data._id);
 	$("#name").html(data.documento.name);
 	$("#description").html(data.documento.description);	
+	$("#vendorType").html(data.documento.vendorType);	
 	$("#valid").html(data.documento.valid);
 	
 	localStorage.setItem("pricetable", JSON.stringify(data));
 };    
 
  function fechaModalPriceTable () {
+	
 	$("#priceModal").modal('hide');
 	
+	$("#priceId").val("");
 	$("#priceName").val("");
 	$("#priceDescription").val("");
+	$("#priceVendorType").val("");
 	$("#pricevalid").val("No");
 	
-	rest_obterPriceTableAll(carregaPriceTable, semAcao);
+	var objJson = JSON.parse(localStorage.getItem("pricetable"));
+	window.location="price-table.html?id=" + objJson.documento.id;
+	
 };
 
 function carregaLocalStoragePriceTable (data, tipo) {

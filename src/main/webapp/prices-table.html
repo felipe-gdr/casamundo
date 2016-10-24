@@ -458,8 +458,6 @@
 									        <thead>
 												<tr>
 													<th class="hasinput" >
-													</th>
-													<th class="hasinput" >
 														<input type="text" class="form-control" placeholder="Name Item" />
 													</th>
 													<th class="hasinput" >
@@ -470,7 +468,6 @@
 													</th>
 												</tr>
 									            <tr>
-									                <th></th>
 									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Name</th>
 									                <th><i class="fa fa-fw fa-asterisk hidden-md hidden-sm hidden-xs"></i>Description</th>
 									                <th><i class="fa fa-fw fa-asterisk hidden-md hidden-sm hidden-xs"></i>Active</th>
@@ -540,7 +537,7 @@
 												<div class="col-md-8">
 													<label for="vendorType">Vendor type</label>
 													<label class="select ">
-														<select id="vendorType" name="vendorType">
+														<select id="priceVendorType" name="vendorType">
 															<option value="" selected="" disabled="">Choose one item</option>
 														</select><i></i>
 													</label>
@@ -733,6 +730,8 @@
 		<!-- relacionados com a pagina, devem ficar antes da biblioteca tagsinpu -->
 		<script src="js/main.js"></script>
 		<script src="js/rest_commands.js"></script>
+		
+		<!-- monta dados das tabelas -->
 		<script src="js/montaTagsInput.js"></script>
 
 		<!-- SmartChat UI : plugin -->

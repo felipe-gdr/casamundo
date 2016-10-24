@@ -60,6 +60,9 @@ public class Rest_PriceTable {
 			DBObject cursor = collection.findOne(setQuery);
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			ObjectId priceTableIdObject = (ObjectId) cursor.get("_id");
+			String priceTableId = priceTableIdObject.toString();
+			documento.put("_id", priceTableId);
 			documento.put("documento", obj);
 			mongo.close();
 			return documento;
@@ -201,6 +204,9 @@ public class Rest_PriceTable {
 					};
 					if (jsonObject.get("description") != null){
 						jsonDocumento.put("description", jsonObject.get("description"));
+					};
+					if (jsonObject.get("vendorType") != null){
+						jsonDocumento.put("vendorType", jsonObject.get("vendorType"));
 					};
 					if (jsonObject.get("valid") != null){
 						jsonDocumento.put("valid", jsonObject.get("valid"));
