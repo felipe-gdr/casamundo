@@ -434,10 +434,7 @@
 	    				'</ul>' +
 	    			'</div>' 
     	    }).draw( false );
-//	        console.log ("9 - " + new Date().getTime());
         });
-
-//        console.log ("10 - " + new Date().getTime());
 
     	// Add event listener for opening and closing details
         $('#students_list tbody').off('click');

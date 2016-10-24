@@ -1,3 +1,6 @@
+	// ** setar menu
+	$("#menuFinance_li").addClass("active");
+
 	/**
 	 * 		setup dos input do form price table
 	 */
@@ -115,7 +118,8 @@ function limpaStoragePriceTable () {
 					id:"",
 				    name : "",
 				    description : "",
-				    valid : "No"
+				    valid : "No",
+				    vendorType : ""
 				  }
 			};
 

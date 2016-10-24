@@ -17,13 +17,13 @@
     /* Formatting function for row details - modify as you need */
 	function formatPriceTable ( d ) {
 	    // `d` is the original data object for the row
-/*	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
+	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
 	        '<tr>'+
 	            '<td>Actions:</td>'+
 	            '<td>'+d.actions+'</td>'+
 	        '</tr>'+
 	    '</table>';
-*/	};
+	};
 	
 	function carregaPriceTable (objJson) {
 		/* BASIC datatables*/
@@ -54,10 +54,16 @@
 				responsiveHelper_price_table_list.respond();
 			},		
 			"columns": [
-			            { "data": "name" },
-			            { "data": "descricao" },
-			            { "data": "valid" },
-			            { "data": "actions" },
+    		            {
+    		                "class":          'details-control',
+    		                "orderable":      false,
+    		                "data":           null,
+    		                "defaultContent": '',
+    		                "width": "5%"
+    		            },
+			            { "data": "name", "width": "25%" },
+			            { "data": "descricao" , "width": "25%" },
+			            { "data": "valid" , "width": "10%" }
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -69,32 +75,6 @@
 		    }
 		
 	    });
-		// Add event listener for opening and closing details
-	    $('#price_table_list tbody').on('click', 'td.details-control', function () {
-	        var tr = $(this).closest('tr');
-	        var row = price_table_table.row( tr );
-	 
-	        if ( row.child.isShown() ) {
-	            // This row is already open - close it
-	            row.child.hide();
-	            tr.removeClass('shown');
-	        }
-	        else {
-	            // Open this row
-	            row.child( formatPriceTable(row.data()) ).show();
-	            tr.addClass('shown');
-	        }
-	    });
-	    
-	    // Apply the filter
-	    $("#price_table_list thead th input[type=text]").on( 'keyup change', function () {
-	    	
-	    	price_table_table
-	            .column( $(this).parent().index()+':visible' )
-	            .search( this.value )
-	            .draw();
-	            
-	    } );
 
 	    price_table_table.clear();
 	    
@@ -106,18 +86,18 @@
     	    			"<span>" + price_table.name +  "</span></a>",
                 'descricao':'<small class="text-muted">' + price_table.description + '</small>',
                 'valid':'<small class="text-muted">' + price_table.valid + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                				'Action <span class="caret"></span></button>' + 
-                					'<ul id="listPriceTable" class="dropdown-menu">' +
-                						"<li'><a id='change" + price_table.id + "' data-process='changeitempricetable' data-id='" + price_table.id + "' data-name='" + price_table.name + "'' data-description='" + price_table.description + "'' data-valid='" + price_table.valid + "'href='#priceModal' data-toggle='modal' >Change</a></li>" +
-                					'</ul>' +
-                			'</div>'
+                'actions': 
+               	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
+	    				'<ul id="listPriceTable" class="dropdown-menu">' +
+	    					"<li'><a id='change" + price_table.id + "' data-process='changeitempricetable' data-id='" + price_table.id + "' data-name='" + price_table.name + "'' data-description='" + price_table.description + "' data-valid='" + price_table.valid + "'  data-vendor-type='" + price_table.vendorType + " href='#priceModal' data-toggle='modal' >Change</a></li>" +
+	    				'</ul>' +
+	    			'</div>' 
     	    }).draw( false );
-    		// Add event listener for opening and closing details
     	    $('#change' + price_table.id).off('click');
     	    $('#change' + price_table.id).on('click',function(){
     			$("#priceId").val($(this).attr('data-id'));
     			$("#priceName").val($(this).attr('data-name'));
+    			$("#priceVendorType").val($(this).attr('data-vendor-type'));
     			$("#priceDescription").val($(this).attr('data-description'));
     			if ($(this).attr('data-valid') == "Yes"){
     				$("#priceValid").prop("checked", true)
@@ -125,4 +105,32 @@
     			localStorage.priceTableExistente = "true";
     	    });
         });
+    	// Add event listener for opening and closing details
+        $('#price_table_list tbody').off('click');
+        $('#price_table_list tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = price_table_table.row( tr );
+     
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child( formatPriceTable(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        });
+	    
+	    // Apply the filter
+	    $("#price_table_list thead th input[type=text]").off( 'keyup change');
+	    $("#price_table_list thead th input[type=text]").on( 'keyup change', function () {
+	    	
+	    	price_table_table
+	            .column( $(this).parent().index()+':visible' )
+	            .search( this.value )
+	            .draw();
+	            
+	    } );
 	};

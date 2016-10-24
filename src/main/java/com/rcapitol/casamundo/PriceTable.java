@@ -33,6 +33,7 @@ public class PriceTable {
 		public String name;
 		public String description;
 		public String valid;
+		public String vendorType;
 
 		public Documento() {
 
@@ -43,12 +44,15 @@ public class PriceTable {
 				String id,
 				String name,
 				String description,
-				String valid
+				String valid,
+				String vendorType
+
 						) {
 						this.id = id;  
 						this.name = name;  
 						this.description = description;
 						this.valid = valid;
+						this.vendorType = vendorType;
 		}
 
 		@Override

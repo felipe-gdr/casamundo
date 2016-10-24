@@ -374,7 +374,7 @@
 				</span>
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Finance</li>
+					<li>Home</li><li>Price List</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -458,6 +458,8 @@
 									        <thead>
 												<tr>
 													<th class="hasinput" >
+													</th>
+													<th class="hasinput" >
 														<input type="text" class="form-control" placeholder="Name Item" />
 													</th>
 													<th class="hasinput" >
@@ -468,10 +470,10 @@
 													</th>
 												</tr>
 									            <tr>
+									                <th></th>
 									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Name</th>
 									                <th><i class="fa fa-fw fa-asterisk hidden-md hidden-sm hidden-xs"></i>Description</th>
 									                <th><i class="fa fa-fw fa-asterisk hidden-md hidden-sm hidden-xs"></i>Active</th>
-									                <th><i class="fa fa-fw fa-action text-muted hidden-md hidden-sm hidden-xs"></i>Action</th>
 									            </tr>
 									        </thead>
 									    </table>
@@ -532,6 +534,19 @@
 													<textarea rows="3" id="priceDescription" name="description"class="custom-scroll"></textarea> </label>
 												</div>
 											</div>
+											<br><br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-8">
+													<label for="vendorType">Vendor type</label>
+													<label class="select ">
+														<select id="vendorType" name="vendorType">
+															<option value="" selected="" disabled="">Choose one item</option>
+														</select><i></i>
+													</label>
+												</div>
+											</div>
+											<br><br>
 											<div class="row">
 												<div class="col-md-1"></div>
 												<div class="col-md-2">

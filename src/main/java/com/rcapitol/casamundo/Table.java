@@ -53,6 +53,7 @@ public class Table {
         public String address_mainIntersection[];
         public String address_subwayStation[];
         public String airline[];
+        public String vendorType[];
 
 		public Documento() {
 
@@ -83,7 +84,8 @@ public class Table {
 				        String[] type,
 				        String[] address_mainIntersection,
 				        String[] address_subwayStation,
-				        String[] airline
+				        String[] airline,
+				        String[] vendorType
 						) {
 				        this.nationality = nationality;                  
 				        this.mainPurposeTrip = mainPurposeTrip;              
@@ -109,6 +111,7 @@ public class Table {
 				        this.address_mainIntersection = address_mainIntersection;
 				        this.address_subwayStation = address_subwayStation;
 				        this.airline = airline;
+				        this.vendorType = vendorType;
 		}
 
 		@Override

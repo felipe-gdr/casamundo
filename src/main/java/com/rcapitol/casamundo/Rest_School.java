@@ -45,6 +45,7 @@ import com.rcapitol.casamundo.Student.Documento.Trips;
 
 public class Rest_School {
 
+	@SuppressWarnings("unchecked")
 	@Path("/obterSchoolName")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +61,7 @@ public class Rest_School {
 		mongo.close();
 		return documento;
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -81,25 +83,22 @@ public class Rest_School {
 			mongo.close();
 			return Response.status(200).entity(documento).build();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			System.out.println("UnknownHostException");
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			System.out.println("MongoException");
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			System.out.println("JsonMappingException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("IOException");
 			e.printStackTrace();
 		}
 		return Response.status(500).build();
 		
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -127,6 +126,7 @@ public class Rest_School {
 		mongo.close();
 		return Response.status(200).build();
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -164,17 +164,14 @@ public class Rest_School {
 					documentos.add(jsonDocumento);
 					mongo.close();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			};
 			mongo.close();
 			return documentos;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

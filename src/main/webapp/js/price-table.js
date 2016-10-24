@@ -26,6 +26,8 @@
  */
 	$("#priceValueMainIdPriceTable").val(id);
 	$("#priceValueAgencyIdPriceTable").val(id);
+	$("#priceCostMainIdPriceTable").val(id);
+	$("#priceCostVendorIdPriceTable").val(id);
 	
 	/**
 	 * 
@@ -33,6 +35,8 @@
 	var data = rest_obterPriceTable(id, carregaTelaPriceTable, obtencaoNaoEfetuada);
 	rest_obterPriceTableValueAll(id, carregaTableValueMain , semAcao);
 	rest_obterPriceTableValueAll(id, carregaTableValueAgency, semAcao);
+	rest_obterPriceTableCostAll(id, carregaTableCostMain , semAcao);
+	rest_obterPriceTableCostAll(id, carregaTableCostVendor, semAcao);
 
 	var table = JSON.parse(localStorage.getItem("table"));
 

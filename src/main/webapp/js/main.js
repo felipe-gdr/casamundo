@@ -718,6 +718,10 @@ function calculaIdade ( dataNascimento ) {
         			$("#arrivalAirline").append( $(option(optionValue)));
         			$("#departureAirline").append( $(option(optionValue)));
     		    });
+        $.each(table.documento.vendorType
+    		    , function (i, optionValue) {
+        			$("#vendorType").append( $(option(optionValue)));
+    		    });
         
         localStorage.carragendoTags = false;
     };    

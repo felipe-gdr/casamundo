@@ -359,7 +359,7 @@
 				</span>
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li>Home</li><li>Students</li><li>Student</li>
+					<li>Home</li><li>Prices List</li><li>Price Table</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -547,6 +547,100 @@
 							</div>
 							<!-- end widget content -->
 						</article>
+						<article class="col-sm-12 col-md-12 col-lg-12">
+
+							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notChange" id="wid-id-20" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2>Main costs</h2>
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-1">
+											<div class="col-sm-1 profile-pic">
+												<a id="priceTableCostMainInclusao" data-toggle="modal" data-target="#priceCostMainModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+											</div>
+										</div>
+									</div>
+								</header>
+								<div class="col-sm-12">
+									<!-- widget content -->
+									<div class="widget-body no-padding">
+										
+										<table id="price_table_costs_main_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									        <thead>
+												<tr>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Interval" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Type" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Value" />
+													</th>
+												</tr>
+									            <tr>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Interval</th>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Type</th>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Value</th>
+									            </tr>
+									        </thead>
+									    </table>
+									</div>
+									<!-- end widget content -->
+								</div>
+							</div>
+							<!-- end widget content -->
+						</article>
+						<article class="col-sm-12 col-md-12 col-lg-12">
+
+							<div class="jarviswidget jarviswidget-color-blue notOnlyStudent notChange" id="wid-id-30" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2>Vendor costs</h2>
+									<div class="row">
+										<div class="col-sm-4"></div>
+										<div class="col-sm-1">
+											<div class="col-sm-1 profile-pic">
+												<a id="priceTableCostVendorInclusao" data-toggle="modal" data-target="#priceCostVendorModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+											</div>
+										</div>
+									</div>
+								</header>
+								<div class="col-sm-12">
+									<!-- widget content -->
+									<div class="widget-body no-padding">
+										
+										<table id="price_table_values_agency_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									        <thead>
+												<tr>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Interval" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Vendor" />
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Type"/>
+													</th>
+													<th class="hasinput" >
+														<input type="text" class="form-control" placeholder="Value" />
+													</th>
+												</tr>
+									            <tr>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Interval</th>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Vendor</th>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Type</th>
+									                <th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>Value</th>
+									            </tr>
+									        </thead>
+									    </table>
+									</div>
+									<!-- end widget content -->
+								</div>
+							</div>
+							<!-- end widget content -->
+						</article>
 
 					</div>
 					<!-- end row -->
@@ -695,6 +789,142 @@
 												<div class="col-md-5">
 													<label for="agencyNet">Net</label>
 													<input id="agencyNet" name="net" type="text" class="form-control" value="" placeholder="" required />
+												</div>
+											</div>
+											<br><br>
+											<div class="modal-footer col-md-10">
+												<button type="submit" class="btn btn-primary">Submit</button>
+												<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+											</div>
+										</div>
+									</form>
+									<br><br>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<div class="modal fade" id="priceCostMainModal" tabindex="-1" role="dialog" aria-labelledby="priceCostMainModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="priceCostMainModalLabel">Main costs data</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-11">
+									<form id="priceCostMainModal-form" class="smart-form" novalidate="novalidate">
+										<div>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="mainFrom">From</label>
+													<input id="mainFrom" type="text" name="from" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+													<input id="priceCostMainId" name="id" type="text" class="form-control hide" value="" placeholder="" required />
+													<input id="priceCostMainIdPriceTable" name="idPriceTable" type="text" class="form-control hide" value="" placeholder="" required />
+												</div>
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="mainTo">To</label>
+													<input id="mainTo" type="text" name="to" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+												</div>
+											</div>
+											<br><br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-8">
+													<label for="mainDestination">Type</label>
+													<label class="select ">
+														<select id="vendorType" name="vendorType">
+															<option value="" selected="" disabled="">Choose one item</option>
+														</select><i></i>
+													</label>
+												</div>
+											</div>
+											<br><br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="mainValue">Value</label>
+													<input id="mainValue" name="value" type="text" class="form-control" value="" placeholder="" required />
+												</div>
+											</div>
+											<br><br>
+											<div class="modal-footer col-md-10">
+												<button type="submit" class="btn btn-primary">Submit</button>
+												<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+											</div>
+										</div>
+									</form>
+									<br><br>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<div class="modal fade" id="priceCostVendorModal" tabindex="-1" role="dialog" aria-labelledby="priceCostVendorModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="priceCostVendorModalLabel">Vendor values data</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-11">
+									<form id="priceCostVendorModal-form" class="smart-form" novalidate="novalidate">
+										<div>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="vendorFrom">From</label>
+													<input id="vendorFrom" type="text" name="from" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+													<input id="priceCostVendorId" name="id" type="text" class="form-control hide" value="" placeholder="" required />
+													<input id="priceCostVendorIdPriceTable" name="idPriceTable" type="text" class="form-control hide" value="" placeholder="" required />
+												</div>
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="vendorTo">To</label>
+													<input id="vendorTo" type="text" name="to" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+												</div>
+											</div>
+											<br><br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-8">
+													<label for="vendorType">Type</label>
+													<label class="select ">
+														<select id="vendorType" name="vendorType">
+															<option value="" selected="" disabled="">Choose one item</option>
+														</select><i></i>
+													</label>
+												</div>
+											</div>
+											<br><br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-8">
+													<label for="vendorName">Vendor</label>
+													<label class="select ">
+														<select id="vendorName" name="vendor">
+															<option value="" selected="" disabled="">Choose one item</option>
+														</select><i></i>
+													</label>
+												</div>
+											</div>
+											<br><br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-5">
+													<label for="vendorValue">Gross</label>
+													<input id="vendorValue" name="value" type="text" class="form-control" value="" placeholder="" required />
 												</div>
 											</div>
 											<br><br>
@@ -920,10 +1150,14 @@
 		<!-- out scripts -->
 		<script src="js/price-value-main-commons.js"></script>
 		<script src="js/price-value-agency-commons.js"></script>
+		<script src="js/price-cost-main-commons.js"></script>
+		<script src="js/price-cost-vendor-commons.js"></script>
 		<script src="js/price-table-commons.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js-datatables/prices-table-value-main.js"></script>
 		<script src="js-datatables/prices-table-value-agency.js"></script>
+		<script src="js-datatables/prices-table-cost-main.js"></script>
+		<script src="js-datatables/prices-table-cost-vendor.js"></script>
 		<script src="js/price-table.js"></script>
 
 		<script>
