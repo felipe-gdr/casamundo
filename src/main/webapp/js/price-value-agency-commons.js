@@ -115,7 +115,6 @@
 			}
 	});
 
-
 	$('#agencyTo').datepicker({
 	    changeMonth: true,
 	    changeYear: true,

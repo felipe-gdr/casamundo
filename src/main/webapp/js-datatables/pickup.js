@@ -105,7 +105,7 @@
     	    }).draw( false );
         	$('#pickup' + i).off('click');
             $('#pickup' + i).on('click', function () {
-            	$('#pickupId').val(pickup.id);
+            	$('#pickupId').val(pickup._id);
             	$("#pickupName").val(pickup.name);
             	$("#pickupDestination").val(pickup.destination);
             	$("#pickup-payment_financialInstitution").val(pickup.payment.financialInstitution);

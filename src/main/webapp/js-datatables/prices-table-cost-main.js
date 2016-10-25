@@ -20,10 +20,10 @@
 
 		/* BASIC datatables*/
 
-		var responsiveHelper_price_table_costs_main_list = undefined;
+		var responsiveHelper_price_table_cost_main_list = undefined;
 	     
 		/* price_table list  */
-	    var price_table_costs_main = $('#price_table_costs_main_list').DataTable({
+	    var price_table_cost_main = $('#price_table_cost_main_list').DataTable({
 	    	//"bFilter": false,
 	    	//"bInfo": false,
 	    	//"bLengthChange": true,
@@ -35,19 +35,18 @@
 					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
 			"preDrawCallback" : function() {
 				// Initialize the responsive datatables helper once.
-				if (!responsiveHelper_price_table_costs_main_list) {
-					responsiveHelper_price_table_costs_main_list = new ResponsiveDatatablesHelper($('#price_table_costs_main_list'), breakpointDefinition);
+				if (!responsiveHelper_price_table_cost_main_list) {
+					responsiveHelper_price_table_cost_main_list = new ResponsiveDatatablesHelper($('#price_table_cost_main_list'), breakpointDefinition);
 				}
 			},
 			"rowCallback" : function(nRow) {
-				responsiveHelper_price_table_costs_main_list.createExpandIcon(nRow);
+				responsiveHelper_price_table_cost_main_list.createExpandIcon(nRow);
 			},
 			"drawCallback" : function(oSettings) {
-				responsiveHelper_price_table_costs_main_list.respond();
+				responsiveHelper_price_table_cost_main_list.respond();
 			},		
 			"columns": [
-			            { "data": "interval", "width": "38%" },
-			            { "data": "type", "width": "38%" },
+			            { "data": "interval", "width": "50%" },
 			            { "data": "value", "width": "24%" },
 			            ],
 	        "responsive": true,
@@ -61,9 +60,9 @@
 		
 	    });
 		// Add event listener for opening and closing details
-	    $('#price_table_costs_main_list tbody').on('click', 'td.details-control', function () {
+	    $('#price_table_cost_main_list tbody').on('click', 'td.details-control', function () {
 	        var tr = $(this).closest('tr');
-	        var row = price_table_costs_main.row( tr );
+	        var row = price_table_cost_main.row( tr );
 	 
 	        if ( row.child.isShown() ) {
 	            // This row is already open - close it
@@ -78,41 +77,39 @@
 	    });
 	    
 	    // Apply the filter
-	    $("#price_table_costs_main_list thead th input[type=text]").on( 'keyup change', function () {
+	    $("#price_table_cost_main_list thead th input[type=text]").on( 'keyup change', function () {
 	    	
-	    	price_table_costs_main
+	    	price_table_cost_main
 	            .column( $(this).parent().index()+':visible' )
 	            .search( this.value )
 	            .draw();
 	            
 	    } );
 
-	    price_table_costs_main.clear();
+	    price_table_cost_main.clear();
 	    
 	    localStorage.setItem("priceTableCost", JSON.stringify(objJson));
         var objJson = JSON.parse(localStorage.getItem("priceTableCost"));
         $.each(objJson, function (i, price_table) {
-        	if (price_table.type == "main"){
-	        	price_table_costs_main.row.add( {
-	    	    	"interval": "<a id='" + price_table._id + "' href='#priceCostMainModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
-	    	    					"<span class='hide'>" + (separaAnoMesDia(price_table.from)) +  "</span>" +
-	    	    					"<span>From: " + (separaDataMes(price_table.from, "/")) +  "</span><br>" +
-	    	    					"<span>To: " + (separaDataMes(price_table.to, "/")) +  "</span>" +
-	    	    				"</a>",
-	                'type':'<small class="text-muted">' + price_table.type + '</small>',
-	                'value':'<small class="text-muted">' + price_table.value + '</small>',
-	    	    }).draw( false );
-	    		// Add event listener for opening and closing details
-	    	    $('#' + price_table._id).off('click');
-	    	    $('#' + price_table._id).on('click',function(){
-	    			$("#priceCostMainId").val(price_table._id);
-	    			$("#priceCostMainIdPriceTable").val(price_table.idPriceTable);
-	    			$("#mainFrom").val(price_table.from);
-	    			$("#mainTo").val(price_table.to);
-	    			$("#mainType").val(price_table.type);
-	    			$("#mainValue").val(price_table.value);
-	    			localStorage.priceCostMainExistente = "true";
-	    	    });
-        	};
+        	price_table_cost_main.row.add( {
+    	    	"interval": "<a id='" + price_table._id + "' href='#priceCostMainModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
+    	    					"<span class='hide'>" + (separaAnoMesDia(price_table.from)) +  "</span>" +
+    	    					"<span>From: " + (separaDataMes(price_table.from, "/")) +  "</span>" +
+    	    					"<span> To: " + (separaDataMes(price_table.to, "/")) +  "</span>" +
+    	    				"</a>",
+                'value':'<small class="text-muted">' + price_table.value + '</small>',
+    	    }).draw( false );
+    		// Add event listener for opening and closing details
+    	    $('#' + price_table._id).off('click');
+    	    $('#' + price_table._id).on('click',function(){
+    			$("#priceCostMainId").val(price_table._id);
+    			$("#priceCostMainIdPriceTable").val(price_table.idPriceTable);
+    			$("#mainCostFrom").val(price_table.from);
+    			$("#mainCostTo").val(price_table.to);
+    			$("#mainCostType").val(price_table.type);
+    			$("#mainCostIdVendor").val(price_table.idVendor);
+    			$("#mainCostValue").val(price_table.value);
+    			localStorage.priceCostMainExistente = "true";
+    	    });
         });
 	};

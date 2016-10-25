@@ -89,6 +89,17 @@
 	$("#vendorType").html(data.documento.vendorType);	
 	$("#valid").html(data.documento.valid);
 	
+	if (data.documento.vendorType == "family"){
+		$(".family-cost").removeClass ("hide");
+		rest_obterFamiliesAll(carregaSelectFamilies, semAcao, localStorage.usuarioCity, true);
+	}else{
+		if (data.documento.vendorType == "pickup"){
+			$(".pickup-cost").removeClass ("hide");
+			rest_obterPickupAll(carregaSelectPickups, semAcao, localStorage.usuarioCity, true);
+		}else{
+			$(".main-cost").removeClass ("hide");
+		}
+	};
 	localStorage.setItem("pricetable", JSON.stringify(data));
 };    
 

@@ -1,4 +1,9 @@
 	/**
+	 * 		carrega cabeçalho da lista de cistos
+	 */
+		var objPriceTable = JSON.parse(localStorage.getItem("pricetable"));
+		$("#labelMainCost").html(objPriceTable.documento.vendorType + " cost");
+	/**
 	 * 		setup dos input do form price table
 	 */
 	var $tablesFormMain = $("#priceCostMainModal-form").validate({
@@ -8,9 +13,6 @@
 				required : true,
 			},
 			to : {
-				required : true,
-			},
-			type : {
 				required : true,
 			},
 			value : {
@@ -25,9 +27,6 @@
 			},
 			to : {
 				required : 'Please enter to interval ',
-			},
-			type : {
-				required : 'Please enter type ',
 			},
 			value : {
 				required : 'Please enter value ',
@@ -58,6 +57,8 @@
 					objJson.documento[field.name] = value;
 				};
 			});
+			var objPriceTable = JSON.parse(localStorage.getItem("pricetable"));
+			objJson.documento.type = objPriceTable.documento.vendorType;
 			localStorage.setItem("pricecostmain", JSON.stringify(objJson));
 			if (localStorage.priceCostMainExistente == "true"){
 				rest_atualizaPriceTableCost(JSON.parse(localStorage.getItem("pricecostmain")), fechaModalPriceCostMain, semAcao);
@@ -90,13 +91,13 @@
 	$("#priceCostMainModal").off('hidden.bs.modal');
 	$("#priceCostMainModal").on('hidden.bs.modal', function(event){
 		$("#priceCostMainId").val("");
-		$("#mainFrom").val("");
-		$("#mainTo").val("");
-		$("#mainType").val("");
-		$("#mainValue").val("");
+		$("#mainCostFrom").val("");
+		$("#mainCostTo").val("");
+		$("#mainCostType").val("");
+		$("#mainCostValue").val("");
 	 });
 
-	$('#mainFrom').datepicker({
+	$('#mainCostFrom').datepicker({
 	    changeMonth: true,
 	    changeYear: true,
 	    dateFormat : 'dd-M-yy',
@@ -107,8 +108,7 @@
 			}
 	});
 
-
-	$('#mainTo').datepicker({
+	$('#mainCostTo').datepicker({
 	    changeMonth: true,
 	    changeYear: true,
 	    dateFormat : 'dd-M-yy',
@@ -125,10 +125,10 @@
 	$("#priceCostMainModal").modal('hide');
 	
 	$("#priceCostMainId").val("");
-	$("#mainFrom").val("");
-	$("#mainTo").val("");
-	$("#mainType").val("");
-	$("#mainValue").val("");
+	$("#mainCostFrom").val("");
+	$("#mainCostTo").val("");
+	$("#mainCostType").val("");
+	$("#mainCostValue").val("");
 	
 	rest_obterPriceTableCostAll(id, carregaTableCostMain , semAcao);
 };
@@ -145,7 +145,7 @@ function limpaStoragePriceCostMain () {
 				documento :  
 				  {
 					id:"",
-				    type : "main",
+				    type : "",
 				    idPriceTable : "",
 				    idVendor : "",
 				    from : "",

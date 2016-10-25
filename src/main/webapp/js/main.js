@@ -735,6 +735,20 @@ function calculaIdade ( dataNascimento ) {
         });
     };
 
+    function carregaSelectFamilies(data, usaId) {
+        $.each(data
+    		    , function (i, optionValue) {
+        			$("#familyId").append( $(option(optionValue.familyName, "", usaId, optionValue._id)));
+        });
+    };
+
+    function carregaSelectPickups(data, usaId) {
+        $.each(data
+    		    , function (i, optionValue) {
+        			$("#pickupId").append( $(option(optionValue.name, "", usaId, optionValue._id)));
+        });
+    };
+
     function carregaSelectSchool(data) {
         $.each(data
     		    , function (i, optionValue) {

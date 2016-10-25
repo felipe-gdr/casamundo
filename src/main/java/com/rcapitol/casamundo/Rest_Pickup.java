@@ -163,7 +163,7 @@ public class Rest_Pickup {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("id", objStudent.getString("_id"));
+					jsonDocumento.put("_id", objStudent.getString("_id"));
 					jsonDocumento.put("name", jsonObject.get("name"));
 					jsonDocumento.put("destination", jsonObject.get("destination"));
 					jsonDocumento.put("payment", jsonObject.get("payment"));
