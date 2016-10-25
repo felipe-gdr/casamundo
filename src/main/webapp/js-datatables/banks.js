@@ -56,7 +56,6 @@
 			"columns": [
 			            { "data": "name" },
 			            { "data": "number" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -102,11 +101,7 @@
         $.each(objJson, function (i, bank) {
         	bank_table.row.add( {
     	    	'name': '<a id="bank' + i + '"  data-toggle="modal" data-target="#bankModal">' + bank.name + '</a>',
-                'number':'<small class="text-muted">' + bank.number + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                'number':'<small class="text-muted">' + bank.number + '</small>'
     	    }).draw( false );
             $('#bank' + i).bind('click', function () {
             	$('#bankName').attr("disabled", true);

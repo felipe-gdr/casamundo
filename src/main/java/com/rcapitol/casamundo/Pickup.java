@@ -31,7 +31,9 @@ public class Pickup {
 
 	public static final class Documento {
 
+		public String id;
 		public String name;
+		public String destination;
 		public Payment payment;
 
 		public Documento() {
@@ -40,10 +42,14 @@ public class Pickup {
 
 		@JsonCreator
 		public Documento(
+				String id,
 				String name,
+				String destination,
 				Payment payment						
 						) {
-						this.name = name;  
+						this.id = id;
+						this.name = name;
+						this.destination = destination;
 						this.payment = payment;
 		}
 

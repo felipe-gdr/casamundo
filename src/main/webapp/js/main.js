@@ -649,6 +649,7 @@ function calculaIdade ( dataNascimento ) {
 	        			$("#subwayDestination").append( $(option(optionValue)));
 	        			$("#mainDestination").append( $(option(optionValue)));
 	        			$("#agencyDestination").append( $(option(optionValue)));
+	        			$("#pickupDestination").append( $(option(optionValue)));
 	    		    });
         }else{
 			$("#destination").append( $(option(localStorage.usuarioCity)));
@@ -659,6 +660,7 @@ function calculaIdade ( dataNascimento ) {
 			$("#subwayDestination").append( $(option(localStorage.usuarioCity)));
 			$("#mainDestination").append( $(option(localStorage.usuarioCity)));
 			$("#agencyDestination").append( $(option(localStorage.usuarioCity)));
+			$("#pickupDestination").append( $(option(optionValue)));
         }
         $.each(table.documento.accommodation
     		    , function (i, optionValue) {

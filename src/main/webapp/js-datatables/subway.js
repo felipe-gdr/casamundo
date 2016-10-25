@@ -56,7 +56,6 @@
 			"columns": [
 			            { "data": "name" },
 			            { "data": "destination" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -102,11 +101,7 @@
         $.each(objJson, function (i, subway) {
         	subway_table.row.add( {
     	    	'name': '<a id="subway' + i + '"  data-toggle="modal" data-target="#subwayModal">' + subway.name + '</a>',
-                'destination':'<small class="text-muted">' + subway.destination + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                'destination':'<small class="text-muted">' + subway.destination + '</small>'
     	    }).draw( false );
             $('#subway' + i).bind('click', function () {
             	$('#subwayName').attr("disabled", true);

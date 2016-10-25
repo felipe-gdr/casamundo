@@ -59,7 +59,6 @@
 			            { "data": "celPhone" },
 			            { "data": "phone" },
 			            { "data": "email" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -108,11 +107,7 @@
                 'sigla':'<small class="text-muted">' + school.sigla + '</small>',
                 'celPhone':'<small class="text-muted">' + school.celPhone + '</small>',
                 'phone':'<small class="text-muted">' + school.phone + '</small>',
-                'email':'<small class="text-muted">' + school.email + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                'email':'<small class="text-muted">' + school.email + '</small>'
     	    }).draw( false );
             $('#school' + i).bind('click', function () {
             	$("#schoolName").val(school.name);

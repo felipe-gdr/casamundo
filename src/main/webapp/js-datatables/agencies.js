@@ -58,7 +58,6 @@
 			            { "data": "agencyPhone" },
 			            { "data": "agencyEmail" },
 			            { "data": "agencySigla" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -106,11 +105,7 @@
     	    	'name': '<a id="agency' + i + '"  data-toggle="modal" data-target="#agencyModal">' + agency.name + '</a>',
                 'agencyPhone':'<small class="text-muted">' + agency.agencyPhone + '</small>',
                 'agencyEmail':'<small class="text-muted">' + agency.agencyEmail + '</small>',
-                'agencySigla':'<small class="text-muted">' + agency.agencySigla + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                'agencySigla':'<small class="text-muted">' + agency.agencySigla + '</small>'
     	    }).draw( false );
             $('#agency' + i).bind('click', function () {
             	$("#agencyName").val(agency.name);

@@ -39,7 +39,7 @@ public class MainIntersection {
 		@JsonCreator
 		public Documento(
 				String name,
-				String number
+				String destination
 						) {
 						this.name = name;  
 						this.destination = destination; 

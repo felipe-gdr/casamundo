@@ -1193,3 +1193,86 @@
     	.always(function(data) {
     	});
     };
+
+    //
+    //**** Pickup
+    //
+
+    function rest_obterPickupAll(action_ok, action_notok, destination, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pickup/lista?destination="  + destination,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data) {
+    		action_notok(data, var1, var2);
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_atualizaPickup(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pickup/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		action_not_ok(message)
+        	};
+    	});
+    };
+
+    function rest_incluiPickup(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pickup/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		actio_not_ok(message)
+        	};
+       	});
+    };
+
+    function rest_obterPickup(id, action_ok, action_not_ok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pickup/obterPriceTable?id="  + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data, var1, var2) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };

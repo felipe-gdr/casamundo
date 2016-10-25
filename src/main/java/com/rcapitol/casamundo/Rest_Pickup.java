@@ -146,13 +146,14 @@ public class Rest_Pickup {
 
 			if (destination != null){
 				if(!destination.equals("all")){
-			    	setQuery.put("documento.address.destination", destination);
+			    	setQuery.put("documento.destination", destination);
 			    };
 			};
 
 			DBCollection collection = db.getCollection("pickup");
-			
-			DBCursor cursor = collection.find();
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.name", 1);
+			DBCursor cursor = collection.find(setQuery).sort(setSort);
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				JSONParser parser = new JSONParser(); 
@@ -162,8 +163,9 @@ public class Rest_Pickup {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("_id", objStudent.getString("_id"));
+					jsonDocumento.put("id", objStudent.getString("_id"));
 					jsonDocumento.put("name", jsonObject.get("name"));
+					jsonDocumento.put("destination", jsonObject.get("destination"));
 					jsonDocumento.put("payment", jsonObject.get("payment"));
 					documentos.add(jsonDocumento);
 					mongo.close();

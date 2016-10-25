@@ -56,7 +56,6 @@
 			"columns": [
 			            { "data": "name" },
 			            { "data": "destination" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -102,11 +101,7 @@
         $.each(objJson, function (i, mainIntersection) {
         	mainIntersection_table.row.add( {
     	    	'name': '<a id="mainIntersection' + i + '"  data-toggle="modal" data-target="#mainIntersectionModal">' + mainIntersection.name + '</a>',
-                'destination':'<small class="text-muted">' + mainIntersection.destination + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                'destination':'<small class="text-muted">' + mainIntersection.destination + '</small>'
     	    }).draw( false );
             $('#mainIntersection' + i).bind('click', function () {
             	$('#mainIntersectionName').attr("disabled", true);

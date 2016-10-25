@@ -30,7 +30,8 @@ public class ApplicationConfig extends Application {
         		Rest_PriceTableCost.class,
         		Rest_Invoice.class,
         		Rest_Dorm.class,
-        		Rest_Room.class
+        		Rest_Room.class,
+        		Rest_Pickup.class
         		));
     }
 }
