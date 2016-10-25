@@ -97,7 +97,7 @@
 									"<span class='hide'>" + (separaAnoMesDia(price_table.from)) +  "</span>" +
 									"<span>From: " + (separaDataMes(price_table.from, "/")) +  "</span>" +
 									"<span> To: " + (separaDataMes(price_table.to, "/")) +  "</span>" +
-								"</a>",
+								"</a>", 
 	                'pickup':'<small class="text-muted">' + price_table.nameVendor + '</small>',
 				    'type':'<small class="text-muted">' + price_table.type + '</small>',
 				    'value':'<small class="text-muted">' + price_table.value + '</small>'
