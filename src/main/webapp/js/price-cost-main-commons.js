@@ -119,7 +119,7 @@
 			}
 	});
 	
-	$('#mainValue').maskMoney({thousands:'', decimal:'.', allowZero:true});
+	$('#mainCostValue').maskMoney({thousands:'', decimal:'.', allowZero:true});
 
  function fechaModalPriceCostMain () {
 	$("#priceCostMainModal").modal('hide');

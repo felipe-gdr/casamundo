@@ -93,7 +93,7 @@
         $.each(objJson, function (i, price_table) {
         	if (price_table.type == "pickup"){
 	        	price_table_cost_pickup.row.add( {
-	    	    	"interval": "<a id='" + price_table._id + "' href='#priceCostPickupModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
+	    	    	"interval": "<a id='pickup_" + price_table._id + "' href='#priceCostPickupModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
 									"<span class='hide'>" + (separaAnoMesDia(price_table.from)) +  "</span>" +
 									"<span>From: " + (separaDataMes(price_table.from, "/")) +  "</span>" +
 									"<span> To: " + (separaDataMes(price_table.to, "/")) +  "</span>" +
@@ -102,8 +102,8 @@
 				    'type':'<small class="text-muted">' + price_table.type + '</small>',
 				    'value':'<small class="text-muted">' + price_table.value + '</small>'
 	    	    }).draw( false );
-	    	    $('#' + price_table._id).off('click');
-	    	    $('#' + price_table._id).on('click',function(){
+	    	    $('#pickup_' + price_table._id).off('click');
+	    	    $('#pickup_' + price_table._id).on('click',function(){
 	    			$("#priceCostPickupId").val(price_table._id);
 	    			$("#priceCostMainIdPriceTable").val(price_table.idPriceTable);
 	    			$("#pickupFrom").val(price_table.from);

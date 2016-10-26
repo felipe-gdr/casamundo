@@ -92,7 +92,7 @@
         var objJson = JSON.parse(localStorage.getItem("priceTableCost"));
         $.each(objJson, function (i, price_table) {
         	price_table_cost_main.row.add( {
-    	    	"interval": "<a id='" + price_table._id + "' href='#priceCostMainModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
+    	    	"interval": "<a id='main_cost_" + price_table._id + "' href='#priceCostMainModal' data-toggle='modal'  data-id='" + price_table._id + "' >" +
     	    					"<span class='hide'>" + (separaAnoMesDia(price_table.from)) +  "</span>" +
     	    					"<span>From: " + (separaDataMes(price_table.from, "/")) +  "</span>" +
     	    					"<span> To: " + (separaDataMes(price_table.to, "/")) +  "</span>" +
@@ -100,8 +100,8 @@
                 'value':'<small class="text-muted">' + price_table.value + '</small>',
     	    }).draw( false );
     		// Add event listener for opening and closing details
-    	    $('#' + price_table._id).off('click');
-    	    $('#' + price_table._id).on('click',function(){
+    	    $('#main_cost_' + price_table._id).off('click');
+    	    $('#main_cost_' + price_table._id).on('click',function(){
     			$("#priceCostMainId").val(price_table._id);
     			$("#priceCostMainIdPriceTable").val(price_table.idPriceTable);
     			$("#mainCostFrom").val(price_table.from);
