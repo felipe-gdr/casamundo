@@ -75,7 +75,6 @@
 		}
 	});
 	
-	
 	$('#invoiceSubmmit').off('click');
 	$('#invoiceSubmmit').on('click', function () {
 		localStorage.valid = true;
@@ -143,6 +142,11 @@
 		if (localStorage.valid == "true"){
 			criaInvoice(idInvoice);
 		}
+	});
+
+	$('#geraPayments').off('click');
+	$('#geraPayments').on('click', function () {
+		window.location = "create-payments-vendors.html?mail=" + mailUrl + "&typePage=create" 
 	});
 
 	/**
@@ -441,6 +445,10 @@ function criaInvoice(id){
 				}
 			
 		};
+
+	
+	falta recolocar a data da viagem fazer funcionar o gross net no pdf, rever email da isabela
+
 
 	$(".item").each(function() {
 		var id = $(this).attr('id');
