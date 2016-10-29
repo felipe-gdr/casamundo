@@ -64,12 +64,15 @@
 /**
  * 
  */
+	var valueNet = true;
 	$('#type').off('click');
 	$('#type').on('click', function () {
 		if ($(this).is(':checked')){
+			valueNet = false;
 			$(".net").addClass("hide");
 			$(".gross").removeClass("hide");
 		}else{
+			valueNet = true;
 			$(".gross").addClass("hide");
 			$(".net").removeClass("hide");			
 		}
@@ -243,6 +246,12 @@
 	doc.textEx('0001/2016', 190, 55, 'right', 'middle');
 
 	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(8);
+	doc.setTextColor(0, 51, 102);
+	doc.text(65, 60, 'Trip:' + $('#start').html() + "-" + $('#end').html());
+
+	doc.setFont("helvetica");
 	doc.setFontType("bold");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
@@ -375,18 +384,36 @@
 					doc.textEx($('#itemAmount_' + i).val(), 140, hight, 'right', 'middle');
 				};
 				if ($('#itemName_' + i).val()) {
-					doc.setFont("helvetica");
-					doc.setFontType("normal");
-					doc.setFontSize(09);
-					doc.setTextColor(0, 0, 0);
-					doc.textEx($('#itemName_' + i).val().split("_")[0], 160, hight, 'right', 'middle');
+					if(valueNet){
+						doc.setFont("helvetica");
+						doc.setFontType("normal");
+						doc.setFontSize(09);
+						doc.setTextColor(0, 0, 0);
+						doc.textEx($('#itemName_' + i).val().split("_")[0], 160, hight, 'right', 'middle');
+					}else{
+						doc.setFont("helvetica");
+						doc.setFontType("normal");
+						doc.setFontSize(09);
+						doc.setTextColor(0, 0, 0);
+						doc.textEx($('#itemName_' + i).val().split("_")[1], 160, hight, 'right', 'middle');						
+					};
 				};
-				if ($('#itemValue_' + i).val()) {
-					doc.setFont("helvetica");
-					doc.setFontType("normal");
-					doc.setFontSize(09);
-					doc.setTextColor(0, 0, 0);
-					doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
+				if(valueNet){
+					if ($('#itemValue_' + i).val()) {
+						doc.setFont("helvetica");
+						doc.setFontType("normal");
+						doc.setFontSize(09);
+						doc.setTextColor(0, 0, 0);
+						doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
+					};
+				}else{
+					if ($('#itemValueGross_' + i).val()) {
+						doc.setFont("helvetica");
+						doc.setFontType("normal");
+						doc.setFontSize(09);
+						doc.setTextColor(0, 0, 0);
+						doc.textEx("$ " + $('#itemValueGross_' + i).val(), 190, hight, 'right', 'middle');
+					};
 				};
 				hight = hight + 7;
 			});	
@@ -400,7 +427,11 @@
 			doc.setFontType("normal");
 			doc.setFontSize(10);
 			doc.setTextColor(0, 0, 0);
-			doc.textEx($('#dueValue_0').val(), 190, hight, 'right', 'middle');
+			if(valueNet){
+				doc.textEx($('#dueValue_0').val(), 190, hight, 'right', 'middle');
+			}else{
+				doc.textEx($('#dueValueGross_0').val(), 190, hight, 'right', 'middle');				
+			}
 		    doc.fromHTML($('#invoice-pdf').html(), 5, 5, {
 		        'width': 170,
 		            'elementHandlers': specialElementHandlers
