@@ -2,8 +2,6 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
-import com.rcapitol.casamundo.Agency.Documento.Consultants;
-
 public class School {
 
 	public Documento documento;

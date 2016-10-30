@@ -121,6 +121,7 @@ public class Rest_Pickup {
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 		BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
+		@SuppressWarnings("unused")
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -267,7 +266,6 @@ public class Rest_Invoice {
 		return null;
 	};
 	
-	@SuppressWarnings("rawtypes")
 	public Boolean checkFilters (String filters, JSONObject objJson, String agencySigla, String schoolSigla){
 		BasicDBObject jsonTrip =  (BasicDBObject) objJson.get("trip");
 		Boolean response = true;

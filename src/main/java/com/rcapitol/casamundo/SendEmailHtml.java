@@ -1,10 +1,8 @@
 package com.rcapitol.casamundo;
 
 import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 
 public class SendEmailHtml {
 	
@@ -12,7 +10,7 @@ public class SendEmailHtml {
 	    
 		HtmlEmail email = new HtmlEmail();
 		
-		String newEmail = "<div><h3 style='color: #1c70db;'>NOW $159</h3></div>";
+//		String newEmail = "<div><h3 style='color: #1c70db;'>NOW $159</h3></div>";
 
 		try {
 			email.setHostName(hostName);

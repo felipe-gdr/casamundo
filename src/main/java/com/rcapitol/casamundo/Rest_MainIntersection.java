@@ -1,11 +1,9 @@
 package com.rcapitol.casamundo;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
@@ -18,8 +16,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.bson.BasicBSONObject;
-import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -44,6 +40,7 @@ import com.mongodb.MongoException;
 
 public class Rest_MainIntersection {
 
+	@SuppressWarnings("unchecked")
 	@Path("/obterMainIntersectionName")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +57,7 @@ public class Rest_MainIntersection {
 		return documento;
 	};
 
+	@SuppressWarnings("unchecked")
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -100,6 +98,7 @@ public class Rest_MainIntersection {
 		return Response.status(500).build();
 		
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -117,6 +116,7 @@ public class Rest_MainIntersection {
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 		BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
+		@SuppressWarnings("unused")
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,
@@ -127,6 +127,7 @@ public class Rest_MainIntersection {
 		mongo.close();
 		return Response.status(200).build();
 	};
+	@SuppressWarnings("unchecked")
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

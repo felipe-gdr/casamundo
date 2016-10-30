@@ -477,10 +477,6 @@ function criaInvoice(id){
 			
 		};
 
-	
-	falta recolocar a data da viagem fazer funcionar o gross net no pdf, rever email da isabela
-
-
 	$(".item").each(function() {
 		var id = $(this).attr('id');
 		var i = id.split("_")[1];

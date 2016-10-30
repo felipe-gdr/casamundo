@@ -2,8 +2,6 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
-import com.rcapitol.casamundo.Student.Documento.Trips;
-
 public class PriceTableValue {
 
 	public Documento documento;

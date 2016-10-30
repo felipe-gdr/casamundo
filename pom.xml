@@ -10,8 +10,9 @@
   	<url>http://maven.apache.org</url>
   	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -69,6 +70,15 @@
 	  
 	<build>
 		<finalName>casamundo</finalName>
+		<plugins>
+		  <plugin>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		      <configuration>
+		        <source>1.6</source>
+		        <target>1.6</target>
+		      </configuration>
+		  </plugin>
+		</plugins>	
 	</build>
 
 	<dependencyManagement>

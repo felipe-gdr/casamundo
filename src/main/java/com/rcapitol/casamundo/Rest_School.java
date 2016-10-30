@@ -1,11 +1,9 @@
 package com.rcapitol.casamundo;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
@@ -18,8 +16,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.bson.BasicBSONObject;
-import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -36,7 +32,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import com.rcapitol.casamundo.Student.Documento.Trips;
 
 	
 @Singleton
@@ -116,6 +111,7 @@ public class Rest_School {
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 		BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
+		@SuppressWarnings("unused")
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,
@@ -137,7 +133,6 @@ public class Rest_School {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 
-			BasicDBObject setQuery = new BasicDBObject();
 			DBCollection collection = db.getCollection("school");
 			
 			DBCursor cursor = collection.find();

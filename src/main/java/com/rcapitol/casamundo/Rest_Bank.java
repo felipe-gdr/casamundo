@@ -128,6 +128,7 @@ public class Rest_Bank {
 		documento.putAll(mapJson);
 		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 		BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
+		@SuppressWarnings("unused")
 		DBObject cursor = collection.findAndModify(searchQuery,
                 null,
                 null,
@@ -149,7 +150,6 @@ public class Rest_Bank {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 
-			BasicDBObject setQuery = new BasicDBObject();
 			DBCollection collection = db.getCollection("bank");
 			
 			DBCursor cursor = collection.find();

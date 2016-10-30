@@ -29,7 +29,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
-import com.mongodb.MongoException;
 
 	
 @Singleton
@@ -42,7 +41,7 @@ public class Rest_UploadFiles {
 	 * @author magician
 	 *
      * Devolve a imagem com o mime type do ficheiro ou 404 caso
-     * o ficheiro não seja encontrada.
+     * o ficheiro nï¿½o seja encontrada.
      * @param image nome da imagem a procurar
      * @return imagem com o mime type da imagem fonte.
      */

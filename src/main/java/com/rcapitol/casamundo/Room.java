@@ -1,12 +1,6 @@
 package com.rcapitol.casamundo;
 
-import java.lang.reflect.Array;
-
-import javax.ws.rs.QueryParam;
-
 import org.codehaus.jackson.annotate.JsonCreator;
-
-import com.rcapitol.casamundo.Family.Documento.Rooms.OccupancySingleBed;
 
 public class Room {
 

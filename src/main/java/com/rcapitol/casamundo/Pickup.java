@@ -2,8 +2,6 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
-import com.rcapitol.casamundo.Family.Documento.Payment;
-
 public class Pickup {
 
 	public Documento documento;
