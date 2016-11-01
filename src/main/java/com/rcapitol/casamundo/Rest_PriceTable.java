@@ -195,6 +195,13 @@ public class Rest_PriceTable {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
 					JSONObject jsonDocumento = new JSONObject();
+					jsonDocumento.put("id", "");
+					jsonDocumento.put("name", "");
+					jsonDocumento.put("description", "");
+					jsonDocumento.put("vendorType", "");
+					jsonDocumento.put("valid", "");
+					jsonDocumento.put("gross", "");
+					jsonDocumento.put("net", "");
 					if (objPriceTable.getString("_id") != null){
 						jsonDocumento.put("id", objPriceTable.getString("_id"));
 					};

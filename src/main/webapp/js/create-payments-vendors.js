@@ -1,15 +1,13 @@
-	// ** setar menu
-	$("#menuStudents_li").addClass("active");
 	// 
 	//**    carrega dados url
 	//
 
-	var idInvoice = 1; 
+	var idPayment = 1; 
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
 	if (parametrosDaUrl.split("&")[2]){
-		idInvoice = parametrosDaUrl.split("&")[2].split("=")[1];
+		idPayment = parametrosDaUrl.split("&")[2].split("=")[1];
 	};
 	var parameter = parametrosDaUrl.split("&");
 	if (parameter[1]) {
@@ -17,13 +15,13 @@
 	};
 
 	/**
-	 * 		pega o ultimo numero de invoice
+	 * 		pega o ultimo numero de payment
 	 */
-	//rest_obterUltimaInvoice(saveLastInvoice, firstInvoice);
-	if (localStorage.numberInvoice){
-		saveLastInvoice();
+	//rest_obterUltimaPayment(saveUltimaPayment, primeiraPayment);
+	if (localStorage.numberPaymen){
+		saveLastPayment();
 	}else{
-		firstInvoice();
+		firstPayment();
 	};
 		
 
@@ -35,58 +33,21 @@
 	//
 	//***   ler dados invoice
 	//
-	if (typePage == "change"){
-		rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
-		$("#menuInvoice_li").addClass("active");
-		$("#breadcrumb_label_II").val("Invoices")
-	}
+	rest_obterInvoice(idInvoice, carregaTelaPayment, semAcao);
 	//
-	//***   setar pagina como somente consulta student
-	//
-	if (typePage == "onlyStudent"){
-		$(".notOnlyStudent" ).addClass("hide");
-	}
-	//
-	//***   setar pagina como somente consulta student
-	//
-	if (typePage == "change"){
-		$(".notChange" ).addClass("hide");
-	};
-/**
- *     Guarda o primeiro item do due date 
- */
-	
-	localStorage.primeiroDue = 0;
 /**
  * 
  */
-	var data = rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada);
-	var table = JSON.parse(localStorage.getItem("table"));
+	rest_obterStudent(mailUrl, carregaDadosTelaPayment, obtencaoNaoEfetuada);
 
-/**
- * 
- */
-	var valueNet = true;
-	$('#type').off('click');
-	$('#type').on('click', function () {
-		if ($(this).is(':checked')){
-			valueNet = false;
-			$(".net").addClass("hide");
-			$(".gross").removeClass("hide");
-		}else{
-			valueNet = true;
-			$(".gross").addClass("hide");
-			$(".net").removeClass("hide");			
-		}
-	});
 	
-	$('#invoiceSubmmit').off('click');
-	$('#invoiceSubmmit').on('click', function () {
+	$('#paymentSubmmit').off('click');
+	$('#paymentSubmmit').on('click', function () {
 		localStorage.valid = true;
 		$(".item").each(function() {
 			var id = $(this).attr('id');
 			var i = id.split("_")[1];
-			if (!$('#itemId_' + i).val()){
+			if (!$('#itemName_' + i).val()){
 				$.smallBox({
 					title : "Error",
 					content : "<i class='fa fa-clock-o'></i> <i>Missing item</i>",
@@ -145,13 +106,8 @@
 			}
 		});
 		if (localStorage.valid == "true"){
-			criaInvoice(idInvoice);
+			criaPayment(idPayment);
 		}
-	});
-
-	$('#geraPayments').off('click');
-	$('#geraPayments').on('click', function () {
-		window.location = "create-payments-vendors.html?mail=" + mailUrl + "&typePage=create" 
 	});
 
 	/**
@@ -248,6 +204,12 @@
 	doc.textEx('0001/2016', 190, 55, 'right', 'middle');
 
 	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(8);
+	doc.setTextColor(0, 51, 102);
+	doc.text(65, 60, 'Trip:' + $('#start').html() + "-" + $('#end').html());
+
+	doc.setFont("helvetica");
 	doc.setFontType("bold");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
@@ -271,12 +233,6 @@
 	doc.setTextColor(0, 0, 0);
 	var hoje = new Date();
 	doc.textEx(hoje.getDate() + "-" + converteMesAlfa(hoje.getMonth()) + "-" + hoje.getFullYear(), 190, 65, 'right', 'middle');
-
-	doc.setFont("helvetica");
-	doc.setFontType("normal");
-	doc.setFontSize(8);
-	doc.setTextColor(0, 51, 102);
-	doc.text(65, 70, 'Trip:' + $('#start').html() + " / " + $('#end').html());
 
 	doc.setLineWidth(1.5);
 	doc.setDrawColor(238, 111, 26);
@@ -357,25 +313,25 @@
 	doc.text(15, 280, "Account# 5254696 Bank# 004 Swift Code: TDOMCATTTOR");
 
 	$('#geraPDF').click(function () {
-		$('#invoiceSubmmit').trigger( "click" );
+		$('#paymentSubmmit').trigger( "click" );
 		if (localStorage.valid == "true"){
 			var hight = 95;
 			$(".item").each(function() {
 				var id = $(this).attr('id');
 				var i = id.split("_")[1];
-				if ($('#itemId_' + i).val()) {
+				if ($('#itemName_' + i).val()) {
 					doc.setFont("helvetica");
 					doc.setFontType("normal");
 					doc.setFontSize(09);
 					doc.setTextColor(0, 0, 0);
-					doc.text(15, hight, itemPriceTable($('#itemId_' + i).val()).name);					
+					doc.text(15, hight,$('#itemName_' + i).val().split("_")[2]);					
 				};
 				if ($('#itemDescription_' + i).val()) {
 					doc.setFont("helvetica");
 					doc.setFontType("normal");
 					doc.setFontSize(09);
 					doc.setTextColor(0, 0, 0);
-					doc.text(45, hight,itemPriceTable($('#itemId_' + i).val()).description);
+					doc.text(45, hight,$('#itemDescription_' + i).val());
 					
 				};
 				if ($('#itemAmount_' + i).val()) {
@@ -385,19 +341,19 @@
 					doc.setTextColor(0, 0, 0);
 					doc.textEx($('#itemAmount_' + i).val(), 140, hight, 'right', 'middle');
 				};
-				if ($('#itemId_' + i).val()) {
+				if ($('#itemName_' + i).val()) {
 					if(valueNet){
 						doc.setFont("helvetica");
 						doc.setFontType("normal");
 						doc.setFontSize(09);
 						doc.setTextColor(0, 0, 0);
-						doc.textEx(itemPriceTable($('#itemId_' + i).val()).net, 160, hight, 'right', 'middle');
+						doc.textEx($('#itemName_' + i).val().split("_")[0], 160, hight, 'right', 'middle');
 					}else{
 						doc.setFont("helvetica");
 						doc.setFontType("normal");
 						doc.setFontSize(09);
 						doc.setTextColor(0, 0, 0);
-						doc.textEx(itemPriceTable($('#itemId_' + i).val()).gross, 160, hight, 'right', 'middle');						
+						doc.textEx($('#itemName_' + i).val().split("_")[1], 160, hight, 'right', 'middle');						
 					};
 				};
 				if(valueNet){
@@ -434,39 +390,39 @@
 			}else{
 				doc.textEx($('#dueValueGross_0').val(), 190, hight, 'right', 'middle');				
 			}
-		    doc.fromHTML($('#invoice-pdf').html(), 5, 5, {
+		    doc.fromHTML($('#payment-pdf').html(), 5, 5, {
 		        'width': 170,
 		            'elementHandlers': specialElementHandlers
 		    });
-		    doc.save("invoice_" + $("#mail").html() + '.pdf');
+		    doc.save("payment_" + $("#mail").html() + '.pdf');
 		};
 	});
 
-function saveLastInvoice (data) {
-	localStorage.numberInvoice = parseInt(localStorage.numberInvoice) + 1;
+function saveUltimaPayment (data) {
+	localStorage.numberPayment = parseInt(localStorage.numberPayment) + 1;
 };
 
 
-function firstInvoice () {
-	localStorage.numberInvoice = 1;
+function primeiraPayment () {
+	localStorage.numberPayment = 1;
 };
 
-function limpaStorageInvoice () {
+function limpaStoragePayment () {
 	
 };
 
-function criaInvoice(id){
+function criaPayment(id){
 
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 		
-	var objInvoice =
+	var objPayment =
 		{
 			documento:
 				{
 					id : id,
 					idStudent : objStudent._id,
 					actualTrip : objStudent.documento.actualTrip,
-					number : localStorage.numberInvoice,
+					number : localStorage.numberPayment,
 					status : "new",
 					dueDate : limpaData($('#due_0').val()),
 					amountNet : $('#dueValue_0').val(),
@@ -484,33 +440,33 @@ function criaInvoice(id){
 		var i = id.split("_")[1];
 		var itemNet = 
 			{
-				item : $('#itemId_' + i).val(),
+				item : $('#itemName_' + i).val(),
 				value : $('#itemValue_' + i).val(),
 				amount : $('#itemAmount_' + i).val(),
 				description : $('#itemDescription_' + i).val(),
 			}
 		var itemGross = 
 			{
-				item : $('#itemIdGross_' + i).val(),
+				item : $('#itemNameGross_' + i).val(),
 				value : $('#itemValueGross_' + i).val(),
 				amount : $('#itemAmountGross_' + i).val(),
 			}
-		objInvoice.documento.itensNet.push(itemNet);
-		objInvoice.documento.itensGross.push(itemGross);
+		objPayment.documento.itensNet.push(itemNet);
+		objPayment.documento.itensGross.push(itemGross);
 	});
 	
 	if (typePage == "change"){
-		rest_atualizaInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
+		rest_atualizaPayment(objPayment, retornaPayment, semAcao, "payments.html")
 	}else{
-		rest_incluiInvoice(objInvoice, retornaInvoice, semAcao, "students.html")
+		rest_incluiPayment(objPayment, retornaPayment, semAcao, "students.html")
 	};
 
 };
 
-function retornaInvoice(telaRetorno){
+function retornaPayment(telaRetorno){
 	$.smallBox({
 		title : "Ok",
-		content : "<i class='fa fa-clock-o'></i> <i>Invoice created</i>",
+		content : "<i class='fa fa-clock-o'></i> <i>Payment created</i>",
 		color : "#659265",
 		
 		iconSmall : "fa fa-check fa-2x fadeInRight animated",
@@ -526,7 +482,7 @@ function createItem(i, date, agency, destination, type){
 			'<section class="col-xs-4">' +
 				'<label class="label text-info">Item</label>' +							
 				'<label class="select">' +
-					'<select class="iteName' + i + '" id="itemId_' + i + '" name="itemId_' + i + '">' +
+					'<select class="iteName' + i + '" id="itemName_' + i + '" name="itemName_' + i + '">' +
 						'<option value="" selected="" disabled="">Choose one item</option>' +
 					'</select><i></i>' +
 				'</label>' +
@@ -558,7 +514,7 @@ function createItem(i, date, agency, destination, type){
 			'<section class="col-xs-4">' +
 				'<label class="label text-info">Item</label>' +							
 				'<label class="select">' +
-					'<select class="itemName' + i + '" id="itemIdGross_' + i + '" name="itemIdGross_' + i + '">' +
+					'<select class="itemName' + i + '" id="itemNameGross_' + i + '" name="itemNameGross_' + i + '">' +
 						'<option value="" selected="" disabled="">Choose one item</option>' +
 					'</select><i></i>' +
 				'</label>' +
@@ -586,7 +542,7 @@ function createItem(i, date, agency, destination, type){
 			'</section>' +
 		'</div>';
 	
-	$("#itensInvoice").append(item);
+	$("#itensPayment").append(item);
 
 	acertaSinalItem ();
 	
@@ -649,72 +605,40 @@ function createItem(i, date, agency, destination, type){
 };	
 	
 function carregaAppendPriceTable (data, i, type){
-	
-	var priceTableJson =
-		{
-			itens : []
-		};
-	
-    $.each(data, function (w, priceTable) {
-    			if (priceTable.valid == "Yes" && priceTable.gross && priceTable.net){
-   					$('#itemId_' + i).append( $(option(priceTable.name, "", true, priceTable.id)));
-   					$('#itemIdGross_' + i).append( $(option(priceTable.name, "", true, priceTable.id)));
+ 
+    $.each(data
+		    , function (w, optionValue) {
+    			if (optionValue.valid == "Yes" && optionValue.gross && optionValue.net){
+   					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name + "_" + optionValue.description)));
+   					$('#itemNameGross_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name)));
     			};
-    			var priceTable =
-    				{
-    					id : priceTable.id,
-    					name : priceTable.name,
-						description : priceTable.description,
-						net : priceTable.net,
-						gross : priceTable.gross
-    				};
-    			priceTableJson.itens.push(priceTable);
     });
-	
-	localStorage.setItem("pricetableitens", JSON.stringify(priceTableJson));
     	
-	$('#itemId_' + i).change(function() {
-		var teste = itemPriceTable($( this ).val());
-		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
-		$('#itemValueGross_' + i).val(itemPriceTable($( this ).val()).gross);
-		$('#itemIdGross_' + i).val(itemPriceTable($( this ).val()).id);
-		$('#itemDescription_' + i).val(itemPriceTable($( this ).val()).description);
+	$('#itemName_' + i).change(function() {
+		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
+		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
+		$('#itemNameGross_' + i).val($('#itemName_' + i).val())
+		$('#itemDescription_' + i).val($( this ).val().split("_")[3])
 		calcTotal();
 	});
-	$('#itemIdGross_' + i).change(function() {
-		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
-		$('#itemValueGross_' + i).val(itemPriceTable($( this ).val()).gross);
-		$('#itemId_' + i).val(itemPriceTable($( this ).val()).id);
-		$('#itemDescription_' + i).val(itemPriceTable($( this ).val()).description);
+	$('#itemNameGross_' + i).change(function() {
+		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
+		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
+		$('#itemName_' + i).val($('#itemNameGross_' + i).val())
+		$('#itemDescription_' + i).val($( this ).val().split("_")[3])
 		calcTotal();
 	});
 
 
 };
 
-function carregaTelaInvoice(data){
+function carregaTelaPayment(data){
 
 	$.each(data.documento.itensNet, function (i, item) {
-		var actualTrip = data.student.actualTrip;
-		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
-		$('#itemId_' + i).val(item.item);
-		$('#itemDescription_' + i).val(item.description);
-		$('#itemValue_' + i).val(item.value);
-		$('#itemAmount_' + i).val(item.amount);
+		rest_obterPriceTableCostAll(idPriceTable, montaItemTelaPayment, semAcao)
     });
-	$.each(data.documento.itensGross, function (i, item) {
-		$('#itemIdGross_' + i).val(item.item);
-		$('#itemValueGross_' + i).val(item.value);
-		$('#itemAmountGross_' + i).val(item.amount);
-    });
-
-	createDue(0);
-	$('#due_0').val(separaDataMes(data.documento.dueDate, "-"));
-	$('#dueGross_0').val(separaDataMes(data.documento.dueDate, "-"));
-	$('#dueValue_0').val(data.documento.amountNet);
-	$('#dueValueGross_0').val(data.documento.amountGross);
 	
-}
+};
 
 function createDue(i){
 	
@@ -895,7 +819,7 @@ function acertaSinalDue (){
 	calcTotal();
 };
 
-function carregaDadosTelaInvoice(data){
+function carregaDadosTelaPayment(data){
 	
 	localStorage.setItem("student", JSON.stringify(data));
     
@@ -1020,7 +944,7 @@ function salvaCodigoPDF(){
 //		window.open(img);
 //		var doc = new jsPDF();
 //		doc.addImage (img, JPEG, 100, 100);
-//	    doc.save('invoice_' + mailUrl + '.pdf');				
+//	    doc.save('payment_' + mailUrl + '.pdf');				
 //	}
 //})
 
