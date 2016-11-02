@@ -18,11 +18,11 @@
 	 * 		pega o ultimo numero de payment
 	 */
 	//rest_obterUltimaPayment(saveUltimaPayment, primeiraPayment);
-	if (localStorage.numberPaymen){
-		saveLastPayment();
-	}else{
-		firstPayment();
-	};
+	//if (localStorage.numberPaymen){
+	//	saveLastPayment();
+	//}else{
+	//	firstPayment();
+	//};
 		
 
 	
@@ -33,7 +33,7 @@
 	//
 	//***   ler dados invoice
 	//
-	rest_obterInvoice(idInvoice, carregaTelaPayment, semAcao);
+	rest_obterInvoice(idInvoice, carregaTelaPayment, semAcao, "cost");
 	//
 /**
  * 

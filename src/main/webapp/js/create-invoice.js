@@ -38,7 +38,8 @@
 	if (typePage == "change"){
 		rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
 		$("#menuInvoice_li").addClass("active");
-		$("#breadcrumb_label_II").val("Invoices")
+		$("#breadcrumb_label_II").val("Invoices");
+		$("#geraPayments").removeClass("hide");
 	}
 	//
 	//***   setar pagina como somente consulta student
@@ -151,7 +152,7 @@
 
 	$('#geraPayments').off('click');
 	$('#geraPayments').on('click', function () {
-		window.location = "create-payments-vendors.html?mail=" + mailUrl + "&typePage=create" 
+		window.location = "create-payments-vendors.html?mail=" + mailUrl + "&typePage=create&id=" + idInvoice; 
 	});
 
 	/**
@@ -485,13 +486,13 @@ function criaInvoice(id){
 		var itemNet = 
 			{
 				item : $('#itemId_' + i).val(),
+				idPriceTable : $('#itemIdPriceTable_' + i).val(),
 				value : $('#itemValue_' + i).val(),
 				amount : $('#itemAmount_' + i).val(),
 				description : $('#itemDescription_' + i).val(),
 			}
 		var itemGross = 
 			{
-				item : $('#itemIdGross_' + i).val(),
 				value : $('#itemValueGross_' + i).val(),
 				amount : $('#itemAmountGross_' + i).val(),
 			}
@@ -531,6 +532,7 @@ function createItem(i, date, agency, destination, type){
 					'</select><i></i>' +
 				'</label>' +
 				'<input class="hide" type="text" id="itemDescription_' + i + '" name="itemDescription_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemIdPriceTable_' + i + '" name="itemIdPriceTable_' + i + '"  >' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-2">' +
@@ -663,6 +665,7 @@ function carregaAppendPriceTable (data, i, type){
     			var priceTable =
     				{
     					id : priceTable.id,
+    					idPriceTable : priceTable.idPriceTable,
     					name : priceTable.name,
 						description : priceTable.description,
 						net : priceTable.net,
@@ -674,7 +677,7 @@ function carregaAppendPriceTable (data, i, type){
 	localStorage.setItem("pricetableitens", JSON.stringify(priceTableJson));
     	
 	$('#itemId_' + i).change(function() {
-		var teste = itemPriceTable($( this ).val());
+		$('#itemIdPriceTable_' + i).val(itemPriceTable($( this ).val()).idPriceTable);
 		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
 		$('#itemValueGross_' + i).val(itemPriceTable($( this ).val()).gross);
 		$('#itemIdGross_' + i).val(itemPriceTable($( this ).val()).id);
@@ -682,6 +685,7 @@ function carregaAppendPriceTable (data, i, type){
 		calcTotal();
 	});
 	$('#itemIdGross_' + i).change(function() {
+		$('#itemIdPriceTable_' + i).val(itemPriceTable($( this ).val()).idPriceTable);
 		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
 		$('#itemValueGross_' + i).val(itemPriceTable($( this ).val()).gross);
 		$('#itemId_' + i).val(itemPriceTable($( this ).val()).id);

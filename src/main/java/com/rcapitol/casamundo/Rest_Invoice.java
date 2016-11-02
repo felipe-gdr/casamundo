@@ -31,6 +31,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -61,6 +63,7 @@ public class Rest_Invoice {
 			DBObject cursor = collection.findOne(setQuery);
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			documento.put("documento", obj);
 			documento.put("documento.id", id);			
 			//
 			//** ler student
@@ -81,9 +84,8 @@ public class Rest_Invoice {
 			//
 			
 			if (cost != null){
-				documento.put("cost", searchCost(documento));				
+				documento.put("cost", searchCost(obj, objStudent));				
 			};
-			documento.put("documento", obj);
 			mongo.close();
 			return documento;
 		} catch (UnknownHostException e) {
@@ -388,31 +390,29 @@ public class Rest_Invoice {
 		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
 	};
 
-	@SuppressWarnings({"rawtypes" })
-	public String searchCost (JSONObject documento){
-		
-	    Integer tripIndex = Integer.parseInt((String) documento.get("student.actualTrip"));
+	@SuppressWarnings({"rawtypes", "unchecked" })
+	public JSONArray searchCost (BasicDBObject obj, BasicDBObject objStudent){
+	    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
 	    String date = null;
     	String idFamily = null;
     	String destination = null;
 	    if (tripIndex != null){
-			List trips = (List) documento.get("student.trips");
-			JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+			List trips = (List) objStudent.get("trips");
+			BasicDBObject jsonTrip =  (BasicDBObject) trips.get(tripIndex);
 			date = (String) jsonTrip.get("start");
 			idFamily = (String) jsonTrip.get("idFamily");
 			destination = (String) jsonTrip.get("destination");
 	    };
-    	ArrayList arrayListItens = new ArrayList(); 
-    	arrayListItens = (ArrayList) documento.get("itensNet");
-    	Object arrayItens[] = arrayListItens.toArray(); 
-    	ArrayList arrayListVendors = new ArrayList(); 
-    	arrayListVendors = (ArrayList) documento.get("student.vendors");
-    	Object arrayVendors[] = arrayListVendors.toArray(); 
+		List listItens = (List) obj.get("itensNet");
+		JSONArray arrayCost = new JSONArray();
 		int w = 0;
-		while (w < arrayItens.length) {
+		while (w < listItens.size()) {
+			BasicDBObject itemInvoice = (BasicDBObject) listItens.get(w);
+			JSONObject itemCost = new JSONObject();
+			itemCost.put("item", itemInvoice.get("item"));
+			String value = null;
 			if (!date.equals("null")){
-				String idPriceTable = (String) documento.get("id");
-				String value = null;
+				String idPriceTable = (String) itemInvoice.get("item");
 				if (idFamily != null && !destination.equals("null")){
 					value = searchCostValue (idFamily, destination, idPriceTable, date);
 				};
@@ -420,15 +420,20 @@ public class Rest_Invoice {
 					value = searchCostValue (idFamily, "", idPriceTable, date);
 				};
 				if (value == null ){
-					int z = 0;
-					while (z < arrayVendors.length | value != null) {
-						String idVendor = (String) arrayVendors[z];
-						value = searchCostValue (idVendor, destination, idPriceTable, date);
-						if (value == null){
-							value = searchCostValue (idVendor, "", idPriceTable, date);
+			    	ArrayList arrayListVendors = new ArrayList(); 
+			    	arrayListVendors = (ArrayList) objStudent.get("vendors");
+			    	if (arrayListVendors != null){
+				    	Object arrayVendors[] = arrayListVendors.toArray(); 
+						int z = 0;
+						while (z < arrayVendors.length | value != null) {
+							String idVendor = (String) arrayVendors[z];
+							value = searchCostValue (idVendor, destination, idPriceTable, date);
+							if (value == null){
+								value = searchCostValue (idVendor, "", idPriceTable, date);
+							};
+							++z;
 						};
-						++z;
-					};
+			    	};
 				};
 				if (value == null && !destination.equals("null")){
 					value = searchCostValue ("", destination, idPriceTable, date);						
@@ -436,11 +441,18 @@ public class Rest_Invoice {
 				if (value == null){
 					value = searchCostValue ("", "", idPriceTable, date);
 				};
+				if (value != null){
+					itemCost.put("value", value);
+				}else{
+					itemCost.put("value", "");
+				};
 		    };
+			if (value != null){
+				arrayCost.add(itemCost);
+			};
 			++w;
 		};
-		
-		return null;
+		return arrayCost;
 	
 	};
 
@@ -457,7 +469,7 @@ public class Rest_Invoice {
 				JSONParser parser = new JSONParser(); 
 		    	setQuery.put("documento.idPriceTable", id);
 				setQuery.put("documento.idVendor", idVendor);
-				setQuery.put("documento.destination", destination);
+//				setQuery.put("documento.destination", destination);
 				DBCursor cursorValue = collectionValue.find(setQuery);
 				while (((Iterator<DBObject>) cursorValue).hasNext()) {
 					BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
@@ -466,12 +478,15 @@ public class Rest_Invoice {
 						Commons commons = new Commons();
 						jsonObject = (JSONObject) parser.parse(documentoValue);
 						if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+							mongoValue.close();
 							return (String) jsonObject.get("value");
 						};
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 				};
+				mongoValue.close();
+				return null;
 			} catch (UnknownHostException e1) {
 				e1.printStackTrace();
 			} catch (MongoException e1) {

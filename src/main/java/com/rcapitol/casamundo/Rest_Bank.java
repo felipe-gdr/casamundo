@@ -150,9 +150,7 @@ public class Rest_Bank {
 		try {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
-
 			DBCollection collection = db.getCollection("bank");
-			
 			DBCursor cursor = collection.find();
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
@@ -167,7 +165,6 @@ public class Rest_Bank {
 					jsonDocumento.put("name", jsonObject.get("name"));
 					jsonDocumento.put("number", jsonObject.get("number"));
 					documentos.add(jsonDocumento);
-					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

@@ -79,6 +79,7 @@ public class Invoice {
 
 		public static final class ItensNet {
     		public String item;
+    		public String idPriceTable;
     		public String value;
     		public String amount;
     		public String description;
@@ -90,19 +91,20 @@ public class Invoice {
             @JsonCreator
             public ItensNet(
             			String item,
+            			String idPriceTable,
             			String value,
             			String amount,
             			String description
             			)
             {
 	    		this.item = item;
+	    		this.idPriceTable = idPriceTable;
 	    		this.value = value;
 	    		this.amount = amount;
 	    		this.description = description;
             };
 		};
 		public static final class ItensGross {
-    		public String item;
     		public String value;
     		public String amount;
 
@@ -112,12 +114,10 @@ public class Invoice {
    
             @JsonCreator
             public ItensGross(
-            			String item,
             			String value,
             			String amount
             			)
             {
-	    		this.item = item;
 	    		this.value = value;
 	    		this.amount = amount;
             };

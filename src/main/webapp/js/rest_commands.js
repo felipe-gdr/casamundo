@@ -969,8 +969,12 @@
     };
 
     function rest_obterInvoice(id, action_ok, action_not_ok, var1, var2) {
+    	var costParam = "";
+    	if (var1 == "cost"){
+    		costParam = "&cost=true";
+    	}
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/obterInvoice?id="  + id,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/obterInvoice?id="  + id + costParam ,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
