@@ -221,103 +221,50 @@ public class Rest_PriceTable {
 					};
 					if (!date.equals("null")){
 						Boolean findValue = false;
-						Mongo mongoValue;
-						mongoValue = new Mongo();
-						DB dbValue = (DB) mongoValue.getDB("documento");
-
-						DBCollection collectionValue = dbValue.getCollection("priceTableValue");
-						BasicDBObject setQuery = new BasicDBObject();
 						if (agencyId != null && !destination.equals("null")){
-					    	setQuery.put("documento.idPriceTable", objPriceTable.getString("_id"));
-							setQuery.put("documento.agency", agencyId);
-							setQuery.put("documento.destination", destination);
-							DBCursor cursorValue = collectionValue.find(setQuery);
-							while (((Iterator<DBObject>) cursorValue).hasNext()) {
-								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
-								String documentoValue = objValue.getString("documento");
-								try {
-									Commons commons = new Commons();
-									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
-										jsonDocumento.put("gross", jsonObject.get("gross"));
-										jsonDocumento.put("net", jsonObject.get("net"));
-										findValue = true;
-									};
-								} catch (ParseException e) {
-									e.printStackTrace();
-								}
+							String idPriceTable = objPriceTable.getString("_id");
+							JSONObject jsonValue = searchValue (agencyId, destination, idPriceTable, date);
+							if (jsonValue != null){
+								if ((Boolean) jsonValue.get("findValue")){
+									jsonDocumento.put("gross", jsonValue.get("gross"));
+									jsonDocumento.put("net", jsonValue.get("net"));
+									findValue = true;
+								};
 							};
 						};
 						if (!findValue && agencyId != null){
-							setQuery = new BasicDBObject();
-					    	setQuery.put("documento.idPriceTable", objPriceTable.getString("_id"));
-							setQuery.put("documento.agency", agencyId);
-							setQuery.put("documento.destination", "");
-							DBCursor cursorValue = collectionValue.find(setQuery);
-							while (((Iterator<DBObject>) cursorValue).hasNext()) {
-								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
-								String documentoValue = objValue.getString("documento");
-								try {
-									Commons commons = new Commons();
-									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
-										jsonDocumento.put("gross", jsonObject.get("gross"));
-										jsonDocumento.put("net", jsonObject.get("net"));
-										findValue = true;
-									};
-								} catch (ParseException e) {
-									e.printStackTrace();
-								}
-							};
-							
-						}
+							String idPriceTable = objPriceTable.getString("_id");
+							JSONObject jsonValue = searchValue (agencyId, "", idPriceTable, date);
+							if (jsonValue != null){
+								if ((Boolean) jsonValue.get("findValue")){
+									jsonDocumento.put("gross", jsonValue.get("gross"));
+									jsonDocumento.put("net", jsonValue.get("net"));
+									findValue = true;
+								};
+							};							
+						};
 						if (!findValue && !destination.equals("null")){
-							setQuery = new BasicDBObject();
-					    	setQuery.put("documento.idPriceTable", objPriceTable.getString("_id"));
-							setQuery.put("documento.destination", destination);
-							setQuery.put("documento.agency", "");
-							DBCursor cursorValue = collectionValue.find(setQuery);
-							while (((Iterator<DBObject>) cursorValue).hasNext()) {
-								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
-								String documentoValue = objValue.getString("documento");
-								try {
-									Commons commons = new Commons();
-									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
-										jsonDocumento.put("gross", jsonObject.get("gross"));
-										jsonDocumento.put("net", jsonObject.get("net"));
-										findValue = true;
-									};
-								} catch (ParseException e) {
-									e.printStackTrace();
-								}
+							String idPriceTable = objPriceTable.getString("_id");
+							JSONObject jsonValue = searchValue ("", destination, idPriceTable, date);
+							if (jsonValue != null){
+								if ((Boolean) jsonValue.get("findValue")){
+									jsonDocumento.put("gross", jsonValue.get("gross"));
+									jsonDocumento.put("net", jsonValue.get("net"));
+									findValue = true;
+								};
 							};
-							
-						}
+						};
 						if (!findValue){
-							setQuery = new BasicDBObject();
-					    	setQuery.put("documento.idPriceTable", objPriceTable.getString("_id"));
-							setQuery.put("documento.destination", "");
-							setQuery.put("documento.agency", "");
-							DBCursor cursorValue = collectionValue.find(setQuery);
-							while (((Iterator<DBObject>) cursorValue).hasNext()) {
-								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
-								String documentoValue = objValue.getString("documento");
-								try {
-									Commons commons = new Commons();
-									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
-										jsonDocumento.put("gross", jsonObject.get("gross"));
-										jsonDocumento.put("net", jsonObject.get("net"));
-										findValue = true;
-									};
-								} catch (ParseException e) {
-									e.printStackTrace();
-								}
+							String idPriceTable = objPriceTable.getString("_id");
+							JSONObject jsonValue = searchValue ("", "", idPriceTable, date);
+							if (jsonValue != null){
+								if ((Boolean) jsonValue.get("findValue")){
+									jsonDocumento.put("gross", jsonValue.get("gross"));
+									jsonDocumento.put("net", jsonValue.get("net"));
+									findValue = true;
+								};
 							};
-							
-						}
-						mongoValue.close();
+						};
 				    };
 					documentos.add(jsonDocumento);
 				} catch (ParseException e) {
@@ -334,10 +281,11 @@ public class Rest_PriceTable {
 		return null;
 	};
 
-	public String searchValue (String idAgency, String destination, String id, String date){
+	@SuppressWarnings({ "unchecked"})
+	public JSONObject searchValue (String idAgency, String destination, String id, String date){
 
-		JSONObject jsonObject; 
-		JSONObject jsonValue = null; 
+		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonValue = new JSONObject();
 		Mongo mongoValue;
 			try {
 				mongoValue = new Mongo();
@@ -361,6 +309,7 @@ public class Rest_PriceTable {
 							jsonValue.put("gross", jsonObject.get("gross"));
 							jsonValue.put("net", jsonObject.get("net"));
 							jsonValue.put("findValue", true);
+							return jsonValue;
 						};
 					} catch (ParseException e) {
 						e.printStackTrace();
@@ -369,7 +318,6 @@ public class Rest_PriceTable {
 			} catch (UnknownHostException e1) {
 				e1.printStackTrace();
 			} catch (MongoException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		return null;

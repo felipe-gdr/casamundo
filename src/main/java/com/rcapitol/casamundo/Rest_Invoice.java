@@ -414,27 +414,27 @@ public class Rest_Invoice {
 				String idPriceTable = (String) documento.get("id");
 				String value = null;
 				if (idFamily != null && !destination.equals("null")){
-					value = searchCost (idFamily, destination, idPriceTable, date);
+					value = searchCostValue (idFamily, destination, idPriceTable, date);
 				};
 				if (value == null && idFamily != null){
-					value = searchCost (idFamily, "", idPriceTable, date);
+					value = searchCostValue (idFamily, "", idPriceTable, date);
 				};
 				if (value == null ){
 					int z = 0;
 					while (z < arrayVendors.length | value != null) {
 						String idVendor = (String) arrayVendors[z];
-						value = searchCost (idVendor, destination, idPriceTable, date);
+						value = searchCostValue (idVendor, destination, idPriceTable, date);
 						if (value == null){
-							value = searchCost (idVendor, "", idPriceTable, date);
+							value = searchCostValue (idVendor, "", idPriceTable, date);
 						};
 						++z;
 					};
 				};
 				if (value == null && !destination.equals("null")){
-					value = searchCost ("", destination, idPriceTable, date);						
+					value = searchCostValue ("", destination, idPriceTable, date);						
 				};
 				if (value == null){
-					value = searchCost ("", "", idPriceTable, date);
+					value = searchCostValue ("", "", idPriceTable, date);
 				};
 		    };
 			++w;
@@ -444,9 +444,9 @@ public class Rest_Invoice {
 	
 	};
 
-	public String searchCost (String idVendor, String destination, String id, String date){
+	public String searchCostValue (String idVendor, String destination, String id, String date){
 
-		JSONObject jsonObject; 
+		JSONObject jsonObject = new JSONObject();
 		Mongo mongoValue;
 			try {
 				mongoValue = new Mongo();
@@ -475,7 +475,6 @@ public class Rest_Invoice {
 			} catch (UnknownHostException e1) {
 				e1.printStackTrace();
 			} catch (MongoException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		return null;
