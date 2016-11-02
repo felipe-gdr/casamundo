@@ -37,6 +37,8 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
+import com.rcapitol.casamundo.Commons;
+
 	
 @Singleton
 // @Lock(LockType.READ)
@@ -234,8 +236,9 @@ public class Rest_PriceTable {
 								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
 								String documentoValue = objValue.getString("documento");
 								try {
+									Commons commons = new Commons();
 									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
 										jsonDocumento.put("gross", jsonObject.get("gross"));
 										jsonDocumento.put("net", jsonObject.get("net"));
 										findValue = true;
@@ -255,8 +258,9 @@ public class Rest_PriceTable {
 								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
 								String documentoValue = objValue.getString("documento");
 								try {
+									Commons commons = new Commons();
 									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
 										jsonDocumento.put("gross", jsonObject.get("gross"));
 										jsonDocumento.put("net", jsonObject.get("net"));
 										findValue = true;
@@ -277,8 +281,9 @@ public class Rest_PriceTable {
 								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
 								String documentoValue = objValue.getString("documento");
 								try {
+									Commons commons = new Commons();
 									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
 										jsonDocumento.put("gross", jsonObject.get("gross"));
 										jsonDocumento.put("net", jsonObject.get("net"));
 										findValue = true;
@@ -299,8 +304,9 @@ public class Rest_PriceTable {
 								BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
 								String documentoValue = objValue.getString("documento");
 								try {
+									Commons commons = new Commons();
 									jsonObject = (JSONObject) parser.parse(documentoValue);
-									if (verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+									if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
 										jsonDocumento.put("gross", jsonObject.get("gross"));
 										jsonDocumento.put("net", jsonObject.get("net"));
 										findValue = true;
@@ -327,68 +333,46 @@ public class Rest_PriceTable {
 		}
 		return null;
 	};
-	
-	public Boolean verifyInterval (String date, String initInterval, String endInterval){
-	
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-		try {
-			if (initInterval != null && endInterval != null){
-				Date d1 = df.parse (convertDateMes (date));
-				Date d2 = df.parse (convertDateMes (initInterval));
-				Date d3 = df.parse (convertDateMes (endInterval));
-				long d1_time = d1.getTime();
-				long d2_time = d2.getTime();
-				long d3_time = d3.getTime();
-				if (d1_time >= d2_time && d1_time <=d3_time){
-					return true;
-				}
-			};
-		} catch (java.text.ParseException e) {
-			e.printStackTrace();
-		}
-		return false;
-	};
 
-	public String convertDateMes (String strDate){
-		String mesNumber = "01";
-		String mesAlpha = strDate.substring	(2, 5);
-	    if (mesAlpha.equals("Jan")){
-	    	mesNumber = "01";
-	    };
-	    if (mesAlpha.equals("Feb")){
-	    	mesNumber = "02";
-	    };
-	    if (mesAlpha.equals("Mar")){
-	    	mesNumber = "03";
-	    };
-	    if (mesAlpha.equals("Apr")){
-	    	mesNumber = "04";
-	    };
-	    if (mesAlpha.equals("May")){
-	    	mesNumber = "05";
-	    };
-	    if (mesAlpha.equals("Jun")){
-	    	mesNumber = "06";
-	    };
-	    if (mesAlpha.equals("Jul")){
-	    	mesNumber = "07";
-	    };
-	    if (mesAlpha.equals("Aug")){
-	    	mesNumber = "08";
-	    };
-	    if (mesAlpha.equals("Sep")){
-	    	mesNumber = "09";
-	    };
-	    if (mesAlpha.equals("Out")){
-	    	mesNumber = "10";
-	    };
-	    if (mesAlpha.equals("Nov")){
-	    	mesNumber = "11";
-	    };
-	    if (mesAlpha.equals("Dec")){
-	    	mesNumber = "12";
-	    };
-		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
+	public String searchValue (String idAgency, String destination, String id, String date){
+
+		JSONObject jsonObject; 
+		JSONObject jsonValue = null; 
+		Mongo mongoValue;
+			try {
+				mongoValue = new Mongo();
+				DB dbValue = (DB) mongoValue.getDB("documento");
+
+				DBCollection collectionValue = dbValue.getCollection("priceTableValue");
+				BasicDBObject setQuery = new BasicDBObject();
+				JSONParser parser = new JSONParser(); 
+				setQuery = new BasicDBObject();
+		    	setQuery.put("documento.idPriceTable", id);
+				setQuery.put("documento.destination", destination);
+				setQuery.put("documento.agency", idAgency);
+				DBCursor cursorValue = collectionValue.find(setQuery);
+				while (((Iterator<DBObject>) cursorValue).hasNext()) {
+					BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
+					String documentoValue = objValue.getString("documento");
+					try {
+						Commons commons = new Commons();
+						jsonObject = (JSONObject) parser.parse(documentoValue);
+						if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+							jsonValue.put("gross", jsonObject.get("gross"));
+							jsonValue.put("net", jsonObject.get("net"));
+							jsonValue.put("findValue", true);
+						};
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				};
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (MongoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		return null;
 	};
 
 }

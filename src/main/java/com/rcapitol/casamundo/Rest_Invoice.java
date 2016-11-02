@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,7 +50,7 @@ public class Rest_Invoice {
 	@Path("/obterInvoice")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterInvoice(@QueryParam("id") String idParam ) {
+	public JSONObject ObterInvoice(@QueryParam("id") String idParam, @QueryParam("cost") String cost ) {
 		ObjectId id = new ObjectId(idParam);
 		Mongo mongo;
 		try {
@@ -60,6 +61,7 @@ public class Rest_Invoice {
 			DBObject cursor = collection.findOne(setQuery);
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+			documento.put("documento.id", id);			
 			//
 			//** ler student
 			//
@@ -72,8 +74,15 @@ public class Rest_Invoice {
 			DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
 			BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
 			mongoStudent.close();
-			
 			documento.put("student", objStudent);
+			
+			//
+			// *** ler custos
+			//
+			
+			if (cost != null){
+				documento.put("cost", searchCost(documento));				
+			};
 			documento.put("documento", obj);
 			mongo.close();
 			return documento;
@@ -223,8 +232,7 @@ public class Rest_Invoice {
 					String agencySigla = null;
 				    String agencyName = null;
 				    if (tripIndex != null){
-						@SuppressWarnings("rawtypes")
-						List trips = (List) objStudent.get("trips");
+						List<?> trips = (List<?>) objStudent.get("trips");
 						BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
 						agencyName = (String) jsonTrip.get("agencyName");
@@ -379,4 +387,101 @@ public class Rest_Invoice {
 	    };
 		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
 	};
+
+	@SuppressWarnings({"rawtypes" })
+	public String searchCost (JSONObject documento){
+		
+	    Integer tripIndex = Integer.parseInt((String) documento.get("student.actualTrip"));
+	    String date = null;
+    	String idFamily = null;
+    	String destination = null;
+	    if (tripIndex != null){
+			List trips = (List) documento.get("student.trips");
+			JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+			date = (String) jsonTrip.get("start");
+			idFamily = (String) jsonTrip.get("idFamily");
+			destination = (String) jsonTrip.get("destination");
+	    };
+    	ArrayList arrayListItens = new ArrayList(); 
+    	arrayListItens = (ArrayList) documento.get("itensNet");
+    	Object arrayItens[] = arrayListItens.toArray(); 
+    	ArrayList arrayListVendors = new ArrayList(); 
+    	arrayListVendors = (ArrayList) documento.get("student.vendors");
+    	Object arrayVendors[] = arrayListVendors.toArray(); 
+		int w = 0;
+		while (w < arrayItens.length) {
+			if (!date.equals("null")){
+				String idPriceTable = (String) documento.get("id");
+				String value = null;
+				if (idFamily != null && !destination.equals("null")){
+					value = searchCost (idFamily, destination, idPriceTable, date);
+				};
+				if (value == null && idFamily != null){
+					value = searchCost (idFamily, "", idPriceTable, date);
+				};
+				if (value == null ){
+					int z = 0;
+					while (z < arrayVendors.length | value != null) {
+						String idVendor = (String) arrayVendors[z];
+						value = searchCost (idVendor, destination, idPriceTable, date);
+						if (value == null){
+							value = searchCost (idVendor, "", idPriceTable, date);
+						};
+						++z;
+					};
+				};
+				if (value == null && !destination.equals("null")){
+					value = searchCost ("", destination, idPriceTable, date);						
+				};
+				if (value == null){
+					value = searchCost ("", "", idPriceTable, date);
+				};
+		    };
+			++w;
+		};
+		
+		return null;
+	
+	};
+
+	public String searchCost (String idVendor, String destination, String id, String date){
+
+		JSONObject jsonObject; 
+		Mongo mongoValue;
+			try {
+				mongoValue = new Mongo();
+				DB dbValue = (DB) mongoValue.getDB("documento");
+
+				DBCollection collectionValue = dbValue.getCollection("priceTableCost");
+				BasicDBObject setQuery = new BasicDBObject();
+				JSONParser parser = new JSONParser(); 
+		    	setQuery.put("documento.idPriceTable", id);
+				setQuery.put("documento.idVendor", idVendor);
+				setQuery.put("documento.destination", destination);
+				DBCursor cursorValue = collectionValue.find(setQuery);
+				while (((Iterator<DBObject>) cursorValue).hasNext()) {
+					BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
+					String documentoValue = objValue.getString("documento");
+					try {
+						Commons commons = new Commons();
+						jsonObject = (JSONObject) parser.parse(documentoValue);
+						if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
+							return (String) jsonObject.get("value");
+						};
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				};
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (MongoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		return null;
+	};
+	
 };
+
+
+

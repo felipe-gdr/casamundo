@@ -7,7 +7,7 @@
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
 	if (parametrosDaUrl.split("&")[2]){
-		idPayment = parametrosDaUrl.split("&")[2].split("=")[1];
+		idInvoice = parametrosDaUrl.split("&")[2].split("=")[1];
 	};
 	var parameter = parametrosDaUrl.split("&");
 	if (parameter[1]) {
@@ -411,7 +411,7 @@ function limpaStoragePayment () {
 	
 };
 
-function criaPayment(id){
+function criaPayment(id, idVendor){
 
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 		
@@ -420,39 +420,32 @@ function criaPayment(id){
 			documento:
 				{
 					id : id,
+					idVendor : idVendor,
 					idStudent : objStudent._id,
 					actualTrip : objStudent.documento.actualTrip,
 					number : localStorage.numberPayment,
 					status : "new",
 					dueDate : limpaData($('#due_0').val()),
-					amountNet : $('#dueValue_0').val(),
-					amountGross : $('#dueValueGross_0').val(),
+					amount : $('#dueValue_0').val(),
 					destination : objStudent.destination,
-					itensNet : [],
-					itensGross : [],
-					
+					itens : []
 				}
 			
 		};
 
 	$(".item").each(function() {
-		var id = $(this).attr('id');
-		var i = id.split("_")[1];
-		var itemNet = 
-			{
-				item : $('#itemName_' + i).val(),
-				value : $('#itemValue_' + i).val(),
-				amount : $('#itemAmount_' + i).val(),
-				description : $('#itemDescription_' + i).val(),
-			}
-		var itemGross = 
-			{
-				item : $('#itemNameGross_' + i).val(),
-				value : $('#itemValueGross_' + i).val(),
-				amount : $('#itemAmountGross_' + i).val(),
-			}
-		objPayment.documento.itensNet.push(itemNet);
-		objPayment.documento.itensGross.push(itemGross);
+		if (idVendor ==  $(this).attr('idVendor')){
+			var id = $(this).attr('id');
+			var i = id.split("_")[1];
+			var item = 
+				{
+					item : $('#itemName_' + i).val(),
+					value : $('#itemValue_' + i).val(),
+					amount : $('#itemAmount_' + i).val(),
+					description : $('#itemDescription_' + i).val(),
+				}
+			objPayment.documento.item.push(item);
+		};
 	});
 	
 	if (typePage == "change"){
@@ -635,8 +628,24 @@ function carregaAppendPriceTable (data, i, type){
 function carregaTelaPayment(data){
 
 	$.each(data.documento.itensNet, function (i, item) {
-		rest_obterPriceTableCostAll(idPriceTable, montaItemTelaPayment, semAcao)
+		var actualTrip = data.student.actualTrip;
+		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
+		$('#itemId_' + i).val(item.item);
+		$('#itemDescription_' + i).val(item.description);
+		$('#itemValue_' + i).val(item.value);
+		$('#itemAmount_' + i).val(item.amount);
     });
+	$.each(data.documento.itensGross, function (i, item) {
+		$('#itemIdGross_' + i).val(item.item);
+		$('#itemValueGross_' + i).val(item.value);
+		$('#itemAmountGross_' + i).val(item.amount);
+    });
+
+	createDue(0);
+	$('#due_0').val(separaDataMes(data.documento.dueDate, "-"));
+	$('#dueGross_0').val(separaDataMes(data.documento.dueDate, "-"));
+	$('#dueValue_0').val(data.documento.amountNet);
+	$('#dueValueGross_0').val(data.documento.amountGross);
 	
 };
 

@@ -1,5 +1,5 @@
 
-function itemPriceTable(id){
+function itemPriceTable(id) {
 	
 	var priceTableJson = JSON.parse(localStorage.getItem("pricetableitens"));
 	var priceTable =
@@ -13,7 +13,7 @@ function itemPriceTable(id){
 		};
 
     $.each(priceTableJson.itens, function (w, priceTableItem) {
-    	if (priceTableItem.id == id){
+    	if (priceTableItem.id == id) {
 			priceTable.id = priceTableItem.id;
 			priceTable.name = priceTableItem.name;
 			priceTable.description = priceTableItem.description;
@@ -24,7 +24,4 @@ function itemPriceTable(id){
     });
     
 	return priceTable;
-	
 };
-
-}
