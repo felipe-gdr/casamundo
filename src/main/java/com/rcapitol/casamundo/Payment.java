@@ -32,6 +32,8 @@ public class Payment {
 		public String id;
 		public String idStudent;
 		public String idVendor;
+		public String idInvoice;
+		public String invoiceNumber;
 		public String actualTrip;
 		public String status;
 		public String type;
@@ -49,6 +51,8 @@ public class Payment {
 						String id,
 						String idStudent,
 						String idVendor,
+						String idInvoice,
+						String invoiceNumber,
 						String actualTrip,
 						String status,
 						String type,
@@ -61,6 +65,8 @@ public class Payment {
 						this.id = id; 
 						this.idStudent = idStudent;
 						this.idVendor = idVendor;
+						this.idInvoice = idInvoice;
+						this.invoiceNumber = invoiceNumber;
 						this.actualTrip = actualTrip;
 						this.status = status;
 						this.type = type;

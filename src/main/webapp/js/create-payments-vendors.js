@@ -33,7 +33,11 @@
 	//
 	//***   ler dados invoice
 	//
-	rest_obterInvoice(idInvoice, carregaTelaPayment, semAcao, "cost");
+	if (typePage == "create"){
+		rest_obterInvoice(idInvoice, carregaTelaPaymentInclusao, semAcao, "cost");
+	}else{
+		rest_obterPayment(idInvoice, carregaTelaPaymentAlteracao, semAcao, "cost");
+	}
 	//
 /**
  * 
@@ -119,9 +123,11 @@ function criaPayment(i){
 		{
 			documento:
 				{
-					id : "",
+					id : $('#itemIdPayment_' + i).val(),
 					idStudent : $('#itemIdStudent_' + i).val(),
 					idVendor : $('#itemIdVendor_' + i).val(),
+					idInvoice : $('#itemIdInvoice_' + i).val(),
+					invoiceNumber : $('#itemInvoiceNumber_' + i).val(),
 					actualTrip : $('#itemActualTrip_' + i).val(),
 					status : "new",
 					type : $('#itemType_' + i).val(),
@@ -175,6 +181,8 @@ function createItem(i, date, agency, destination, type){
 					'</select><i></i>' +
 				'</label>' +
 				'<input class="hide" type="text" id="itemIdInvoice_' + i + '" name="itemIdInvoice_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemIdPayment_' + i + '" name="itemIdPayment_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemInvoiceNumber_' + i + '" name="itemInvoiceNumber_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemIdStudent_' + i + '" name="itemIdStudent_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemActualTrip_' + i + '" name="itemActualTrip_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemType_' + i + '" name="itemType_' + i + '"  >' +
@@ -226,21 +234,10 @@ function createItem(i, date, agency, destination, type){
 	$('#delItem_' + i).on('click', function () {
 		$('#item_' + i).remove();
 		acertaSinalItem ()
-		calcTotal();
 	});
 
 	$('#itemValue_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 	$('#itemAmount_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-
-	$('#itemValue_' + i).off('blur');
-	$('#itemValue_' + i).on('blur', function () {
-		calcTotal();
-	});	
-
-	$('#itemAmount_' + i).off('blur');
-	$('#itemAmount_' + i).on('blur', function () {
-		calcTotal();
-	});	
 
 	rest_obterPriceTableAll(carregaAppendPriceTable, semAcao, date, agency, destination, i, type);
 };	
@@ -277,13 +274,15 @@ function carregaAppendPriceTable (data, i, type){
 
 };
 
-function carregaTelaPayment(data){
+function carregaTelaPaymentInclusao(data){
 
 	$.each(data.cost, function (i, item) {
 		var actualTrip = data.student.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
 		$('#itemId_' + i).val(item.item);
+		$('#itemIdPayment_' + i).val("");
 		$('#itemIdInvoice_' + i).val(item.idInvoice);
+		$('#itemInvoiceNumber_' + i).val(item.invoiceNumber);
 		$('#itemIdStudent_' + i).val(item.idStudent);
 		$('#itemActualTrip_' + i).val(actualTrip);
 		$('#itemType_' + i).val(item.type);
@@ -292,8 +291,29 @@ function carregaTelaPayment(data){
 		$('#itemDestination_' + i).val(item.destination);
 		$('#itemValue_' + i).val(item.value);
 		$('#itemAmount_' + i).val(item.amount);
-		console.log ("due date:" + calculaData(data.student.trips[actualTrip].start, 6))
 		$('#itemDueDate_' + i).val(calculaData(data.student.trips[actualTrip].start, 6));
+    });
+	
+};
+
+function carregaTelaPaymentAlteracao(data){
+
+	$.each(data.documento.itens, function (i, item) {
+		var actualTrip = data.student.actualTrip;
+		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
+		$('#itemId_' + i).val(item.item);
+		$('#itemIdPayment_' + i).val(data.documento.id);
+		$('#itemIdInvoice_' + i).val(data.documento.idInvoice);
+		$('#itemInvoiceNumber_' + i).val(data.documento.invoiceNumber);
+		$('#itemIdStudent_' + i).val(data.documento.idStudent);
+		$('#itemActualTrip_' + i).val(actualTrip);
+		$('#itemType_' + i).val(data.documento.type);
+		$('#itemIdVendor_' + i).val(data.documento.idVendor);
+		$('#itemDescription_' + i).val(item.description);
+		$('#itemDestination_' + i).val(data.documento.destination);
+		$('#itemValue_' + i).val(item.value);
+		$('#itemAmount_' + i).val(item.amount);
+		$('#itemDueDate_' + i).val(separaDataMes(data.documento.dueDate, "-"));
     });
 	
 };

@@ -233,7 +233,7 @@
 	        }
             payment_table.row.add( {
     	    	"student": 
-    	    			"<a href='create-payment.html?id=" + payment.student.mail + "&typePage=change&id=" + payment.id + "'>" +
+    	    			"<a href='create-payments-vendors.html?id=" + payment.student.mail + "&typePage=change&id=" + payment.id + "'>" +
     	    			"<span class='text-column'>" + payment.student.firstName +  " " + payment.student.lastName + "</span><br>" + 
     	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.gender + "</small><br>" +
     	    			"<small class='text-muted text-column'><i>" + payment.student.nationality + "<i></small><br>" +

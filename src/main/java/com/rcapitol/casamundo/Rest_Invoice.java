@@ -413,6 +413,7 @@ public class Rest_Invoice {
 			BasicDBObject itemInvoice = (BasicDBObject) listItens.get(w);
 			JSONObject itemCost = new JSONObject();
 			itemCost.put("idInvoice", obj.get("id"));
+			itemCost.put("invoiceNumber", obj.get("number"));
 			itemCost.put("idStudent", objStudent.get("id"));
 			itemCost.put("actualTrip", objStudent.get("actualTrip"));
 			itemCost.put("destination", destination);
