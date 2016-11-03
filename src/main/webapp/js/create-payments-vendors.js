@@ -47,7 +47,7 @@
 		$(".item").each(function() {
 			var id = $(this).attr('id');
 			var i = id.split("_")[1];
-			if (!$('#itemName_' + i).val()){
+			if (!$('#itemId_' + i).val()){
 				$.smallBox({
 					title : "Error",
 					content : "<i class='fa fa-clock-o'></i> <i>Missing item</i>",
@@ -77,14 +77,7 @@
 				});
 				localStorage.valid = false;
 			}
-		});
-		var total = 0;
-		$(".due").each(function() {
-			var id = $(this).attr('id');
-			var i = id.split("_")[1];
-			var a = ((parseFloat($('#dueValue_' + i).val())));
-			total = total = parseFloat(total) + ((parseFloat($('#dueValue_' + i).val())));
-			if (!$('#due_' + i).val()){
+			if (!$('#itemDueDate_' + i).val()){
 				$.smallBox({
 					title : "Error",
 					content : "<i class='fa fa-clock-o'></i> <i>Missing due date</i>",
@@ -94,309 +87,16 @@
 				});
 				localStorage.valid = false;
 			}
-			if (!$('#dueValue_' + i).val()){
-				$.smallBox({
-					title : "Error",
-					content : "<i class='fa fa-clock-o'></i> <i>Missing due value</i>",
-					color : "#ff8080",
-					iconSmall : "fa fa-check fa-2x fadeInRight animated",
-					timeout : 4000
-				});
-				localStorage.valid = false;
-			}
 		});
 		if (localStorage.valid == "true"){
-			criaPayment(idPayment);
-		}
-	});
-
-	/**
-	 * 
-	 */
-	var splitRegex = /\r\n|\r|\n/g;
-	jsPDF.API.textEx = function (text, x, y, hAlign, vAlign) {
-	    var fontSize = this.internal.getFontSize() / this.internal.scaleFactor;
-
-	    // As defined in jsPDF source code
-	    var lineHeightProportion = 1.15;
-
-	    var splittedText = null;
-	    var lineCount = 1;
-	    if (vAlign === 'middle' || vAlign === 'bottom' || hAlign === 'center' || hAlign === 'right') {
-	        splittedText = typeof text === 'string' ? text.split(splitRegex) : text;
-
-	        lineCount = splittedText.length || 1;
-	    }
-
-	    // Align the top
-	    y += fontSize * (2 - lineHeightProportion);
-
-	    if (vAlign === 'middle')
-	        y -= (lineCount / 2) * fontSize;
-	    else if (vAlign === 'bottom')
-	        y -= lineCount * fontSize;
-
-	    if (hAlign === 'center' || hAlign === 'right') {
-	        var alignSize = fontSize;
-	        if (hAlign === 'center')
-	            alignSize *= 0.5;
-
-	        if (lineCount > 1) {
-	            for (var iLine = 0; iLine < splittedText.length; iLine++) {
-	                this.text(splittedText[iLine], x - this.getStringUnitWidth(splittedText[iLine]) * alignSize, y);
-	                y += fontSize;
-	            }
-	            return this;
-	        }
-	        x -= this.getStringUnitWidth(text) * alignSize;
-	    }
-
-	    this.text(text, x, y);
-	    return this;
-	};
-	
-	var doc = new jsPDF('p','mm','a4')
-	var specialElementHandlers = {
-	    '#editor': function (element, renderer) {
-	        return true;
-	    }
-	};
-	var img = new Image();
-	img.addEventListener('load', function() {
-	    doc.addImage(img, 'png', 170, 5, 20, 20);
-	});
-	img.src = 'img/logo/casatoronto.png';		
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(40);
-	doc.setTextColor(0, 51, 102);
-	doc.text(15, 30, 'INVOICE');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 40, 'Casa Toronto');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(12);
-	doc.setTextColor(0, 51, 102);
-	doc.text(15, 55, 'BILL TO');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(12);
-	doc.setTextColor(0, 51, 102);
-	doc.text(65, 55, 'STUDENT NAME');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(11);
-	doc.setTextColor(0, 51, 102);
-	doc.text(125, 55, 'INVOICE #');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 0, 0);
-	doc.textEx('0001/2016', 190, 55, 'right', 'middle');
-
-	doc.setFont("helvetica");
-	doc.setFontType("normal");
-	doc.setFontSize(8);
-	doc.setTextColor(0, 51, 102);
-	doc.text(65, 60, 'Trip:' + $('#start').html() + "-" + $('#end').html());
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 65, $('#agencyName').html());
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 0, 0);
-	doc.text(65, 65, $('#studentCompleteName').html());
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(11);
-	doc.setTextColor(0, 51, 102);
-	doc.text(125, 65, 'INVOICE DATE');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 0, 0);
-	var hoje = new Date();
-	doc.textEx(hoje.getDate() + "-" + converteMesAlfa(hoje.getMonth()) + "-" + hoje.getFullYear(), 190, 65, 'right', 'middle');
-
-	doc.setLineWidth(1.5);
-	doc.setDrawColor(238, 111, 26);
-	doc.line(15, 75, 190, 75);
-	
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 51, 102);
-	doc.text(15, 81, 'ITEM');
-	
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 51, 102);
-	doc.text(45, 81, 'DESCRIPTION');
-	
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 51, 102);
-	doc.textEx('QUANTITY', 140, 81, 'right', 'top');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 51, 102);
-	doc.textEx('UNIT PRICE', 163, 81, 'right', 'top');
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 51, 102);
-	doc.textEx('VALUE', 190, 81, 'right', 'top');
-
-	doc.setLineWidth(1.5);
-	doc.setDrawColor(238, 111, 26);
-	doc.line(15, 85, 190, 85);
-
-	doc.setLineWidth(1.5);
-	doc.setDrawColor(238, 111, 26);
-	doc.line(15, 250, 190, 250);
-
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(09);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 255, "Bank deposit to date : " + $('#due_0').val());
-
-	doc.setFont("helvetica");
-	doc.setFontType("italic");
-	doc.setFontSize(09);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 260, "Beneficiary: Casa Toronto Corp.");
-
-	doc.setFont("helvetica");
-	doc.setFontType("normal");
-	doc.setFontSize(08);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 265, "Address: 1512 - 153 Beecroft Rd Toronto,ON M2N 7C5");
-
-	doc.setFont("helvetica");
-	doc.setFontType("italic");
-	doc.setFontSize(09);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 270, "Bank Name: TD Canada Trust Bank");
-
-	doc.setFont("helvetica");
-	doc.setFontType("normal");
-	doc.setFontSize(08);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 275, "Bank Address: 5650 Yonge Street Toronto, ON M2M 4G3 Branch/Transit# 19702");
-
-	doc.setFont("helvetica");
-	doc.setFontType("normal");
-	doc.setFontSize(08);
-	doc.setTextColor(0, 0, 0);
-	doc.text(15, 280, "Account# 5254696 Bank# 004 Swift Code: TDOMCATTTOR");
-
-	$('#geraPDF').click(function () {
-		$('#paymentSubmmit').trigger( "click" );
-		if (localStorage.valid == "true"){
-			var hight = 95;
 			$(".item").each(function() {
 				var id = $(this).attr('id');
 				var i = id.split("_")[1];
-				if ($('#itemName_' + i).val()) {
-					doc.setFont("helvetica");
-					doc.setFontType("normal");
-					doc.setFontSize(09);
-					doc.setTextColor(0, 0, 0);
-					doc.text(15, hight,$('#itemName_' + i).val().split("_")[2]);					
-				};
-				if ($('#itemDescription_' + i).val()) {
-					doc.setFont("helvetica");
-					doc.setFontType("normal");
-					doc.setFontSize(09);
-					doc.setTextColor(0, 0, 0);
-					doc.text(45, hight,$('#itemDescription_' + i).val());
-					
-				};
-				if ($('#itemAmount_' + i).val()) {
-					doc.setFont("helvetica");
-					doc.setFontType("normal");
-					doc.setFontSize(09);
-					doc.setTextColor(0, 0, 0);
-					doc.textEx($('#itemAmount_' + i).val(), 140, hight, 'right', 'middle');
-				};
-				if ($('#itemName_' + i).val()) {
-					if(valueNet){
-						doc.setFont("helvetica");
-						doc.setFontType("normal");
-						doc.setFontSize(09);
-						doc.setTextColor(0, 0, 0);
-						doc.textEx($('#itemName_' + i).val().split("_")[0], 160, hight, 'right', 'middle');
-					}else{
-						doc.setFont("helvetica");
-						doc.setFontType("normal");
-						doc.setFontSize(09);
-						doc.setTextColor(0, 0, 0);
-						doc.textEx($('#itemName_' + i).val().split("_")[1], 160, hight, 'right', 'middle');						
-					};
-				};
-				if(valueNet){
-					if ($('#itemValue_' + i).val()) {
-						doc.setFont("helvetica");
-						doc.setFontType("normal");
-						doc.setFontSize(09);
-						doc.setTextColor(0, 0, 0);
-						doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
-					};
-				}else{
-					if ($('#itemValueGross_' + i).val()) {
-						doc.setFont("helvetica");
-						doc.setFontType("normal");
-						doc.setFontSize(09);
-						doc.setTextColor(0, 0, 0);
-						doc.textEx("$ " + $('#itemValueGross_' + i).val(), 190, hight, 'right', 'middle');
-					};
-				};
-				hight = hight + 7;
-			});	
-			hight = hight + 10;
-			doc.setFont("helvetica");
-			doc.setFontType("bold");
-			doc.setFontSize(12);
-			doc.setTextColor(0, 51, 102);
-			doc.textEx('TOTAL', 160, hight, 'right', 'middle');
-			doc.setFont("helvetica");
-			doc.setFontType("normal");
-			doc.setFontSize(10);
-			doc.setTextColor(0, 0, 0);
-			if(valueNet){
-				doc.textEx($('#dueValue_0').val(), 190, hight, 'right', 'middle');
-			}else{
-				doc.textEx($('#dueValueGross_0').val(), 190, hight, 'right', 'middle');				
-			}
-		    doc.fromHTML($('#payment-pdf').html(), 5, 5, {
-		        'width': 170,
-		            'elementHandlers': specialElementHandlers
-		    });
-		    doc.save("payment_" + $("#mail").html() + '.pdf');
-		};
+				criaPayment(i);
+			});
+		}
 	});
+
 
 function saveUltimaPayment (data) {
 	localStorage.numberPayment = parseInt(localStorage.numberPayment) + 1;
@@ -411,7 +111,7 @@ function limpaStoragePayment () {
 	
 };
 
-function criaPayment(id, idVendor){
+function criaPayment(i){
 
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 		
@@ -419,39 +119,34 @@ function criaPayment(id, idVendor){
 		{
 			documento:
 				{
-					id : id,
-					idVendor : idVendor,
-					idStudent : objStudent._id,
-					actualTrip : objStudent.documento.actualTrip,
-					number : localStorage.numberPayment,
+					id : "",
+					idStudent : $('#itemIdStudent_' + i).val(),
+					idVendor : $('#itemIdVendor_' + i).val(),
+					actualTrip : $('#itemActualTrip_' + i).val(),
 					status : "new",
-					dueDate : limpaData($('#due_0').val()),
-					amount : $('#dueValue_0').val(),
-					destination : objStudent.destination,
+					type : $('#itemType_' + i).val(),
+					number : localStorage.numberPayment,
+					dueDate : limpaData($('#itemDueDate_' + i).val()),
+					amount : parseFloat($('#itemValue_' + i).val()) * parseFloat($('#itemAmount_' + i).val()), 
+					destination : $('#itemDestination_' + i).val(),
 					itens : []
 				}
 			
 		};
 
-	$(".item").each(function() {
-		if (idVendor ==  $(this).attr('idVendor')){
-			var id = $(this).attr('id');
-			var i = id.split("_")[1];
-			var item = 
-				{
-					item : $('#itemName_' + i).val(),
-					value : $('#itemValue_' + i).val(),
-					amount : $('#itemAmount_' + i).val(),
-					description : $('#itemDescription_' + i).val(),
-				}
-			objPayment.documento.item.push(item);
+	var item = 
+		{
+			item : $('#itemId_' + i).val(),
+			value : $('#itemValue_' + i).val(),
+			amount : $('#itemAmount_' + i).val(),
+			description : $('#itemDescription_' + i).val(),
 		};
-	});
+	objPayment.documento.itens.push(item);
 	
 	if (typePage == "change"){
 		rest_atualizaPayment(objPayment, retornaPayment, semAcao, "payments.html")
 	}else{
-		rest_incluiPayment(objPayment, retornaPayment, semAcao, "students.html")
+		rest_incluiPayment(objPayment, retornaPayment, semAcao, "invoices.html")
 	};
 
 };
@@ -472,17 +167,23 @@ function createItem(i, date, agency, destination, type){
 	
 	var item = 
 		'<div id="item_' + i + '" class="row item net">' +
-			'<section class="col-xs-4">' +
+			'<section class="col-xs-3">' +
 				'<label class="label text-info">Item</label>' +							
 				'<label class="select">' +
-					'<select class="iteName' + i + '" id="itemName_' + i + '" name="itemName_' + i + '">' +
-						'<option value="" selected="" disabled="">Choose one item</option>' +
+					'<select class="itemName' + i + '" id="itemId_' + i + '" name="itemId_' + i + '" disabled="disabled">' +
+						'<option value="" selected="" disabled="disabled">Choose one item</option>' +
 					'</select><i></i>' +
 				'</label>' +
+				'<input class="hide" type="text" id="itemIdInvoice_' + i + '" name="itemIdInvoice_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemIdStudent_' + i + '" name="itemIdStudent_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemActualTrip_' + i + '" name="itemActualTrip_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemType_' + i + '" name="itemType_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemIdVendor_' + i + '" name="itemIdVendor_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemDescription_' + i + '" name="itemDescription_' + i + '"  >' +
+				'<input class="hide" type="text" id="itemDestination_' + i + '" name="itemDestination_' + i + '"  >' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
-			'<section class="col-xs-2">' +
+			'<section class="col-xs-1">' +
 				'<label class="label text-info">Value</label>' +								
 				'<label class="input">' +
 					'<input class="text-right itemValue" type="text" id="itemValue_' + i + '" name="itemValue_' + i + '" placeholder="ex: 9999.99" >' +
@@ -492,46 +193,22 @@ function createItem(i, date, agency, destination, type){
 			'<section class="col-xs-1">' +
 				'<label class="label text-info">Amount</label>' +								
 				'<label class="input">' +
-					'<input value="1.00" class="text-right itemAmount" type="text" id="itemAmount_' + i + '" name="itemAmount_' + i + '" placeholder="ex: 99.99" >' +
+					'<input value="1.00" class="text-right itemAmount" type="text" id="itemAmount_' + i + '" name="itemAmount_' + i + '" placeholder="ex: 99.99" disabled="disabled">' +
 				'</label>' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-1">' +
-				'<a id="newItem_' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
-			'</section>' +
-			'<section class="col-xs-1">' +
-				'<a id="delItem_' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
-			'</section>' +
-		'</div>' +
-		'<div id="itemGross_' + i + '" class="row itemGross hide gross">' +
-			'<section class="col-xs-4">' +
-				'<label class="label text-info">Item</label>' +							
-				'<label class="select">' +
-					'<select class="itemName' + i + '" id="itemNameGross_' + i + '" name="itemNameGross_' + i + '">' +
-						'<option value="" selected="" disabled="">Choose one item</option>' +
-					'</select><i></i>' +
-				'</label>' +
-			'</section>' +
-			'<section class="col-xs-1"></section>' +
-			'<section class="col-xs-2">' +
-				'<label class="label text-info">Value</label>' +								
+				'<label class="label text-info">Due date</label>' +								
 				'<label class="input">' +
-					'<input class="text-right itemValue" type="text" id="itemValueGross_' + i + '" name="itemValueGross_' + i + '" placeholder="ex: 9999.99" >' +
+					'<input id="itemDueDate_' + i + '" type="text" name="itemDueDate_' + i + '" placeholder="" class="datepicker form-control" data-dateformat="dd-M-yy" >' +	
 				'</label>' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-1">' +
-				'<label class="label text-info">Amount</label>' +								
-				'<label class="input">' +
-					'<input value="1.00" class="text-right itemAmount" type="text" id="itemAmountGross_' + i + '" name="itemAmountGross_' + i + '" placeholder="ex: 99.99" >' +
-				'</label>' +
-			'</section>' +
-			'<section class="col-xs-1"></section>' +
-			'<section class="col-xs-1">' +
-				'<a id="newItemGross_' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
+				'<a id="newItem_' + i + '"  class="newItem control-item hide"><i class="glyphicon glyphicon-plus control-item hide"></i></a>' +
 			'</section>' +
 			'<section class="col-xs-1">' +
-				'<a id="delItemGross_' + i + '"  class="delItem"><i class="glyphicon glyphicon-minus"></i></a>' +
+				'<a id="delItem_' + i + '"  class="delItem control-item hide"><i class="glyphicon glyphicon-minus control-item hide"></i></a>' +
 			'</section>' +
 		'</div>';
 	
@@ -544,82 +221,57 @@ function createItem(i, date, agency, destination, type){
 		createItem (i + 1, date, agency, destination, type);
 		acertaSinalItem ()
 	});
-	
-	$('#newItemGross_' + i).off('click');
-	$('#newItemGross_' + i).on('click', function () {
-		createItem (i + 1, date, agency, destination, type);
-		acertaSinalItem ()
-	});
 
 	$('#delItem_' + i).off('click');
 	$('#delItem_' + i).on('click', function () {
 		$('#item_' + i).remove();
-		$('#itemGross_' + i).remove();
-		acertaSinalItem ()
-		calcTotal();
-	});
-
-	$('#delItemGross_' + i).off('click');
-	$('#delItemGross_' + i).on('click', function () {
-		$('#item_' + i).remove();
-		$('#itemGross_' + i).remove();
 		acertaSinalItem ()
 		calcTotal();
 	});
 
 	$('#itemValue_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 	$('#itemAmount_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-	$('#itemValueGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-	$('#itemAmountGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 
 	$('#itemValue_' + i).off('blur');
 	$('#itemValue_' + i).on('blur', function () {
 		calcTotal();
 	});	
 
-	$('#itemValueGross_' + i).off('blur');
-	$('#itemValueGross_' + i).on('blur', function () {
-		calcTotal();
-	});	
-	
 	$('#itemAmount_' + i).off('blur');
 	$('#itemAmount_' + i).on('blur', function () {
-		$('#itemAmountGross_' + i).val($('#itemAmount_' + i).val())
-		calcTotal();
-	});	
-	
-	$('#itemAmountGross_' + i).off('blur');
-	$('#itemAmountGross_' + i).on('blur', function () {
-		$('#itemAmount_' + i).val($('#itemAmountGross_' + i).val())
 		calcTotal();
 	});	
 
 	rest_obterPriceTableAll(carregaAppendPriceTable, semAcao, date, agency, destination, i, type);
 };	
-	
+
 function carregaAppendPriceTable (data, i, type){
- 
-    $.each(data
-		    , function (w, optionValue) {
-    			if (optionValue.valid == "Yes" && optionValue.gross && optionValue.net){
-   					$('#itemName_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name + "_" + optionValue.description)));
-   					$('#itemNameGross_' + i).append( $(option(optionValue.name, "", true, optionValue.net + "_" + optionValue.gross + "_" + optionValue.name)));
+	
+	var priceTableJson =
+		{
+			itens : []
+		};
+	
+    $.each(data, function (w, priceTable) {
+    			if (priceTable.valid == "Yes" && priceTable.gross && priceTable.net){
+   					$('#itemId_' + i).append( $(option(priceTable.name, "", true, priceTable.id)));
     			};
+    			var priceTable =
+    				{
+    					id : priceTable.id,
+    					name : priceTable.name,
+						description : priceTable.description,
+						net : priceTable.net,
+						gross : priceTable.gross
+    				};
+    			priceTableJson.itens.push(priceTable);
     });
+	
+	localStorage.setItem("pricetableitens", JSON.stringify(priceTableJson));
     	
-	$('#itemName_' + i).change(function() {
-		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
-		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
-		$('#itemNameGross_' + i).val($('#itemName_' + i).val())
-		$('#itemDescription_' + i).val($( this ).val().split("_")[3])
-		calcTotal();
-	});
-	$('#itemNameGross_' + i).change(function() {
-		$('#itemValue_' + i).val($( this ).val().split("_")[0]);
-		$('#itemValueGross_' + i).val($( this ).val().split("_")[1]);
-		$('#itemName_' + i).val($('#itemNameGross_' + i).val())
-		$('#itemDescription_' + i).val($( this ).val().split("_")[3])
-		calcTotal();
+	$('#itemId_' + i).change(function() {
+		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
+		$('#itemDescription_' + i).val(itemPriceTable($( this ).val()).description);
 	});
 
 
@@ -627,159 +279,23 @@ function carregaAppendPriceTable (data, i, type){
 
 function carregaTelaPayment(data){
 
-	$.each(data.documento.itensNet, function (i, item) {
+	$.each(data.cost, function (i, item) {
 		var actualTrip = data.student.actualTrip;
-		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
+		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
 		$('#itemId_' + i).val(item.item);
+		$('#itemIdInvoice_' + i).val(item.idInvoice);
+		$('#itemIdStudent_' + i).val(item.idStudent);
+		$('#itemActualTrip_' + i).val(actualTrip);
+		$('#itemType_' + i).val(item.type);
+		$('#itemIdVendor_' + i).val(item.idVendor);
 		$('#itemDescription_' + i).val(item.description);
+		$('#itemDestination_' + i).val(item.destination);
 		$('#itemValue_' + i).val(item.value);
 		$('#itemAmount_' + i).val(item.amount);
+		console.log ("due date:" + calculaData(data.student.trips[actualTrip].start, 6))
+		$('#itemDueDate_' + i).val(calculaData(data.student.trips[actualTrip].start, 6));
     });
-	$.each(data.documento.itensGross, function (i, item) {
-		$('#itemIdGross_' + i).val(item.item);
-		$('#itemValueGross_' + i).val(item.value);
-		$('#itemAmountGross_' + i).val(item.amount);
-    });
-
-	createDue(0);
-	$('#due_0').val(separaDataMes(data.documento.dueDate, "-"));
-	$('#dueGross_0').val(separaDataMes(data.documento.dueDate, "-"));
-	$('#dueValue_0').val(data.documento.amountNet);
-	$('#dueValueGross_0').val(data.documento.amountGross);
 	
-};
-
-function createDue(i){
-	
-	var item = 
-		'<div id="dueItem_' + i + '"class="row dueItem net">' +
-			'<section class="col-xs-3">' +
-				'<label class="label text-info">Due date</label>' +								
-				'<label class="input">' +
-					'<input id="due_' + i + '" type="text" name="due_' + i + '" placeholder="" class="datepicker form-control" data-dateformat="dd-M-yy" >' +	
-				'</label>' +
-			'</section>' +
-			'<section class="col-xs-1"></section>' +
-			'<section class="col-xs-3">' +
-				'<label class="label text-info">Value</label>' +								
-				'<label class="input">' +
-					'<input class="text-right dueValue " disabled="disabled" type="text" id="dueValue_' + i + '" name="dueValue_' + i + '" placeholder="" >' +
-				'</label>' +
-			'</section>' +
-			'<section class="col-xs-1"></section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="newDue_' + i + '"  class=""><i class="glyphicon glyphicon-plus"></i></a>' +
-//			'</section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="delDue_' + i + '"  class=""><i class="glyphicon glyphicon-minus"></i></a>' +
-//			'</section>' +
-		'</div>' +
-		'<div id="dueItemGross_' + i + '" class="row dueItemGross hide gross">' +
-			'<section class="col-xs-3">' +
-				'<label class="label text-info">Due date</label>' +								
-				'<label class="input">' +
-					'<input id="dueGross_' + i + '" type="text" name="dueGross_' + i + '" placeholder="" class="datepicker form-control" data-dateformat="dd-M-yy" >' +	
-				'</label>' +
-			'</section>' +
-			'<section class="col-xs-1"></section>' +
-			'<section class="col-xs-3">' +
-				'<label class="label text-info">Value</label>' +								
-				'<label class="input">' +
-					'<input class="text-right dueValue " disabled="disabled" type="text" id="dueValueGross_' + i + '" name="dueValueGross_' + i + '" placeholder="" >' +
-				'</label>' +
-			'</section>' +
-			'<section class="col-xs-1"></section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="newDueGross_' + i + '"  class="hide"><i class="glyphicon glyphicon-plus"></i></a>' +
-//			'</section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="delDueGross_' + i + '"  class="hide"><i class="glyphicon glyphicon-minus"></i></a>' +
-//			'</section>' +
-		'</div>';
-
-	$("#dues").append(item);
-
-	$('#dueValue_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-	$('#dueValueGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-
-	$('#due_' + i).datepicker({
-	    changeMonth: true,
-	    changeYear: true,
-	    dateFormat : 'dd-M-yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		onSelect : function(selectedDate) {
-			$('#dueGross_' + i).val($(this).val())
-			if (i > 0){
-				$('#due_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
-				$('#dueGross_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
-			};
-		}
-	});
-
-	$('#dueGross_' + i).datepicker({
-	    changeMonth: true,
-	    changeYear: true,
-	    dateFormat : 'dd-M-yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		onSelect : function(selectedDate) {
-			$('#due_' + i).val($(this).val())
-			if (i > 0){
-				$('#due_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
-				$('#dueGross_' + (i-1)).datepicker('option', 'maxDate', selectedDate);
-			};
-		}
-	});
-
-	acertaSinalDue ();
-	
-	$('#newDue_' + i).off('click');
-	$('#newDue_' + i).on('click', function () {
-		createDue (i + 1);
-		acertaSinalDue ()
-	});
-
-
-	$('#newDueGross_' + i).off('click');
-	$('#newDueGross_' + i).on('click', function () {
-		createDue (i + 1);
-		acertaSinalDue ()
-	});
-
-	$('#delDue_' + i).off('click');
-	$('#delDue_' + i).on('click', function () {
-		$('#dueItem_' + i).remove();
-		$('#dueItemGross_' + i).remove();
-		acertaSinalDue ()
-	});
-
-	$('#delDueGross_' + i).off('click');
-	$('#delDueGross_' + i).on('click', function () {
-		$('#dueItem_' + i).remove();
-		$('#dueItemGross_' + i).remove();
-		acertaSinalDue ()
-	});
-};
-
-function calcTotal(){
-	var total = 0;
-	var totalGross = 0;
-	$(".item").each(function(w) {
-		var id = $(this).attr('id');
-		var i = id.split("_")[1];
-		total = parseFloat(total) + ((parseFloat($('#itemValue_' + i).val()) * parseFloat($('#itemAmount_' + i).val())));
-		totalGross = parseFloat(totalGross) + ((parseFloat($('#itemValueGross_' + i).val()) * parseFloat($('#itemAmountGross_' + i).val())));
-	});
-	
-	if (total){
-		$('#totalValue').html(total.toFixed(2));
-		$('#dueValue_' + localStorage.primeiroDue).val(total.toFixed(2));
-	};
-	if (totalGross){
-		$('#totalValueGross').html(totalGross.toFixed(2));
-		$('#dueValueGross_' + localStorage.primeiroDue).val(totalGross.toFixed(2));
-	};	
 };
 
 function acertaSinalItem (){
@@ -800,33 +316,6 @@ function acertaSinalItem (){
 		$("#delItemGross_" + ultimoItem).addClass("hide");
 	};
 }
-
-function acertaSinalDue (){
-	var ultimoItem = 0;
-	localStorage.primeiroDue = 0;
-	$(".dueItem").each(function(w) {
-		var id = $(this).attr('id');
-		var i = id.split("_")[1];
-		if (w == 0){
-			localStorage.primeiroDue = i;
-		};
-		$("#delDue_" + i).removeClass("hide");
-		$("#delDueGross_" + i).removeClass("hide");
-		$("#newDue_" + i).addClass("hide");
-		$("#newDueGross_" + i).addClass("hide");
-		$("#dueValue_" + i).val("");
-		$("#dueValueGross_" + i).val("");
-		ultimoItem = i;
-	});
-	$("#newDue_" + ultimoItem).removeClass("hide");
-	$("#newDueGross_" + ultimoItem).removeClass("hide");
-	if ($(".dueItem").length == 1){
-		$("#delDue_" + ultimoItem).addClass("hide");
-		$("#delDueGross_" + ultimoItem).addClass("hide");
-	};
-	
-	calcTotal();
-};
 
 function carregaDadosTelaPayment(data){
 	
@@ -912,15 +401,6 @@ function carregaDadosTelaPayment(data){
     
 	if (data.documento.trips[actualTrip].agencyName){
 		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao, true, data.documento.trips[actualTrip].agencyConsultName);
-	};
-	/**
-	 *      Criar o primeira item 
-	 */
-	if (typePage != "change"){
-		createItem(0, data.documento.trips[actualTrip].start, data.documento.trips[actualTrip].agencyName, data.documento.trips[actualTrip].destination, "net");
-		createDue(0);
-		$('#due_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
-		$('#dueGross_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
 	};
 	
 };

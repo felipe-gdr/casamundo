@@ -486,7 +486,6 @@ function criaInvoice(id){
 		var itemNet = 
 			{
 				item : $('#itemId_' + i).val(),
-				idPriceTable : $('#itemIdPriceTable_' + i).val(),
 				value : $('#itemValue_' + i).val(),
 				amount : $('#itemAmount_' + i).val(),
 				description : $('#itemDescription_' + i).val(),
@@ -665,7 +664,6 @@ function carregaAppendPriceTable (data, i, type){
     			var priceTable =
     				{
     					id : priceTable.id,
-    					idPriceTable : priceTable.idPriceTable,
     					name : priceTable.name,
 						description : priceTable.description,
 						net : priceTable.net,
@@ -677,7 +675,6 @@ function carregaAppendPriceTable (data, i, type){
 	localStorage.setItem("pricetableitens", JSON.stringify(priceTableJson));
     	
 	$('#itemId_' + i).change(function() {
-		$('#itemIdPriceTable_' + i).val(itemPriceTable($( this ).val()).idPriceTable);
 		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
 		$('#itemValueGross_' + i).val(itemPriceTable($( this ).val()).gross);
 		$('#itemIdGross_' + i).val(itemPriceTable($( this ).val()).id);
@@ -685,7 +682,6 @@ function carregaAppendPriceTable (data, i, type){
 		calcTotal();
 	});
 	$('#itemIdGross_' + i).change(function() {
-		$('#itemIdPriceTable_' + i).val(itemPriceTable($( this ).val()).idPriceTable);
 		$('#itemValue_' + i).val(itemPriceTable($( this ).val()).net);
 		$('#itemValueGross_' + i).val(itemPriceTable($( this ).val()).gross);
 		$('#itemId_' + i).val(itemPriceTable($( this ).val()).id);
@@ -702,12 +698,12 @@ function carregaTelaInvoice(data){
 		var actualTrip = data.student.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
 		$('#itemId_' + i).val(item.item);
+		$('#itemIdGross_' + i).val(item.item);
 		$('#itemDescription_' + i).val(item.description);
 		$('#itemValue_' + i).val(item.value);
 		$('#itemAmount_' + i).val(item.amount);
     });
 	$.each(data.documento.itensGross, function (i, item) {
-		$('#itemIdGross_' + i).val(item.item);
 		$('#itemValueGross_' + i).val(item.value);
 		$('#itemAmountGross_' + i).val(item.amount);
     });

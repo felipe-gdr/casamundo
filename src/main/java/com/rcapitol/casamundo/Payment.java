@@ -2,15 +2,15 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
-public class Invoice {
+public class Payment {
 
 	public Documento documento;
 
-	public Invoice() {
+	public Payment() {
 
 	}
 
-	public Invoice(Documento documento) {
+	public Payment(Documento documento) {
 		this.documento = documento;
 	}
 
@@ -31,15 +31,15 @@ public class Invoice {
 
 		public String id;
 		public String idStudent;
+		public String idVendor;
 		public String actualTrip;
 		public String status;
+		public String type;
 		public String number;
 		public String dueDate;
-		public String amountNet;
-		public String amountGross;
+		public String amount;
 		public String destination;
-		public ItensNet itensNet[];
-		public ItensGross itensGross[];
+		public Itens itens[];
 		public Documento() {
 
 		}
@@ -48,27 +48,27 @@ public class Invoice {
 		public Documento(
 						String id,
 						String idStudent,
+						String idVendor,
 						String actualTrip,
 						String status,
+						String type,
 						String number,
 						String dueDate,
-						String amountNet,
-						String amountGross,
+						String amount,
 						String destination,
-						ItensNet itensNet[],
-						ItensGross itensGross[]
+						Itens itens[]
 								) {
 						this.id = id; 
-						this.idStudent = idStudent; 
+						this.idStudent = idStudent;
+						this.idVendor = idVendor;
 						this.actualTrip = actualTrip;
-						this.status = status; 
+						this.status = status;
+						this.type = type;
 						this.number = number; 
 						this.dueDate = dueDate; 
-						this.amountNet = amountNet; 
-						this.amountGross = amountGross;
+						this.amount = amount; 
 						this.destination = destination;
-						this.itensNet = itensNet;
-						this.itensGross = itensGross;
+						this.itens = itens;
 		}
 
 
@@ -77,18 +77,18 @@ public class Invoice {
 			return new StringBuffer(" Number : ").append(this.number).append(" Due date : ").append(this.dueDate).toString();
 		}
 
-		public static final class ItensNet {
+		public static final class Itens {
     		public String item;
     		public String value;
     		public String amount;
     		public String description;
 
-    		public ItensNet() {
+    		public Itens() {
 
 			}
    
             @JsonCreator
-            public ItensNet(
+            public Itens(
             			String item,
             			String value,
             			String amount,
@@ -99,24 +99,6 @@ public class Invoice {
 	    		this.value = value;
 	    		this.amount = amount;
 	    		this.description = description;
-            };
-		};
-		public static final class ItensGross {
-    		public String value;
-    		public String amount;
-
-    		public ItensGross() {
-
-			}
-   
-            @JsonCreator
-            public ItensGross(
-            			String value,
-            			String amount
-            			)
-            {
-	    		this.value = value;
-	    		this.amount = amount;
             };
 		};
 	};

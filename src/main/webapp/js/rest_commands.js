@@ -989,6 +989,94 @@
     	});
     };
 
+
+    //
+    //**** Payment
+    //
+
+    
+    function rest_obterPaymentsAll(action_ok, action_notOk, destination, filters, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/lista?destination=" + destination + "&filters=" + filters,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1);
+    	})
+    	.fail(function(data) {
+    		action_notOk(data, var1);
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
+    function rest_atualizaPayment(objJson, action_ok, action_not_ok, message) {
+    	delete objJson["_id"];
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false
+    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		action_not_ok(message)
+        	};
+    	});
+    };
+
+    function rest_incluiPayment(objJson, action_ok, action_not_ok, message) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (message);
+        	}else{
+        		actio_not_ok(message)
+        	};
+       	});
+    };
+
+    function rest_obterPayment(id, action_ok, action_not_ok, var1, var2) {
+    	var costParam = "";
+    	if (var1 == "cost"){
+    		costParam = "&cost=true";
+    	}
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/obterPayment?id="  + id + costParam ,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data, var1, var2) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
     //
     //**** Dorm
     //

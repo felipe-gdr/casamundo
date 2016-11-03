@@ -33,6 +33,7 @@
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
+		$("#asideMenu").append(lineMenuAside ("menuPayment", "payments.html", "Payments"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "tools"){
@@ -43,6 +44,7 @@
 		$("#asideMenu").append(lineMenuAside ("menuAdministrator", "administrator.html", "Administrator"));
 		$("#asideMenu").append(lineMenuAside ("menuFinance", "prices-table.html", "Price List"));
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
+		$("#asideMenu").append(lineMenuAside ("menuPayment", "payments.html", "Payments"));
 		$("#asideMenu").append(lineMenuAside ("carregaStudents", "#", "Carrega Students"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 

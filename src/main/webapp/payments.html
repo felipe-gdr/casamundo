@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-		<title> Casamundo </title>
+		<title> Casa Mundo </title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 			
@@ -36,11 +36,6 @@
 		<!-- GOOGLE FONT -->
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
-		<!-- CSS photos generic page styles -->
-		<link rel="stylesheet" href="cssphoto/style.css">
-		<!-- CSS photos to style the file input field as button and adjust the Bootstrap progress bars -->
-		<link rel="stylesheet" href="cssphoto/jquery.fileupload.css">
-
 		<!-- Specifying a Webpage Icon for Web Clip 
 			 Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
 		<link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
@@ -57,8 +52,8 @@
 		<link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 		<link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
-		<!-- css customizado -->
-		<link href="css/your_style.css" rel="stylesheet" type="text/css"/>
+		<!-- Time Slider -->
+		<link href="css-timeline/timeslider.css" rel="stylesheet" type="text/css"/>
 
 	</head>
 	
@@ -106,22 +101,8 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<!-- #BODY -->
-	<!-- Possible Classes
-
-		* 'smart-style-{SKIN#}'
-		* 'smart-rtl'         - Switch theme mode to RTL
-		* 'menu-on-top'       - Switch to top navigation (no DOM change required)
-		* 'no-menu'			  - Hides the menu completely
-		* 'hidden-menu'       - Hides the main menu but still accessable by hovering over left edge
-		* 'fixed-header'      - Fixes the header
-		* 'fixed-navigation'  - Fixes the main menu
-		* 'fixed-ribbon'      - Fixes breadcrumb
-		* 'fixed-page-footer' - Fixes footer
-		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
-	-->
-	<body class="smart-style-6 body-background-color-invoice">
-
+	<body class="smart-style-6 body-background-color-payment">
+  
   <!-- Cabeçalho-->
 		<!-- HEADER -->
 		<header id="header">
@@ -232,7 +213,28 @@
 				<!-- input: search field -->
 				<form action="search.html" class="header-search pull-right">
 					<input id="search-fld"  type="text" name="param" placeholder="Find reports and more" data-autocomplete='[
-					"Student"]'>
+					"ActionScript",
+					"AppleScript",
+					"Asp",
+					"BASIC",
+					"C",
+					"C++",
+					"Clojure",
+					"COBOL",
+					"ColdFusion",
+					"Erlang",
+					"Fortran",
+					"Groovy",
+					"Haskell",
+					"Java",
+					"JavaScript",
+					"Lisp",
+					"Perl",
+					"PHP",
+					"Python",
+					"Ruby",
+					"Scala",
+					"Scheme"]'>
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -358,7 +360,7 @@
 
 		</aside>
 		<!-- END NAVIGATION -->
-
+  <!-- Paineis -->
 		<!-- MAIN PANEL -->
 		<div id="main" role="main">
 
@@ -370,12 +372,9 @@
 						<i class="fa fa-refresh"></i>
 					</span> 
 				</span>
-
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li id=breadcrumb_label_I">Home</li>
-					<li id=breadcrumb_label_II">Students</li>
-					<li id=breadcrumb_label_III">Payments vendors</li>
+					<li>Home</li><li>Payments</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -393,175 +392,153 @@
 			</div>
 			<!-- END RIBBON -->
 
-					<div class="widget-body no-padding">
+			<!-- MAIN CONTENT -->
+			<div id="content">
+
+				<!-- widget grid -->
+				<section id="widget-grid" class="">
+
+
+
+					<!-- panel accommodation -->
 					<!-- row -->
-	
 					<div class="row">
-						<div class="col-sm-9"></div>
-						<div class="col-sm-1">
-							<div class="col-sm-1 profile-pic">
-								<a class="btn btn-primary btn-circle getback"><i class="glyphicon glyphicon-chevron-left" title="Click to insert a new student."></i></a>
-							</div>
+						<div class="col-sm-8"></div>
+						<div class="col-sm-4">
 						</div>
 					</div>
-					<!-- end row -->
-						
-						<form id="invoice-form" class="smart-form" novalidate="novalidate">
 	
-							<div class="well well-light well-sm no-margin no-padding">
-								<div class="row">							
-									<div class="col-sm-12">				
-										<div class="row">
-											<div class="col-sm-3 profile-pic">
-<!-- 											<img src="img/avatars/photo_20.png" -->	
-											</div>
-											<div class="col-sm-3">
-												<h1><span id="studentCompleteName" class="semi-bold"></span>
-												<br>
-												<small>Contact</small></h1>
-	
-												<ul class="list-unstyled">
-													<li>
-														<p class="text-muted">
-															<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="celPhone" data-mask="(999) 99999-9999"  data-original-title="Cel Phonr"></small></span>
-														</p>
-													</li>
-													<li>
-														<p class="text-muted">
-															<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mail"  data-original-title="Email"></small>
-														</p>
-													</li>
-												</ul>
-												<br>
-											</div>
-											<div class="col-sm-2">
-												<h1><span  class="semi-bold"></span>
-													<br>
-												<small>Agency</small></h1>																				
-												<div class="row">							
-													<section class="col-sm-9">	
-														<i class="fa fa-bank"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyName"  data-original-title="Agency name"></small></span>
-													</section>
-												</div>
-												<div class="row agency hide">							
-													<section class="col-sm-9">		
-														<i class="fa fa-bank"></i>&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyPhone"  data-original-title="Agency phone"></small></span>
-													</section>
-												</div>
-												<div class="row agency hide">							
-													<section class="col-sm-9">		
-														<i class="fa fa-bank"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyEmail"  data-original-title="Agency email"></small></span>
-													</section>
-												</div>
-											</div>
-											<div class="col-sm-2">
-												<h1><span  class="semi-bold"></span>
-													<br>
-												<small>Consult</small></h1>																				
-												<div class="row agency hide">				
-													<section class="col-sm-9">		
-														<i class="fa fa-user"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyConsultName"  data-original-title="Consult name"></small></span>
-													</section>
-												</div>
-												<div class="row agency hide">				
-													<section class="col-sm-9">		
-														<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-mobile"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyConsultMobile"  data-original-title="Consult mobile"></small></span>
-													</section>
-												</div>
-												<div class="row agency hide">				
-													<section class="col-sm-9">		
-														<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyConsultPhone"  data-original-title="Consult phone"></small></span>
-													</section>
-												</div>
-												<div class="row agency hide">					
-													<section class="col-sm-9">		
-														<i class="fa fa-user"></i>&nbsp;&nbsp;<i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-info' id="agencyConsultEmail"  data-original-title="Consult email"></small></span>
-													</section>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-1"></div>
-										<div  class="col-sm-11">
-											<div class="row">
-												<div class="col-xs-12">
-													<legend>
-													<h7>Trip</h7>
-													</legend>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-xs-3">
-												      	<small class='text-muted'>Status: </small><small  class='text-primary' id="status"   data-original-title="Status"></small><br>
-												      	<small class='text-muted'>Occupancy</small><small  class='text-primary' id="occupancy"   data-original-title="Occupancy"></small><br>
-												      	<small class='text-muted'>Destination</small><small  class='text-primary' id="destination"   data-original-title="Destination"></small><br>
-												      	<small class='text-muted'>Check in: </small><small  class='text-primary' id="start"  data-original-title="Start"></small><br>
-												      	<small class='text-muted'>Check out: </small><small  class='text-primary' id="end"  data-original-title="End"></small><br>
-												      	<small class='text-muted'>Duration: </small><small  class='text-primary' id="duration"  data-original-title="Duration"></small><br>
-												</div>
-												<div class="col-xs-5">
-											        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDate"  data-original-title="Arrival Date"></small>
-											        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTime"  data-original-title="Arrival Time"></small><br>
-											        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="arrivalFlightNumber"  data-original-title="flight Number"></small>
-											        <small class='text-muted'>Airline: </small><small  class='text-primary' id="arrivalAirline"  data-original-title="Airline"></small><br>
-											        <small class='text-muted'>Departure Date: </small><small  class='text-primary' id="departureDate"  data-original-title="departure Date"></small>
-											        <small class='text-muted'> Time: </small><small  class='text-primary' id="departureTime"  data-original-title="departure Time"></small><br>
-											        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="departureFlightNumber"  data-original-title="flight Number"></small>
-											        <small class='text-muted'>Airline: </small><small  class='text-primary' id="departureAirline"  data-original-title="Airline"></small>
-												</div>
-												<div class="col-xs-4">
-												      	<small class='text-muted'>Extend: </small><small  class='text-primary' id="extend"   data-original-title="Extend"></small><br>
-												      	<small class='text-muted'>Pickup: </small><small  class='text-primary' id="pickup"   data-original-title="Pickup"></small><br>
-												        <small class='text-muted'>Dropoff: </small><small  class='text-primary' id="dropoff"   data-original-title="Dropoff"></small><br>
-												        <small class='text-muted'>Meal Plan: </small><small  class='text-primary' id="mealPlan"   data-original-title="Meal Plan"></small><br>
-												        <small class='text-muted'>Private WC: </small><small  class='text-primary' id="privateWashroom"   data-original-title="Private Washroom"></small><br>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-1"></div>
-										<div  class="col-sm-11">
-											<div class="row">
-												<div class="col-xs-12">
-													<legend>
-													<h7>Payments</h7>
-													</legend>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-xs-12">
-													<fieldset id ="itensPayment">					
-													</fieldset>
-												</div>
-											</div>
-										</div>
+					<div class="row">
+
+						<article class="col-sm-12 col-md-12 col-lg-12">
+
+							<!-- new widget -->
+							<div class="jarviswidget jarviswidget-color-blue" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+
+								<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+
+								-->
+
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2>Payments</h2>
+									<div class="widget-toolbar">
+										<!-- add: non-hidden - to disable auto hide -->
 									</div>
+								</header>
+
+								<!-- widget div-->
+								<div>
+									
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox hide">
+										<!-- This area used as dropdown edit box -->
+										<input class="form-control" type="text">	
+									</div>
+									<!-- end widget edit box -->
+									
+									<!-- widget content -->
+									<div class="widget-body no-padding">
+										
+										<table id="payments_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									        <thead>
+												<tr class="">
+													<th class="hasinput" >
+													</th>
+													<th class="hasinput" >
+														<section class="col-xs-12">							
+															<input id="filter_student" type="text" class="form-control text-filter" placeholder="Student" />
+														</section>
+													</th>
+													<th class="hasinput" >
+													</th>
+													<th class="hasinput" >
+														<section class="col-xs-8">							
+															<input id="filter_check_in" type="text" name="filter_check_in" placeholder="from" class="datepicker form-control text-filter " data-dateformat='dd-M-yy' >
+														</section>
+														<section class="col-xs-8">							
+															<input id="filter_check_out" type="text" name="filter_check_out" placeholder="to" class="datepicker form-control text-filter " data-dateformat='dd-M-yy' >
+														</section>
+													</th>
+													<th class="hasinput" >
+														<section class="col-xs-8">							
+															<input id="filter_status" type="text" class="form-control text-filter" placeholder="Status" /><br>
+														</section>
+														<section class="col-xs-8">							
+															<input id="filter_due_date_from" type="text" name="filter_due_date_from" placeholder="Due date from" class="datepicker form-control text-filter " data-dateformat='dd-M-yy' >
+														</section>
+														<section class="col-xs-8">							
+															<input id="filter_due_date_to" type="text" name="filter_due_date_to" placeholder="Due date to" class="datepicker form-control text-filter " data-dateformat='dd-M-yy' >
+														</section>
+													</th>
+													<th class="hasinput" >
+														<section class="col-xs-12">							
+															<input id="filter_vendor" type="text" class="form-control text-filter" placeholder="Vendor" />
+														</section>
+													</th>
+													<th class="hasinput" >
+														<section class="col-xs-12">							
+															<input id="filter_comments" type="text" class="form-control text-filter" placeholder="Comments" />
+														</section>
+													</th>
+												</tr>
+									            <tr>
+									                <th></th>
+									                <th class="text-column"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Student</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Additional</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Payment</th>
+									                <th class="text-column"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Customer</th>
+									                <th class="text-column"><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
+									            </tr>
+									        </thead>
+									    </table>
+
+									</div>
+									<!-- end widget content -->
+									
 								</div>
-								<br>																		
-								<br>																		
-								<footer class="col-xs-11">
-									<button id="paymentSubmmit" type="button" class="btn btn-primary">Submit</button>
-									<button type="button" class="btn btn-default" onclick="window.history.back();">Back</button>
-								</footer>
+								<!-- end widget div -->
+
 							</div>
-						</form>
+							<!-- end widget -->
+						</article>
 					</div>
 					<!-- end row -->
 
+
+	<!-- another panels -->
+
+					<!-- row -->
+					<div class="row">
+					</div>
+
+					<!-- end row -->
+
+				</section>
+				<!-- end widget grid -->
+
+			</div>
+			<!-- END MAIN CONTENT -->
+
 		</div>
 		<!-- END MAIN PANEL -->
-		<!--================================================== -->
-		
-		<!-- GERA PDF -->
-		<div class= "hide">
-		<div id = "invoice-pdf">
-		</div>
-		</div>
-		
 
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<span class="txt-color-white">Casamundo<span class="hidden-xs"> - Web Application</span></span>
+					<span class="txt-color-white">Casa Mundo<span class="hidden-xs"> - Web Application</span></span>
 				</div>
 
 				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
@@ -628,7 +605,7 @@
 					<a href="gmap-xml.html" class="jarvismetro-tile big-cubes bg-color-purple"> <span class="iconbox"> <i class="fa fa-map-marker fa-4x"></i> <span>Maps</span> </span> </a>
 				</li>
 				<li>
-					<a href="invoice.html" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-book fa-4x"></i> <span>Invoice <span class="label pull-right bg-color-darken">99</span></span> </span> </a>
+					<a href="payment.html" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-book fa-4x"></i> <span>Payment <span class="label pull-right bg-color-darken">99</span></span> </span> </a>
 				</li>
 				<li>
 					<a href="gallery.html" class="jarvismetro-tile big-cubes bg-color-greenLight"> <span class="iconbox"> <i class="fa fa-picture-o fa-4x"></i> <span>Gallery </span> </span> </a>
@@ -639,6 +616,8 @@
 			</ul>
 		</div>
 		<!-- END SHORTCUT AREA -->
+
+		<!--================================================== -->
 
 		<!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
 		<script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
@@ -667,18 +646,44 @@
 		<!-- BOOTSTRAP JS -->
 		<script src="js/bootstrap/bootstrap.min.js"></script>
 
+		<!-- CUSTOM NOTIFICATION -->
+		<script src="js/notification/SmartNotification.min.js"></script>
 
-		<!-- BOOTSTRAP validator -->
-		<script src="js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+		<!-- JARVIS WIDGETS -->
+		<script src="js/smartwidgets/jarvis.widget.min.js"></script>
+
+		<!-- EASY PIE CHARTS -->
+		<script src="js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+		<!-- SPARKLINES -->
+		<script src="js/plugin/sparkline/jquery.sparkline.min.js"></script>
+
+		<!-- JQUERY VALIDATE -->
+		<script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
 
 		<!-- JQUERY MASKED INPUT -->
 		<script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>
 
-		<!-- JQUERY MASKED MONEY INPUT -->
-		<script src="js/plugin/masked-input/jquery.maskMoney.min.js"></script>
+		<!-- JQUERY SELECT2 INPUT -->
+		<script src="js/plugin/select2/select2.min.js"></script>
 
-		<!-- JQUERY VALIDATE -->
-		<script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
+		<!-- JQUERY UI + Bootstrap Slider -->
+		<script src="js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+		<!-- browser msie issue fix -->
+		<script src="js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+		<!-- FastClick: For mobile devices -->
+		<script src="js/plugin/fastclick/fastclick.min.js"></script>
+
+		<!--[if IE 8]>
+
+		<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+		<![endif]-->
+
+		<!-- Demo purpose only -->
+		<script src="js/demo.min.js"></script>
 
 		<!-- MAIN APP JS FILE -->
 		<script src="js/app.min.js"></script>
@@ -687,87 +692,56 @@
 		<!-- Voice command : plugin -->
 		<script src="js/speech/voicecommand.min.js"></script>
 
-		<!-- Plugin editable -->
-		<script src="js/plugin/x-editable/moment.min.js"></script>
-		<script src="js/plugin/x-editable/jquery.mockjax.min.js"></script>
-		<script src="js/plugin/x-editable/x-editable.min.js"></script>
-
-		<!-- plugin timepicker -->
-		<script src="js/plugin/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
-
-		<!-- CUSTOM NOTIFICATION -->
-		<script src="js/notification/SmartNotification.min.js"></script>
-
-		<!-- multiselect -->
-		<script src="js/plugin/multiselect/bootstrap-multiselect.min.js"></script>
-
-		<!-- google maps -->
-		<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA550JG4JUK4qlKjV3VultZ28p-4Mb4l_I"></script>
-		<script src="js/google-maps.js"></script>
-
-		<!-- gera pdf -->
-		<script src="js/plugin/jspdf/jspdf.min.js"></script>
-		<script src="js/plugin/jspdf/html2canvas.js"></script>
-		<script src="js/plugin/jspdf/canvas2image.js"></script>
-
-		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-		<script src="jsphoto/vendor/jquery.ui.widget.js"></script>
-		<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-		<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-
-
-		<!-- Estas duas bibliotecasdão problema no dropdown menu -->
-		<!-- The Canvas to Blob plugin is included for image resizing functionality
-		<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script> -->
-		<!-- Bootstrap JS is not required, but included for the responsive demo navigation
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
-
-
-		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-		<script src="jsphoto/jquery.iframe-transport.js"></script>
-		<!-- The basic File Upload plugin -->
-		<script src="jsphoto/jquery.fileupload.js"></script>
-		<!-- The File Upload processing plugin -->
-		<script src="jsphoto/jquery.fileupload-process.js"></script>
-		<!-- The File Upload image preview & resize plugin -->
-		<script src="jsphoto/jquery.fileupload-image.js"></script>
-		<!-- The File Upload audio preview plugin -->
-		<script src="jsphoto/jquery.fileupload-audio.js"></script>
-		<!-- The File Upload video preview plugin -->
-		<script src="jsphoto/jquery.fileupload-video.js"></script>
-		<!-- The File Upload validation plugin -->
-		<script src="jsphoto/jquery.fileupload-validate.js"></script>
+		<!-- SmartChat UI : plugin -->
+		<script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
+		<script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
 		
-		<!-- js de chamada e montagem da tela -->
-		<script src="js-photo/manage-photo.js"></script>
-				
-		<!-- rest commands -->
-		<script src="js/rest_commands.js"></script>
+		<!-- PAGE RELATED PLUGIN(S) -->
+		
+		<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
+		<script src="js/plugin/flot/jquery.flot.cust.min.js"></script>
+		<script src="js/plugin/flot/jquery.flot.resize.min.js"></script>
+		<script src="js/plugin/flot/jquery.flot.time.min.js"></script>
+		<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>		
 
-		<!-- page scripts -->
+		<!-- Datatables --> 
+
+		<script src="js/plugin/datatables/jquery.dataTables.min.js"></script>
+		<script src="js/plugin/datatables/dataTables.colVis.min.js"></script>
+		<script src="js/plugin/datatables/dataTables.tableTools.min.js"></script>
+		<script src="js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+		<script src="js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+
+		<!-- send email -->
+		<script src="js-email/sendEmail.js"></script>
+		<script src="js-template-email/offertofamily.js"></script>
+
+		<!-- out scripts -->
 		<script src="js/main.js"></script>
-		<script src="js/student-commons.js"></script>
-		<script src="js/create-commons.js"></script>
-		<script src="js/create-payments-vendors.js"></script>
+		<script src="js/rest_commands.js"></script>
+		<script src="js-datatables/payments.js"></script>
+		<script src="js/payments.js"></script>
 
+		<script>
+			$(document).ready(function() {
 
-		<script type="text/javascript">
+				// DO NOT REMOVE : GLOBAL FUNCTIONS!
+				pageSetUp();
+			    // custom toolbar colocar o logo da Casa Mundo
+			    //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
 		
-		// DO NOT REMOVE : GLOBAL FUNCTIONS!
 		
-		$(document).ready(function() {
-			
-			pageSetUp();
-		})
-
+			});
+		    
 		</script>
 
 		<!-- Your GOOGLE ANALYTICS CODE Below -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
-				_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
-				_gaq.push(['_trackPageview']);
-			
+			_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+			_gaq.push(['_trackPageview']);
+
 			(function() {
 				var ga = document.createElement('script');
 				ga.type = 'text/javascript';
