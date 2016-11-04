@@ -39,7 +39,38 @@ public class Commons {
 		}
 		return false;
 	};
+	
+	public Long currentTime (){		
+		Date d2 = new Date(System.currentTimeMillis()); 
+		return d2.getTime();
+	};
+	
+	public Long calcAge (String birthDate){
+		
+		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		try {
+			Date d1 = df.parse (convertDateMes (birthDate));
+			Date d2 = new Date(System.currentTimeMillis()); 
+			long dt = (d2.getTime() - d1.getTime()) + 3600000;
+			return ((dt / 86400000L) / 365L);
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
 
+	public Long calcTime (String date){
+		System.out.println("date=" + date);
+		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		try {
+			Date d1 = df.parse (convertDateMes (date));
+			long dt = d1.getTime();
+			return dt;
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
 
 	public String convertDateMes (String strDate){
 		String mesNumber = "01";

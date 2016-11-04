@@ -2,10 +2,6 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +27,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -173,7 +167,7 @@ public class Rest_Payment {
 		}
 		return null;
 	};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -225,12 +219,17 @@ public class Rest_Payment {
 					BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
 					mongoStudent.close();
 
+					jsonDocumento.put("student", objStudent);
+
 				    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
 				    if (tripIndex != null){
 						List<?> trips = (List<?>) objStudent.get("trips");
 						BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
 						jsonDocumento.put("trip", jsonTrip);
 				    };
+					//
+					//** ler vendor
+					//
 
 					String idVendor = (String) jsonObject.get("idVendor");
 					String vendorName = "";
@@ -268,8 +267,11 @@ public class Rest_Payment {
 						};
 						mongoPickup.close();
 					};
-
-					jsonDocumento.put("student", objStudent);
+					//
+					//** dados invoice
+					//
+					List listItens = (List) jsonObject.get("itens");
+					jsonDocumento.put("invoice", carregaDadosInvoice(jsonObject.get("idInvoice"), listItens, objStudent));
 
 					Boolean filter_ok = checkFilters (filters, jsonDocumento, vendorName, null);
 					if (filter_ok){
@@ -290,12 +292,88 @@ public class Rest_Payment {
 		return null;
 	};
 	
-	public Boolean checkFilters (String filters, JSONObject objJson, String nameVendor, String schoolSigla){
+	@SuppressWarnings("rawtypes")
+	private BasicDBObject carregaDadosInvoice(Object idInvoice, List listItensPayment, BasicDBObject objStudent) {
+		String idInvoiceString = (String) idInvoice;
+		ObjectId invoiceId = new ObjectId(idInvoiceString);
+		Mongo mongoInvoice;
+		try {
+			mongoInvoice = new Mongo();
+			DB dbInvoice = (DB) mongoInvoice.getDB("documento");
+			DBCollection collectionInvoice = dbInvoice.getCollection("invoice");
+			BasicDBObject searchQueryInvoice = new BasicDBObject("_id", invoiceId);
+			DBObject cursorInvoice = collectionInvoice.findOne(searchQueryInvoice);
+			BasicDBObject objInvoice = (BasicDBObject) cursorInvoice.get("documento");
+			//
+			//*** json de saida
+			//
+			BasicDBObject objDadosInvoice = new BasicDBObject();
+			
+			//
+			//** carrega dados invoice
+			//
+			objDadosInvoice.put("dueDate", objInvoice.get("dueDate"));
+			objDadosInvoice.put("status", objInvoice.get("status"));
+			objDadosInvoice.put("number", objInvoice.get("number"));
+			//
+			//** tratar student
+			//
+
+		    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+			String agencySigla = null;
+		    String agencyName = null;
+		    if (tripIndex != null){
+				List<?> trips = (List<?>) objStudent.get("trips");
+				BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
+				agencyName = (String) jsonTrip.get("agencyName");
+		    };
+			if (agencyName != null && !agencyName.equals("")){
+				Mongo mongoAgency = new Mongo();
+				DB dbAgency = (DB) mongoAgency.getDB("documento");
+				DBCollection collectionAgency = dbAgency.getCollection("agency");
+				BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
+				DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
+				BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+				agencySigla = (String) obj.get("agencySigla");
+				objDadosInvoice.put("agencyName", agencyName);
+				objDadosInvoice.put("agencySigla", agencySigla);
+				mongoAgency.close();
+			}else{
+				objDadosInvoice.put("agencyName", "");
+				objDadosInvoice.put("agencySigla", "");
+			};
+
+			List listItensInvoice = (List) objInvoice.get("itensNet");
+			int w = 0;
+			while (w < listItensInvoice.size()) {
+				BasicDBObject itemInvoice = (BasicDBObject) listItensInvoice.get(w);
+				int z = 0;
+				while ( z < listItensPayment.size()) {
+					JSONObject itemPayment = (JSONObject) listItensPayment.get(z);
+					if (itemInvoice.get("item").equals(itemPayment.get("item"))){
+						objDadosInvoice.put("amount", ((Double.parseDouble((String) itemInvoice.get("value")) * (Double.parseDouble((String) itemInvoice.get("amount"))))) );
+					};
+					++z;
+				};
+				++w;
+			};
+			mongoInvoice.close();
+			return objDadosInvoice;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	private Boolean checkFilters (String filters, JSONObject objJson, String nameVendor, String schoolSigla){
 		BasicDBObject jsonTrip =  (BasicDBObject) objJson.get("trip");
 		Boolean response = true;
 		String array[] = new String[24];
 		array = filters.split(",");
 		BasicDBObject objStudent = (BasicDBObject) objJson.get("student");
+		
+		Commons commons = new Commons();
 		int i = 0;
 		while (i < array.length) {
 			String element[] = new String[2];
@@ -309,22 +387,22 @@ public class Rest_Payment {
 					};
 			    };
 			    if (element[0].equals("filter_check_in")){
-					if (calcTime((String)jsonTrip.get("start")) <= calcTime(element[1].replace("-", ""))){
+					if (commons.calcTime((String)jsonTrip.get("start")) <= commons.calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_out")){
-					if (calcTime((String)jsonTrip.get("start")) >= calcTime(element[1].replace("-", ""))){
+					if (commons.calcTime((String)jsonTrip.get("start")) >= commons.calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_due_date_from")){
-					if (calcTime((String)objJson.get("dueDate")) <= calcTime(element[1].replace("-", ""))){
+					if (commons.calcTime((String)objJson.get("dueDate")) <= commons.calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_due_date_to")){
-					if (calcTime((String)objJson.get("dueDate")) >= calcTime(element[1].replace("-", ""))){
+					if (commons.calcTime((String)objJson.get("dueDate")) >= commons.calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
@@ -347,61 +425,6 @@ public class Rest_Payment {
 			++i;
 		};
 		return response;
-	};
-
-	public Long calcTime (String date){
-		System.out.println("date=" + date);
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-		try {
-			Date d1 = df.parse (convertDateMes (date));
-			long dt = d1.getTime();
-			return dt;
-		} catch (java.text.ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	};
-
-	public String convertDateMes (String strDate){
-		String mesNumber = "01";
-		String mesAlpha = strDate.substring	(2, 5);
-	    if (mesAlpha.equals("Jan")){
-	    	mesNumber = "01";
-	    };
-	    if (mesAlpha.equals("Feb")){
-	    	mesNumber = "02";
-	    };
-	    if (mesAlpha.equals("Mar")){
-	    	mesNumber = "03";
-	    };
-	    if (mesAlpha.equals("Apr")){
-	    	mesNumber = "04";
-	    };
-	    if (mesAlpha.equals("May")){
-	    	mesNumber = "05";
-	    };
-	    if (mesAlpha.equals("Jun")){
-	    	mesNumber = "06";
-	    };
-	    if (mesAlpha.equals("Jul")){
-	    	mesNumber = "07";
-	    };
-	    if (mesAlpha.equals("Aug")){
-	    	mesNumber = "08";
-	    };
-	    if (mesAlpha.equals("Sep")){
-	    	mesNumber = "09";
-	    };
-	    if (mesAlpha.equals("Out")){
-	    	mesNumber = "10";
-	    };
-	    if (mesAlpha.equals("Nov")){
-	    	mesNumber = "11";
-	    };
-	    if (mesAlpha.equals("Dec")){
-	    	mesNumber = "12";
-	    };
-		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
 	};
 	
 };

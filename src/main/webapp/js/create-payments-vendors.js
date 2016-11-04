@@ -13,18 +13,6 @@
 	if (parameter[1]) {
 		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
 	};
-
-	/**
-	 * 		pega o ultimo numero de payment
-	 */
-	//rest_obterUltimaPayment(saveUltimaPayment, primeiraPayment);
-	//if (localStorage.numberPaymen){
-	//	saveLastPayment();
-	//}else{
-	//	firstPayment();
-	//};
-		
-
 	
 	/**
 	 * 		carrega tabelas
@@ -102,13 +90,13 @@
 	});
 
 
-function saveUltimaPayment (data) {
-	localStorage.numberPayment = parseInt(localStorage.numberPayment) + 1;
-};
-
-
-function primeiraPayment () {
-	localStorage.numberPayment = 1;
+function paymentNumber () {
+	if (localStorage.numberPayment){
+		localStorage.numberPayment = parseInt(localStorage.numberPayment) + 1;
+	}else{
+		localStorage.numberPayment = 1;
+	};
+	return localStorage.numberPayment;
 };
 
 function limpaStoragePayment () {
@@ -131,7 +119,7 @@ function criaPayment(i){
 					actualTrip : $('#itemActualTrip_' + i).val(),
 					status : "new",
 					type : $('#itemType_' + i).val(),
-					number : localStorage.numberPayment,
+					number : paymentNumber,
 					dueDate : limpaData($('#itemDueDate_' + i).val()),
 					amount : parseFloat($('#itemValue_' + i).val()) * parseFloat($('#itemAmount_' + i).val()), 
 					destination : $('#itemDestination_' + i).val(),

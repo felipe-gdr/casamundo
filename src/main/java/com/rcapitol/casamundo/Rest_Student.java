@@ -580,6 +580,7 @@ public class Rest_Student {
 		Boolean response = true;
 		String array[] = new String[24];
 		array = filters.split(",");
+		Commons commons = new Commons();
 		int i = 0;
 		while (i < array.length) {
 			String element[] = new String[2];
@@ -617,24 +618,24 @@ public class Rest_Student {
 				    };
 			    };
 			    if (element[0].equals("filter_age_from")){
-			    	Long ageFrom = calcAge((String)objJson.get("birthDay"));
+			    	Long ageFrom = commons.calcAge((String)objJson.get("birthDay"));
 					if (ageFrom <= Integer.parseInt((String) element[1])){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_age_to")){
-			    	Long ageTo = calcAge((String)objJson.get("birthDay"));
+			    	Long ageTo = commons.calcAge((String)objJson.get("birthDay"));
 					if (ageTo >= Integer.parseInt((String) element[1])){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_in")){
-					if (calcTime((String)jsonTrip.get("start")) <= calcTime(element[1].replace("-", ""))){
+					if (commons.calcTime((String)jsonTrip.get("start")) <= commons.calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_out")){
-					if (calcTime((String)jsonTrip.get("start")) >= calcTime(element[1].replace("-", ""))){
+					if (commons.calcTime((String)jsonTrip.get("start")) >= commons.calcTime(element[1].replace("-", ""))){
 						response = false;
 					};
 			    };
@@ -829,73 +830,5 @@ public class Rest_Student {
 			++i;
 		};
 		return response;
-	};
-		
-	public Long calcAge (String birthDate){
-		
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-		try {
-			Date d1 = df.parse (convertDateMes (birthDate));
-			Date d2 = new Date(System.currentTimeMillis()); 
-			long dt = (d2.getTime() - d1.getTime()) + 3600000;
-			return ((dt / 86400000L) / 365L);
-		} catch (java.text.ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	};
-	
-	public Long calcTime (String date){
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-		try {
-			Date d1 = df.parse (convertDateMes (date));
-			long dt = d1.getTime();
-			return dt;
-		} catch (java.text.ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	};
-
-	public String convertDateMes (String strDate){
-		String mesNumber = "01";
-		String mesAlpha = strDate.substring	(2, 5);
-	    if (mesAlpha.equals("Jan")){
-	    	mesNumber = "01";
-	    };
-	    if (mesAlpha.equals("Feb")){
-	    	mesNumber = "02";
-	    };
-	    if (mesAlpha.equals("Mar")){
-	    	mesNumber = "03";
-	    };
-	    if (mesAlpha.equals("Apr")){
-	    	mesNumber = "04";
-	    };
-	    if (mesAlpha.equals("May")){
-	    	mesNumber = "05";
-	    };
-	    if (mesAlpha.equals("Jun")){
-	    	mesNumber = "06";
-	    };
-	    if (mesAlpha.equals("Jul")){
-	    	mesNumber = "07";
-	    };
-	    if (mesAlpha.equals("Aug")){
-	    	mesNumber = "08";
-	    };
-	    if (mesAlpha.equals("Sep")){
-	    	mesNumber = "09";
-	    };
-	    if (mesAlpha.equals("Oct")){
-	    	mesNumber = "10";
-	    };
-	    if (mesAlpha.equals("Nov")){
-	    	mesNumber = "11";
-	    };
-	    if (mesAlpha.equals("Dec")){
-	    	mesNumber = "12";
-	    };
-		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
 	};
 };

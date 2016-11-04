@@ -65,20 +65,24 @@
     		                "class":          'details-control',
     		                "orderable":      false,
     		                "defaultContent": '',
-        		            "width": "5%"
+        		            "width": "3%"
     		            },
-    		            { "data": "student",
+    		            { "data": "vendor",
     		            	"width": "20%"},
+       		            { "data": "student",
+       		            	"width": "15%"},
     		            { "data": "additional",
     		            	"width": "15%"},
     		            { "data": "dates",
-    		            	"width": "15%"},
-    		            { "data": "payment",
-    		            	"width": "15%"},
-    		            { "data": "vendor",
+    		            	"width": "12%"},
+    		            { "data": "invoice",
     		            	"width": "10%"},
+    		            { "data": "customer",
+    		            	"width": "10%"},
+       		            { "data": "detail",
+       		            	"width": "10%"},
     		            { "data": "comments",
-    		            	"width": "20%"},
+    		            	"width": "5%"},
     		            ],
             "responsive": true,
             "charset" : "UTF-8",
@@ -230,14 +234,24 @@
 	        var dropoffCollor = "success";
 	        if (payment.student.trips[payment.student.actualTrip].dropoff == "Yes"){
 	        	dropoffCollor = "danger";
-	        }
+	        };
+	        profit = payment.invoice.amount - payment.amount;
+	        dateIncluded = "";
             payment_table.row.add( {
+    	    	"vendor":
+	    			"<a href='create-payments-vendors.html?id=" + payment.vendorName + "&typePage=change&id=" + payment.id + "'>" +
+	    				"<small class='text-muted text-column'>Rate: </small><small class='text-bold text-column'>" + "" + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Number: " + payment.number + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Amount: " + payment.amount + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(payment.dueDate,"-") + "</small><br>" +
+	    				"<small class='text-muted text-column'>Authorized: </small><small class='text-bold text-column'>" + "" + "</small></a>",
     	    	"student": 
-    	    			"<a href='create-payments-vendors.html?id=" + payment.student.mail + "&typePage=change&id=" + payment.id + "'>" +
+    	    			"<a href='student.html.html?id=" + payment.student.mail + "&&typePage=change></a>" +
     	    			"<span class='text-column'>" + payment.student.firstName +  " " + payment.student.lastName + "</span><br>" + 
-    	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.gender + "</small><br>" +
-    	    			"<small class='text-muted text-column'><i>" + payment.student.nationality + "<i></small><br>" +
-    	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
+    	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>" +
+    	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.trips[payment.student.actualTrip].accommodation + "</small><br>" +
+    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].occupancy + "<i></small><br>" +
+    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].mealPlan + "<i></small><br>",
     	    	"additional":
     	    			"<small class='text-muted text-column'>Underage: " + " " + "</small><br>" +
 	    				"<small class='text-muted text-column'>Pvt WC: " + payment.student.trips[payment.student.actualTrip].privateWashroom + "</small><br>" +
@@ -248,14 +262,19 @@
                 "dates":"<small class='hide'>" + converteAnoMesDia(payment.student.trips[payment.student.actualTrip].start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(payment.student.trips[payment.student.actualTrip].start, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(payment.student.trips[payment.student.actualTrip].end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
-    	    	"payment":
-    	    			"<small class='label text-column " + statusCollor + "'>Status: " + payment.status + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Number: " + payment.number + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Amount: " + payment.amount + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(payment.dueDate,"-") + "</small><br>",
-    	    	"vendor":
-   	    				"<small class='text-muted text-column'>Vendor: </small><small class='text-bold text-column'>" + payment.vendorName + "</small><br>",
+       	    	"invoice":
+    	    			"<small class='text-muted text-column'>Status: " + payment.invoice.status + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Nmber: " + payment.invoice.number + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Amount: " + payment.invoice.amount + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate) + "</small><br>",
+       	    	"customer":
+    	    			"<small class='text-muted text-column'>" + payment.invoice.agencyName + "</small><br>",
+       	    	"detail":
+       	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Status: " + payment.status + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Date: " + dateIncluded + "</small><br>",
        	    	"comments":"<small class='text-muted text-column'>" + payment.student.trips[payment.student.actualTrip].comments + "</small>",
+       	    	
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
 	    				'<ul id="listPayment" class="dropdown-menu">' +
