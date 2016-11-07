@@ -57,6 +57,8 @@
  .text-filter {
 	font-size: 80%!important;
 	color: #0076ec!important;
+	padding-top: 2px!important;
+	padding-bottom: 2px!important;
 }
  .text-column {
 	font-size: 80%!important;

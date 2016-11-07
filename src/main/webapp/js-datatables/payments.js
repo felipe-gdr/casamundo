@@ -232,7 +232,7 @@
     	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.trips[payment.student.actualTrip].accommodation + "</small><br>" +
     	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].occupancy + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].mealPlan + "<i></small><br>" +
-    	    			"<span class='text-column'>" + payment.invoice.agencyName + "</span><br>",
+    	    			"<span class='text-column'>Agent:" + payment.invoice.agencySigla + "</span><br>",
     	    	"additional":
     	    			"<small class='text-muted text-column'>Underage: " + " " + "</small><br>" +
 	    				"<small class='text-muted text-column'>Pvt WC: " + payment.student.trips[payment.student.actualTrip].privateWashroom + "</small><br>" +
