@@ -98,7 +98,7 @@ function carregaTelaRoom(data, tipo) {
 		    });
 	  	}else{
 	  		criaLinhaComment(0);
-			$('#commentsUser-0').val(localStorage.userNameEmail);
+			$('#commentsUser-0').val(localStorage.usuarioEmail);
 	  	};
 	  	if (data.documento.visits.length > 0){
 		    $.each(data.documento.visits
@@ -110,7 +110,7 @@ function carregaTelaRoom(data, tipo) {
 		    });
 	  	}else{
 	  		criaLinhaVisit(0);
-			$('#visitsUser-0').val(localStorage.userNameEmail);
+			$('#visitsUser-0').val(localStorage.usuarioEmail);
 	  	};
 	};
 	
@@ -214,7 +214,7 @@ function criaLinhaComment (i, comment) {
 	$('#newItemComment-' + i).off('click');
 	$('#newItemComment-' + i).on('click', function () {
 		criaLinhaComment (i + 1);
-		$('#commentsUser-' + (i + 1)).val(localStorage.userNameEmail);
+		$('#commentsUser-' + (i + 1)).val(localStorage.usuarioEmail);
 		acertaSinalItem ("commentItem", "Comment");
 	});
 	
@@ -273,7 +273,7 @@ function criaLinhaVisit (i, visit) {
 	$('#newItemVisit-' + i).off('click');
 	$('#newItemVisit-' + i).on('click', function () {
 		criaLinhaVisit (i + 1);
-		$('#visitsUser-' + (i + 1)).val(localStorage.userNameEmail);
+		$('#visitsUser-' + (i + 1)).val(localStorage.usuarioEmail);
 		acertaSinalItem ("visitItem", "Visit");
 	});
 	

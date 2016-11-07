@@ -620,7 +620,7 @@ function criaLinhaNote (i, note) {
 	$( "#notesDate_" + (i - 1)).unbind();
 	$( "#notesDate_" + i).bind( "blur", function() {
 		criaLinhaNote(i + 1, note);
-		$('#notesUser_' + i).val(localStorage.userNameEmail);
+		$('#notesUser_' + i).val(localStorage.usuarioEmail);
 	});
 };
 
@@ -664,7 +664,7 @@ function criaLinhaVisit (i, visit) {
 	$( "#visitsDate_" + (i - 1)).unbind();
 	$( "#visitsDate_" + i).bind( "blur", function() {
 		criaLinhaVisit(i + 1, visit);
-		$('#visitsUser_' + i).val(localStorage.userNameEmail);
+		$('#visitsUser_' + i).val(localStorage.usuarioEmail);
 	});
 };
 

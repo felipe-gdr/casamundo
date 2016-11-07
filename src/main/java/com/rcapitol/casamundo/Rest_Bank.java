@@ -115,30 +115,46 @@ public class Rest_Bank {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Bank doc) throws MongoException, JsonParseException, JsonMappingException, IOException {
+	public Response AtualizarDocumento(Bank doc) {
 		String name = doc.documento.name;
-		Mongo mongo = new Mongo();
-		DB db = (DB) mongo.getDB("documento");
-		DBCollection collection = db.getCollection("bank");
-		Gson gson = new Gson();
-		String jsonDocumento = gson.toJson(doc);
-		Map<String,String> mapJson = new HashMap<String,String>();
-		ObjectMapper mapper = new ObjectMapper();
-		mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-		JSONObject documento = new JSONObject();
-		documento.putAll(mapJson);
-		BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-		BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
-		@SuppressWarnings("unused")
-		DBObject cursor = collection.findAndModify(searchQuery,
-                null,
-                null,
-                false,
-                update,
-                true,
-                false);
-		mongo.close();
-		return Response.status(200).build();
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("bank");
+			Gson gson = new Gson();
+			String jsonDocumento = gson.toJson(doc);
+			Map<String,String> mapJson = new HashMap<String,String>();
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
+				JSONObject documento = new JSONObject();
+				documento.putAll(mapJson);
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
+				BasicDBObject searchQuery = new BasicDBObject("documento.name", name);
+				@SuppressWarnings("unused")
+				DBObject cursor = collection.findAndModify(searchQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+				mongo.close();
+				return Response.status(200).build();
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
 	};
 	@SuppressWarnings("unchecked")
 	@Path("/lista")	

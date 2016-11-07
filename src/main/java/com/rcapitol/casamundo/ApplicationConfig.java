@@ -10,7 +10,7 @@ import java.util.Set;
 @ApplicationPath("/rest")
 public class ApplicationConfig extends Application {
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public Set<Class<?>> getClasses() {
         return new HashSet<Class<?>>(Arrays.asList(
         		Rest_Student.class,
@@ -32,7 +32,8 @@ public class ApplicationConfig extends Application {
         		Rest_Payment.class,
         		Rest_Dorm.class,
         		Rest_Room.class,
-        		Rest_Pickup.class
+        		Rest_Pickup.class,
+        		Rest_Setup.class
         		));
     }
 }

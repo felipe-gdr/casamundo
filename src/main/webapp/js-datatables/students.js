@@ -265,7 +265,7 @@
 	        	if (localStorage.accommodation == "Homestay"){
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
-			        		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
+			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Allocated"){

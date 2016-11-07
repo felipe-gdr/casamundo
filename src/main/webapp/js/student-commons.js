@@ -212,9 +212,11 @@ function carregaDadosSchool(data, consult, consultName) {
     	$("#schoolConsultName").append( $(option(consultants.name)));
     });
 	$(".school").removeClass("hide");
-	generate_map_7(data.documento.latitude, data.documento.longitude);
-	localStorage.latitudeSchool = data.documento.latitude;
-	localStorage.longitudeSchool = data.documento.longitude;
+    if (localStorage.typePage != "accommodation"){
+    	generate_map_7(data.documento.latitude, data.documento.longitude);
+    	localStorage.latitudeSchool = data.documento.latitude;
+    	localStorage.longitudeSchool = data.documento.longitude;
+    };
 };
 
 /**
@@ -977,9 +979,11 @@ function carregaStudent(data, typePage) {
     $('#country').html(getValueStudent("country"));
     $('#complement').html(getValueStudent("complement"));
 
-	// ** carrega mapa endereco
-	generate_map_6(getValueStudent("latitude"), getValueStudent("longitude"));
-	$('.addressMap').removeClass("hide");
+    // ** carrega mapa endereco
+    if (localStorage.typePage != "accommodation"){
+    	generate_map_6(getValueStudent("latitude"), getValueStudent("longitude"));
+    	$('.addressMap').removeClass("hide");
+    };
 
 	$('#secondaryTelephone').html(getValueStudent("secondaryTelephone"));
     $('#emergencyContactName').html(getValueStudent("emergencyContactName"));
