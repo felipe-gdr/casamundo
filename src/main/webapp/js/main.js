@@ -493,6 +493,31 @@ function calculaIdade ( dataNascimento ) {
 		return daysApart;
 	};				
 
+	function intervaloDatas(start, end){
+        var daysTotal = calculaDias(separaConverteDataMes(start, "/"), separaConverteDataMes(end, "/"));
+        var weeks = Math.abs(Math.round(daysTotal / 7));
+        var days = daysTotal % 7;
+        var daysInterval = "";
+        var litDay = " nights";
+        if (days == 1){
+        	litDay = " night";
+        }
+        var litWeek = " weeks ";
+        if (weeks == 1){
+        	litWeek = " week ";
+        }
+        if (weeks > 0){
+        	durationTrip = weeks + litWeek;
+        };
+        if (days > 0){
+        	daysInterval = durationTrip + days + litDay;
+        }else{
+        	daysInterval = durationTrip;
+        };
+        
+        return daysInterval;
+	};
+	
 	function inclusaoEfetuada(message) {
 		$.smallBox({
 			title : "Ok",

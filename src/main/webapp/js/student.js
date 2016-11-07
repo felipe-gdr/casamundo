@@ -1,5 +1,3 @@
-	// ** setar menu
-	$("#menuStudents_li").addClass("active");
 	// 
 	//**    carrega dados url
 	//
@@ -13,9 +11,17 @@
 		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
 	};
 	
+	// ** setar menu
+	if (typePage == "accommodation"){
+		$("#menuHomestay_li").addClass("active");	
+	};
+	if (typePage == "accommodation-dorms"){
+		$("#menuShare_li").addClass("active");	
+	};
+
 	localStorage.typePage = typePage;
 	
-	if (typePage == "accommodation"){
+	if (typePage == "accommodation" | typePage == "accommodation-dorms"){
 		$('#smart-fixed-ribbon').trigger('click');
 		
 		$(".homestay").addClass("hide");

@@ -154,26 +154,7 @@
             default: 
         		genderCollor = "label-male"
             };	    
-            var daysTotal = calculaDias(separaConverteDataMes(student.trip.start, "/"), separaConverteDataMes(student.trip.end, "/"));
-            var weeks = Math.abs(Math.round(daysTotal / 7));
-            var days = daysTotal % 7;
-            var durationTrip = "";
-            var litDay = " nights";
-            if (days == 1){
-            	litDay = " night";
-            }
-            var litWeek = " weeks ";
-            if (weeks == 1){
-            	litWeek = " week ";
-            }
-            if (weeks > 0){
-            	durationTrip = weeks + litWeek;
-            };
-            if (days > 0){
-                durationTrip = durationTrip + days + litDay;
-            }else{
-            	durationTrip = durationTrip;
-            };
+            var durationTrip = intervaloDatas(student.trip.start, student.trip.end);
             var age = calculaIdade(separaConverteDataMes(student.birthDay, "/"));
         	switch (student.trip.smoke) {
         	case "Yes":
@@ -322,7 +303,7 @@
 	        	if (localStorage.accommodation == "Dorms"){
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
-			        		"<li><a href='student.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
+			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' " + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        	if (student.trip.status == "Partially allocated"){
 			        		actions = actions +	

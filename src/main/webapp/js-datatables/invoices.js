@@ -107,26 +107,7 @@
             default: 
         		genderCollor = "label-male"
             };	    
-            var daysTotal = calculaDias(separaConverteDataMes(invoice.trip.start, "/"), separaConverteDataMes(invoice.trip.end, "/"));
-            var weeks = Math.abs(Math.round(daysTotal / 7));
-            var days = daysTotal % 7;
-            var durationTrip = "";
-            var litDay = " nights";
-            if (days == 1){
-            	litDay = " night";
-            }
-            var litWeek = " weeks ";
-            if (weeks == 1){
-            	litWeek = " week ";
-            }
-            if (weeks > 0){
-            	durationTrip = weeks + litWeek;
-            };
-            if (days > 0){
-                durationTrip = durationTrip + days + litDay;
-            }else{
-            	durationTrip = durationTrip;
-            };
+            var durationTrip = intervaloDatas(invoice.trip.start, invoice.trip.end);
             var age = calculaIdade(separaConverteDataMes(invoice.student.birthDay, "/"));
         	switch (invoice.status) {
         	case "new":

@@ -76,13 +76,11 @@
     		            { "data": "dates",
     		            	"width": "12%"},
     		            { "data": "invoice",
-    		            	"width": "10%"},
-    		            { "data": "customer",
-    		            	"width": "10%"},
+    		            	"width": "15%"},
        		            { "data": "detail",
        		            	"width": "10%"},
     		            { "data": "comments",
-    		            	"width": "5%"},
+    		            	"width": "10%"},
     		            ],
             "responsive": true,
             "charset" : "UTF-8",
@@ -110,27 +108,8 @@
                 break;
             default: 
         		genderCollor = "label-male"
-            };	    
-            var daysTotal = calculaDias(separaConverteDataMes(payment.student.trips[payment.student.actualTrip].start, "/"), separaConverteDataMes(payment.student.trips[payment.student.actualTrip].end, "/"));
-            var weeks = Math.abs(Math.round(daysTotal / 7));
-            var days = daysTotal % 7;
-            var durationTrip = "";
-            var litDay = " nights";
-            if (days == 1){
-            	litDay = " night";
-            }
-            var litWeek = " weeks ";
-            if (weeks == 1){
-            	litWeek = " week ";
-            }
-            if (weeks > 0){
-            	durationTrip = weeks + litWeek;
-            };
-            if (days > 0){
-                durationTrip = durationTrip + days + litDay;
-            }else{
-            	durationTrip = durationTrip;
-            };
+            };	
+            var durationTrip = intervaloDatas(payment.student.trips[payment.student.actualTrip].start, payment.student.trips[payment.student.actualTrip].end);
             var age = calculaIdade(separaConverteDataMes(payment.student.birthDay, "/"));
         	switch (payment.status) {
         	case "new":
@@ -252,7 +231,8 @@
     	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>" +
     	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.trips[payment.student.actualTrip].accommodation + "</small><br>" +
     	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].occupancy + "<i></small><br>" +
-    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].mealPlan + "<i></small><br>",
+    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].mealPlan + "<i></small><br>" +
+    	    			"<span class='text-column'>" + payment.invoice.agencyName + "</span><br>",
     	    	"additional":
     	    			"<small class='text-muted text-column'>Underage: " + " " + "</small><br>" +
 	    				"<small class='text-muted text-column'>Pvt WC: " + payment.student.trips[payment.student.actualTrip].privateWashroom + "</small><br>" +
@@ -268,8 +248,6 @@
     	    			"<small class='text-muted text-column'>Nmber: " + payment.invoice.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + payment.invoice.amount + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate, "-") + "</small><br>",
-       	    	"customer":
-    	    			"<span class='text-column'>" + payment.invoice.agencyName + "</span><br>",
        	    	"detail":
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
     	    			"<small class='text-muted text-column'>Status: " + payment.status + "</small><br>" +

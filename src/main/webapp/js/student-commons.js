@@ -212,7 +212,7 @@ function carregaDadosSchool(data, consult, consultName) {
     	$("#schoolConsultName").append( $(option(consultants.name)));
     });
 	$(".school").removeClass("hide");
-    if (localStorage.typePage != "accommodation"){
+    if (localStorage.typePage != "accommodation" && localStorage.typePage != "accommodation-dorms"){
     	generate_map_7(data.documento.latitude, data.documento.longitude);
     	localStorage.latitudeSchool = data.documento.latitude;
     	localStorage.longitudeSchool = data.documento.longitude;
@@ -980,7 +980,7 @@ function carregaStudent(data, typePage) {
     $('#complement').html(getValueStudent("complement"));
 
     // ** carrega mapa endereco
-    if (localStorage.typePage != "accommodation"){
+    if (localStorage.typePage != "accommodation" && localStorage.typePage != "accommodation-dorms"){
     	generate_map_6(getValueStudent("latitude"), getValueStudent("longitude"));
     	$('.addressMap').removeClass("hide");
     };
@@ -1006,6 +1006,8 @@ function carregaStudent(data, typePage) {
     
     $("#start").html(separaDataMes(getValueStudent("start", actualTrip), "-"));
     $("#end").html(separaDataMes(getValueStudent("end", actualTrip), "-"), actualTrip);
+    $("#duration").html(intervaloDatas(getValueStudent("start", actualTrip), getValueStudent("end", actualTrip)));
+
     $("#arrivalDate").html(separaDataMes(getValueStudent("arrivalDate", actualTrip), "-"));
     $("#arrivalTime").html(separaHora(getValueStudent("arrivalTime", actualTrip), ":"));
     $('#arrivalFlightNumber').html(getValueStudent("arrivalFlightNumber",actualTrip));
