@@ -239,7 +239,7 @@
 	        dateIncluded = "";
             payment_table.row.add( {
     	    	"vendor":
-	    			"<a href='create-payments-vendors.html?id=" + payment.id + "&typePage=change>" +
+	    			"<a href='create-payments-vendors.html?mail=" + payment.student.mail + "&id=" + payment.id + "&typePage=change'>" +
 	    				"<span class='text-column'>" + payment.vendorName + "</span><br>" +
 	    				"<small class='text-muted text-column'>Rate: </small><small class='text-bold text-column'>" + "" + "</small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + payment.number + "</small><br>" +

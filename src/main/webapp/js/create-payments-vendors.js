@@ -5,13 +5,14 @@
 	var idPayment = 1; 
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
-	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
-	if (parametrosDaUrl.split("&")[2]){
-		idInvoice = parametrosDaUrl.split("&")[2].split("=")[1];
-	};
 	var parameter = parametrosDaUrl.split("&");
+	var idInvoice = "";
+	var typePage = "";
+	var mailUrl = "";
 	if (parameter[1]) {
-		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
+		var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
+		var idInvoice = parametrosDaUrl.split("&")[1].split("=")[1];
+		var typePage = parametrosDaUrl.split("&")[2].split("=")[1];
 	};
 	
 	/**
