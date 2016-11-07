@@ -2,6 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -59,6 +60,18 @@ public class Commons {
 		return null;
 	};
 
+	
+	public String calcNewDate (String date, int days){
+		
+		DateFormat df = new SimpleDateFormat ("ddMMyyyy");
+		Calendar cal = Calendar.getInstance();   
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(convertDateMes(date).substring(0, 2)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(convertDateMes(date).substring(3, 5)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
+		cal.add(Calendar.DAY_OF_MONTH, 5);
+		return convertDateMesAlfa(df.format(cal.getTime())).replaceAll("/", "");
+	};
+
 	public Long calcTime (String date){
 		System.out.println("date=" + date);
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
@@ -112,6 +125,48 @@ public class Commons {
 	    	mesNumber = "12";
 	    };
 		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
+	};
+
+	public String convertDateMesAlfa (String strDate){
+		String mesAlpha = "Jan";
+		String mesNumber = strDate.substring	(2, 4);
+	    if (mesNumber.equals("01")){
+	    	mesAlpha = "Jan";
+	    };
+	    if (mesNumber.equals("02")){
+	    	mesAlpha = "Feb";
+	    };
+	    if (mesNumber.equals("03")){
+	    	mesAlpha = "Mar";
+	    };
+	    if (mesNumber.equals("04")){
+	    	mesAlpha = "Apr";
+	    };
+	    if (mesNumber.equals("05")){
+	    	mesAlpha = "May";
+	    };
+	    if (mesNumber.equals("06")){
+	    	mesAlpha = "Jun";
+	    };
+	    if (mesNumber.equals("07")){
+	    	mesAlpha = "Jul";
+	    };
+	    if (mesNumber.equals("08")){
+	    	mesAlpha = "Aug";
+	    };
+	    if (mesNumber.equals("09")){
+	    	mesAlpha = "Sep";
+	    };
+	    if (mesNumber.equals("10")){
+	    	mesAlpha = "Out";
+	    };
+	    if (mesNumber.equals("11")){
+	    	mesAlpha = "Nov";
+	    };
+	    if (mesNumber.equals("12")){
+	    	mesAlpha = "Dec";
+	    };
+		return strDate.substring(0, 2) + mesAlpha + strDate.substring(4, 8);
 	};
 
 }

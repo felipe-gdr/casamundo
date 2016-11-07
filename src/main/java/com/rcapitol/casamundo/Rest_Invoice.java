@@ -2,10 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +28,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -69,15 +64,15 @@ public class Rest_Invoice {
 			//
 			//** ler student
 			//
-			String studentIdString = obj.getString("idStudent");
-			ObjectId studentId = new ObjectId(studentIdString);
+			String idstudentString = obj.getString("idStudent");
+			ObjectId studentId = new ObjectId(idstudentString);
 			Mongo mongoStudent = new Mongo();
 			DB dbStudent = (DB) mongoStudent.getDB("documento");
 			DBCollection collectionStudent = dbStudent.getCollection("student");
 			BasicDBObject searchQueryStudent = new BasicDBObject("_id", studentId);
 			DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
 			BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
-			objStudent.put("id", studentIdString);
+			objStudent.put("id", idstudentString);
 			mongoStudent.close();
 			documento.put("student", objStudent);
 			
@@ -116,6 +111,8 @@ public class Rest_Invoice {
 			documento.putAll(mapJson);
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
+			ObjectId id = (ObjectId)insert.get( "_id" );
+			criarCosts(id, null, null);
 			mongo.close();
 			return Response.status(200).entity(documento).build();
 		} catch (UnknownHostException e) {
@@ -134,6 +131,7 @@ public class Rest_Invoice {
 		return Response.status(500).build();
 		
 	};
+
 	@SuppressWarnings("unchecked")
 	@Path("/atualizar")
 	@POST
@@ -165,6 +163,7 @@ public class Rest_Invoice {
 		                true,
 		                false);
 				mongo.close();
+				criarCosts(id, null, null);
 				return Response.status(200).build();
 			} catch (JsonParseException e) {
 				e.printStackTrace();
@@ -481,6 +480,161 @@ public class Rest_Invoice {
 		return jsonCost;
 	};
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void criarCosts(ObjectId id, String actualTrip, ObjectId idStudent) {
+		Commons commons = new Commons();
+		Rest_Payment payment = new Rest_Payment();
+		
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("invoice");
+			BasicDBObject setQuery = new BasicDBObject();
+			if (id != null){
+				setQuery = new BasicDBObject("_id", id);
+			};
+			if (actualTrip != null){
+				setQuery = new BasicDBObject("actualTrip", actualTrip);
+			};
+			if (idStudent != null){
+				setQuery = new BasicDBObject("idStudent", idStudent);
+			};
+			DBObject cursor = collection.findOne(setQuery);
+			BasicDBObject objInvoice = (BasicDBObject) cursor.get("documento");
+			ObjectId idInvoice = (ObjectId) cursor.get("_id");
+			String idInvoiceString = idInvoice.toString();
+			//
+			//** deletar payments da invoice
+			//
+			Mongo mongoPayment;
+			mongoPayment = new Mongo();
+			DB dbPayment = (DB) mongoPayment.getDB("documento");
+			DBCollection collectionPayment = dbPayment.getCollection("payment");
+			BasicDBObject queryDelete = new BasicDBObject();
+			queryDelete.put("documento.idInvoice", idInvoiceString);
+			collectionPayment.remove(queryDelete);
+			//** ler student
+			//
+			String idstudentString = objInvoice.getString("idStudent");
+			ObjectId studentId = new ObjectId(idstudentString);
+			Mongo mongoStudent = new Mongo();
+			DB dbStudent = (DB) mongoStudent.getDB("documento");
+			DBCollection collectionStudent = dbStudent.getCollection("student");
+			BasicDBObject searchQueryStudent = new BasicDBObject("_id", studentId);
+			DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
+			BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
+			mongoStudent.close();
+		    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+		    String date = null;
+	    	String idFamily = null;
+	    	String idVendor = null;
+	    	String destination = null;
+		    if (tripIndex != null){
+				List trips = (List) objStudent.get("trips");
+				BasicDBObject jsonTrip =  (BasicDBObject) trips.get(tripIndex);
+				date = (String) jsonTrip.get("start");
+				idFamily = (String) jsonTrip.get("idFamily");
+				destination = (String) jsonTrip.get("destination");
+		    };
+			List listItens = (List) objInvoice.get("itensNet");
+			int w = 0;
+			while (w < listItens.size()) {
+				BasicDBObject itemInvoice = (BasicDBObject) listItens.get(w);
+				JSONObject itemCost = new JSONObject();
+				itemCost.put("id", "1");
+				itemCost.put("idStudent", idstudentString);
+				itemCost.put("idInvoice", idInvoiceString);
+				itemCost.put("invoiceNumber", objInvoice.get("number"));
+				itemCost.put("actualTrip", objStudent.get("actualTrip"));
+				itemCost.put("status", "new");
+				itemCost.put("number", payment.numberPayment());
+				itemCost.put("dueDate", commons.calcNewDate(date, 6));
+				itemCost.put("destination", destination);
+				JSONArray itens = new JSONArray();
+				JSONObject item = new JSONObject();
+				item.put("item", itemInvoice.get("item"));
+				item.put("amount", itemInvoice.get("amount"));
+				double amount = Double.parseDouble((String) itemInvoice.get("amount"));
+				item.put("description", itemInvoice.get("description"));
+				String value = null;
+				String type = null;
+				if (!date.equals("null")){
+					JSONObject jsonCost = new JSONObject();
+					String idPriceTable = (String) itemInvoice.get("item");
+					if (idFamily != null && !destination.equals("null")){
+						jsonCost = searchCostValue (idFamily, destination, idPriceTable, date);
+						value = (String) jsonCost.get("value");
+						type = (String) jsonCost.get("type");
+						idVendor = idFamily;
+					};
+					if (value == null && idFamily != null){
+						jsonCost = searchCostValue (idFamily, "", idPriceTable, date);
+						value = (String) jsonCost.get("value");
+						type = (String) jsonCost.get("type");
+						idVendor = idFamily;
+					};
+					if (value == null ){
+				    	ArrayList arrayListVendors = new ArrayList(); 
+				    	arrayListVendors = (ArrayList) objStudent.get("vendors");
+				    	if (arrayListVendors != null){
+					    	Object arrayVendors[] = arrayListVendors.toArray(); 
+							int z = 0;
+							while (z < arrayVendors.length | value != null) {
+								idVendor = (String) arrayVendors[z];
+								jsonCost = searchCostValue (idVendor, destination, idPriceTable, date);
+								value = (String) jsonCost.get("value");
+								type = (String) jsonCost.get("type");
+								if (value == null){
+									jsonCost = searchCostValue (idVendor, "", idPriceTable, date);
+									value = (String) jsonCost.get("value");
+									type = (String) jsonCost.get("type");
+								};
+								++z;
+							};
+				    	};
+					};
+					if (value == null && !destination.equals("null")){
+						jsonCost = searchCostValue ("", destination, idPriceTable, date);						
+						value = (String) jsonCost.get("value");
+						type = (String) jsonCost.get("type");
+					};
+					if (value == null){
+						jsonCost = searchCostValue ("", "", idPriceTable, date);
+						value = (String) jsonCost.get("value");
+						type = (String) jsonCost.get("type");
+					};
+					if (value != null){
+					};
+			    };
+				if (value != null){
+					item.put("value", value);
+					itens.add(item);
+					double valueNumber = Double.parseDouble(value);
+					Double amountValue = amount * valueNumber;
+					itemCost.put("idVendor", idVendor);
+					itemCost.put("type", type);
+					itemCost.put("amount", Double.toString(amountValue));
+					itemCost.put("itens", itens);
+
+					//
+					// ** incluir novo custo
+					//
+					BasicDBObject documento = new BasicDBObject();
+					documento.put("documento", itemCost);
+					DBObject insert = new BasicDBObject(documento);
+					collectionPayment.insert(insert);
+				};
+				++w;
+			};
+			mongoPayment.close();
+			mongo.close();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+	}
 };
 
 

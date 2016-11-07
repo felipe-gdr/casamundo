@@ -138,7 +138,8 @@
 	    			$('#idFamily').html($(this).attr('data-idFamily'));
 	    			$('#emailFamily').val($(this).attr('data-emailFamily'));
 	    			$('#emailStudent').val($(this).attr('data-emailStudent'));
-	    			$('#indexTrip').val($(this).attr('data-indexTrip'));
+	    			$('#idStudent').val($(this).attr('data-idStudent'));
+	    			$('#actualTrip').val($(this).attr('data-actualTrip'));
 	    			$('#roomSingle').val($(this).attr('data-roomSingle'));
 	    			$('#roomCouple').val($(this).attr('data-roomCouple'));
 	    			$('#roomNumber').val($(this).attr('data-roomNumber'));
@@ -151,7 +152,8 @@
 	    		    			idFamily : $(this).attr('data-idFamily'),
 	    		    			emailFamily : $(this).attr('data-emailFamily'),
 	    		    			emailStudent : $(this).attr('data-emailStudent'),
-	    		    			indexTrip : $(this).attr('data-indexTrip'),
+	    		    			idStudent : $(this).attr('data-idStudent'),
+	    		    			actualTrip : $(this).attr('data-actualTrip'),
 	    		    			roomSingle : $(this).attr('data-roomSingle'),
 	    		    			roomCouple : $(this).attr('data-roomCouple'),
 	    		    			roomNumber : $(this).attr('data-roomNumber'),
@@ -280,6 +282,7 @@
         var student = JSON.parse(localStorage.getItem("student"));
         var actualTrip = student.documento.actualTrip;
         var emailStudent = student.documento.mail;
+        var idStudent = student._id;
         if (family.rooms){
 	        if (family.rooms[0]){
 	        	var roomSingle = 0;
@@ -311,22 +314,22 @@
 			    			literal_1 = "beds"
 			    		};
 			    		if (room.occupancySingleBed){
-				    		var singleBedAvailable = room.singleBed - bedsOccupied(room.occupancySingleBed);
+				    		var singleBedAvailable = room.singleBed - bedsOccupiedFamily(room.occupancySingleBed);
 				    		if (singleBedAvailable == 0){
 				    			availableBedText = "no available single beds"
 				    		}else{
-					    		studentOccupancyData = lastNextOccupancy(room.occupancySingleBed, studentOccupancyData);
+					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancySingleBed, studentOccupancyData);
 				    			roomSingle = i;
 				    			if (student.documento.trips[actualTrip].occupancy == "Single"){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
 				    					roomsAvailable = true;
-				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
+				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 				    				};
 				    			};
 				    			if (student.documento.trips[actualTrip].occupancy == "Couple" && singleBedAvailable > 1){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
 				    					roomsAvailable = true;
-				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
+				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 				    				};
 				    			};
 					    		if (singleBedAvailable == 1){
@@ -347,16 +350,16 @@
 			    			literal_1 = "beds"
 			    		};
 			    		if (room.occupancyCoupleBed){
-				    		var coupleBedAvailable = room.coupleBed - bedsOccupied(room.occupancyCoupleBed);
+				    		var coupleBedAvailable = room.coupleBed - bedsOccupiedFamily(room.occupancyCoupleBed);
 				    		if (coupleBedAvailable == 0){
 				    			availableBedText = "no available couple beds"
 				    		}else{
-					    		studentOccupancyData = lastNextOccupancy(room.occupancyCoupleBed, studentOccupancyData);
+					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancyCoupleBed, studentOccupancyData);
 				    			roomCouple = i;
 				    			if (student.documento.trips[actualTrip].occupancy == "Couple"){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
 				    					roomsAvailable = true;
-				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
+				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 				    				};
 				    			};
 					    		if (coupleBedAvailable == 1){
@@ -403,7 +406,7 @@
 		    		};
 			    });
 			    if (!roomsAvailable){
-			    	actions = actions + "<li data-process='noroomsavailable' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#'>No rooms available</a></li>";
+			    	actions = actions + "<li data-process='noroomsavailable' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-idStudent='" + idStudent + "' data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#'>No rooms available</a></li>";
 			    }
 	        };
         };
@@ -430,18 +433,18 @@
             };
         };
 //        if (student.documento.trips[actualTrip].status == "Available"){
-//        	actions = actions + "<li  data-process='offertofamily' data-roomCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
+//        	actions = actions + "<li  data-process='offertofamily' data-roomCouple='" + roomCouple + "'  data-roomSingle='" + roomSingle + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-idStudent='" + idStudent + "' data-actualTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Offer to Family</a></li>";
 //        };
         if (student.documento.trips[actualTrip].status == "Confirmed"){
-        	actions = "<li data-process='sendlettertostudent' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
+        	actions = "<li data-process='sendlettertostudent' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "' data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>";
         };
         if (student.documento.trips[actualTrip].status == "DocsOk"){
-        	actions = "<li data-process='studentinhouse' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
-        				"<li data-process='cancel' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+        	actions = "<li data-process='studentinhouse' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Student in house</a></li>" +
+        				"<li data-process='cancel' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
         };
         if (student.documento.trips[actualTrip].status == "InHouse"){
-        	actions = "<li data-process='terminate' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
-        				"<li data-process='cancel' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-indexTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
+        	actions = "<li data-process='terminate' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Terminated</a></li>" +
+        				"<li data-process='cancel' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "' data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "'><a href='#' id='chooseFamily_" + family.familyName + "' data-toggle='modal' data-target='#offerToFamily'>Cancel></li>"
         };
         
         family_table.row.add( {
@@ -493,7 +496,7 @@
 	    '</table>';
 	};
 	
-	function lastNextOccupancy (occupancyRows, studentOccupancyData) {
+	function lastNextOccupancyFamily (occupancyRows, studentOccupancyData) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
 		var actualTrip = objJson.documento.actualTrip;
 		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
@@ -522,7 +525,7 @@
 	    return studentOccupancyData;
 	};
 	
-	function bedsOccupied (occupancyRows) {
+	function bedsOccupiedFamily (occupancyRows) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
 		var actualTrip = objJson.documento.actualTrip;
 		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
@@ -823,16 +826,22 @@
 		var occupancy = 
 			{
 			emailStudent : objRoom.emailStudent,
+			idStudent : objRoom.idStudent,
+			actualTrip : objRoom.actualTrip,
             startOccupancy : objRoom.start ,
             endOccupancy : objRoom.end
 			};
 		if (objRoom.occupancy == "Single"){
-			objFamily.documento.rooms[objRoom.roomNumber].occupancySingleBed.push(occupancy);
+			if (objFamily.documento.rooms[objRoom.roomNumber].occupancySingleBed){
+				objFamily.documento.rooms[objRoom.roomNumber].occupancySingleBed.push(occupancy);
+			};
 		};
 		if (objRoom.occupancy == "Couple"){
-			objFamily.documento.rooms[objRoom.roomNumber].occupancyCoupleBed.push(occupancy);
+			if (objFamily.documento.rooms[objRoom.roomNumber].occupancyCoupleBed){			
+				objFamily.documento.rooms[objRoom.roomNumber].occupancyCoupleBed.push(occupancy);
+			};
 		};
-		rest_atualizaFamily(objFamily, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again")
+		rest_atualizaFamily(objFamily, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again");
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 		objStudent.documento.trips[objStudent.documento.actualTrip].familyName = objRoom.familyName;
 		objStudent.documento.trips[objStudent.documento.actualTrip].idFamily = objRoom.idFamily;
@@ -841,6 +850,10 @@
 		delete objStudent.rooms;
 		delete objStudent.family;
 		delete objStudent.room;
-		rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Family name included", "Problems to update student, try again")
+		rest_atualizaStudent(objStudent, atualizaPayment, atualizacaoNaoEfetuada, "Family name included", "Problems to update student, try again", objRoom.idStudent, objRoom.actualTrip)
 		
+	};
+	
+	function atualizaPayment(idStudent, actualTrip){
+		rest_criaPayment(idStudent, actualTrip, atualizacaoEfetuada, semAcao, "Rooms update", "Problems to update rooms, try again")		
 	};

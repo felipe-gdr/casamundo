@@ -79,7 +79,7 @@
     	});
     };
 
-    function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK) {
+    function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK, var1, var2) {
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
@@ -96,9 +96,17 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok (messageOk);
+        		if (var1){
+        			action_ok (var1, var2);
+        		}else{
+        			if (messageOk){
+        				action_ok (messageOk);
+        			};
+        		};
         	}else{
-        		actio_not_ok(messageNotoK)
+        		if (messageNotoK){
+        			action_not_ok(messageNotoK);
+        		};
         	};
     	});
 
@@ -202,7 +210,7 @@
        	});
     };
 
-    function rest_atualizaFamily(objJson, action_ok, action_not_ok, messageOK, messageNotOk) {
+    function rest_atualizaFamily(objJson, action_ok, action_not_ok, messageOK, messageNotOk,var1, var2) {
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
@@ -219,7 +227,11 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok (messageOK);
+        		if (var1){
+        			action_ok (var1, var2);
+        		}else{
+        			action_ok (messageOK);	
+        		};
         	}else{
         		actio_not_ok(messageNotOk)
         	};
@@ -1064,6 +1076,23 @@
     	}
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/obterPayment?id="  + id + costParam ,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, var1, var2);
+    	})
+    	.fail(function(data, var1, var2) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
+
+    function rest_criaPayment(idStudent, actualTrip, action_ok, action_not_ok, var1, var2) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/criaPayment?idStudent="  + idStudent + "&actualTrip=" + actualTrip,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false

@@ -405,6 +405,8 @@ public class Family {
   
             public static final class OccupancySingleBed {
         		public String emailStudent;
+        		public String idStudent;
+        		public String actualTrip;
         		public String startOccupancy;
         		public String endOccupancy;
 
@@ -415,11 +417,15 @@ public class Family {
                 @JsonCreator
                 public OccupancySingleBed(
                 			String emailStudent,
+                			String idStudent,
+                			String actualTrip,
                 			String startOccupancy,
                 			String endOccupancy
                 		)
                 {
     	    		this.emailStudent = emailStudent;
+    	    		this.idStudent = idStudent;
+    	    		this.actualTrip = actualTrip;
     	    		this.startOccupancy = startOccupancy;
     	    		this.endOccupancy = endOccupancy;
                 }
@@ -428,6 +434,8 @@ public class Family {
             
             public static final class OccupancyCoupleBed {
         		public String emailStudent;
+        		public String idStudent;
+        		public String actualTrip;
         		public String startOccupancy;
         		public String endOccupancy;
 
@@ -438,11 +446,15 @@ public class Family {
                 @JsonCreator
                 public OccupancyCoupleBed(
                 			String emailStudent,
+                			String idStudent,
+                			String actualTrip,
                 			String startOccupancy,
                 			String endOccupancy
                 		)
                 {
     	    		this.emailStudent = emailStudent;
+    	    		this.idStudent = idStudent;
+    	    		this.actualTrip = actualTrip;
     	    		this.startOccupancy = startOccupancy;
     	    		this.endOccupancy = endOccupancy;
                 }

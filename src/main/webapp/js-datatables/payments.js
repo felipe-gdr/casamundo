@@ -239,14 +239,15 @@
 	        dateIncluded = "";
             payment_table.row.add( {
     	    	"vendor":
-	    			"<a href='create-payments-vendors.html?id=" + payment.vendorName + "&typePage=change&id=" + payment.id + "'>" +
+	    			"<a href='create-payments-vendors.html?id=" + payment.id + "&typePage=change>" +
+	    				"<span class='text-column'>" + payment.vendorName + "</span><br>" +
 	    				"<small class='text-muted text-column'>Rate: </small><small class='text-bold text-column'>" + "" + "</small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + payment.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + payment.amount + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(payment.dueDate,"-") + "</small><br>" +
 	    				"<small class='text-muted text-column'>Authorized: </small><small class='text-bold text-column'>" + "" + "</small></a>",
     	    	"student": 
-    	    			"<a href='student.html.html?id=" + payment.student.mail + "&&typePage=change></a>" +
+    	    			"<a href='student.html.html?id=" + payment.student.mail + "'&typePage=change></a>" +
     	    			"<span class='text-column'>" + payment.student.firstName +  " " + payment.student.lastName + "</span><br>" + 
     	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>" +
     	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.trips[payment.student.actualTrip].accommodation + "</small><br>" +
@@ -266,9 +267,9 @@
     	    			"<small class='text-muted text-column'>Status: " + payment.invoice.status + "</small><br>" +
     	    			"<small class='text-muted text-column'>Nmber: " + payment.invoice.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + payment.invoice.amount + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate) + "</small><br>",
+    	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate, "-") + "</small><br>",
        	    	"customer":
-    	    			"<small class='text-muted text-column'>" + payment.invoice.agencyName + "</small><br>",
+    	    			"<span class='text-column'>" + payment.invoice.agencyName + "</span><br>",
        	    	"detail":
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
     	    			"<small class='text-muted text-column'>Status: " + payment.status + "</small><br>" +

@@ -121,6 +121,34 @@ public class Rest_Payment {
 		return Response.status(500).build();
 		
 	};
+
+	@Path("/criaPayment")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONObject CriaPayment(@QueryParam("idStudent") String idStudent, @QueryParam("actualTrip") String actualTrip) {
+		Rest_Invoice rest_invoice = new Rest_Invoice();
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			DBCollection collection = db.getCollection("invoice");
+
+			BasicDBObject setQuery = new BasicDBObject();
+	    	setQuery.put("documento.idStudent", idStudent);
+	    	setQuery.put("documento.actualTrip", actualTrip);
+			DBCursor cursor = collection.find(setQuery);
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				BasicDBObject objInvoice = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				rest_invoice.criarCosts((ObjectId) objInvoice.get("_id"), null, null);
+			};
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		};
+		return null;
+	};
 	@SuppressWarnings("unchecked")
 	@Path("/atualizar")
 	@POST
@@ -234,38 +262,40 @@ public class Rest_Payment {
 					String idVendor = (String) jsonObject.get("idVendor");
 					String vendorName = "";
 					String type = (String) jsonObject.get("type");
-					if (type.equals("family")){
-						Mongo mongoFamily = new Mongo();
-						DB dbFamily = (DB) mongoFamily.getDB("documento");
-						DBCollection collectionFamily = dbFamily.getCollection("family");
-						ObjectId idFamily = new ObjectId(idVendor);
-						BasicDBObject searchQueryFamily = new BasicDBObject("_id", idFamily);
-						DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
-						if (cursorFamily != null){
-							BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
-							jsonDocumento.put("vendorName", objFamily.get("familyName"));
-							vendorName = (String) objFamily.get("familyName");
+					if (!idVendor.equals("")){
+						if (type.equals("family")){
+							Mongo mongoFamily = new Mongo();
+							DB dbFamily = (DB) mongoFamily.getDB("documento");
+							DBCollection collectionFamily = dbFamily.getCollection("family");
+							ObjectId idFamily = new ObjectId(idVendor);
+							BasicDBObject searchQueryFamily = new BasicDBObject("_id", idFamily);
+							DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
+							if (cursorFamily != null){
+								BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
+								jsonDocumento.put("vendorName", objFamily.get("familyName"));
+								vendorName = (String) objFamily.get("familyName");
+							}else{
+								jsonDocumento.put("vendorName", "undefined");
+								vendorName = "undefined";
+							};
+							mongoFamily.close();
 						}else{
-							jsonDocumento.put("vendorName", "undefined");
-							vendorName = "undefined";
+							Mongo mongoPickup = new Mongo();
+							DB dbPickup = (DB) mongoPickup.getDB("documento");
+							DBCollection collectionPickup = dbPickup.getCollection("pickup");
+							ObjectId idPickup = new ObjectId(idVendor);
+							BasicDBObject searchQueryPickup = new BasicDBObject("_id", idPickup);
+							DBObject cursorPickup = collectionPickup.findOne(searchQueryPickup);
+							if (cursorPickup != null){
+								BasicDBObject objPickup = (BasicDBObject) cursorPickup.get("documento");
+								jsonDocumento.put("vendorName", objPickup.get("name"));
+								vendorName = (String) objPickup.get("name");
+							}else{
+								jsonDocumento.put("vendorName", "undefined");
+								vendorName = "undefined";
+							};
+							mongoPickup.close();
 						};
-						mongoFamily.close();
-					}else{
-						Mongo mongoPickup = new Mongo();
-						DB dbPickup = (DB) mongoPickup.getDB("documento");
-						DBCollection collectionPickup = dbPickup.getCollection("pickup");
-						ObjectId idPickup = new ObjectId(idVendor);
-						BasicDBObject searchQueryPickup = new BasicDBObject("_id", idPickup);
-						DBObject cursorPickup = collectionPickup.findOne(searchQueryPickup);
-						if (cursorPickup != null){
-							BasicDBObject objPickup = (BasicDBObject) cursorPickup.get("documento");
-							jsonDocumento.put("vendorName", objPickup.get("name"));
-							vendorName = (String) objPickup.get("name");
-						}else{
-							jsonDocumento.put("vendorName", "undefined");
-							vendorName = "undefined";
-						};
-						mongoPickup.close();
 					};
 					//
 					//** dados invoice
@@ -426,7 +456,57 @@ public class Rest_Payment {
 		};
 		return response;
 	};
-	
+
+	public String numberPayment(){
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject obj = new BasicDBObject();
+			ObjectId id = new ObjectId(); 
+			DBCollection collection = db.getCollection("setup");
+			BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "numberPayment");
+			DBObject cursor = collection.findOne(searchQuery);
+			int number = 1;
+			if (cursor != null){
+				obj = (BasicDBObject) cursor.get("documento");
+				id = (ObjectId) cursor.get("_id");
+				String oldNumber = obj.getString("setupValue");
+				number = ((Integer.parseInt(oldNumber) + 1 ));
+			};
+			searchQuery = new BasicDBObject("documento.setupKey", "yearNumberPayment");
+			cursor = collection.findOne(searchQuery);
+			String year = "2016";
+			if (cursor != null){
+				obj = (BasicDBObject) cursor.get("documento");
+				year = obj.getString("setupValue");
+			};
+			//
+			// ** atualizar novo numero
+			//
+			BasicDBObject objUpdate = new BasicDBObject();
+			objUpdate.put("documento.setupKey", "numberPayment");
+			objUpdate.put("documento.setupValue", Integer.toString(number));
+			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+			BasicDBObject setQuery = new BasicDBObject("_id", id);
+			cursor = collection.findAndModify(setQuery,
+	                null,
+	                null,
+	                false,
+	                update,
+	                true,
+	                false);
+			mongo.close();
+
+			return Integer.toString(number) + "/" + year;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		};
+		return null;
+	};
+
 };
 
 
