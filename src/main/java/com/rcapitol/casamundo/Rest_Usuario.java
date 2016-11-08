@@ -53,10 +53,8 @@ public class Rest_Usuario {
 			mongo.close();
 			return documento;
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -83,19 +81,15 @@ public class Rest_Usuario {
 			mongo.close();
 			return Response.status(200).build();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			System.out.println("UnknownHostException");
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			System.out.println("MongoException");
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			System.out.println("JsonMappingException");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("IOException");
 			e.printStackTrace();
 		}
@@ -134,20 +128,15 @@ public class Rest_Usuario {
 				mongo.close();
 				return Response.status(200).build();
 			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

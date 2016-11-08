@@ -2,9 +2,6 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -36,8 +33,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-
-import com.rcapitol.casamundo.Commons;
 
 	
 @Singleton

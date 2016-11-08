@@ -249,7 +249,7 @@ public class Rest_Payment {
 
 					jsonDocumento.put("student", objStudent);
 
-				    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 				    if (tripIndex != null){
 						List<?> trips = (List<?>) objStudent.get("trips");
 						BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
@@ -262,7 +262,7 @@ public class Rest_Payment {
 					String idVendor = (String) jsonObject.get("idVendor");
 					String vendorName = "";
 					String type = (String) jsonObject.get("type");
-					if (!idVendor.equals("")){
+					if (idVendor  !=null && !idVendor.equals("")){
 						if (type.equals("family")){
 							Mongo mongoFamily = new Mongo();
 							DB dbFamily = (DB) mongoFamily.getDB("documento");

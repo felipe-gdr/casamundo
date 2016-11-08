@@ -951,11 +951,13 @@ function carregaInclusao(data) {
 	localStorage.studentExistente = "false";
 };    
 
-function carregaStudent(data, typePage) { 	
+function carregaStudent(data, typePage, actualTrip) { 	
 	
 	localStorage.setItem("student", JSON.stringify(data));
     
-    var actualTrip = getValueStudent("actualTrip");
+	if (!actualTrip){
+		actualTrip = getValueStudent("actualTrip");
+	};
 
 	$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
 	$("#celPhone").html(getValueStudent("celPhone"));

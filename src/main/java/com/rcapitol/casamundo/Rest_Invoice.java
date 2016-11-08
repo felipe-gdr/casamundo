@@ -231,7 +231,7 @@ public class Rest_Invoice {
 					BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
 					mongoStudent.close();
 
-				    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
 					String agencySigla = null;
 				    String agencyName = null;
 				    if (tripIndex != null){
@@ -338,8 +338,8 @@ public class Rest_Invoice {
 	};
 
 	@SuppressWarnings({"rawtypes", "unchecked" })
-	public JSONArray searchCost (BasicDBObject obj, BasicDBObject objStudent){
-	    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+	public JSONArray searchCost (BasicDBObject objInvoice, BasicDBObject objStudent){
+	    Integer tripIndex = Integer.parseInt((String) objInvoice.get("actualTrip"));
 	    String date = null;
     	String idFamily = null;
     	String idVendor = null;
@@ -351,16 +351,16 @@ public class Rest_Invoice {
 			idFamily = (String) jsonTrip.get("idFamily");
 			destination = (String) jsonTrip.get("destination");
 	    };
-		List listItens = (List) obj.get("itensNet");
+		List listItens = (List) objInvoice.get("itensNet");
 		JSONArray arrayCost = new JSONArray();
 		int w = 0;
 		while (w < listItens.size()) {
 			BasicDBObject itemInvoice = (BasicDBObject) listItens.get(w);
 			JSONObject itemCost = new JSONObject();
-			itemCost.put("idInvoice", obj.get("id"));
-			itemCost.put("invoiceNumber", obj.get("number"));
+			itemCost.put("idInvoice", objInvoice.get("id"));
+			itemCost.put("invoiceNumber", objInvoice.get("number"));
 			itemCost.put("idStudent", objStudent.get("id"));
-			itemCost.put("actualTrip", objStudent.get("actualTrip"));
+			itemCost.put("actualTrip", objInvoice.get("actualTrip"));
 			itemCost.put("destination", destination);
 			itemCost.put("item", itemInvoice.get("item"));
 			itemCost.put("amount", itemInvoice.get("amount"));
@@ -525,7 +525,7 @@ public class Rest_Invoice {
 			DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
 			BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
 			mongoStudent.close();
-		    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+		    Integer tripIndex = Integer.parseInt((String) objInvoice.get("actualTrip"));
 		    String date = null;
 	    	String idFamily = null;
 	    	String idVendor = null;
@@ -546,7 +546,7 @@ public class Rest_Invoice {
 				itemCost.put("idStudent", idstudentString);
 				itemCost.put("idInvoice", idInvoiceString);
 				itemCost.put("invoiceNumber", objInvoice.get("number"));
-				itemCost.put("actualTrip", objStudent.get("actualTrip"));
+				itemCost.put("actualTrip", objInvoice.get("actualTrip"));
 				itemCost.put("status", "new");
 				itemCost.put("number", payment.numberPayment());
 				itemCost.put("dueDate", commons.calcNewDate(date, 6));

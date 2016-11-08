@@ -24,7 +24,7 @@
 	        '</tr>'+
 	    '</table>';
 	};
-	function carregaLocalStoragePayments (objJson, destroy) {
+	function carregaLocalStoragePayments (objJson) {
 
 		localStorage.setItem("payments", JSON.stringify(objJson));
 
@@ -108,8 +108,9 @@
                 break;
             default: 
         		genderCollor = "label-male"
-            };	
-            var durationTrip = intervaloDatas(payment.student.trips[payment.student.actualTrip].start, payment.student.trips[payment.student.actualTrip].end);
+            };
+            var actualTrip = payment.actualTrip
+            var durationTrip = intervaloDatas(payment.student.trips[actualTrip].start, payment.student.trips[actualTrip].end);
             var age = calculaIdade(separaConverteDataMes(payment.student.birthDay, "/"));
         	switch (payment.status) {
         	case "new":
@@ -130,7 +131,7 @@
         		genderCollor = "label-male"
             };	    
 
-        	switch (payment.student.trips[payment.student.actualTrip].smoke) {
+        	switch (payment.student.trips[actualTrip].smoke) {
         	case "Yes":
         		smokeCollor = "label-warning"
         		smokeText = "Smoke"
@@ -143,31 +144,31 @@
         		smokeCollor = "label-primary"
         		smokeText = ""
             };	 
-            if (payment.student.trips[payment.student.actualTrip].medical){
+            if (payment.student.trips[actualTrip].medical){
             	medicalCollor = "label-warning";
-            	medicalText = payment.student.trips[payment.student.actualTrip].medical;
+            	medicalText = payment.student.trips[actualTrip].medical;
             }else{
             	medicalCollor = "label-success";
             	medicalText = "Don´t have medical concerns";
             };
         	occupancyCollor = "label-success";
         	occupancyText = "";
-            if (payment.student.trips[payment.student.actualTrip].occupancy){
-            	occupancyText = payment.student.trips[payment.student.actualTrip].occupancy;
-	            if (payment.student.trips[payment.student.actualTrip].occupancy == "Single"){
+            if (payment.student.trips[actualTrip].occupancy){
+            	occupancyText = payment.student.trips[actualTrip].occupancy;
+	            if (payment.student.trips[actualTrip].occupancy == "Single"){
 	            	occupancyCollor = "label-success";
 	            }else{
 	            	occupancyCollor = "label-warning";
 	            };
             };
-            if (payment.student.trips[payment.student.actualTrip].liveDogs == "Yes"){
+            if (payment.student.trips[actualTrip].liveDogs == "Yes"){
             	liveDogsCollor = "label-success";
             	liveDogsText = "Live with dogs";
             }else{
             	liveDogsCollor = "label-warning";
             	liveDogsText = "Don't live with dogs";
             };
-            if (payment.student.trips[payment.student.actualTrip].liveCats == "Yes"){
+            if (payment.student.trips[actualTrip].liveCats == "Yes"){
             	liveCatsCollor = "label-success";
             	liveCatsText = "Live with cats";
             }else{
@@ -185,8 +186,8 @@
         		genderCollor = "label-male"
             };	    
             var specialDiet = "";
-            if (payment.student.trips[payment.student.actualTrip].specialDiet[0]){
-			    $.each(payment.student.trips[payment.student.actualTrip].specialDiet, function (i, value) {
+            if (payment.student.trips[actualTrip].specialDiet[0]){
+			    $.each(payment.student.trips[actualTrip].specialDiet, function (i, value) {
 			    	specialDiet = String(specialDiet) + "<span class='label label-warning text-column'>" + value + " </span>";
 			    });
             }else{
@@ -195,7 +196,6 @@
 		    
 	        var actions = "";
 	        var payments = "";
-	        var actualTrip = payment.student.actualTrip;
 	        var emailPayment = payment.student.mail;
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
@@ -207,11 +207,11 @@
 		        };
 	        };
 		    var pickupCollor = "success";
-	        if (payment.student.trips[payment.student.actualTrip].pickup == "Yes"){
+	        if (payment.student.trips[actualTrip].pickup == "Yes"){
 	        	pickupCollor = "danger";
 	        }
 	        var dropoffCollor = "success";
-	        if (payment.student.trips[payment.student.actualTrip].dropoff == "Yes"){
+	        if (payment.student.trips[actualTrip].dropoff == "Yes"){
 	        	dropoffCollor = "danger";
 	        };
 	        profit = payment.invoice.amount - payment.amount;
@@ -229,19 +229,19 @@
     	    			"<a href='student.html.html?id=" + payment.student.mail + "'&typePage=change></a>" +
     	    			"<span class='text-column'>" + payment.student.firstName +  " " + payment.student.lastName + "</span><br>" + 
     	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>" +
-    	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.trips[payment.student.actualTrip].accommodation + "</small><br>" +
-    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].occupancy + "<i></small><br>" +
-    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[payment.student.actualTrip].mealPlan + "<i></small><br>" +
+    	    			"<small class='label text-column " + genderCollor + " '>" + payment.student.trips[actualTrip].accommodation + "</small><br>" +
+    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[actualTrip].occupancy + "<i></small><br>" +
+    	    			"<small class='text-muted text-column'><i>" + payment.student.trips[actualTrip].mealPlan + "<i></small><br>" +
     	    			"<span class='text-column'>Agent:" + payment.invoice.agencySigla + "</span><br>",
     	    	"additional":
     	    			"<small class='text-muted text-column'>Underage: " + " " + "</small><br>" +
-	    				"<small class='text-muted text-column'>Pvt WC: " + payment.student.trips[payment.student.actualTrip].privateWashroom + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Pickup: </small><small class='text-" + pickupCollor + " text-column '>" + payment.student.trips[payment.student.actualTrip].pickup + "</small>&nbsp;&nbsp;" +
-    	    			"<small class='text-muted text-column'>Dropoff: </small><small class='text-" + dropoffCollor + " text-column '>" + payment.student.trips[payment.student.actualTrip].dropoff + "</small><br>" +
+	    				"<small class='text-muted text-column'>Pvt WC: " + payment.student.trips[actualTrip].privateWashroom + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Pickup: </small><small class='text-" + pickupCollor + " text-column '>" + payment.student.trips[actualTrip].pickup + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted text-column'>Dropoff: </small><small class='text-" + dropoffCollor + " text-column '>" + payment.student.trips[actualTrip].dropoff + "</small><br>" +
     	    			"<small class='text-muted text-column'>Custodian: " + " " + "</small><br>" +
     	    			"<small class='text-muted text-column'>High season: " + " " + "</small><br>",
-                "dates":"<small class='hide'>" + converteAnoMesDia(payment.student.trips[payment.student.actualTrip].start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(payment.student.trips[payment.student.actualTrip].start, "-") + "</small><br>" +
-                		"<small class='text-muted text-column'>Out: " + separaDataMes(payment.student.trips[payment.student.actualTrip].end, "-") + "</small><br>" +
+                "dates":"<small class='hide'>" + converteAnoMesDia(payment.student.trips[actualTrip].start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(payment.student.trips[actualTrip].start, "-") + "</small><br>" +
+                		"<small class='text-muted text-column'>Out: " + separaDataMes(payment.student.trips[actualTrip].end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
        	    	"invoice":
     	    			"<small class='text-muted text-column'>Status: " + payment.invoice.status + "</small><br>" +
@@ -252,7 +252,7 @@
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
     	    			"<small class='text-muted text-column'>Status: " + payment.status + "</small><br>" +
     	    			"<small class='text-muted text-column'>Date: " + dateIncluded + "</small><br>",
-       	    	"comments":"<small class='text-muted text-column'>" + payment.student.trips[payment.student.actualTrip].comments + "</small>",
+       	    	"comments":"<small class='text-muted text-column'>" + payment.student.trips[actualTrip].comments + "</small>",
        	    	
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +

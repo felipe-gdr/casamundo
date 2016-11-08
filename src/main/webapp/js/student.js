@@ -7,8 +7,12 @@
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
 	var parameter = parametrosDaUrl.split("&");
 	var typePage = "";
+	var actualTrip = "";
 	if (parameter[1]) {
 		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
+	};
+	if (parameter[2]) {
+		var actualTrip = parametrosDaUrl.split("&")[2].split("=")[1];
 	};
 	
 	// ** setar menu
@@ -130,5 +134,5 @@
 /**
  * 
  */
-	rest_obterStudent(mailUrl, carregaStudent, obtencaoNaoEfetuada, typePage);
+	rest_obterStudent(mailUrl, carregaStudent, obtencaoNaoEfetuada, typePage, actualTrip);
     

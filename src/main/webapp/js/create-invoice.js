@@ -8,12 +8,10 @@
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
-	if (parametrosDaUrl.split("&")[2]){
-		idInvoice = parametrosDaUrl.split("&")[2].split("=")[1];
-	};
 	var parameter = parametrosDaUrl.split("&");
+	var actualTrip = null;
 	if (parameter[1]) {
-		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
+		typePage = parameter[1].split("=")[1];
 	};
 
 	/**
@@ -36,11 +34,22 @@
 	//***   ler dados invoice
 	//
 	if (typePage == "change"){
-		rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
+		if (parameter[2]){
+			idInvoice = parameter[2].split("=")[1];
+			rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
+		};
 		$("#menuInvoice_li").addClass("active");
 		$("#breadcrumb_label_II").val("Invoices");
 		$("#geraPayments").removeClass("hide");
-	}
+	};
+	
+	if (typePage == "create"){
+		if (parameter[2]) {
+			actualTrip = parameter[2].split("=")[1];
+			rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
+		};
+	};
+	
 	//
 	//***   setar pagina como somente consulta student
 	//
@@ -61,7 +70,6 @@
 /**
  * 
  */
-	var data = rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada);
 	var table = JSON.parse(localStorage.getItem("table"));
 
 /**
@@ -146,7 +154,7 @@
 			}
 		});
 		if (localStorage.valid == "true"){
-			criaInvoice(idInvoice);
+			criaInvoice(idInvoice, actualTrip);
 		}
 	});
 
@@ -456,17 +464,20 @@ function limpaStorageInvoice () {
 	
 };
 
-function criaInvoice(id){
+function criaInvoice(id, actualTrip){
 
 	var objStudent = JSON.parse(localStorage.getItem("student"));
-		
+	
+	if (!actualTrip){
+		actualTrip = objStudent.documento.actualTrip;
+	};
 	var objInvoice =
 		{
 			documento:
 				{
 					id : id,
 					idStudent : objStudent._id,
-					actualTrip : objStudent.documento.actualTrip,
+					actualTrip : $('#actualTrip').val(),
 					number : localStorage.numberInvoice,
 					status : "new",
 					dueDate : limpaData($('#due_0').val()),
@@ -694,8 +705,11 @@ function carregaAppendPriceTable (data, i, type){
 
 function carregaTelaInvoice(data){
 
+	var actualTrip = data.documento.actualTrip;
+
+	rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
+	
 	$.each(data.documento.itensNet, function (i, item) {
-		var actualTrip = data.student.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination, "net");
 		$('#itemId_' + i).val(item.item);
 		$('#itemIdGross_' + i).val(item.item);
@@ -714,7 +728,7 @@ function carregaTelaInvoice(data){
 	$('#dueValue_0').val(data.documento.amountNet);
 	$('#dueValueGross_0').val(data.documento.amountGross);
 	
-}
+};
 
 function createDue(i){
 	
@@ -895,12 +909,15 @@ function acertaSinalDue (){
 	calcTotal();
 };
 
-function carregaDadosTelaInvoice(data){
+function carregaDadosTelaInvoice(data, actualTrip){
 	
 	localStorage.setItem("student", JSON.stringify(data));
     
-	var actualTrip = data.documento.actualTrip;	    
-
+	if (!actualTrip){
+		var actualTrip = data.documento.actualTrip;
+	};
+	$('#actualTrip').val(actualTrip);
+	
 	$("#agencyName").html(data.documento.agencyName);
 	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);
 	$("#celPhone").html(data.documento.celPhone);

@@ -2,10 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -74,12 +71,12 @@ public class Rest_Student {
 			JSONParser parser = new JSONParser(); 
 			try {
 				jsonObject = (JSONObject) parser.parse(docStudent);
-			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
+			    Integer actualTrip = Integer.parseInt((String) jsonObject.get("actualTrip"));
 			    String familyName = null;
 			    String idRoom = null;
-			    if (tripIndex != null){
+			    if (actualTrip != null){
 					List trips = (List) jsonObject.get("trips");
-					JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+					JSONObject jsonTrip = (JSONObject) trips.get(actualTrip);
 					familyName = (String) jsonTrip.get("familyName");
 					idRoom = (String) jsonTrip.get("idRoom");
 			    };
@@ -227,7 +224,7 @@ public class Rest_Student {
 		return null;
 	};
 	
-	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -263,169 +260,49 @@ public class Rest_Student {
 				try {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
-					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("_id", objStudent.getString("_id"));
-					jsonDocumento.put("lastDestination", jsonObject.get("lastDestination"));
-				    jsonDocumento.put("mail", jsonObject.get("mail"));
-				    jsonDocumento.put("celPhone", jsonObject.get("celPhone"));
-				    jsonDocumento.put("phone", jsonObject.get("phone")); 
-				    jsonDocumento.put("lastName", jsonObject.get("lastName")); 
-				    jsonDocumento.put("firstName", jsonObject.get("firstName"));
-				    jsonDocumento.put("birthDay", jsonObject.get("birthDay")); 
-				    jsonDocumento.put("gender", jsonObject.get("gender")); 
-				    jsonDocumento.put("nationality", jsonObject.get("nationality"));
-				    jsonDocumento.put("firstLanguage", jsonObject.get("firstLanguage"));
-				    jsonDocumento.put("profession", jsonObject.get("profession"));
-				    jsonDocumento.put("englishLevel", jsonObject.get("englishLevel"));
-				    jsonDocumento.put("streetNumber", jsonObject.get("streetNumber"));
-				    jsonDocumento.put("streetName", jsonObject.get("streetName"));
-				    jsonDocumento.put("state", jsonObject.get("state"));
-				    jsonDocumento.put("postalCode", jsonObject.get("postalCode"));
-				    jsonDocumento.put("city", jsonObject.get("city"));
-				    jsonDocumento.put("country", jsonObject.get("country"));
-				    jsonDocumento.put("secondaryTelephone", jsonObject.get("secondaryTelephone"));
-				    jsonDocumento.put("emergencyContactName", jsonObject.get("emergencyContactName"));
-				    jsonDocumento.put("emergencyContactPhone", jsonObject.get("emergencyContactPhone"));
-				    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
-				    jsonDocumento.put("actualTrip", jsonObject.get("actualTrip"));
-				    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
-				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
-				    String agencyName = null;
-				    String schoolName = null;
-				    String agencySigla = null;
-				    String schoolSigla = null;
-				    String familyName = null;
-				    String status = null;
-				    String firstName = (String) jsonObject.get("firstName");
-				    if (firstName.equals("Nurcan")){
-				    	System.out.println("nurcan");
+				    Integer actualTrip = Integer.parseInt((String) jsonObject.get("actualTrip"));
+					List trips = (List) jsonObject.get("trips");
+				    if (actualTrip != null){
+						int y = 0;
+						while (y < trips.size()) {
+							JSONObject jsonTrip = (JSONObject) trips.get(y);
+							JSONObject jsonDocumento = new JSONObject();
+							jsonDocumento.put("_id", objStudent.getString("_id"));
+							jsonDocumento.put("lastDestination", jsonObject.get("lastDestination"));
+						    jsonDocumento.put("mail", jsonObject.get("mail"));
+						    jsonDocumento.put("celPhone", jsonObject.get("celPhone"));
+						    jsonDocumento.put("phone", jsonObject.get("phone")); 
+						    jsonDocumento.put("lastName", jsonObject.get("lastName")); 
+						    jsonDocumento.put("firstName", jsonObject.get("firstName"));
+						    jsonDocumento.put("birthDay", jsonObject.get("birthDay")); 
+						    jsonDocumento.put("gender", jsonObject.get("gender")); 
+						    jsonDocumento.put("nationality", jsonObject.get("nationality"));
+						    jsonDocumento.put("firstLanguage", jsonObject.get("firstLanguage"));
+						    jsonDocumento.put("profession", jsonObject.get("profession"));
+						    jsonDocumento.put("englishLevel", jsonObject.get("englishLevel"));
+						    jsonDocumento.put("streetNumber", jsonObject.get("streetNumber"));
+						    jsonDocumento.put("streetName", jsonObject.get("streetName"));
+						    jsonDocumento.put("state", jsonObject.get("state"));
+						    jsonDocumento.put("postalCode", jsonObject.get("postalCode"));
+						    jsonDocumento.put("city", jsonObject.get("city"));
+						    jsonDocumento.put("country", jsonObject.get("country"));
+						    jsonDocumento.put("secondaryTelephone", jsonObject.get("secondaryTelephone"));
+						    jsonDocumento.put("emergencyContactName", jsonObject.get("emergencyContactName"));
+						    jsonDocumento.put("emergencyContactPhone", jsonObject.get("emergencyContactPhone"));
+						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
+						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
+						    jsonDocumento.put("actualTrip", y);
+							if (addTrip (jsonTrip, jsonDocumento, filters)){
+								JSONObject test = (JSONObject) jsonDocumento.get("trip");
+								System.out.println("start:" + test.get("start") + " end:" + test.get("end"));
+								documentos.add(jsonDocumento);
+								++i;
+							};
+							++y;
+						};
 				    };
-				    if (tripIndex != null){
-						List trips = (List) jsonObject.get("trips");
-						JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
-						jsonDocumento.put("trip", jsonTrip);
-						status = (String) jsonTrip.get("status");
-						agencyName = (String) jsonTrip.get("agencyName");
-						schoolName = (String) jsonTrip.get("schoolName");
-						familyName = (String) jsonTrip.get("familyName");
-				    };
-					if (agencyName != null && !agencyName.equals("")){
-						Mongo mongoAgency = new Mongo();
-						DB dbAgency = (DB) mongoAgency.getDB("documento");
-						DBCollection collectionAgency = dbAgency.getCollection("agency");
-						BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
-						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
-						JSONObject documentoAgency = new JSONObject();
-						if (cursorAgency != null){
-							BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
-							agencySigla = (String) obj.get("agencySigla");
-							jsonDocumento.put("agency", obj);
-						}else{
-							System.out.println("agency " + agencyName);
-		        			JSONObject docAgency = new JSONObject();
-							docAgency.put("name", agencyName);
-							docAgency.put("agencySigla", agencyName);
-							docAgency.put("celPhone", "");
-							docAgency.put("phone", "");
-							docAgency.put("email", "");						
-							jsonDocumento.put("agency", docAgency);
-						};
-						mongoAgency.close();
-					}else{
-	        			JSONObject docAgency = new JSONObject();
-						docAgency.put("name", "");
-						docAgency.put("agencySigla", "");
-						docAgency.put("celPhone", "");
-						docAgency.put("phone", "");
-						docAgency.put("email", "");						
-						jsonDocumento.put("agency", docAgency);
-					};
-					if (schoolName != null && !schoolName.equals("")){
-						Mongo mongoSchool = new Mongo();
-						DB dbSchool = (DB) mongoSchool.getDB("documento");
-						DBCollection collectionSchool = dbSchool.getCollection("school");
-						BasicDBObject searchQuerySchool = new BasicDBObject("documento.name", schoolName);
-						DBObject cursorSchool = collectionSchool.findOne(searchQuerySchool);
-						JSONObject documentoSchool = new JSONObject();
-						if (cursorSchool != null){
-							BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
-							schoolSigla = (String) obj.get("sigla");
-							jsonDocumento.put("school", obj);
-						}else{
-							System.out.println("school " + schoolName);
-		        			JSONObject docSchool = new JSONObject();
-							docSchool.put("name", schoolName);
-							docSchool.put("sigla", schoolName);
-							docSchool.put("celPhone", "");
-							docSchool.put("phone", "");
-							docSchool.put("email", "");						
-							jsonDocumento.put("school", docSchool);							
-						}
-						mongoSchool.close();
-					}else{
-	        			JSONObject docSchool = new JSONObject();
-						docSchool.put("name", "");
-						docSchool.put("sigla", "");
-						docSchool.put("celPhone", "");
-						docSchool.put("phone", "");
-						docSchool.put("email", "");						
-						jsonDocumento.put("school", docSchool);
-					};
-					if (familyName != null && !familyName.equals("")){
-						Mongo mongoFamily = new Mongo();
-						DB dbFamily = (DB) mongoFamily.getDB("documento");
-						DBCollection collectionSchool = dbFamily.getCollection("family");
-						BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
-						DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
-						JSONObject documentoFamily = new JSONObject();
-						if (cursorFamily != null){
-							BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
-							BasicDBObject objContact = (BasicDBObject) obj.get("contact");
-							jsonDocumento.put("familyContact", objContact);
-							List rooms = (List) obj.get("rooms");
-							jsonDocumento.put("rooms", rooms);
-						}else{
-		        			JSONObject docFamily = new JSONObject();
-		        			JSONObject docRooms = new JSONObject();
-							docFamily.put("firstName", "");
-							docFamily.put("lastName", "");
-							docFamily.put("gender", "");
-							docFamily.put("email", "");
-							docFamily.put("phoneNumber", "");
-							docFamily.put("mobilePhoneNumber", "");						
-							jsonDocumento.put("familyContact", docFamily);
-							jsonDocumento.put("rooms", docRooms);							
-						}
-						mongoFamily.close();
-					}else{
-	        			JSONObject docFamily = new JSONObject();
-	        			JSONObject docRooms = new JSONObject();
-						docFamily.put("firstName", "");
-						docFamily.put("lastName", "");
-						docFamily.put("gender", "");
-						docFamily.put("email", "");
-						docFamily.put("phoneNumber", "");
-						docFamily.put("mobilePhoneNumber", "");						
-						jsonDocumento.put("contact", docFamily);
-						jsonDocumento.put("rooms", docRooms);
-					};
-					if (!filters.equals("null")){
-						Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla);
-						if (filter_ok){
-							documentos.add(jsonDocumento);
-							++i;
-							if (i > 21){
-								break;
-							}
-						};
-					}else{
-						if (!status.equals("Checked out")){
-							documentos.add(jsonDocumento);
-							++i;
-							if (i > 21){
-								break;
-							}
-						};
+					if (i > 21){
+						break;
 					};
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -472,10 +349,10 @@ public class Rest_Student {
 		    int end = 0;
 			try {
 				jsonObject = (JSONObject) parser.parse(documento);
-			    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
-			    if (tripIndex != null){
+			    Integer actualTrip = Integer.parseInt((String) jsonObject.get("actualTrip"));
+			    if (actualTrip != null){
 					List trips = (List) jsonObject.get("trips");
-					JSONObject jsonTrip = (JSONObject) trips.get(tripIndex);
+					JSONObject jsonTrip = (JSONObject) trips.get(actualTrip);
 					occupancy = (String) jsonTrip.get("occupancy");
 				    start = Integer.parseInt((String) jsonTrip.get("start"));
 				    end = Integer.parseInt((String) jsonTrip.get("end"));
@@ -572,6 +449,152 @@ public class Rest_Student {
 			e.printStackTrace();
 		}
 		return null;		
+	};
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Boolean addTrip (JSONObject jsonTrip, JSONObject jsonDocumento, String filters){
+	    String agencyName = null;
+	    String schoolName = null;
+	    String agencySigla = null;
+	    String schoolSigla = null;
+	    String familyName = null;
+	    String status = null;
+
+	    jsonDocumento.remove("trip");
+	    jsonDocumento.put("trip", jsonTrip);
+		status = (String) jsonTrip.get("status");
+		agencyName = (String) jsonTrip.get("agencyName");
+		schoolName = (String) jsonTrip.get("schoolName");
+		familyName = (String) jsonTrip.get("familyName");
+		if (agencyName != null && !agencyName.equals("")){
+			Mongo mongoAgency;
+			try {
+				mongoAgency = new Mongo();
+				DB dbAgency = (DB) mongoAgency.getDB("documento");
+				DBCollection collectionAgency = dbAgency.getCollection("agency");
+				BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
+				DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
+				if (cursorAgency != null){
+					BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+					agencySigla = (String) obj.get("agencySigla");
+					jsonDocumento.put("agency", obj);
+				}else{
+	    			JSONObject docAgency = new JSONObject();
+					docAgency.put("name", agencyName);
+					docAgency.put("agencySigla", agencyName);
+					docAgency.put("celPhone", "");
+					docAgency.put("phone", "");
+					docAgency.put("email", "");						
+					jsonDocumento.put("agency", docAgency);
+				};
+				mongoAgency.close();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (MongoException e) {
+				e.printStackTrace();
+			}
+		}else{
+			JSONObject docAgency = new JSONObject();
+			docAgency.put("name", "");
+			docAgency.put("agencySigla", "");
+			docAgency.put("celPhone", "");
+			docAgency.put("phone", "");
+			docAgency.put("email", "");						
+			jsonDocumento.put("agency", docAgency);
+		};
+		if (schoolName != null && !schoolName.equals("")){
+			Mongo mongoSchool;
+			try {
+				mongoSchool = new Mongo();
+				DB dbSchool = (DB) mongoSchool.getDB("documento");
+				DBCollection collectionSchool = dbSchool.getCollection("school");
+				BasicDBObject searchQuerySchool = new BasicDBObject("documento.name", schoolName);
+				DBObject cursorSchool = collectionSchool.findOne(searchQuerySchool);
+				if (cursorSchool != null){
+					BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
+					schoolSigla = (String) obj.get("sigla");
+					jsonDocumento.put("school", obj);
+				}else{
+	    			JSONObject docSchool = new JSONObject();
+					docSchool.put("name", schoolName);
+					docSchool.put("sigla", schoolName);
+					docSchool.put("celPhone", "");
+					docSchool.put("phone", "");
+					docSchool.put("email", "");						
+					jsonDocumento.put("school", docSchool);							
+				}
+				mongoSchool.close();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (MongoException e) {
+				e.printStackTrace();
+			}
+		}else{
+			JSONObject docSchool = new JSONObject();
+			docSchool.put("name", "");
+			docSchool.put("sigla", "");
+			docSchool.put("celPhone", "");
+			docSchool.put("phone", "");
+			docSchool.put("email", "");						
+			jsonDocumento.put("school", docSchool);
+		};
+		if (familyName != null && !familyName.equals("")){
+			Mongo mongoFamily;
+			try {
+				mongoFamily = new Mongo();
+				DB dbFamily = (DB) mongoFamily.getDB("documento");
+				DBCollection collectionSchool = dbFamily.getCollection("family");
+				BasicDBObject searchQueryFamily = new BasicDBObject("documento.familyName", familyName);
+				DBObject cursorFamily = collectionSchool.findOne(searchQueryFamily);
+				if (cursorFamily != null){
+					BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
+					BasicDBObject objContact = (BasicDBObject) obj.get("contact");
+					jsonDocumento.put("familyContact", objContact);
+					List rooms = (List) obj.get("rooms");
+					jsonDocumento.put("rooms", rooms);
+				}else{
+	    			JSONObject docFamily = new JSONObject();
+	    			JSONObject docRooms = new JSONObject();
+					docFamily.put("firstName", "");
+					docFamily.put("lastName", "");
+					docFamily.put("gender", "");
+					docFamily.put("email", "");
+					docFamily.put("phoneNumber", "");
+					docFamily.put("mobilePhoneNumber", "");						
+					jsonDocumento.put("familyContact", docFamily);
+					jsonDocumento.put("rooms", docRooms);							
+				}
+				mongoFamily.close();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (MongoException e) {
+				e.printStackTrace();
+			}
+		}else{
+			JSONObject docFamily = new JSONObject();
+			JSONObject docRooms = new JSONObject();
+			docFamily.put("firstName", "");
+			docFamily.put("lastName", "");
+			docFamily.put("gender", "");
+			docFamily.put("email", "");
+			docFamily.put("phoneNumber", "");
+			docFamily.put("mobilePhoneNumber", "");						
+			jsonDocumento.put("contact", docFamily);
+			jsonDocumento.put("rooms", docRooms);
+		};
+		if (!filters.equals("null")){
+			Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla);
+			if (filter_ok){
+				return true;
+			};
+		}else{
+			if (!status.equals("Checked out")){
+				return true;
+			};
+		};
+
+		return false;
+		
 	};
 	
 	@SuppressWarnings("rawtypes")

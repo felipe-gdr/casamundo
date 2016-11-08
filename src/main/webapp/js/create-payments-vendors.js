@@ -31,7 +31,6 @@
 /**
  * 
  */
-	rest_obterStudent(mailUrl, carregaDadosTelaPayment, obtencaoNaoEfetuada);
 
 	
 	$('#paymentSubmmit').off('click');
@@ -266,14 +265,14 @@ function carregaAppendPriceTable (data, i, type){
 function carregaTelaPaymentInclusao(data){
 
 	$.each(data.cost, function (i, item) {
-		var actualTrip = data.student.actualTrip;
+		var actualTrip = item.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
 		$('#itemId_' + i).val(item.item);
 		$('#itemIdPayment_' + i).val("");
 		$('#itemIdInvoice_' + i).val(item.idInvoice);
 		$('#itemInvoiceNumber_' + i).val(item.invoiceNumber);
 		$('#itemIdStudent_' + i).val(item.idStudent);
-		$('#itemActualTrip_' + i).val(actualTrip);
+		$('#itemActualTrip_' + i).val(item.actualTrip);
 		$('#itemType_' + i).val(item.type);
 		$('#itemIdVendor_' + i).val(item.idVendor);
 		$('#itemDescription_' + i).val(item.description);
@@ -286,6 +285,10 @@ function carregaTelaPaymentInclusao(data){
 };
 
 function carregaTelaPaymentAlteracao(data){
+	
+	var actualTrip = data.documento.actualTrip;
+	$('#actualTrip').val(actualTrip);
+	rest_obterStudent(mailUrl, carregaDadosTelaPayment, obtencaoNaoEfetuada, actualTrip);
 
 	$.each(data.documento.itens, function (i, item) {
 		var actualTrip = data.student.actualTrip;
@@ -326,11 +329,13 @@ function acertaSinalItem (){
 	};
 }
 
-function carregaDadosTelaPayment(data){
+function carregaDadosTelaPayment(data, actualTrip){
 	
 	localStorage.setItem("student", JSON.stringify(data));
     
-	var actualTrip = data.documento.actualTrip;	    
+	if (!actualTrip){
+		var actualTrip = data.documento.actualTrip;
+	};
 
 	$("#agencyName").html(data.documento.agencyName);
 	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);

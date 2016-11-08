@@ -240,13 +240,13 @@
     			"<small class='text-muted text-column'><i>Email: " + student.familyContact.email +  "<i></small><br></a>";
 		    };
 	        var familyName = student.trip.familyName;
-        	invoices = "<li><a href='create-invoice.html?mail=" + student.mail + "&typePage=create'>Create invoice</a></li>";
+        	invoices = "<li><a href='create-invoice.html?mail=" + student.mail + "&typePage=create&actualTrip=" + actualTrip + "'>Create invoice</a></li>";
         	var dadosStudent = " data-idFamily='" + idFamily + "' data-familyName='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailStudent='" + idStudent + "' data-actualTrip='" + actualTrip + "'";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 	        	if (localStorage.accommodation == "Homestay"){
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
-			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation'>Looking for accommodation</a></li>" +
+			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation&actualTrip=" + actualTrip + "'>Looking for accommodation</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Allocated"){
@@ -303,7 +303,7 @@
 	        	if (localStorage.accommodation == "Dorms"){
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
-			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation-dorms'>Looking for a room</a></li>" +
+			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Looking for a room</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' " + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        	if (student.trip.status == "Partially allocated"){
 			        		actions = actions +	
@@ -380,7 +380,7 @@
 	        
 //	        console.log ("8 - " + new Date().getTime());
             student_table.row.add( {
-    	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change'>" +
+    	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
     	    			"<small class='label text-column " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
     	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +

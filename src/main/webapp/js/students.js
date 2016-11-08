@@ -107,6 +107,14 @@
 				'filter_meals:' + $("#filter_meals").val() + ',' +
 				'filter_diet:' + $("#filter_diet").val() + ',' +
 				'filter_comments:' + $("#filter_comments").val();
+		var valueFilters = "";
+		$(".text-filter").each(function( i ) {
+			valueFilters = valueFilters + $(this).val();
+		});
+		console.log ("filters:" + valueFilters);
+		if (valueFilters == ""){
+			filters = null;
+		};
 		if (filters != localStorage.getItem("filters")){
 			localStorage.setItem("filters", filters);
 			rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, localStorage.accommodation , filters, null, null);
