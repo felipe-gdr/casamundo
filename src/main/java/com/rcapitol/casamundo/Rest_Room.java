@@ -111,6 +111,19 @@ public class Rest_Room {
 			documento.putAll(mapJson);
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
+			ObjectId id = (ObjectId)insert.get( "_id" );
+			String idString = id.toString();
+			BasicDBObject objUpdate = new BasicDBObject();
+			objUpdate.put("documento.id", idString);
+			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+			BasicDBObject setQuery = new BasicDBObject("_id", id);
+			DBObject cursor = collection.findAndModify(setQuery,
+	                null,
+	                null,
+	                false,
+	                update,
+	                true,
+	                false);
 			mongo.close();
 			return Response.status(200).entity(documento).build();
 		} catch (UnknownHostException e) {
