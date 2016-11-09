@@ -417,22 +417,22 @@ public class Rest_Payment {
 					};
 			    };
 			    if (element[0].equals("filter_check_in")){
-					if (commons.calcTime((String)jsonTrip.get("start")) <= commons.calcTime(element[1].replace("-", ""))){
+					if (commons.convertToCalendar((String)jsonTrip.get("start")).before(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_out")){
-					if (commons.calcTime((String)jsonTrip.get("start")) >= commons.calcTime(element[1].replace("-", ""))){
+					if (commons.convertToCalendar((String)jsonTrip.get("start")).after(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_due_date_from")){
-					if (commons.calcTime((String)objJson.get("dueDate")) <= commons.calcTime(element[1].replace("-", ""))){
+					if (commons.convertToCalendar((String)objJson.get("dueDate")).before(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_due_date_to")){
-					if (commons.calcTime((String)objJson.get("dueDate")) >= commons.calcTime(element[1].replace("-", ""))){
+					if (commons.convertToCalendar((String)objJson.get("dueDate")).after(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };

@@ -653,12 +653,12 @@ public class Rest_Student {
 					};
 			    };
 			    if (element[0].equals("filter_check_in")){
-					if (commons.calcTime((String)jsonTrip.get("start")) <= commons.calcTime(element[1].replace("-", ""))){
+					if (commons.convertToCalendar((String)jsonTrip.get("start")).before(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };
 			    if (element[0].equals("filter_check_out")){
-					if (commons.calcTime((String)jsonTrip.get("start")) >= commons.calcTime(element[1].replace("-", ""))){
+					if (commons.convertToCalendar((String)jsonTrip.get("start")).after(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };

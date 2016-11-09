@@ -48,7 +48,6 @@ public class Commons {
 		return null;
 	};
 
-	
 	public String calcNewDate (String date, int days){
 		
 		DateFormat df = new SimpleDateFormat ("ddMMyyyy");
@@ -58,6 +57,16 @@ public class Commons {
 		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
 		cal.add(Calendar.DAY_OF_MONTH, 5);
 		return convertDateMesAlfa(df.format(cal.getTime())).replaceAll("/", "");
+	};
+
+
+	public Calendar convertToCalendar (String date){
+		
+		Calendar cal = Calendar.getInstance();   
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(convertDateMes(date).substring(0, 2)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(convertDateMes(date).substring(3, 5)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
+		return cal;
 	};
 
 	public Long calcTime (String date){
@@ -103,7 +112,7 @@ public class Commons {
 	    if (mesAlpha.equals("Sep")){
 	    	mesNumber = "09";
 	    };
-	    if (mesAlpha.equals("Out")){
+	    if (mesAlpha.equals("Oct")){
 	    	mesNumber = "10";
 	    };
 	    if (mesAlpha.equals("Nov")){

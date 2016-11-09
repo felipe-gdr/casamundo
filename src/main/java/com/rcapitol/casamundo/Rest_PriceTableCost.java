@@ -177,9 +177,7 @@ public class Rest_PriceTableCost {
 					jsonDocumento.put("value", jsonObject.get("value"));
 					jsonDocumento.put("nameVendor", "");
 					String type = (String) jsonObject.get("type");
-					System.out.println("fora eq -" + type);
 					if (type.equals("family")){
-						System.out.println("eh familia");
 						String idFamily = (String) jsonObject.get("idVendor");
 						if (idFamily != null && !idFamily.equals("")){
 							ObjectId objectIdFamily = new ObjectId(idFamily);
@@ -188,11 +186,9 @@ public class Rest_PriceTableCost {
 							DBCollection collectionFamily = dbFamily.getCollection("family");
 							BasicDBObject searchQueryFamily = new BasicDBObject("_id", objectIdFamily);
 							DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
-							System.out.println("tem id");
 							if (cursorFamily != null){
 								BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
 								jsonDocumento.put("nameVendor", obj.get("familyName"));
-								System.out.println("tem dado");
 							};
 							mongoFamily.close();
 						};

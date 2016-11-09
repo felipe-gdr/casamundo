@@ -26,6 +26,9 @@
 			description : {
 				required : true,
 			},
+			vendorType : {
+				required : true,
+			},
 			valid : {
 			},
 		},
@@ -37,6 +40,9 @@
 			},
 			description : {
 				required : 'Please enter description ',
+			},
+			vendorType : {
+				required : 'Please enter vendor type ',
 			}
 		},
 		// form submition
