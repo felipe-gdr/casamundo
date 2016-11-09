@@ -92,7 +92,7 @@
 	$("#id").val(data._id);
 	$("#name").html(data.documento.name);
 	$("#description").html(data.documento.description);	
-	$("#vendorType").html(data.documento.vendorType);	
+	$("#vendorTypeOutput").html(data.documento.vendorType);	
 	$("#valid").html(data.documento.valid);
 	
 	if (data.documento.vendorType == "family"){

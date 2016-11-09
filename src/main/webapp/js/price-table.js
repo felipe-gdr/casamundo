@@ -18,7 +18,7 @@
 		$("#priceId").val($("#id").val());
 		$("#priceName").val($("#name").html());
 		$("#priceDescription").val($("#description").html());
-		$("#priceVendorType").val($("#vendorType").html());
+		$("#vendorType").val($("#vendorTypeOutput").html());
 		if ($("#valid").html() == "Yes"){
 			$("#priceValid").prop("checked", true)
 		};
