@@ -750,7 +750,6 @@ function calculaIdade ( dataNascimento ) {
         $.each(table.documento.vendorType
     		    , function (i, optionValue) {
         			$("#priceVendorType").append( $(option(optionValue)));
-        			$("#vendorType").append( $(option(optionValue)));
     		    });
         
         localStorage.carragendoTags = false;

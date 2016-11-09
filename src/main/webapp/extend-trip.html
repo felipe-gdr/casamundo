@@ -120,7 +120,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="smart-style-6 body-background-color-invoice">
+	<body class="smart-style-6 body-background-color-student">
 
   <!-- Cabeçalho-->
 		<!-- HEADER -->
@@ -373,9 +373,7 @@
 
 				<!-- breadcrumb -->
 				<ol class="breadcrumb">
-					<li id=breadcrumb_label_I">Home</li>
-					<li id=breadcrumb_label_II">Students</li>
-					<li id=breadcrumb_label_III">Payments vendors</li>
+					<li id=breadcrumb_label_I">Home</li><li id=breadcrumb_label_II">Students</li><li id=breadcrumb_label_III">Extend trip</li>
 				</ol>
 				<!-- end breadcrumb -->
 
@@ -406,7 +404,7 @@
 					</div>
 					<!-- end row -->
 						
-						<form id="invoice-form" class="smart-form" novalidate="novalidate">
+						<form id="extend-trip-form" class="smart-form" novalidate="novalidate">
 	
 							<div class="well well-light well-sm no-margin no-padding">
 								<div class="row">							
@@ -501,7 +499,7 @@
 												</div>
 												<div class="col-xs-5">
 											        <small class='text-muted'>Arrival Date: </small><small  class='text-primary' id="arrivalDate"  data-original-title="Arrival Date"></small>
-											        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTime"  data-original-title="Arrival Time"></small><br>
+										        <small class='text-muted'> Time: </small><small  class='text-primary' id="arrivalTime"  data-original-title="Arrival Time"></small><br>
 											        <small class='text-muted'>Flight Number: </small><small  class='text-primary' id="arrivalFlightNumber"  data-original-title="flight Number"></small>
 											        <small class='text-muted'>Airline: </small><small  class='text-primary' id="arrivalAirline"  data-original-title="Airline"></small><br>
 											        <small class='text-muted'>Departure Date: </small><small  class='text-primary' id="departureDate"  data-original-title="departure Date"></small>
@@ -518,28 +516,12 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-sm-1"></div>
-										<div  class="col-sm-11">
-											<div class="row">
-												<div class="col-xs-12">
-													<legend>
-													<h7>Payments</h7>
-													</legend>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-xs-12">
-													<fieldset id ="itensPayment">					
-													</fieldset>
-												</div>
-											</div>
-										</div>
 									</div>
 								</div>
 								<br>																		
 								<br>																		
 								<footer class="col-xs-11">
-									<button id="paymentSubmmit" type="button" class="btn btn-primary">Submit</button>
+									<button id="extendTripSubmmit" type="button" class="btn btn-primary">Submit</button>
 									<button type="button" class="btn btn-default" onclick="window.history.back();">Back</button>
 								</footer>
 							</div>
@@ -550,12 +532,6 @@
 		</div>
 		<!-- END MAIN PANEL -->
 		<!--================================================== -->
-		
-		<!-- GERA PDF -->
-		<div class= "hide">
-		<div id = "invoice-pdf">
-		</div>
-		</div>
 		
 
 		<!-- PAGE FOOTER -->
@@ -715,13 +691,6 @@
 		<script src="jsphoto/vendor/jquery.ui.widget.js"></script>
 		<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
 		<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-
-
-		<!-- Estas duas bibliotecasdão problema no dropdown menu -->
-		<!-- The Canvas to Blob plugin is included for image resizing functionality
-		<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script> -->
-		<!-- Bootstrap JS is not required, but included for the responsive demo navigation
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 				
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>
@@ -729,9 +698,7 @@
 		<!-- page scripts -->
 		<script src="js/main.js"></script>
 		<script src="js/student-commons.js"></script>
-		<script src="js/create-commons.js"></script>
-		<script src="js/create-payments-vendors.js"></script>
-
+		<script src="js/extend-trip.js"></script>
 
 		<script type="text/javascript">
 		

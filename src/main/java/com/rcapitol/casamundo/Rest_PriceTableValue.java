@@ -183,8 +183,12 @@ public class Rest_PriceTableValue {
 						DBCollection collectionAgency = dbAgency.getCollection("agency");
 						BasicDBObject searchQueryAgency = new BasicDBObject("_id", objectIdAgency);
 						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
-						BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
-						jsonDocumento.put("agency", obj.get("name"));
+						if (cursorAgency != null){
+							BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+							jsonDocumento.put("agency", obj.get("name"));
+						}else{
+							jsonDocumento.put("agency", "");
+						};
 						mongoAgency.close();
 					};
 					documentos.add(jsonDocumento);

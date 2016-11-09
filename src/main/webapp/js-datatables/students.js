@@ -282,7 +282,7 @@
 			        	actions = 
 			        		"<li data-process='changestatustocheckout'" + dadosStudent + "><a href='#'>Change to check out</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
-			        		"<li data-process='extendtrip'" + dadosStudent + "><a href='#'>Extend trip</a></li>" +
+			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&actualTrip=" + actualTrip + "'>Extend trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Checked out"){
@@ -331,7 +331,7 @@
 			        if (student.trip.status == "In house"){
 			        	actions = 
 			        		"<li data-process='changestatustocheckoutdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Change to check out</a></li>" +
-			        		"<li data-process='extendtripdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Extend trip</a></li>" +
+			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Extend trip</a></li>" +
 			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
