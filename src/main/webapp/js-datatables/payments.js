@@ -109,7 +109,7 @@
             default: 
         		genderCollor = "label-male"
             };
-            var actualTrip = payment.actualTrip
+            var actualTrip = payment.actualTrip;
             var durationTrip = intervaloDatas(payment.student.trips[actualTrip].start, payment.student.trips[actualTrip].end);
             var age = calculaIdade(separaConverteDataMes(payment.student.birthDay, "/"));
         	switch (payment.status) {
@@ -303,83 +303,3 @@
         /* end trip list */   
 };
 
-
-
-function deallocateRoom (objFamily, emailPayment) {
-
-    $.each(objFamily.documento.rooms, function (i, room) {
-    	var excluded = false;
-        $.each(room.occupancySingleBed, function (w, occupancy) {
-        	if (!excluded){
-        		if (occupancy.emailPayment == emailPayment){
-        			objFamily.documento.rooms[i].occupancySingleBed.splice(w, 1);
-        			excluded = true;
-        		};
-        	};
-        });            	
-        $.each(room.occupancyCoupleBed, function (w, occupancy) {
-        	if (!excluded){
-	        	if (occupancy.emailPayment == emailPayment){
-	        		objFamily.documento.rooms[i].occupancyCoupleBed.splice(w, 1);
-	        		excluded = true;
-	        	};
-        	};
-        });            	
-    });
-
-	rest_atualizaFamily(objFamily, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms deallocate", "Problems to update rooms, try again")
-	
-};
-
-function clearFamilyName (objPayment, status) {
-
-	objPayment.documento.trips[objPayment.documento.actualTrip].familyName = "";
-	objPayment.documento.trips[objPayment.documento.actualTrip].status = status;
-	delete objPayment.contact;
-	delete objPayment.rooms;
-	delete objPayment.family;
-
-	rest_atualizaPayment(objPayment, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Family name cleared", "Problems to update payment, try again");
-	
-	// *** refresh payments list
-	$(window.document.location).attr('href','payments.html');
-
-};
-
-function changeStatus (objPayment, status) {
-
-	objPayment.documento.trips[objPayment.documento.actualTrip].status = status;
-	delete objPayment.contact;
-	delete objPayment.rooms;
-	delete objPayment.family;
-
-	rest_atualizaPayment(objPayment, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Status changed", "Problems to update payment, try again");
-	
-	// *** refresh payments list
-	$(window.document.location).attr('href','payments.html');
-
-};
-
-function manualConfirmFamily (objPayment, emailPayment) {
-	
-	objPayment.documento.trips[objPayment.documento.actualTrip].status = "Confirmed";
-	delete objPayment.contact;
-	delete objPayment.rooms;
-	delete objPayment.family;
-
-	rest_atualizaPayment(objPayment, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Status changed to confirm", "Problems to update payment, try again");
-	
-	// *** refresh payments list
-	$(window.document.location).attr('href','payments.html');
-	
-};
-
-function sendEmailToFamilyToConfirm (objFamily, emailPayment) {
-
-	//
-	//  ** send email to offer a family
-	//
-	rest_sendEmailHtml(localStorage.hostNameEmail, localStorage.userNameEmail , localStorage.passwordEmail, "grenneglr@gmail.com", objFamily.documento.contact.email, "Offer accommodation", templateOffertoFamily(), emailEnviado, emailComProblemas );
-	
-};
-	

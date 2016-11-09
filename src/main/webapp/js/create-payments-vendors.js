@@ -291,7 +291,6 @@ function carregaTelaPaymentAlteracao(data){
 	rest_obterStudent(mailUrl, carregaDadosTelaPayment, obtencaoNaoEfetuada, actualTrip);
 
 	$.each(data.documento.itens, function (i, item) {
-		var actualTrip = data.student.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
 		$('#itemId_' + i).val(item.item);
 		$('#itemIdPayment_' + i).val(data.documento.id);
