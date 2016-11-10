@@ -395,6 +395,12 @@ function calculaIdade ( dataNascimento ) {
 	 return idade;
 	};				
 
+	function converteToDate (data) {
+
+		date1 = separaConverteDataMes(data, "/").split("/");
+		var date = new Date(date1[1]+"/"+date1[0]+"/"+date1[2]);
+		return date;
+	};				
 
 	function maiorDataHoje (data) {
 
@@ -505,7 +511,8 @@ function calculaIdade ( dataNascimento ) {
         var litWeek = " weeks ";
         if (weeks == 1){
         	litWeek = " week ";
-        }
+        };
+        var durationTrip = "";
         if (weeks > 0){
         	durationTrip = weeks + litWeek;
         };

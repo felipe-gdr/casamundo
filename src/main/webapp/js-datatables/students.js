@@ -282,7 +282,7 @@
 			        	actions = 
 			        		"<li data-process='changestatustocheckout'" + dadosStudent + "><a href='#'>Change to check out</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
-			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&actualTrip=" + actualTrip + "'>Extend trip</a></li>" +
+			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>Extend trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Checked out"){
@@ -290,7 +290,7 @@
 			        	actions = 
 			        		"<li data-process='sendemailtostudenttoevaluete'" + dadosStudent + "><a href='#'>Send student email to evaluete</a></li>" +
 			        		"<li data-process='evaluetereceived'" + dadosStudent + "><a href='#'>Evaluete received</a></li>" +
-			        		"<li data-process='newtrip'" + dadosStudent + "><a href='#'>Initiate a new trip</a></li>";
+			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>";
 			        };
 			        if (student.trip.status == "Canceled"){
 			        	typePage = "change";

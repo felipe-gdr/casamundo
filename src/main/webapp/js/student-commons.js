@@ -12,9 +12,11 @@ function enderecoComErro (data) {
 };
 
     
-function carregaTela(data) {
+function carregaTela(data, actualTrip) {
     	
-	var actualTrip = data.documento.actualTrip;	
+	if (!actualTrip){
+		actualTrip = data.documento.actualTrip;
+	};
 	
 	$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
 	$("#firstName").val(data.documento.firstName);
@@ -53,10 +55,34 @@ function carregaTela(data) {
 	if (data.documento.photoPassport){
 		carregaPhoto (localStorage.app, data.documento.photoPassport, "photoPassport");
 	};
+	$("#actualTrip").val(actualTrip);
 	$("#status").val(data.documento.trips[actualTrip].status);
 	$("#destination").val(data.documento.trips[actualTrip].destination);
 	$("#start").val(separaDataMes(data.documento.trips[actualTrip].start, "-"));
 	$("#end").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
+	//
+    //**** 	seta data para nova viagem do mesmo aluno
+	//
+	if (localStorage.newTrip == "true"){
+		$("#start").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
+		$('#start').attr("disabled", true);
+		$("#end").val("");
+		$('#start').datepicker({
+			dateFormat : 'dd-M-yy',
+			prevText : '<i class="fa fa-chevron-left"></i>',
+			nextText : '<i class="fa fa-chevron-right"></i>',
+			minDate : converteToDate(data.documento.trips[actualTrip].end),
+			onSelect : function(selectedDate) {
+				$('#end').datepicker('option', 'minDate', selectedDate)
+				}
+		});		
+		$('#end').datepicker({
+			dateFormat : 'dd-M-yy',
+			prevText : '<i class="fa fa-chevron-left"></i>',
+			nextText : '<i class="fa fa-chevron-right"></i>',
+			minDate : converteToDate(data.documento.trips[actualTrip].end)
+		});		
+	};
 	$("#arrivalDate").val(separaDataMes(data.documento.trips[actualTrip].arrivalDate, "-"));
 	$("#arrivalTime").val(data.documento.trips[actualTrip].arrivalTime);
 	$("#arrivalFlightNumber").val(data.documento.trips[actualTrip].arrivalFlightNumber);
@@ -97,7 +123,6 @@ function carregaTela(data) {
 		$(".guest").addClass("hide");
 	};
 	$("#familyName").val(data.documento.trips[actualTrip].familyName);
-	$("#status").val(data.documento.trips[actualTrip].status);
 	$("#guestName").val(data.documento.trips[actualTrip].guestName);
 	$("#guestEmail").val(data.documento.trips[actualTrip].guestEmail);
 	$("#relationship").val(data.documento.trips[actualTrip].relationship);
@@ -335,10 +360,6 @@ function getValueStudent (field, actualTrip) {
 	if (field == "photoPassport"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.photoPassport;			
-	};
-	if (field == "status"){
-        var objJson = JSON.parse(localStorage.getItem("student"));
-        return objJson.documento.trips[actualTrip].status;		
 	};
 	if (field == "destination"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -762,6 +783,9 @@ function setValueStudent (field, value, actualTrip, grava) {
 	};
 	if (field == "photoPassport"){
         objJson.documento.photoPassport = value;
+	};
+	if (field == "actualTrip"){
+        objJson.documento.actualTrip = value;
 	};
 	if (field == "destination"){
         objJson.documento.trips[actualTrip].destination = value;

@@ -9,10 +9,10 @@
 	var typePage = "";
 	var actualTrip = "";
 	if (parameter[1]) {
-		var typePage = parametrosDaUrl.split("&")[1].split("=")[1];
+		typePage = parametrosDaUrl.split("&")[1].split("=")[1];
 	};
 	if (parameter[2]) {
-		var actualTrip = parametrosDaUrl.split("&")[2].split("=")[1];
+		actualTrip = parametrosDaUrl.split("&")[2].split("=")[1];
 	};
 	
 	// ** setar menu
@@ -92,7 +92,7 @@
 	//***   chamar tela de alteração com o student da pagina
 	//
 	$( "#alteracaoButton" ).bind( "click", function() {
-		$(window.document.location).attr('href','student_input.html?mail=' + mailUrl );
+		$(window.document.location).attr('href','student_input.html?mail=' + mailUrl + '&actualTrip=' + actualTrip);
 	});
 	//
 	//***   setar pagina como somente consulta student

@@ -81,6 +81,7 @@
 
     function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK, var1, var2) {
     	delete objJson["_id"];
+    	delete objJson["contact"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",
@@ -101,11 +102,15 @@
         		}else{
         			if (messageOk){
         				action_ok (messageOk);
+        			}else{
+        				action_ok ();        			
         			};
         		};
         	}else{
         		if (messageNotoK){
         			action_not_ok(messageNotoK);
+        		}else{
+        			action_not_ok();        			
         		};
         	};
     	});
@@ -144,7 +149,7 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-    		action_ok ("Tabels updated");
+        		action_ok ("Tabels updated");
         	}else{
         		actio_not_ok()
         	};
@@ -210,7 +215,7 @@
        	});
     };
 
-    function rest_atualizaFamily(objJson, action_ok, action_not_ok, messageOK, messageNotOk,var1, var2) {
+    function rest_atualizaFamily(objJson, action_ok, action_not_ok, messageOk, messageNotOk,var1, var2) {
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
@@ -230,11 +235,19 @@
         		if (var1){
         			action_ok (var1, var2);
         		}else{
-        			action_ok (messageOK);	
+        			if (messageOk){
+        				action_ok (messageOk);
+        			}else{
+        				action_ok ();        			
+        			};
         		};
         	}else{
-        		actio_not_ok(messageNotOk)
-        	};
+    			if (messageNotOk){
+    				action_not_ok (messageNotOk);
+    			}else{
+    				action_not_ok ();        			
+    			};
+    		};
     	});
 
     };

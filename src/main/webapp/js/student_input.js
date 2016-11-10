@@ -9,11 +9,28 @@
 	// 
 	//**    carrega dados url
 	//
-
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
-	if (parametrosDaUrl){
-		var mailUrl = parametrosDaUrl.split("=")[1];
+	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
+	var parameter = parametrosDaUrl.split("&");
+	var typePage = "";
+	localStorage.newTrip = "false";
+	var newTrip = "";
+	var actualTripParam = "";
+	if (parameter[1]) {
+		if (parameter[1].split("=")[0] == "typePage"){
+			var typePage = parameter[1].split("=")[1];
+		}else{
+			if (parameter[1].split("=")[0] == "actualTrip"){
+				actualTripParam = parameter[1].split("=")[1];
+			};
+		};
+	};
+	if (parameter[2]) {
+		if (parameter[2].split("=")[0] == "newTrip"){
+			newTrip = parameter[2].split("=")[1];
+			localStorage.newTrip = newTrip;
+		};
 	};
 
 	/**
@@ -31,16 +48,12 @@
 	 */
 	if (mailUrl){
 		localStorage.studentExistente = "true";
-		var data = rest_obterStudent(mailUrl, carregaTela, carregaInclusao);
+		rest_obterStudent(mailUrl, carregaTela, carregaInclusao, actualTripParam);
 		montaPhoto (localStorage.app, "student", "photoPassport", "student", mailUrl, "photoPassport");
 		$('#mail').attr("disabled", true);
 	}else{
 		$('#birthDay').val("01-Jan-1980");
-	}	
-
-
-	limpaStorageStudent ();
-	
+	};		
 
 /**
 *          valida formulário   
@@ -264,6 +277,21 @@
 		},
 		// form submition
 		submitHandler : function(form) {
+	        var objJson = JSON.parse(localStorage.getItem("student"));
+	        var trips = objJson.documento.trips;
+			var actualTrip = actualTripParam;
+			limpaStorageStudent ();
+	        var objJson = JSON.parse(localStorage.getItem("student"));
+			var newTripJson = objJson.documento.trips[0];
+			if (localStorage.studentExistente == "true"){
+				objJson.documento.trips = trips;
+				if (newTrip == "true"){
+					objJson.documento.trips.push(newTripJson);
+					actualTrip = objJson.documento.trips.length - 1;
+					$("#actualTrip").val(actualTrip);
+				};			
+			};
+			localStorage.setItem("student", JSON.stringify(objJson));
 			$.each(form
 			    , function (i, field) {
 					var value = field.value;
@@ -273,7 +301,7 @@
 						}else{
 							value = "No"
 						}
-					}
+					};
 					if (field.type == "select-multiple") {
 						value = "";
 						var first = true;
@@ -288,19 +316,18 @@
 					    	};		    			
 					    });
 					};
-					setValueStudent (field.id, value, 0)
+					setValueStudent (field.id, value, actualTrip);
 			});
 			if (localStorage.studentExistente == "true"){
 		        var objJson = JSON.parse(localStorage.getItem("student"));
-				if (objJson.contact){
-					delete objJson["contact"];
+				if (newTrip == "true"){
+					rest_atualizaStudent(objJson, retornaListaStudent, atualizacaoNaoEfetuada);
+				}else{
+					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
+					rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada);					
 				};
-				rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada);
 			}else{
-				var objJson = JSON.parse(localStorage.getItem("student"));
-				if (objJson.contact){
-					delete objJson["contact"];
-				};
+		        var objJson = JSON.parse(localStorage.getItem("student"));
 				rest_incluiStudent(objJson, retornaListaStudent, inclusaoNaoEfetuada);
 			}
 		},	
@@ -366,7 +393,7 @@
 		}else{
 			$(".guest").addClass("hide");
 		};
-	})
+	});
 	$('#start').datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
@@ -374,7 +401,7 @@
 		onSelect : function(selectedDate) {
 			$('#end').datepicker('option', 'minDate', selectedDate);
 			}
-		});
+	});
 	$('#end').datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
@@ -467,4 +494,19 @@
 	$('#streetName').bind('blur', function () {
     	getMapCoordinate($('#streetName').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
     });
+	//
+	//*** uso na tela extend trip
+	//
+	if (localStorage.newTrip){
+		if (localStorage.newTrip == "true"){	
+			$('#status').val("confirmed");
+			$('#changeFamily').change(function() {
+				if ($(this).checked){
+					$('#status').val("available");
+				}else{
+					$('#status').val("confirmed");
+				};
+			});
+		};
+	};
     
