@@ -278,6 +278,7 @@
 		// form submition
 		submitHandler : function(form) {
 	        var objJson = JSON.parse(localStorage.getItem("student"));
+	        var idStudent = objJson._id;
 	        var trips = objJson.documento.trips;
 			var actualTrip = actualTripParam;
 			limpaStorageStudent ();
@@ -321,7 +322,13 @@
 			if (localStorage.studentExistente == "true"){
 		        var objJson = JSON.parse(localStorage.getItem("student"));
 				if (newTrip == "true"){
-					rest_atualizaStudent(objJson, retornaListaStudent, atualizacaoNaoEfetuada);
+					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
+					var newTripJson = 
+						{
+							idStudent : idStudent,
+							trip : objJson.documento.trips[objJson.documento.actualTrip]
+						}
+					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
 				}else{
 					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
 					rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada);					

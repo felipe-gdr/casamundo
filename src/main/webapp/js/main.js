@@ -602,12 +602,20 @@ function calculaIdade ( dataNascimento ) {
 
     function limpaData(campo){
     	var campoNovo = "";
-    	i = 0;
-    	while (i < campo.length) {
-    		if (campo.substring(i, (i + 1)) != "." && campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":" && campo.substring(i, (i + 1)) != ")" && campo.substring(i, (i + 1)) != "(" && campo.substring(i, (i + 1)) != "-"){
-    			campoNovo = campoNovo.toString() + campo.substring(i, (i + 1)).toString() 
-    		};
-    	    i++;
+    	if (campo){
+        	if (campo.length){
+		    	i = 0;
+		    	while (i < campo.length) {
+		    		if (campo.substring(i, (i + 1)) != "." && campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":" && campo.substring(i, (i + 1)) != ")" && campo.substring(i, (i + 1)) != "(" && campo.substring(i, (i + 1)) != "-"){
+		    			campoNovo = campoNovo.toString() + campo.substring(i, (i + 1)).toString() 
+		    		};
+		    	    i++;
+		    	}
+        	}else{
+        		campoNovo = campo;
+        	}
+    	}else{
+    		campoNovo = campo;;
     	};
     	return campoNovo;
     }

@@ -224,6 +224,58 @@ public class Rest_Student {
 		return null;
 	};
 	
+	@SuppressWarnings({ "unchecked", "unused" })
+	@Path("/incluirNewTrip")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response IncluiTrip(JSONObject newTrip)  {
+		String idStudentString = (String) newTrip.get("idStudent");
+		ObjectId idStudent = new ObjectId(idStudentString);
+		Mongo mongo;
+			try {
+				mongo = new Mongo();
+				DB db = (DB) mongo.getDB("documento");
+				DBCollection collection = db.getCollection("student");
+				BasicDBObject searchQuery = new BasicDBObject("_id", idStudent);
+				DBObject cursor = collection.findOne(searchQuery);
+				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+				if (cursor == null){
+					mongo.close();
+					return null;
+				};
+				JSONParser parser = new JSONParser(); 
+				List trips = (List) obj.get("trips");
+				String documento = JSONObject.toJSONString(newTrip);
+				try {
+					JSONObject trip = (JSONObject) parser.parse(documento);
+					trips.add(trip.get("trip"));
+					obj.remove("trips");
+					obj.put("trips", trips);
+					obj.put("actualTrip", Integer.toString(trips.size() - 1));
+					BasicDBObject objUpdate = new BasicDBObject();
+					objUpdate.put ("documento", obj);
+					BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+					searchQuery = new BasicDBObject("_id", idStudent);
+					cursor = collection.findAndModify(searchQuery,
+			                null,
+			                null,
+			                false,
+			                update,
+			                true,
+			                false);
+					mongo.close();
+					return Response.status(200).build();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (MongoException e) {
+				e.printStackTrace();
+			};
+			return null;
+	};
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/lista")	
 	@GET
@@ -294,7 +346,6 @@ public class Rest_Student {
 						    jsonDocumento.put("actualTrip", y);
 							if (addTrip (jsonTrip, jsonDocumento, filters)){
 								JSONObject test = (JSONObject) jsonDocumento.get("trip");
-								System.out.println("start:" + test.get("start") + " end:" + test.get("end"));
 								documentos.add(jsonDocumento);
 								++i;
 							};
