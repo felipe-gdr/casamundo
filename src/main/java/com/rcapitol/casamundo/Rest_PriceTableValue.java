@@ -98,6 +98,7 @@ public class Rest_PriceTableValue {
 			objUpdate.put("documento.id", idString);
 			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
 			BasicDBObject setQuery = new BasicDBObject("_id", id);
+			@SuppressWarnings("unused")
 			DBObject cursor = collection.findAndModify(setQuery,
 	                null,
 	                null,

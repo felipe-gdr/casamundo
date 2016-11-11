@@ -224,7 +224,7 @@ public class Rest_Student {
 		return null;
 	};
 	
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
 	@Path("/incluirNewTrip")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -345,7 +345,6 @@ public class Rest_Student {
 						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 						    jsonDocumento.put("actualTrip", y);
 							if (addTrip (jsonTrip, jsonDocumento, filters)){
-								JSONObject test = (JSONObject) jsonDocumento.get("trip");
 								documentos.add(jsonDocumento);
 								++i;
 							};

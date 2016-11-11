@@ -132,8 +132,11 @@
             case "Confirmed":
             	statusCollor = "label-confirmed"
                 break;
+            case "In house":
+            	statusCollor = "label-in-house"
+                break;
             case "Allocated":
-            	statusCollor = "label-confirmed"
+            	statusCollor = "label-allocated"
                 break;
             case "Placement offered":
             	statusCollor = "label-placement-offered"
@@ -200,16 +203,6 @@
             	liveCatsCollor = "label-warning";
             	liveCatsText = "Don't live with cats";
             };
-        	switch (student.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
             var specialDiet = "";
             if (student.trip.specialDiet[0]){
 			    $.each(student.trip.specialDiet, function (i, value) {

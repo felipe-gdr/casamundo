@@ -92,7 +92,7 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

@@ -161,7 +161,27 @@
 						};
 				});
 				newTripJson.idStudent = objStudent._id;
-				rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
+				var roomNumber = searchRoomNumber (objStudent.rooms, objStudent.documento.mail);
+				if (roomNumber){
+					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
+					if (!$("#changeFamily").is(':checked') && roomNumber){
+						var actualTripUpdate = objStudent.documento.trips.length
+						var objJson = {
+				    			familyName : objStudent.documento.trips[objStudent.documento.actualTrip].familyName,
+				    			idFamily : objStudent.documento.trips[objStudent.documento.actualTrip].idFamily,
+				    			emailStudent : objStudent.documento.mail,
+				    			idStudent : objStudent._id,
+				    			actualTrip : actualTripUpdate,
+				    			start : newTripJson.trip.start,
+				    			end : newTripJson.trip.end,
+				    			occupancy : objStudent.documento.trips[objStudent.documento.actualTrip].occupancy,
+				    			roomNumber : roomNumber
+						};
+						rest_obterFamily(objStudent.documento.trips[objStudent.documento.actualTrip].familyName, updateRooms, semAcao, objJson);
+					};
+				}else{
+					noRoomAllocate();
+				};
 			},	
 			// Do not change code below
 			errorPlacement : function(error, element) {
@@ -176,33 +196,6 @@
 			}
 		});
 		
-		$('#accommodation').change(function() {
-			if ($(this).val() == "Homestay"){
-				$(".dorms").addClass("hide");
-				$(".suite").addClass("hide");
-				$(".homestay").removeClass("hide");
-			}else{
-				if ($(this).val() == "Dorms"){
-					$(".homestay").addClass("hide");
-					$(".suite").addClass("hide");
-					$(".dorms").removeClass("hide");
-				}else{
-					$(".homestay").addClass("hide");
-					$(".dorms").addClass("hide");
-					$(".suite").removeClass("hide");				
-				}
-			};
-		});
-		$('#occupancy').change(function() {
-			if (
-					(($(this).val() == "Twin" || $(this).val() == "Couple") && $('#accommodation').val() == "Homestay")
-				)
-			{
-				$(".guest").removeClass("hide");
-			}else{
-				$(".guest").addClass("hide");
-			};
-		});
 		$('#start').datepicker({
 			dateFormat : 'dd-M-yy',
 			prevText : '<i class="fa fa-chevron-left"></i>',
@@ -218,55 +211,12 @@
 			onSelect : function(selectedDate) {
 				}
 		});
-		$('#agencyName').change(function() {
-			$("#agencyConsultName option").remove();
-			$("#agencyConsultName").append($(option("Choose one item")));
-			$('#agencyConsultName option[value="Choose one item"]').attr('disabled','disabled');
-			$("#agencyConsultMobile").html("");
-			$("#agencyConsultPhone").html("");
-			$("#agencyConsultEmail").html("");
-			$(".agency").addClass("hide");
-			rest_obterAgency ($(this).val(), carregaDadosAgency, semAcao);
-		});
-		$('#agencyConsultName').change(function() {
-			var objJson = JSON.parse(localStorage.getItem("agency"));
-		    $.each(objJson.documento.consultants, function (i, consultants) {
-		    	console.log ("valor" + $('#agencyConsultName').val())
-		    	if (consultants.name == $('#agencyConsultName').val()){
-		    		$("#agencyConsultMobile").html(consultants.celPhone);
-		    		$("#agencyConsultPhone").html(consultants.phone);
-		    		$("#agencyConsultEmail").html(consultants.email);
-		    	};
-		    });
-		});
-
-		$('#schoolName').change(function() {
-			$("#schoolConsultName option").remove();
-			$("#schoolConsultName").append($(option("Choose one item")));
-			$('#schoolConsultName option[value="Choose one item"]').attr('disabled','disabled');
-			$("#schoolConsultMobile").html("");
-			$("#schoolConsultPhone").html("");
-			$("#schoolConsultEmail").html("");
-			$(".school").addClass("hide");
-			rest_obterSchool ($(this).val(), carregaDadosSchool, semAcao);
-		});
-		$('#schoolConsultName').change(function() {
-			var objJson = JSON.parse(localStorage.getItem("school"));
-		    $.each(objJson.documento.consultants, function (i, consultants) {
-		    	if (consultants.name == $('#schoolConsultName').val()){
-		    		$("#schoolConsultMobile").html(consultants.celPhone);
-		    		$("#schoolConsultPhone").html(consultants.phone);
-		    		$("#schoolConsultEmail").html(consultants.email);
-		    	};
-		    });
-		});
-
-		$('#status').val("confirmed");
+		$('#status').val("Confirmed");
 		$('#changeFamily').change(function() {
-			if ($(this).checked){
-				$('#status').val("available");
+			if ($(this).is(':checked')){
+				$('#status').val("Available");
 			}else{
-				$('#status').val("confirmed");
+				$('#status').val("Confirmed");
 			};
 		});
 
@@ -488,4 +438,57 @@ function retornaListaStudent(){
 		timeout : 4000
 	});
 	window.location="students.html"; 
+};
+function noRoomAllocate(){
+	$.smallBox({
+		title : "Error",
+		content : "<i class='fa fa-clock-o'></i> <i>Sorry! there is no room allocate for this student in this family to extend the trip.</i>",
+		color : "#ff8080",
+		iconSmall : "fa fa-check fa-2x fadeInRight animated",
+		timeout : 10000
+	});
+	window.location="students.html"; 
+};
+
+
+function updateRooms (objFamily, objRoom) {
+	var occupancy = 
+		{
+		emailStudent : objRoom.emailStudent,
+		idStudent : objRoom.idStudent,
+		actualTrip : objRoom.actualTrip,
+        startOccupancy : objRoom.start ,
+        endOccupancy : objRoom.end
+		};
+	if (objRoom.occupancy == "Single"){
+		if (objFamily.documento.rooms[objRoom.roomNumber].occupancySingleBed){
+			objFamily.documento.rooms[objRoom.roomNumber].occupancySingleBed.push(occupancy);
+		};
+	};
+	if (objRoom.occupancy == "Couple"){
+		if (objFamily.documento.rooms[objRoom.roomNumber].occupancyCoupleBed){			
+			objFamily.documento.rooms[objRoom.roomNumber].occupancyCoupleBed.push(occupancy);
+		};
+	};
+	rest_atualizaFamily(objFamily, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again");
+	
+};
+function searchRoomNumber (rooms, emailStudent) {
+
+	var roomNumber = null;
+    $.each(rooms, function (i, room) {
+        $.each(room.occupancySingleBed, function (w, occupancy) {
+    		if (occupancy.emailStudent == emailStudent){
+    			roomNumber = room.number;
+    		};
+        });            	
+        $.each(room.occupancyCoupleBed, function (w, occupancy) {
+        	if (occupancy.emailStudent == emailStudent){
+        		roomNumber = room.number;
+        	};
+        });            	
+    });
+
+	return roomNumber;
+	
 };

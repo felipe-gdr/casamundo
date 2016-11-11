@@ -67,7 +67,7 @@ public class Rest_Dorm {
 		}
 		return null;
 	};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
