@@ -408,11 +408,8 @@ function carregaDadosTela(data, actualTrip){
 
 function carregaDadosAgency(data, consult, consultName) {
 	localStorage.setItem("agency", JSON.stringify(data));
-	if (consult){
-		$("#agencyName").html(data.documento.name);
-	}else{
-		$("#agencyName").val(data.documento.name);
-	};
+	$("#agencyName").html(data.documento.name);
+	$("#agencyName").val(data.documento.name);
     $.each(data.documento.consultants, function (i, consultants) {
     	if (consultants.name == consultName){
     		$("#agencyConsultMobile").html(consultants.celPhone);

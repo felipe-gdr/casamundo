@@ -240,6 +240,7 @@
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
 			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation&actualTrip=" + actualTrip + "'>Looking for accommodation</a></li>" +
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Allocated"){
@@ -247,6 +248,7 @@
 			        		"<li data-process='manualconfirm'" + dadosStudent + "><a href='#'>Manual confirm</a></li>" +
 			        		"<li data-process='sendemailtofamilytoconfirm'" + dadosStudent + "><a href='#'>Send email to family to confirm</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Offered"){
@@ -254,6 +256,7 @@
 			        		"<li data-process='manualconfirm'" + dadosStudent + "><a href='#'>Manual confirm</a></li>" +
 			        		"<li data-process='sendemailtofamilytoconfirm'" + dadosStudent + "><a href='#'>Send email to family to confirm</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Confirmed"){
@@ -261,6 +264,7 @@
 			        	actions =
 			        		"<li data-process='changestatustodocuments'" + dadosStudent + "><a href='#' id='chooseFamily_" + familyName + "' data-toggle='modal' data-target='#letterToStudent'>Send confirmation letter</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Documents"){
@@ -268,7 +272,8 @@
 			        	actions = 
 		        			"<li data-process='changestatustoinhouse'" + dadosStudent + "><a href='#'>Change to in house</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
-		        			"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
+			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "In house"){
 			        	typePage = "change";
@@ -276,6 +281,7 @@
 			        		"<li data-process='changestatustocheckout'" + dadosStudent + "><a href='#'>Change to check out</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
 			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>Extend trip</a></li>" +
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Checked out"){
@@ -283,11 +289,12 @@
 			        	actions = 
 			        		"<li data-process='sendemailtostudenttoevaluete'" + dadosStudent + "><a href='#'>Send student email to evaluete</a></li>" +
 			        		"<li data-process='evaluetereceived'" + dadosStudent + "><a href='#'>Evaluete received</a></li>" +
-			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>";
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>";
 			        };
 			        if (student.trip.status == "Canceled"){
 			        	typePage = "change";
 			        	actions = 
+			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='recovercanceled'" + dadosStudent + "><a href='#'>Recover canceled</a></li>";
 			        };
 	        	};

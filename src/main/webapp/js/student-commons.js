@@ -60,29 +60,6 @@ function carregaTela(data, actualTrip) {
 	$("#destination").val(data.documento.trips[actualTrip].destination);
 	$("#start").val(separaDataMes(data.documento.trips[actualTrip].start, "-"));
 	$("#end").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
-	//
-    //**** 	seta data para nova viagem do mesmo aluno
-	//
-	if (localStorage.newTrip == "true"){
-		$("#start").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
-		$('#start').attr("disabled", true);
-		$("#end").val("");
-		$('#start').datepicker({
-			dateFormat : 'dd-M-yy',
-			prevText : '<i class="fa fa-chevron-left"></i>',
-			nextText : '<i class="fa fa-chevron-right"></i>',
-			minDate : converteToDate(data.documento.trips[actualTrip].end),
-			onSelect : function(selectedDate) {
-				$('#end').datepicker('option', 'minDate', selectedDate)
-				}
-		});		
-		$('#end').datepicker({
-			dateFormat : 'dd-M-yy',
-			prevText : '<i class="fa fa-chevron-left"></i>',
-			nextText : '<i class="fa fa-chevron-right"></i>',
-			minDate : converteToDate(data.documento.trips[actualTrip].end)
-		});		
-	};
 	$("#arrivalDate").val(separaDataMes(data.documento.trips[actualTrip].arrivalDate, "-"));
 	$("#arrivalTime").val(data.documento.trips[actualTrip].arrivalTime);
 	$("#arrivalFlightNumber").val(data.documento.trips[actualTrip].arrivalFlightNumber);
@@ -191,17 +168,31 @@ function carregaTela(data, actualTrip) {
 	};
 	$("#schoolConsultName").val(data.documento.trips[actualTrip].schoolConsultName);
 
+	//
+    //**** 	seta data para nova viagem do mesmo aluno
+	//
+	if (localStorage.newTrip == "true"){
+		$("#start").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
+		$("#end").val("");
+		$('#status').val("Available");
+		$('#familyName').val("");
+		$('#idFamily').val("");
+	};
+
 	localStorage.setItem("student", JSON.stringify(data));
 	localStorage.studentExistente = "true";
 };    
 
 function carregaDadosAgency(data, consult, consultName) {
+
 	localStorage.setItem("agency", JSON.stringify(data));
+
 	if (consult){
 		$("#agencyName").html(data.documento.name);
 	}else{
 		$("#agencyName").val(data.documento.name);
 	};
+
     $.each(data.documento.consultants, function (i, consultants) {
     	if (consultants.name == consultName){
     		$("#agencyConsultMobile").html(consultants.celPhone);
@@ -219,9 +210,11 @@ function carregaDadosAgency(data, consult, consultName) {
 };
 
 function carregaDadosSchool(data, consult, consultName) {
+
 	localStorage.setItem("school", JSON.stringify(data));
+
 	if (consult){
-		$("#schoolName").html(data.documento.name);	
+		$("#schoolName").html(data.documento.name);
 	}else{
 		$("#schoolName").val(data.documento.name);
 	};
