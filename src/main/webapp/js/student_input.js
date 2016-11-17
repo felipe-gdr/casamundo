@@ -11,28 +11,32 @@
 	//
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
-	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
-	var parameter = parametrosDaUrl.split("&");
+	var mailUrl = "";
+	var parameter = "";
 	var typePage = "";
-	localStorage.newTrip = "false";
 	var newTrip = "";
-	var actualTripParam = "";
-	if (parameter[1]) {
-		if (parameter[1].split("=")[0] == "typePage"){
-			var typePage = parameter[1].split("=")[1];
-		}else{
-			if (parameter[1].split("=")[0] == "actualTrip"){
-				actualTripParam = parameter[1].split("=")[1];
+	var actualTripParam = 0;
+	if (parametrosDaUrl){
+		mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
+		parameter = parametrosDaUrl.split("&");
+		localStorage.newTrip = "false";
+		if (parameter[1]) {
+			if (parameter[1].split("=")[0] == "typePage"){
+				typePage = parameter[1].split("=")[1];
+			}else{
+				if (parameter[1].split("=")[0] == "actualTrip"){
+					actualTripParam = parameter[1].split("=")[1];
+				};
+			};
+		};
+		if (parameter[2]) {
+			if (parameter[2].split("=")[0] == "newTrip"){
+				newTrip = parameter[2].split("=")[1];
+				localStorage.newTrip = newTrip;
 			};
 		};
 	};
-	if (parameter[2]) {
-		if (parameter[2].split("=")[0] == "newTrip"){
-			newTrip = parameter[2].split("=")[1];
-			localStorage.newTrip = newTrip;
-		};
-	};
-
+	
 	/**
 	 * 		carrega tabelas
 	 */
@@ -52,6 +56,7 @@
 		montaPhoto (localStorage.app, "student", "photoPassport", "student", mailUrl, "photoPassport");
 		$('#mail').attr("disabled", true);
 	}else{
+	   	$('#actualTrip').val("0");
 		$('#birthDay').val("01-Jan-1980");
 	};		
 
