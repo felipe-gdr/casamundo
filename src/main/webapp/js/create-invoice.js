@@ -513,7 +513,7 @@ function criaInvoice(id, actualTrip){
 	if (typePage == "change"){
 		rest_atualizaInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
 	}else{
-		rest_incluiInvoice(objInvoice, retornaInvoice, semAcao, "students.html")
+		rest_incluiInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
 	};
 
 };

@@ -1,5 +1,7 @@
+com\rcapitol\casamundo\Rest_Payment.class
 com\rcapitol\casamundo\Family$Documento$Notes.class
 com\rcapitol\casamundo\Agency$Documento.class
+com\rcapitol\casamundo\Commons.class
 com\rcapitol\casamundo\StudentFilters$Documento.class
 com\rcapitol\casamundo\PriceTable$Documento.class
 com\rcapitol\casamundo\Room$Documento$Beds.class
@@ -16,6 +18,7 @@ com\rcapitol\casamundo\Pickup.class
 com\rcapitol\casamundo\Rest_Agency.class
 com\rcapitol\casamundo\SendEmailHtml.class
 com\rcapitol\casamundo\Bank.class
+com\rcapitol\casamundo\Payment$Documento.class
 com\rcapitol\casamundo\Dorm$Documento$Units.class
 com\rcapitol\casamundo\Invoice.class
 com\rcapitol\casamundo\Family$Documento$Address.class
@@ -27,6 +30,7 @@ com\rcapitol\casamundo\Rest_UploadFiles.class
 com\rcapitol\casamundo\Room$Documento$Occupancies.class
 com\rcapitol\casamundo\Dorm$Documento$Fotos.class
 com\rcapitol\casamundo\Family$Documento$Docs.class
+com\rcapitol\casamundo\Rest_Setup.class
 com\rcapitol\casamundo\Student.class
 com\rcapitol\casamundo\Agency$Documento$Consultants.class
 com\rcapitol\casamundo\Room$Documento.class
@@ -47,6 +51,7 @@ com\rcapitol\casamundo\Family$Documento$Contact.class
 com\rcapitol\casamundo\PriceTableValue$Documento.class
 com\rcapitol\casamundo\Dorm.class
 com\rcapitol\casamundo\Family$Documento$Payment.class
+com\rcapitol\casamundo\Payment.class
 com\rcapitol\casamundo\PriceTableCost$Documento.class
 com\rcapitol\casamundo\PriceTableCost.class
 com\rcapitol\casamundo\Rest_PriceTableValue.class
@@ -54,6 +59,7 @@ com\rcapitol\casamundo\Table.class
 com\rcapitol\casamundo\Rest_Room.class
 com\rcapitol\casamundo\Usuario.class
 com\rcapitol\casamundo\Dorm$Documento$Contact.class
+com\rcapitol\casamundo\Setup$Documento.class
 com\rcapitol\casamundo\Room$Documento$Comments.class
 com\rcapitol\casamundo\School.class
 com\rcapitol\casamundo\TemplateEmail.class
@@ -65,6 +71,7 @@ com\rcapitol\casamundo\Rest_Table.class
 com\rcapitol\casamundo\Family$Documento$FamilyMembers.class
 com\rcapitol\casamundo\Family$Documento$Rooms$OccupancySingleBed.class
 com\rcapitol\casamundo\Invoice$Documento$ItensNet.class
+com\rcapitol\casamundo\Setup.class
 com\rcapitol\casamundo\Student$Documento$Trips.class
 com\rcapitol\casamundo\Dorm$Documento$Visits.class
 com\rcapitol\casamundo\Rest_Email.class
@@ -82,5 +89,6 @@ com\rcapitol\casamundo\Student$Documento.class
 com\rcapitol\casamundo\Room.class
 com\rcapitol\casamundo\Dorm$Documento$Address.class
 com\rcapitol\casamundo\SendEmail.class
+com\rcapitol\casamundo\Payment$Documento$Itens.class
 com\rcapitol\casamundo\Rest_School.class
 com\rcapitol\casamundo\Subway$Documento.class

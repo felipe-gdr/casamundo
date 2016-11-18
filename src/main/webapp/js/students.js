@@ -117,6 +117,8 @@
 		};
 		if (filters != localStorage.getItem("filters")){
 			localStorage.setItem("filters", filters);
+		    console.log ("1 - filtro " + new Date().getTime());
+
 			rest_obterStudentsAll(carregaLocalStorageStudents, semAcao, localStorage.usuarioCity, localStorage.accommodation , filters, null, null);
 		};
 	});	

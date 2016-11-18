@@ -57,6 +57,7 @@
 		$('#mail').attr("disabled", true);
 	}else{
 	   	$('#actualTrip').val("0");
+	   	$('#status').val("Available");
 		$('#birthDay').val("01-Jan-1980");
 	};		
 
@@ -73,7 +74,7 @@
 	var $studentForm = $("#student-form").validate({
 		// Rules for form validation
 		rules : {
-			mail : {
+/*			mail : {
 				required : true,
 				email : true
 			},
@@ -140,7 +141,7 @@
 			destination : {
 				required : true,
 			},
-			start : {
+*/			start : {
 				required : true,
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
@@ -179,7 +180,7 @@
 
 		// Messages for form validation
 		messages : {
-			mail : {
+/*			mail : {
 				required : 'Please enter student email',
 				email : 'Please enter a VALID email address'
 			},
@@ -252,7 +253,7 @@
 			destination : {
 				required : 'Please enter destination'
 			},
-			start : {
+*/			start : {
 				required : 'Please enter trip start'
 			},
 			end : {

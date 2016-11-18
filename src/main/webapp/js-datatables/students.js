@@ -29,7 +29,7 @@
      * 			adendo a lista student
      */
 
-//    console.log ("1 - " + new Date().getTime());
+    console.log ("1 - " + new Date().getTime());
 
 	/**
 	 * 				obter os dados
@@ -49,7 +49,7 @@
 	};
 	function carregaLocalStorageStudents (objJson, destroy) {
 
-//        console.log ("2 - " + new Date().getTime());
+        console.log ("2 - " + new Date().getTime());
 
         localStorage.setItem("students", JSON.stringify(objJson));
 
