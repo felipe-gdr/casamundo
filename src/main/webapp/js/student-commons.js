@@ -1266,7 +1266,7 @@ function carregaStudent(data, typePage, actualTrip) {
 	if (typePage == "accommodation-dorms"){
 		$(".notAccommodationDorms" ).addClass("hide");
 		$(".pageBeds" ).removeClass("hide");
-		montaAccommodationRoom ();
+		montaAccommodationRoom (actualTrip);
 	};
 //
 // *** carrega as viagens do estudante
