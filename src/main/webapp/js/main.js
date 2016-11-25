@@ -294,6 +294,7 @@ function montaDataMesNum ( data, separador) {
 		return "01/10/2000";
 	}	 
 };				
+
 function separaAnoMesDia ( data) {
 	if (data){
 		var mesAlfa = data.slice(2,5);
@@ -343,6 +344,128 @@ function separaAnoMesDia ( data) {
 	}
 };
 
+function getDia ( data) {
+
+	if (data){
+		return data.slice(0,2);
+	}else{
+		return "01";
+	}
+};
+
+function getMes ( data) {
+	if (data){
+		var mesAlfa = data.slice(2,5);
+		switch(mesAlfa) {
+	    case "Jan":
+	    	mesNum = "01"
+	        break;
+	    case "Feb":
+	    	mesNum = "02"
+	        break;
+	    case "Mar":
+	    	mesNum = "03"
+	        break;
+	    case "Apr":
+	    	mesNum = "04"
+	        break;
+	    case "May":
+	    	mesNum = "05"
+	        break;
+	    case "Jun":
+	    	mesNum = "06"
+	        break;
+	    case "Jul":
+	    	mesNum = "07"
+	        break;
+	    case "Aug":
+	    	mesNum = "08"
+	        break;
+	    case "Sep":
+	    	mesNum = "09"
+	        break;
+	    case "Oct":
+	    	mesNum = "10"
+	        break;
+	    case "Nov":
+	    	mesNum = "11"
+	        break;
+	    case "Dec":
+	    	mesNum = "12"
+	        break;
+	    default:
+	    	mesNum = "01"
+		};
+		return mesNum;
+	}else{
+		return "01";
+	}
+};
+
+function getMesAlfa ( data) {
+	if (data){
+		return data.slice(2,5);
+	}else{
+		return "Jan";
+	}
+};
+
+function getAno ( data) {
+	if (data){
+		return data.slice(5,9);
+	}else{
+		return "2000";
+	}
+};
+
+function separadorAnoMesDia ( data, separador) {
+	if (data){
+		var mesAlfa = data.slice(2,5);
+		switch(mesAlfa) {
+	    case "Jan":
+	    	mesNum = "01"
+	        break;
+	    case "Feb":
+	    	mesNum = "02"
+	        break;
+	    case "Mar":
+	    	mesNum = "03"
+	        break;
+	    case "Apr":
+	    	mesNum = "04"
+	        break;
+	    case "May":
+	    	mesNum = "05"
+	        break;
+	    case "Jun":
+	    	mesNum = "06"
+	        break;
+	    case "Jul":
+	    	mesNum = "07"
+	        break;
+	    case "Aug":
+	    	mesNum = "08"
+	        break;
+	    case "Sep":
+	    	mesNum = "09"
+	        break;
+	    case "Oct":
+	    	mesNum = "10"
+	        break;
+	    case "Nov":
+	    	mesNum = "11"
+	        break;
+	    case "Dec":
+	    	mesNum = "12"
+	        break;
+	    default:
+	    	mesNum = "01"
+		};
+		return data.slice(5,9) + separador + mesNum + separador + data.slice(0,2);
+	}else{
+		return "2000-01-01";
+	}
+};
 
 function separaHora ( hora, separador) {
 	if (hora){

@@ -1243,7 +1243,7 @@
     };
     
     
-    function rest_obterBedsAll(action_ok, action_notOk, destination, var1, var2) {
+    function rest_obterBedsAll(action_ok, action_notOk, destination, var1, var2, var3, var4, var5, var6, var7) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/lista/beds?destination=" + destination,
             contentType: "application/json; charset=utf-8",
@@ -1251,10 +1251,10 @@
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data, var1, var2);
+    		action_ok(data, var1, var2, var3, var4, var5, var6, var7);
     	})
     	.fail(function(data) {
-    		action_notOk(data, var1, var2);
+    		action_notOk(data, var1, var2, var3, var4, var5, var6, var7s);
     	})
     	.always(function(data) {
     	});

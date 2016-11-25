@@ -26,7 +26,7 @@
 	localStorage.typePage = typePage;
 	
 	if (typePage == "accommodation" | typePage == "accommodation-dorms"){
-		$('#smart-fixed-ribbon').trigger('click');
+//		$('#smart-fixed-ribbon').trigger('click');
 		
 		$(".homestay").addClass("hide");
 		$(".dorms").addClass("hide");

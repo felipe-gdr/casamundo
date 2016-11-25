@@ -47,6 +47,21 @@ public class Commons {
 		}
 		return null;
 	};
+	
+	public int difDate (String start, String end){
+		
+		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		try {
+			Date d1 = df.parse (convertDateMes (start));
+			Date d2 = df.parse (convertDateMes (end)); 
+			long dt = (d2.getTime() - d1.getTime()) + 3600000;
+			int daysInBetween = (int) (dt / (24*60*60*1000));
+			return daysInBetween;
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return (Integer) null;
+	};
 
 	public String calcNewDate (String date, int days){
 		

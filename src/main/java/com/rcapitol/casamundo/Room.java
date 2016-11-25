@@ -178,6 +178,7 @@ public class Room {
     		public String idStudent;
     		public String startOccupancy;
     		public String endOccupancy;
+    		public String actualTrip;
 
     		public Occupancies() {
 
@@ -187,12 +188,14 @@ public class Room {
             public Occupancies(
             			String idStudent,
             			String startOccupancy,
-            			String endOccupancy
+            			String endOccupancy,
+            			String actualTrip
             		)
             {
 	    		this.idStudent = idStudent;
 	    		this.startOccupancy = startOccupancy;
 	    		this.endOccupancy = endOccupancy;
+	    		this.actualTrip = actualTrip;
             }
 
 		}

@@ -293,7 +293,7 @@ public class Rest_Room {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONArray ObterBeds(@QueryParam("destination") String destination) {
-
+		Commons commons = new Commons();
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -354,6 +354,8 @@ public class Rest_Room {
 						if (occupancies != null){
 							for(JSONObject occupancy : occupancies){
 								String idStudent = (String) occupancy.get("idStudent");
+								String actualTrip = (String) occupancy.get("actualTrip");
+							    Integer actualTripInt = Integer.parseInt((String) occupancy.get("actualTrip"));
 								if (idStudent != null){
 									ObjectId objectStudent = new ObjectId(idStudent);
 									Mongo mongoStudent = new Mongo();
@@ -364,6 +366,11 @@ public class Rest_Room {
 									if (cursorStudent != null){
 										BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
 										occupancy.put("student", objStudent);
+										List trips = (List) objStudent.get("trips");
+										BasicDBObject jsonTrip = (BasicDBObject) trips.get(actualTripInt);
+										occupancy.put("student_occupancies", carregaAlocacoes(idStudent,actualTrip, (String) occupancy.get("startOccupancy"),(String) occupancy.get("endOccupancy")));
+										int days = commons.difDate ((String) jsonTrip.get("start"),(String) jsonTrip.get("end"));
+										occupancy.put("student_daysTrip", String.valueOf(days));
 									};
 								};
 								occupanciesOut.add(occupancy);
@@ -373,6 +380,66 @@ public class Rest_Room {
 						jsonBed.put("bed", bed);
 						documentos.add(jsonBed);
 					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			};
+			mongo.close();
+			return documentos;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private JSONArray carregaAlocacoes(String idStudent, String actualTrip, String startOccupancy, String endOccupancy) {
+		Commons commons = new Commons();
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			DBCollection collection = db.getCollection("room");
+			BasicDBObject setQuery = new BasicDBObject();
+			if (idStudent != null){
+				setQuery.put("documento.beds.occupancies.idStudent", idStudent);
+			};
+			if (actualTrip != null){
+				setQuery.put("documento.beds.occupancies.actualTrip", actualTrip);
+			};
+
+			DBCursor cursor = collection.find(setQuery);
+			JSONArray documentos = new JSONArray();
+			//
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				JSONParser parser = new JSONParser(); 
+				BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				String documento = objRoom.getString("documento");
+				try {
+					JSONObject jsonObject; 
+					jsonObject = (JSONObject) parser.parse(documento);
+					List<JSONObject> beds = (List) jsonObject.get("beds");
+					for(JSONObject bed : beds){
+						JSONObject jsonOccupancy = new JSONObject();
+						List<JSONObject> occupancies = (List) bed.get("occupancies");
+						if (occupancies != null){
+							for(JSONObject occupancy : occupancies){
+								String idStudentOccupancy = (String) occupancy.get("idStudent");
+								String actualTripOccupancy = (String) occupancy.get("actualTrip");
+								if (idStudentOccupancy.equals(idStudent) &&	actualTripOccupancy.equals(actualTrip)) {
+									if (startOccupancy.equals((String)occupancy.get("startOccupancy")) && endOccupancy.equals((String)occupancy.get("endOccupancy"))){
+									}else{
+										jsonOccupancy.put("occupancy", occupancy);
+										int days = commons.difDate ((String)occupancy.get("startOccupancy"),(String)occupancy.get("endOccupancy"));
+										jsonOccupancy.put("usedDays", String.valueOf(days));
+										documentos.add(jsonOccupancy);
+									};
+								};
+							};
+						};
+					};
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
