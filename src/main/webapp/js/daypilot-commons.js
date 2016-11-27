@@ -6,7 +6,7 @@
 
 function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, eventName, student, par_startTrip, par_endTrip, idStudent, actualTrip){
 	
-	var difDiasTripAllocate = calculaDias(separaConverteDataMes(par_startTrip, "/"), separaConverteDataMes(par_endTrip, "/"));
+	var difDiasTripAllocate = calculaDias(separaConverteDataMes(par_startTrip, "/"), separaConverteDataMes(par_endTrip, "/")) + 1;
 	
 //	xxendNewEvent = DayPilot.Date(endNewEvent).addDays(10);
 	var newEventCreated = null;
