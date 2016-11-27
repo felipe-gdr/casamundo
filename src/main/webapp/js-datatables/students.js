@@ -303,7 +303,7 @@
 	        	if (localStorage.accommodation == "Dorms"){
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
 			        	actions = 
-			        		"<li><a href='accommodation.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Looking for a room</a></li>" +
+			        		"<li><a href='accommodation-dorms.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Looking for a room</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idroom='" + student.mail + "' " + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        	if (student.trip.status == "Partially allocated"){
 			        		actions = actions +	

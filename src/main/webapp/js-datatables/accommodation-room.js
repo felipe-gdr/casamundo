@@ -679,13 +679,14 @@
 	    return occupied;
 	};	
 	
-	function updateBeds (objRoom, objBed, status) {
+	function updateBeds (objRoom, objBed, status, actualTrip) {
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 		var occupancy = 
 			{
 			idStudent : objStudent._id,
             startOccupancy : objBed.start ,
-            endOccupancy : objBed.end
+            endOccupancy : objBed.end,
+            actualTrip : actualTrip
 			};
 	    $.each(objRoom.documento.beds, function (i, bed) {
 	    	if (bed.id == objBed.idBed){

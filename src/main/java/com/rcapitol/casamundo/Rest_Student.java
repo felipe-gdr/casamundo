@@ -47,14 +47,22 @@ public class Rest_Student {
 	@Path("/obterEmail")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterEmail(@QueryParam("mail") String mail) {
+	public JSONObject ObterEmail(@QueryParam("mail") String mail, @QueryParam("actualTrip") String actualTripParam, @QueryParam("idStudent") String idStudentParam) {
+		Rest_Room rest_room = new Rest_Room();
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			DBCollection collection = db.getCollection("student");
-			BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
-			DBObject cursor = collection.findOne(searchQuery);
+			BasicDBObject setQuery = new BasicDBObject();
+			if (mail != null && !mail.equals("null")){
+		    	setQuery.put("documento.mail", mail);
+		    };
+			if (idStudentParam != null && !idStudentParam.equals("null")){
+				ObjectId idObjectStudent = new ObjectId(idStudentParam);
+		    	setQuery.put("_id", idObjectStudent);
+		    };
+			DBObject cursor = collection.findOne(setQuery);
 			JSONObject documento = new JSONObject();
 			if (cursor == null){
 				mongo.close();
@@ -62,8 +70,8 @@ public class Rest_Student {
 			};
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 			ObjectId studentObject = (ObjectId) cursor.get("_id");
-			String studentId = studentObject.toString();
-			documento.put("_id", studentId);
+			String idStudent = studentObject.toString();
+			documento.put("_id", idStudent);
 			documento.put("documento", obj);
 			mongo.close();
 			String docStudent = obj.toString();
@@ -119,7 +127,7 @@ public class Rest_Student {
 					Mongo mongoRoom = new Mongo();
 					DB dbRoom = (DB) mongoRoom.getDB("documento");
 					DBCollection collectionRoom = dbRoom.getCollection("room");
-					BasicDBObject searchQueryRoom = new BasicDBObject("documento.beds.occupancies.idStudent", studentId);
+					BasicDBObject searchQueryRoom = new BasicDBObject("documento.beds.occupancies.idStudent", idStudent);
 					DBCursor cursorRoom = collectionRoom.find(searchQueryRoom);
 					JSONArray rooms = new JSONArray();
 					if (cursorRoom != null){
@@ -129,6 +137,10 @@ public class Rest_Student {
 						};
 					};
 					documento.put("rooms", rooms);
+				};
+				if (actualTripParam != null){
+					JSONArray objOccupancy = rest_room.carregaAlocacoes(idStudent, actualTripParam, "", "");
+					documento.put("rooms_actualTrip", objOccupancy);
 				};
 				return documento;
 			} catch (ParseException e) {

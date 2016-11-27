@@ -4,10 +4,11 @@
 
 // **** exemplo parameters startDate=2016-01-01, size=366 (numero de dias), scale=Day
 
-function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, eventName, student, par_startTrip, par_endTrip){
+function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, eventName, student, par_startTrip, par_endTrip, idStudent, actualTrip){
 	
 	var difDiasTripAllocate = calculaDias(separaConverteDataMes(par_startTrip, "/"), separaConverteDataMes(par_endTrip, "/"));
 	
+//	xxendNewEvent = DayPilot.Date(endNewEvent).addDays(10);
 	var newEventCreated = null;
 	var dp = new DayPilot.Scheduler("dp");
 
@@ -58,11 +59,71 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     };
 
     dp.onEventMoved = function (args) {
-        dp.message("Moved: " + args.e.text() + " start: " + args.e.start() + " end: " + args.e.end());
+    	
+    	deallocate (args.e.data);
+    	updateAllocation (args);
     };
     
     dp.onRowClick = function (args) {
-    	
+
+    	if (newEventCreated){
+	    	dp.events.remove(newEventCreated).queue();
+    	};
+    	var occupancy = {
+    			idStudent : idStudent,
+    			startOccupancy : par_startTrip,
+    			endOccupancy : par_endTrip,
+    			actualTrip : actualTrip
+    	};
+    	var data = {
+                start: startNewEvent,
+                end: endNewEvent,
+                id: DayPilot.guid(),
+                resource: args.resource.id,
+                text: eventName,
+                resource : args.resource.data.room_bed,
+                occupancy : occupancy,
+                idStudent : idStudent,
+    	        actualTrip: actualTrip,
+    	        student : student,
+    	        student_daysTrip : difDiasTripAllocate,
+    	        student_usedDays : 0,
+    	        newAllocated : false
+            };
+        var e = new DayPilot.Event({
+            start: startNewEvent,
+            end: endNewEvent,
+            id: DayPilot.guid(),
+            resource: args.resource.id,
+            text: eventName,
+            resource : args.resource.data.room_bed,
+            occupancy : occupancy,
+            idStudent : idStudent,
+	        actualTrip: actualTrip,
+	        student : student,
+	        student_daysTrip : difDiasTripAllocate,
+	        student_usedDays : 0,
+	        newAllocated : false,
+            newStart: startNewEvent,
+            newEnd: endNewEvent
+        });
+        var args = {
+        		e : e,
+                newStart: startNewEvent,
+                newEnd: endNewEvent,
+                newResource : args.resource.data.room_bed
+        };
+        
+        localStorage.insert = "true";
+
+        var param = 
+        	{	dp:dp,
+        		args:args,
+        		e,
+        		data,
+        		startNewEvent:startNewEvent
+        	};
+        rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, null, actualTrip, idStudent)
     };
     
     dp.onEventClicked = function(args) {
@@ -80,50 +141,23 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
 
     dp.onEventResize = function(args) {
     	
-    	checkDates(dp, args);
+    	checkDates(dp, args, args.e.data.student_usedDays);
 
     };
 
     dp.onEventResized = function (args) {
+    	
+    	deallocate (args.e.data);
+    	updateAllocation (args);
 
     };
 
     dp.onTimeRangeSelecting = function(args) {
     
-    };
+        dp.message("Click left (over the bed) to allocate " + eventName);
+ };
 
     dp.onTimeRangeSelected = function (args) {
-    	if (newEventCreated){
-	    	dp.events.remove(newEventCreated).queue();
-    	};
-        var e = new DayPilot.Event({
-            start: startNewEvent,
-            end: endNewEvent,
-            id: DayPilot.guid(),
-            resource: args.resource,
-            text: eventName,
-	        actualTrip: actualTrip,
-	        student : student,
-	        student_daysTrip : difDiasTripAllocate,
-	        student_usedDays : 0,
-	        newAllocated : false
-        });
-        var data = {
-            start: startNewEvent,
-            end: endNewEvent,
-            id: DayPilot.guid(),
-            resource: args.resource,
-            text: eventName,
-	        actualTrip: actualTrip,
-	        student : student,
-	        student_daysTrip : difDiasTripAllocate,
-	        student_usedDays : 0,
-	        newAllocated : false
-        };
-        localStorage.insert = "true";
-        dp.events.add(e, data);
-        newEventCreated = e;
-	    dp.scrollTo(startNewEvent, false,  "middle");
     };
 
     dp.separators = [
@@ -154,11 +188,21 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
 
     dp.onEventMove = function(args) {
     	
-    	checkDates(dp, args);
+    	checkDates(dp, args, args.e.data.student_usedDays);
 
     };
     
     return dp;
+};
+
+function checkDatesCall (objStudent, param){
+
+	if (checkDates(param.dp, param.args, objStudent, daysUsed(objStudent.rooms_actualTrip))){
+    	param.dp.events.add(param.e, param.data);
+        newEventCreated = param.e;
+	    param.dp.scrollTo(param.startNewEvent, false,  "middle");        	
+	    updateAllocation (param.args);
+    };
 };
 
 function montaMiniDashboard (args){
@@ -313,12 +357,13 @@ function montaMiniDashboard (args){
 			
 };
 
-function checkDates(dp, args){
+function checkDates(dp, args, objStudent, usedDays){
 	
 	var actualTrip = args.e.data.actualTrip;
 	var statusCollor = "#ffff80";
 	var startTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].start, "-") + "T12:00:00");
 	var endTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].end, "-") + "T12:00:00");
+	var valid = true;
 	
     switch (args.e.data.student.trips[actualTrip].status) {
 	case "Available":
@@ -356,7 +401,8 @@ function checkDates(dp, args){
         		args.e.data.student.lastName + 
         		" - status: " + 
         		args.e.data.student.trips[args.e.data.actualTrip].status +
-        		" cannot be resized.");          
+        		" cannot be resized.");
+        valid = false;
     }else{
     	if (DayPilot.Date(args.newStart) < DayPilot.Date(startTrip)){
             args.preventDefault();
@@ -367,7 +413,8 @@ function checkDates(dp, args){
             		" - status: " + 
             		args.e.data.student.trips[args.e.data.actualTrip].status +
             		" cannot be less than start date " +
-            		new DayPilot.Date(args.e.data.start).toString("M/d/yyyy"));          
+            		new DayPilot.Date(args.e.data.start).toString("M/d/yyyy"));
+            valid = false;
     	};
     	if (DayPilot.Date(args.newEnd) > DayPilot.Date(endTrip)){
             args.preventDefault();
@@ -378,26 +425,33 @@ function checkDates(dp, args){
             		" - status: " + 
             		args.e.data.student.trips[args.e.data.actualTrip].status +
             		" cannot be greater than end date " +
-            		new DayPilot.Date(args.e.data.end).toString("M/d/yyyy"));          
+            		new DayPilot.Date(args.e.data.end).toString("M/d/yyyy"));
+            valid = false;
     	};
     	var difDays = calculaDias (DayPilot.Date(args.newStart).getDay() + "/" + 
     				 				(DayPilot.Date(args.newStart).getMonth() + 1) + "/" + 
     				 				DayPilot.Date(args.newStart).getYear(), 
     				 				DayPilot.Date(args.newEnd).getDay() + "/" + 
     				 				(DayPilot.Date(args.newEnd).getMonth() + 1) + "/" + 
-    				 				DayPilot.Date(args.newEnd).getYear());
+    				 				DayPilot.Date(args.newEnd).getYear()) + 1;
     	
-    	if ((parseInt(args.e.data.student_usedDays) + difDays) > parseInt(args.e.data.student_daysTrip)){
-            args.preventDefault();
+    	if ((parseInt(usedDays) + difDays) > parseInt(args.e.data.student_daysTrip)){
+            if (args.preventDefault){
+            	args.preventDefault();
+            };
+            var daysAllocatted = parseInt(usedDays) + difDays;
             dp.message(
             		"Student: " +
             		args.e.data.student.firstName + " " + 
             		args.e.data.student.lastName + 
             		" - status: " + 
             		args.e.data.student.trips[args.e.data.actualTrip].status +
-            		" total days allocated (" + (parseInt(args.e.data.student_usedDays) + difDays) +  ") greater than total days trip (" + args.e.data.student_daysTrip +  ")");
+            		" total days allocated (" + daysAllocatted +  ") greater than total days trip (" + args.e.data.student_daysTrip +  ")");
+            valid = false;
     	};
     };	
+    
+    return valid;
 };
 
 function changeEvent (dp, args){
@@ -448,4 +502,48 @@ function changeEvent (dp, args){
     };
 	localStorage.insert = "false";
 	
+};
+
+function updateAllocation (args){
+	
+	if (args.newResource){
+		var data = args.newResource;
+	}else{
+		var data = args.e.data.resource;
+	};
+	var objJson = {
+			idDorm : data.idDorm,
+			idUnit : data.idUnit,
+			idRoom : data.idRoom,
+			idBed : data.idBed,
+			idStudent : args.e.data.idStudent,
+			dormName : data.dormName,
+			unitName : data.unitName,
+			roomName : data.roomName,
+			bedName : data.bedName,
+			start : converteDayPilotDate(args.newStart,"", true),
+			end : converteDayPilotDate(args.newEnd,"", true),
+			actualTrip : args.e.data.occupancy.actualTrip
+	};
+	
+	rest_obterRoom(data.idRoom, addAllocation, semAcao, objJson, "Allocated", args.e.data.occupancy.actualTrip);
+};
+
+function deallocate (data){
+	var objJson = {
+			idDorm : data.oldResource.idDorm,
+			idUnit : data.oldResource.idUnit,
+			idRoom : data.oldResource.idRoom,
+			idBed : data.oldResource.idBed,
+			idStudent : data.idStudent,
+			dormName : data.oldResource.dormName,
+			unitName : data.oldResource.unitName,
+			roomName : data.oldResource.roomName,
+			bedName : data.oldResource.bedName,
+			start : data.occupancy.startOccupancy,
+			end : data.occupancy.endOccupancy,
+			actualTrip : data.occupancy.actualTrip
+	};
+	
+	rest_obterRoom(data.oldResource.idRoom, deallocation, semAcao, objJson, "Allocated", data.occupancy.actualTrip);
 };

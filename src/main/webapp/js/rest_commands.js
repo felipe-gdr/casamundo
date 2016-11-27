@@ -43,9 +43,17 @@
        	});
     };
 
-    function rest_obterStudent(email, action_ok, action_not_ok, var1, var2) {
+    function rest_obterStudent(email, action_ok, action_not_ok, var1, var2, actualTrip, idStudent) {
+    	var	idStudentParam = "null";
+       	if (idStudent){
+    		idStudentParam = idStudent;
+    	};
+    	var	emailParam = "null";
+       	if (email){
+       		emailParam = email;
+    	};
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail="  + email,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail=" + emailParam + "&actualTrip=" + actualTrip + "&idStudent=" + idStudentParam,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
@@ -1254,13 +1262,13 @@
     		action_ok(data, var1, var2, var3, var4, var5, var6, var7);
     	})
     	.fail(function(data) {
-    		action_notOk(data, var1, var2, var3, var4, var5, var6, var7s);
+    		action_notOk(data, var1, var2, var3, var4, var5, var6, var7);
     	})
     	.always(function(data) {
     	});
     };
 
-    function rest_atualizaRoom(objJson, action_ok, action_not_ok, message) {
+    function rest_atualizaRoom(objJson, action_ok, action_not_ok, messageOk, messageNotOk, var1, var2) {
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
@@ -1277,9 +1285,9 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok (message);
+        		action_ok (messageOk, var1, var2);
         	}else{
-        		action_not_ok(message)
+        		action_not_ok(messageNotOk)
         	};
     	});
     };
@@ -1330,7 +1338,7 @@
        	});
     };
 
-    function rest_obterRoom(id, action_ok, action_not_ok, var1, var2) {
+    function rest_obterRoom(id, action_ok, action_not_ok, var1, var2, var3, var4) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/obterRoom?id="  + id,
             contentType: "application/json; charset=utf-8",
@@ -1338,9 +1346,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, var1, var2);
+    		action_ok(data, var1, var2, var3, var4);
     	})
-    	.fail(function(data, var1, var2) {
+    	.fail(function(data, var1, var2, var3, var4) {
     		action_not_ok
     	})
     	.always(function(data) {

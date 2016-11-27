@@ -17,21 +17,34 @@
 					objStudent.documento.trips[actualTrip].end, 
 					objStudent.documento.firstName + " " +
 					objStudent.documento.lastName, 
-					objStudent.documento);
+					objStudent.documento,
+					objStudent.rooms_actualTrip,
+					objStudent._id,
+					actualTrip);
 		};
 	};
 
-	function montaCalendario (objJson, par_startNewEvent, par_endNewEvent, eventName, student) {
-        // *** datas do novo evento
-		var startNewEvent = separadorAnoMesDia(par_startNewEvent, "-") + "T12:00:00";
-		var endNewEvent = separadorAnoMesDia(par_endNewEvent, "-") + "T12:00:00";
+	function montaCalendario (objJson, par_startNewEvent, par_endNewEvent, eventName, student, rooms_actualTrip, idStudent, actualTrip) {
+        // *** datas Day pilot do novo evento
+		var startNewEvent = new DayPilot.Date(separadorAnoMesDia(par_startNewEvent, "-") + "T12:00:00");
+		var endNewEvent = new DayPilot.Date(separadorAnoMesDia(par_endNewEvent, "-") + "T12:00:00");
+		
+		var usedDays = daysUsed(rooms_actualTrip);
+		var endNewEvent = DayPilot.Date(endNewEvent).addDays(usedDays * -1);
+
+		var realDaysTrip = calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
+ 				(DayPilot.Date(startNewEvent).getMonth() + 1) + "/" + 
+ 				DayPilot.Date(startNewEvent).getYear(), 
+ 				DayPilot.Date(endNewEvent).getDay() + "/" + 
+ 				(DayPilot.Date(endNewEvent).getMonth() + 1) + "/" + 
+ 				DayPilot.Date(endNewEvent).getYear()) + 1;
 		
 		// *** setup bib day pilot
 		var today = new Date();
 		var yearToday = today.getYear() + 1900; 
 		var setDate = yearToday + "-" + today.getMonth() + "-" + today.getDate();
 		var startDate = (yearToday - 1) + "-" + today.getMonth() + "-" + today.getDate();
-		var dp = setupDayPilot (startDate, 772, "Day", startNewEvent, endNewEvent, eventName, student, par_startNewEvent, par_endNewEvent);
+		var dp = setupDayPilot (startDate, 772, "Day", startNewEvent, endNewEvent, eventName, student, par_startNewEvent, par_endNewEvent, idStudent, actualTrip);
 
 		var dormName = "";
 	    var unitName = "";
@@ -42,10 +55,10 @@
 	    var resources = [];
 	    var events = [];
 	    $.each(objJson, function (i, room) {
-	        if (room.dorm != dormName){
+	        if (room.dormName != dormName){
 	        	var dormUnit = 
 	        		{
-	        			name: "Dorm: " + room.dorm, 
+	        			name: "Dorm: " + room.dormName, 
 	        			id: room.idDorm,	 
 	        			expanded: true, 
 	        			children:[]
@@ -55,10 +68,10 @@
 	    	    unitName = "";
 	    	    roomName = "";
 	        };
-	        if (room.unit != unitName){
+	        if (room.unitName != unitName){
 	        	var unitUnit = 
         		{
-        			name: "Unit:" + room.unit, 
+        			name: "Unit:" + room.unitName, 
         			id: room.idDorm + "_" + room.idUnit,	 
         			expanded: true, 
         			children:[]
@@ -67,28 +80,41 @@
 	        	indexUnit = resources[indexDorm].children.length - 1;
 	    	    roomName = "";
 	        };
-	        if (room.name != roomName){
+	        if (room.roomName != roomName){
 	        	var roomUnit = 
         		{
-        			name: "Room:" + room.name, 
-        			id: room.id,	 
+        			name: "Room:" + room.roomName, 
+        			id: room.idRoom,	 
         			expanded: true, 
         			children:[]
         		};
 	        	resources[indexDorm].children[indexUnit].children.push(roomUnit);
 	        	indexRoom = resources[indexDorm].children[indexUnit].children.length - 1;
 	        };
+	    	var room_bed = 
+			{
+		        idDorm : room.idDorm,
+	    	    idUnit : room.idUnit,
+	    	    idRoom : room.idRoom,
+	    	    idBed : room.bed.id,
+		        dormName : room.dormName,
+	    	    unitName : room.unitName,
+	    	    roomName : room.roomName,
+	    	    bedName : room.bed.name,
+	    	    actualTrip: occupancy.actualTrip
+			};
 
         	var bedUnit = 
     		{
     			name: "Bed:" + room.bed.name, 
-    			id: room.id + "_" + room.bed.id,	 
+    			id: room_bed,
+    			room_bed : room_bed
     		};
         	resources[indexDorm].children[indexUnit].children[indexRoom].children.push(bedUnit);
         	
-	        dormName = room.dorm;
-    	    unitName = room.unit;
-    	    roomName = room.name;
+	        dormName = room.dormName;
+    	    unitName = room.unitName;
+    	    roomName = room.roomName;
 
     	    if (room.bed.occupancies){
 	    		$.each(room.bed.occupancies, function (w, occupancy) {
@@ -119,12 +145,15 @@
 	    				{
 	    		          start: separadorAnoMesDia(occupancy.startOccupancy, "-") + "T12:00:00",
 	    		          end: separadorAnoMesDia(occupancy.endOccupancy, "-") + "T12:00:00",
-	    		          id: room.id + "_" + room.bed.id + "_" + w,
-	    		          resource: room.id + "_" + room.bed.id,
+	    		          id: room.idRoom + "_" + room.bed.id + "_" + w,
+	    		          resource: room_bed,
 	    		          html: "<div>" + icon + "<b>" + " " + occupancy.student.firstName + " " + occupancy.student.lastName + "</b></div>",
 	    		          actualTrip: occupancy.actualTrip,
+	    		          occupancy : occupancy,
+	    		          idStudent : occupancy.idStudent,
+	    		          oldResource : room_bed,
 	    		          student : occupancy.student,
-	    		          student_daysTrip : occupancy.student_daysTrip,
+	    		          student_daysTrip : realDaysTrip,
 	    		          student_usedDays : daysUsed(occupancy.student_occupancies),
 	    		          newAllocated : false
 	    		        };
@@ -133,8 +162,11 @@
 	    					actualTrip: occupancy.actualTrip,
 		    		        student : occupancy.student,
 		    		        actualTrip: occupancy.actualTrip,
+		    		        occupancy : occupancy,
+		    		        idStudent : occupancy.idStudent,
+		    		        oldResource : room_bed,
 		    		        student : occupancy.student,
-		    		        student_daysTrip : occupancy.student_daysTrip,
+		    		        student_daysTrip : realDaysTrip,
 		    		        student_usedDays : daysUsed(occupancy.student_occupancies),
 		    		        newAllocated : false
 	    				}
@@ -169,223 +201,99 @@
 
 	};
 	
-	function lastNextOccupancy (occupancies, studentOccupancyData) {
-		var objJson = JSON.parse(localStorage.getItem("student"));
-		var actualTrip = objJson.documento.actualTrip;
-		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
-		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
-	    $.each(occupancies, function (i, occupancy) {
-			if (occupancy.idStudent){
-				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
-				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
-				
-				if (endOccupancy <= startTrip ){
-					if (endOccupancy > studentOccupancyData.lastDate){	
-						studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
-						studentOccupancyData.lastGender = occupancy.student.gender;
-						studentOccupancyData.lastNationality = occupancy.student.nationality;
-						studentOccupancyData.lastVisa = "No";
-						studentOccupancyData.lastPayment = "No";
-						studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
-						studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
-						studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
-						studentOccupancyData.lastEmail = occupancy.student.mail,
-						studentOccupancyData.lastIn = occupancy.startOccupancy,
-						studentOccupancyData.lastOut = occupancy.endOccupancy,
-						studentOccupancyData.lastDate = endTrip;
-						studentOccupancyData.lastEmail = occupancy.student.mail;
-						studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
-					};
-				};
-				if (startOccupancy > endTrip){
-					if (startOccupancy < studentOccupancyData.nextDate){	
-						studentOccupancyData.nextName = occupancy.student.firstName + " " + occupancy.student.lastName
-						studentOccupancyData.nextGender = occupancy.student.gender;
-						studentOccupancyData.nextNationality = occupancy.student.nationality;
-						studentOccupancyData.nextVisa = "No";
-						studentOccupancyData.nextPayment = "No";
-						studentOccupancyData.nextStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
-						studentOccupancyData.nextFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
-						studentOccupancyData.nextOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
-						studentOccupancyData.nextEmail = occupancy.student.mail,
-						studentOccupancyData.nextIn = occupancy.startOccupancy,
-						studentOccupancyData.nextOut = occupancy.endOccupancy,
-						studentOccupancyData.nextDate = endTrip;
-						studentOccupancyData.nextEmail = occupancy.student.mail;
-						studentOccupancyData.nextDateShow = occupancy.student.startOccupancy;
-					};
-				};
-			};
-	    });
-	    return studentOccupancyData;
-	};
+	function addAllocation (objRoom, objBed, status, actualTrip) {
 
-	
-	function bedsOccupied (occupancies, studentOccupancyData) {
-		var objJson = JSON.parse(localStorage.getItem("student"));
-		var actualTrip = objJson.documento.actualTrip;
-		var occupied = null;
-		if (objJson.rooms == null | objJson.rooms == ""){
-			occupied = checkBedOccupied (occupancies, studentOccupancyData, objJson.documento.trips[actualTrip].start, objJson.documento.trips[actualTrip].end)
-		}else{
-			if (objJson.rooms){
-			    $.each(objJson.rooms, function (i, room) {
-			    	$.each(room.documento.beds, function (i, bed) {
-			    		$.each(bed.occupancies, function (w, occupancy) {
-				    		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
-				    		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
-							var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
-							var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
-							if (startOccupancy != startTrip){
-								occupied = checkBedOccupied (occupancies, studentOccupancyData, objJson.documento.trips[actualTrip].start, occupancy.startOccupancy)						
-							}else{
-								occupied = checkBedOccupied (occupancies, studentOccupancyData, occupancy.endOccupancy, objJson.documento.trips[actualTrip].end)
-							};
-			    		});
-			    	});
-			    });
-			};
-		};
-	    return occupied;
-	};
-	
-	function checkBedOccupied (occupancies, studentOccupancyData, startTripOrigin, endTripOrigin){
-		var occupied = null;
-		var startTrip = Date.parse(new Date(separaAnoMesDia(startTripOrigin))); 
-		var endTrip =  Date.parse(new Date(separaAnoMesDia(endTripOrigin)));
-	    $.each(occupancies, function (i, occupancy) {
-			if (occupancy.idStudent){
-				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
-				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));
-				
-				if (startTrip >= startOccupancy && startTrip < endOccupancy){
-					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;
-					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
-					studentOccupancyData.lastGender = occupancy.student.gender;
-					studentOccupancyData.lastNationality = occupancy.student.nationality;
-					studentOccupancyData.lastVisa = "No";
-					studentOccupancyData.lastPayment = "No";
-					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
-					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
-					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
-					studentOccupancyData.lastEmail = occupancy.student.mail,
-					studentOccupancyData.lastIn = occupancy.startOccupancy,
-					studentOccupancyData.lastOut = occupancy.endOccupancy,
-					studentOccupancyData.lastDate = endTrip;
-					studentOccupancyData.lastEmail = occupancy.student.mail;
-					studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
-				};
-				if (endTrip >= startOccupancy && endTrip <= endOccupancy){
-					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;				
-					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
-					studentOccupancyData.lastGender = occupancy.student.gender;
-					studentOccupancyData.lastNationality = occupancy.student.nationality;
-					studentOccupancyData.lastVisa = "No";
-					studentOccupancyData.lastPayment = "No";
-					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
-					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
-					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
-					studentOccupancyData.lastEmail = occupancy.student.mail,
-					studentOccupancyData.lastIn = occupancy.startOccupancy,
-					studentOccupancyData.lastOut = occupancy.endOccupancy,
-					studentOccupancyData.lastDate = endTrip;
-					studentOccupancyData.lastEmail = occupancy.student.mail;
-					studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
-				};
-				if (startTrip <= startOccupancy && endTrip >= endOccupancy){
-					occupied = occupancy.student.trips[occupancy.student.actualTrip].status;
-					studentOccupancyData.lastName = occupancy.student.firstName + " " + occupancy.student.lastName
-					studentOccupancyData.lastGender = occupancy.student.gender;
-					studentOccupancyData.lastNationality = occupancy.student.nationality;
-					studentOccupancyData.lastVisa = "No";
-					studentOccupancyData.lastPayment = "No";
-					studentOccupancyData.lastStatus = occupancy.student.trips[occupancy.student.actualTrip].status;
-					studentOccupancyData.lastFlight = occupancy.student.trips[occupancy.student.actualTrip].arrivalFlightNumber;
-					studentOccupancyData.lastOccupancy = occupancy.student.trips[occupancy.student.actualTrip].occupancy;
-					studentOccupancyData.lastEmail = occupancy.student.mail,
-					studentOccupancyData.lastIn = occupancy.startOccupancy,
-					studentOccupancyData.lastOut = occupancy.endOccupancy,
-					studentOccupancyData.lastDate = endTrip;
-					studentOccupancyData.lastEmail = occupancy.student.mail;
-					studentOccupancyData.lastDateShow = occupancy.student.endOccupancy;
-				};
-			};
-	    });
-	    return occupied;
-	};	
-	
-	function updateBeds (objRoom, objBed, status) {
 		var objStudent = JSON.parse(localStorage.getItem("student"));
+
 		var occupancy = 
 			{
-			idStudent : objStudent._id,
+			idStudent : objBed.idStudent,
             startOccupancy : objBed.start ,
-            endOccupancy : objBed.end
+            endOccupancy : objBed.end,
+            actualTrip : actualTrip
 			};
-	    $.each(objRoom.documento.beds, function (i, bed) {
-	    	if (bed.id == objBed.idBed){
-	    		if (objRoom.documento.beds[i].occupancies){
-	    			objRoom.documento.beds[i].occupancies.push(occupancy);
-	    		}else{
-	    			objRoom.documento.beds[i].occupancies = [];
-	    			objRoom.documento.beds[i].occupancies.push(occupancy);
-	    		};
-	    	};
-	    });
-	    //
-	    //**** verificar o fim das alocações das datas parciais informadas
-	    //
-	    var initialDateOk = false;
-	    var endDateOk = false;
-	    if (objStudent.documento.trips[objStudent.documento.actualTrip].start == objBed.start){
-	    	initialDateOk = true;
-	    };
-	    if (objStudent.documento.trips[objStudent.documento.actualTrip].end == objBed.end){
-	    	endDateOk = true;
-	    };
-		if (objStudent.rooms != null && objStudent.rooms != ""){
-		    $.each(objStudent.rooms, function (i, room) {
-		    	$.each(room.documento.beds, function (i, bed) {
-		    		$.each(bed.occupancies, function (w, occupancy) {
-						if (occupancy.idStudent == objStudent._id){
-						    if (objStudent.documento.trips[objStudent.documento.actualTrip].start == occupancy.startOccupancy){
-						    	initialDateOk = true;
-						    };
-						    if (objStudent.documento.trips[objStudent.documento.actualTrip].end == endOccupancy){
-						    	endDateOk = true;
-						    };
-						};
-		    		});
-		    	});
-		    });
-		};
-	
-		if (status == "Partially allocated"){
-			if (initialDateOk == true && endDateOk == true){
-				status = "Allocated";
-			};
-		};
-		rest_atualizaRoom(objRoom, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again")
-		var objStudent = JSON.parse(localStorage.getItem("student"));
-		objStudent.documento.trips[objStudent.documento.actualTrip].idRoom = objBed.idRoom;
-		objStudent.documento.trips[objStudent.documento.actualTrip].idBed = objBed.idBed;
-		objStudent.documento.trips[objStudent.documento.actualTrip].dormName = objBed.dormName;
-		objStudent.documento.trips[objStudent.documento.actualTrip].unitName = objBed.unitName;
-		objStudent.documento.trips[objStudent.documento.actualTrip].roomName = objBed.roomName;
-		objStudent.documento.trips[objStudent.documento.actualTrip].bedName = objBed.bedName;
-		objStudent.documento.trips[objStudent.documento.actualTrip].status = status;
-		delete objStudent.contact;
-		delete objStudent.rooms;
-		delete objStudent.family;
-		delete objStudent.room;
-		rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Room name included", "Problems to update student, try again")
+
+		objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
+
+		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.idStudent);
 		
 	};
+
+	function deallocation (objRoom, objBed, status, actualTrip) {
+
+		var objStudent = JSON.parse(localStorage.getItem("student"));
+
+	    $.each(objRoom.documento.beds[objBed.idBed].occupancies, function (i, occupancy) {
+	    	if (occupancy){
+		    	if (occupancy.idStudent == objBed.idStudent &&
+		    		occupancy.startOccupancy == objBed.start &&
+		    		occupancy.endOccupancy == objBed.end &&
+		    		occupancy.actualTrip == objBed.actualTrip){
+		    		objRoom.documento.beds[objBed.idBed].occupancies.splice(i, 1);
+		    	};
+	    	};
+	    });
+
+		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.idStudent);
+		
+};
+
+function atualizouBed(message, idStudent){
+
+	rest_obterStudent(idStudent, atualizaStudent, semAcao, null, null, null, idStudent)
+	
+};
 
 function daysUsed(occupancies){
 	var usedDays = 0;
     $.each(occupancies, function (i, occupancy) {
-    	usedDays = usedDays + parseInt(occupancy.usedDays);
+    	if (occupancy.usedDays){
+    		usedDays = usedDays + parseInt(occupancy.usedDays);
+    	};
     });
 	return usedDays;
+};
+
+function atualizaStudent (objStudent){
+    //
+    //**** verificar o fim das alocações das datas parciais informadas
+    //
+    var initialDateOk = false;
+    var endDateOk = false;
+
+    var daysTrip = calculaDias(separaConverteDataMes(objStudent.documento.trips[objStudent.documento.actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[objStudent.documento.actualTrip].end, "/")) + 1;
+
+	var daysOccupancy = 0;
+    if (objStudent.rooms != null && objStudent.rooms != ""){
+	    $.each(objStudent.rooms, function (i, room) {
+	    	$.each(room.documento.beds, function (i, bed) {
+	    		$.each(bed.occupancies, function (w, occupancy) {
+					if (occupancy.idStudent == objStudent._id && occupancy.actualTrip == actualTrip){
+					    var daysOccupancy = daysOccupancy + calculaDias(separaConverteDataMes(occupancy.startOccupancy, "/"), separaConverteDataMes(occupancy.endOccupancy, "/")) + 1;
+					};
+	    		});
+	    	});
+	    });
+	};
+
+	if (daysOccupancy < daysTrip){
+		status = "Partially allocated";
+	}else{
+		status = "Allocated";
+	};
+
+	var objStudent = JSON.parse(localStorage.getItem("student"));
+	objStudent.documento.trips[actualTrip].idRoom = "";
+	objStudent.documento.trips[actualTrip].idBed = "";
+	objStudent.documento.trips[actualTrip].dormName = "";
+	objStudent.documento.trips[actualTrip].unitName = "";
+	objStudent.documento.trips[actualTrip].roomName = "";
+	objStudent.documento.trips[actualTrip].bedName = "";
+	objStudent.documento.trips[actualTrip].status = status;
+	delete objStudent.contact;
+	delete objStudent.rooms;
+	delete objStudent.family;
+	delete objStudent.room;
+	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Room name included", "Problems to update student, try again")
+	
 };

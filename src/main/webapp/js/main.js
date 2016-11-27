@@ -151,6 +151,7 @@ function capturaData (data, separador) {
 	return data.day() + separador + (data.month() + 1) + separador + data.year();
 	 
 };				
+
 function capturaDataStandard (data, separador) {
 	var dataBase = new Date(data);
 	dataBase.setDate(dataBase.getDate() + 1);
@@ -180,15 +181,16 @@ function capturaHoraStandard (data, separador) {
 	return (hora + separador + minuto);
 	 
 };				
+
 function separaData ( data, separador) {
+	
 	if (data){
 		return data.slice(0,2) + separador + data.slice(2,4) + separador + data.slice(4,8);
 	}else{
 		return "Empty";
-	}
-
-	 
+	};	 
 };				
+
 function separaDataMes ( data, separador) {
 	if (data){
 		return data.slice(0,2) + separador + data.slice(2,5) + separador + data.slice(5,9);
@@ -198,147 +200,47 @@ function separaDataMes ( data, separador) {
 
 	 
 };				
+
 function separaConverteDataMes ( data, separador) {
+
 	if (data){
 		var mesAlfa = data.slice(2,5);
-		switch(mesAlfa) {
-	    case "Jan":
-	    	mesNum = "01"
-	        break;
-	    case "Feb":
-	    	mesNum = "02"
-	        break;
-	    case "Mar":
-	    	mesNum = "03"
-	        break;
-	    case "Apr":
-	    	mesNum = "04"
-	        break;
-	    case "May":
-	    	mesNum = "05"
-	        break;
-	    case "Jun":
-	    	mesNum = "06"
-	        break;
-	    case "Jul":
-	    	mesNum = "07"
-	        break;
-	    case "Aug":
-	    	mesNum = "08"
-	        break;
-	    case "Sep":
-	    	mesNum = "09"
-	        break;
-	    case "Oct":
-	    	mesNum = "10"
-	        break;
-	    case "Nov":
-	    	mesNum = "11"
-	        break;
-	    case "Dec":
-	    	mesNum = "12"
-	        break;
-	    default:
-	    	mesNum = "01"
-		};
-		return data.slice(0,2) + separador + mesNum + separador + data.slice(5,9);
+		return data.slice(0,2) + separador + converteMesNum (mesAlfa) + separador + data.slice(5,9);
 	}else{
 		return "Empty";
 	}	 
 };				
+
+function converteDayPilotDate ( data, separador, mesAlfa) {
+
+	if (data){
+		var mesNum = data.value.slice(5,7);
+		if (mesAlfa){
+			var mes = converteMesAlfa (parseInt(mesNum) - 1);
+		}else{
+			var mes = mesNum;
+		};
+		
+		return data.value.slice(8,10) + separador + mes + separador + data.value.slice(0,4);
+	}else{
+		return "Empty";
+	}	 
+};				
+
 function montaDataMesNum ( data, separador) {
+
 	if (data){
 		var mesAlfa = data.slice(3,6);
-		switch(mesAlfa) {
-	    case "Jan":
-	    	mesNum = "01"
-	        break;
-	    case "Feb":
-	    	mesNum = "02"
-	        break;
-	    case "Mar":
-	    	mesNum = "03"
-	        break;
-	    case "Apr":
-	    	mesNum = "04"
-	        break;
-	    case "May":
-	    	mesNum = "05"
-	        break;
-	    case "Jun":
-	    	mesNum = "06"
-	        break;
-	    case "Jul":
-	    	mesNum = "07"
-	        break;
-	    case "Aug":
-	    	mesNum = "08"
-	        break;
-	    case "Sep":
-	    	mesNum = "09"
-	        break;
-	    case "Oct":
-	    	mesNum = "10"
-	        break;
-	    case "Nov":
-	    	mesNum = "11"
-	        break;
-	    case "Dec":
-	    	mesNum = "12"
-	        break;
-	    default:
-	    	mesNum = "01"
-		};
-		return data.slice(0,2) + separador + mesNum + separador + data.slice(7,11);
+		return data.slice(0,2) + separador + converteMesNum (mesAlfa) + separador + data.slice(7,11);
 	}else{
-		return "01/10/2000";
+		return "01" + separador + "10" + separador + "2000";
 	}	 
 };				
 
 function separaAnoMesDia ( data) {
 	if (data){
 		var mesAlfa = data.slice(2,5);
-		switch(mesAlfa) {
-	    case "Jan":
-	    	mesNum = "01"
-	        break;
-	    case "Feb":
-	    	mesNum = "02"
-	        break;
-	    case "Mar":
-	    	mesNum = "03"
-	        break;
-	    case "Apr":
-	    	mesNum = "04"
-	        break;
-	    case "May":
-	    	mesNum = "05"
-	        break;
-	    case "Jun":
-	    	mesNum = "06"
-	        break;
-	    case "Jul":
-	    	mesNum = "07"
-	        break;
-	    case "Aug":
-	    	mesNum = "08"
-	        break;
-	    case "Sep":
-	    	mesNum = "09"
-	        break;
-	    case "Oct":
-	    	mesNum = "10"
-	        break;
-	    case "Nov":
-	    	mesNum = "11"
-	        break;
-	    case "Dec":
-	    	mesNum = "12"
-	        break;
-	    default:
-	    	mesNum = "01"
-		};
-		return '"' + data.slice(5,9) + '","' + mesNum + '","' + data.slice(0,2) + '"';
+		return '"' + data.slice(5,9) + '","' + converteMesNum (mesAlfa) + '","' + data.slice(0,2) + '"';
 	}else{
 		return "2000,01,01";
 	}
@@ -354,49 +256,10 @@ function getDia ( data) {
 };
 
 function getMes ( data) {
+
 	if (data){
 		var mesAlfa = data.slice(2,5);
-		switch(mesAlfa) {
-	    case "Jan":
-	    	mesNum = "01"
-	        break;
-	    case "Feb":
-	    	mesNum = "02"
-	        break;
-	    case "Mar":
-	    	mesNum = "03"
-	        break;
-	    case "Apr":
-	    	mesNum = "04"
-	        break;
-	    case "May":
-	    	mesNum = "05"
-	        break;
-	    case "Jun":
-	    	mesNum = "06"
-	        break;
-	    case "Jul":
-	    	mesNum = "07"
-	        break;
-	    case "Aug":
-	    	mesNum = "08"
-	        break;
-	    case "Sep":
-	    	mesNum = "09"
-	        break;
-	    case "Oct":
-	    	mesNum = "10"
-	        break;
-	    case "Nov":
-	    	mesNum = "11"
-	        break;
-	    case "Dec":
-	    	mesNum = "12"
-	        break;
-	    default:
-	    	mesNum = "01"
-		};
-		return mesNum;
+		return converteMesNum (mesAlfa);
 	}else{
 		return "01";
 	}
@@ -421,49 +284,20 @@ function getAno ( data) {
 function separadorAnoMesDia ( data, separador) {
 	if (data){
 		var mesAlfa = data.slice(2,5);
-		switch(mesAlfa) {
-	    case "Jan":
-	    	mesNum = "01"
-	        break;
-	    case "Feb":
-	    	mesNum = "02"
-	        break;
-	    case "Mar":
-	    	mesNum = "03"
-	        break;
-	    case "Apr":
-	    	mesNum = "04"
-	        break;
-	    case "May":
-	    	mesNum = "05"
-	        break;
-	    case "Jun":
-	    	mesNum = "06"
-	        break;
-	    case "Jul":
-	    	mesNum = "07"
-	        break;
-	    case "Aug":
-	    	mesNum = "08"
-	        break;
-	    case "Sep":
-	    	mesNum = "09"
-	        break;
-	    case "Oct":
-	    	mesNum = "10"
-	        break;
-	    case "Nov":
-	    	mesNum = "11"
-	        break;
-	    case "Dec":
-	    	mesNum = "12"
-	        break;
-	    default:
-	    	mesNum = "01"
-		};
-		return data.slice(5,9) + separador + mesNum + separador + data.slice(0,2);
+		return data.slice(5,9) + separador + converteMesNum (mesAlfa) + separador + data.slice(0,2);
 	}else{
-		return "2000-01-01";
+		return "2000" + separador + "01" + separador + "01";
+	}
+};
+
+
+function separadorMesDiaAno ( data, separador) {
+
+	if (data){
+		var mesAlfa = data.slice(2,5);
+		return converteMesNum (mesAlfa) + separador + data.slice(0,2) + separador + data.slice(5,9);
+	}else{
+		return "01" + separador + "01" + separador + "2000";
 	}
 };
 
@@ -608,6 +442,55 @@ function calculaIdade ( dataNascimento ) {
 			return mesAlfa;
 		}else{
 			return "Jan";
+		}
+	};
+
+	
+	function converteMesNum ( mesAlfa) {
+		if (mesAlfa){
+			switch(mesAlfa) {
+		    case "Jan":
+		    	mesNum = "01"
+		        break;
+		    case "Feb":
+		    	mesNum = "02"
+		        break;
+		    case "Mar":
+		    	mesNum = "03"
+		        break;
+		    case "Apr":
+		    	mesNum = "04"
+		        break;
+		    case "May":
+		    	mesNum = "05"
+		        break;
+		    case "Jun":
+		    	mesNum = "06"
+		        break;
+		    case "Jul":
+		    	mesNum = "07"
+		        break;
+		    case "Aug":
+		    	mesNum = "08"
+		        break;
+		    case "Sep":
+		    	mesNum = "09"
+		        break;
+		    case "Oct":
+		    	mesNum = "10"
+		        break;
+		    case "Nov":
+		    	mesNum = "11"
+		        break;
+		    case "Dec":
+		    	mesNum = "12"
+		        break;
+		    default:
+		    	mesNum = "01"
+			};
+			return mesNum;
+		}else{
+			return "01";
 		}
 	};
 
