@@ -38,36 +38,49 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     dp.eventMovingStartEndEnabled = true;
     dp.eventResizingStartEndEnabled = true;
     dp.timeRangeSelectingStartEndEnabled = false;
-
+    dp.treePreventParentUsage = true;
+    dp.eventClickHandling = "Edit";
+    dp.timeRangeRightClickHandling = "Disabled";
+    dp.eventMoveHandling = "JavaScript";
+    
     dp.onBeforeResHeaderRender = function(args) {
         args.resource.bubbleHtml = "Test";
     };
 
-    dp.onBeforeRowHeaderRender = function(args) {
+
+    dp.onBeforeEventRender = function(args) {
+
+    	changeEvent (dp, args)    
     	
     };
 
-    dp.onBeforeCellRender = function(args) {
-        /*
-        if (args.cell.start <= DayPilot.Date.today() && DayPilot.Date.today() < args.cell.end) {
-            args.cell.backColor = "#ffcccc";
-        }
-        */
+    dp.onEventResize = function(args) {
+    	
+    	checkDates(dp, args, args.e.data.student_usedDays);
+
+    };
+
+    dp.onEventResized = function (args) {
+    	
+    	deallocate (args.e.data, args);
+    
     };
 
     dp.onEventMove = function(args) {
+    	
+    	checkDates(dp, args, args.e.data.student_usedDays);
+
     };
 
     dp.onEventMoved = function (args) {
     	
-    	deallocate (args.e.data);
-    	updateAllocation (args);
+    	deallocate (args.e.data, args);
+    	
     };
     
     dp.onRowClick = function (args) {
-
     	if (newEventCreated){
-	    	dp.events.remove(newEventCreated).queue();
+        	dp.events.remove(newEventCreated).queue();
     	};
     	var occupancy = {
     			idStudent : idStudent,
@@ -99,11 +112,11 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
             resource : args.resource.data.room_bed,
             occupancy : occupancy,
             idStudent : idStudent,
-	        actualTrip: actualTrip,
-	        student : student,
-	        student_daysTrip : difDiasTripAllocate,
-	        student_usedDays : 0,
-	        newAllocated : false,
+            actualTrip: actualTrip,
+            student : student,
+            student_daysTrip : difDiasTripAllocate,
+            student_usedDays : 0,
+            newAllocated : false,
             newStart: startNewEvent,
             newEnd: endNewEvent
         });
@@ -123,55 +136,24 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
         		data,
         		startNewEvent:startNewEvent
         	};
+
         rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, null, actualTrip, idStudent)
-    };
-    
-    dp.onEventClicked = function(args) {
-    };
-
-    dp.onEventMoving = function(args) {
-
-    };
-
-    dp.onBeforeEventRender = function(args) {
-
-    	changeEvent (dp, args)    
     	
-    };
-
-    dp.onEventResize = function(args) {
-    	
-    	checkDates(dp, args, args.e.data.student_usedDays);
-
-    };
-
-    dp.onEventResized = function (args) {
-    	
-    	deallocate (args.e.data);
-    	updateAllocation (args);
-
     };
 
     dp.onTimeRangeSelecting = function(args) {
     
         dp.message("Click left (over the bed) to allocate " + eventName);
- };
-
-    dp.onTimeRangeSelected = function (args) {
+ 
     };
 
     dp.separators = [
         {color:"Red", location: startDate + "T00:00:00", layer: "BelowEvents"}
     ];
 
-    dp.treePreventParentUsage = true;
-
     dp.onEventClicked = function(args) {
     	window.location = "student.html?mail=" + args.e.data.student.mail + "&typePage=change&actualTrip=" + args.e.data.actualTrip;
-
     };
-
-    dp.timeRangeRightClickHandling = "Disabled";
     
     dp.onGridMouseDown = function(args) {
         var button = DayPilot.Util.mouseButton(args.originalEvent);
@@ -180,19 +162,82 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
         }
     };
 
-    dp.eventClickHandling = "Edit";
-
     dp.onEventClick = function(args) {
-
+    };
+    dp.onBeforeRowHeaderRender = function(args) {
+    };
+    dp.onBeforeCellRender = function(args) {
+    };
+    dp.onEventMoving = function(args) {
+    };
+    dp.onTimeRangeSelected = function (args) {
     };
 
-    dp.onEventMove = function(args) {
-    	
-    	checkDates(dp, args, args.e.data.student_usedDays);
-
-    };
     
     return dp;
+};
+
+function createEvent (args, newEventCreated){
+	if (newEventCreated){
+    	dp.events.remove(newEventCreated).queue();
+	};
+	var occupancy = {
+			idStudent : idStudent,
+			startOccupancy : par_startTrip,
+			endOccupancy : par_endTrip,
+			actualTrip : actualTrip
+	};
+	var data = {
+            start: startNewEvent,
+            end: endNewEvent,
+            id: DayPilot.guid(),
+            resource: args.resource.id,
+            text: eventName,
+            resource : args.resource.data.room_bed,
+            occupancy : occupancy,
+            idStudent : idStudent,
+	        actualTrip: actualTrip,
+	        student : student,
+	        student_daysTrip : difDiasTripAllocate,
+	        student_usedDays : 0,
+	        newAllocated : false
+        };
+    var e = new DayPilot.Event({
+        start: startNewEvent,
+        end: endNewEvent,
+        id: DayPilot.guid(),
+        resource: args.resource.id,
+        text: eventName,
+        resource : args.resource.data.room_bed,
+        occupancy : occupancy,
+        idStudent : idStudent,
+        actualTrip: actualTrip,
+        student : student,
+        student_daysTrip : difDiasTripAllocate,
+        student_usedDays : 0,
+        newAllocated : false,
+        newStart: startNewEvent,
+        newEnd: endNewEvent
+    });
+    var args = {
+    		e : e,
+            newStart: startNewEvent,
+            newEnd: endNewEvent,
+            newResource : args.resource.data.room_bed
+    };
+    
+    localStorage.insert = "true";
+
+    var param = 
+    	{	dp:dp,
+    		args:args,
+    		e,
+    		data,
+    		startNewEvent:startNewEvent
+    	};
+
+    rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, null, actualTrip, idStudent)
+	
 };
 
 function checkDatesCall (objStudent, param){
@@ -201,7 +246,7 @@ function checkDatesCall (objStudent, param){
     	param.dp.events.add(param.e, param.data);
         newEventCreated = param.e;
 	    param.dp.scrollTo(param.startNewEvent, false,  "middle");        	
-	    updateAllocation (param.args);
+	    updateAllocation (param.args, addAllocation);
     };
 };
 
@@ -413,7 +458,7 @@ function checkDates(dp, args, objStudent, usedDays){
             		" - status: " + 
             		args.e.data.student.trips[args.e.data.actualTrip].status +
             		" cannot be less than start date " +
-            		new DayPilot.Date(args.e.data.start).toString("M/d/yyyy"));
+            		new DayPilot.Date(startTrip).toString("M/d/yyyy"));
             valid = false;
     	};
     	if (DayPilot.Date(args.newEnd) > DayPilot.Date(endTrip)){
@@ -425,7 +470,7 @@ function checkDates(dp, args, objStudent, usedDays){
             		" - status: " + 
             		args.e.data.student.trips[args.e.data.actualTrip].status +
             		" cannot be greater than end date " +
-            		new DayPilot.Date(args.e.data.end).toString("M/d/yyyy"));
+            		new DayPilot.Date(endTrip).toString("M/d/yyyy"));
             valid = false;
     	};
     	var difDays = calculaDias (DayPilot.Date(args.newStart).getDay() + "/" + 
@@ -468,7 +513,7 @@ function changeEvent (dp, args){
     	statusCollor = "#008a00"
         break;
     case "Partially allocated":
-    	statusCollor = "#00ff80"
+    	statusCollor = "#15ffff"
         break;
     case "Placement offered":
     	statusCollor = "#d7d700"
@@ -504,7 +549,7 @@ function changeEvent (dp, args){
 	
 };
 
-function updateAllocation (args){
+function updateAllocation (args, nextAction){
 	
 	if (args.newResource){
 		var data = args.newResource;
@@ -526,10 +571,10 @@ function updateAllocation (args){
 			actualTrip : args.e.data.occupancy.actualTrip
 	};
 	
-	rest_obterRoom(data.idRoom, addAllocation, semAcao, objJson, "Allocated", args.e.data.occupancy.actualTrip);
+	rest_obterRoom(data.idRoom, nextAction, semAcao, objJson, "Allocated", args.e.data.occupancy.actualTrip, args);
 };
 
-function deallocate (data){
+function deallocate (data, args){
 	var objJson = {
 			idDorm : data.oldResource.idDorm,
 			idUnit : data.oldResource.idUnit,
@@ -545,5 +590,5 @@ function deallocate (data){
 			actualTrip : data.occupancy.actualTrip
 	};
 	
-	rest_obterRoom(data.oldResource.idRoom, deallocation, semAcao, objJson, "Allocated", data.occupancy.actualTrip);
+	rest_obterRoom(data.oldResource.idRoom, deallocation, semAcao, objJson, "Allocated", data.occupancy.actualTrip, args);
 };

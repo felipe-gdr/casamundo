@@ -109,6 +109,8 @@
     function rest_atualizaStudent(objJson, action_ok, action_not_ok, messageOk, messageNotoK, var1, var2) {
     	delete objJson["_id"];
     	delete objJson["contact"];
+    	delete objJson["rooms_actualTrip"];
+    	delete objJson["family"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",
@@ -1268,7 +1270,7 @@
     	});
     };
 
-    function rest_atualizaRoom(objJson, action_ok, action_not_ok, messageOk, messageNotOk, var1, var2) {
+    function rest_atualizaRoom(objJson, action_ok, action_not_ok, messageOk, messageNotOk, var1, var2, var3, var4, var5) {
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
@@ -1285,9 +1287,9 @@
     	})
     	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok (messageOk, var1, var2);
+        		action_ok (messageOk, var1, var2, var3, var4, var5);
         	}else{
-        		action_not_ok(messageNotOk)
+        		action_not_ok(messageNotOk, var1, var2, var3, var4, var5)
         	};
     	});
     };
@@ -1338,7 +1340,7 @@
        	});
     };
 
-    function rest_obterRoom(id, action_ok, action_not_ok, var1, var2, var3, var4) {
+    function rest_obterRoom(id, action_ok, action_not_ok, var1, var2, var3, var4, var5, var6 ,var7) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/obterRoom?id="  + id,
             contentType: "application/json; charset=utf-8",
@@ -1346,9 +1348,9 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, var1, var2, var3, var4);
+    		action_ok(data, var1, var2, var3, var4, var5, var6, var7);
     	})
-    	.fail(function(data, var1, var2, var3, var4) {
+    	.fail(function(data, var1, var2, var3, var4, var5, var6, var7) {
     		action_not_ok
     	})
     	.always(function(data) {

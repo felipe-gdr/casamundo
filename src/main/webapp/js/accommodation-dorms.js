@@ -201,7 +201,7 @@
 
 	};
 	
-	function addAllocation (objRoom, objBed, status, actualTrip) {
+	function addAllocation (objRoom, objBed, status, actualTrip, args) {
 
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 
@@ -215,11 +215,11 @@
 
 		objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
 
-		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.idStudent);
+		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args );
 		
 	};
 
-	function deallocation (objRoom, objBed, status, actualTrip) {
+	function deallocation (objRoom, objBed, status, actualTrip, args) {
 
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 
@@ -234,13 +234,20 @@
 	    	};
 	    });
 
-		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.idStudent);
+		rest_atualizaRoom(objRoom, atualizouBedDeallocation, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args );
 		
 };
 
-function atualizouBed(message, idStudent){
+function atualizouBedDeallocation(message, actualTrip, idStudent, args){
+	
+	updateAllocation (args, addAllocation)
+};
 
-	rest_obterStudent(idStudent, atualizaStudent, semAcao, null, null, null, idStudent)
+function atualizouBed(message, actualTrip, idStudent, args){
+
+	updateAllocation (args, semAcao);
+	
+	rest_obterStudent(null, atualizaStudent, semAcao, null, null, actualTrip, idStudent)
 	
 };
 
@@ -264,15 +271,9 @@ function atualizaStudent (objStudent){
     var daysTrip = calculaDias(separaConverteDataMes(objStudent.documento.trips[objStudent.documento.actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[objStudent.documento.actualTrip].end, "/")) + 1;
 
 	var daysOccupancy = 0;
-    if (objStudent.rooms != null && objStudent.rooms != ""){
-	    $.each(objStudent.rooms, function (i, room) {
-	    	$.each(room.documento.beds, function (i, bed) {
-	    		$.each(bed.occupancies, function (w, occupancy) {
-					if (occupancy.idStudent == objStudent._id && occupancy.actualTrip == actualTrip){
-					    var daysOccupancy = daysOccupancy + calculaDias(separaConverteDataMes(occupancy.startOccupancy, "/"), separaConverteDataMes(occupancy.endOccupancy, "/")) + 1;
-					};
-	    		});
-	    	});
+    if (objStudent.rooms_actualTrip != null && objStudent.rooms_actualTrip != ""){
+	    $.each(objStudent.rooms_actualTrip, function (i, room) {
+		    daysOccupancy = daysOccupancy + parseInt(room.usedDays);
 	    });
 	};
 

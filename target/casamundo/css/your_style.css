@@ -27,10 +27,16 @@
  .label-available {
 	background-color: #00ff00 !important;
 }
+ .label-partially-allocated{
+	background-color: #15ffff !important;
+}
  .label-allocated {
 	background-color: #008a00!important;
 }
  .label-placement-offered {
+	background-color: #d7d700 !important;
+}
+ .label-documentos {
 	background-color: #d7d700 !important;
 }
  .label-confirmed {

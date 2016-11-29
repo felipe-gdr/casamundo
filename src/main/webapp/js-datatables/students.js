@@ -129,6 +129,9 @@
         	case "Available":
         		statusCollor = "label-available"
                 break;
+        	case "Partially allocated":
+        		statusCollor = "label-partially-allocated"
+                break;
             case "Confirmed":
             	statusCollor = "label-confirmed"
                 break;
@@ -141,11 +144,14 @@
             case "Placement offered":
             	statusCollor = "label-placement-offered"
                 break;
+            case "Documentos":
+            	statusCollor = "label-documentos"
+                break;
             case "Checked out":
             	statusCollor = "label-terminated"
                 break;
             default: 
-        		statusCollor = "label-available"
+        		statusCollor = "#ffffff"
             };	    
         	switch (student.gender) {
         	case "Male":
