@@ -356,6 +356,7 @@ public class Rest_Student {
 						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 						    jsonDocumento.put("actualTrip", y);
+						    jsonDocumento.put("invoices", addInvoice (objStudent.getString("_id"), y));
 							if (addTrip (jsonTrip, jsonDocumento, filters)){
 								documentos.add(jsonDocumento);
 								++i;
@@ -915,5 +916,47 @@ public class Rest_Student {
 			++i;
 		};
 		return response;
+	};
+	
+	@SuppressWarnings("unchecked")
+	public JSONArray addInvoice (String idStudent, int actualTrip){
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			BasicDBObject setQuery = new BasicDBObject();
+			String actualTripString = String.valueOf(actualTrip);
+	    	setQuery.put("documento.idStudent", idStudent);
+	    	setQuery.put("documento.actualTrip", actualTripString);
+
+			DBCollection collection = db.getCollection("invoice");
+			
+			if (idStudent.equals("57e31827c6664a9c60ac0b5d")){
+				System.out.println("aqui");
+			};
+			DBCursor cursor = collection.find(setQuery);
+			JSONArray documentos = new JSONArray();
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				JSONParser parser = new JSONParser(); 
+				BasicDBObject objStudent = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				String documento = objStudent.getString("documento");
+				JSONObject jsonInvoice; 
+				try {
+					jsonInvoice = (JSONObject) parser.parse(documento);
+					documentos.add(jsonInvoice);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			};
+			return documentos;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+		
 	};
 };

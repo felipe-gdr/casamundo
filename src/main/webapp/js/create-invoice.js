@@ -479,7 +479,7 @@ function criaInvoice(id, actualTrip){
 					idStudent : objStudent._id,
 					actualTrip : $('#actualTrip').val(),
 					number : localStorage.numberInvoice,
-					status : "new",
+					status : "unpaid",
 					dueDate : limpaData($('#due_0').val()),
 					amountNet : $('#dueValue_0').val(),
 					amountGross : $('#dueValueGross_0').val(),

@@ -233,7 +233,7 @@ function montaDataMesNum ( data, separador) {
 		var mesAlfa = data.slice(3,6);
 		return data.slice(0,2) + separador + converteMesNum (mesAlfa) + separador + data.slice(7,11);
 	}else{
-		return "01" + separador + "10" + separador + "2000";
+		return "01" + separador + "01" + separador + "2000";
 	}	 
 };				
 

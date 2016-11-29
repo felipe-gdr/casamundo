@@ -353,10 +353,20 @@
 			        };
 	        	};
 	        };
-		    var pickupCollor = "success";
+        	//
+	        // *** checa status dos pagamentos
+	        //
+	        var payment = checkPayment(student.invoices);
+		    var paymentCollor = payment.collor;
+	        var paymentText = payment.text;
+
+        	//
+	        // *** checa status do pickup
+	        //
+	        var pickupCollor = "success";
 	        if (student.trip.pickup == "Yes"){
 	        	pickupCollor = "danger";
-	        }
+	        };
 	        var dropoffCollor = "success";
 	        if (student.trip.dropoff == "Yes"){
 	        	dropoffCollor = "danger";
@@ -383,8 +393,6 @@
 	        					"<small class='text-muted text-column'>Room: </small><small class='text-bold text-column'>" + roomName + "</small><br>";
 	        	
 	        };
-	        
-//	        console.log ("8 - " + new Date().getTime());
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
@@ -395,7 +403,7 @@
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
     	    	"status":"<small class='label text-column " + statusCollor + "'>" + student.trip.status + "</small>&nbsp;&nbsp;" +
-    	    			"<small class='label-danger text-column'>" + " no $  " + "</small><br>" +
+    	    			"<small class='text-column label-" + paymentCollor + "'>" + paymentText + "</small><br>" +
     	    			"<small class='text-muted text-column'>Visa: " + " No " + "</small>&nbsp;&nbsp;" +
     	    			"<small class='text-muted text-column'>Flight: " + student.trip.arrivalFlightNumber + "</small><br>" +
     	    			"<small class='text-muted text-column'>Pickup: </small><small class='text-" + pickupCollor + " text-column '>" + student.trip.pickup + "</small>&nbsp;&nbsp;" +
@@ -557,6 +565,38 @@
                 
         } );
         /* end trip list */   
+};
+function checkPayment(invoices){
+	var payment =
+		{
+			collor : "info",
+			text : "new $"
+		};
+	
+	if (invoices){
+		$.each(invoices, function (i, invoice) {
+	    	
+			switch (invoice.status) {
+	    	case "unpaid":
+	    		if (maiorDataHoje (invoice.dueDate)){
+	    			payment.collor = "warning";
+	    			payment.text = "unppaid $";
+	    		}else{
+	    			payment.collor = "danger";
+	    			payment.text = "overdue $";    			
+	    		};
+	            break;
+	        case "paid":
+				payment.collor = "success";
+				payment.text = "paid $";
+	            break;
+	        default: 
+				payment.collor = "default";
+				payment.text = "none $";
+	        };	    		
+		});
+	};	
+	return payment;
 };
 
 function deallocateRoom (objFamily, emailStudent) {
