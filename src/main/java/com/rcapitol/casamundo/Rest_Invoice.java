@@ -191,6 +191,7 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
+
 	@SuppressWarnings("unchecked")
 	@Path("/lista")	
 	@GET
@@ -645,8 +646,50 @@ public class Rest_Invoice {
 			e.printStackTrace();
 		} catch (MongoException e) {
 			e.printStackTrace();
+		};
+	};
+
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
+	@Path("/changeStatus")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ChangeStatus(JSONObject param) {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject objInvoice = new BasicDBObject();
+			ObjectId idInvoice = new ObjectId((String) param.get("idInvoice"));
+			DBCollection collection = db.getCollection("invoice");
+			BasicDBObject searchQuery = new BasicDBObject("_id", idInvoice);
+			DBObject cursor = collection.findOne(searchQuery);
+			if (cursor != null){
+				objInvoice = (BasicDBObject) cursor.get("documento");
+			};
+			//
+			// ** atualizar status
+			//
+			BasicDBObject objUpdate = new BasicDBObject();
+			objUpdate.put("documento.status", param.get("idInvoice"));
+			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+			BasicDBObject setQuery = new BasicDBObject("_id", idInvoice);
+			cursor = collection.findAndModify(setQuery,
+	                null,
+	                null,
+	                false,
+	                update,
+	                true,
+	                false);
+			mongo.close();
+			return Response.status(200).entity(objUpdate).build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
 		}
-	}
+		return null;
+	};
+	
 };
 
 

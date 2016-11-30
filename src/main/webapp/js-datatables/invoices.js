@@ -199,9 +199,15 @@
 	        var familyName = "";
 	        var typePage = "accommodation";
         	invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
-	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator"){
-		        if (invoice.status == "new"){
-		        	actions = "<li><a href='create-invoice.html?id=" + invoice.student.mail + "&typePage=change&id=" + invoice.id + "'>Change</a></li>";
+        	var dadosInvoice = " data-idInvoice='" + invoice.idIncvoice + "'";
+	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
+		        if (invoice.status == "unpaid"){
+		        	actions = 
+		        		"<li data-process='paid'" + dadosInvoice + "' data-status='paid'><a href='#'>Paid</a></li>";
+		        };
+		        if (invoice.status == "paid"){
+		        	actions = 
+		        		"<li data-process='unpaid'" + dadosInvoice + "' data-status='unpaid'><a href='#'>Paid</a></li>";
 		        };
 	        };
 		    var pickupCollor = "success";
@@ -239,7 +245,7 @@
        	    	"comments":"<small class='text-muted text-column'>" + invoice.trip.comments + "</small>",
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
-	    				'<ul id="listInvoice" class="dropdown-menu">' +
+	    				'<ul id="listInvoices" class="dropdown-menu">' +
 	    					actions +
 	    				'</ul>' +
 	    			'</div>' 
@@ -266,8 +272,14 @@
             	};
             	$("#listInvoice li").off('click');
 	    		$("#listInvoice li").on('click',function(){
-	    			if ($(this).attr('data-process') == "a ver") {
-	    				rest_obterInvoice($(this).attr('data-id'), deallocateRoom, semAcao, $(this).attr('data-emailInvoice') );
+	    			if ($(this).attr('data-process') == "paid") {
+	    				var param  = 
+	    				{
+	    					idInvoice : $(this).attr('data-idInvoice'),
+	    					status : $(this).attr('data-status')
+	    				};
+	    				
+	    				rest_changeStatusInvoice(param, atualizacaoEfetuada, semAcao, "Invoice updated", "problems to update invoice, try again");
 	    			};
 	    		});
             }

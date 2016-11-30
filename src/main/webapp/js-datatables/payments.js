@@ -200,12 +200,15 @@
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
 	        var typePage = "payments";
+	        
         	payments = "<li><a href='create-payment.html?mail=" + payment.student.mail + "&typePage=create'>Create payment</a></li>";
-	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator"){
+        	
+	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator"  | localStorage.usuarioPerfil == "tools"){
 		        if (payment.status == "new"){
 		        	actions = "<li><a href='create-payment.html?id=" + payment.student.mail + "&typePage=change&id=" + payment.id + "'>Change</a></li>";
 		        };
 	        };
+	        
 		    var pickupCollor = "success";
 	        if (payment.student.trips[actualTrip].pickup == "Yes"){
 	        	pickupCollor = "danger";

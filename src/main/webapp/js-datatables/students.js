@@ -422,12 +422,12 @@
        	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
-	    				'<ul id="listStudent" class="dropdown-menu">' +
+	    				'<ul id="listStudentActions" class="dropdown-menu">' +
 	    					actions +
 	    				'</ul>' +
 	    			'</div>&nbsp;&nbsp;&nbsp;&nbsp;' + 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Invoice <span class="caret"></span></button>' +
-	    				'<ul id="listStudent" class="dropdown-menu">' +
+	    				'<ul id="listStudentInvoices" class="dropdown-menu">' +
 	    					invoices +
 	    				'</ul>' +
 	    			'</div>' 

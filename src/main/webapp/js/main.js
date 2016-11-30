@@ -542,55 +542,48 @@ function calculaIdade ( dataNascimento ) {
 		parent.history.back();
     };
 	function inclusaoNaoEfetuada(message) {
+		if (!message){
+			message = "An error occurred while recording , try again";
+		};
 		$.smallBox({
 			title : "Error",
-			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
+			content : "<i class='fa fa-clock-o'></i> <i>" + message  + "</i>",
 			color : "#ff8080",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 10000
 		});
     };
 	function atualizacaoEfetuada(message) {
+		if (!message){
+			message = "An error occurred while recording , try again";
+		};
 		$.smallBox({
 			title : "Ok",
 			content : "<i class='fa fa-clock-o'></i> <i>" + message + "</i>",
 			color : "#659265",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 80000
+			timeout : 4000
 		});
     };
 	function atualizacaoNaoEfetuada(message) {
+		if (!message){
+			message = "An error occurred while recording , try again";
+		};
 		$.smallBox({
 			title : "Error",
-			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
-			color : "#ff8080",
-			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 80000
-		});
-    };
-	function obtencaoNaoEfetuada() {
-		$.smallBox({
-			title : "Error",
-			content : "<i class='fa fa-clock-o'></i> <i>Record not found</i>",
+			content : "<i class='fa fa-clock-o'></i> <i>" + message  + "</i>",
 			color : "#ff8080",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
 		});
     };
-	function atualizacaoEfetuada(literal) {
-		$.smallBox({
-			title : "Ok",
-			content : "<i class='fa fa-clock-o'></i> <i>" + literal + "</i>",
-			color : "#659265",
-			iconSmall : "fa fa-check fa-2x fadeInRight animated",
-			timeout : 4000
-		});
-    };
-
-    function atualizacaoNaoEfetuada() {
+	function obtencaoNaoEfetuada(message) {
+		if (!message){
+			message = "Record not found";
+		};
 		$.smallBox({
 			title : "Error",
-			content : "<i class='fa fa-clock-o'></i> <i>An error occurred while recording , try again</i>",
+			content : "<i class='fa fa-clock-o'></i> <i>" + message  + "</i>",
 			color : "#ff8080",
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000

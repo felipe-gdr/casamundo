@@ -10,21 +10,21 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
 	
 //	xxendNewEvent = DayPilot.Date(endNewEvent).addDays(10);
 	var newEventCreated = null;
-	var dp = new DayPilot.Scheduler("dp");
+
+    var dp = new DayPilot.Scheduler("dp");
 
     // behavior and appearance
     dp.theme = "scheduler_traditional";
-
+    
     dp.startDate = startDate;
     dp.days = size;
     dp.scale = scale;
     dp.timeHeaders = [
         { groupBy: "Month", format: "MMM yyyy" },
-        { groupBy: "Cell", format: "d" }
+        { groupBy: "Cell", format: "ddd d" }
     ];
 
     dp.bubble = new DayPilot.Bubble();
-    dp.resourceBubble = new DayPilot.Bubble();
 
     dp.contextMenu = new DayPilot.Menu({items: [
         {text:"Edit", onclick: function() { dp.events.edit(this.source); } },
@@ -35,48 +35,72 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
 
     dp.treeEnabled = true;
 
+    dp.heightSpec = "Max";
+    dp.height = 600;
+
     dp.eventMovingStartEndEnabled = true;
     dp.eventResizingStartEndEnabled = true;
-    dp.timeRangeSelectingStartEndEnabled = false;
-    dp.treePreventParentUsage = true;
-    dp.eventClickHandling = "Edit";
-    dp.timeRangeRightClickHandling = "Disabled";
-    dp.eventMoveHandling = "JavaScript";
-    
-    dp.onBeforeResHeaderRender = function(args) {
-        args.resource.bubbleHtml = "Test";
-    };
-
+    dp.timeRangeSelectingStartEndEnabled = true;
 
     dp.onBeforeEventRender = function(args) {
 
-    	changeEvent (dp, args)    
+    	changeEvent (dp, args);    
+
+    };
+
+    dp.onBeforeResHeaderRender = function(args) {
+    };
+
+    dp.onBeforeRowHeaderRender = function(args) {
+
+    };
+
+    dp.onBeforeCellRender = function(args) {
+    };
+
+    dp.onEventMove = function(args) {
+    	checkDates(dp, args, args.e.data.student_usedDays);
+    };
+
+    dp.onEventMoved = function (args) {
     	
+    	if (args.e.data.oldResource != args.e.data.resource){
+    		deallocate (args.e.data, args, dp);
+    		args.e.data.oldResource = args.e.data.resource;
+    	};
+
     };
 
     dp.onEventResize = function(args) {
     	
+    	if (args.newStart != args.e.data.start){
+    		args.newStart = DayPilot.Date(args.newStart).addHours(12);
+    	};
+    	if (args.newEnd != args.e.data.end){
+    		args.newEnd = DayPilot.Date(args.newEnd).addHours(-12);
+    	};
     	checkDates(dp, args, args.e.data.student_usedDays);
 
     };
 
     dp.onEventResized = function (args) {
     	
-    	deallocate (args.e.data, args);
+   		deallocate (args.e.data, args, dp);
+   		args.e.data.occupancy.startOccupancy = converteDayPilotDate(args.e.data.start, "", true);
+   		args.e.data.occupancy.endOccupancy = converteDayPilotDate(args.e.data.end, "", true);
     
     };
 
-    dp.onEventMove = function(args) {
-    	
-    	checkDates(dp, args, args.e.data.student_usedDays);
-
+    // event creating
+    dp.onTimeRangeSelected = function (args) {
     };
 
-    dp.onEventMoved = function (args) {
-    	
-    	deallocate (args.e.data, args);
-    	
-    };
+    dp.separators = [
+        {color:"Red", location:"2015-03-29T00:00:00", layer: "BelowEvents"}
+    ];
+
+    dp.treePreventParentUsage = true;
+
     
     dp.onRowClick = function (args) {
     	if (newEventCreated){
@@ -140,39 +164,6 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
         rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, null, actualTrip, idStudent)
     	
     };
-
-    dp.onTimeRangeSelecting = function(args) {
-    
-        dp.message("Click left (over the bed) to allocate " + eventName);
- 
-    };
-
-    dp.separators = [
-        {color:"Red", location: startDate + "T00:00:00", layer: "BelowEvents"}
-    ];
-
-    dp.onEventClicked = function(args) {
-    	window.location = "student.html?mail=" + args.e.data.student.mail + "&typePage=change&actualTrip=" + args.e.data.actualTrip;
-    };
-    
-    dp.onGridMouseDown = function(args) {
-        var button = DayPilot.Util.mouseButton(args.originalEvent);
-        if (button.right) {
-            args.action = "None";
-        }
-    };
-
-    dp.onEventClick = function(args) {
-    };
-    dp.onBeforeRowHeaderRender = function(args) {
-    };
-    dp.onBeforeCellRender = function(args) {
-    };
-    dp.onEventMoving = function(args) {
-    };
-    dp.onTimeRangeSelected = function (args) {
-    };
-
     
     return dp;
 };
@@ -236,17 +227,17 @@ function createEvent (args, newEventCreated){
     		startNewEvent:startNewEvent
     	};
 
-    rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, null, actualTrip, idStudent)
+    rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, dp, actualTrip, idStudent)
 	
 };
 
-function checkDatesCall (objStudent, param){
+function checkDatesCall (objStudent, param, dp){
 
 	if (checkDates(param.dp, param.args, objStudent, daysUsed(objStudent.rooms_actualTrip))){
     	param.dp.events.add(param.e, param.data);
         newEventCreated = param.e;
 	    param.dp.scrollTo(param.startNewEvent, false,  "middle");        	
-	    updateAllocation (param.args, addAllocation);
+	    updateAllocation (param.args, addAllocation, dp);
     };
 };
 
@@ -500,9 +491,15 @@ function checkDates(dp, args, objStudent, usedDays){
 };
 
 function changeEvent (dp, args){
-	var actualTrip = args.data.actualTrip;
+	
+	if (args.data){
+		var data = args.data
+	}else{
+		var data = args.e.data
+	};
+	var actualTrip = data.actualTrip;
 	var statusCollor = "#ffff80";
-    switch (args.data.student.trips[actualTrip].status) {
+    switch (data.student.trips[actualTrip].status) {
 	case "Available":
 		statusCollor = "#00ff00"
         break;
@@ -511,7 +508,7 @@ function changeEvent (dp, args){
         break;
     case "Allocated":
     	statusCollor = "#008a00"
-        break;
+        break;;
     case "Partially allocated":
     	statusCollor = "#15ffff"
         break;
@@ -531,7 +528,7 @@ function changeEvent (dp, args){
     	statusCollor = "#ffff80"
     };	    
 	args.e.backColor = statusCollor;
-	if (args.data.student.gender == "Male"){
+	if (data.student.gender == "Male"){
 		args.e.fontColor = "#FFFFFF";
 		args.e.barColor = "#0000ff";
 		iconGender = "fa-male";
@@ -541,15 +538,20 @@ function changeEvent (dp, args){
 		iconGender = "fa-female";
 	};
 	
-    args.data.bubbleHtml = montaMiniDashboard (args);
+	if (args.data){
+		args.data.bubbleHtml = montaMiniDashboard (args);
+	};
     if (localStorage.insert == "true"){
-    	dp.message("Included: " + args.data.text + " start: " + new DayPilot.Date(args.data.start).toString("M/d/yyyy") + " end: " + new DayPilot.Date(args.data.end).toString("M/d/yyyy"));
+    	if (dp){
+    		dp.message("Included: " + args.data.text + " start: " + new DayPilot.Date(args.data.start).toString("M/d/yyyy") + " end: " + new DayPilot.Date(args.data.end).toString("M/d/yyyy"));
+    	};
     };
+    
 	localStorage.insert = "false";
 	
 };
 
-function updateAllocation (args, nextAction){
+function updateAllocation (args, nextAction, dp){
 	
 	if (args.newResource){
 		var data = args.newResource;
@@ -571,10 +573,10 @@ function updateAllocation (args, nextAction){
 			actualTrip : args.e.data.occupancy.actualTrip
 	};
 	
-	rest_obterRoom(data.idRoom, nextAction, semAcao, objJson, "Allocated", args.e.data.occupancy.actualTrip, args);
+	rest_obterRoom(data.idRoom, nextAction, semAcao, objJson, "Allocated", args.e.data.occupancy.actualTrip, args, dp);
 };
 
-function deallocate (data, args){
+function deallocate (data, args, dp){
 	var objJson = {
 			idDorm : data.oldResource.idDorm,
 			idUnit : data.oldResource.idUnit,
@@ -590,5 +592,5 @@ function deallocate (data, args){
 			actualTrip : data.occupancy.actualTrip
 	};
 	
-	rest_obterRoom(data.oldResource.idRoom, deallocation, semAcao, objJson, "Allocated", data.occupancy.actualTrip, args);
+	rest_obterRoom(data.oldResource.idRoom, deallocation, semAcao, objJson, "Allocated", data.occupancy.actualTrip, args, dp);
 };

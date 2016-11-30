@@ -43,7 +43,7 @@
        	});
     };
 
-    function rest_obterStudent(email, action_ok, action_not_ok, var1, var2, actualTrip, idStudent) {
+    function rest_obterStudent(email, action_ok, action_not_ok, var1, var2, actualTrip, idStudent, var3, var4) {
     	var	idStudentParam = "null";
        	if (idStudent){
     		idStudentParam = idStudent;
@@ -60,9 +60,9 @@
     	})
     	.done(function(data) {
     		if (typeof data !== "undefined") {
-    			action_ok(data, var1, var2);
+    			action_ok(data, var1, var2, var3, var4);
     		}else{
-    			action_not_ok (data, var1, var2)	
+    			action_not_ok (data, var1, var3, var4)	
     		};
     	})
     	.fail(function(data) {
@@ -88,7 +88,6 @@
     	.always(function(data) {
     	});
     };
-
     
     function rest_changeStatus(action_ok, action_notOk, objJson ) {
     	$.ajax({
@@ -1042,6 +1041,22 @@
     	.always(function(data) {
     	});
     };
+    
+    function rest_changeStatusInvoice(objJson, action_ok, action_notOk, messageOk, messageNotOk) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/changeStatus?param=" + objJson,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json'
+    	})
+    	.done(function( data ) {
+    		action_ok(messageOk);
+    	})
+    	.fail(function(data) {
+    		action_notOk(messageNotOk);
+    	})
+    	.always(function(data) {
+    	});
+    };
 
 
     //
@@ -1271,6 +1286,7 @@
     };
 
     function rest_atualizaRoom(objJson, action_ok, action_not_ok, messageOk, messageNotOk, var1, var2, var3, var4, var5) {
+    	console.log ("rest atualiza quarto:" + messageOk);
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",

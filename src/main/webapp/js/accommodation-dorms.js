@@ -147,6 +147,7 @@
 	    		          end: separadorAnoMesDia(occupancy.endOccupancy, "-") + "T12:00:00",
 	    		          id: room.idRoom + "_" + room.bed.id + "_" + w,
 	    		          resource: room_bed,
+	    		          text: occupancy.student.firstName + " " + occupancy.student.lastName,
 	    		          html: "<div>" + icon + "<b>" + " " + occupancy.student.firstName + " " + occupancy.student.lastName + "</b></div>",
 	    		          actualTrip: occupancy.actualTrip,
 	    		          occupancy : occupancy,
@@ -201,7 +202,7 @@
 
 	};
 	
-	function addAllocation (objRoom, objBed, status, actualTrip, args) {
+	function addAllocation (objRoom, objBed, status, actualTrip, args, dp) {
 
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 
@@ -215,14 +216,15 @@
 
 		objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
 
-		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args );
+		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Room allocated", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args, dp );
 		
 	};
 
-	function deallocation (objRoom, objBed, status, actualTrip, args) {
+	function deallocation (objRoom, objBed, status, actualTrip, args, dp) {
 
 		var objStudent = JSON.parse(localStorage.getItem("student"));
 
+		var remocaoOk = false;
 	    $.each(objRoom.documento.beds[objBed.idBed].occupancies, function (i, occupancy) {
 	    	if (occupancy){
 		    	if (occupancy.idStudent == objBed.idStudent &&
@@ -230,24 +232,33 @@
 		    		occupancy.endOccupancy == objBed.end &&
 		    		occupancy.actualTrip == objBed.actualTrip){
 		    		objRoom.documento.beds[objBed.idBed].occupancies.splice(i, 1);
+		    		remocaoOk = true;
 		    	};
 	    	};
 	    });
 
-		rest_atualizaRoom(objRoom, atualizouBedDeallocation, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args );
+	    if (remocaoOk){
+	    	rest_atualizaRoom(objRoom, atualizouBedDeallocation, atualizacaoNaoEfetuada, "Room deallocated", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args, dp);
+	    }else{
+	    	atualizacaoNaoEfetuada("Problems to deallocate room, try again or contact support");
+	    };
 		
 };
 
-function atualizouBedDeallocation(message, actualTrip, idStudent, args){
+function atualizouBedDeallocation(message, actualTrip, idStudent, args, dp){
 	
-	updateAllocation (args, addAllocation)
+	atualizacaoEfetuada(message);
+
+	updateAllocation (args, addAllocation, dp);
 };
 
-function atualizouBed(message, actualTrip, idStudent, args){
+function atualizouBed(message, actualTrip, idStudent, args, dp){
 
-	updateAllocation (args, semAcao);
-	
-	rest_obterStudent(null, atualizaStudent, semAcao, null, null, actualTrip, idStudent)
+	atualizacaoEfetuada(message);
+
+	updateAllocation (args, semAcao, dp);
+
+	rest_obterStudent(null, atualizaStudent, semAcao, args, actualTrip, actualTrip, idStudent, dp )
 	
 };
 
@@ -261,14 +272,14 @@ function daysUsed(occupancies){
 	return usedDays;
 };
 
-function atualizaStudent (objStudent){
+function atualizaStudent (objStudent, args, actualTrip, dp){
     //
     //**** verificar o fim das alocações das datas parciais informadas
     //
     var initialDateOk = false;
     var endDateOk = false;
 
-    var daysTrip = calculaDias(separaConverteDataMes(objStudent.documento.trips[objStudent.documento.actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[objStudent.documento.actualTrip].end, "/")) + 1;
+    var daysTrip = calculaDias(separaConverteDataMes(objStudent.documento.trips[actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[actualTrip].end, "/")) + 1;
 
 	var daysOccupancy = 0;
     if (objStudent.rooms_actualTrip != null && objStudent.rooms_actualTrip != ""){
@@ -283,6 +294,16 @@ function atualizaStudent (objStudent){
 		status = "Allocated";
 	};
 
+	//
+	//*** atualiza status do evento
+	//
+	args.e.data.student.trips[actualTrip].status = status;
+	localStorage.insert == "false";
+	changeEvent (null, args);
+	dp.events.update(args.e, args.e.data);
+	//
+	//*** atualiza dados do quarto no estudante
+	//
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 	objStudent.documento.trips[actualTrip].idRoom = "";
 	objStudent.documento.trips[actualTrip].idBed = "";
