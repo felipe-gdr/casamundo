@@ -44,7 +44,7 @@
 		var yearToday = today.getYear() + 1900; 
 		var setDate = yearToday + "-" + today.getMonth() + "-" + today.getDate();
 		var startDate = (yearToday - 1) + "-" + today.getMonth() + "-" + today.getDate();
-		var dp = setupDayPilot (startDate, 772, "Day", startNewEvent, endNewEvent, eventName, student, par_startNewEvent, par_endNewEvent, idStudent, actualTrip);
+		var dp = setupDayPilot (startNewEvent, 772, "Day", startNewEvent, endNewEvent, eventName, student, par_startNewEvent, par_endNewEvent, idStudent, actualTrip);
 
 		var dormName = "";
 	    var unitName = "";

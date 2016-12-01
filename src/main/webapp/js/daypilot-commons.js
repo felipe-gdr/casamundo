@@ -27,10 +27,10 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     dp.bubble = new DayPilot.Bubble();
 
     dp.contextMenu = new DayPilot.Menu({items: [
-        {text:"Edit", onclick: function() { dp.events.edit(this.source); } },
-        {text:"Delete", onclick: function() { dp.events.remove(this.source); } },
-        {text:"-"},
-        {text:"Select", onclick: function() { dp.multiselect.add(this.source); } },
+//        {text:"Edit", onclick: function() { dp.events.edit(this.source); } },
+//        {text:"Delete", onclick: function() { dp.events.remove(this.source); } },
+//        {text:"-"},
+//        {text:"Select", onclick: function() { dp.multiselect.add(this.source); } },
     ]});
 
     dp.treeEnabled = true;
@@ -96,7 +96,7 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     };
 
     dp.separators = [
-        {color:"Red", location:"2015-03-29T00:00:00", layer: "BelowEvents"}
+        {color:"Red", location:"2016-11-30T00:00:00", layer: "BelowEvents"}
     ];
 
     dp.treePreventParentUsage = true;
@@ -161,7 +161,7 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
         		startNewEvent:startNewEvent
         	};
 
-        rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, null, actualTrip, idStudent)
+        rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, dp, actualTrip, idStudent)
     	
     };
     
