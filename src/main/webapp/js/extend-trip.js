@@ -141,20 +141,14 @@
 							}
 						};
 						if (field.type == "select-multiple") {
-							value = "";
+							value = [];
 							var first = true;
 						    $.each(field.children, function (i, optionValue) {
 						    	if (optionValue.selected){
-						    		if (first){
-						    			value = optionValue.label;
-						    			first = false;
-						    		}else{
-						    			value = value + "," + optionValue.label;
-						    		};
+						    		value.push(optionValue.label);
 						    	};		    			
 						    });
 						};
-						var value = field.value;
 						var validField = field.name.split("_");
 						if (validField.length == 1){
 							newTripJson.trip[field.name] = limpaData(value);

@@ -213,7 +213,15 @@
             actualTrip : actualTrip
 			};
 
-		objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
+		if (objRoom.documento.beds[objBed.idBed].occupancies){
+			objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
+		}else{
+			objRoom.documento.beds[objBed.idBed] =
+				{
+					occupancies : []
+				};
+			objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
+		}
 
 		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args );
 		
