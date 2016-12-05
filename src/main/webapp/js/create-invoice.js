@@ -483,7 +483,7 @@ function criaInvoice(id, actualTrip){
 					dueDate : limpaData($('#due_0').val()),
 					amountNet : $('#dueValue_0').val(),
 					amountGross : $('#dueValueGross_0').val(),
-					destination : objStudent.destination,
+					destination : objStudent.documento.trips[actualTrip].destination,
 					itensNet : [],
 					itensGross : [],
 					

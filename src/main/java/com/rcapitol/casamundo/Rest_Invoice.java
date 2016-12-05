@@ -207,7 +207,7 @@ public class Rest_Invoice {
 
 			BasicDBObject setQuery = new BasicDBObject();
 			if(!destination.equals("all")){
-		    	setQuery.put("documento.trips.destination", destination);
+		    	setQuery.put("documento.destination", destination);
 		    };
 			
 			DBCursor cursor = collection.find(setQuery);
