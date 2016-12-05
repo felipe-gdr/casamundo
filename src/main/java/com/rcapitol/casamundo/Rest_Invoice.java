@@ -651,9 +651,9 @@ public class Rest_Invoice {
 
 	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
 	@Path("/changeStatus")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response ChangeStatus(JSONObject param) {
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response ChangeStatus(JSONObject param)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -670,7 +670,7 @@ public class Rest_Invoice {
 			// ** atualizar status
 			//
 			BasicDBObject objUpdate = new BasicDBObject();
-			objUpdate.put("documento.status", param.get("idInvoice"));
+			objUpdate.put("documento.status", param.get("status"));
 			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
 			BasicDBObject setQuery = new BasicDBObject("_id", idInvoice);
 			cursor = collection.findAndModify(setQuery,

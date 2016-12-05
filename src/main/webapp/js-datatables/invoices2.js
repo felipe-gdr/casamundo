@@ -109,24 +109,14 @@
             };	    
             var durationTrip = intervaloDatas(invoice.trip.start, invoice.trip.end);
             var age = calculaIdade(separaConverteDataMes(invoice.student.birthDay, "/"));
-			switch (invoice.status) {
-	    	case "unpaid":
-	    		if (maiorDataHoje (invoice.dueDate)){
-	    			statusCollor = "warning";
-	    			statusText = "unppaid $";
-	    		}else{
-	    			statusCollor = "danger";
-	    			statusText = "overdue $";    			
-	    		};
-	            break;
-	        case "paid":
-				statusCollor = "success";
-				statusText = "paid $";
-	            break;
-	        default: 
-				statusCollor = "default";
-				statusText = "none $";
-	        };	    		
+        	switch (invoice.status) {
+        	case "new":
+        		statusCollor = "label-available"
+                break;
+            default: 
+        		statusCollor = "label-available"
+            };	    
+
             switch (invoice.gender) {
         	case "Male":
         		genderCollor = "label-male"
@@ -209,15 +199,15 @@
 	        var familyName = "";
 	        var typePage = "accommodation";
         	invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
-        	var dadosInvoice = " data-idInvoice='" + invoice.id + "'";
+        	var dadosInvoice = " data-idInvoice='" + invoice.idIncvoice + "'";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 		        if (invoice.status == "unpaid"){
 		        	actions = 
-		        		"<li data-process='paid' " + dadosInvoice + " data-status='paid'><a href='#'>Paid</a></li>";
+		        		"<li data-process='paid'" + dadosInvoice + "' data-status='paid'><a href='#'>Paid</a></li>";
 		        };
 		        if (invoice.status == "paid"){
 		        	actions = 
-		        		"<li data-process='unpaid' " + dadosInvoice + " data-status='unpaid'><a href='#'>Unpaid</a></li>";
+		        		"<li data-process='unpaid'" + dadosInvoice + "' data-status='unpaid'><a href='#'>Paid</a></li>";
 		        };
 	        };
 		    var pickupCollor = "success";
@@ -246,7 +236,7 @@
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(invoice.trip.end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
     	    	"invoice":
-    	    			"<small class='text-muted  text-column" + statusCollor + "'>Status: <span class='text-muted label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
+    	    			"<small class='label text-column " + statusCollor + "'>Status: " + invoice.status + "</small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + invoice.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + invoice.amountNet + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(invoice.dueDate,"-") + "</small><br>",
@@ -255,7 +245,7 @@
        	    	"comments":"<small class='text-muted text-column'>" + invoice.trip.comments + "</small>",
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
-	    				'<ul id="listInvoice" class="dropdown-menu">' +
+	    				'<ul id="listInvoices" class="dropdown-menu">' +
 	    					actions +
 	    				'</ul>' +
 	    			'</div>' 
@@ -282,19 +272,19 @@
             	};
             	$("#listInvoice li").off('click');
 	    		$("#listInvoice li").on('click',function(){
-	    			if ($(this).attr('data-process') == "paid" | $(this).attr('data-process') == "unpaid") {
+	    			if ($(this).attr('data-process') == "paid") {
 	    				var param  = 
 	    				{
 	    					idInvoice : $(this).attr('data-idInvoice'),
 	    					status : $(this).attr('data-status')
-	    				};	 
-	    				localStorage.nextWindow = "invoices.html"
+	    				};
+	    				
 	    				rest_changeStatusInvoice(param, atualizacaoEfetuada, semAcao, "Invoice updated", "problems to update invoice, try again");
 	    			};
 	    		});
-            };
+            }
         });
-
+        
         // Apply the filter
         $("#invoices_list thead th input[type=text]").off( 'keyup change');
         $("#invoices_list thead th input[type=text]").on( 'keyup change', function () {

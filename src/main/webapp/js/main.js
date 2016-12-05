@@ -532,6 +532,9 @@ function calculaIdade ( dataNascimento ) {
 	};
 	
 	function inclusaoEfetuada(message) {
+		if (!message){
+			message = "Update ok";
+		};
 		$.smallBox({
 			title : "Ok",
 			content : "<i class='fa fa-clock-o'></i> <i>" + message + "</i>",
@@ -555,7 +558,7 @@ function calculaIdade ( dataNascimento ) {
     };
 	function atualizacaoEfetuada(message) {
 		if (!message){
-			message = "An error occurred while recording , try again";
+			message = "Update ok";
 		};
 		$.smallBox({
 			title : "Ok",
@@ -564,7 +567,9 @@ function calculaIdade ( dataNascimento ) {
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
 		});
-    };
+		if (localStorage.nextWindow){}
+    		$(window.document.location).attr('href',localStorage.nextWindow);
+		};
 	function atualizacaoNaoEfetuada(message) {
 		if (!message){
 			message = "An error occurred while recording , try again";
