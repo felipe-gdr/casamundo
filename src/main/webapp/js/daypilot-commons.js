@@ -241,7 +241,7 @@ function checkDatesCall (objStudent, param, dp){
     };
 };
 
-function montaMiniDashboard (args){
+function montaMiniDashboard (args, actualTrip){
 	
 	var bubleMiniDashboard =
 		'<div class="smart-form miniDasboard">' +							
@@ -539,7 +539,7 @@ function changeEvent (dp, args){
 	};
 	
 	if (args.data){
-		args.data.bubbleHtml = montaMiniDashboard (args);
+		args.data.bubbleHtml = montaMiniDashboard (args, actualTrip);
 	};
     if (localStorage.insert == "true"){
     	if (dp){
