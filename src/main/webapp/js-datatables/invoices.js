@@ -227,7 +227,13 @@
 	        var dropoffCollor = "success";
 	        if (invoice.trip.dropoff == "Yes"){
 	        	dropoffCollor = "danger";
-	        }
+	        };
+	        var notes = "";
+	        if (invoice.notes) {
+			    $.each(invoice.notes, function (i, note) {
+			    	notes = notes + note.note + "<br>";
+			    });	        	
+	        };
             invoice_table.row.add( {
     	    	"student": 
     	    			"<a href='create-invoice.html?id=" + invoice.student.mail + "&typePage=change&id=" + invoice.id + "'>" +
@@ -253,7 +259,7 @@
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(invoice.dueDate,"-") + "</small><br>",
     	    	"customer":
    	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + invoice.agencySigla + "</small><br>",
-       	    	"comments":"<small class='text-muted text-column'>" + invoice.trip.comments + "</small>",
+       	    	"comments":"<small class='text-muted text-column'>" + notes + "</small>",
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
 	    				'<ul id="listInvoice" class="dropdown-menu">' +

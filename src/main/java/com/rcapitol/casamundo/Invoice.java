@@ -2,6 +2,8 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import com.rcapitol.casamundo.Family.Documento.Notes;
+
 public class Invoice {
 
 	public Documento documento;
@@ -40,6 +42,7 @@ public class Invoice {
 		public String destination;
 		public ItensNet itensNet[];
 		public ItensGross itensGross[];
+		public Notes notes[];
 		public Documento() {
 
 		}
@@ -56,7 +59,8 @@ public class Invoice {
 						String amountGross,
 						String destination,
 						ItensNet itensNet[],
-						ItensGross itensGross[]
+						ItensGross itensGross[],
+						Notes notes[]
 								) {
 						this.id = id; 
 						this.idStudent = idStudent; 
@@ -69,6 +73,7 @@ public class Invoice {
 						this.destination = destination;
 						this.itensNet = itensNet;
 						this.itensGross = itensGross;
+						this.notes = notes;
 		}
 
 

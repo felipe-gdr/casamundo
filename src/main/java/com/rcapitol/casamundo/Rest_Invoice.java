@@ -231,6 +231,7 @@ public class Rest_Invoice {
 					jsonDocumento.put("amountGross", jsonObject.get("amountGross"));
 					jsonDocumento.put("itensNet", jsonObject.get("itensNet"));
 					jsonDocumento.put("itensGross", jsonObject.get("itensGross"));
+					jsonDocumento.put("notes", jsonObject.get("notes"));
 					//
 					//** ler student
 					//

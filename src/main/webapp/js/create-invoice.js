@@ -45,6 +45,7 @@
 	
 	if (typePage == "create"){
 		if (parameter[2]) {
+		    criaLinhaNote(0);
 			actualTrip = parameter[2].split("=")[1];
 			rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
 		};
@@ -486,6 +487,7 @@ function criaInvoice(id, actualTrip){
 					destination : objStudent.documento.trips[actualTrip].destination,
 					itensNet : [],
 					itensGross : [],
+					notes : [],
 					
 				}
 			
@@ -508,6 +510,15 @@ function criaInvoice(id, actualTrip){
 			}
 		objInvoice.documento.itensNet.push(itemNet);
 		objInvoice.documento.itensGross.push(itemGross);
+	});
+	$(".noteItem").each(function(i, value) {
+		if ($("#notesDate_" + i).val()) {
+			objInvoice.documento.notes.push(JSON.parse('{"date":"' + $("#notesDate_" + i).val() 
+													+ '","user":"' + $("#notesUser_" + i).val() 
+													+ '","note":"' + $("#notesNote_" + i).val() 
+													+  '"}'
+													));
+		};
 	});
 	
 	if (typePage == "change"){
@@ -727,6 +738,17 @@ function carregaTelaInvoice(data){
 	$('#dueGross_0').val(separaDataMes(data.documento.dueDate, "-"));
 	$('#dueValue_0').val(data.documento.amountNet);
 	$('#dueValueGross_0').val(data.documento.amountGross);
+
+	var linesNote = 0;
+    $.each(data.documento.notes
+		    , function (i, value) {
+	    criaLinhaNote(i);
+	    $('#notesDate_' + i).val(value.date);
+    	$('#notesUser_' + i).val(value.user);
+    	$('#notesNote_' + i).val(value.note);
+    	linesNote = i + 1;
+    });
+    criaLinhaNote(linesNote);
 	
 };
 
@@ -1025,6 +1047,51 @@ function fillSpaces(text, size){
 	};
 	return text;
 };
+
+function criaLinhaNote (i, note) {
+	var noteLine = '<li class="noteItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="memberList body-background-color-family">' +					
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-3">' +
+						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
+						'<input class="body-background-color-family"type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-4">' +
+						'<label class="input">'  +
+							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#notesList").append(noteLine);
+	$('#notesDate_' + i).datepicker({
+		dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+		}
+	});
+	$( "#notesDate_" + (i - 1)).unbind();
+	$( "#notesDate_" + i).bind( "blur", function() {
+		criaLinhaNote(i + 1, note);
+		$('#notesUser_' + i).val(localStorage.usuarioEmail);
+	});
+};
+
+
 function salvaCodigoPDF(){
 //	html2canvas($("#div-pdf"), {
 //    onrendered: function(canvas) {
