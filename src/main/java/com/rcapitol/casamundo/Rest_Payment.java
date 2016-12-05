@@ -520,6 +520,47 @@ public class Rest_Payment {
 		return null;
 	};
 
+	@SuppressWarnings({ "unused" })
+	@Path("/changeStatus")	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response ChangeStatus(JSONObject param)  {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject objPayment = new BasicDBObject();
+			ObjectId idPayment = new ObjectId((String) param.get("idPayment"));
+			DBCollection collection = db.getCollection("payment");
+			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
+			DBObject cursor = collection.findOne(searchQuery);
+			if (cursor != null){
+				objPayment = (BasicDBObject) cursor.get("documento");
+			};
+			//
+			// ** atualizar status
+			//
+			BasicDBObject objUpdate = new BasicDBObject();
+			objUpdate.put("documento.status", param.get("status"));
+			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+			BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
+			cursor = collection.findAndModify(setQuery,
+	                null,
+	                null,
+	                false,
+	                update,
+	                true,
+	                false);
+			mongo.close();
+			return Response.status(200).entity(objUpdate).build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
 };
 
 

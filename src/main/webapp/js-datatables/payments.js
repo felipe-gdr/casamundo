@@ -112,14 +112,24 @@
             var actualTrip = payment.actualTrip;
             var durationTrip = intervaloDatas(payment.student.trips[actualTrip].start, payment.student.trips[actualTrip].end);
             var age = calculaIdade(separaConverteDataMes(payment.student.birthDay, "/"));
-        	switch (payment.status) {
-        	case "new":
-        		statusCollor = "label-available"
-                break;
-            default: 
-        		statusCollor = "label-available"
-            };	    
-
+			switch (payment.status) {
+	    	case "unpaid":
+	    		if (maiorDataHoje (payment.dueDate)){
+	    			statusCollor = "warning";
+	    			statusText = "unppaid $";
+	    		}else{
+	    			statusCollor = "danger";
+	    			statusText = "overdue $";    			
+	    		};
+	            break;
+	        case "paid":
+				statusCollor = "success";
+				statusText = "paid $";
+	            break;
+	        default: 
+				statusCollor = "default";
+				statusText = "none $";
+	        };	    		
             switch (payment.gender) {
         	case "Male":
         		genderCollor = "label-male"
@@ -200,15 +210,17 @@
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
 	        var typePage = "payments";
-	        
-        	payments = "<li><a href='create-payment.html?mail=" + payment.student.mail + "&typePage=create'>Create payment</a></li>";
-        	
-	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator"  | localStorage.usuarioPerfil == "tools"){
-		        if (payment.status == "new"){
-		        	actions = "<li><a href='create-payment.html?id=" + payment.student.mail + "&typePage=change&id=" + payment.id + "'>Change</a></li>";
+        	var dadosPayment = " data-idPayment='" + payment.id + "'";
+	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
+		        if (payment.status == "unpaid"){
+		        	actions = 
+		        		"<li data-process='paid' " + dadosPayment + " data-status='paid'><a href='#'>Paid</a></li>";
+		        };
+		        if (payment.status == "paid"){
+		        	actions = 
+		        		"<li data-process='unpaid' " + dadosPayment + " data-status='unpaid'><a href='#'>Unpaid</a></li>";
 		        };
 	        };
-	        
 		    var pickupCollor = "success";
 	        if (payment.student.trips[actualTrip].pickup == "Yes"){
 	        	pickupCollor = "danger";
@@ -253,7 +265,7 @@
     	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate, "-") + "</small><br>",
        	    	"detail":
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Status: " + payment.status + "</small><br>" +
+    	    			"<small class='text-muted  text-column" + statusCollor + "'>Status: <span class='text-muted label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
     	    			"<small class='text-muted text-column'>Date: " + dateIncluded + "</small><br>",
        	    	"comments":"<small class='text-muted text-column'>" + payment.student.trips[actualTrip].comments + "</small>",
        	    	
@@ -286,8 +298,14 @@
             	};
             	$("#listPayment li").off('click');
 	    		$("#listPayment li").on('click',function(){
-	    			if ($(this).attr('data-process') == "a ver") {
-	    				rest_obterPayment($(this).attr('data-id'), deallocateRoom, semAcao, $(this).attr('data-emailPayment') );
+	    			if ($(this).attr('data-process') == "paid" | $(this).attr('data-process') == "unpaid") {
+	    				var param  = 
+	    				{
+	    					idPayment : $(this).attr('data-idPayment'),
+	    					status : $(this).attr('data-status')
+	    				};	 
+	    				localStorage.nextWindow = "payments.html"
+	    				rest_changeStatusPayment(param, atualizacaoEfetuada, semAcao, "Payment updated", "problems to update payment, try again");
 	    			};
 	    		});
             }

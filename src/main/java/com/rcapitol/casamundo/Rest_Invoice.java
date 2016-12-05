@@ -560,7 +560,7 @@ public class Rest_Invoice {
 				itemCost.put("idInvoice", idInvoiceString);
 				itemCost.put("invoiceNumber", objInvoice.get("number"));
 				itemCost.put("actualTrip", objInvoice.get("actualTrip"));
-				itemCost.put("status", "new");
+				itemCost.put("status", "unpaid");
 				itemCost.put("number", payment.numberPayment());
 				itemCost.put("dueDate", commons.calcNewDate(date, 6));
 				itemCost.put("destination", destination);
@@ -649,7 +649,7 @@ public class Rest_Invoice {
 		};
 	};
 
-	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
+	@SuppressWarnings({ "unused" })
 	@Path("/changeStatus")	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
