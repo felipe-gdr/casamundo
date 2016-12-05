@@ -126,6 +126,15 @@
 				statusCollor = "success";
 				statusText = "paid $";
 	            break;
+	        case "approved":
+	    		if (maiorDataHoje (payment.dueDate)){
+	    			statusCollor = "primary";
+	    			statusText = "approved $";
+	    		}else{
+	    			statusCollor = "danger";
+	    			statusText = "overdue $";    			
+	    		};
+	            break;
 	        default: 
 				statusCollor = "default";
 				statusText = "none $";
@@ -214,6 +223,10 @@
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 		        if (payment.status == "unpaid"){
 		        	actions = 
+		        		"<li data-process='approved' " + dadosPayment + " data-status='approved'><a href='#'>Approved</a></li>";
+		        };
+		        if (payment.status == "approved"){
+		        	actions = 
 		        		"<li data-process='paid' " + dadosPayment + " data-status='paid'><a href='#'>Paid</a></li>";
 		        };
 		        if (payment.status == "paid"){
@@ -265,7 +278,7 @@
     	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate, "-") + "</small><br>",
        	    	"detail":
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
-    	    			"<small class='text-muted  text-column" + statusCollor + "'>Status: <span class='text-muted label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
+    	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
     	    			"<small class='text-muted text-column'>Date: " + dateIncluded + "</small><br>",
        	    	"comments":"<small class='text-muted text-column'>" + payment.student.trips[actualTrip].comments + "</small>",
        	    	
@@ -298,7 +311,7 @@
             	};
             	$("#listPayment li").off('click');
 	    		$("#listPayment li").on('click',function(){
-	    			if ($(this).attr('data-process') == "paid" | $(this).attr('data-process') == "unpaid") {
+	    			if ($(this).attr('data-process') == "paid" | $(this).attr('data-process') == "approved" | $(this).attr('data-process') == "unpaid") {
 	    				var param  = 
 	    				{
 	    					idPayment : $(this).attr('data-idPayment'),

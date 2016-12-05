@@ -242,11 +242,12 @@
     	    			"<small class='text-muted text-column'>Dropoff: </small><small class='text-" + dropoffCollor + " text-column '>" + invoice.trip.dropoff + "</small><br>" +
     	    			"<small class='text-muted text-column'>Custodian: " + " " + "</small><br>" +
     	    			"<small class='text-muted text-column'>High season: " + " " + "</small><br>",
-                "dates":"<small class='hide'>" + converteAnoMesDia(invoice.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(invoice.trip.start, "-") + "</small><br>" +
+                "dates":
+                		"<small class='hide'>" + converteAnoMesDia(invoice.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(invoice.trip.start, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(invoice.trip.end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
     	    	"invoice":
-    	    			"<small class='text-muted  text-column" + statusCollor + "'>Status: <span class='text-muted label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
+    	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + invoice.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + invoice.amountNet + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(invoice.dueDate,"-") + "</small><br>",
