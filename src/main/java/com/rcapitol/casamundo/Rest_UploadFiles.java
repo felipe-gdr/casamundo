@@ -72,7 +72,7 @@ public class Rest_UploadFiles {
         }
         String mt = new MimetypesFileTypeMap().getContentType(target);
         return Response.ok(target, mt).build();
-    }
+    };
  
 	private final String UPLOADED_FILE_PATH = "c:/images/casamundo/";
 	

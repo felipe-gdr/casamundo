@@ -42,6 +42,10 @@
 	    // `d` is the original data object for the row
 	    return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">'+
 	        '<tr>'+
+		        '<td style="width:100px">Notes:</td>'+
+		        '<td>'+d.notes+'</td>'+
+		    '</tr>'+
+	        '<tr>'+
 	            '<td>Actions:</td>'+
 	            '<td>'+d.actions+'</td>'+
 	        '</tr>'+
@@ -403,6 +407,12 @@
 	        					"<small class='text-muted text-column'>Room: </small><small class='text-bold text-column'>" + roomName + "</small><br>";
 	        	
 	        };
+	        var notes = "";
+	        if (student.notes) {
+			    $.each(student.notes, function (i, note) {
+			    	notes = notes + note.note + "<br>";
+			    });	        	
+	        };
             student_table.row.add( {
     	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
@@ -430,6 +440,7 @@
     	    				"<small class='text-muted text-column'>" + student.trip.mealPlan + "</small>&nbsp;&nbsp;" +
     	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",    	    				
        	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
+       	    	"notes":"<small class='text-muted text-column'>" + notes + "</small>",
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
 	    				'<ul id="listStudent" class="dropdown-menu">' +

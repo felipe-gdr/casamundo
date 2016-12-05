@@ -179,6 +179,19 @@ function carregaTela(data, actualTrip) {
 		$('#idFamily').val("");
 	};
 
+	var linesNote = 0;
+    if (data.documento.notes){
+		$.each(data.documento.notes
+			    , function (i, value) {
+		    criaLinhaNote(i);
+		    $('#notesDate_' + i).val(value.date);
+	    	$('#notesUser_' + i).val(value.user);
+	    	$('#notesNote_' + i).val(value.note);
+	    	linesNote = i + 1;
+	    });
+    };
+    criaLinhaNote(linesNote);
+
 	localStorage.setItem("student", JSON.stringify(data));
 	localStorage.studentExistente = "true";
 };    
@@ -1100,7 +1113,27 @@ function carregaStudent(data, typePage, actualTrip) {
 	    		});
 	    	});
 	    });
+
 	};
+//
+//	***  carrega notas do caretaker	
+//	
+
+    if (data.documento.notes){
+	    $.each(data.documento.notes
+			    , function (i, value) {
+	    	w = i + 1;
+	    	var notesLine = '<li>' +
+										'<p class="text-muted">' +
+											'<i class="fa fa-file-text-o"></i>&nbsp;&nbsp;' +
+												'<span class="txt-color-darken"><small class="text-danger" id="notes_date' + i + '" data-original-title="Date - ">' + value.date + '</small></span>' +
+												'<span class="txt-color-darken"><small class="text-muted" id="notes_user' + i + '" data-original-title="User"> - User : ' + value.user + '</small></span><br>' +
+												'<span class="txt-color-darken"><textarea rows="3"  cols="60" id="notes_note' + i + '" name="notes_note' + i + '" class="custom-scroll" disabled="disabled">' + value.note + '</textarea></span>' +
+										'</p>' +
+									'</li>'
+	    	$("#notesList").append(notesLine);
+	    });
+    };
 //
 //	***  carrega dados tela email	
 //	
@@ -1274,6 +1307,49 @@ function carregaStudent(data, typePage, actualTrip) {
 	 carregaTripsStudent();	
 };
 
+function criaLinhaNote (i, note) {
+	var noteLine = '<li class="noteItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="memberList body-background-color-family">' +					
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-3">' +
+						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
+						'<input class="body-background-color-family"type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'</label>' +
+					'</section>' +
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-4">' +
+						'<label class="input">'  +
+							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#notesList").append(noteLine);
+	$('#notesDate_' + i).datepicker({
+		dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		onSelect : function(selectedDate) {
+		}
+	});
+	$( "#notesDate_" + (i - 1)).unbind();
+	$( "#notesDate_" + i).bind( "blur", function() {
+		criaLinhaNote(i + 1, note);
+		$('#notesUser_' + i).val(localStorage.usuarioEmail);
+	});
+};
+
 function limpaStorageStudent () {
 	
 	var data  = 
@@ -1377,7 +1453,8 @@ function limpaStorageStudent () {
 					    		schoolName:"", 
 					    		schoolConsultName:"" 
 					    	} 
-					    ] 
+					    ],
+					    notes: []
 				} 
 			};
 

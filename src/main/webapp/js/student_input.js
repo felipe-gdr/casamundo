@@ -327,6 +327,16 @@
 			});
 			if (localStorage.studentExistente == "true"){
 		        var objJson = JSON.parse(localStorage.getItem("student"));
+				objJson.documento.notes = [];
+				$(".noteItem").each(function(i, value) {
+					if ($("#notesDate_" + i).val()) {
+						objJson.documento.notes.push(JSON.parse('{"date":"' + $("#notesDate_" + i).val() 
+																+ '","user":"' + $("#notesUser_" + i).val() 
+																+ '","note":"' + $("#notesNote_" + i).val() 
+																+  '"}'
+																));
+					};
+				});
 				if (newTrip == "true"){
 					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
 					var newTripJson = 
@@ -341,6 +351,16 @@
 				};
 			}else{
 		        var objJson = JSON.parse(localStorage.getItem("student"));
+				objJson.documento.notes = [];
+				$(".noteItem").each(function(i, value) {
+					if ($("#notesDate_" + i).val()) {
+						objJson.documento.notes.push(JSON.parse('{"date":"' + $("#notesDate_" + i).val() 
+																+ '","user":"' + $("#notesUser_" + i).val() 
+																+ '","note":"' + $("#notesNote_" + i).val() 
+																+  '"}'
+																));
+					};
+				});
 				rest_incluiStudent(objJson, retornaListaStudent, inclusaoNaoEfetuada);
 			}
 		},	

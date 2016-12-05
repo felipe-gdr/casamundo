@@ -2,6 +2,8 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import com.rcapitol.casamundo.Family.Documento.Notes;
+
 public class Student {
 
 	public Documento documento;
@@ -59,6 +61,7 @@ public class Student {
 		public String actualTrip;
 		public String photoPassport;
 		public Trips trips [];
+		public Notes notes[];
 
 
 		public Documento() {
@@ -96,7 +99,9 @@ public class Student {
 						String emergencyContactRelationship,
 						String actualTrip,
 						String photoPassport,
-						Trips [] trips
+						Trips [] trips,
+						Notes notes[]
+
 						) {
 						this.lastDestination = lastDestination;  
 						this.mail = mail; 
@@ -128,6 +133,7 @@ public class Student {
 						this.actualTrip = actualTrip; 
 						this.photoPassport = photoPassport;
 						this.trips = trips;
+						this.notes = notes;
 		}
 
 		public void setLastDestination(String lastDestination) {

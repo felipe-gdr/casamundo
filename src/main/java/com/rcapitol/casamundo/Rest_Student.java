@@ -355,6 +355,7 @@ public class Rest_Student {
 						    jsonDocumento.put("emergencyContactPhone", jsonObject.get("emergencyContactPhone"));
 						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
 						    jsonDocumento.put("emergencyContactMail", jsonObject.get("emergencyContactMail"));
+							jsonDocumento.put("notes", jsonObject.get("notes"));
 						    jsonDocumento.put("actualTrip", y);
 						    jsonDocumento.put("invoices", addInvoice (objStudent.getString("_id"), y));
 							if (addTrip (jsonTrip, jsonDocumento, filters)){
