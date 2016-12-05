@@ -244,6 +244,12 @@
 	        };
 	        profit = payment.invoice.amount - payment.amount;
 	        dateIncluded = "";
+	        var notes = "";
+	        if (payment.notes) {
+			    $.each(payment.notes, function (i, note) {
+			    	notes = notes + note.note + "<br>";
+			    });	        	
+	        };
             payment_table.row.add( {
     	    	"vendor":
 	    			"<a href='create-payments-vendors.html?mail=" + payment.student.mail + "&id=" + payment.id + "&typePage=change'>" +
@@ -280,7 +286,7 @@
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
     	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
     	    			"<small class='text-muted text-column'>Date: " + dateIncluded + "</small><br>",
-       	    	"comments":"<small class='text-muted text-column'>" + payment.student.trips[actualTrip].comments + "</small>",
+       	    	"comments":"<small class='text-muted text-column'>" + notes + "</small>",
        	    	
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +

@@ -247,6 +247,7 @@ public class Rest_Payment {
 					jsonDocumento.put("dueDate", jsonObject.get("dueDate"));
 					jsonDocumento.put("amount", jsonObject.get("amount"));
 					jsonDocumento.put("itens", jsonObject.get("itens"));
+					jsonDocumento.put("notes", jsonObject.get("notes"));
 					//
 					//** ler student
 					//
