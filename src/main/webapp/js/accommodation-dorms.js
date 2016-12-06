@@ -202,62 +202,13 @@
 
 	};
 	
-	function addAllocation (objRoom, objBed, status, actualTrip, args, dp) {
+	function daysUsed(occupancies){
 
-		var objStudent = JSON.parse(localStorage.getItem("student"));
-
-		var occupancy = 
-			{
-			idStudent : objBed.idStudent,
-            startOccupancy : objBed.start ,
-            endOccupancy : objBed.end,
-            actualTrip : actualTrip
-			};
-
-		objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
-
-		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Room allocated", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args, dp );
-		
-	};
-
-	function deallocation (objRoom, objBed, status, actualTrip, args, dp) {
-
-		var objStudent = JSON.parse(localStorage.getItem("student"));
-
-		var remocaoOk = false;
-	    $.each(objRoom.documento.beds[objBed.idBed].occupancies, function (i, occupancy) {
-	    	if (occupancy){
-		    	if (occupancy.idStudent == objBed.idStudent &&
-		    		occupancy.startOccupancy == objBed.start &&
-		    		occupancy.endOccupancy == objBed.end &&
-		    		occupancy.actualTrip == objBed.actualTrip){
-		    		objRoom.documento.beds[objBed.idBed].occupancies.splice(i, 1);
-		    		remocaoOk = true;
-		    	};
+		var usedDays = 0;
+	    $.each(occupancies, function (i, occupancy) {
+	    	if (occupancy.usedDays){
+	    		usedDays = usedDays + parseInt(occupancy.usedDays);
 	    	};
 	    });
-
-	    if (remocaoOk){
-	    	rest_atualizaRoom(objRoom, atualizouBedDeallocation, atualizacaoNaoEfetuada, "Room deallocated", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args, dp);
-	    }else{
-	    	atualizacaoNaoEfetuada("Problems to deallocate room, try again or contact support");
-	    };
-		
-};
-
-function atualizouBedDeallocation(message, actualTrip, idStudent, args, dp){
-	
-	atualizacaoEfetuada(message);
-
-	updateAllocation (args, addAllocation, dp);
-};
-
-function daysUsed(occupancies){
-	var usedDays = 0;
-    $.each(occupancies, function (i, occupancy) {
-    	if (occupancy.usedDays){
-    		usedDays = usedDays + parseInt(occupancy.usedDays);
-    	};
-    });
-	return usedDays;
-};
+		return usedDays;
+	};

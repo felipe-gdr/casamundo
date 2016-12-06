@@ -282,6 +282,103 @@ function checkDatesCall (objStudent, param, dp, objOccupancy){
     
 };
 
+function checkDates(dp, args, objStudent, usedDays){
+	
+	var actualTrip = args.e.data.actualTrip;
+	var statusCollor = "#ffff80";
+	var startTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].start, "-") + "T12:00:00");
+	var endTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].end, "-") + "T12:00:00");
+	var valid = true;
+	
+    switch (args.e.data.student.trips[actualTrip].status) {
+	case "Available":
+		resize = true
+        break;
+    case "Confirmed":
+    	resize = true
+        break;
+    case "Allocated":
+    	resize = true
+        break;
+    case "Partially allocated":
+    	resize = true
+        break;
+    case "Placement offered":
+    	resize = false
+        break;
+    case "Checked out":
+    	resize = false
+        break;
+    case "In house":
+    	resize = false
+        break;
+    case "Documents":
+    	resize = false
+        break;
+    default: 
+    	resize = false
+    };	    
+    if (!resize) {
+        args.preventDefault();
+        dp.message(
+        		"Student: " +
+        		args.e.data.student.firstName + " " + 
+        		args.e.data.student.lastName + 
+        		" - status: " + 
+        		args.e.data.student.trips[args.e.data.actualTrip].status +
+        		" cannot be resized.");
+        valid = false;
+    }else{
+    	if (DayPilot.Date(args.newStart) < DayPilot.Date(startTrip)){
+            args.preventDefault();
+            dp.message(
+            		"Student: " +
+            		args.e.data.student.firstName + " " + 
+            		args.e.data.student.lastName + 
+            		" - status: " + 
+            		args.e.data.student.trips[args.e.data.actualTrip].status +
+            		" cannot be less than start date " +
+            		new DayPilot.Date(startTrip).toString("M/d/yyyy"));
+            valid = false;
+    	};
+    	if (DayPilot.Date(args.newEnd) > DayPilot.Date(endTrip)){
+            args.preventDefault();
+            dp.message(
+            		"Student: " +
+            		args.e.data.student.firstName + " " + 
+            		args.e.data.student.lastName + 
+            		" - status: " + 
+            		args.e.data.student.trips[args.e.data.actualTrip].status +
+            		" cannot be greater than end date " +
+            		new DayPilot.Date(endTrip).toString("M/d/yyyy"));
+            valid = false;
+    	};
+    	var difDays = calculaDias (DayPilot.Date(args.newStart).getDay() + "/" + 
+    				 				(DayPilot.Date(args.newStart).getMonth() + 1) + "/" + 
+    				 				DayPilot.Date(args.newStart).getYear(), 
+    				 				DayPilot.Date(args.newEnd).getDay() + "/" + 
+    				 				(DayPilot.Date(args.newEnd).getMonth() + 1) + "/" + 
+    				 				DayPilot.Date(args.newEnd).getYear()) + 1;
+    	
+    	if ((parseInt(usedDays) + difDays) > parseInt(args.e.data.student_daysTrip)){
+            if (args.preventDefault){
+            	args.preventDefault();
+            };
+            var daysAllocatted = parseInt(usedDays) + difDays;
+            dp.message(
+            		"Student: " +
+            		args.e.data.student.firstName + " " + 
+            		args.e.data.student.lastName + 
+            		" - status: " + 
+            		args.e.data.student.trips[args.e.data.actualTrip].status +
+            		" total days allocated (" + daysAllocatted +  ") greater than total days trip (" + args.e.data.student_daysTrip +  ")");
+            valid = false;
+    	};
+    };	
+    
+    return valid;
+};
+
 function atualizouBed(message, actualTrip, idStudent, args, dp){
 
 	atualizacaoEfetuada(message);
@@ -338,6 +435,68 @@ function atualizaStudent (objStudent, args, actualTrip, dp){
 	rest_atualizaStudent(objStudent, semAcao, semAcao, "Update status student", "Problems to update status student, try again")
 	
 };
+
+function changeEvent (dp, args){
+	
+	if (args.data){
+		var data = args.data
+	}else{
+		var data = args.e.data
+	};
+	var actualTrip = data.actualTrip;
+	var statusCollor = "#ffff80";
+    switch (data.student.trips[actualTrip].status) {
+	case "Available":
+		statusCollor = "#00ff00"
+        break;
+    case "Confirmed":
+    	statusCollor = "#0080ff"
+        break;
+    case "Allocated":
+    	statusCollor = "#008a00"
+        break;;
+    case "Partially allocated":
+    	statusCollor = "#15ffff"
+        break;
+    case "Placement offered":
+    	statusCollor = "#d7d700"
+        break;
+    case "Checked out":
+    	statusCollor = "#c0c0c0"
+        break;
+    case "In house":
+    	statusCollor = "#d2d06a"
+        break;
+    case "Documents":
+    	statusCollor = "#ff8040"
+        break;
+    default: 
+    	statusCollor = "#ffff80"
+    };	    
+	args.e.backColor = statusCollor;
+	if (data.student.gender == "Male"){
+		args.e.fontColor = "#FFFFFF";
+		args.e.barColor = "#0000ff";
+		iconGender = "fa-male";
+	}else{
+		args.e.fontColor = "#ff73b9";
+		args.e.barColor = "#ff73b9";
+		iconGender = "fa-female";
+	};
+	
+	if (args.data){
+		args.data.bubbleHtml = montaMiniDashboard (args, actualTrip);
+	};
+    if (localStorage.insert == "true"){
+    	if (dp){
+    		dp.message("Included: " + args.data.text + " start: " + new DayPilot.Date(args.data.start).toString("M/d/yyyy") + " end: " + new DayPilot.Date(args.data.end).toString("M/d/yyyy"));
+    	};
+    };
+    
+	localStorage.insert = "false";
+	
+};
+
 function montaMiniDashboard (args, actualTrip){
 	
 	var bubleMiniDashboard =
@@ -488,206 +647,4 @@ function montaMiniDashboard (args, actualTrip){
 	
 	return bubleMiniDashboard;
 			
-};
-
-function checkDates(dp, args, objStudent, usedDays){
-	
-	var actualTrip = args.e.data.actualTrip;
-	var statusCollor = "#ffff80";
-	var startTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].start, "-") + "T12:00:00");
-	var endTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].end, "-") + "T12:00:00");
-	var valid = true;
-	
-    switch (args.e.data.student.trips[actualTrip].status) {
-	case "Available":
-		resize = true
-        break;
-    case "Confirmed":
-    	resize = true
-        break;
-    case "Allocated":
-    	resize = true
-        break;
-    case "Partially allocated":
-    	resize = true
-        break;
-    case "Placement offered":
-    	resize = false
-        break;
-    case "Checked out":
-    	resize = false
-        break;
-    case "In house":
-    	resize = false
-        break;
-    case "Documents":
-    	resize = false
-        break;
-    default: 
-    	resize = false
-    };	    
-    if (!resize) {
-        args.preventDefault();
-        dp.message(
-        		"Student: " +
-        		args.e.data.student.firstName + " " + 
-        		args.e.data.student.lastName + 
-        		" - status: " + 
-        		args.e.data.student.trips[args.e.data.actualTrip].status +
-        		" cannot be resized.");
-        valid = false;
-    }else{
-    	if (DayPilot.Date(args.newStart) < DayPilot.Date(startTrip)){
-            args.preventDefault();
-            dp.message(
-            		"Student: " +
-            		args.e.data.student.firstName + " " + 
-            		args.e.data.student.lastName + 
-            		" - status: " + 
-            		args.e.data.student.trips[args.e.data.actualTrip].status +
-            		" cannot be less than start date " +
-            		new DayPilot.Date(startTrip).toString("M/d/yyyy"));
-            valid = false;
-    	};
-    	if (DayPilot.Date(args.newEnd) > DayPilot.Date(endTrip)){
-            args.preventDefault();
-            dp.message(
-            		"Student: " +
-            		args.e.data.student.firstName + " " + 
-            		args.e.data.student.lastName + 
-            		" - status: " + 
-            		args.e.data.student.trips[args.e.data.actualTrip].status +
-            		" cannot be greater than end date " +
-            		new DayPilot.Date(endTrip).toString("M/d/yyyy"));
-            valid = false;
-    	};
-    	var difDays = calculaDias (DayPilot.Date(args.newStart).getDay() + "/" + 
-    				 				(DayPilot.Date(args.newStart).getMonth() + 1) + "/" + 
-    				 				DayPilot.Date(args.newStart).getYear(), 
-    				 				DayPilot.Date(args.newEnd).getDay() + "/" + 
-    				 				(DayPilot.Date(args.newEnd).getMonth() + 1) + "/" + 
-    				 				DayPilot.Date(args.newEnd).getYear()) + 1;
-    	
-    	if ((parseInt(usedDays) + difDays) > parseInt(args.e.data.student_daysTrip)){
-            if (args.preventDefault){
-            	args.preventDefault();
-            };
-            var daysAllocatted = parseInt(usedDays) + difDays;
-            dp.message(
-            		"Student: " +
-            		args.e.data.student.firstName + " " + 
-            		args.e.data.student.lastName + 
-            		" - status: " + 
-            		args.e.data.student.trips[args.e.data.actualTrip].status +
-            		" total days allocated (" + daysAllocatted +  ") greater than total days trip (" + args.e.data.student_daysTrip +  ")");
-            valid = false;
-    	};
-    };	
-    
-    return valid;
-};
-
-function changeEvent (dp, args){
-	
-	if (args.data){
-		var data = args.data
-	}else{
-		var data = args.e.data
-	};
-	var actualTrip = data.actualTrip;
-	var statusCollor = "#ffff80";
-    switch (data.student.trips[actualTrip].status) {
-	case "Available":
-		statusCollor = "#00ff00"
-        break;
-    case "Confirmed":
-    	statusCollor = "#0080ff"
-        break;
-    case "Allocated":
-    	statusCollor = "#008a00"
-        break;;
-    case "Partially allocated":
-    	statusCollor = "#15ffff"
-        break;
-    case "Placement offered":
-    	statusCollor = "#d7d700"
-        break;
-    case "Checked out":
-    	statusCollor = "#c0c0c0"
-        break;
-    case "In house":
-    	statusCollor = "#d2d06a"
-        break;
-    case "Documents":
-    	statusCollor = "#ff8040"
-        break;
-    default: 
-    	statusCollor = "#ffff80"
-    };	    
-	args.e.backColor = statusCollor;
-	if (data.student.gender == "Male"){
-		args.e.fontColor = "#FFFFFF";
-		args.e.barColor = "#0000ff";
-		iconGender = "fa-male";
-	}else{
-		args.e.fontColor = "#ff73b9";
-		args.e.barColor = "#ff73b9";
-		iconGender = "fa-female";
-	};
-	
-	if (args.data){
-		args.data.bubbleHtml = montaMiniDashboard (args, actualTrip);
-	};
-    if (localStorage.insert == "true"){
-    	if (dp){
-    		dp.message("Included: " + args.data.text + " start: " + new DayPilot.Date(args.data.start).toString("M/d/yyyy") + " end: " + new DayPilot.Date(args.data.end).toString("M/d/yyyy"));
-    	};
-    };
-    
-	localStorage.insert = "false";
-	
-};
-
-function updateAllocation (args, nextAction, dp){
-	
-	if (args.newResource){
-		var data = args.newResource;
-	}else{
-		var data = args.e.data.resource;
-	};
-	var objJson = {
-			idDorm : data.idDorm,
-			idUnit : data.idUnit,
-			idRoom : data.idRoom,
-			idBed : data.idBed,
-			idStudent : args.e.data.idStudent,
-			dormName : data.dormName,
-			unitName : data.unitName,
-			roomName : data.roomName,
-			bedName : data.bedName,
-			start : converteDayPilotDate(args.newStart,"", true),
-			end : converteDayPilotDate(args.newEnd,"", true),
-			actualTrip : args.e.data.occupancy.actualTrip
-	};
-	
-	rest_obterRoom(data.idRoom, nextAction, semAcao, objJson, "Allocated", args.e.data.occupancy.actualTrip, args, dp);
-};
-
-function deallocate (data, args, dp){
-	var objJson = {
-			idDorm : data.oldResource.idDorm,
-			idUnit : data.oldResource.idUnit,
-			idRoom : data.oldResource.idRoom,
-			idBed : data.oldResource.idBed,
-			idStudent : data.idStudent,
-			dormName : data.oldResource.dormName,
-			unitName : data.oldResource.unitName,
-			roomName : data.oldResource.roomName,
-			bedName : data.oldResource.bedName,
-			start : data.occupancy.startOccupancy,
-			end : data.occupancy.endOccupancy,
-			actualTrip : data.occupancy.actualTrip
-	};
-	
-	rest_obterRoom(data.oldResource.idRoom, deallocation, semAcao, objJson, "Allocated", data.occupancy.actualTrip, args, dp);
 };
