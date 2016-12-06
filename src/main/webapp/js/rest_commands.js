@@ -1399,6 +1399,23 @@
     	});
     };
 
+
+    function rest_deallocateBed(idStudent, actualTrip, action_ok, action_not_ok, var1, var2, var3, var4, var5, var6 ,var7) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room//deallocate/beds?idStudent="  + idStudent + "&actualTrip="  + actualTrip,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    		action_ok(data, var1, var2, var3, var4, var5, var6, var7);
+    	})
+    	.fail(function(data, var1, var2, var3, var4, var5, var6, var7) {
+    		action_not_ok
+    	})
+    	.always(function(data) {
+    	});
+    };
     //
     //**** Pickup
     //

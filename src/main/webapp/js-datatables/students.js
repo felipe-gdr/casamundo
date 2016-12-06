@@ -482,7 +482,7 @@
 
 	    			};
 	    			if ($(this).attr('data-process') == "deallocatebed") {
-	    				rest_obterRoom($(this).attr('data-idRoom'), deallocateBed, semAcao, $(this).attr('data-idStudent'), $(this).attr('data-idBed') );
+	    				deallocateBed($(this).attr('data-idStudent'), $(this).attr('data-actualTrip'));
 	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
@@ -494,7 +494,7 @@
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocanceleddorms") {
-	    				rest_obterRoom($(this).attr('data-idRoom'), deallocateBed, semAcao, $(this).attr('data-idStudent'), $(this).attr('data-idBed') );
+	    				deallocateBed($(this).attr('data-idStudent'), $(this).attr('data-actualTrip'));
 	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
@@ -565,11 +565,6 @@
 	    					rest_obterFamily($(this).attr('data-familyName'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
 	    				};
 	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
-	    			};
-	    			if ($(this).attr('data-process') == "newtripdorms") {
-	    				rest_obterRoom($(this).attr('data-idRoom'), deallocateBed, semAcao, $(this).attr('data-idStudent'), $(this).attr('data-idBed') );
-	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available");
-	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    		});
             }
@@ -646,23 +641,9 @@ function deallocateRoom (objFamily, emailStudent) {
 	
 };
 
-function deallocateBed (objRoom, idStudent, idBed) {
+function deallocateBed (idStudent, actualTrip) {
 
-    $.each(objRoom.documento.beds, function (i, bed) {
-    	if (bed.occupancies){
-	    	var excluded = false;
-	        $.each(bed.occupancies, function (w, occupancy) {
-	        	if (!excluded){
-	        		if (occupancy.idStudent == idStudent){
-	        			objRoom.documento.beds[i].occupancies.splice(w, 1);
-	        			excluded = true;
-	        		};
-	        	};
-	        });
-    	};
-    });
-
-	rest_atualizaRoom(objRoom, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Bed deallocate", "Problems to update bed, try again")
+	rest_deallocateBed(idStudent, actualTrip, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Bed deallocate", "Problems to update bed, try again")
 	
 };
 

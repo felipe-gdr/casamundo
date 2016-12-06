@@ -10,7 +10,7 @@
 		/**
 		 * 				obter os dados
 		 */
-		if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
+		if (objStudent.documento.trips[actualTrip].destination){
 			rest_obterBedsAll(montaCalendario, semAcao, 
 					objStudent.documento.trips[actualTrip].destination, 
 					objStudent.documento.trips[actualTrip].start, 
@@ -316,6 +316,7 @@ function atualizaStudent (objStudent, args, actualTrip, dp){
 	delete objStudent.rooms;
 	delete objStudent.family;
 	delete objStudent.room;
+	localStorage.nextWindow = "";
 	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Room name included", "Problems to update student, try again")
 	
 };

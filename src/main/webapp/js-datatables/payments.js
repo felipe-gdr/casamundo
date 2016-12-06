@@ -112,28 +112,22 @@
             var actualTrip = payment.actualTrip;
             var durationTrip = intervaloDatas(payment.student.trips[actualTrip].start, payment.student.trips[actualTrip].end);
             var age = calculaIdade(separaConverteDataMes(payment.student.birthDay, "/"));
+            var overdue = "";
+            if (!maiorDataHoje (payment.dueDate)){
+    			overdue = "<br><span class='text-black label-danger'>Overdue</span>";
+    		};
 			switch (payment.status) {
 	    	case "unpaid":
-	    		if (maiorDataHoje (payment.dueDate)){
-	    			statusCollor = "warning";
-	    			statusText = "unppaid $";
-	    		}else{
-	    			statusCollor = "danger";
-	    			statusText = "overdue $";    			
-	    		};
+    			statusCollor = "warning";
+    			statusText = "unppaid $";
 	            break;
 	        case "paid":
 				statusCollor = "success";
 				statusText = "paid $";
 	            break;
 	        case "approved":
-	    		if (maiorDataHoje (payment.dueDate)){
-	    			statusCollor = "primary";
-	    			statusText = "approved $";
-	    		}else{
-	    			statusCollor = "danger";
-	    			statusText = "overdue $";    			
-	    		};
+    			statusCollor = "primary";
+    			statusText = "approved $";
 	            break;
 	        default: 
 				statusCollor = "default";
@@ -284,7 +278,7 @@
     	    			"<small class='text-muted text-column'>Due Date: " + separaDataMes(payment.invoice.dueDate, "-") + "</small><br>",
        	    	"detail":
        	    			"<small class='text-muted text-column'>Profit: " + profit + "</small><br>" +
-    	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
+    	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span>" + overdue + "</small><br>" +
     	    			"<small class='text-muted text-column'>Date: " + dateIncluded + "</small><br>",
        	    	"comments":"<small class='text-muted text-column'>" + notes + "</small>",
        	    	

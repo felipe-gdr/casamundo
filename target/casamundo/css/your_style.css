@@ -75,6 +75,9 @@
  .text-column {
 	font-size: 80%!important;
 }
+ .text-black {
+	color: #000!important;
+}
  .memberList {
 	padding: 0px !important;
 }

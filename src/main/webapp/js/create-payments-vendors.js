@@ -117,7 +117,7 @@ function criaPayment(i){
 					idInvoice : $('#itemIdInvoice_' + i).val(),
 					invoiceNumber : $('#itemInvoiceNumber_' + i).val(),
 					actualTrip : $('#itemActualTrip_' + i).val(),
-					status : "new",
+					status : $('#status_' + i).val(),
 					type : $('#itemType_' + i).val(),
 					number : paymentNumber,
 					dueDate : limpaData($('#itemDueDate_' + i).val()),
@@ -188,6 +188,7 @@ function createItem(i, date, agency, destination, type){
 				'<input class="hide" type="text" id="itemIdVendor_' + i + '" name="itemIdVendor_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemDescription_' + i + '" name="itemDescription_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemDestination_' + i + '" name="itemDestination_' + i + '"  >' +
+				'<input class="hide" type="text" id="status_' + i + '" name="status_' + i + '"  >' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-1">' +
@@ -288,6 +289,7 @@ function carregaTelaPaymentInclusao(data){
 		$('#itemIdVendor_' + i).val(item.idVendor);
 		$('#itemDescription_' + i).val(item.description);
 		$('#itemDestination_' + i).val(item.destination);
+		$('#status_' + i).val("unpaid");
 		$('#itemValue_' + i).val(item.value);
 		$('#itemAmount_' + i).val(item.amount);
 		$('#itemDueDate_' + i).val(calculaData(data.student.trips[actualTrip].start, 6));
@@ -325,6 +327,7 @@ function carregaTelaPaymentAlteracao(data){
 		$('#itemIdVendor_' + i).val(data.documento.idVendor);
 		$('#itemDescription_' + i).val(item.description);
 		$('#itemDestination_' + i).val(data.documento.destination);
+		$('#status_' + i).val(data.documento.status);
 		$('#itemValue_' + i).val(item.value);
 		$('#itemAmount_' + i).val(item.amount);
 		$('#itemDueDate_' + i).val(separaDataMes(data.documento.dueDate, "-"));

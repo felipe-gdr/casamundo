@@ -1,4 +1,10 @@
 //
+//*** 	limpar variáveis globais
+//
+	var url   = window.location.search.replace();
+	localStorage.nextWindow = "";
+	localStorage.actualUrl = url;
+//
 //*** 	botão genérico para voltar uma pagina
 //
 	$( ".getback" ).bind( "click", function() {
@@ -567,9 +573,10 @@ function calculaIdade ( dataNascimento ) {
 			iconSmall : "fa fa-check fa-2x fadeInRight animated",
 			timeout : 4000
 		});
-		if (localStorage.nextWindow){}
+		if (localStorage.nextWindow){
     		$(window.document.location).attr('href',localStorage.nextWindow);
 		};
+	};
 	function atualizacaoNaoEfetuada(message) {
 		if (!message){
 			message = "An error occurred while recording , try again";

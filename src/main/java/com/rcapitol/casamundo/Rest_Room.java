@@ -396,6 +396,71 @@ public class Rest_Room {
 		return null;
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Path("/deallocate/beds")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response DeallocateBed(@QueryParam("idStudent") String idStudent, @QueryParam("actualTrip") String actualTrip) {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			DBCollection collection = db.getCollection("room");
+			BasicDBObject setQuery = new BasicDBObject();
+			if (idStudent != null){
+				setQuery.put("documento.beds.occupancies.idStudent", idStudent);
+			};
+			if (actualTrip != null){
+				setQuery.put("documento.beds.occupancies.actualTrip", actualTrip);
+			};
+
+			DBCursor cursor = collection.find(setQuery);
+			//
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				List<JSONObject> beds = (List) objRoom.get("beds");
+				JSONArray newBeds = new JSONArray();
+				for(JSONObject bed : beds){
+					JSONObject newBed = bed;
+					JSONArray newOccupancies = new JSONArray();
+					List<JSONObject> occupancies = (List) bed.get("occupancies");
+					if (occupancies != null){
+						for(JSONObject occupancy : occupancies){
+							String idStudentOccupancy = (String) occupancy.get("idStudent");
+							String actualTripOccupancy = (String) occupancy.get("actualTrip");
+							if (idStudentOccupancy.equals(idStudent) &&	actualTripOccupancy.equals(actualTrip)) {
+
+							}else{
+								newOccupancies.add(occupancy);
+							};
+						};
+					};
+					newBed.put("occupancies", newOccupancies);
+					newBeds.add(bed);
+				};
+				objRoom.put("beds", newBeds);
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objRoom));
+				setQuery = new BasicDBObject("_id", objRoom.get("_id"));
+				@SuppressWarnings("unused")
+				DBObject cursorUpdate = collection.findAndModify(setQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+			};
+			mongo.close();
+			return Response.status(200).entity("ok").build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return Response.status(500).entity("not ok").build();
+	};
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public JSONArray carregaAlocacoes(String idStudent, String actualTrip, String startOccupancy, String endOccupancy) {
 		Commons commons = new Commons();
 		Mongo mongo;

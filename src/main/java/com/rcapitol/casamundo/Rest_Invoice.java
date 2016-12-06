@@ -566,6 +566,7 @@ public class Rest_Invoice {
 				itemCost.put("dueDate", commons.calcNewDate(date, 6));
 				itemCost.put("destination", destination);
 				JSONArray itens = new JSONArray();
+				JSONArray notes = new JSONArray();
 				JSONObject item = new JSONObject();
 				item.put("item", itemInvoice.get("item"));
 				item.put("amount", itemInvoice.get("amount"));
@@ -630,6 +631,7 @@ public class Rest_Invoice {
 					itemCost.put("type", type);
 					itemCost.put("amount", Double.toString(amountValue));
 					itemCost.put("itens", itens);
+					itemCost.put("notes", notes);
 
 					//
 					// ** incluir novo custo

@@ -109,15 +109,14 @@
             };	    
             var durationTrip = intervaloDatas(invoice.trip.start, invoice.trip.end);
             var age = calculaIdade(separaConverteDataMes(invoice.student.birthDay, "/"));
+            var overdue = "";
+            if (!maiorDataHoje (invoice.dueDate)){
+    			overdue = "<br><span class='text-black label-danger'>Overdue</span>";
+    		};
 			switch (invoice.status) {
 	    	case "unpaid":
-	    		if (maiorDataHoje (invoice.dueDate)){
-	    			statusCollor = "warning";
-	    			statusText = "unppaid $";
-	    		}else{
-	    			statusCollor = "danger";
-	    			statusText = "overdue $";    			
-	    		};
+    			statusCollor = "warning";
+    			statusText = "unppaid $";
 	            break;
 	        case "paid":
 				statusCollor = "success";
@@ -253,7 +252,7 @@
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(invoice.trip.end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
     	    	"invoice":
-    	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span></small><br>" +
+    	    			"<small class='text-column'><span class='text-muted'>Status: </span><span class='text-black label-" + statusCollor + "'>" + statusText + "</span>" + overdue + "</small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + invoice.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + invoice.amountNet + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(invoice.dueDate,"-") + "</small><br>",
