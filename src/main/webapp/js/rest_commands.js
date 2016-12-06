@@ -1337,7 +1337,7 @@
     };
 
 
-    function rest_AtualizaBed(objJson, action_ok, action_not_ok, message) {
+    function rest_atualizaBed(objJson, action_ok, action_not_ok, message) {
     	delete objJson["_id"];
 		$.ajax({
 			type: "POST",
@@ -1402,7 +1402,7 @@
 
     function rest_deallocateBed(idStudent, actualTrip, action_ok, action_not_ok, var1, var2, var3, var4, var5, var6 ,var7) {
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room//deallocate/beds?idStudent="  + idStudent + "&actualTrip="  + actualTrip,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/deallocate/beds?idStudent="  + idStudent + "&actualTrip="  + actualTrip,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
@@ -1416,7 +1416,29 @@
     	.always(function(data) {
     	});
     };
-    //
+
+    
+    function rest_reallocateBed (objJson, action_ok, action_notOk, messageOk, messageNotOk, var1, var2, var3, var4, var5, var6) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/reallocate/bed",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (messageOk, var1, var2, var3, var4, var5, var6);
+        	}else{
+        		actio_not_ok(messageNotOk, var1, var2, var3, var4, var5, var6)
+        	};
+       	});
+    };
+//
     //**** Pickup
     //
 

@@ -418,14 +418,16 @@ public class Rest_Room {
 			//
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-				List<JSONObject> beds = (List) objRoom.get("beds");
+				BasicDBObject documento = (BasicDBObject) objRoom.get("documento");
+				List<BasicDBObject> beds = (List) documento.get("beds");
 				JSONArray newBeds = new JSONArray();
-				for(JSONObject bed : beds){
-					JSONObject newBed = bed;
+				for(BasicDBObject bed : beds){
+					BasicDBObject newBed = new BasicDBObject(bed);
+					newBed.remove("occupancies");
 					JSONArray newOccupancies = new JSONArray();
-					List<JSONObject> occupancies = (List) bed.get("occupancies");
+					List<BasicDBObject> occupancies = (List) bed.get("occupancies");
 					if (occupancies != null){
-						for(JSONObject occupancy : occupancies){
+						for(BasicDBObject occupancy : occupancies){
 							String idStudentOccupancy = (String) occupancy.get("idStudent");
 							String actualTripOccupancy = (String) occupancy.get("actualTrip");
 							if (idStudentOccupancy.equals(idStudent) &&	actualTripOccupancy.equals(actualTrip)) {
@@ -436,9 +438,12 @@ public class Rest_Room {
 						};
 					};
 					newBed.put("occupancies", newOccupancies);
-					newBeds.add(bed);
+					newBeds.add(newBed);
 				};
-				objRoom.put("beds", newBeds);
+				objRoom.remove("documento");
+				documento.remove("beds");
+				documento.put("beds", newBeds);
+				objRoom.put("documento", documento);
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objRoom));
 				setQuery = new BasicDBObject("_id", objRoom.get("_id"));
 				@SuppressWarnings("unused")
@@ -449,6 +454,152 @@ public class Rest_Room {
 		                update,
 		                true,
 		                false);
+			};
+			mongo.close();
+			return Response.status(200).entity("ok").build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return Response.status(500).entity("not ok").build();
+	};
+
+
+	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+	@Path("/reallocate/bed")	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response ReallocateBed(JSONObject param)  {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			
+			String idStudent = (String) param.get("idStudent");
+			String actualTrip = (String) param.get("actualTrip");
+			String newIdBed = (String) param.get("newIdBed");
+			String newIdRoom = (String) param.get("newIdRoom");
+			String newStart = (String) param.get("newStart");
+			String newEnd = (String) param.get("newEnd");
+			String oldStart = (String) param.get("oldStart");
+			String oldEnd = (String) param.get("oldEnd");
+			
+			BasicDBObject newOccupancy = new BasicDBObject();
+			newOccupancy.put("idStudent", idStudent);
+			newOccupancy.put("actualTrip", actualTrip);
+			newOccupancy.put("startOccupancy", param.get("newStart"));
+			newOccupancy.put("endOccupancy", param.get("newEnd"));
+			DBCollection collection = db.getCollection("room");
+			BasicDBObject setQuery = new BasicDBObject();
+
+			Boolean mustDealocate = false;
+			Boolean dealocate = false;
+			if (!oldStart.equals("") && !newStart.equals("")){
+				mustDealocate = true;	
+			}else{
+				if (oldStart.equals("")){
+					mustDealocate = true;
+					dealocate = true;
+				};
+			};
+			if (!oldStart.equals("")){
+				//
+				//*** remover alocação antiga
+				//
+				setQuery.put("documento.beds.occupancies.idStudent", idStudent);
+				setQuery.put("documento.beds.occupancies.actualTrip", actualTrip);
+				setQuery.put("documento.beds.occupancies.startOccupancy", oldStart);
+				setQuery.put("documento.beds.occupancies.endOccupancy", oldEnd);
+	
+				DBCursor cursor = collection.find(setQuery);
+				//
+				while (((Iterator<DBObject>) cursor).hasNext()) {
+					BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+					BasicDBObject documento = (BasicDBObject) objRoom.get("documento");
+					List<BasicDBObject> beds = (List) documento.get("beds");
+					JSONArray newBeds = new JSONArray();
+					for(BasicDBObject bed : beds){
+						BasicDBObject newBed = new BasicDBObject(bed);
+						newBed.remove("occupancies");
+						JSONArray newOccupancies = new JSONArray();
+						List<BasicDBObject> occupancies = (List) bed.get("occupancies");
+						if (occupancies != null){
+							for(BasicDBObject occupancy : occupancies){
+								String idStudentOccupancy = (String) occupancy.get("idStudent");
+								String actualTripOccupancy = (String) occupancy.get("actualTrip");
+								String startOccupancy = (String) occupancy.get("startOccupancy");
+								String endOccupancy = (String) occupancy.get("endOccupancy");
+								if (idStudentOccupancy.equals(idStudent) &&	actualTripOccupancy.equals(actualTrip) && 
+									startOccupancy.equals(oldStart) &&	endOccupancy.equals(oldEnd)	) {
+									dealocate = true;
+								}else{
+									newOccupancies.add(occupancy);
+								};
+							};
+						};
+						newBed.put("occupancies", newOccupancies);
+						newBeds.add(newBed);
+					};
+					objRoom.remove("documento");
+					documento.remove("beds");
+					documento.put("beds", newBeds);
+					objRoom.put("documento", documento);
+					BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objRoom));
+					setQuery.clear();
+					setQuery = new BasicDBObject("_id", objRoom.get("_id"));
+					DBObject cursorUpdate = collection.findAndModify(setQuery,
+			                null,
+			                null,
+			                false,
+			                update,
+			                true,
+			                false);
+				};
+			};
+			if (mustDealocate && dealocate){
+				if (!newStart.equals("")){
+					//
+					//*** fazer nova alocação
+					//
+					setQuery.clear();
+					ObjectId idRoom = new ObjectId(newIdRoom);
+					setQuery = new BasicDBObject("_id", idRoom);
+		
+					DBCursor cursor = collection.find(setQuery);
+					//
+					while (((Iterator<DBObject>) cursor).hasNext()) {
+						BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+						BasicDBObject documento = (BasicDBObject) objRoom.get("documento");
+						List<BasicDBObject> beds = (List) documento.get("beds");
+						JSONArray newBeds = new JSONArray();
+						for(BasicDBObject bed : beds){
+							List<BasicDBObject> occupancies = (List) bed.get("occupancies");
+							if (newIdBed.equals(bed.getString("id"))){
+								occupancies.add(newOccupancy);
+							};
+							objRoom.remove("occupancies");
+							bed.put("occupancies", occupancies);
+							newBeds.add(bed);
+						};
+						objRoom.remove("documento");
+						documento.remove("beds");
+						documento.put("beds", newBeds);
+						objRoom.put("documento", documento);
+						BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objRoom));
+						setQuery.clear();
+						setQuery = new BasicDBObject("_id", objRoom.get("_id"));
+						DBObject cursorUpdate = collection.findAndModify(setQuery,
+				                null,
+				                null,
+				                false,
+				                update,
+				                true,
+				                false);
+					};
+				};
+			}else{
+				System.out.println("newStart: " + newStart + " newEnd: " + newEnd +  " oldStart: " + oldStart + " oldEnd: " + oldEnd);
 			};
 			mongo.close();
 			return Response.status(200).entity("ok").build();

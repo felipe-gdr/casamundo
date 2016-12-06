@@ -252,16 +252,6 @@ function atualizouBedDeallocation(message, actualTrip, idStudent, args, dp){
 	updateAllocation (args, addAllocation, dp);
 };
 
-function atualizouBed(message, actualTrip, idStudent, args, dp){
-
-	atualizacaoEfetuada(message);
-
-	updateAllocation (args, semAcao, dp);
-
-	rest_obterStudent(null, atualizaStudent, semAcao, args, actualTrip, actualTrip, idStudent, dp )
-	
-};
-
 function daysUsed(occupancies){
 	var usedDays = 0;
     $.each(occupancies, function (i, occupancy) {
@@ -270,53 +260,4 @@ function daysUsed(occupancies){
     	};
     });
 	return usedDays;
-};
-
-function atualizaStudent (objStudent, args, actualTrip, dp){
-    //
-    //**** verificar o fim das alocações das datas parciais informadas
-    //
-    var initialDateOk = false;
-    var endDateOk = false;
-
-    var daysTrip = calculaDias(separaConverteDataMes(objStudent.documento.trips[actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[actualTrip].end, "/")) + 1;
-
-	var daysOccupancy = 0;
-    if (objStudent.rooms_actualTrip != null && objStudent.rooms_actualTrip != ""){
-	    $.each(objStudent.rooms_actualTrip, function (i, room) {
-		    daysOccupancy = daysOccupancy + parseInt(room.usedDays);
-	    });
-	};
-
-	if (daysOccupancy < daysTrip){
-		status = "Partially allocated";
-	}else{
-		status = "Allocated";
-	};
-
-	//
-	//*** atualiza status do evento
-	//
-	args.e.data.student.trips[actualTrip].status = status;
-	localStorage.insert == "false";
-	changeEvent (null, args);
-	dp.events.update(args.e, args.e.data);
-	//
-	//*** atualiza dados do quarto no estudante
-	//
-	var objStudent = JSON.parse(localStorage.getItem("student"));
-	objStudent.documento.trips[actualTrip].idRoom = "";
-	objStudent.documento.trips[actualTrip].idBed = "";
-	objStudent.documento.trips[actualTrip].dormName = "";
-	objStudent.documento.trips[actualTrip].unitName = "";
-	objStudent.documento.trips[actualTrip].roomName = "";
-	objStudent.documento.trips[actualTrip].bedName = "";
-	objStudent.documento.trips[actualTrip].status = status;
-	delete objStudent.contact;
-	delete objStudent.rooms;
-	delete objStudent.family;
-	delete objStudent.room;
-	localStorage.nextWindow = "";
-	rest_atualizaStudent(objStudent, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Room name included", "Problems to update student, try again")
-	
 };
