@@ -1520,107 +1520,67 @@
 							</div>
 							<!-- end widget content -->
 						</article>
-						<article class="col-sm-12 col-md-12 col-lg-12 hide pageBeds">
+						<article class="col-sm-12 col-md-12 col-lg-12 hide accommodations-student">
 
-							<div class="jarviswidget jarviswidget-color-blue notAccommodation notOnlyStudent notChange" id="wid-id-27" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+							<!-- new widget -->
+							<div class="jarviswidget jarviswidget-color-blue" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+
+								<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+
+								-->
+
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Beds</h2>
+									<h2>Accommodations</h2>
 									<div class="widget-toolbar">
 										<!-- add: non-hidden - to disable auto hide -->
 									</div>
 								</header>
-								<div class="widget row hide">
-									<div class="col-sm-12">
-										<h2><span class="semi-bold">Filters</span><br>
-										</h2>
-										<span class='text-muted'>(Click in a button to change the filters, green applied, blue not applied)</span><br>
-			
-										<tr>
-											<td><a id="filter_occupancy" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_occupancy_check" class="fa fa-check"></i>Occupancy</a></td>
-											<td><a id="filter_privateWashroom" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_privateWashroom_check" class="fa fa-check"></i>Private Washroom</a></td>
-											<td><a id="filter_gender" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_gender_check" class="fa fa-check"></i>Gender</a></td>
-											<td><a id="filter_age" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_age_check" class="fa fa-check"></i>Age</a></td>
-											<td><a id="filter_smoke" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_smoke_check" class="fa fa-check"></i>Smoke</a></td>
-											<td><a id="filter_dogs" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_dogs_check" class="fa fa-check"></i>Dogs</a></td>
-											<td><a id="filter_cats" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_cats_check" class="fa fa-check"></i>Cats</a></td>
-											<td><a id="filter_nationality" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_nationality_check" class="fa fa-check"></i>Nationality</a></td>
-											<td><a id="filter_mealPlan" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_mealPlan_check" class="fa fa-check"></i>Meal</a></td>
-											<td><a id="filter_specialDiet" class="btn btn-success btn-xs" href="javascript:void(0);"><i id="filter_specialDiet_check" class="fa fa-check"></i>Special Diet</a></td>
-										</tr>
+
+								<!-- widget div-->
+								<div>
+									
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox hide">
+										<!-- This area used as dropdown edit box -->
+										<input class="form-control" type="text">	
 									</div>
-								</div>
-								<div class="col-sm-12">
-									<!-- widget div-->
-									<div>
-										<!-- widget edit box -->
-										<div class="jarviswidget-editbox">
-											<!-- This area used as dropdown edit box -->
-											<input class="form-control" type="text">	
-										</div>
-										<!-- end widget edit box -->
+									<!-- end widget edit box -->
+									
+									<!-- widget content -->
+									<div class="widget-body no-padding">
 										
-										<!-- widget content -->
-										<div class="widget-body no-padding">
-											
-											<table id="rooms_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-										        <thead>
-													<tr class="">
-														<th class="hasinput" >
-														</th>
-														<th class="hasinput" >
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_dorm" type="text" class="form-control text-filter-bed" placeholder="Building" />
-																</section>
-															</div>
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_uni" type="text" class="form-control text-filter-bed" placeholder="Unit" />
-																</section>
-															</div>
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_room" type="text" class="form-control text-filter-bed" placeholder="Room" />
-																</section>
-															</div>
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_bed" type="text" class="form-control text-filter-bed" placeholder="Bed" />
-																</section>
-															</div>
-															<div class="row">							
-																<section class="col-xs-12">							
-																	<input id="filters_availability" type="text" class="form-control text-filter-bed" placeholder="Availability" />
-																</section>
-															</div>
-														</th>
-														<th class="hasinput" >
-														</th>
-														<th class="hasinput" >
-														</th>
-														<th class="hasinput" >
-														</th>
-														<th class="hasinput" >
-														</th>
-													</tr>
-										            <tr>
-										                <th></th>
-										                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>Building</th>
-										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i>Current</th>
-										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
-										                <th><i class="fa fa-fw fa-tags text-muted hidden-md hidden-sm hidden-xs"></i>Next</th>
-										                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
-										            </tr>
-										        </thead>
-										    </table>
-										</div>
-										<!-- end widget content -->
+										<table id="accommodations_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									        <thead>
+									            <tr>
+									                <th></th>
+									                <th class="text-column"><i class="fa fa-fw fa-home text-muted hidden-md hidden-sm hidden-xs"></i>Accommodations</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
+									                <th class="text-column"><i class="fa fa-fw fa-dollar text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
+									                <th class="text-column"><i class="fa fa-fw fa-home text-muted hidden-md hidden-sm hidden-xs"></i>Institution</th>
+									                <th class="text-column"><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
+									            </tr>
+									        </thead>
+									    </table>
+
 									</div>
-								<!-- end widget content -->
+									<!-- end widget content -->
+									
 								</div>
+								<!-- end widget div -->
+
 							</div>
-							<!-- end widget content -->
+							<!-- end widget -->
 						</article>
 
 					</div>
@@ -1902,6 +1862,7 @@
 		<script src="js/family-commons.js"></script>
 		<script src="js-datatables/accommodation-family.js"></script>
 		<script src="js-datatables/accommodation-room.js"></script>
+		<script src="js-datatables/students-accommodations.js"></script>
 		<script src="js/student.js"></script>
 		<script src="js/bed-commons.js"></script>
 

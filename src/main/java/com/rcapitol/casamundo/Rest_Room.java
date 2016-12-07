@@ -624,7 +624,7 @@ public class Rest_Room {
 			if (idStudent != null){
 				setQuery.put("documento.beds.occupancies.idStudent", idStudent);
 			};
-			if (actualTrip != null){
+			if (actualTrip != null && !actualTrip.equals("")){
 				setQuery.put("documento.beds.occupancies.actualTrip", actualTrip);
 			};
 
@@ -635,6 +635,7 @@ public class Rest_Room {
 				JSONParser parser = new JSONParser(); 
 				BasicDBObject objRoom = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
 				String documento = objRoom.getString("documento");
+				BasicDBObject room = (BasicDBObject) objRoom.get("documento");
 				try {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
@@ -656,6 +657,12 @@ public class Rest_Room {
 									};
 								};
 								if (idStudentOccupancy.equals(idStudent)) {
+									occupancy.put ("local", "dorms");
+									occupancy.put ("dorm", room.get("dormName"));
+									occupancy.put ("unit", room.get("unitName"));
+									occupancy.put ("room", room.get("name"));
+									occupancy.put ("bed", room.get("dormName"));
+									occupancy.put ("familyName", "");
 									jsonOccupancy.put("occupancy_all", occupancy);
 									documentos.add(jsonOccupancy);
 								};

@@ -134,5 +134,5 @@
 /**
  * 
  */
-	rest_obterStudent(mailUrl, carregaStudent, obtencaoNaoEfetuada, typePage, actualTrip, actualTrip );
+	rest_obterStudent(mailUrl, carregaStudent, obtencaoNaoEfetuada, typePage, actualTrip, actualTrip, null, "complementaDados" );
     

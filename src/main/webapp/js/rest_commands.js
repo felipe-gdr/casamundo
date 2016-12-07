@@ -44,16 +44,22 @@
     };
 
     function rest_obterStudent(email, action_ok, action_not_ok, var1, var2, actualTrip, idStudent, var3, var4) {
+    	var parametro = "";
+    	if (var3){
+    		if (var3 == "complementaDados"){
+    			parametro = "&complementaDados=true"
+    		};
+    	};
     	var	idStudentParam = "null";
        	if (idStudent){
-    		idStudentParam = idStudent;
+    		idStuentParam = idStudent;
     	};
     	var	emailParam = "null";
        	if (email){
        		emailParam = email;
     	};
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail=" + emailParam + "&actualTrip=" + actualTrip + "&idStudent=" + idStudentParam,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/obterEmail?mail=" + emailParam + "&actualTrip=" + actualTrip + "&idStudent=" + idStudentParam + parametro,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false
@@ -110,6 +116,7 @@
     	delete objJson["contact"];
     	delete objJson["rooms_actualTrip"];
     	delete objJson["family"];
+    	delete objJson["accommodations"];
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",

@@ -47,7 +47,7 @@ public class Rest_Student {
 	@Path("/obterEmail")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterEmail(@QueryParam("mail") String mail, @QueryParam("actualTrip") String actualTripParam, @QueryParam("idStudent") String idStudentParam) {
+	public JSONObject ObterEmail(@QueryParam("mail") String mail, @QueryParam("actualTrip") String actualTripParam, @QueryParam("idStudent") String idStudentParam, @QueryParam("complementaDados") Boolean complementaDados) {
 		Rest_Room rest_room = new Rest_Room();
 		Mongo mongo;
 		try {
@@ -141,6 +141,55 @@ public class Rest_Student {
 				if (actualTripParam != null){
 					JSONArray objOccupancy = rest_room.carregaAlocacoes(idStudent, actualTripParam, "", "");
 					documento.put("rooms_actualTrip", objOccupancy);
+				};
+				if (complementaDados != null){
+					JSONArray objOccupancy_all = rest_room.carregaAlocacoes(idStudent, "" , "", "");
+					List trips = (List) jsonObject.get("trips");
+					BasicDBObject newDocumento = (BasicDBObject) documento.get("documento");
+					newDocumento.remove("trips");
+					JSONArray newTrips = new JSONArray();
+					int y = 0;
+					while (y < trips.size()) {
+						JSONObject jsonTrip = (JSONObject) trips.get(y);
+						String agencyName = (String) jsonTrip.get("agencyName");
+						if (agencyName != null && !agencyName.equals("")){
+							JSONObject agencyData = agencyData(agencyName);
+							if (agencyData != null){
+								jsonTrip.put("agency", agencyData);
+							};
+						};
+						String schoolName = (String) jsonTrip.get("schoolName");
+						if (schoolName != null && !schoolName.equals("")){
+							JSONObject schoolData = schoolData(schoolName);
+							if (schoolData != null){
+								jsonTrip.put("school", schoolData);
+							};
+						};
+						newTrips.add(jsonTrip);
+						if (jsonTrip.get("familyName") != null && !jsonTrip.get("familyName").equals("")){
+							JSONObject jsonOccupancy = new JSONObject();
+							JSONObject occupancy = new JSONObject();
+							occupancy.put ("idStudent", idStudent);
+							occupancy.put ("actualTrip", y);
+							occupancy.put ("startOccupancy", jsonTrip.get("start"));
+							occupancy.put ("endOccupancy", jsonTrip.get("end"));
+							occupancy.put ("local", "family");
+							occupancy.put ("local", "family");
+							occupancy.put ("local", "family");
+							occupancy.put ("local", "family");
+							occupancy.put ("dorm", "");
+							occupancy.put ("unit", "");
+							occupancy.put ("room", "");
+							occupancy.put ("bed", "");
+							occupancy.put ("familyName", jsonTrip.get("familyName"));
+							jsonOccupancy.put("occupancy_all", occupancy);
+							objOccupancy_all.add(jsonOccupancy);
+						};
+						++y;
+					};
+					documento.put("accommodations", objOccupancy_all);
+					newDocumento.put("trips", newTrips);
+					documento.put("documento", newDocumento);
 				};
 				return documento;
 			} catch (ParseException e) {
@@ -660,7 +709,66 @@ public class Rest_Student {
 		return false;
 		
 	};
+		
+	@SuppressWarnings({ "unchecked" })
+	private JSONObject agencyData (String agencyName){
+
+		Mongo mongoAgency;
+		try {
+			JSONObject docAgency = new JSONObject();
+			mongoAgency = new Mongo();
+			DB dbAgency = (DB) mongoAgency.getDB("documento");
+			DBCollection collectionAgency = dbAgency.getCollection("agency");
+			BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
+			DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
+			if (cursorAgency != null){
+				BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+				docAgency.put("name", (String) obj.get("name"));
+				docAgency.put("sigla", (String) obj.get("agencySigla"));
+				docAgency.put("phone", (String) obj.get("agencyPhone"));
+				docAgency.put("email", (String) obj.get("agencyEmail"));						
+			};
+			mongoAgency.close();
+			return docAgency;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		};
+		return null;
+		
+	};
 	
+@SuppressWarnings({ "unchecked" })
+private JSONObject schoolData (String schoolName){
+
+	Mongo mongoSchool;
+	try {
+		mongoSchool = new Mongo();
+		DB dbSchool = (DB) mongoSchool.getDB("documento");
+		DBCollection collectionSchool = dbSchool.getCollection("school");
+		BasicDBObject searchQuerySchool = new BasicDBObject("documento.name", schoolName);
+		DBObject cursorSchool = collectionSchool.findOne(searchQuerySchool);
+		JSONObject docSchool = new JSONObject();
+		if (cursorSchool != null){
+			BasicDBObject obj = (BasicDBObject) cursorSchool.get("documento");
+			docSchool.put("name", (String) obj.get("name"));
+			docSchool.put("sigla", (String) obj.get("sigla"));
+			docSchool.put("celPhone", (String) obj.get("celPhone"));
+			docSchool.put("phone", (String) obj.get("phone"));
+			docSchool.put("email", (String) obj.get("email"));						
+		}
+		mongoSchool.close();
+		return docSchool;
+	} catch (UnknownHostException e) {
+		e.printStackTrace();
+	} catch (MongoException e) {
+		e.printStackTrace();
+	};
+	return null;
+	
+};
+
 	@SuppressWarnings("rawtypes")
 	public Boolean checkFilters (String filters, JSONObject objJson, String agencySigla, String schoolSigla){
 		JSONObject jsonTrip =  (JSONObject) objJson.get("trip");
@@ -960,4 +1068,5 @@ public class Rest_Student {
 		return null;
 		
 	};
+	
 };
