@@ -95,6 +95,23 @@
     	});
     };
     
+    function rest_obterStudentAccommodations(familyName, action_ok, action_notOk, var1, var2, var3, var4) {
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/lista/accommodations?familyName=" + familyName,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function( data ) {
+    		action_ok(data, var1, var2, var3, var4);
+    	})
+    	.fail(function(data) {
+    		action_notOk(data, var1, var2, var3, var4);
+    	})
+    	.always(function(data) {
+    	});
+    };
+    
     function rest_changeStatus(action_ok, action_notOk, objJson ) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/changeStatus?params=mail:" + objJson.mail + "/indexTrip:" + objJson.indexTrip + "/status:" + status + "/familyName:" + objJson.familyName + "/emailFamily:" + objJson.emailFamily + "/reason:" + objJson.reason,

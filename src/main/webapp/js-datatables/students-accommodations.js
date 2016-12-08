@@ -10,7 +10,7 @@
 		    '</tr>'+
 	    '</table>';
 	};
-	function carregaAccommodationsStudents (objJson) {
+	function carregaAccommodationsStudents (objJson, origem) {
 
     	/* BASIC datatables*/
 
@@ -76,49 +76,15 @@
         
         if (objJson.accommodations){
 	        $.each(objJson.accommodations, function (i, accommodation) {
+	        	if (origem == "family"){
+	        		objJson.documento = accommodation.documento;
+	        	};
 		        var actualTrip = accommodation.occupancy_all.actualTrip;
-	        	switch (objJson.documento.trips[actualTrip].status) {
-	        	case "Available":
-	        		statusCollor = "label-available"
-	                break;
-	        	case "Partially allocated":
-	        		statusCollor = "label-partially-allocated"
-	                break;
-	            case "Confirmed":
-	            	statusCollor = "label-confirmed"
-	                break;
-	            case "In house":
-	            	statusCollor = "label-in-house"
-	                break;
-	            case "Allocated":
-	            	statusCollor = "label-allocated"
-	                break;
-	            case "Placement offered":
-	            	statusCollor = "label-placement-offered"
-	                break;
-	            case "Documentos":
-	            	statusCollor = "label-documentos"
-	                break;
-	            case "Checked out":
-	            	statusCollor = "label-terminated"
-	                break;
-	            default: 
-	        		statusCollor = "#ffffff"
-	            };	    
+	            var statusCollor = statusCollorDef (objJson.documento.trips[actualTrip].status);
+	            var age = calculaIdade(separaConverteDataMes(objJson.documento.birthDay, "/"));
 	            var durationTrip = intervaloDatas(accommodation.occupancy_all.startOccupancy, accommodation.occupancy_all.endOccupancy);
-	        	switch (objJson.documento.trips[actualTrip].smoke) {
-	        	case "Yes":
-	        		smokeCollor = "label-warning"
-	        		smokeText = "Smoke"
-	                break;
-	            case "No":
-	            	smokeCollor = "label-success"
-	            	smokeText = "Don't smoke"
-	                break;
-	            default: 
-	        		smokeCollor = "label-primary"
-	        		smokeText = ""
-	            };	 
+	            var smokeCollor = smokeCollorDef (objJson.documento.trips[actualTrip].smoke);
+	            var smokeText = smokeTextDef (objJson.documento.trips[actualTrip].smoke);
 	            if (objJson.documento.trips[actualTrip].medical){
 	            	medicalCollor = "label-warning";
 	            	medicalText = objJson.documento.trips[actualTrip].medical;
@@ -150,6 +116,7 @@
 	            	liveCatsCollor = "label-warning";
 	            	liveCatsText = "Don't live with cats";
 	            };
+	            var genderCollor = genderCollorDef (objJson.documento.gender);
 	            var specialDiet = "";
 	            if (objJson.documento.trips[actualTrip].specialDiet[0]){
 				    $.each(objJson.documento.trips[actualTrip].specialDiet, function (i, value) {
@@ -186,42 +153,61 @@
 		        if (objJson.documento.trips[actualTrip].dropoff == "Yes"){
 		        	dropoffCollor = "danger";
 		        }
-			    var accommodations = "Not yet acomodate";
-			    if (accommodation.occupancy_all.local == "family"){
-		        	var familyName = "";
-		        	if (accommodation.occupancy_all.familyName){
-		        		familyName = accommodation.occupancy_all.familyName;
-		        	};
-		        	accommodations = "<small class='text-muted text-column'>Host: </small><small class='text-bold text-column'>" + familyName + "</small><br>";
-		        };
-		        if (accommodation.occupancy_all.local == "dorms"){
-		        	var dormName = "";
-		        	if (accommodation.occupancy_all.dorm){
-		        		dormName = accommodation.occupancy_all.dorm;
-		        	};
-		        	var unitName = "";
-		        	if (accommodation.occupancy_all.unit){
-		        		unitName = accommodation.occupancy_all.unit;
-		        	};
-		        	var roomName = "";
-		        	if (accommodation.occupancy_all.room){
-		        		roomName = accommodation.occupancy_all.room;
-		        	};
-		        	var bedName = "";
-		        	if (accommodation.occupancy_all.bed){
-		        		bedName = accommodation.occupancy_all.bed;
-		        	};
-		        	accommodations = "<small class='text-muted text-column'>Dorm: </small><small class='text-bold text-column'>" + dormName + "</small><br>" +
-		        					"<small class='text-muted text-column'>Unit: </small><small class='text-bold text-column'>" + unitName + "</small><br>" +
-		        					"<small class='text-muted text-column'>Room: </small><small class='text-bold text-column'>" + roomName + "</small><br>" +
-									"<small class='text-muted text-column'>Bed: </small><small class='text-bold text-column'>" + bedName + "</small><br>";
-		        	
-		        };
+			    var accommodations = "";
+			    if (origem == "student"){
+				    if (accommodation.occupancy_all.local == "family"){
+			        	var familyName = "";
+			        	if (accommodation.occupancy_all.familyName){
+			        		familyName = accommodation.occupancy_all.familyName;
+			        	};
+			        	accommodations = "<small class='text-muted text-column'>Host: </small><small class='text-bold text-column'>" + familyName + "</small><br>";
+			        };
+			        if (accommodation.occupancy_all.local == "dorms"){
+			        	var dormName = "";
+			        	if (accommodation.occupancy_all.dorm){
+			        		dormName = accommodation.occupancy_all.dorm;
+			        	};
+			        	var unitName = "";
+			        	if (accommodation.occupancy_all.unit){
+			        		unitName = accommodation.occupancy_all.unit;
+			        	};
+			        	var roomName = "";
+			        	if (accommodation.occupancy_all.room){
+			        		roomName = accommodation.occupancy_all.room;
+			        	};
+			        	var bedName = "";
+			        	if (accommodation.occupancy_all.bed){
+			        		bedName = accommodation.occupancy_all.bed;
+			        	};
+			        	accommodations = 
+			        					"<small class='text-muted text-column'>Dorm: </small><small class='text-bold text-column'>" + dormName + "</small><br>" +
+			        					"<small class='text-muted text-column'>Unit: </small><small class='text-bold text-column'>" + unitName + "</small><br>" +
+			        					"<small class='text-muted text-column'>Room: </small><small class='text-bold text-column'>" + roomName + "</small><br>" +
+										"<small class='text-muted text-column'>Bed: </small><small class='text-bold text-column'>" + bedName + "</small><br>";
+			        	
+			        };
+			    };
+			    if (origem == "family"){
+		        	accommodations = 
+    	    			"<a href='student.html?mail=" + objJson.documento.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
+    	    			"<span class='text-column'>" + objJson.documento.firstName +  " " + objJson.documento.lastName + "</span><br>" + 
+    	    			"<small class='label text-column " + genderCollor + " '>" + objJson.documento.gender + "</small>&nbsp;&nbsp;" +
+    	    			"<small class='text-muted text-column'><i>" + objJson.documento.nationality + "<i></small><br>" +
+    	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>";
+			    };
 		        var notes = "";
 		        if (objJson.documento.notes) {
 				    $.each(objJson.documento.notes, function (i, note) {
 				    	notes = notes + note.note + "<br>";
 				    });	        	
+		        };
+		        var agencySigla = "";
+		        if (objJson.documento.trips[actualTrip].agency){
+		        	agencySigla = objJson.documento.trips[actualTrip].agency.sigla;
+		        };
+		        var schoolSigla = "";
+		        if (objJson.documento.trips[actualTrip].school){
+		        	schoolSigla = objJson.documento.trips[actualTrip].school.sigla;
 		        };
 		        var action = "";
 	            student_table.row.add( {
@@ -239,8 +225,8 @@
 	    	    			"<small class='text-muted text-column'>Flight: " + objJson.documento.trips[actualTrip].arrivalFlightNumber + "</small><br>" +
 	    	    			"<small class='text-muted text-column'>Pickup: </small><small class='text-" + pickupCollor + " text-column '>" + objJson.documento.trips[actualTrip].pickup + "</small>&nbsp;&nbsp;" +
 	    	    			"<small class='text-muted text-column'>Dropoff: </small><small class='text-" + dropoffCollor + " text-column '>" + objJson.documento.trips[actualTrip].dropoff + "</small>&nbsp;&nbsp;",
-	    	    	"institution":"<small class='text-muted text-column'>School: </small><small class='text-bold text-column'>" + objJson.documento.trips[actualTrip].school.sigla + "</small><br>" +
-	    	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + objJson.documento.trips[actualTrip].agency.sigla + "</small><br>",
+	    	    	"institution":"<small class='text-muted text-column'>School: </small><small class='text-bold text-column'>" + schoolSigla + "</small><br>" +
+	    	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + agencySigla + "</small><br>",
 	       	    	"comments":"<small class='text-muted text-column'>" + objJson.documento.trips[actualTrip].comments + "</small>",
 	       	    	"notes":"<small class='text-muted text-column'>" + notes + "</small>",
 	                'actions': 

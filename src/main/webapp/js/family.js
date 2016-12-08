@@ -29,7 +29,6 @@
  * 
  */
 	
-	var data = rest_obterFamily(familyName, carregaTelaFamily, obtencaoNaoEfetuada, "consulta");
-	var table = JSON.parse(localStorage.getItem("table"));
-		    
-    
+	rest_obterFamily(familyName, carregaTelaFamily, obtencaoNaoEfetuada, "consulta");
+	rest_obterStudentAccommodations(familyName, carregaAccommodationsStudents, semAcao, "family");
+	$(".accommodations-student" ).removeClass("hide");

@@ -129,59 +129,12 @@
         $.each(objJson, function (i, student) {
 //	        console.log ("4 - " + new Date().getTime());
         	var age = calculaIdade(separaData(student.birthDay, "/"));
-        	switch (student.trip.status) {
-        	case "Available":
-        		statusCollor = "label-available"
-                break;
-        	case "Partially allocated":
-        		statusCollor = "label-partially-allocated"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "In house":
-            	statusCollor = "label-in-house"
-                break;
-            case "Allocated":
-            	statusCollor = "label-allocated"
-                break;
-            case "Placement offered":
-            	statusCollor = "label-placement-offered"
-                break;
-            case "Documentos":
-            	statusCollor = "label-documentos"
-                break;
-            case "Checked out":
-            	statusCollor = "label-terminated"
-                break;
-            default: 
-        		statusCollor = "#ffffff"
-            };	    
-        	switch (student.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
+            var statusCollor = statusCollorDef (student.trip.status);
+            var genderCollor = genderCollorDef (student.gender);
+            var smokeCollor = smokeCollorDef (student.trip.smoke);
+            var smokeText = smokeTextDef (student.trip.smoke);
             var durationTrip = intervaloDatas(student.trip.start, student.trip.end);
             var age = calculaIdade(separaConverteDataMes(student.birthDay, "/"));
-        	switch (student.trip.smoke) {
-        	case "Yes":
-        		smokeCollor = "label-warning"
-        		smokeText = "Smoke"
-                break;
-            case "No":
-            	smokeCollor = "label-success"
-            	smokeText = "Don't smoke"
-                break;
-            default: 
-        		smokeCollor = "label-primary"
-        		smokeText = ""
-            };	 
             if (student.trip.medical){
             	medicalCollor = "label-warning";
             	medicalText = student.trip.medical;
@@ -414,7 +367,8 @@
 			    });	        	
 	        };
             student_table.row.add( {
-    	    	"student": "<a href='student.html?mail=" + student.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
+    	    	"student": 
+    	    			"<a href='student.html?mail=" + student.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
     	    			"<small class='label text-column " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
     	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +

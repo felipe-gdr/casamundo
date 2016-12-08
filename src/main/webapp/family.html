@@ -703,6 +703,8 @@
 							</div>
 							
 							<!-- end row -->
+						</article>
+						<article class="col-sm-12 col-md-12 col-lg-12 hide accommodations-student">
 
 							<!-- new widget -->
 							<div class="jarviswidget jarviswidget-color-blue" id="wid-id-28" data-widget-fullscreenbutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
@@ -723,7 +725,7 @@
 
 								<header>
 									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-									<h2>Trips</h2>
+									<h2>Accommodations</h2>
 									<div class="widget-toolbar">
 										<!-- add: non-hidden - to disable auto hide -->
 									</div>
@@ -733,7 +735,7 @@
 								<div>
 									
 									<!-- widget edit box -->
-									<div class="jarviswidget-editbox">
+									<div class="jarviswidget-editbox hide">
 										<!-- This area used as dropdown edit box -->
 										<input class="form-control" type="text">	
 									</div>
@@ -742,38 +744,15 @@
 									<!-- widget content -->
 									<div class="widget-body no-padding">
 										
-										<table id="trip_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<table id="accommodations_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									        <thead>
-												<tr>
-													<th class="hasinput" >
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Status" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Destination" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Start" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="End" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Arrival" />
-													</th>
-													<th class="hasinput" >
-														<input type="text" class="form-control" placeholder="Accommodation" />
-													</th>
-												</tr>
 									            <tr>
 									                <th></th>
-									                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
-									                <th><i class="fa fa-fw fa-calendar hidden-md hidden-sm hidden-xs"></i>Destination</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Start</th>
-									                <th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>End</th>
-									                <th><i class="fa fa-fw fa-plane text-muted hidden-md hidden-sm hidden-xs"></i>Arrival</th>
-									                <th><i class="fa fa-fw fa-bank text-muted hidden-md hidden-sm hidden-xs"></i>Accommodation</th>
+									                <th class="text-column"><i class="fa fa-fw fa-home text-muted hidden-md hidden-sm hidden-xs"></i>Students</th>
+									                <th class="text-column"><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i>Dates</th>
+									                <th class="text-column"><i class="fa fa-fw fa-dollar text-muted hidden-md hidden-sm hidden-xs"></i>Status</th>
+									                <th class="text-column"><i class="fa fa-fw fa-home text-muted hidden-md hidden-sm hidden-xs"></i>Institution</th>
+									                <th class="text-column"><i class="fa fa-fw fa-university text-muted hidden-md hidden-sm hidden-xs"></i>Comments</th>
 									            </tr>
 									        </thead>
 									    </table>
@@ -1061,7 +1040,7 @@
 		<!-- our scripts -->
 		<script src="js/main.js"></script>
 		<script src="js/family-commons.js"></script>
-		<script src="js-datatables/family.js"></script>
+		<script src="js-datatables/students-accommodations.js"></script>
 		<script src="js/family.js"></script>
 
 		<script>

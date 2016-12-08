@@ -160,57 +160,9 @@
         var objJson = JSON.parse(localStorage.getItem("students"));
         $.each(objJson, function (i, student) {
         	var age = calculaIdade(separaData(student.birthDay, "/"));
-        	switch (student.trip.status) {
-        	case "Available":
-        		statusCollor = "label-avaliable"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-            	statusCollor = "label-placement-offered"
-                break;
-            case "Terminated":
-            	statusCollor = "label-terminated"
-                break;
-            default: 
-        		statusCollor = "label-avaliable"
-            };	    
-
-            switch (student.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
-
-            switch (student.trip.status) {
-        	case "Available":
-        		statusCollor = "label-available"
-                break;
-            case "Confirmed":
-            	statusCollor = "label-confirmed"
-                break;
-            case "Placement offered":
-        		statusCollor = "label-placement-offered"
-       			break;
-            default: 
-        		genderCollor = "label-primary"
-            };	    
-        	switch (student.trip.smoke) {
-        	case "Yes":
-        		smokeCollor = "label-warning"
-                break;
-            case "No":
-            	smokeCollor = "label-success"
-                break;
-            default: 
-        		smokeCollor = "label-primary"
-            };	 
+            var statusCollor = statusCollorDef (student.trip.status);
+            var smokeCollor = smokeCollorDef (student.trip.smoke);
+            var smokeText = smokeTextDef (student.trip.smoke);
             if (student.trip.medical){
             	medicalCollor = "label-warning";
             	medicalText = student.trip.medical;
@@ -242,16 +194,7 @@
             	liveCatsCollor = "label-warning";
             	liveCatsText = "Don't live with cats";
             };
-        	switch (student.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
+            var genderCollor = genderCollorDef (student.gender);
             var specialDiet = "";
             if (student.trip.specialDiet[0]){
 			    $.each(student.trip.specialDiet, function (i, value) {

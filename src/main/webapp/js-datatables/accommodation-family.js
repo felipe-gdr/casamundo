@@ -194,10 +194,10 @@
 	function montaLinhaFamilia(results, family_table, family){
         if (family.acceptSmokeStudent == "Yes"){
         	acceptSmokeCollor = "label-success"
-        		acceptSmokeText = "Accept smoke"
+       		acceptSmokeText = "Accept smoke"
         }else{
         	acceptSmokeCollor = "label-warning"
-            	acceptSmokeText = "Don't accept smoke"
+           	acceptSmokeText = "Don't accept smoke"
         };
         if (family.haveDogs == "Yes"){
         	haveDogsCollor = "label-warning";

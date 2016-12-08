@@ -835,3 +835,84 @@ function calculaIdade ( dataNascimento ) {
     		return '<label class="radio"><input type="radio" id="' + field  + i +'" name="' + field + '"><i></i>' + value +'</label>';
     };
 
+    function genderCollorDef (gender){
+    	var genderCollor = "label-male";
+    	if (gender){
+	    	switch (gender) {
+	    	case "Male":
+	    		genderCollor = "label-male"
+	            break;
+	        case "Female":
+	        	genderCollor = "label-female"
+	            break;
+	        default: 
+	    		genderCollor = "label-male"
+	        };	    
+    	};
+        return genderCollor;
+    };
+
+    function smokeTextDef (smoke){
+    	var smokeText = "label-male";
+    	switch (smoke) {
+    	case "Yes":
+    		smokeText = "Smoke"
+            break;
+        case "No":
+        	smokeText = "Don't smoke"
+            break;
+        default: 
+    		smokeText = ""
+        };	 
+        return smokeText;
+    };
+
+    function smokeCollorDef (smoke){
+    	var smokeCollor = "label-male";
+    	switch (smoke) {
+    	case "Smoke":
+    		smokeCollor = "label-warning"
+            break;
+        case "Don't smoke":
+        	smokeCollor = "label-success"
+            break;
+        default: 
+    		smokeCollor = "label-primary"
+        };	 
+        return smokeCollor;
+    };
+
+    function statusCollorDef (status){
+    	var statusCollor = "label-male";
+    	if (status){
+        	switch (status) {
+        	case "Available":
+        		statusCollor = "label-available"
+                break;
+        	case "Partially allocated":
+        		statusCollor = "label-partially-allocated"
+                break;
+            case "Confirmed":
+            	statusCollor = "label-confirmed"
+                break;
+            case "In house":
+            	statusCollor = "label-in-house"
+                break;
+            case "Allocated":
+            	statusCollor = "label-allocated"
+                break;
+            case "Placement offered":
+            	statusCollor = "label-placement-offered"
+                break;
+            case "Documentos":
+            	statusCollor = "label-documentos"
+                break;
+            case "Checked out":
+            	statusCollor = "label-terminated"
+                break;
+            default: 
+        		statusCollor = "#ffffff"
+            };	    
+    	};
+        return statusCollor;
+    };

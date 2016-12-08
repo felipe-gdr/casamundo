@@ -97,16 +97,7 @@
         
         $.each(objJson, function (i, invoice) {
         	var age = calculaIdade(separaData(invoice.student.birthDay, "/"));
-        	switch (invoice.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
+            var genderCollor = genderCollorDef (invoice.gender);
             var durationTrip = intervaloDatas(invoice.trip.start, invoice.trip.end);
             var age = calculaIdade(separaConverteDataMes(invoice.student.birthDay, "/"));
             var overdue = "";
@@ -126,30 +117,9 @@
 				statusCollor = "default";
 				statusText = "none $";
 	        };	    		
-            switch (invoice.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
-
-        	switch (invoice.trip.smoke) {
-        	case "Yes":
-        		smokeCollor = "label-warning"
-        		smokeText = "Smoke"
-                break;
-            case "No":
-            	smokeCollor = "label-success"
-            	smokeText = "Don't smoke"
-                break;
-            default: 
-        		smokeCollor = "label-primary"
-        		smokeText = ""
-            };	 
+            var genderCollor = genderCollorDef (invoice.gender);
+            var smokeCollor = smokeCollorDef (invoice.trip.smoke);
+            var smokeText = smokeTextDef (invoice.trip.smoke);
             if (invoice.trip.medical){
             	medicalCollor = "label-warning";
             	medicalText = invoice.trip.medical;
@@ -181,16 +151,8 @@
             	liveCatsCollor = "label-warning";
             	liveCatsText = "Don't live with cats";
             };
-        	switch (invoice.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
+            var genderCollor = genderCollorDef (invoice.gender);
+
             var specialDiet = "";
             if (invoice.trip.specialDiet[0]){
 			    $.each(invoice.trip.specialDiet, function (i, value) {

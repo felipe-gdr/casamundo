@@ -1276,7 +1276,7 @@ function carregaStudent(data, typePage, actualTrip) {
 	//
 	if (typePage == "change"){
 		$(".accommodations-student" ).removeClass("hide");
-		carregaAccommodationsStudents (data);
+		carregaAccommodationsStudents (data, "student");
 	};
 //
 // *** carrega as viagens do estudante

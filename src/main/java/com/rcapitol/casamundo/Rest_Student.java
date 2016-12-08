@@ -174,9 +174,6 @@ public class Rest_Student {
 							occupancy.put ("startOccupancy", jsonTrip.get("start"));
 							occupancy.put ("endOccupancy", jsonTrip.get("end"));
 							occupancy.put ("local", "family");
-							occupancy.put ("local", "family");
-							occupancy.put ("local", "family");
-							occupancy.put ("local", "family");
 							occupancy.put ("dorm", "");
 							occupancy.put ("unit", "");
 							occupancy.put ("room", "");
@@ -423,6 +420,96 @@ public class Rest_Student {
 			};
 			mongo.close();
 			return documentos;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Path("lista/accommodations")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONObject ObterStudentsAccommodations(@QueryParam("familyName") String familyName) {
+		Rest_Room rest_room = new Rest_Room();
+		
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			BasicDBObject setQuery = new BasicDBObject();
+		    if (familyName != null){
+		    	setQuery.put("documento.trips.familyName", familyName);
+			};
+
+			DBCollection collection = db.getCollection("student");
+			
+			DBCursor cursor = collection.find(setQuery);
+			JSONObject documento = new JSONObject();
+			JSONArray objOccupancy_all = new JSONArray();
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				BasicDBObject objStudent = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				ObjectId studentObject = (ObjectId) objStudent.get("_id");
+				String idStudent = studentObject.toString();
+				BasicDBObject jsonStudent = (BasicDBObject) objStudent.get("documento"); 
+			    Integer actualTrip = Integer.parseInt((String) jsonStudent.get("actualTrip"));
+				if (actualTrip != null){
+					List trips = (List) jsonStudent.get("trips");
+					int y = 0;
+					BasicDBObject newDocumento = (BasicDBObject) objStudent.get("documento");
+					newDocumento.remove("trips");
+					JSONArray newTrips = new JSONArray();
+					while (y < trips.size()) {
+						BasicDBObject jsonTrip = (BasicDBObject) trips.get(y);
+						String agencyName = (String) jsonTrip.get("agencyName");
+						if (agencyName != null && !agencyName.equals("")){
+							JSONObject agencyData = agencyData(agencyName);
+							if (agencyData != null){
+								jsonTrip.put("agency", agencyData);
+							};
+						};
+						String schoolName = (String) jsonTrip.get("schoolName");
+						if (schoolName != null && !schoolName.equals("")){
+							JSONObject schoolData = schoolData(schoolName);
+							if (schoolData != null){
+								jsonTrip.put("school", schoolData);
+							};
+						};
+						newTrips.add(jsonTrip);
+						++y;
+					};
+					newDocumento.put("trips", newTrips);
+					y = 0;
+					while (y < newTrips.size()) {
+//						objOccupancy_all = rest_room.carregaAlocacoes(idStudent, "" , "", "");
+						BasicDBObject jsonTrip = (BasicDBObject) newTrips.get(y);
+						if (jsonTrip.get("accommodation").equals("Homestay")){
+							JSONObject jsonOccupancy = new JSONObject();
+							JSONObject occupancy = new JSONObject();
+							occupancy.put ("idStudent", idStudent);
+							occupancy.put ("actualTrip", y);
+							occupancy.put ("startOccupancy", jsonTrip.get("start"));
+							occupancy.put ("endOccupancy", jsonTrip.get("end"));
+							occupancy.put ("local", "family");
+							occupancy.put ("dorm", "");
+							occupancy.put ("unit", "");
+							occupancy.put ("room", "");
+							occupancy.put ("bed", "");
+							occupancy.put ("familyName", jsonTrip.get("familyName"));
+							jsonOccupancy.put("occupancy_all", occupancy);
+							jsonOccupancy.put("documento", newDocumento);
+							objOccupancy_all.add(jsonOccupancy);
+						};
+						++y;
+					};
+			    };
+			};
+			documento.put("accommodations", objOccupancy_all);
+			mongo.close();
+			return documento;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (MongoException e) {

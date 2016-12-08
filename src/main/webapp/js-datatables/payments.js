@@ -99,16 +99,7 @@
         
         $.each(objJson, function (i, payment) {
         	var age = calculaIdade(separaData(payment.student.birthDay, "/"));
-        	switch (payment.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };
+            var genderCollor = genderCollorDef (payment.gender);
             var actualTrip = payment.actualTrip;
             var durationTrip = intervaloDatas(payment.student.trips[actualTrip].start, payment.student.trips[actualTrip].end);
             var age = calculaIdade(separaConverteDataMes(payment.student.birthDay, "/"));
@@ -133,30 +124,9 @@
 				statusCollor = "default";
 				statusText = "none $";
 	        };	    		
-            switch (payment.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
-
-        	switch (payment.student.trips[actualTrip].smoke) {
-        	case "Yes":
-        		smokeCollor = "label-warning"
-        		smokeText = "Smoke"
-                break;
-            case "No":
-            	smokeCollor = "label-success"
-            	smokeText = "Don't smoke"
-                break;
-            default: 
-        		smokeCollor = "label-primary"
-        		smokeText = ""
-            };	 
+            var genderCollor = genderCollorDef (payment.gender);
+            var smokeCollor = smokeCollorDef (payment.trip.smoke);
+            var smokeText = smokeTextDef (payment.trip.smoke);
             if (payment.student.trips[actualTrip].medical){
             	medicalCollor = "label-warning";
             	medicalText = payment.student.trips[actualTrip].medical;
@@ -188,16 +158,7 @@
             	liveCatsCollor = "label-warning";
             	liveCatsText = "Don't live with cats";
             };
-        	switch (payment.gender) {
-        	case "Male":
-        		genderCollor = "label-male"
-                break;
-            case "Female":
-            	genderCollor = "label-female"
-                break;
-            default: 
-        		genderCollor = "label-male"
-            };	    
+            var genderCollor = genderCollorDef (payment.gender);
             var specialDiet = "";
             if (payment.student.trips[actualTrip].specialDiet[0]){
 			    $.each(payment.student.trips[actualTrip].specialDiet, function (i, value) {
