@@ -134,6 +134,10 @@
     	delete objJson["rooms_actualTrip"];
     	delete objJson["family"];
     	delete objJson["accommodations"];
+	    $.each(objJson.documento.trips, function (i, trip) {
+	    	delete trip["agency"];
+	    	delete trip["school"];
+	    });
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/atualizar",

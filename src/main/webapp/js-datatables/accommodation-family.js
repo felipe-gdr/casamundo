@@ -1,5 +1,5 @@
 	
-	function montaAccommodationFamily (){
+	function montaAccommodationFamily (actualTrip){
 		/*** 		carrega student
 		 */
 		var objStudent = JSON.parse(localStorage.getItem("student"));
@@ -11,25 +11,25 @@
 		/**
 		 * 				obter os dados
 		 */
-		if (objStudent.documento.trips[objStudent.documento.actualTrip].destination){
-			rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination);
+		if (objStudent.documento.trips[actualTrip].destination){
+			rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[actualTrip].destination, null, actualTrip);
 		};
 		
 	    // set filters
-		setFilter ("occupancy");
-		setFilter ("privateWashroom");
-		setFilter ("gender");
-		setFilter ("age");
-		setFilter ("smoke");
-		setFilter ("dogs");
-		setFilter ("cats");
-		setFilter ("nationality");
-		setFilter ("mealPlan");
-		setFilter ("specialDiet");
+		setFilter ("occupancy", actualTrip);
+		setFilter ("privateWashroom", actualTrip);
+		setFilter ("gender", actualTrip);
+		setFilter ("age", actualTrip);
+		setFilter ("smoke", actualTrip);
+		setFilter ("dogs", actualTrip);
+		setFilter ("cats", actualTrip);
+		setFilter ("nationality", actualTrip);
+		setFilter ("mealPlan", actualTrip);
+		setFilter ("specialDiet", actualTrip);
 		
 	};
 	
-	function setFilter (filter) {
+	function setFilter (filter, actualTrip) {
 		$('#filter_' + filter).click(function() {
 			if ($('#filter_' + filter).hasClass( "btn-primary")){
 				$('#filter_' + filter).removeClass( "btn-primary" );
@@ -40,11 +40,11 @@
 				$('#filter_' + filter).addClass( "btn-primary" );
 				$('#filter_' + filter + '_check').addClass( "hide" );						
 			}
-			carregaLocalStorageFamilies (JSON.parse(localStorage.getItem("families")));
+			carregaLocalStorageFamilies (JSON.parse(localStorage.getItem("families")), actualTrip);
 		});
 	};
 
-	function carregaLocalStorageFamilies (objJson) {
+	function carregaLocalStorageFamilies (objJson, actualTrip) {
 
 		localStorage.setItem("families", JSON.stringify(objJson));
 
@@ -111,9 +111,9 @@
 	    var objJson = JSON.parse(localStorage.getItem("families"));
 	    $.each(objJson, function (i, family) {
 	    	if (family.address.latitude && family.address.longitude && localStorage.latitudeSchool && localStorage.longitudeSchool){
-	    		getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaFamilia, montaLinhaFamilia, family_table, family);
+	    		getMapDistance(family.address.latitude, family.address.longitude, localStorage.latitudeSchool, localStorage.longitudeSchool, localStorage.mapsDistance, montaLinhaFamilia, montaLinhaFamilia, family_table, family, actualTrip);
 	    	}else{
-	    		montaLinhaFamilia(0, family_table, family);
+	    		montaLinhaFamilia(0, family_table, family, actualTrip);
 	    	};
 	    });
 		
@@ -161,7 +161,7 @@
 	    		    			end : $(this).attr('data-end'),
 	    		    			occupancy : $(this).attr('data-occupancy')
 	    				};
-	    				rest_obterFamily($(this).attr('data-familyName'), updateRooms, semAcao, objJson);
+	    				rest_obterFamily($(this).attr('data-familyName'), updateRooms, semAcao, objJson, actualTrip);
 	    				$('#roomNumberHomestay').html((parseInt($(this).attr('data-roomNumber')) + 1));
 	    				$('#singleBed').html($(this).attr('data-roomSingle'));
 	    				$('#coupleBed').html($(this).attr('data-roomCouple'));
@@ -191,8 +191,9 @@
 
 	};
 
-	function montaLinhaFamilia(results, family_table, family){
-        if (family.acceptSmokeStudent == "Yes"){
+	function montaLinhaFamilia(results, family_table, family, actualTrip){
+
+		if (family.acceptSmokeStudent == "Yes"){
         	acceptSmokeCollor = "label-success"
        		acceptSmokeText = "Accept smoke"
         }else{
@@ -280,7 +281,6 @@
         var dates = "";
         var notes = "";
         var student = JSON.parse(localStorage.getItem("student"));
-        var actualTrip = student.documento.actualTrip;
         var emailStudent = student.documento.mail;
         var idStudent = student._id;
         if (family.rooms){
@@ -314,11 +314,11 @@
 			    			literal_1 = "beds"
 			    		};
 			    		if (room.occupancySingleBed){
-				    		var singleBedAvailable = room.singleBed - bedsOccupiedFamily(room.occupancySingleBed);
+				    		var singleBedAvailable = room.singleBed - bedsOccupiedFamily(room.occupancySingleBed, actualTrip);
 				    		if (singleBedAvailable == 0){
 				    			availableBedText = "no available single beds"
 				    		}else{
-					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancySingleBed, studentOccupancyData);
+					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancySingleBed, studentOccupancyData, actualTrip);
 				    			roomSingle = i;
 				    			if (student.documento.trips[actualTrip].occupancy == "Single"){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
@@ -350,11 +350,11 @@
 			    			literal_1 = "beds"
 			    		};
 			    		if (room.occupancyCoupleBed){
-				    		var coupleBedAvailable = room.coupleBed - bedsOccupiedFamily(room.occupancyCoupleBed);
+				    		var coupleBedAvailable = room.coupleBed - bedsOccupiedFamily(room.occupancyCoupleBed, actualTrip);
 				    		if (coupleBedAvailable == 0){
 				    			availableBedText = "no available couple beds"
 				    		}else{
-					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancyCoupleBed, studentOccupancyData);
+					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancyCoupleBed, studentOccupancyData, actualTrip);
 				    			roomCouple = i;
 				    			if (student.documento.trips[actualTrip].occupancy == "Couple"){
 				    				if (student.documento.trips[actualTrip].status == "Available"){
@@ -449,7 +449,7 @@
         
         family_table.row.add( {
 	    	"family":
-	    		"<span class='hide'>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student"))) + "</span>" +
+	    		"<span class='hide'>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student")), actualTrip) + "</span>" +
 	    		"<a href='family.html?familyName=" + family.familyName + "'>" +
 	    			"<span>" + family.familyName +  "</span><br>" +
 	    			rooms + 
@@ -496,9 +496,8 @@
 	    '</table>';
 	};
 	
-	function lastNextOccupancyFamily (occupancyRows, studentOccupancyData) {
+	function lastNextOccupancyFamily (occupancyRows, studentOccupancyData, actualTrip) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
-		var actualTrip = objJson.documento.actualTrip;
 		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
 		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
 	    $.each(occupancyRows, function (i, occupancy) {
@@ -525,9 +524,8 @@
 	    return studentOccupancyData;
 	};
 	
-	function bedsOccupiedFamily (occupancyRows) {
+	function bedsOccupiedFamily (occupancyRows, actualTrip) {
 		var objJson = JSON.parse(localStorage.getItem("student"));
-		var actualTrip = objJson.documento.actualTrip;
 		var startTrip = Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].start))); 
 		var endTrip =  Date.parse(new Date(separaAnoMesDia(objJson.documento.trips[actualTrip].end)));
 		var occupied = 0;
@@ -554,7 +552,7 @@
 	    return occupied;
 	};
 
-	function calculaPontuacaoFamilia (family, student) {
+	function calculaPontuacaoFamilia (family, student, actualTrip) {
 		var pesoHasRoom = 1;
 		var pesoDontHasRoom = -1;
 		var pesoHasPrivateWashroom = 1;
@@ -577,7 +575,6 @@
 		var pesoDontHasSpecialDiet = -1;
 		var pesoDistance = -1;
 		var points = 0;
-		var actualTrip = student.documento.actualTrip;
 
 		if ($('#filter_occupancy').hasClass( "btn-success")){
 			var hasRoom = false;
@@ -822,7 +819,7 @@
 	};
 	
 	
-	function updateRooms (objFamily, objRoom) {
+	function updateRooms (objFamily, objRoom, actualTrip) {
 		var occupancy = 
 			{
 			emailStudent : objRoom.emailStudent,
@@ -843,9 +840,9 @@
 		};
 		rest_atualizaFamily(objFamily, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again");
 		var objStudent = JSON.parse(localStorage.getItem("student"));
-		objStudent.documento.trips[objStudent.documento.actualTrip].familyName = objRoom.familyName;
-		objStudent.documento.trips[objStudent.documento.actualTrip].idFamily = objRoom.idFamily;
-		objStudent.documento.trips[objStudent.documento.actualTrip].status = "Allocated";
+		objStudent.documento.trips[actualTrip].familyName = objRoom.familyName;
+		objStudent.documento.trips[actualTrip].idFamily = objRoom.idFamily;
+		objStudent.documento.trips[actualTrip].status = "Allocated";
 		delete objStudent.contact;
 		delete objStudent.rooms;
 		delete objStudent.family;

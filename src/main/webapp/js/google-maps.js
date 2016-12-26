@@ -231,7 +231,7 @@
 	    });
 	};
 
-	function getMapDistance (latOrigin, longOrigin, LatDestination, logDestination, key, action_ok, no_action_ok, par01, par02){
+	function getMapDistance (latOrigin, longOrigin, LatDestination, logDestination, key, action_ok, no_action_ok, par01, par02, par03){
 
 		var origin1 = new google.maps.LatLng(latOrigin, longOrigin);
 		var origin2 = "";
@@ -247,9 +247,9 @@
 		  },
 		  function(response, status) {
 		        if (status == google.maps.DistanceMatrixStatus.OK) {
-		        	action_ok(response, par01, par02);
+		        	action_ok(response, par01, par02, par03);
 		        } else {
-		        	action_ok(false, par01, par02);
+		        	action_ok(false, par01, par02, par03);
 		        }
 		  });
 	};
