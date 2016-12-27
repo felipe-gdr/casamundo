@@ -76,7 +76,7 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     			oldEnd : args.e.data.occupancy.endOccupancy
     		};
     	
-    	rest_reallocateBed (objOccupancy, atualizouBed, atualizacaoNaoEfetuada, "Move ok", "Move not ok, try again or contact support", actualTrip, idStudent, args, dp);
+    	rest_reallocateBed (objOccupancy, atualizouBed, atualizacaoNaoEfetuada, "Move ok", "Move not ok, try again or contact support", actualTrip, args.e.data.idStudent, args, dp);
 
     	args.e.data.occupancy.startOccupancy = converteDayPilotDate (args.newStart, "", true);
 		args.e.data.occupancy.endOccupancy = converteDayPilotDate (args.newEnd, "", true)
@@ -109,7 +109,7 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     			oldEnd : args.e.data.occupancy.endOccupancy
     		};
     	
-    	rest_reallocateBed (objOccupancy, atualizouBed, atualizacaoNaoEfetuada, "Resize ok", "Resize not ok, try again or contact support", actualTrip, idStudent, args, dp);
+    	rest_reallocateBed (objOccupancy, atualizouBed, atualizacaoNaoEfetuada, "Resize ok", "Resize not ok, try again or contact support", actualTrip, args.e.data.idStudent, args, dp);
 
     	args.e.data.occupancy.startOccupancy = converteDayPilotDate (args.newStart, "", true);
 		args.e.data.occupancy.endOccupancy = converteDayPilotDate (args.newEnd, "", true)
@@ -204,71 +204,6 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     };
     
     return dp;
-};
-
-function createEvent (args, newEventCreated){
-	if (newEventCreated){
-    	dp.events.remove(newEventCreated).queue();
-	};
-	var occupancy = {
-			idStudent : idStudent,
-			startOccupancy : par_startTrip,
-			endOccupancy : par_endTrip,
-			actualTrip : actualTrip
-	};
-	var data = {
-            start: startNewEvent,
-            end: endNewEvent,
-            id: DayPilot.guid(),
-            resource: args.resource.id,
-            text: eventName,
-            resource : args.resource.data.room_bed,
-            oldResource : args.resource.data.room_bed,
-            occupancy : occupancy,
-            idStudent : idStudent,
-	        actualTrip: actualTrip,
-	        student : student,
-	        student_daysTrip : difDiasTripAllocate,
-	        student_usedDays : 0,
-	        newAllocated : false
-        };
-    var e = new DayPilot.Event({
-        start: startNewEvent,
-        end: endNewEvent,
-        id: DayPilot.guid(),
-        resource: args.resource.id,
-        text: eventName,
-        resource : args.resource.data.room_bed,
-        oldResource : args.resource.data.room_bed,
-        occupancy : occupancy,
-        idStudent : idStudent,
-        actualTrip: actualTrip,
-        student : student,
-        student_daysTrip : difDiasTripAllocate,
-        student_usedDays : 0,
-        newAllocated : false,
-        newStart: startNewEvent,
-        newEnd: endNewEvent
-    });
-    var args = {
-    		e : e,
-            newStart: startNewEvent,
-            newEnd: endNewEvent,
-            newResource : args.resource.data.room_bed
-    };
-    
-    localStorage.insert = "true";
-
-    var param = 
-    	{	dp:dp,
-    		args:args,
-    		e,
-    		data,
-    		startNewEvent:startNewEvent
-    	};
-
-    rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, dp, actualTrip, idStudent)
-	
 };
 
 function checkDatesCall (objStudent, param, dp, objOccupancy){
@@ -383,12 +318,13 @@ function atualizouBed(message, actualTrip, idStudent, args, dp){
 
 	atualizacaoEfetuada(message);
 
-	rest_obterStudent(null, atualizaStudent, semAcao, args, actualTrip, actualTrip, idStudent, dp )
+	rest_obterStudent(null, atualizaStudent, semAcao, args, actualTrip, actualTrip, args.e.data.idStudent, dp )
 	
 };
 
 function atualizaStudent (objStudent, args, actualTrip, dp){
-    //
+
+	//
     //**** verificar o fim das alocações das datas parciais informadas
     //
     var initialDateOk = false;

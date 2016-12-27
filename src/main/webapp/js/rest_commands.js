@@ -52,7 +52,7 @@
     	};
     	var	idStudentParam = "null";
        	if (idStudent){
-    		idStuentParam = idStudent;
+       		idStudentParam = idStudent;
     	};
     	var	emailParam = "null";
        	if (email){
