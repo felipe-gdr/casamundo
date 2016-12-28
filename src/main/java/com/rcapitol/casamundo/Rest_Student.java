@@ -136,6 +136,7 @@ public class Rest_Student {
 							rooms.add(objRoom);
 						};
 					};
+					mongoRoom.close();
 					documento.put("rooms", rooms);
 				};
 				if (actualTripParam != null){
@@ -188,6 +189,7 @@ public class Rest_Student {
 					newDocumento.put("trips", newTrips);
 					documento.put("documento", newDocumento);
 				};
+				mongo.close();
 				return documento;
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -557,6 +559,7 @@ public class Rest_Student {
 				    start = Integer.parseInt((String) jsonTrip.get("start"));
 				    end = Integer.parseInt((String) jsonTrip.get("end"));
 			    };
+			    mongo.close();
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			};
@@ -1145,6 +1148,7 @@ private JSONObject schoolData (String schoolName){
 					e.printStackTrace();
 				}
 			};
+			mongo.close();			
 			return documentos;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
