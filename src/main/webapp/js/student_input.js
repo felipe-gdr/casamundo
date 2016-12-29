@@ -74,16 +74,16 @@
 	var $studentForm = $("#student-form").validate({
 		// Rules for form validation
 		rules : {
-/*			mail : {
+			mail : {
 				required : true,
 				email : true
 			},
-			celPhone : {
-				required : true,
-			},
-			phone : {
-				required : true,
-			},
+//			celPhone : {
+//				required : true,
+//			},
+//			phone : {
+//				required : true,
+//			},
 			lastName : {
 				required : true,
 				minlength : 2,
@@ -98,7 +98,7 @@
 				required : true,
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
-			gender : {
+/*			gender : {
 				required : true,
 			},
 			nationality : {
@@ -138,10 +138,16 @@
 			status : {
 				required : true,
 			},
-			destination : {
+*/			destination : {
 				required : true,
 			},
-*/			start : {
+			accommodation : {
+				required : true,
+			},
+			occupancy : {
+				required : true,
+			},
+			start : {
 				required : true,
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
@@ -149,7 +155,7 @@
 				required : true,
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
-			arrivalDate : {
+/*			arrivalDate : {
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
 			departureDate : {
@@ -170,7 +176,7 @@
 				required : true,
 				email : true
 			},
-			agencyName : {
+*/			agencyName : {
 				required : true,
 			},
 			schoolName : {
@@ -180,17 +186,16 @@
 
 		// Messages for form validation
 		messages : {
-/*			mail : {
+			mail : {
 				required : 'Please enter student email',
 				email : 'Please enter a VALID email address'
 			},
-			celPhone : {
-				required : 'Please enter student cel phone',
-
-			},
-			phone : {
-				required : 'Please enter student phone',
-			},
+//			celPhone : {
+//				required : 'Please enter student cel phone',
+//			},
+//			phone : {
+//				required : 'Please enter student phone',
+//			},
 			lastName : {
 				required : 'Please enter student last name',
 				regex : 'Do not use whitespace in last name',
@@ -204,7 +209,7 @@
 			birthDay : {
 				required : 'Please enter student birthday'
 			},
-			gender : {
+/*			gender : {
 				required : 'Please enter student gender'
 			},
 			nationality : {
@@ -250,16 +255,22 @@
 			status : {
 				required : 'Please enter status'
 			},
-			destination : {
+*/			destination : {
 				required : 'Please enter destination'
 			},
-*/			start : {
+			accommodation : {
+				required : 'Please enter accommodation'
+			},
+			occupancy : {
+				required : 'Please enter occupancy'
+			},
+			start : {
 				required : 'Please enter trip start'
 			},
 			end : {
 				required : 'Please enter trip end'
 			},
-			arrivalFlightNumber : {
+/*			arrivalFlightNumber : {
 				minlength : 'Minimum 2 caracters',
 				maxlength : 'Maximum 4 caracters'
 			},
@@ -274,7 +285,7 @@
 				required : 'Please enter email guest',
 				email : 'Please enter a VALID email address'
 			},
-			agencyName : {
+*/			agencyName : {
 				required : 'Please enter agency name'
 			},
 			schoolName : {
@@ -283,22 +294,25 @@
 		},
 		// form submition
 		submitHandler : function(form) {
-	        var objJson = JSON.parse(localStorage.getItem("student"));
-	        var idStudent = objJson._id;
-	        var trips = objJson.documento.trips;
-			var actualTrip = actualTripParam;
-			limpaStorageStudent ();
-	        var objJson = JSON.parse(localStorage.getItem("student"));
-			var newTripJson = objJson.documento.trips[0];
 			if (localStorage.studentExistente == "true"){
+		        var objJson = JSON.parse(localStorage.getItem("student"));
+		        var idStudent = objJson._id;
+		        var trips = objJson.documento.trips;
+				var actualTrip = actualTripParam;
+				limpaStorageStudent ();
+		        var objJson = JSON.parse(localStorage.getItem("student"));
+				var newTripJson = objJson.documento.trips[0];
 				objJson.documento.trips = trips;
 				if (newTrip == "true"){
 					objJson.documento.trips.push(newTripJson);
 					actualTrip = objJson.documento.trips.length - 1;
 					$("#actualTrip").val(actualTrip);
 				};			
+				localStorage.setItem("student", JSON.stringify(objJson));
+			}else{
+				limpaStorageStudent ();				
+				var actualTrip = 0;
 			};
-			localStorage.setItem("student", JSON.stringify(objJson));
 			$.each(form
 			    , function (i, field) {
 					var value = field.value;
