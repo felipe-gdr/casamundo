@@ -50,7 +50,7 @@ public class Rest_UploadFiles {
     @Produces("image/*")
     public Response getImage(@QueryParam("image") String image){
 
-		String tmp = "c:/images/casamundo/";
+		String folder = "c:/images/casamundo/";
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -60,13 +60,13 @@ public class Rest_UploadFiles {
 			DBObject cursor = collection.findOne(searchQuery);
 			if (cursor != null){
 				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-				tmp = obj.getString("setupValue");
+				folder = obj.getString("setupValue");
 			};
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		};
         
-		File target = new File(tmp + image);
+		File target = new File(folder + image);
         if(!target.exists()){
             throw new WebApplicationException(404);
         }
@@ -74,12 +74,25 @@ public class Rest_UploadFiles {
         return Response.ok(target, mt).build();
     };
  
-	private final String UPLOADED_FILE_PATH = "c:/images/casamundo/";
-	
 	@POST
 	@Path("/files")
 	@Consumes("multipart/form-data")
 	public Response uploadFile(MultipartFormDataInput input, @QueryParam("prefix") String prefix) {
+		String folder = "c:/images/casamundo/";
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			DBCollection collection = db.getCollection("setup");
+			BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
+			DBObject cursor = collection.findOne(searchQuery);
+			if (cursor != null){
+				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
+				folder = obj.getString("setupValue");
+			};
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		};
 		String fileName = "";
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> inputParts = uploadForm.get("uploadedFile");
@@ -96,7 +109,7 @@ public class Rest_UploadFiles {
 				byte [] bytes = IOUtils.toByteArray(inputStream);
 				
 				//constructs upload file path
-				fileName = UPLOADED_FILE_PATH + fileName;
+				fileName = folder + fileName;
 				
 				writeFile(bytes,fileName);
 				

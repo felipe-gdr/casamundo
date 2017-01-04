@@ -109,7 +109,7 @@
 				required : true,
 				regex : /^\S+$/
 			},
-			type : {
+/*			type : {
 				required : true,
 			},
 			otherPet : {
@@ -126,7 +126,7 @@
 			contact_workPhoneNumber : {
 				regex : /^\+(?=\d{5,15}$)(1|2[078]|3[0-469]|4[013-9]|5[1-8]|6[0-6]|7|8[1-469]|9[0-58]|[2-9]..)(\d+)$/
 			},
-			contact_email : {
+*/			contact_email : {
 				required : true,
 				email : true,
 			},
@@ -232,7 +232,7 @@
 				required : 'Please enter family name',
 				regex : 'Do not use whitespace in family name'
 			},
-			type : {
+/*			type : {
 				required : 'Please enter family type',
 			},
 			otherPet : {
@@ -249,7 +249,7 @@
 			contact_workPhoneNumber : {
 				regex : 'invalid work phone number'
 			},
-			contact_email : {
+*/			contact_email : {
 				required : 'Please enter contact family email',
 				email : 'Please enter a VALID email address'
 			},
@@ -527,12 +527,18 @@
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		yearRange: "1930:2099",
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
+	    	$('#familyMemberBirthdate_0').val(selectedDate);
 			}
 		});
 
 	$('#address_street').bind('blur', function () {
     	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
+    });
+
+    $('#address_timeSubwayStation').timepicker({
+        showInputs: false,
+        disableFocus: true,
+        showMeridian : false
     });
 	
     
@@ -552,11 +558,13 @@
 	});
 	$("#contact_birthDate").bind('blur', function () {
     	$('#familyMemberBirthdate_0').val($("#contact_birthDate").val());
-    	$('.docs1').addClass("hide");
+    	$('.docs0').addClass("hide");
 		var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
 		if (idade > 17){
-			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs1");
-			$('.docs1').removeClass("hide");	
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs0");
+			$('.docs0').removeClass("hide");	
+		}else{
+			$('.docs0').addClass("hide");				
 		};
 
    	});

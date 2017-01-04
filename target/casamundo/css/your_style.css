@@ -514,3 +514,7 @@ invoice
 .miniDasboard label{
 	background-color: #ffb66c!important;
 }
+
+.error {
+	color : #ff0000!important;
+}

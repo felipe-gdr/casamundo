@@ -261,7 +261,16 @@ function carregaTelaFamily(data, tipo) {
         $('#familyMemberOcuppation_0').val(data.documento.contact.ocuppation);
         $('#familyMemberDocDate_0').val(data.documento.contact.docDate);
         $('#docs0').val(data.documento.docs.docs0);
-		$('.docs0').removeClass("hide");
+    	if (data.documento.docs.docs0){
+    		carregaPhoto (localStorage.app, data.documento.docs["docs0"], "docs0");
+    	};
+		var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
+		if (idade > 17){
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs0");
+			$('.docs0').removeClass("hide");	
+		}else{
+			$('.docs0').addClass("hide");				
+		};
     	lines = 1;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
@@ -440,7 +449,21 @@ function criaLinhaFamilyMember (i, familyName) {
 				'</fieldset>' +
 			'</div>' +
 		'</li>';
+
 	$("#familyMembersList").append(familyMemberLine);
+
+	var idade = calculaIdade(montaDataMesNum($('#familyMemberBirthdate_' + i).val(),"/"));
+	if (idade > 17){
+		montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs" + i);
+		$('.docs' + i).removeClass("hide");	
+	}else{
+		var labelId = "docs" + i;
+    	obj = JSON.parse(localStorage.getItem("family"));
+    	obj.documento.docs[labelId] =  "";
+    	localStorage.setItem("family", JSON.stringify(obj));
+		$('.docs' + i).addClass("hide");				
+	};
+	
 	$('#familyMemberBirthdate_' + i).datepicker({
 	    changeMonth: true,
 	    changeYear: true,
