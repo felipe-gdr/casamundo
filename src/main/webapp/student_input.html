@@ -797,11 +797,10 @@
 													<section class="col-xs-5">
 														<label class="label text-info">Arrival time</label>
 														<label class="input"> 
-															<div class="input-group">
-																<span class="input-group-addon"> <i class="fa fa-clock-o"></i></span>
-																<input class="form-control" id="arrivalTime" name="arrivalTime" type="text" placeholder="Arrival time">
-																
-															</div>
+													        <div class="input-group bootstrap-timepicker timepicker">
+													            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+													            <input id="arrivalTime" name="arrivalTime" type="text" class="form-control input-small">
+													        </div>
 														</label>
 													</section>
 													<section class="col-xs-5">		
@@ -827,11 +826,10 @@
 													<section class="col-xs-5">
 														<label class="label text-info">Departure time</label>
 														<label class="input"> 
-															<div class="input-group">
-																<span class="input-group-addon"> <i class="fa fa-clock-o"></i></span>
-																<input class="form-control" id="departureTime" name="departureTime" type="text" placeholder="departure time">
-																
-															</div>
+													        <div class="input-group bootstrap-timepicker timepicker">
+													            <input id="departureTime" name="departureTime" type="text" class="form-control input-small">
+													            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+													        </div>
 														</label>
 													</section>
 													<section class="col-xs-5">		
@@ -927,6 +925,16 @@
 																<option value="" selected="" disabled="">Choose one item</option>
 															</select><i></i>
 														</label>
+													</section>
+													<section class="col col-8 hide dorms">
+														<label class="toggle text-info">
+															<input type="checkbox" id="bedLinen" name="bedLinen">
+															<i data-swchon-text="Yes" data-swchoff-text="No"></i>Bed Linen</label>
+													</section>
+													<section class="col col-8 hide dorms">
+														<label class="toggle text-info">
+															<input type="checkbox" id="gymMembership" name="gymMembership">
+															<i data-swchon-text="Yes" data-swchoff-text="No"></i>Gym Membership</label>
 													</section>
 												</fieldset>
 											</div>
@@ -1136,7 +1144,12 @@
 												<section class="col col-12">
 													<label class="checkbox state-disabled">
 														<input type="checkbox" id="agreeDebit" name="agreeDebit" >
-														<i></i>I authorize the charge of $200 regarding the security deposit of my shared Accommodation</label>
+														<i></i>I authorize the charge of $300 regarding the security deposit of my shared Accommodation</label>
+												</section>
+												<section class="col col-12">
+													<label class="checkbox state-disabled">
+														<input type="checkbox" id="agreeDebitReimbursed" name="agreeDebitReimbursed" >
+														<i></i>I authorize the charge of $270, will be reimbursed after check out and upon satisfactory inspection.</label>
 												</section>
 											</div>
 											<div class="col-xs-11 suite hide">

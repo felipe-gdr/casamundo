@@ -40,6 +40,9 @@ public class Table {
         public String destination[];                  
         public String accommodation[];                
         public String occupancy[];                    
+        public String occupancyHomestay[];                    
+        public String occupancyDorms[];                    
+        public String occupancySuite[];                    
         public String relationship[];                 
         public String mealPlan[];                     
         public String usuallyStudy[];                 
@@ -72,6 +75,9 @@ public class Table {
 				        String[] destination,                  
 				        String[] accommodation,                
 				        String[] occupancy,                    
+				        String[] occupancyHomestay,                    
+				        String[] occupancyDorms,                    
+				        String[] occupancySuite,                    
 				        String[] relationship,                 
 				        String[] mealPlan,                     
 				        String[] usuallyStudy,                 
@@ -98,6 +104,9 @@ public class Table {
 				        this.destination = destination;                  
 				        this.accommodation = accommodation;                
 				        this.occupancy = occupancy;                    
+				        this.occupancyHomestay = occupancyHomestay;                    
+				        this.occupancyDorms = occupancyDorms;                    
+				        this.occupancySuite = occupancySuite;                    
 				        this.relationship = relationship;                 
 				        this.mealPlan = mealPlan;                     
 				        this.usuallyStudy = usuallyStudy;

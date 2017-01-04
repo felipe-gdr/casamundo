@@ -334,6 +334,7 @@ public class Student {
     		public String creditCardExpire;
     		public String creditCardCVC;   
     		public String agreeDebit;      
+    		public String agreeDebitReimbursed;      
     		public String apartamentType;  
     		public String petsQuantity;    
     		public String petType;         
@@ -353,6 +354,8 @@ public class Student {
     		public String schoolId;
     		public String schoolName;
     		public String schoolConsultName;
+    		public String bedLinen;
+    		public String gymMembership;
 
     		public Trips() {
 
@@ -407,6 +410,7 @@ public class Student {
         	    		String creditCardExpire,
         	    		String creditCardCVC,   
         	    		String agreeDebit,      
+        	    		String agreeDebitReimbursed,      
         	    		String apartamentType,  
         	    		String petsQuantity,    
         	    		String petType,         
@@ -425,7 +429,9 @@ public class Student {
         	    		String agencyConsultName,
         	    		String schoolId,
         	    		String schoolName,
-        	    		String schoolConsultName
+        	    		String schoolConsultName,
+        	    		String bedLinen,
+        	    		String gymMembership
             		)
             {
 	    		this.status = status;           
@@ -475,6 +481,7 @@ public class Student {
 	    		this.creditCardExpire = creditCardExpire; 
 	    		this.creditCardCVC = creditCardCVC;    
 	    		this.agreeDebit = agreeDebit;       
+	    		this.agreeDebitReimbursed = agreeDebitReimbursed;       
 	    		this.apartamentType = apartamentType;   
 	    		this.petsQuantity = petsQuantity;     
 	    		this.petType = petType;          
@@ -494,6 +501,8 @@ public class Student {
 	    		this.schoolId = schoolId;
 	    		this.schoolName = schoolName;
 	    		this.schoolConsultName = schoolConsultName;
+	    		this.bedLinen = bedLinen;
+	    		this.gymMembership = gymMembership;
             }
 
 		}

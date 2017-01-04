@@ -118,13 +118,21 @@ function carregaTela(data, actualTrip) {
 	if (data.documento.trips[actualTrip].liveWithChildren == "Yes"){
 		$("#liveChildren").prop("checked", true)
 	}
+	if (data.documento.trips[actualTrip].bedLinen == "Yes"){
+		$("#bedLinen").prop("checked", true)
+	}
+	if (data.documento.trips[actualTrip].gymMembership == "Yes"){
+		$("#gymMembership").prop("checked", true)
+	}
+	if (data.documento.trips[actualTrip].liveWithChildren == "Yes"){
+		$("#liveChildren").prop("checked", true)
+	}
 	$("#hobbies").val(data.documento.trips[actualTrip].hobbies);
 	$("#medical").val(data.documento.trips[actualTrip].medical);
 	$("#comments").val(data.documento.trips[actualTrip].comments);
 	if (data.documento.trips[actualTrip].agreeTerm == "Yes"){
 		$("#agreeTerm").prop("checked", true)
 	}
-	$("#agreeTerm").val(data.documento.trips[actualTrip].agreeTerm);
 	$("#usuallyStudy").val(data.documento.trips[actualTrip].usuallyStudy);
 	$("#keepBedroom").val(data.documento.trips[actualTrip].keepBedroom);
 	$("#iAmUsually").val(data.documento.trips[actualTrip].iAmUsually);
@@ -132,7 +140,12 @@ function carregaTela(data, actualTrip) {
 	$("#creditCardNumber").val(data.documento.trips[actualTrip].creditCardNumber);
 	$("#creditCardExpire").val(data.documento.trips[actualTrip].creditCardExpire);
 	$("#creditCardCVC").val(data.documento.trips[actualTrip].creditCardCVC);
-	$("#agreeDebit").val(data.documento.trips[actualTrip].agreeDebit);
+	if (data.documento.trips[actualTrip].agreeDebit == "Yes"){
+		$("#agreeDebit").prop("checked", true)
+	}
+	if (data.documento.trips[actualTrip].agreeDebitReimbursed == "Yes"){
+		$("#agreeDebitReimbursed").prop("checked", true)
+	}
 	$("#apartamentType").val(data.documento.trips[actualTrip].apartamentType);
 	$("#petQuantity").val(data.documento.trips[actualTrip].petQuantity);
 	$("#petType").val(data.documento.trips[actualTrip].petType);
@@ -217,9 +230,11 @@ function carregaDadosAgency(data, consult, consultName) {
     		$("#agencyConsultName").append( $(option(consultants.name)));
     	};
     });
+    
 	$("#agencyPhone").html(data.documento.agencyPhone);
 	$("#agencyEmail").html(data.documento.agencyEmail);
 	$(".agency").removeClass("hide");
+
 };
 
 function carregaDadosSchool(data, consult, consultName) {
@@ -242,8 +257,10 @@ function carregaDadosSchool(data, consult, consultName) {
     	};
     	$("#schoolConsultName").append( $(option(consultants.name)));
     });
-	$(".school").removeClass("hide");
-    if (localStorage.typePage != "accommodation" && localStorage.typePage != "accommodation-dorms"){
+	
+    $(".school").removeClass("hide");
+    
+	if (localStorage.typePage != "accommodation" && localStorage.typePage != "accommodation-dorms"){
     	generate_map_7(data.documento.latitude, data.documento.longitude);
     	localStorage.latitudeSchool = data.documento.latitude;
     	localStorage.longitudeSchool = data.documento.longitude;
@@ -538,6 +555,14 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].relationship;		
 	};
+	if (field == "bedLinen"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].bedLinen;		
+	};
+	if (field == "gymMembership"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].gymMembership;		
+	};
 	if (field == "mealPlan"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         var mealPlan ="";
@@ -625,6 +650,10 @@ function getValueStudent (field, actualTrip) {
 	if (field == "agreeDebit"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].agreeDebit;		
+	};
+	if (field == "agreeDebitReimbursed"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].agreeDebitReimbursed;		
 	};
 	if (field == "apartamentType"){
         var objJson = JSON.parse(localStorage.getItem("student"));
@@ -856,6 +885,12 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "relationship"){
         objJson.documento.trips[actualTrip].relationship = value;
 	};
+	if (field == "bedLinen"){
+        objJson.documento.trips[actualTrip].bedLinen = value;
+	};
+	if (field == "gymMembership"){
+        objJson.documento.trips[actualTrip].gymMembership = value;
+	};
 	if (field == "mealPlan"){
 		var array = value.split(",");
         objJson.documento.trips[actualTrip].mealPlan = array;
@@ -917,6 +952,9 @@ function setValueStudent (field, value, actualTrip, grava) {
 	};
 	if (field == "agreeDebit"){
         objJson.documento.trips[actualTrip].agreeDebit = value;
+	};
+	if (field == "agreeDebitReimbursed"){
+        objJson.documento.trips[actualTrip].agreeDebitReimbursed = value;
 	};
 	if (field == "apartamentType"){
         objJson.documento.trips[actualTrip].apartamentType = value;
@@ -1159,6 +1197,8 @@ function carregaStudent(data, typePage, actualTrip) {
     $('#guestName').html(getValueStudent("guestName",actualTrip));
     $('#guestEmail').html(getValueStudent("guestEmail",actualTrip));
     $('#relationship').html(getValueStudent("relationship",actualTrip));
+    $('#bedLinen').html(getValueStudent("bedLinen",actualTrip));
+    $('#gymMembership').html(getValueStudent("gymMembership",actualTrip));
     $('#mealPlan').html(getValueStudent("mealPlan",actualTrip));
     $('#specialDiet').html(getValueStudent("specialDiet",actualTrip));
     $('#privateWashroom').html(getValueStudent("privateWashroom",actualTrip));
@@ -1211,6 +1251,7 @@ function carregaStudent(data, typePage, actualTrip) {
     $('#guest_04').html(getValueStudent("guest_04",actualTrip));
     $('#guest_05').html(getValueStudent("guest_05",actualTrip));
     $('#agreeDebit').html(getValueStudent("agreeDebit",actualTrip));
+    $('#agreeDebitReimbursed').html(getValueStudent("agreeDebitReimbursed",actualTrip));
     $('#agreeDebitSuite').html(getValueStudent("agreeDebitSuite",actualTrip));
     $('#agreeSuite').html(getValueStudent("agreeSuite",actualTrip));
     
@@ -1410,6 +1451,7 @@ function limpaStorageStudent () {
 					    		creditCardExpire:"", 
 					    		creditCardCVC:"", 
 					    		agreeDebit:"", 
+					    		agreeDebitReimbursed:"", 
 					    		apartamentType:"", 
 					    		petsQuantity:"", 
 					    		petType:"", 
@@ -1428,7 +1470,9 @@ function limpaStorageStudent () {
 					    		agencyConsultName:"",
 					    		schoolId:"",
 					    		schoolName:"", 
-					    		schoolConsultName:"" 
+					    		schoolConsultName:"", 
+						    	bedLinen:"",
+				    			gymMembership:""
 					    	} 
 					    ],
 					    notes: []
@@ -1438,7 +1482,7 @@ function limpaStorageStudent () {
 	localStorage.setItem("student", JSON.stringify(data));
 };		
 
-function retornaStudent(){
+function retornaStudent(actualTrip){
 	$.smallBox({
 		title : "Ok",
 		content : "<i class='fa fa-clock-o'></i> <i>Student updated</i>",
@@ -1448,7 +1492,7 @@ function retornaStudent(){
 		timeout : 4000
 	});
 	var objJson = JSON.parse(localStorage.getItem("student"));
-	window.location="student.html?mail=" + objJson.documento.mail; 
+	window.location="student.html?mail=" + objJson.documento.mail + "&typePage=change&actualTrip=" + actualTrip
 };
 function retornaListaStudent(){
 	$.smallBox({

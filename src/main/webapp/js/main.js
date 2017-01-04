@@ -723,6 +723,18 @@ function calculaIdade ( dataNascimento ) {
     		    , function (i, optionValue) {
         			$("#occupancy").append( $(option(optionValue)));
     		    });
+        $.each(table.documento.occupancyHomestay
+    		    , function (i, optionValue) {
+        			$("#occupancyHomestay").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.occupancyDorms
+    		    , function (i, optionValue) {
+        			$("#occupancyDorms").append( $(option(optionValue)));
+    		    });
+        $.each(table.documento.occupancySuite
+    		    , function (i, optionValue) {
+        			$("#occupancySuite").append( $(option(optionValue)));
+    		    });
         $.each(table.documento.relationship
     		    , function (i, optionValue) {
         			$("#relationship").append( $(option(optionValue)));

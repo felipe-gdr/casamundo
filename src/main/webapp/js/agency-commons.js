@@ -8,26 +8,12 @@
 			agencyName : {
 				required : true,
 			},
-			agencyAgencyPhone : {
-				required : true,
-				email : true
-			},
-			agencyAgencyEmail : {
-				required : true,
-			},
 		},
 
 		// Messages for form validation
 		messages : {
 			agencyName : {
 				required : 'Please enter agency name',
-			},
-			agencyAgencyPhone : {
-				required : 'Please enter agency phome',
-			},
-			agencyAgencyEmail : {
-				required : 'Please enter agency cell phone',
-				email : 'Please enter a VALID email address'
 			}
 		},
 		// form submition

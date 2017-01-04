@@ -87,7 +87,7 @@
 			lastName : {
 				required : true,
 				minlength : 2,
-				regex : /^\S+$/
+//				regex : /^\S+$/
 			},
 			firstName : {
 				required : true,
@@ -181,6 +181,18 @@
 			},
 			schoolName : {
 				required : true,
+			},
+			agreeTerm : {
+				required : true,
+			},
+			agreeDebit : {
+				required : true,
+			},
+			agreeSuite : {
+				required : true,
+			},
+			agreeDebitSuite : {
+				required : true,
 			}
 		},
 
@@ -198,7 +210,7 @@
 //			},
 			lastName : {
 				required : 'Please enter student last name',
-				regex : 'Do not use whitespace in last name',
+//				regex : 'Do not use whitespace in last name',
 				minlength : 'Minimum two catacters'
 			},
 			firstName : {
@@ -290,6 +302,18 @@
 			},
 			schoolName : {
 				required : 'Please enter school name'
+			},
+			agreeTerm : {
+				required : 'Please enter fill agree term'
+			},
+			agreeDebit : {
+				required : 'Please enter fill agree term'
+			},
+			agreeSuite : {
+				required : 'Please enter fill agree term'
+			},
+			agreeDebitSuite : {
+				required : 'Please enter fill agree term'
 			}
 		},
 		// form submition
@@ -361,7 +385,7 @@
 					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
 				}else{
 					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
-					rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada);					
+					rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada, actualTrip);					
 				};
 			}else{
 		        var objJson = JSON.parse(localStorage.getItem("student"));
@@ -415,32 +439,46 @@
 	};
 	
 	$('#accommodation').change(function() {
+		$('#occupancy').find('option:not(:first)').remove();
+		$(".guest").addClass("hide");
+    	var table = JSON.parse(localStorage.getItem("table"));
 		if ($(this).val() == "Homestay"){
 			$(".dorms").addClass("hide");
 			$(".suite").addClass("hide");
 			$(".homestay").removeClass("hide");
+	        $.each(table.documento.occupancyHomestay
+	    		    , function (i, optionValue) {
+	        			$("#occupancy").append( $(option(optionValue)));
+	    		    });
 		}else{
 			if ($(this).val() == "Dorms"){
 				$(".homestay").addClass("hide");
 				$(".suite").addClass("hide");
 				$(".dorms").removeClass("hide");
+		        $.each(table.documento.occupancyDorms
+		    		    , function (i, optionValue) {
+		        			$("#occupancy").append( $(option(optionValue)));
+		    		    });
 			}else{
 				$(".homestay").addClass("hide");
 				$(".dorms").addClass("hide");
 				$(".suite").removeClass("hide");				
-			}
+		        $.each(table.documento.occupancySuite
+		    		    , function (i, optionValue) {
+		        			$("#occupancy").append( $(option(optionValue)));
+		    		    });
+			};
 		};
 	});
+	
 	$('#occupancy').change(function() {
-		if (
-				(($(this).val() == "Twin" || $(this).val() == "Couple") && $('#accommodation').val() == "Homestay")
-			)
-		{
+		if ($(this).val() == "Accompanyng" || $(this).val() == "Couple"){
 			$(".guest").removeClass("hide");
 		}else{
 			$(".guest").addClass("hide");
 		};
 	});
+	
 	$('#start').datepicker({
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
@@ -479,10 +517,17 @@
 		$('.g' + $(this).val()).removeClass("hide");
 	});
 
-	$('#arrivalTime').timepicker();
-	$('#flightTime').timepicker();
+    $('#arrivalTime').timepicker({
+        showInputs: false,
+        disableFocus: true,
+        showMeridian : false
+    });
+    $('#departureTime').timepicker({
+        showInputs: false,
+        disableFocus: true,
+        showMeridian : false
+    });
 	
-
     $('#profession2').editable({
 //        url: '/post',
         type: 'text',
