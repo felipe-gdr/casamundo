@@ -243,6 +243,7 @@ public class Family {
 
 		public static final class Payment {
 			public String financialInstitution;
+			public String accountHolder;
 			public String bankNumber;
 			public String branchNumber;
 			public String accountNumber;
@@ -254,11 +255,13 @@ public class Family {
 			@JsonCreator
 			public Payment(
 					String financialInstitution,
+					String accountHolder,
 					String bankNumber,
 					String branchNumber,
 					String accountNumber
 			){
 				this.financialInstitution = financialInstitution;
+				this.accountHolder = accountHolder;
 				this.bankNumber = bankNumber;
 				this.branchNumber = branchNumber;
 				this.accountNumber = accountNumber;

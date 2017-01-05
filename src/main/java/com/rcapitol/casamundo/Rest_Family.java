@@ -140,6 +140,7 @@ public class Rest_Family {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			mongo.close();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (MongoException e) {

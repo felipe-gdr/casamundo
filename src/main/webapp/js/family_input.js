@@ -169,6 +169,10 @@
 			firstLanguage : {
 				required : true,
 			},
+			payment_branchNumber : {
+				maxlength: 5,
+				digits: true
+			},
 			familyMemberBirthdate_0 : {
 				regex : /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}$/
 			},
@@ -309,6 +313,10 @@
 			},
 			hostAnyNationalityStudent : {
 				required : 'Please enter if you host a student from any nationality',
+			},
+			payment_branchNumber : {
+				maxlength: "Maximum 5 digits",
+				digits: "Only digits"
 			},
 			familyMemberBirthdate_0 : {
 				regex : 'Invalid family birthdate example "01-Jan-2000"'

@@ -1319,10 +1319,6 @@ function carregaStudent(data, typePage, actualTrip) {
 		$(".accommodations-student" ).removeClass("hide");
 		carregaAccommodationsStudents (data, "student");
 	};
-//
-// *** carrega as viagens do estudante
-//
-	 carregaTripsStudent();	
 };
 
 function criaLinhaNote (i, note) {

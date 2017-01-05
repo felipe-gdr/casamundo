@@ -10,6 +10,8 @@
 			},
 			number : {
 				required : true,
+				maxlength: 4,
+				digits: true
 			},
 		},
 
@@ -20,6 +22,8 @@
 			},
 			number : {
 				required : 'Please enter bank consult name',
+				maxlength: "Maximum 4 digits",
+				digits: "Only digits"
 			},
 		},
 		// form submition

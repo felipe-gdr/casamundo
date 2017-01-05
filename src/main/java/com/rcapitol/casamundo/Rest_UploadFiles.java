@@ -62,6 +62,7 @@ public class Rest_UploadFiles {
 				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 				folder = obj.getString("setupValue");
 			};
+			mongo.close();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		};
@@ -90,6 +91,7 @@ public class Rest_UploadFiles {
 				BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 				folder = obj.getString("setupValue");
 			};
+			mongo.close();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		};

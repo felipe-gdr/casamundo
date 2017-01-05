@@ -77,6 +77,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_subwayStation").html(data.documento.address.subwayStation);
 	  	$("#address_destination").html(data.documento.address.destination);
 	  	$("#payment_financialInstitution").html(data.documento.payment.financialInstitution);
+	  	$("#payment_accountHolder").html(data.documento.payment.accountHolder);
 	  	$("#payment_bankNumber").html(data.documento.payment.bankNumber);
 	  	$("#payment_branchNumber").html(data.documento.payment.branchNumber);
 	  	$("#payment_accountNumber").html(data.documento.payment.accountNumber);
@@ -241,6 +242,7 @@ function carregaTelaFamily(data, tipo) {
 	  	$("#address_timeSubwayStation").val(data.documento.address.timeSubwayStation);
 	  	$("#address_subwayStation").val(data.documento.address.subwayStation);
 	  	$("#payment_financialInstitution").val(data.documento.payment.financialInstitution);
+	  	$("#payment_accountHolder").val(data.documento.payment.accountHolder);
 	  	$("#payment_bankNumber").val(data.documento.payment.bankNumber);
 	  	$("#payment_branchNumber").val(data.documento.payment.branchNumber);
 	  	$("#payment_accountNumber").val(data.documento.payment.accountNumber);
@@ -751,6 +753,7 @@ function limpaStorageFamily () {
 				    payment : { 
 				    	financialInstitution : "", 
 				    	bankNumber : "", 
+				    	accountHolder : "", 
 				    	branchNumber : "", 
 				    	accountNumber : "" 
 					    }, 
@@ -968,6 +971,9 @@ function setValueFamily (field, value) {
 	};
   	if (field == "payment_financialInstitution"){
         objJson.documento.payment.financialInstitution = value;
+	};
+  	if (field == "payment_accountHolder"){
+        objJson.documento.payment.accountHolder = value;
 	};
   	if (field == "payment_bankNumber"){
         objJson.documento.payment.bankNumber = value;
