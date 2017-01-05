@@ -376,7 +376,7 @@ function carregaTelaFamily(data, tipo) {
 	}
 	if (data.documento.fotos.photo06){
 		carregaPhoto (localStorage.app, data.documento.fotos.photo06, "photo06");
-		$("#photo06").val(data.documento.fotos.photo05);
+		$("#photo06").val(data.documento.fotos.photo06);
 	}
 	
 	localStorage.setItem("family", JSON.stringify(data));
