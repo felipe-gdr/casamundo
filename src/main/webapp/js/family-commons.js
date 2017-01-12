@@ -301,7 +301,7 @@ function carregaTelaFamily(data, tipo) {
 	  	var linesRoom = 0;
 	    $.each(data.documento.rooms
 			    , function (i, value) {
-		    criaLinhaRoom(i);
+		    criaLinhaRoom(i, data.documento.familyName);
 		    $('#number_' + i).val(i + 1);
 	    	$('#singleBed_' + i).val(value.singleBed);
 	    	$('#coupleBed_' + i).val(value.coupleBed);
@@ -309,17 +309,17 @@ function carregaTelaFamily(data, tipo) {
 	        $('#level' + i).val(value.level);
 	        $('#note' + i).val(value.note);
 	        $('#roomPhoto' + i).val(value.photo);
-	    	montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + i);
+//	    	montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + i);
 	    	if (value.photo){
 	    		carregaPhoto (localStorage.app, value.photo, "roomPhoto" + i);
 	    	};
 	    	$('.roomPhoto' + i).removeClass("hide");
 	    	linesRoom = i + 1;
 	    });
-	    criaLinhaRoom(linesRoom);
+	    criaLinhaRoom(linesRoom, data.documento.familyName);
 	    $('#number_' + linesRoom).val(linesRoom + 1);
 	    if (linesRoom != 0){
-		    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + linesRoom);
+//		    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", data.documento.familyName, "roomPhoto" + linesRoom);
 	    };
 	  	var linesNote = 0;
 	    $.each(data.documento.notes
@@ -459,10 +459,6 @@ function criaLinhaFamilyMember (i, familyName) {
 		montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs" + i);
 		$('.docs' + i).removeClass("hide");	
 	}else{
-		var labelId = "docs" + i;
-    	obj = JSON.parse(localStorage.getItem("family"));
-    	obj.documento.docs[labelId] =  "";
-    	localStorage.setItem("family", JSON.stringify(obj));
 		$('.docs' + i).addClass("hide");				
 	};
 	
@@ -509,7 +505,7 @@ function criaLinhaFamilyMember (i, familyName) {
 	});
 };
 
-function criaLinhaRoom (i) {
+function criaLinhaRoom (i, familyName) {
 	var roomLine = '<li class="roomItem">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-family">' +					
@@ -598,9 +594,12 @@ function criaLinhaRoom (i) {
 			'</div>' +
 		'</li>';
 	$("#roomList").append(roomLine);
+	if (familyName){
+		montaPhoto (localStorage.app, "family", "roomsPhoto", "family", familyName, "roomPhoto" + i);
+	};
 	$( "#singleBed_" + (i - 1)).unbind();
 	$( "#singleBed_" + i).bind( "blur", function() {
-		criaLinhaRoom(i + 1);
+		criaLinhaRoom(i + 1, $("#familyName").val());
 		$('#number_' + (i + 1)).val((i + 2));
 		$('.roomPhoto' + i).removeClass("hide");
 	});

@@ -59,6 +59,7 @@
 	   	$('#actualTrip').val("0");
 	   	$('#status').val("Available");
 		$('#birthDay').val("01-Jan-1980");
+		localStorage.newTrip = false;
 	};		
 
 /**
@@ -417,9 +418,11 @@
 
 	// **** testa existencia do email
 	$("#mail").blur(function(){
-		localStorage.studentExistente = "false";
-		montaPhoto (localStorage.app, "student", "photoPassport", "student", this.value, "photoPassport");
-		var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
+		if (this.value){
+			localStorage.studentExistente = "false";
+			montaPhoto (localStorage.app, "student", "photoPassport", "student", this.value, "photoPassport");
+			var data = rest_obterStudent(this.value, carregaTela, carregaInclusao);
+		};
 	});	
 
 	$('#birthDay').datepicker({

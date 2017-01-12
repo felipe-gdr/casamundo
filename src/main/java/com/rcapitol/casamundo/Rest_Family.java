@@ -54,6 +54,10 @@ public class Rest_Family {
 			BasicDBObject searchQuery = new BasicDBObject("documento.familyName", familyName);
 			DBObject cursor = collection.findOne(searchQuery);
 			JSONObject documento = new JSONObject();
+			if (cursor == null){
+				mongo.close();
+				return null;
+			};
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 			documento.put("documento", obj);
 			mongo.close();

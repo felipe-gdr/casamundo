@@ -233,7 +233,7 @@
     	});
     };
 
-    function rest_obterFamily(familyName, action_ok, action_not_ok, var1, var2) {
+    function rest_obterFamily(familyName, action_ok, action_not_ok, var1, var2, var3, var4) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/obterFamilyName?familyName="  + familyName,
             contentType: "application/json; charset=utf-8",
@@ -241,10 +241,14 @@
             async:false
     	})
     	.done(function(data) {
-    		action_ok(data, var1, var2);
+    		if (typeof data !== "undefined") {
+    			action_ok(data, var1, var2, var3, var4);
+    		}else{
+    			action_not_ok (data, var1, var3, var4)	
+    		};
     	})
     	.fail(function(data, var1, var2) {
-    		action_not_ok
+			action_not_ok (data, var1, var3, var4)	
     	})
     	.always(function(data) {
     	});

@@ -155,10 +155,14 @@
 						};
 				});
 				newTripJson.idStudent = objStudent._id;
-				var roomNumber = searchRoomNumber (objStudent.rooms, objStudent.documento.mail);
-				if (roomNumber){
-					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
-					if (!$("#changeFamily").is(':checked') && roomNumber){
+				if (!$("#changeFamily").is(':checked')){
+					newTripJson.trip.familyName = "";
+					newTripJson.trip.idFamily = "";
+				};
+				rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
+				if ($("#changeFamily").is(':checked')){
+					var roomNumber = searchRoomNumber (objStudent.rooms, objStudent.documento.mail);
+					if (roomNumber){
 						var actualTripUpdate = objStudent.documento.trips.length
 						var objJson = {
 				    			familyName : objStudent.documento.trips[objStudent.documento.actualTrip].familyName,
@@ -172,9 +176,9 @@
 				    			roomNumber : roomNumber
 						};
 						rest_obterFamily(objStudent.documento.trips[objStudent.documento.actualTrip].familyName, updateRooms, semAcao, objJson);
+					}else{
+						noRoomAllocate();
 					};
-				}else{
-					noRoomAllocate();
 				};
 			},	
 			// Do not change code below
@@ -206,12 +210,13 @@
 				}
 		});
 		$('#status').val("Confirmed");
+		$("#changeFamily").prop("checked", true);
 		$('#changeFamily').change(function() {
 			if ($(this).is(':checked')){
-				$('#status').val("Available");
-			}else{
 				$('#status').val("Confirmed");
-			};
+			}else{
+				$('#status').val("Available");
+				};
 		});
 
 function montaJsonNewTrip(){

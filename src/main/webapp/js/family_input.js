@@ -40,7 +40,7 @@
 		montaPhoto (localStorage.app, "family", "contractFamily", "family", familyName, "uploadContract");
 	}else{
 		criaLinhaFamilyMember(0);
-		criaLinhaRoom(0);
+		criaLinhaRoom(0, null);
 		criaLinhaNote(0);
 		criaLinhaVisit(0);
 		$('#number_0').val(1);

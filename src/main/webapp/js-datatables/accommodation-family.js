@@ -340,7 +340,13 @@
 				    		};
 				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
 			    		}else{
-			    			singleBedText = "";
+				    		if (room.singleBed == 1){
+				    			availableBedText = "available " + singleBedAvailable + " bed"
+				    		}else{
+				    			availableBedText = "available " + singleBedAvailable + " beds"
+				    		};
+				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
+	    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 			    		}
 			    	};
 			    	if (room.coupleBed){
@@ -370,8 +376,14 @@
 				    		};
 				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
 			    		}else{
-			    			coupleBedText = "";
-			    		}
+				    		if (room.coupleBed == 1){
+				    			availableBedText = "available " + coupleBedAvailable + " bed"
+				    		}else{
+				    			availableBedText = "available " + coupleBedAvailable + " beds"
+				    		};
+				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
+	    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
+			    		};
 			    	};
 			    	if (room.privateWashroom){
 			    		if (room.privateWashroom == "Yes"){

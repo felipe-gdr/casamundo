@@ -65,7 +65,7 @@
 				'filter_diet:' + $("#filters_diet").val() + ',' +
 				'filter_dontHost:' + $("#filters_dontHost").val();
 				var objStudent = JSON.parse(localStorage.getItem("student"));
-				rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination, filters, "true");
+				rest_obterFamiliesAll(carregaLocalStorageFamilies, semAcao, objStudent.documento.trips[objStudent.documento.actualTrip].destination, filters, actualTrip);
 		});	
 	
 		// **** testa filtro availability

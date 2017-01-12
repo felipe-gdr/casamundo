@@ -18,7 +18,7 @@ function carregaTela(data, actualTrip) {
 		actualTrip = data.documento.actualTrip;
 	};
 	
-	$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
+	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);
 	$("#firstName").val(data.documento.firstName);
 	$("#secondName").val(data.documento.secondName);
 	$("#lastName").val(data.documento.lastName);
@@ -262,9 +262,10 @@ function carregaDadosSchool(data, consult, consultName) {
     
 	if (localStorage.typePage != "accommodation" && localStorage.typePage != "accommodation-dorms"){
     	generate_map_7(data.documento.latitude, data.documento.longitude);
-    	localStorage.latitudeSchool = data.documento.latitude;
-    	localStorage.longitudeSchool = data.documento.longitude;
     };
+
+    localStorage.latitudeSchool = data.documento.latitude;
+	localStorage.longitudeSchool = data.documento.longitude;
 };
 
 /**
