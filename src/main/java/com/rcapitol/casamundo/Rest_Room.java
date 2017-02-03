@@ -664,7 +664,10 @@ public class Rest_Room {
 									occupancy.put ("bed", bed.get("name"));
 									occupancy.put ("familyName", "");
 									jsonOccupancy.put("occupancy_all", occupancy);
-									documentos.add(jsonOccupancy);
+									String jsonOccupancyString = jsonOccupancy.toString();
+									JSONObject newJsonOccupancy = new JSONObject();
+									newJsonOccupancy = (JSONObject) parser.parse(jsonOccupancyString);
+									documentos.add(newJsonOccupancy);
 								};
 							};
 						};

@@ -374,6 +374,7 @@
     	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
     	    			"<small class='label text-column " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
     	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +
+    	    			"<small class='text-muted text-column'><i>" + student.trip.destination + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
                 "dates":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +

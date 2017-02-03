@@ -61,6 +61,7 @@
 	$(".text-filter").blur(function(){
 		var filters = 
 				'filter_student:' + $("#filter_student").val() + ',' +
+				'filter_destination:' + $("#filter_destination").val() + ',' +
 				'filter_check_in:' + $("#filter_check_in").val() + ',' +
 				'filter_check_out:' + $("#filter_check_out").val() + ',' +
 				'filter_status:' + $("#filter_status").val() + ',' +

@@ -201,7 +201,8 @@
     	    			"<span class='text-column'>" + invoice.student.firstName +  " " + invoice.student.lastName + "</span><br>" + 
     	    			"<small class='label text-column " + genderCollor + " '>" + invoice.student.gender + "</small><br>" +
     	    			"<small class='text-muted text-column'><i>" + invoice.student.nationality + "<i></small><br>" +
-    	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
+    	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>" +
+    	    			"<span class='text-column'>" + invoice.destination + "</span><br>",
     	    	"additional":
     	    			"<small class='text-muted text-column'>Underage: " + " " + "</small><br>" +
 	    				"<small class='text-muted text-column'>Pvt WC: " + invoice.trip.privateWashroom + "</small><br>" +

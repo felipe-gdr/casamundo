@@ -213,7 +213,8 @@
     	    			"<small class='text-muted text-column'>Number: " + payment.number + "</small><br>" +
     	    			"<small class='text-muted text-column'>Amount: " + payment.amount + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(payment.dueDate,"-") + "</small><br>" +
-	    				"<small class='text-muted text-column'>Authorized: </small><small class='text-bold text-column'>" + "" + "</small></a>",
+	    				"<small class='text-muted text-column'>Authorized: </small><small class='text-bold text-column'>" + "" + "</small></a><br>" +
+    	    			"<small class='text-muted text-column'>" + payment.destination + "</small><br>",
     	    	"student": 
     	    			"<a href='student.html.html?id=" + payment.student.mail + "'&typePage=change></a>" +
     	    			"<span class='text-column'>" + payment.student.firstName +  " " + payment.student.lastName + "</span><br>" + 

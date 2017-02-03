@@ -902,6 +902,15 @@ private JSONObject schoolData (String schoolName){
 				    	response = false;
 				    };
 			    };
+			    if (element[0].equals("filter_destination")){
+				    if (jsonTrip.get("destination") != null) {
+						if (((String) jsonTrip.get("destination")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+				    }else{
+				    	response = false;
+				    };
+			    };
 			    if (element[0].equals("filter_age_from")){
 			    	Long ageFrom = commons.calcAge((String)objJson.get("birthDay"));
 					if (ageFrom <= Integer.parseInt((String) element[1])){
@@ -921,6 +930,16 @@ private JSONObject schoolData (String schoolName){
 			    };
 			    if (element[0].equals("filter_check_out")){
 					if (commons.convertToCalendar((String)jsonTrip.get("start")).after(commons.convertToCalendar(element[1].replace("-", ""))) ){
+						response = false;
+					};
+			    };
+			    if (element[0].equals("filter_check_in-end")){
+					if (commons.convertToCalendar((String)jsonTrip.get("end")).before(commons.convertToCalendar(element[1].replace("-", ""))) ){
+						response = false;
+					};
+			    };
+			    if (element[0].equals("filter_check_out-end")){
+					if (commons.convertToCalendar((String)jsonTrip.get("end")).after(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
 					};
 			    };

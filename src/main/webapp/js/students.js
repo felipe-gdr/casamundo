@@ -52,10 +52,13 @@
 		'filter_student:""' + ',' +
 		'filter_gender:""' + ',' +
 		'filter_nationality:""' + ',' +
+		'filter_destination:""' + ',' +
 		'filter_age_from:""' + ',' +
 		'filter_age_to:""' + ',' +
 		'filter_check_in:""' + ',' +
 		'filter_check_out:""' + ',' +
+		'filter_check_in-end:""' + ',' +
+		'filter_check_out-end:""' + ',' +
 		'filter_status:""' + ',' +
 		'filter_payment:""' + ',' +
 		'filter_visa:""' + ',' +
@@ -86,10 +89,13 @@
 				'filter_student:' + $("#filter_student").val() + ',' +
 				'filter_gender:' + $("#filter_gender").val() + ',' +
 				'filter_nationality:' + $("#filter_nationality").val() + ',' +
+				'filter_destination:' + $("#filter_destination").val() + ',' +
 				'filter_age_from:' + $("#filter_age_from").val() + ',' +
 				'filter_age_to:' + $("#filter_age_to").val() + ',' +
 				'filter_check_in:' + $("#filter_check_in").val() + ',' +
 				'filter_check_out:' + $("#filter_check_out").val() + ',' +
+				'filter_check_in-end:' + $("#filter_check_in-end").val() + ',' +
+				'filter_check_out-end:' + $("#filter_check_out-end").val() + ',' +
 				'filter_status:' + $("#filter_status").val() + ',' +
 				'filter_payment:' + $("#filter_payment").val() + ',' +
 				'filter_visa:' + $("#filter_visa").val() + ',' +

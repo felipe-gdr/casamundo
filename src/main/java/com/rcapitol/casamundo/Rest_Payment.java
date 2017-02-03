@@ -430,6 +430,11 @@ public class Rest_Payment {
 						};
 					};
 			    };
+			    if (element[0].equals("filter_destination")){
+					if (((String) objJson.get("destination")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+						response = false;
+					};
+			    };
 			    if (element[0].equals("filter_check_in")){
 					if (commons.convertToCalendar((String)jsonTrip.get("start")).before(commons.convertToCalendar(element[1].replace("-", ""))) ){
 						response = false;
