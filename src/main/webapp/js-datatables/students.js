@@ -214,6 +214,7 @@
 			        	actions = 
 			        		"<li data-process='manualconfirm'" + dadosStudent + "><a href='#'>Manual confirm</a></li>" +
 			        		"<li data-process='sendemailtofamilytoconfirm'" + dadosStudent + "><a href='#'>Send email to family to confirm</a></li>" +
+			        		"<li data-process='createConfirmationLetter'" + dadosStudent + "><a href='#'>Create confirmation letter</a></li>" +
 			        		"<li data-process='deallocateroom'" + dadosStudent + "><a href='#'>Deallocated room</a></li>" +
 			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
@@ -284,6 +285,7 @@
 			        		"<li data-process='confirmdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Confirm</a></li>" +
 			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
 			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
+			        		"<li data-process='createConfirmationLetter'" + dadosStudent + "><a href='#'>Create confirmation letter</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Confirmed"){
@@ -520,6 +522,9 @@
 	    				};
 	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available", $(this).attr('data-actualTrip'));
 	    			};
+	    			if ($(this).attr('data-process') == "createConfirmationLetter") {
+	    				rest_obterStudent($(this).attr('data-emailStudent'), obterFamily, semAcao, $(this).attr('data-familyName'));
+	    			};
 	    		});
             }
         });
@@ -536,6 +541,13 @@
         } );
         /* end trip list */   
 };
+
+function obterFamily (objStudent, familyName){
+	
+	rest_obterFamily(familyName, createConfirmationLetter, semAcao, objStudent );
+	
+};
+
 function checkPayment(invoices){
 	var payment =
 		{
@@ -668,3 +680,175 @@ function sendEmailToFamilyToConfirm (objFamily, emailStudent) {
 	
 };
 	
+function createConfirmationLetter(objFamlily, objStudent){
+
+	/**
+	 * 
+	 */
+	var actualTrip = objStudent.documento.actualTrip;
+	var splitRegex = /\r\n|\r|\n/g;
+	jsPDF.API.textEx = function (text, x, y, hAlign, vAlign) {
+	    var fontSize = this.internal.getFontSize() / this.internal.scaleFactor;
+
+	    // As defined in jsPDF source code
+	    var lineHeightProportion = 1.15;
+
+	    var splittedText = null;
+	    var lineCount = 1;
+	    if (vAlign === 'middle' || vAlign === 'bottom' || hAlign === 'center' || hAlign === 'right') {
+	        splittedText = typeof text === 'string' ? text.split(splitRegex) : text;
+
+	        lineCount = splittedText.length || 1;
+	    }
+
+	    // Align the top
+	    y += fontSize * (2 - lineHeightProportion);
+
+	    if (vAlign === 'middle')
+	        y -= (lineCount / 2) * fontSize;
+	    else if (vAlign === 'bottom')
+	        y -= lineCount * fontSize;
+
+	    if (hAlign === 'center' || hAlign === 'right') {
+	        var alignSize = fontSize;
+	        if (hAlign === 'center')
+	            alignSize *= 0.5;
+
+	        if (lineCount > 1) {
+	            for (var iLine = 0; iLine < splittedText.length; iLine++) {
+	                this.text(splittedText[iLine], x - this.getStringUnitWidth(splittedText[iLine]) * alignSize, y);
+	                y += fontSize;
+	            }
+	            return this;
+	        }
+	        x -= this.getStringUnitWidth(text) * alignSize;
+	    }
+
+	    this.text(text, x, y);
+	    return this;
+	};
+	
+	var doc = new jsPDF('p','mm','a4')
+	var specialElementHandlers = {
+	    '#editor': function (element, renderer) {
+	        return true;
+	    }
+	};
+	
+	var img = new Image();
+	img.addEventListener('load', function() {
+	    doc.addImage(img, 'png', 170, 5, 20, 20);
+	});
+	img.src = 'img/logo/casatoronto.png';		
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(65, 20, 'Confirmation Letter');
+
+	var hoje = new Date();
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.textEx(hoje.getDate() + "-" + converteMesAlfa(hoje.getMonth()) + "-" + hoje.getFullYear(), 190, 20, 'right', 'middle');
+	
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 40, 'Agency');
+
+	doc.setLineWidth(0.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 42, 90, 42);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 47, objStudent.documento.trips[actualTrip].agencyName);
+	
+	
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(100, 40, 'School');
+
+	doc.setLineWidth(0.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(100, 42, 190, 42);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(100, 47, objStudent.documento.trips[actualTrip].schoolName);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 55, 'Student');
+
+	doc.setLineWidth(0.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 57, 190, 57);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 62, objStudent.documento.firstName + " " + objStudent.documento.lastName);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 70, "Arrival date: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].start)));
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(100, 70, "Departure date: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].end)));
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 75, "Airport pickup: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].arrivalDate)));
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(100, 75, "Airport drop off: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].departureDate)));
+
+    var mealPlan ="";
+    var comma = "";
+    $.each(objStudent.documento.trips[actualTrip].mealPlan, function (i, meals) {
+    	mealPlan = mealPlan + comma + meals;
+    	comma = ", ";
+    });
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 80, "Meal plan: " + mealPlan);
+
+	doc.setLineWidth(1.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 250, 190, 250);
+
+	doc.fromHTML($('#conformation_letter-pdf').html(), 5, 5, {
+        'width': 170,
+            'elementHandlers': specialElementHandlers
+    });
+
+    doc.save("confirmatioLetter_" + objStudent.documento.mail + '.pdf');
+	
+};

@@ -641,17 +641,17 @@ public class Rest_Room {
 					jsonObject = (JSONObject) parser.parse(documento);
 					List<JSONObject> beds = (List) jsonObject.get("beds");
 					for(JSONObject bed : beds){
-						JSONObject jsonOccupancy = new JSONObject();
 						List<JSONObject> occupancies = (List) bed.get("occupancies");
 						if (occupancies != null){
 							for(JSONObject occupancy : occupancies){
+								JSONObject jsonOccupancy = new JSONObject();
 								String idStudentOccupancy = (String) occupancy.get("idStudent");
 								String actualTripOccupancy = (String) occupancy.get("actualTrip");
+								jsonOccupancy.put("occupancy", occupancy);
 								if (idStudentOccupancy.equals(idStudent) &&	actualTripOccupancy.equals(actualTrip)) {
 									if (startOccupancy.equals((String)occupancy.get("startOccupancy")) && endOccupancy.equals((String)occupancy.get("endOccupancy"))){
 
 									}else{
-										jsonOccupancy.put("occupancy", occupancy);
 										int days = commons.difDate ((String)occupancy.get("startOccupancy"),(String)occupancy.get("endOccupancy")) + 1;
 										jsonOccupancy.put("usedDays", String.valueOf(days));
 									};
@@ -661,7 +661,7 @@ public class Rest_Room {
 									occupancy.put ("dorm", room.get("dormName"));
 									occupancy.put ("unit", room.get("unitName"));
 									occupancy.put ("room", room.get("name"));
-									occupancy.put ("bed", room.get("dormName"));
+									occupancy.put ("bed", bed.get("name"));
 									occupancy.put ("familyName", "");
 									jsonOccupancy.put("occupancy_all", occupancy);
 									documentos.add(jsonOccupancy);

@@ -180,7 +180,7 @@
 	        splittedText = typeof text === 'string' ? text.split(splitRegex) : text;
 
 	        lineCount = splittedText.length || 1;
-	    }
+	    };
 
 	    // Align the top
 	    y += fontSize * (2 - lineHeightProportion);

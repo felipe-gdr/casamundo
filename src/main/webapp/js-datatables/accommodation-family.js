@@ -461,7 +461,7 @@
         
         family_table.row.add( {
 	    	"family":
-	    		"<span class='hide'>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student")), actualTrip) + "</span>" +
+//	    		"<span class='hide'>" + calculaPontuacaoFamilia(family,JSON.parse(localStorage.getItem("student")), actualTrip) + "</span>" +
 	    		"<a href='family.html?familyName=" + family.familyName + "'>" +
 	    			"<span>" + family.familyName +  "</span><br>" +
 	    			rooms + 

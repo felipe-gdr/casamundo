@@ -356,12 +356,12 @@ function atualizaStudent (objStudent, args, actualTrip, dp){
 	//*** atualiza dados do quarto no estudante
 	//
 	var objStudent = JSON.parse(localStorage.getItem("student"));
-	objStudent.documento.trips[actualTrip].idRoom = "";
-	objStudent.documento.trips[actualTrip].idBed = "";
-	objStudent.documento.trips[actualTrip].dormName = "";
-	objStudent.documento.trips[actualTrip].unitName = "";
-	objStudent.documento.trips[actualTrip].roomName = "";
-	objStudent.documento.trips[actualTrip].bedName = "";
+	objStudent.documento.trips[actualTrip].idRoom = args.newResource.idRoom;
+	objStudent.documento.trips[actualTrip].idBed = args.newResource.idBed;
+	objStudent.documento.trips[actualTrip].dormName = args.newResource.dormName;
+	objStudent.documento.trips[actualTrip].unitName = args.newResource.unitName;
+	objStudent.documento.trips[actualTrip].roomName = args.newResource.roomName;
+	objStudent.documento.trips[actualTrip].bedName = args.newResource.bedName;
 	objStudent.documento.trips[actualTrip].status = status;
 	delete objStudent.contact;
 	delete objStudent.rooms;

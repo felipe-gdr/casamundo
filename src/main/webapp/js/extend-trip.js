@@ -149,35 +149,71 @@
 						    	};		    			
 						    });
 						};
-						var validField = field.name.split("_");
-						if (validField.length == 1){
-							newTripJson.trip[field.name] = limpaData(value);
+						if (field.name != "" ){
+							var validField = field.name.split("_");
+							if (validField.length == 1){
+								newTripJson.trip[field.name] = limpaData(value);
+							};
 						};
 				});
 				newTripJson.idStudent = objStudent._id;
-				if (!$("#changeFamily").is(':checked')){
-					newTripJson.trip.familyName = "";
-					newTripJson.trip.idFamily = "";
+				if (newTripJson.trip.accommodation == "Homestay"){
+					if (!$("#changeFamily").is(':checked')){
+						newTripJson.trip.familyName = "";
+						newTripJson.trip.idFamily = "";
+					};
+				};
+				if (newTripJson.trip.accommodation == "Dorms"){
+					if (!$("#changeFamily").is(':checked')){
+						newTripJson.trip.idRoom = "";
+						newTripJson.trip.idBed = "";
+						newTripJson.trip.dormName = "";
+						newTripJson.trip.unitName = "";
+						newTripJson.trip.roomName = "";
+						newTripJson.trip.bedName = "";
+					};
 				};
 				rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
-				if ($("#changeFamily").is(':checked')){
-					var roomNumber = searchRoomNumber (objStudent.rooms, objStudent.documento.mail);
-					if (roomNumber){
-						var actualTripUpdate = objStudent.documento.trips.length
-						var objJson = {
-				    			familyName : objStudent.documento.trips[objStudent.documento.actualTrip].familyName,
-				    			idFamily : objStudent.documento.trips[objStudent.documento.actualTrip].idFamily,
-				    			emailStudent : objStudent.documento.mail,
-				    			idStudent : objStudent._id,
-				    			actualTrip : actualTripUpdate,
-				    			start : newTripJson.trip.start,
-				    			end : newTripJson.trip.end,
-				    			occupancy : objStudent.documento.trips[objStudent.documento.actualTrip].occupancy,
-				    			roomNumber : roomNumber
+				var actualTripUpdate = objStudent.documento.trips.length.toString();
+				if (newTripJson.trip.accommodation == "Homestay"){
+					if ($("#changeFamily").is(':checked')){
+						var roomNumber = searchRoomNumber (objStudent.rooms, objStudent.documento.mail);
+						if (roomNumber){
+							var objJson = {
+					    			familyName : objStudent.documento.trips[objStudent.documento.actualTrip].familyName,
+					    			idFamily : objStudent.documento.trips[objStudent.documento.actualTrip].idFamily,
+					    			emailStudent : objStudent.documento.mail,
+					    			idStudent : objStudent._id,
+					    			actualTrip : actualTripUpdate,
+					    			start : newTripJson.trip.start,
+					    			end : newTripJson.trip.end,
+					    			occupancy : objStudent.documento.trips[objStudent.documento.actualTrip].occupancy,
+					    			roomNumber : roomNumber
+							};
+							rest_obterFamily(objStudent.documento.trips[objStudent.documento.actualTrip].familyName, updateRooms, semAcao, objJson);
+						}else{
+							noRoomAllocate();
 						};
-						rest_obterFamily(objStudent.documento.trips[objStudent.documento.actualTrip].familyName, updateRooms, semAcao, objJson);
-					}else{
-						noRoomAllocate();
+					};
+				};
+				if (newTripJson.trip.accommodation == "Dorms"){
+					if ($("#changeFamily").is(':checked')){
+						if (objStudent.documento.trips[objStudent.documento.actualTrip].dormName != ""){
+					    	var objOccupancy =
+							{
+								idStudent : objStudent._id,
+								actualTrip : actualTripUpdate,
+								newIdRoom : objStudent.documento.trips[objStudent.documento.actualTrip].idRoom,
+								newIdBed : objStudent.documento.trips[objStudent.documento.actualTrip].idBed,
+								newStart : newTripJson.trip.start,
+								newEnd : newTripJson.trip.end,
+								oldStart : "",
+								oldEnd : ""
+							};
+					    	rest_reallocateBed (objOccupancy, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Insert ok", "Insert not ok, try again or contact support");
+						}else{
+							noRoomAllocate();
+						};
 					};
 				};
 			},	
@@ -345,6 +381,12 @@ function carregaDadosTela(data, actualTrip){
     	literal = ", ";
     });
 
+    if (data.documento.trips[actualTrip].accommodation == "dorms"){
+    	$('.dorms').removeClass("hide");
+    };
+    if (data.documento.trips[actualTrip].accommodation == "homestay"){
+    	$('.homestay').removeClass("hide");
+    };
     $('#contactName').html(data.documento.trips[actualTrip].contactName);
     $('#contactGender').html(data.documento.trips[actualTrip].contactGender);
     $('#contactEmail').html(data.documento.trips[actualTrip].contactEmail);
@@ -352,6 +394,10 @@ function carregaDadosTela(data, actualTrip){
     $('#contactMobilePhone').html(data.documento.trips[actualTrip].contactMobilePhone);
 
 	$("#familyName").val(data.documento.trips[actualTrip].familyName);
+	$("#dormName").val(data.documento.trips[actualTrip].dormName);
+	$("#unitName").val(data.documento.trips[actualTrip].unitName);
+	$("#roomName").val(data.documento.trips[actualTrip].roomName);
+	$("#bedName").val(data.documento.trips[actualTrip].bedName);
 	$("#agencyName").val(data.documento.trips[actualTrip].agencyName);
 	$("#accommodation").val(data.documento.trips[actualTrip].accommodation);
     $("#start").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));

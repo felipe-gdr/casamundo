@@ -153,9 +153,11 @@
 						    });
 						    newTripJson.trip[field.name] = value;
 						}else{
-							var validField = field.name.split("_");
-							if (validField.length == 1 && field.name != ""){
-								newTripJson.trip[field.name] = limpaData(value);
+							if (field.name != "" ){
+								var validField = field.name.split("_");
+								if (validField.length == 1 && field.name != ""){
+									newTripJson.trip[field.name] = limpaData(value);
+								};
 							};
 						};
 				});

@@ -318,12 +318,14 @@ public class Rest_PriceTable {
 							jsonValue.put("gross", jsonObject.get("gross"));
 							jsonValue.put("net", jsonObject.get("net"));
 							jsonValue.put("findValue", true);
+							mongoValue.close();
 							return jsonValue;
 						};
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 				};
+				mongoValue.close();
 			} catch (UnknownHostException e1) {
 				e1.printStackTrace();
 			} catch (MongoException e1) {

@@ -916,8 +916,8 @@ function calculaIdade ( dataNascimento ) {
             case "Placement offered":
             	statusCollor = "label-placement-offered"
                 break;
-            case "Documentos":
-            	statusCollor = "label-documentos"
+            case "Documents":
+            	statusCollor = "label-documents"
                 break;
             case "Checked out":
             	statusCollor = "label-terminated"
