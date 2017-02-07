@@ -574,8 +574,8 @@ function checkPayment(invoices){
 				payment.text = "paid $";
 	            break;
 	        default: 
-				payment.collor = "default";
-				payment.text = "none $";
+				payment.collor = "info";
+				payment.text = "new $";
 	        };	    		
 		});
 	};	

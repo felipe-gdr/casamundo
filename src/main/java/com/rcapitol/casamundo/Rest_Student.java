@@ -27,6 +27,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.Calendar;
+
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -406,7 +408,18 @@ public class Rest_Student {
 							jsonDocumento.put("notes", jsonObject.get("notes"));
 						    jsonDocumento.put("actualTrip", y);
 						    jsonDocumento.put("invoices", addInvoice (objStudent.getString("_id"), y));
-							if (addTrip (jsonTrip, jsonDocumento, filters)){
+						    String statusInvoice = "new";
+							List invoices = (List) jsonDocumento.get("invoices");
+							int w = 0;
+							while (w < invoices.size()) {
+								JSONObject jsonInvoice = (JSONObject) invoices.get(y);
+								if (jsonInvoice.get("statusFinal") != null){
+									statusInvoice = (String) jsonInvoice.get("statusFinal");
+								};
+								++w;
+							};
+							jsonDocumento.put("statusInvoice", statusInvoice);
+							if (addTrip (jsonTrip, jsonDocumento, filters, statusInvoice)){
 								documentos.add(jsonDocumento);
 								++i;
 							};
@@ -655,7 +668,7 @@ public class Rest_Student {
 	};
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Boolean addTrip (JSONObject jsonTrip, JSONObject jsonDocumento, String filters){
+	private Boolean addTrip (JSONObject jsonTrip, JSONObject jsonDocumento, String filters, String statusInvoice){
 	    String agencyName = null;
 	    String schoolName = null;
 	    String agencySigla = null;
@@ -786,7 +799,7 @@ public class Rest_Student {
 			jsonDocumento.put("rooms", docRooms);
 		};
 		if (!filters.equals("null")){
-			Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla);
+			Boolean filter_ok = checkFilters (filters, jsonDocumento, agencySigla, schoolSigla, statusInvoice);
 			if (filter_ok){
 				return true;
 			};
@@ -860,7 +873,7 @@ private JSONObject schoolData (String schoolName){
 };
 
 	@SuppressWarnings("rawtypes")
-	public Boolean checkFilters (String filters, JSONObject objJson, String agencySigla, String schoolSigla){
+	public Boolean checkFilters (String filters, JSONObject objJson, String agencySigla, String schoolSigla, String statusInvoice){
 		JSONObject jsonTrip =  (JSONObject) objJson.get("trip");
 		Boolean response = true;
 		String array[] = new String[24];
@@ -953,12 +966,20 @@ private JSONObject schoolData (String schoolName){
 				    };
 			    };
 			    if (element[0].equals("filter_payment")){
-				    if (jsonTrip.get("payment") != null) {
-						if (((String) jsonTrip.get("payment")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-							response = false;
+				    if (statusInvoice != null) {
+						if (element[1].toLowerCase().equals("paid") ){
+							if (!statusInvoice.toLowerCase().equals("paid")){
+								response = false;
+							}else{
+								System.out.println("teste");
+							}
+						}else{
+							if (statusInvoice.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+								response = false;
+							};
 						};
 				    }else{
-				    	response = false;
+				    	response = false;				    	
 				    };
 			    };
 			    if (element[0].equals("filter_visa")){
@@ -1138,6 +1159,7 @@ private JSONObject schoolData (String schoolName){
 	
 	@SuppressWarnings("unchecked")
 	public JSONArray addInvoice (String idStudent, int actualTrip){
+		Commons commons = new Commons();
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -1162,6 +1184,16 @@ private JSONObject schoolData (String schoolName){
 				JSONObject jsonInvoice; 
 				try {
 					jsonInvoice = (JSONObject) parser.parse(documento);
+					String status = (String) jsonInvoice.get("status");					
+					if (status.equals("unpaid")){
+						Calendar todaysDate = Calendar.getInstance();
+						if (commons.convertToCalendar((String)jsonInvoice.get("dueDate")).before(todaysDate) ){
+							status = "overdue";
+			    		}else{
+			    			status = "unppaid";    			
+			    		};
+					};
+					jsonInvoice.put("statusFinal", status);
 					documentos.add(jsonInvoice);
 				} catch (ParseException e) {
 					e.printStackTrace();
