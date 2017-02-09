@@ -112,7 +112,10 @@ public class Commons {
  			monthString = String.valueOf(month);
  		};
  		
-		String dateString = String.valueOf(year) + monthString + dayString;
+ 		String dateString = "";
+ 		if (type == "inv_month_number"){
+ 			dateString = String.valueOf(year) + monthString + dayString;
+ 		};
 		  
 		return dateString;
    

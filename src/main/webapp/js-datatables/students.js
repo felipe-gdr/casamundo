@@ -114,7 +114,6 @@
             "charset" : "UTF-8",
             "bDestroy": true,
             "iDisplayLength": 30,
-            "order": [[1, 'asc']],
             "fnDrawCallback": function( oSettings ) {
     	       runAllCharts()
     	    }
@@ -376,7 +375,7 @@
     	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>" + student.trip.destination + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
-                "dates":"<small class='hide'>" + converteAnoMesDia(student.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
+                "dates":"<small class='hide'>" + separaAnoMesDia(student.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
     	    	"status":"<small class='label text-column " + statusCollor + "'>" + student.trip.status + "</small>&nbsp;&nbsp;" +

@@ -209,6 +209,7 @@ public class Rest_Student {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response IncluirStudent(Student student)  {
+		Commons commons = new Commons();
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -221,7 +222,7 @@ public class Rest_Student {
 			mapJson = mapper.readValue(jsonDocumento, HashMap.class);
 			JSONObject documento = new JSONObject();
 			documento.putAll(mapJson);
-			documento.put(lastChange, todaysDate)
+			documento.put("lastChange", commons.todaysDate("inv_month_number"));
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
 			mongo.close();
@@ -248,6 +249,7 @@ public class Rest_Student {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response AtualizarDocumento(Student doc)  {
 		String mail = doc.documento.mail;
+		Commons commons = new Commons();
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -261,6 +263,7 @@ public class Rest_Student {
 				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
 				JSONObject documento = new JSONObject();
 				documento.putAll(mapJson);
+				documento.put("lastChange", commons.todaysDate("inv_month_number"));
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 				BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
 				DBObject cursor = collection.findAndModify(searchQuery,
@@ -361,7 +364,7 @@ public class Rest_Student {
 			};
 
 			BasicDBObject setSort = new BasicDBObject();
-			setSort.put("documento.firstName", 1);
+			setSort.put("lastChange", -1);
 
 			DBCollection collection = db.getCollection("student");
 			
