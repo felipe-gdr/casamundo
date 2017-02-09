@@ -74,7 +74,6 @@ public class Commons {
 		return convertDateMesAlfa(df.format(cal.getTime())).replaceAll("/", "");
 	};
 
-
 	public Calendar convertToCalendar (String date){
 		
 		Calendar cal = Calendar.getInstance();   
@@ -84,6 +83,41 @@ public class Commons {
 		return cal;
 	};
 
+	public String todaysDate(String type) {
+		
+		Calendar calendar = Calendar.getInstance();
+		//getTime() returns the current date in default time zone
+		Date date = calendar.getTime();
+		int day = calendar.get(Calendar.DATE);
+		//Note: +1 the month for current month
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int year = calendar.get(Calendar.YEAR);
+		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+		int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+		
+		String dayString = "";
+		String monthString = "";
+		String yearString = "";
+
+		if (day < 10){
+			dayString = "0" + String.valueOf(day);
+ 		}else{
+ 			dayString = String.valueOf(day);
+ 		};
+
+		if (month < 10){
+			monthString = "0" + String.valueOf(month);
+ 		}else{
+ 			monthString = String.valueOf(month);
+ 		};
+ 		
+		String dateString = String.valueOf(year) + monthString + dayString;
+		  
+		return dateString;
+   
+	}
+	
 	public Long calcTime (String date){
 		System.out.println("date=" + date);
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");

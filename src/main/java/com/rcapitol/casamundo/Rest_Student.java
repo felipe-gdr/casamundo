@@ -221,6 +221,7 @@ public class Rest_Student {
 			mapJson = mapper.readValue(jsonDocumento, HashMap.class);
 			JSONObject documento = new JSONObject();
 			documento.putAll(mapJson);
+			documento.put(lastChange, todaysDate)
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
 			mongo.close();

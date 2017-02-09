@@ -60,6 +60,7 @@ public class Student {
 		public String emergencyContactRelationship;
 		public String actualTrip;
 		public String photoPassport;
+		public String lastChange;
 		public Trips trips [];
 		public Notes notes[];
 
@@ -99,6 +100,7 @@ public class Student {
 						String emergencyContactRelationship,
 						String actualTrip,
 						String photoPassport,
+						String lastChange,
 						Trips [] trips,
 						Notes notes[]
 
@@ -132,6 +134,7 @@ public class Student {
 						this.emergencyContactRelationship = emergencyContactRelationship;
 						this.actualTrip = actualTrip; 
 						this.photoPassport = photoPassport;
+						this.lastChange = lastChange;
 						this.trips = trips;
 						this.notes = notes;
 		}
