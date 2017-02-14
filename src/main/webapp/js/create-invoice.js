@@ -288,7 +288,7 @@
 	doc.setTextColor(0, 51, 102);
 	doc.text(65, 70, 'Trip:' + $('#start').html() + " / " + $('#end').html());
 
-	doc.setLineWidth(1.5);
+	doc.setLineWidth(1.0);
 	doc.setDrawColor(238, 111, 26);
 	doc.line(15, 75, 190, 75);
 	
@@ -322,7 +322,7 @@
 	doc.setTextColor(0, 51, 102);
 	doc.textEx('VALUE', 190, 81, 'right', 'top');
 
-	doc.setLineWidth(1.5);
+	doc.setLineWidth(1.0);
 	doc.setDrawColor(238, 111, 26);
 	doc.line(15, 85, 190, 85);
 

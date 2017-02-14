@@ -28,6 +28,13 @@
         // *** datas Day pilot do novo evento
 		var startNewEvent = new DayPilot.Date(separadorAnoMesDia(par_startNewEvent, "-") + "T12:00:00");
 		var endNewEvent = new DayPilot.Date(separadorAnoMesDia(par_endNewEvent, "-") + "T12:00:00");
+
+		var totalDaysTrip = calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
+ 				(DayPilot.Date(startNewEvent).getMonth() + 1) + "/" + 
+ 				DayPilot.Date(startNewEvent).getYear(), 
+ 				DayPilot.Date(endNewEvent).getDay() + "/" + 
+ 				(DayPilot.Date(endNewEvent).getMonth() + 1) + "/" + 
+ 				DayPilot.Date(endNewEvent).getYear()) + 1;
 		
 		var usedDays = daysUsed(rooms_actualTrip);
 		var endNewEvent = DayPilot.Date(endNewEvent).addDays(usedDays * -1);
@@ -155,6 +162,7 @@
 	    		          oldResource : room_bed,
 	    		          student : occupancy.student,
 	    		          student_daysTrip : realDaysTrip,
+	    		          student_totalDaysTrip : totalDaysTrip,
 	    		          student_usedDays : daysUsed(occupancy.student_occupancies),
 	    		          newAllocated : false
 	    		        };
@@ -168,6 +176,7 @@
 		    		        oldResource : room_bed,
 		    		        student : occupancy.student,
 		    		        student_daysTrip : realDaysTrip,
+		    		        student_totalDaysTrip : totalDaysTrip,
 		    		        student_usedDays : daysUsed(occupancy.student_occupancies),
 		    		        newAllocated : false
 	    				}

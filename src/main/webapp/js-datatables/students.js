@@ -282,6 +282,7 @@
 			        if (student.trip.status == "Allocated"){
 			        	actions = 
 			        		"<li data-process='confirmdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Confirm</a></li>" +
+			        		"<li><a href='accommodation-dorms.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Move/Resize</a></li>" +
 			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
 			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='createConfirmationLetter'" + dadosStudent + "><a href='#'>Create confirmation letter</a></li>" +
@@ -375,7 +376,9 @@
     	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>" + student.trip.destination + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + age + "<i></small><br>",
-                "dates":"<small class='hide'>" + separaAnoMesDia(student.trip.start) + "</small><small class='text-muted text-column'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
+                "dates":
+                		"<small class='hide'>" + separaAnoMesDia(student.trip.start) + "</small>" +
+                		"<small class='text-muted text-column'>In: " + separaDataMes(student.trip.start, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>Out: " + separaDataMes(student.trip.end, "-") + "</small><br>" +
                 		"<small class='text-muted text-column'>" + durationTrip + "</small><br>",
     	    	"status":"<small class='label text-column " + statusCollor + "'>" + student.trip.status + "</small>&nbsp;&nbsp;" +
@@ -680,7 +683,7 @@ function sendEmailToFamilyToConfirm (objFamily, emailStudent) {
 	
 };
 	
-function createConfirmationLetter(objFamlily, objStudent){
+function createConfirmationLetter(objFamily, objStudent){
 
 	/**
 	 * 
@@ -734,7 +737,7 @@ function createConfirmationLetter(objFamlily, objStudent){
 	        return true;
 	    }
 	};
-	
+
 	var img = new Image();
 	img.addEventListener('load', function() {
 	    doc.addImage(img, 'png', 170, 5, 20, 20);
@@ -745,14 +748,14 @@ function createConfirmationLetter(objFamlily, objStudent){
 	doc.setFontType("bold");
 	doc.setFontSize(12);
 	doc.setTextColor(0, 51, 102);
-	doc.text(65, 20, 'Confirmation Letter');
+	doc.text(65, 30, 'Confirmation Letter');
 
 	var hoje = new Date();
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.textEx(hoje.getDate() + "-" + converteMesAlfa(hoje.getMonth()) + "-" + hoje.getFullYear(), 190, 20, 'right', 'middle');
+	doc.textEx(hoje.getDate() + "-" + converteMesAlfa(hoje.getMonth()) + "-" + hoje.getFullYear(), 190, 30, 'right', 'middle');
 	
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
@@ -807,25 +810,33 @@ function createConfirmationLetter(objFamlily, objStudent){
 	doc.setFontType("normal");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.text(15, 70, "Arrival date: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].start)));
+	doc.text(15, 70, "Arrival date: " + separaDataMes(objStudent.documento.trips[actualTrip].start, "-"));
 
 	doc.setFont("helvetica");
 	doc.setFontType("normal");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.text(100, 70, "Departure date: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].end)));
+	doc.text(100, 70, "Departure date: " + separaDataMes(objStudent.documento.trips[actualTrip].end, "-"));
 
+	var date = "";
+	if (objStudent.documento.trips[actualTrip].arrivalDate){
+		date = separaDataMes(objStudent.documento.trips[actualTrip].arrivalDate, "-")
+	};
 	doc.setFont("helvetica");
 	doc.setFontType("normal");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.text(15, 75, "Airport pickup: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].arrivalDate)));
+	doc.text(15, 75, "Airport pickup: " + date);
 
+	date = "";
+	if (objStudent.documento.trips[actualTrip].departureDate){
+		date = separaDataMes(objStudent.documento.trips[actualTrip].departureDate, "-")
+	};
 	doc.setFont("helvetica");
 	doc.setFontType("normal");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.text(100, 75, "Airport drop off: " + separaDataMes(getValueStudent(objStudent.documento.trips[actualTrip].departureDate)));
+	doc.text(100, 75, "Airport drop off: " + date);
 
     var mealPlan ="";
     var comma = "";
@@ -840,15 +851,193 @@ function createConfirmationLetter(objFamlily, objStudent){
 	doc.setTextColor(0, 0, 0);
 	doc.text(15, 80, "Meal plan: " + mealPlan);
 
-	doc.setLineWidth(1.5);
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 87, 'Family');
+
+	doc.setLineWidth(0.5);
 	doc.setDrawColor(238, 111, 26);
-	doc.line(15, 250, 190, 250);
+	doc.line(15, 89, 190, 89);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 94, "Name: " + objStudent.documento.trips[actualTrip].familyName);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 102, "Contact: " + objFamily.documento.contact.firstName + " " + objFamily.documento.contact.lastName);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 107, "Address: " + objFamily.documento.address.street);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 112, "Phone: " + objFamily.documento.contact.phoneNumber);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 117, "Mobile: " + objFamily.documento.contact.mobilePhoneNumber);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 122, "Email: " + objFamily.documento.contact.email);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 127, "Main Intersection: " + objFamily.documento.address.mainIntersection);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 132, "Nearest Subway Station: " + objFamily.documento.address.nearestSubwayStation);
+
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 137, "Walkin/Bus Time: " + objFamily.documento.address.timeSubwayStation);
+
+	var pets = "";
+	if (objFamily.documento.haveDogs == "yes"){
+		pets = "dogs";
+	};
+	if (objFamily.documento.haveCats == "yes"){
+		if (pets == ""){
+			pet = "cats"
+		}else{
+			pets = "dogs and cats";
+		};
+	};
+	doc.setFont("helvetica");
+	doc.setFontType("normal");
+	doc.setFontSize(10);
+	doc.setTextColor(0, 0, 0);
+	doc.text(15, 142, "Pets: " + pets);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(12);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 149, 'Family members living in the house');
+
+	doc.setLineWidth(0.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 152, 190, 152);
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(11);
+	doc.setTextColor(0, 51, 102);
+	doc.text(15, 157, 'Name');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(11);
+	doc.setTextColor(0, 51, 102);
+	doc.text(65, 157, 'Relationship');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(11);
+	doc.setTextColor(0, 51, 102);
+	doc.text(110, 157, 'Date of birth');
+
+	doc.setFont("helvetica");
+	doc.setFontType("bold");
+	doc.setFontSize(11);
+	doc.setTextColor(0, 51, 102);
+	doc.text(150, 157, 'Occupation');
+
+	doc.setLineWidth(0.5);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 160, 190, 160);
+
+	var hight = 165;
+    $.each(objFamily.documento.familyMembers
+		    , function (i, value) {
+
+    	doc.setFont("helvetica");
+    	doc.setFontType("normal");
+    	doc.setFontSize(10);
+    	doc.setTextColor(0, 51, 102);
+    	doc.text(15, hight, value.name);
+
+    	doc.setFont("helvetica");
+    	doc.setFontType("normal");
+    	doc.setFontSize(10);
+    	doc.setTextColor(0, 51, 102);
+    	doc.text(65, hight, value.relationship);
+
+    	doc.setFont("helvetica");
+    	doc.setFontType("normal");
+    	doc.setFontSize(10);
+    	doc.setTextColor(0, 51, 102);
+    	doc.text(110, hight, value.birthDate);
+
+    	doc.setFont("helvetica");
+    	doc.setFontType("normal");
+    	doc.setFontSize(10);
+    	doc.setTextColor(0, 51, 102);
+    	doc.text(150, hight, value.ocuppation);
+    	
+		hight = hight + 7;
+
+    });
+	
+	var imgPhoto01 = new Image();
+	imgPhoto01.addEventListener('load', function() {
+	    doc.addImage(imgPhoto01, 'png', 15, hight, 40, 40);
+	});
+	imgPhoto01.src = "http://" + localStorage.urlServidor + ":8080/casamundo/rest/upload/images?image=" + objFamily.documento.fotos.photo01;		
+	
+	
+	var imgPhoto02 = new Image();
+	imgPhoto02.addEventListener('load', function() {
+	    doc.addImage(imgPhoto02, 'png', 65, hight, 40, 40);
+	});
+	imgPhoto02.src = "http://" + localStorage.urlServidor + ":8080/casamundo/rest/upload/images?image=" + objFamily.documento.fotos.photo02;		
+	
+	
+	var imgPhoto03 = new Image();
+	imgPhoto03.addEventListener('load', function() {
+	    doc.addImage(imgPhoto03, 'png', 115, hight, 40, 40);
+	});
+	imgPhoto03.src = "http://" + localStorage.urlServidor + ":8080/casamundo/rest/upload/images?image=" + objFamily.documento.fotos.photo03;		
+	
+	
+	var imgPhoto04 = new Image();
+	imgPhoto04.addEventListener('load', function() {
+	    doc.addImage(imgPhoto04, 'png', 165, hight, 40, 40);
+	});
+	imgPhoto04.src = "http://" + localStorage.urlServidor + ":8080/casamundo/rest/upload/images?image=" + objFamily.documento.fotos.photo04;		
+
+	doc.setLineWidth(1.0);
+	doc.setDrawColor(238, 111, 26);
+	doc.line(15, 280, 190, 280);
 
 	doc.fromHTML($('#conformation_letter-pdf').html(), 5, 5, {
         'width': 170,
             'elementHandlers': specialElementHandlers
     });
-
-    doc.save("confirmatioLetter_" + objStudent.documento.mail + '.pdf');
+    
+    setTimeout(function(){ doc.save("confirmatioLetter_" + objStudent.documento.mail + '.pdf') }, 3000);
 	
 };

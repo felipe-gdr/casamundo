@@ -217,7 +217,7 @@ function checkDatesCall (objStudent, param, dp, objOccupancy){
     
 };
 
-function checkDates(dp, args, objStudent, usedDays){
+function checkDates(dp, args, usedDays){
 	
 	var actualTrip = args.e.data.actualTrip;
 	var statusCollor = "#ffff80";
@@ -295,7 +295,7 @@ function checkDates(dp, args, objStudent, usedDays){
     				 				(DayPilot.Date(args.newEnd).getMonth() + 1) + "/" + 
     				 				DayPilot.Date(args.newEnd).getYear()) + 1;
     	
-    	if ((parseInt(usedDays) + difDays) > parseInt(args.e.data.student_daysTrip)){
+    	if ((parseInt(usedDays) + difDays) > parseInt(args.e.data.student_totalDaysTrip)){
             if (args.preventDefault){
             	args.preventDefault();
             };
@@ -356,12 +356,14 @@ function atualizaStudent (objStudent, args, actualTrip, dp){
 	//*** atualiza dados do quarto no estudante
 	//
 	var objStudent = JSON.parse(localStorage.getItem("student"));
-	objStudent.documento.trips[actualTrip].idRoom = args.newResource.idRoom;
-	objStudent.documento.trips[actualTrip].idBed = args.newResource.idBed;
-	objStudent.documento.trips[actualTrip].dormName = args.newResource.dormName;
-	objStudent.documento.trips[actualTrip].unitName = args.newResource.unitName;
-	objStudent.documento.trips[actualTrip].roomName = args.newResource.roomName;
-	objStudent.documento.trips[actualTrip].bedName = args.newResource.bedName;
+	if (args.newResource){
+		objStudent.documento.trips[actualTrip].idRoom = args.newResource.idRoom;
+		objStudent.documento.trips[actualTrip].idBed = args.newResource.idBed;
+		objStudent.documento.trips[actualTrip].dormName = args.newResource.dormName;
+		objStudent.documento.trips[actualTrip].unitName = args.newResource.unitName;
+		objStudent.documento.trips[actualTrip].roomName = args.newResource.roomName;
+		objStudent.documento.trips[actualTrip].bedName = args.newResource.bedName;
+	};
 	objStudent.documento.trips[actualTrip].status = status;
 	delete objStudent.contact;
 	delete objStudent.rooms;

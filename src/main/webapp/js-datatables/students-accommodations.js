@@ -214,6 +214,7 @@
 	    	    	"accommodation": 
 		    			accommodations,
 	                "dates":
+	                		"<small class='hide'>" + separaAnoMesDia(accommodation.occupancy_all.startOccupancy) + "</small>" +
 	                		"<small class='hide'>" + converteAnoMesDia(accommodation.occupancy_all.startOccupancy) + "</small>" + 
 	                		"<small class='text-muted text-column'>In: " + separaDataMes(accommodation.occupancy_all.startOccupancy, "-") + "</small><br>" +
 	                		"<small class='text-muted text-column'>Out: " + separaDataMes(accommodation.occupancy_all.endOccupancy, "-") + "</small><br>" +
