@@ -291,13 +291,15 @@
 			        if (student.trip.status == "Confirmed"){
 			        	actions = 
 			        		"<li data-process='changestatustodocumentsdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Send confirmation letter</a></li>" +
+			        		"<li><a href='accommodation-dorms.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Move/Resize</a></li>" +
 			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
 			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
 			        };
 			        if (student.trip.status == "Documents"){
 			        	actions = 
-			        		"<li data-process='changestatustoinhousedorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Send confirmation letter</a></li>" +
+			        		"<li data-process='changestatustoinhousedorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>In House</a></li>" +
+			        		"<li><a href='accommodation-dorms.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Move/Resize</a></li>" +
 			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
 			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +
 			        		"<li data-process='changestatustocanceled' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Cancel</a></li>";
@@ -305,6 +307,7 @@
 			        if (student.trip.status == "In house"){
 			        	actions = 
 			        		"<li data-process='changestatustocheckoutdorms' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Change to check out</a></li>" +
+			        		"<li><a href='accommodation-dorms.html?mail=" + student.mail + "&typePage=accommodation-dorms&actualTrip=" + actualTrip + "'>Move/Resize</a></li>" +
 			        		"<li><a href='extend-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>Extend trip</a></li>" +
 			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>" +
 			        		"<li><a href='new-trip.html?mail=" + student.mail + "&typePage=accommodation&newTrip=true'>New trip</a></li>" +

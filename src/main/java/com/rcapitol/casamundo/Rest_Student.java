@@ -929,16 +929,24 @@ private JSONObject schoolData (String schoolName){
 				    };
 			    };
 			    if (element[0].equals("filter_age_from")){
-			    	Long ageFrom = commons.calcAge((String)objJson.get("birthDay"));
-					if (ageFrom <= Integer.parseInt((String) element[1])){
-						response = false;
-					};
+			    	if (!objJson.get("birthDay").equals("")){
+				    	Long ageFrom = commons.calcAge((String)objJson.get("birthDay"));
+						if (ageFrom <= Integer.parseInt((String) element[1])){
+							response = false;
+						};
+			    	}else{
+			    		response = false;
+			    	};
 			    };
 			    if (element[0].equals("filter_age_to")){
-			    	Long ageTo = commons.calcAge((String)objJson.get("birthDay"));
-					if (ageTo >= Integer.parseInt((String) element[1])){
-						response = false;
-					};
+			    	if (!objJson.get("birthDay").equals("")){
+				    	Long ageTo = commons.calcAge((String)objJson.get("birthDay"));
+						if (ageTo >= Integer.parseInt((String) element[1])){
+							response = false;
+						};
+			    	}else{
+			    		response = false;
+			    	};
 			    };
 			    if (element[0].equals("filter_check_in")){
 					if (commons.convertToCalendar((String)jsonTrip.get("start")).before(commons.convertToCalendar(element[1].replace("-", ""))) ){
@@ -1046,8 +1054,8 @@ private JSONObject schoolData (String schoolName){
 				    };
 			    };
 			    if (element[0].equals("filter_dorm")){
-				    if (jsonTrip.get("doorName") != null) {
-						if (((String) jsonTrip.get("doorName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+				    if (jsonTrip.get("dormName") != null) {
+						if (((String) jsonTrip.get("dormName")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
 							response = false;
 						};
 				    }else{

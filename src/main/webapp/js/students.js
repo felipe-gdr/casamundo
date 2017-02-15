@@ -90,6 +90,9 @@
 		'filter_school:""' + ',' +
 		'filter_agent:""' + ',' +
 		'filter_host:""' + ',' +
+		'filter_dorm:""' + ',' +
+		'filter_unit:""' + ',' +
+		'filter_room:""' + ',' +
 		'filter_driver:""' + ',' +
 		'filter_occupancy:""' + ',' +
 		'filter_private_wc:""' + ',' +
@@ -127,6 +130,9 @@
 			'filter_school:' + $("#filter_school").val() + ',' +
 			'filter_agent:' + $("#filter_agent").val() + ',' +
 			'filter_host:' + $("#filter_host").val() + ',' +
+			'filter_dorm:' + $("#filter_dorm").val() + ',' +
+			'filter_unit:' + $("#filter_unit").val() + ',' +
+			'filter_room:' + $("#filter_room").val() + ',' +
 			'filter_driver:' + $("#filter_driver").val() + ',' +
 			'filter_occupancy:' + $("#filter_occupancy").val() + ',' +
 			'filter_private_wc:' + $("#filter_private_wc").val() + ',' +
