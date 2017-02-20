@@ -399,8 +399,8 @@
     	    				"<small class='text-muted text-column'>Pvt WC: " + student.trip.privateWashroom + "</small><br>" +
     	    				"<small class='text-muted text-column'>Dogs: " + student.trip.liveDogs + "</small>&nbsp;&nbsp;" +
     	    				"<small class='text-muted text-column'>Cats: " + student.trip.liveCats + "</small><br>" +
-    	    				"<small class='text-muted text-column'>" + student.trip.mealPlan + "</small>&nbsp;&nbsp;" +
-    	    				"<small class='text-muted text-column'>" + student.trip.specialDiet + "</small>",    	    				
+    	    				"<small class='text-muted text-column'>Meals: " + student.trip.mealPlan + "</small><br>" +
+    	    				"<small class='text-muted text-column'>Diet: " + student.trip.specialDiet + "</small>",    	    				
        	    	"comments":"<small class='text-muted text-column'>" + student.trip.comments + "</small>",
        	    	"notes":"<small class='text-muted text-column'>" + notes + "</small>",
                 'actions': 

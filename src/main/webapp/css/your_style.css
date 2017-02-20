@@ -36,17 +36,26 @@
  .label-placement-offered {
 	background-color: #d7d700 !important;
 }
+ .label-offered {
+	background-color: #d7d700 !important;
+}
  .label-documents {
 	background-color: #d7d700 !important;
 }
  .label-confirmed {
 	background-color: #0080ff !important;
 }
+ .label-offered {
+	background-color: #8000ff!important;
+}
  .label-in-house {
 	background-color: #d2d06a!important;
 }
  .label-terminated {
 	background-color: #c0c0c0 !important;
+}
+ .label-evalueter-received {
+	background-color: #808080 !important;
 }
  .label-unavaliable {
 	background-color: #ff8000 !important;

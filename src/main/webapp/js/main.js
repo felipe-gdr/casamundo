@@ -907,6 +907,9 @@ function calculaIdade ( dataNascimento ) {
             case "Confirmed":
             	statusCollor = "label-confirmed"
                 break;
+            case "Offered":
+            	statusCollor = "label-offered"
+                break;
             case "In house":
             	statusCollor = "label-in-house"
                 break;
@@ -921,6 +924,9 @@ function calculaIdade ( dataNascimento ) {
                 break;
             case "Checked out":
             	statusCollor = "label-terminated"
+                break;
+            case "Evaluete received":
+            	statusCollor = "label-evalueter-received"
                 break;
             default: 
         		statusCollor = "#ffffff"
