@@ -411,6 +411,9 @@ function changeEvent (dp, args){
     default: 
     	statusCollor = "#ffff80"
     };	    
+	if (data.student_usedDays != 0  ){
+		statusCollor = "#80C5BB"
+	};
 	args.e.backColor = statusCollor;
 	if (data.student.gender == "Male"){
 		args.e.fontColor = "#FFFFFF";
@@ -421,7 +424,6 @@ function changeEvent (dp, args){
 		args.e.barColor = "#ff73b9";
 		iconGender = "fa-female";
 	};
-	
 	if (args.data){
 		args.data.bubbleHtml = montaMiniDashboard (args, actualTrip);
 	};
@@ -440,8 +442,6 @@ function montaMiniDashboard (args, actualTrip){
 	var bubleMiniDashboard =
 		'<div class="smart-form miniDasboard">' +							
 			"<div><b>" + " " + args.data.html + "</b></div>" + 
-			"<div>" + new DayPilot.Date(args.data.start).toString("M/d/yyyy") + 
-			" " + new DayPilot.Date(args.data.end).toString("M/d/yyyy") + "</div>" + 
 			"<div>" + args.data.student.trips[actualTrip].status + 
 			" " + args.data.student.gender + "</div>" +
 			"<div>" + args.data.student.trips[actualTrip].occupancy + "</div>" +

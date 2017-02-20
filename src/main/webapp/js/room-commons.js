@@ -16,6 +16,7 @@ function carregaTelaRoom(data, tipo) {
 		$("#type").html(data.documento.type);	
 		$("#keyDoor").html(data.documento.keyDoor);	
 		$("#description").html(data.documento.description);
+		$("#destination").html(data.documento.destination);
 	  	
 	    $.each(data.documento.beds , function (i, bed) {
 	    	var bedLine = 
@@ -75,6 +76,7 @@ function carregaTelaRoom(data, tipo) {
 		$("#type").val(data.documento.type);	
 		$("#keyDoor").val(data.documento.keyDoor);	
 		$("#description").val(data.documento.description);
+		$("#destination").val(data.documento.destination);
 	  	if (data.documento.beds.length > 0){
 		    $.each(data.documento.beds
 				    , function (i, value) {

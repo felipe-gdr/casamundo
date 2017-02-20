@@ -148,6 +148,7 @@
 				        	};
 			        	};		        		
 		        	}
+		        	var occupancies = montaOccpancies(occupancy.student_occupancies);		        	
 	    			var event = 
 	    				{
 	    		          start: separadorAnoMesDia(occupancy.startOccupancy, "-") + "T12:00:00",
@@ -155,7 +156,7 @@
 	    		          id: room.idRoom + "_" + room.bed.id + "_" + w,
 	    		          resource: room_bed,
 	    		          text: occupancy.student.firstName + " " + occupancy.student.lastName,
-	    		          html: "<div>" + icon + "<b>" + " " + occupancy.student.firstName + " " + occupancy.student.lastName + "</b></div>",
+	    		          html: "<div>" + icon + "<b>" + " " + occupancy.student.firstName + " " + occupancy.student.lastName + "</b>" + occupancies + "</div>",
 	    		          actualTrip: occupancy.actualTrip,
 	    		          occupancy : occupancy,
 	    		          idStudent : occupancy.idStudent,
@@ -199,16 +200,14 @@
 	function montaLinhaTree(dp, name, tipo){
 		
 	};
+	function montaOccpancies(student_occupancies){
 
-	function montaLinhaBed(i, dp, room){
-
-        var student = JSON.parse(localStorage.getItem("student"));
-        
-        if (room.dorm != dormName){
-        	montaLinhaDorm(dp, dorm);
-        	dormName = room.dorm;
-        };
-
+		var occupancies = "";
+	    $.each(student_occupancies, function (i, occupancy) {
+	    	occupancies = occupancies + "<br>" + separaDataMes(occupancy.occupancy.startOccupancy, "-") + "/" + separaDataMes(occupancy.occupancy.endOccupancy, "-");
+	    });
+		return occupancies;
+		
 	};
 	
 	function daysUsed(occupancies){

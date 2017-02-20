@@ -23,6 +23,7 @@
 	//
 	$("#idDorm").val(objDorm.documento.id);
 	$("#dormName").val(objDorm.documento.name);
+	$("#destination").val(objDorm.documento.address.destination);
     $.each(objDorm.documento.units, function (i, unit) {
 		$('#idUnit').append( $(option(unit.name, "", true, unit.id)));
     });
