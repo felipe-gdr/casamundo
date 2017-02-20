@@ -6,7 +6,7 @@
 
 function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, eventName, student, par_startTrip, par_endTrip, idStudent, actualTrip){
 	
-	var difDiasTripAllocate = calculaDias(separaConverteDataMes(par_startTrip, "/"), separaConverteDataMes(par_endTrip, "/")) + 1;
+	var difDiasTripAllocate = (calculaDias(separaConverteDataMes(par_startTrip, "/"), separaConverteDataMes(par_endTrip, "/") + 1)) - 1;
 	
 //	xxendNewEvent = DayPilot.Date(endNewEvent).addDays(10);
 	var newEventCreated = null;
@@ -288,12 +288,12 @@ function checkDates(dp, args, usedDays){
             		new DayPilot.Date(endTrip).toString("M/d/yyyy"));
             valid = false;
     	};
-    	var difDays = calculaDias (DayPilot.Date(args.newStart).getDay() + "/" + 
+    	var difDays = (calculaDias (DayPilot.Date(args.newStart).getDay() + "/" + 
     				 				(DayPilot.Date(args.newStart).getMonth() + 1) + "/" + 
     				 				DayPilot.Date(args.newStart).getYear(), 
     				 				DayPilot.Date(args.newEnd).getDay() + "/" + 
     				 				(DayPilot.Date(args.newEnd).getMonth() + 1) + "/" + 
-    				 				DayPilot.Date(args.newEnd).getYear()) + 1;
+    				 				DayPilot.Date(args.newEnd).getYear()) + 1) - 1;
     	
     	if ((parseInt(usedDays) + difDays) > parseInt(args.e.data.student_totalDaysTrip)){
             if (args.preventDefault){
@@ -330,12 +330,12 @@ function atualizaStudent (objStudent, args, actualTrip, dp){
     var initialDateOk = false;
     var endDateOk = false;
 
-    var daysTrip = calculaDias(separaConverteDataMes(objStudent.documento.trips[actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[actualTrip].end, "/")) + 1;
+    var daysTrip = (calculaDias(separaConverteDataMes(objStudent.documento.trips[actualTrip].start, "/"), separaConverteDataMes(objStudent.documento.trips[actualTrip].end, "/")) + 1) - 1;
 
 	var daysOccupancy = 0;
     if (objStudent.rooms_actualTrip != null && objStudent.rooms_actualTrip != ""){
 	    $.each(objStudent.rooms_actualTrip, function (i, room) {
-		    daysOccupancy = daysOccupancy + parseInt(room.usedDays);
+		    daysOccupancy = daysOccupancy + ((parseInt(room.usedDays)) - 1);
 	    });
 	};
 

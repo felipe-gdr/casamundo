@@ -29,22 +29,22 @@
 		var startNewEvent = new DayPilot.Date(separadorAnoMesDia(par_startNewEvent, "-") + "T12:00:00");
 		var endNewEvent = new DayPilot.Date(separadorAnoMesDia(par_endNewEvent, "-") + "T12:00:00");
 
-		var totalDaysTrip = calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
+		var totalDaysTrip = (calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
  				(DayPilot.Date(startNewEvent).getMonth() + 1) + "/" + 
  				DayPilot.Date(startNewEvent).getYear(), 
  				DayPilot.Date(endNewEvent).getDay() + "/" + 
  				(DayPilot.Date(endNewEvent).getMonth() + 1) + "/" + 
- 				DayPilot.Date(endNewEvent).getYear()) + 1;
+ 				DayPilot.Date(endNewEvent).getYear()) + 1) - 1;
 		
 		var usedDays = daysUsed(rooms_actualTrip);
 		var endNewEvent = DayPilot.Date(endNewEvent).addDays(usedDays * -1);
 
-		var realDaysTrip = calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
+		var realDaysTrip = (calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
  				(DayPilot.Date(startNewEvent).getMonth() + 1) + "/" + 
  				DayPilot.Date(startNewEvent).getYear(), 
  				DayPilot.Date(endNewEvent).getDay() + "/" + 
  				(DayPilot.Date(endNewEvent).getMonth() + 1) + "/" + 
- 				DayPilot.Date(endNewEvent).getYear()) + 1;
+ 				DayPilot.Date(endNewEvent).getYear()) + 1) - 1;
 		
 		// *** setup bib day pilot
 		var today = new Date();
@@ -216,7 +216,7 @@
 		var usedDays = 0;
 	    $.each(occupancies, function (i, occupancy) {
 	    	if (occupancy.usedDays){
-	    		usedDays = usedDays + parseInt(occupancy.usedDays);
+	    		usedDays = usedDays + ((parseInt(occupancy.usedDays)) - 1);
 	    	};
 	    });
 		return usedDays;
