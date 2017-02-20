@@ -119,7 +119,8 @@
 						name:$("#name-" + item).val(), 
 						type:$("#type-" + item).val(), 
 						keyDoor:$("#keyDoor-" + item).val(),
-						description:$("#description-" + item).val()
+						description:$("#description-" + item).val(),
+						occupancies: []
 					};
 				objJson.documento.beds.push(bedItem);
 			});
