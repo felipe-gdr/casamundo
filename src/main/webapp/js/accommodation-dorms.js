@@ -37,7 +37,7 @@
  				DayPilot.Date(endNewEvent).getYear()) + 1) - 1;
 		
 		var usedDays = daysUsed(rooms_actualTrip);
-		var endNewEvent = DayPilot.Date(endNewEvent).addDays(usedDays * -1);
+		var startNewEvent = DayPilot.Date(startNewEvent).addDays(usedDays);
 
 		var realDaysTrip = (calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
  				(DayPilot.Date(startNewEvent).getMonth() + 1) + "/" + 
