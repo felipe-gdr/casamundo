@@ -377,6 +377,7 @@ public class Family {
     		public String note;
     		public OccupancySingleBed occupancySingleBed[];
     		public OccupancyCoupleBed occupancyCoupleBed[];
+    		public BlockDates blockDates[];
 
     		public Rooms() {
 
@@ -392,7 +393,8 @@ public class Family {
             			String photo,
             			String note,
             			OccupancySingleBed[] occupancySingleBed,
-            			OccupancyCoupleBed[] occupancyCoupleBed
+            			OccupancyCoupleBed[] occupancyCoupleBed,
+            			BlockDates[] blockDates
             		)
             {
 	    		this.number = number;
@@ -404,6 +406,7 @@ public class Family {
 	    		this.privateWashroom = privateWashroom;
 	    		this.occupancySingleBed = occupancySingleBed;
 	    		this.occupancyCoupleBed = occupancyCoupleBed;
+	    		this.blockDates = blockDates;
             };
   
             public static final class OccupancySingleBed {
@@ -463,7 +466,24 @@ public class Family {
                 }
 
     		}
+            public static final class BlockDates {
+        		public String start;
+        		public String end;
 
+        		public BlockDates() {
+
+    			}
+       
+                @JsonCreator
+                public BlockDates(
+                			String start,
+                			String end
+                		)
+                {
+    	    		this.start = start;
+    	    		this.end = end;
+                }
+            }
 		}
 
 		public static final class Notes {

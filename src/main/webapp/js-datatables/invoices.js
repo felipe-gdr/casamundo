@@ -109,59 +109,22 @@
     			statusCollor = "warning";
     			statusText = "unppaid $";
 	            break;
-	        case "paid":
+	        case "cash":
 				statusCollor = "success";
-				statusText = "paid $";
+				statusText = "cash $";
+	            break;
+	        case "bank":
+				statusCollor = "success";
+				statusText = "bank $";
+	            break;
+	        case "card":
+				statusCollor = "success";
+				statusText = "card $";
 	            break;
 	        default: 
 				statusCollor = "default";
 				statusText = "none $";
 	        };	    		
-            var genderCollor = genderCollorDef (invoice.gender);
-            var smokeCollor = smokeCollorDef (invoice.trip.smoke);
-            var smokeText = smokeTextDef (invoice.trip.smoke);
-            if (invoice.trip.medical){
-            	medicalCollor = "label-warning";
-            	medicalText = invoice.trip.medical;
-            }else{
-            	medicalCollor = "label-success";
-            	medicalText = "Don´t have medical concerns";
-            };
-        	occupancyCollor = "label-success";
-        	occupancyText = "";
-            if (invoice.trip.occupancy){
-            	occupancyText = invoice.trip.occupancy;
-	            if (invoice.trip.occupancy == "Single"){
-	            	occupancyCollor = "label-success";
-	            }else{
-	            	occupancyCollor = "label-warning";
-	            };
-            };
-            if (invoice.trip.liveDogs == "Yes"){
-            	liveDogsCollor = "label-success";
-            	liveDogsText = "Live with dogs";
-            }else{
-            	liveDogsCollor = "label-warning";
-            	liveDogsText = "Don't live with dogs";
-            };
-            if (invoice.trip.liveCats == "Yes"){
-            	liveCatsCollor = "label-success";
-            	liveCatsText = "Live with cats";
-            }else{
-            	liveCatsCollor = "label-warning";
-            	liveCatsText = "Don't live with cats";
-            };
-            var genderCollor = genderCollorDef (invoice.gender);
-
-            var specialDiet = "";
-            if (invoice.trip.specialDiet[0]){
-			    $.each(invoice.trip.specialDiet, function (i, value) {
-			    	specialDiet = String(specialDiet) + "<span class='label label-warning text-column'>" + value + " </span>";
-			    });
-            }else{
-            	specialDiet = "<span class='label label-success text-column'>No food restrictions</span>"
-            };
-		    
 	        var actions = "";
 	        var invoices = "";
 	        var actualTrip = invoice.actualTrip;
@@ -174,9 +137,11 @@
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 		        if (invoice.status == "unpaid"){
 		        	actions = 
-		        		"<li data-process='paid' " + dadosInvoice + " data-status='paid'><a href='#'>Paid</a></li>";
+		        		"<li data-process='paidCash' " + dadosInvoice + " data-status='paid'><a href='#'>Cash</a></li>" +
+		        		"<li data-process='paidBank' " + dadosInvoice + " data-status='paid'><a href='#'>Bank</a></li>" +
+		        		"<li data-process='paidCard' " + dadosInvoice + " data-status='paid'><a href='#'>Card</a></li>";
 		        };
-		        if (invoice.status == "paid"){
+		        if (invoice.status == "cash" || "bank" || "card"){
 		        	actions = 
 		        		"<li data-process='unpaid' " + dadosInvoice + " data-status='unpaid'><a href='#'>Unpaid</a></li>";
 		        };

@@ -113,14 +113,17 @@
                 "units":
                 		units,
                 'actions': 
-                		'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
+                	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' + 
+            		'<ul id="listDorms" class="dropdown-menu">' + 
+            			'<li data-process="change" data-dormId="' + dorm.id + '"><a href="dorm.html?dormsId=' + dorm.id + '">Change</a></li>' +
+            			'<li data-process="blockDates" data-dormId="' + dorm.id + '"><a data-toggle="modal" data-target="#blockDateModal">Block date</a></li>' +
+            	'</ul></div>'
     	    }).draw( false );
         });
     	// Add event listener for opening and closing details
         $('#dorms_list tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = dorm_table.row( tr );
-     
+            var row = dorm_table.row( tr );   
             if ( row.child.isShown() ) {
                 // This row is already open - close it
                 row.child.hide();
@@ -130,7 +133,13 @@
                 // Open this row
                 row.child( formatDorm(row.data()) ).show();
                 tr.addClass('shown');
-            }
+            };
+        	$("#listDorms li").off('click');
+    		$("#listDroms li").on('click',function(){
+    			if ($(this).attr('data-process') == "blockDates") {
+    				rest_obterDorms($(this).attr('data-dormId'), carregaBlockDate, semAcao );
+    			};
+    		});
         });
         
         // Apply the filter

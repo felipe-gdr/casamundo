@@ -1325,7 +1325,7 @@ function carregaStudent(data, typePage, actualTrip) {
 function criaLinhaNote (i, note) {
 	var noteLine = '<li class="noteItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList body-background-color-family">' +					
+				'<fieldset class="notesList ">' +					
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-2">' +

@@ -105,6 +105,7 @@ family
 	background-color: #dffeff!important;
 }
 
+/*
 .body-background-color-family .well{
 	background-color: #dffeff!important;
 }
@@ -157,6 +158,23 @@ family
 	background-color: #dffeff!important;
 }
 
+.body-background-color-family .modal-dialog{
+	background-color: #dffeff!important;
+}
+
+.body-background-color-family .modal-content{
+	background-color: #dffeff!important;
+}
+
+.body-background-color-family .modal-header{
+	background-color: #dffeff!important;
+}
+
+.body-background-color-family .modal-body{
+	background-color: #dffeff!important;
+}
+
+*/
 /*
 student
 */
@@ -165,6 +183,7 @@ student
 	background-color: #ffffcc!important;
 }
 
+/*
 .body-background-color-student .well{
 	background-color: #ffffcc!important;
 }
@@ -236,7 +255,7 @@ student
 .body-background-color-student .modal-body{
 	background-color: #ffffcc!important;
 }
-
+*/
 /*
 admnistrator
 */
@@ -244,6 +263,7 @@ admnistrator
 .body-background-color-administrator{
 	background-color: #ede9ea!important;
 }
+/*
 
 .body-background-color-administrator .well{
 	background-color: #ede9ea!important;
@@ -324,7 +344,7 @@ admnistrator
 .body-background-color-administrator .modal-body{
 	background-color: #ede9ea!important;
 }
-
+*/
 /*
 Finance
 */
@@ -333,7 +353,7 @@ Finance
 .body-background-color-finance{
 	background-color: #c4ffc4!important;
 }
-
+/*
 .body-background-color-finance .well{
 	background-color: #c4ffc4!important;
 }
@@ -413,7 +433,7 @@ Finance
 .body-background-color-finance .modal-body{
 	background-color: #c4ffc4!important;
 }
-
+*/
 /*
 invoice
 */
@@ -422,7 +442,7 @@ invoice
 .body-background-color-invoice{
 	background-color: #ffffff!important;
 }
-
+/*
 .body-background-color-invoice .well{
 	background-color: #ffffff!important;
 }
@@ -502,7 +522,7 @@ invoice
 .body-background-color-invoice .modal-body{
 	background-color: #ffffff!important;
 }
-
+*/
 
 
 .miniDasboard{

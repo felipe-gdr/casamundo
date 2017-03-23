@@ -347,6 +347,7 @@
 				    		};
 				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
 	    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
+				    		roomsAvailable = true;
 			    		}
 			    	};
 			    	if (room.coupleBed){

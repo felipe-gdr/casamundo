@@ -84,7 +84,8 @@
         var objJson = JSON.parse(localStorage.getItem("families"));
         $.each(objJson, function (i, family) {
         	family_table.row.add( {
-    	    	"family": "<a href='family.html?familyName=" + family.familyName + "'>" +
+    	    	"family": 
+    	    		"<a href='family.html?familyName=" + family.familyName + "'>" +
     	    			"<span>Family Name:" + family.familyName +  "</span><br>" +
     	    			"<span>Type:" + family.type +  "</span><br>" +
     	    			"<span>Contact:" + family.contact.firstName +  " " + family.contact.lastName + "</span><br>" +
@@ -94,16 +95,24 @@
     	    			"<small class='text-muted'><i>Cel Phone: " + family.contact.mobilePhoneNumber +  "<i></small><br>" +
     	    			"<small class='text-muted'><i>Work Phone: " + family.contact.workPhoneNumber +  "<i></small><br>" +
     	    			"<small class='text-muted'><i>Mail: " + family.contact.email +  "<i></small><br></a>",
-                "address":"<small class='text-muted'>Street:" + family.address.street + " - " + family.address.number + "</small><br>" +
+                "address":
+                	"<small class='text-muted'>Street:" + family.address.street + " - " + family.address.number + "</small><br>" +
                 		"<small class='text-muted'>City:" + family.address.city + " State - " + family.address.state + "</small><br>" +
                 		"<small class='text-muted'>Postal Code:" + family.address.postalCode + "</small>",
-                "addressInfo":"<small class='text-muted'>Main Intersection:" + family.address.mainIntersection + "</small><br>" + 
+                "addressInfo":
+                	"<small class='text-muted'>Main Intersection:" + family.address.mainIntersection + "</small><br>" + 
                 		"<small class='text-muted'>Subway Station - nearest:" + family.address.nearestSubwayStation + " walking time:" + family.address.walkingTimeSubwayStation + "</small><br>" +
                 		"<small class='text-muted'>Bus Stop - nearest:" + family.address.nearestBusStop + " walking time:" + family.address.walkingTimeBusStation + "</small><br>",
-                "rooms":"<small class='text-muted'>Numbers:" + family.numbersBedroom + "</small><br>" +
+                "rooms":
+                	"<small class='text-muted'>Numbers:" + family.numbersBedroom + "</small><br>" +
                 		"<small class='text-muted'>Available for students:" + family.numbersStudentsBedroom + "</small><br>" +
                 		"<small class='text-muted'>Private washroom:" + family.numberPrivateWashroom +  "</small><br>",
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button><ul class="dropdown-menu"><li><a  data-toggle="modal" data-target="#accommodation">Change</a></li></ul></div>'
+                'actions': 
+                	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' + 
+                		'<ul id="listFamily" class="dropdown-menu">' + 
+                			'<li data-process="change" data-familyName="' + family.familyName + '"><a href="family.html?familyName=' + family.familyName + '">Change</a></li>' +
+                			'<li data-process="blockDates" data-familyName="' + family.familyName + '"><a data-toggle="modal" data-target="#blockDateModal">Block date</a></li>' +
+                	'</ul></div>'
     	    }).draw( false );
         });
     	// Add event listener for opening and closing details
@@ -118,12 +127,19 @@
             }
             else {
                 // Open this row
-                row.child( formatFamily(row.data()) ).show();
-                tr.addClass('shown');
-            }
+            	if (row){
+            		row.child( formatFamily(row.data()) ).show();
+            		tr.addClass('shown');
+            	};
+            	$("#listFamily li").off('click');
+	    		$("#listFamily li").on('click',function(){
+	    			if ($(this).attr('data-process') == "blockDates") {
+	    				rest_obterFamily($(this).attr('data-familyName'), carregaBlockDate, semAcao );
+	    			};
+	    		});
+            };
         });
         
-        // Apply the filter
         $("#families_list thead th input[type=text]").on( 'keyup change', function () {
         	
         	family_table

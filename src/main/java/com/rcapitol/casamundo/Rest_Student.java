@@ -416,7 +416,7 @@ public class Rest_Student {
 							List invoices = (List) jsonDocumento.get("invoices");
 							int w = 0;
 							while (w < invoices.size()) {
-								JSONObject jsonInvoice = (JSONObject) invoices.get(y);
+								JSONObject jsonInvoice = (JSONObject) invoices.get(w);
 								if (jsonInvoice.get("statusFinal") != null){
 									statusInvoice = (String) jsonInvoice.get("statusFinal");
 								};

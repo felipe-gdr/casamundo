@@ -153,7 +153,6 @@ public class Rest_Agency {
 					jsonDocumento.put("agencySigla", jsonObject.get("agencySigla"));
 					jsonDocumento.put("consultants", jsonObject.get("consultants"));
 					documentos.add(jsonDocumento);
-					mongo.close();
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

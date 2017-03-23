@@ -258,68 +258,72 @@ public class Rest_Payment {
 					DBCollection collectionStudent = dbStudent.getCollection("student");
 					BasicDBObject searchQueryStudent = new BasicDBObject("_id", studentId);
 					DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
-					BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
-					mongoStudent.close();
-
-					jsonDocumento.put("student", objStudent);
-
-				    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
-				    if (tripIndex != null){
-						List<?> trips = (List<?>) objStudent.get("trips");
-						BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
-						jsonDocumento.put("trip", jsonTrip);
-				    };
-					//
-					//** ler vendor
-					//
-
-					String idVendor = (String) jsonObject.get("idVendor");
-					String vendorName = "";
-					String type = (String) jsonObject.get("type");
-					if (idVendor  !=null && !idVendor.equals("")){
-						if (type.equals("family")){
-							Mongo mongoFamily = new Mongo();
-							DB dbFamily = (DB) mongoFamily.getDB("documento");
-							DBCollection collectionFamily = dbFamily.getCollection("family");
-							ObjectId idFamily = new ObjectId(idVendor);
-							BasicDBObject searchQueryFamily = new BasicDBObject("_id", idFamily);
-							DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
-							if (cursorFamily != null){
-								BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
-								jsonDocumento.put("vendorName", objFamily.get("familyName"));
-								vendorName = (String) objFamily.get("familyName");
-							}else{
-								jsonDocumento.put("vendorName", "undefined");
-								vendorName = "undefined";
+					BasicDBObject objStudent = new BasicDBObject();
+					objStudent = null;
+					if (cursorStudent != null){
+						objStudent = (BasicDBObject) cursorStudent.get("documento");
+						mongoStudent.close();
+						jsonDocumento.put("student", objStudent);
+					    Integer tripIndex = Integer.parseInt((String) jsonObject.get("actualTrip"));
+					    if (tripIndex != null){
+							List<?> trips = (List<?>) objStudent.get("trips");
+							BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
+							jsonDocumento.put("trip", jsonTrip);
+					    };
+						//
+						//** ler vendor
+						//
+	
+						String idVendor = (String) jsonObject.get("idVendor");
+						String vendorName = "";
+						String type = (String) jsonObject.get("type");
+						if (idVendor  !=null && !idVendor.equals("")){
+							if (type != null){
+								if (type.equals("family")){
+									Mongo mongoFamily = new Mongo();
+									DB dbFamily = (DB) mongoFamily.getDB("documento");
+									DBCollection collectionFamily = dbFamily.getCollection("family");
+									ObjectId idFamily = new ObjectId(idVendor);
+									BasicDBObject searchQueryFamily = new BasicDBObject("_id", idFamily);
+									DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
+									if (cursorFamily != null){
+										BasicDBObject objFamily = (BasicDBObject) cursorFamily.get("documento");
+										jsonDocumento.put("vendorName", objFamily.get("familyName"));
+										vendorName = (String) objFamily.get("familyName");
+									}else{
+										jsonDocumento.put("vendorName", "undefined");
+										vendorName = "undefined";
+									};
+									mongoFamily.close();
+								}else{
+									Mongo mongoPickup = new Mongo();
+									DB dbPickup = (DB) mongoPickup.getDB("documento");
+									DBCollection collectionPickup = dbPickup.getCollection("pickup");
+									ObjectId idPickup = new ObjectId(idVendor);
+									BasicDBObject searchQueryPickup = new BasicDBObject("_id", idPickup);
+									DBObject cursorPickup = collectionPickup.findOne(searchQueryPickup);
+									if (cursorPickup != null){
+										BasicDBObject objPickup = (BasicDBObject) cursorPickup.get("documento");
+										jsonDocumento.put("vendorName", objPickup.get("name"));
+										vendorName = (String) objPickup.get("name");
+									}else{
+										jsonDocumento.put("vendorName", "undefined");
+										vendorName = "undefined";
+									};
+									mongoPickup.close();
+								};
 							};
-							mongoFamily.close();
-						}else{
-							Mongo mongoPickup = new Mongo();
-							DB dbPickup = (DB) mongoPickup.getDB("documento");
-							DBCollection collectionPickup = dbPickup.getCollection("pickup");
-							ObjectId idPickup = new ObjectId(idVendor);
-							BasicDBObject searchQueryPickup = new BasicDBObject("_id", idPickup);
-							DBObject cursorPickup = collectionPickup.findOne(searchQueryPickup);
-							if (cursorPickup != null){
-								BasicDBObject objPickup = (BasicDBObject) cursorPickup.get("documento");
-								jsonDocumento.put("vendorName", objPickup.get("name"));
-								vendorName = (String) objPickup.get("name");
-							}else{
-								jsonDocumento.put("vendorName", "undefined");
-								vendorName = "undefined";
-							};
-							mongoPickup.close();
 						};
-					};
-					//
-					//** dados invoice
-					//
-					List listItens = (List) jsonObject.get("itens");
-					jsonDocumento.put("invoice", carregaDadosInvoice(jsonObject.get("idInvoice"), listItens, objStudent));
-
-					Boolean filter_ok = checkFilters (filters, jsonDocumento, vendorName, null);
-					if (filter_ok){
-						documentos.add(jsonDocumento);
+						//
+						//** dados invoice
+						//
+						List listItens = (List) jsonObject.get("itens");
+						jsonDocumento.put("invoice", carregaDadosInvoice(jsonObject.get("idInvoice"), listItens, objStudent));
+	
+						Boolean filter_ok = checkFilters (filters, jsonDocumento, vendorName, null);
+						if (filter_ok){
+							documentos.add(jsonDocumento);
+						};
 					};
 					mongo.close();
 				} catch (ParseException e) {
@@ -347,59 +351,64 @@ public class Rest_Payment {
 			DBCollection collectionInvoice = dbInvoice.getCollection("invoice");
 			BasicDBObject searchQueryInvoice = new BasicDBObject("_id", invoiceId);
 			DBObject cursorInvoice = collectionInvoice.findOne(searchQueryInvoice);
-			BasicDBObject objInvoice = (BasicDBObject) cursorInvoice.get("documento");
 			//
 			//*** json de saida
 			//
 			BasicDBObject objDadosInvoice = new BasicDBObject();
-			
-			//
-			//** carrega dados invoice
-			//
-			objDadosInvoice.put("dueDate", objInvoice.get("dueDate"));
-			objDadosInvoice.put("status", objInvoice.get("status"));
-			objDadosInvoice.put("number", objInvoice.get("number"));
-			//
-			//** tratar student
-			//
 
-		    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
-			String agencySigla = null;
-		    String agencyName = null;
-		    if (tripIndex != null){
-				List<?> trips = (List<?>) objStudent.get("trips");
-				BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
-				agencyName = (String) jsonTrip.get("agencyName");
-		    };
-			if (agencyName != null && !agencyName.equals("")){
-				Mongo mongoAgency = new Mongo();
-				DB dbAgency = (DB) mongoAgency.getDB("documento");
-				DBCollection collectionAgency = dbAgency.getCollection("agency");
-				BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
-				DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
-				BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
-				agencySigla = (String) obj.get("agencySigla");
-				objDadosInvoice.put("agencyName", agencyName);
-				objDadosInvoice.put("agencySigla", agencySigla);
-				mongoAgency.close();
-			}else{
-				objDadosInvoice.put("agencyName", "");
-				objDadosInvoice.put("agencySigla", "");
-			};
-
-			List listItensInvoice = (List) objInvoice.get("itensNet");
-			int w = 0;
-			while (w < listItensInvoice.size()) {
-				BasicDBObject itemInvoice = (BasicDBObject) listItensInvoice.get(w);
-				int z = 0;
-				while ( z < listItensPayment.size()) {
-					JSONObject itemPayment = (JSONObject) listItensPayment.get(z);
-					if (itemInvoice.get("item").equals(itemPayment.get("item"))){
-						objDadosInvoice.put("amount", ((Double.parseDouble((String) itemInvoice.get("value")) * (Double.parseDouble((String) itemInvoice.get("amount"))))) );
+			if (cursorInvoice != null){
+				BasicDBObject objInvoice = (BasicDBObject) cursorInvoice.get("documento");
+				
+				//
+				//** carrega dados invoice
+				//
+				objDadosInvoice.put("dueDate", objInvoice.get("dueDate"));
+				objDadosInvoice.put("status", objInvoice.get("status"));
+				objDadosInvoice.put("number", objInvoice.get("number"));
+				//
+				//** tratar student
+				//
+				
+				if (objStudent != null){
+				    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+					String agencySigla = null;
+				    String agencyName = null;
+				    if (tripIndex != null){
+						List<?> trips = (List<?>) objStudent.get("trips");
+						BasicDBObject jsonTrip = (BasicDBObject) trips.get(tripIndex);
+						agencyName = (String) jsonTrip.get("agencyName");
+				    };
+					if (agencyName != null && !agencyName.equals("")){
+						Mongo mongoAgency = new Mongo();
+						DB dbAgency = (DB) mongoAgency.getDB("documento");
+						DBCollection collectionAgency = dbAgency.getCollection("agency");
+						BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agencyName);
+						DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
+						BasicDBObject obj = (BasicDBObject) cursorAgency.get("documento");
+						agencySigla = (String) obj.get("agencySigla");
+						objDadosInvoice.put("agencyName", agencyName);
+						objDadosInvoice.put("agencySigla", agencySigla);
+						mongoAgency.close();
+					}else{
+						objDadosInvoice.put("agencyName", "");
+						objDadosInvoice.put("agencySigla", "");
 					};
-					++z;
 				};
-				++w;
+				
+				List listItensInvoice = (List) objInvoice.get("itensNet");
+				int w = 0;
+				while (w < listItensInvoice.size()) {
+					BasicDBObject itemInvoice = (BasicDBObject) listItensInvoice.get(w);
+					int z = 0;
+					while ( z < listItensPayment.size()) {
+						JSONObject itemPayment = (JSONObject) listItensPayment.get(z);
+						if (itemInvoice.get("item").equals(itemPayment.get("item"))){
+							objDadosInvoice.put("amount", ((Double.parseDouble((String) itemInvoice.get("value")) * (Double.parseDouble((String) itemInvoice.get("amount"))))) );
+						};
+						++z;
+					};
+					++w;
+				};
 			};
 			mongoInvoice.close();
 			return objDadosInvoice;

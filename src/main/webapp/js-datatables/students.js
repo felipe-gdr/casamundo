@@ -470,6 +470,7 @@
 	    			};
 	    			if ($(this).attr('data-process') == "sendemailtofamilytoconfirm") {
 	    				rest_obterFamily($(this).attr('data-familyName'), sendEmailToFamilyToConfirm, semAcao, $(this).attr('data-emailStudent') );
+	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Offered", $(this).attr('data-actualTrip'));
 	    			};
 	    			if ($(this).attr('data-process') == "sendlettertostudent") {
 	    			//	rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Documents");
@@ -591,22 +592,26 @@ function deallocateRoom (objFamily, emailStudent) {
 
     $.each(objFamily.documento.rooms, function (i, room) {
     	var excluded = false;
-        $.each(room.occupancySingleBed, function (w, occupancy) {
-        	if (!excluded){
-        		if (occupancy.emailStudent == emailStudent){
-        			objFamily.documento.rooms[i].occupancySingleBed.splice(w, 1);
-        			excluded = true;
-        		};
-        	};
-        });            	
-        $.each(room.occupancyCoupleBed, function (w, occupancy) {
-        	if (!excluded){
-	        	if (occupancy.emailStudent == emailStudent){
-	        		objFamily.documento.rooms[i].occupancyCoupleBed.splice(w, 1);
-	        		excluded = true;
+    	if (room.occupancySingleBed){
+	        $.each(room.occupancySingleBed, function (w, occupancy) {
+	        	if (!excluded){
+	        		if (occupancy.emailStudent == emailStudent){
+	        			objFamily.documento.rooms[i].occupancySingleBed.splice(w, 1);
+	        			excluded = true;
+	        		};
 	        	};
-        	};
-        });            	
+	        });
+    	};
+    	if (room.occupancyCoupleBed){
+	        $.each(room.occupancyCoupleBed, function (w, occupancy) {
+	        	if (!excluded){
+		        	if (occupancy.emailStudent == emailStudent){
+		        		objFamily.documento.rooms[i].occupancyCoupleBed.splice(w, 1);
+		        		excluded = true;
+		        	};
+	        	};
+	        });            	4
+    	};
     });
 
 	rest_atualizaFamily(objFamily, atualizacaoEfetuada, atualizacaoNaoEfetuada, "Rooms deallocate", "Problems to update rooms, try again");

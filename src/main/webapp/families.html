@@ -511,6 +511,142 @@
 
 		</div>
 		<!-- END MAIN PANEL -->
+		<!-- Modal -->
+		<div class="modal fade" id="blockDateModal" tabindex="-1" role="dialog" aria-labelledby="blockDateModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="blockDateModalLabel">Block date</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-11">
+									<form id="blockDateModal-form" class="smart-form" novalidate="novalidate">
+											<div>
+											<div class="row">
+												<div class="col-md-2"></div>
+												<div class="col-md-4">
+													<label id="familyNameBlockDate" name="familyNameBlockDate"></label>
+												</div>
+											</div>
+											<br>
+										</div>
+									</form>
+									<!-- NEW COL START -->
+									<article class="col-sm-12 col-md-12 col-lg-12">
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-22" data-widget-editbutton="false">
+											<br><br>
+											<header>
+												<h4>Dates&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													<a id="blockDateInclusao" data-toggle="modal" data-target="#blockDateDataModal" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></a>
+												</h4>
+											</header>
+											<!-- widget div-->
+											<div>
+												<!-- widget edit box -->
+												<div class="jarviswidget-editbox">
+													<!-- This area used as dropdown edit box -->
+													<input class="form-control" type="text">	
+												</div>
+												<!-- end widget edit box -->
+												<!-- widget content -->
+												<div class="widget-body no-padding">
+													<table id="blockDate_list" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+														<thead>
+															<tr>
+																<th class="hasinput" >
+																	<input type="text" class="form-control" placeholder="Start date" />
+																</th>
+																<th class="hasinput" >
+																	<input type="text" class="form-control" placeholder="End date" />
+																</th>
+																<th class="hasinput" >
+																	<input type="text" class="form-control" placeholder="Room" />
+																</th>
+																<th class="hasinput" >
+																	<input type="text" class="form-control" placeholder="" />
+																</th>
+															</tr>
+												            <tr>
+												                <th><i class="fa fa-fw fa-asterisk text-muted hidden-md hidden-sm hidden-xs"></i>Start date</th>
+												                <th><i class="fa fa-fw fa-phone hidden-md hidden-sm hidden-xs"></i>End date</th>
+												                <th><i class="fa fa-fw fa-envelope-o hidden-md hidden-sm hidden-xs"></i>Room</th>
+												                <th><i class="fa fa-fw fa-action text-muted hidden-md hidden-sm hidden-xs"></i>Action</th>
+												            </tr>
+														</thead>
+													</table>
+												</div>
+												<!-- end widget content -->
+											</div>
+										</div>
+									</article>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="blockDateDataModal" tabindex="-1" role="dialog" aria-labelledby="blockDateDataModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="blockDateDataModalLabel">Block Date</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-11">
+									<form id="blockDateDataModal-form" class="smart-form" novalidate="novalidate">
+											<div>
+													<div class="row">
+														<div class="col-md-4">
+															<label id="familyNameBlockDateData" name="familyNameBlockDateData">Family</label>
+														</div>
+													</div>
+													<br>
+													<div class="row">
+														<label class="label text-info">Room</label>							
+														<label class="select ">
+															<select id="roomBlockDate" name="roomBlockDate">
+																<option value="" selected="" disabled="">Choose one item</option>
+															</select><i></i>
+														</label>
+													</div>
+													<br><br>
+													<div class="row">
+														<div class="col-md-2">
+															<label for="startBlockDate">Start Date</label>
+															<input id="startBlockDate" type="text" name="startBlockDate" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+														</div>
+														<div class="col-md-1"></div>
+														<div class="col-md-2">
+															<label for="endBlockDate">End Date</label>
+															<input id="endBlockDate" type="text" name="endBlockDate" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+														</div>
+													</div>
+													<br><br>
+													<div class="modal-footer col-md-10">
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+									</form>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
@@ -694,6 +830,7 @@
 		<script src="js/main.js"></script>
 		<script src="js/families.js"></script>
 		<script src="js/rest_commands.js"></script>
+		<script src="js-datatables/blockDates.js"></script>
 		<script src="js-datatables/families.js"></script>
 		<script src="js/family-commons.js"></script>
 

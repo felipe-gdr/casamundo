@@ -2,6 +2,8 @@ package com.rcapitol.casamundo;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
+import com.rcapitol.casamundo.Family.Documento.Rooms.BlockDates;
+
 public class Room {
 
 	public Documento documento;
@@ -43,9 +45,10 @@ public class Room {
 		public Beds beds[];
 		public Visits visits[];
 		public Comments comments[];
+		public BlockDates blockDates[];
 		public Documento() {
 
-		}
+		};
 
 		@JsonCreator
 		public Documento(
@@ -62,7 +65,8 @@ public class Room {
 						Fotos fotos[],						
 						Beds beds[],
 						Visits visits[],						
-						Comments comments[]
+						Comments comments[],
+            			BlockDates[] blockDates
 								) {
 						this.id = id;
 						this.idDorm = idDorm;
@@ -78,6 +82,7 @@ public class Room {
 						this.beds = beds;
 						this.visits = visits;
 						this.comments = comments;
+			    		this.blockDates = blockDates;
 		}
 
 
@@ -97,9 +102,8 @@ public class Room {
 					String fileName
 			){
 				this.fileName = fileName;
-			}
-
-		}
+			};
+		};
 
 		public static final class Beds {
 			public String id;
@@ -125,10 +129,8 @@ public class Room {
 				this.type = type;
 				this.description = description;
 	    		this.occupancies = occupancies;
-			}
-
-		}
-
+			};
+		};
 
 		public static final class Visits {
     		public String date;
@@ -159,8 +161,7 @@ public class Room {
 
     		public Comments() {
 
-			}
-   
+			};
             @JsonCreator
             public Comments(
             			String date,
@@ -196,9 +197,25 @@ public class Room {
 	    		this.startOccupancy = startOccupancy;
 	    		this.endOccupancy = endOccupancy;
 	    		this.actualTrip = actualTrip;
+            };
+		};
+        public static final class BlockDates {
+    		public String start;
+    		public String end;
+
+    		public BlockDates() {
+
+			}
+   
+            @JsonCreator
+            public BlockDates(
+            			String start,
+            			String end
+            		)
+            {
+	    		this.start = start;
+	    		this.end = end;
             }
-
-		}
-
+        };
 	};
 }; 

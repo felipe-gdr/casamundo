@@ -288,7 +288,7 @@
 	doc.setTextColor(0, 51, 102);
 	doc.text(65, 70, 'Trip:' + $('#start').html() + " / " + $('#end').html());
 
-	doc.setLineWidth(1.0);
+	doc.setLineWidth();
 	doc.setDrawColor(238, 111, 26);
 	doc.line(15, 75, 190, 75);
 	
@@ -322,7 +322,7 @@
 	doc.setTextColor(0, 51, 102);
 	doc.textEx('VALUE', 190, 81, 'right', 'top');
 
-	doc.setLineWidth(1.0);
+	doc.setLineWidth();
 	doc.setDrawColor(238, 111, 26);
 	doc.line(15, 85, 190, 85);
 
@@ -410,21 +410,24 @@
 						doc.textEx(itemPriceTable($('#itemId_' + i).val()).gross, 160, hight, 'right', 'middle');						
 					};
 				};
+				var totaltem = 0.00;
 				if(valueNet){
 					if ($('#itemValue_' + i).val()) {
+						totaltem = parseFloat($('#itemValue_' + i).val()) * parseFloat($('#itemAmount_' + i).val());
 						doc.setFont("helvetica");
 						doc.setFontType("normal");
 						doc.setFontSize(09);
 						doc.setTextColor(0, 0, 0);
-						doc.textEx("$ " + $('#itemValue_' + i).val(), 190, hight, 'right', 'middle');
+						doc.textEx("$ " + totaltem.toFixed(2), 190, hight, 'right', 'middle');
 					};
 				}else{
 					if ($('#itemValueGross_' + i).val()) {
+						totaltem = parseFloat($('#itemValueGross_' + i).val()) * parseFloat($('#itemAmount_' + i).val());
 						doc.setFont("helvetica");
 						doc.setFontType("normal");
 						doc.setFontSize(09);
 						doc.setTextColor(0, 0, 0);
-						doc.textEx("$ " + $('#itemValueGross_' + i).val(), 190, hight, 'right', 'middle');
+						doc.textEx("$ " + totaltem.toFixed(2), 190, hight, 'right', 'middle');
 					};
 				};
 				hight = hight + 7;
@@ -545,7 +548,7 @@ function createItem(i, date, agency, destination, type){
 	
 	var item = 
 		'<div id="item_' + i + '" class="row item net">' +
-			'<section class="col-xs-4">' +
+			'<section class="col-xs-5">' +
 				'<label class="label text-info">Item</label>' +							
 				'<label class="select">' +
 					'<select class="iteName' + i + '" id="itemId_' + i + '" name="itemId_' + i + '">' +
@@ -566,7 +569,7 @@ function createItem(i, date, agency, destination, type){
 			'<section class="col-xs-1">' +
 				'<label class="label text-info">Amount</label>' +								
 				'<label class="input">' +
-					'<input value="1.00" class="text-right itemAmount" type="text" id="itemAmount_' + i + '" name="itemAmount_' + i + '" placeholder="ex: 99.99" >' +
+					'<input value="1" class="text-right itemAmount" type="text" id="itemAmount_' + i + '" name="itemAmount_' + i + '" placeholder="ex: 99.99" >' +
 				'</label>' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
@@ -578,7 +581,7 @@ function createItem(i, date, agency, destination, type){
 			'</section>' +
 		'</div>' +
 		'<div id="itemGross_' + i + '" class="row itemGross hide gross">' +
-			'<section class="col-xs-4">' +
+			'<section class="col-xs-5">' +
 				'<label class="label text-info">Item</label>' +							
 				'<label class="select">' +
 					'<select class="itemName' + i + '" id="itemIdGross_' + i + '" name="itemIdGross_' + i + '">' +
@@ -597,10 +600,9 @@ function createItem(i, date, agency, destination, type){
 			'<section class="col-xs-1">' +
 				'<label class="label text-info">Amount</label>' +								
 				'<label class="input">' +
-					'<input value="1.00" class="text-right itemAmount" type="text" id="itemAmountGross_' + i + '" name="itemAmountGross_' + i + '" placeholder="ex: 99.99" >' +
+					'<input value="1" class="text-right itemAmount" type="text" id="itemAmountGross_' + i + '" name="itemAmountGross_' + i + '" placeholder="ex: 99" >' +
 				'</label>' +
 			'</section>' +
-			'<section class="col-xs-1"></section>' +
 			'<section class="col-xs-1">' +
 				'<a id="newItemGross_' + i + '"  class="newItem"><i class="glyphicon glyphicon-plus"></i></a>' +
 			'</section>' +
@@ -642,7 +644,7 @@ function createItem(i, date, agency, destination, type){
 	});
 
 	$('#itemValue_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
-	$('#itemAmount_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
+	$('#itemAmount_' + i).maskMoney({thousands:'', precision:0, allowZero:true});
 	$('#itemValueGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 	$('#itemAmountGross_' + i).maskMoney({thousands:'', decimal:'.', allowZero:true});
 
@@ -680,8 +682,8 @@ function carregaAppendPriceTable (data, i, type){
 	
     $.each(data, function (w, priceTable) {
     			if (priceTable.valid == "Yes" && priceTable.gross && priceTable.net){
-   					$('#itemId_' + i).append( $(option(priceTable.name, "", true, priceTable.id)));
-   					$('#itemIdGross_' + i).append( $(option(priceTable.name, "", true, priceTable.id)));
+   					$('#itemId_' + i).append( $(option(priceTable.description, "", true, priceTable.id)));
+   					$('#itemIdGross_' + i).append( $(option(priceTable.description, "", true, priceTable.id)));
     			};
     			var priceTable =
     				{
@@ -950,6 +952,7 @@ function carregaDadosTelaInvoice(data, actualTrip){
     $("#birthDay").html(separaDataMes(data.documento.birthDay, "-"));
     $("#age").html(calculaIdade(separaConverteDataMes(data.documento.birthDay, "/")));
     $('#status').html(data.documento.trips[actualTrip].status);
+    $('#accommodation').html(data.documento.trips[actualTrip].accommodation);
     $('#destination').html(data.documento.trips[actualTrip].destination);
     $('#contactFamilyName').html(data.documento.trips[actualTrip].contactFamilyName);
  
@@ -1051,26 +1054,26 @@ function fillSpaces(text, size){
 function criaLinhaNote (i, note) {
 	var noteLine = '<li class="noteItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList body-background-color-family">' +					
+				'<fieldset class="notesList">' +					
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker " data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input class="body-background-color-family"type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class=""type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-4">' +
 						'<label class="input">'  +
-							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
+							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll"></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +

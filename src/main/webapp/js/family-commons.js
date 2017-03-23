@@ -802,7 +802,13 @@ function limpaStorageFamily () {
 	   		                 startOccupancy : "", 
 	   		                 endOccupancy : "" 
 	   		                 } 
-	   		                 ] 
+	   		                 ],
+ 				        blockDates : [ 
+			                 { 
+	   		                 start : "", 
+	   		                 end : "" 
+	   		                 } 
+	   		                 ] 	   		                 
 				      }], 
 				    notes : [],
 				    visits : [] 
