@@ -2,6 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -577,7 +578,7 @@ public class Rest_Payment {
 		return null;
 	};
 
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
 	@Path("/incluiInstallment")	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -601,10 +602,65 @@ public class Rest_Payment {
 				installmentObj.put("value", installment.get("value"));
 				installmentObj.put("type", installment.get("type"));
 				installmentObj.put("date", installment.get("date"));
-				JSONArray installments = new JSONArray();
+		    	ArrayList installments = new ArrayList(); 
+		    	installments = (ArrayList) objPayment.get("installments");
 				installments.add(installmentObj);
 				objUpdate.put("documento.installments", installments);
 				objUpdate.put("documento.status", installment.get("status"));
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
+				cursor = collection.findAndModify(setQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+			};
+			mongo.close();
+			return Response.status(200).entity(objUpdate).build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
+	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+	@Path("/excluiInstallment")	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response EcluiInstallment(JSONObject installment)  {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject objPayment = new BasicDBObject();
+			ObjectId idPayment = new ObjectId((String) installment.get("id"));
+			DBCollection collection = db.getCollection("payment");
+			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
+			DBObject cursor = collection.findOne(searchQuery);
+			BasicDBObject objUpdate = new BasicDBObject();
+			if (cursor != null){
+				objPayment = (BasicDBObject) cursor.get("documento");
+				//
+				// ** inclui installment
+				//
+		    	ArrayList installmentsNew = new ArrayList(); 
+		    	ArrayList installments = new ArrayList(); 
+		    	installments = (ArrayList) objPayment.get("installments");
+		    	int z = 0;
+				while (z < installments.size()) {
+					BasicDBObject installmentSource = new BasicDBObject();
+					installmentSource = (BasicDBObject) installments.get(z);
+					if (!installmentSource.get("date").equals(installment.get("date"))){
+						installmentsNew.add(installmentSource);
+					};
+					++z;
+				};
+				objUpdate.put("documento.installments", installmentsNew);
+				objUpdate.put("documento.status", "approved");
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
 				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
 				cursor = collection.findAndModify(setQuery,

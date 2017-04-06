@@ -179,6 +179,8 @@
         	var dadosPayment = " data-idPayment= '" + payment.id + "'" +
         					   " data-amount= '" + payment.amount + "'" +
         					   " data-balance= '" + balance + "'";
+			var balanceDecimal = parseFloat(balance);
+			var amountDecimal = parseFloat(payment.amount);
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 		        if (payment.status == "unpaid"){
 		        	actions = 
@@ -187,10 +189,15 @@
 		        if (payment.status == "approved"){
 		        	actions = 
 		        		'<li data-process="pay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#paymentModal">Pay</a></li>';
+		        	
+		        	if (balanceDecimal != amountDecimal){
+		        		actions = actions +
+	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>';
+		        	};
 		        };
 		        if (payment.status == "paid"){
 		        	actions = 
-		        		"<li data-process='unpay' " + dadosPayment + " data-status='unpaid'><a href='#'>Unpay</a></li>";
+	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>';
 		        };
 	        };
 		    var pickupCollor = "success";
@@ -209,8 +216,11 @@
 			    	notes = notes + note.note + "<br>";
 			    });	        	
 	        };
-			var balanceDecimal = parseFloat(balance);
-			var amountDecimal = parseFloat(payment.amount);
+	        //
+	        //**** monta modal de deleção das parcelas de pagamento
+	        //
+	       	montaInstallmentDelete(payment.installments, payment.id);
+	       	
             payment_table.row.add( {
     	    	"vendor":
 	    			"<a href='create-payments-vendors.html?mail=" + payment.student.mail + "&id=" + payment.id + "&typePage=change'>" +
@@ -259,8 +269,9 @@
 	    			'</div>' 
     	    }).draw( false );
         });
-        
+        //	
     	// Add event listener for opening and closing details
+        //
         $('#payments_list tbody').off('click');
         $('#payments_list tbody').on('click', 'td.details-control', function () {
         	var tr = $(this).closest('tr');
