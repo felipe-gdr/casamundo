@@ -123,6 +123,7 @@ function criaPayment(i){
 					dueDate : limpaData($('#itemDueDate_' + i).val()),
 					amount : parseFloat($('#itemValue_' + i).val()) * parseFloat($('#itemAmount_' + i).val()), 
 					destination : $('#itemDestination_' + i).val(),
+					installments : [],
 					itens : [],
 					notes : []
 				}
@@ -148,6 +149,14 @@ function criaPayment(i){
 		};
 	});
 	
+	$(".installmentItem").each(function(i, installment) {
+			objPayment.documento.installments.push(JSON.parse('{"date":"' + $("#installmentDate_" + i).val() 
+													+ '","type":"' + $("#installmentType_" + i).val() 
+													+ '","value":"' + $("#installmentValue_" + i).val() 
+													+  '"}'
+													));
+	});
+
 	if (typePage == "change"){
 		rest_atualizaPayment(objPayment, retornaPayment, semAcao, "payments.html")
 	}else{
@@ -343,7 +352,18 @@ function carregaTelaPaymentAlteracao(data){
     	linesNote = i + 1;
     });
     criaLinhaNote(linesNote);
-	
+
+	var linesInstallment = 0;
+    $.each(data.documento.installments
+		    , function (i, installment) {
+	    criaLinhaInstallment(i);
+	    $('#installmentDate_' + i).val(installment.date);
+    	$('#installmentType_' + i).val(installment.type);
+    	$('#installmentValue_' + i).val(installment.value);
+    	linesInstallment = i + 1;
+    });
+
+    
 };
 
 function acertaSinalItem (){
@@ -513,4 +533,22 @@ function criaLinhaNote (i, note) {
 		criaLinhaNote(i + 1, note);
 		$('#notesUser_' + i).val(localStorage.usuarioEmail);
 	});
+};
+function criaLinhaInstallment (i, installment) {
+	var installmentLine = '<li class="installmentItem">' +
+			'<div class="col-xs-11">' +
+				'<fieldset class="memberList ">' +					
+					'<section class="col-xs-1">' +	
+					'</section>' +
+					'<section class="col-xs-2">' +
+						'<label class="hide">' +
+							'<input type="text" id="installmentDate_' + i + '" name="installmentDate_' + i + '" class="hide">' +
+							'<input type="text" id="installmentType_' + i + '" name="installmentType_' + i + '" class="hide">' +
+							'<input type="text" id="installmentValue_' + i + '" name="installmentValue_' + i + '" class="hide">' +
+						'</label>' +
+					'</section>' +
+				'</fieldset>' +
+			'</div>' +
+		'</li>';
+	$("#installmentsList").append(installmentLine);
 };
