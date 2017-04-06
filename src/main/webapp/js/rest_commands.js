@@ -1222,7 +1222,7 @@
     };
 
     
-    function rest_incluiInstallment(objJson, action_ok, action_notOk, messageOk, messageNotOk) {
+    function rest_incluiInstallment(objJson, action_ok, action_notOk, messageOk, messageNotOk, var1) {
 		$.ajax({
 			type: "POST",
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/incluiInstallment",
@@ -1236,7 +1236,7 @@
         })
        	.always(function(data) {
         	if (data.status = 200) {
-        		action_ok (messageOk);
+        		action_ok (var1);
         	}else{
         		actio_not_ok(messageNotOk)
         	};

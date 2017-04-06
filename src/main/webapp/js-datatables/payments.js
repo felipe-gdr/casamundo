@@ -209,13 +209,16 @@
 			    	notes = notes + note.note + "<br>";
 			    });	        	
 	        };
+			var balanceDecimal = parseFloat(balance);
+			var amountDecimal = parseFloat(payment.amount);
             payment_table.row.add( {
     	    	"vendor":
 	    			"<a href='create-payments-vendors.html?mail=" + payment.student.mail + "&id=" + payment.id + "&typePage=change'>" +
 	    				"<span class='text-column'>" + payment.vendorName + "</span><br>" +
 	    				"<small class='text-muted text-column'>Rate: </small><small class='text-bold text-column'>" + "" + "</small><br>" +
     	    			"<small class='text-muted text-column'>Number: " + payment.number + "</small><br>" +
-    	    			"<small class='text-muted text-column'>Amount: " + payment.amount + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Amount: " + amountDecimal.toFixed(2) + "</small><br>" +
+    	    			"<small class='text-muted text-column'>Balance: " + balanceDecimal.toFixed(2) + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(payment.dueDate,"-") + "</small><br>" +
 	    				"<small class='text-muted text-column'>Authorized: </small><small class='text-bold text-column'>" + "" + "</small></a><br>" +
     	    			"<small class='text-muted text-column'>" + payment.destination + "</small><br>",
@@ -311,8 +314,8 @@
 function calcBalance (payment){
 	var balance = parseFloat(payment.amount);
 	
-    if (payment.installmets){
-		$.each(payment.installmets, function (i, installment) {
+    if (payment.installments){
+		$.each(payment.installments, function (i, installment) {
 	    	balance = balance - parseFloat(installment.value);
 	    });
     };

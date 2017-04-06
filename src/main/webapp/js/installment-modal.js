@@ -32,7 +32,7 @@
 		submitHandler : function(form) {
 			var a = parseFloat($("#paymentValue").val());
 			var b = parseFloat($("#paymentBalance").html());
-			if (a > b){
+			if (parseFloat($("#paymentValue").val()) > parseFloat($("#paymentBalance").html())){
 				$.smallBox({
 					title : "Error",
 					content : "<i class='fa fa-clock-o'></i> <i>No balance for this value</i>",
@@ -41,17 +41,19 @@
 					timeout : 4000
 				});
 			}else{
+				var status = "approved";
+				if (parseFloat($("#paymentValue").val()) == parseFloat($("#paymentBalance").html())){
+					status = "paid";
+				};
 				var installment =
 					{
 						id : $("#paymentId").val(),
-					installment :
-						{
 						value : $("#paymentValue").val(),
 						type :$("#paymentType").val(),
-						date : limpaData($("#paymentDate").val())
-						}
+						date : limpaData($("#paymentDate").val()),
+						status : status
 					};
-				rest_incluiInstallment(installment, fechaModalInstallment, semAcao);
+				rest_incluiInstallment(installment, fechaModalInstallment, semAcao, "", "", "payments.html");
 			};
 		},	
 		// Do not change code below
@@ -75,9 +77,11 @@
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		yearRange: "1940:2020",
 		onSelect : function(selectedDate) {
-	//		$('#finishdate').datepicker('option', 'minDate', selectedDate);
 			}
 		});
 
-	 function fechaModalInstallment () {
-    };
+	$("#paymentValue").maskMoney({thousands:'', decimal:'.', allowZero:true});
+
+	 function fechaModalInstallment (telaRetorno) {
+			window.location = telaRetorno; 
+	 };

@@ -248,6 +248,7 @@ public class Rest_Payment {
 					jsonDocumento.put("amount", jsonObject.get("amount"));
 					jsonDocumento.put("itens", jsonObject.get("itens"));
 					jsonDocumento.put("notes", jsonObject.get("notes"));
+					jsonDocumento.put("installments", jsonObject.get("installments"));
 					//
 					//** ler student
 					//
@@ -549,23 +550,23 @@ public class Rest_Payment {
 			DBCollection collection = db.getCollection("payment");
 			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
 			DBObject cursor = collection.findOne(searchQuery);
+			BasicDBObject objUpdate = new BasicDBObject();
 			if (cursor != null){
 				objPayment = (BasicDBObject) cursor.get("documento");
+				//
+				// ** atualizar status
+				//
+				objUpdate.put("documento.status", param.get("status"));
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
+				cursor = collection.findAndModify(setQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
 			};
-			//
-			// ** atualizar status
-			//
-			BasicDBObject objUpdate = new BasicDBObject();
-			objUpdate.put("documento.status", param.get("status"));
-			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-			BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
-			cursor = collection.findAndModify(setQuery,
-	                null,
-	                null,
-	                false,
-	                update,
-	                true,
-	                false);
 			mongo.close();
 			return Response.status(200).entity(objUpdate).build();
 		} catch (UnknownHostException e) {
@@ -586,7 +587,6 @@ public class Rest_Payment {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			BasicDBObject objPayment = new BasicDBObject();
-			System.out.println(installment.get("id"));
 			ObjectId idPayment = new ObjectId((String) installment.get("id"));
 			DBCollection collection = db.getCollection("payment");
 			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
@@ -597,11 +597,13 @@ public class Rest_Payment {
 				//
 				// ** inclui installment
 				//
-				JSONObject installmentObj = new JSONObject();
-				installmentObj = (JSONObject) installment.get("installment");
+				BasicDBObject installmentObj = new BasicDBObject();
+				installmentObj.put("value", installment.get("value"));
+				installmentObj.put("type", installment.get("type"));
+				installmentObj.put("date", installment.get("date"));
 				JSONArray installments = new JSONArray();
-				installments = (JSONArray) objUpdate.get("installment");
 				installments.add(installmentObj);
+				objUpdate.put("documento.installments", installments);
 				objUpdate.put("documento.status", installment.get("status"));
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
 				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
