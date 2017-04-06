@@ -134,14 +134,14 @@
 	        var typePage = "accommodation";
         	invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
         	var dadosInvoice = " data-idInvoice='" + invoice.id + "'";
-	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
+	        if (localStorage.usuarioPerfil == "caretaker" || localStorage.usuarioPerfil == "administrator" || localStorage.usuarioPerfil == "tools"){
 		        if (invoice.status == "unpaid"){
 		        	actions = 
-		        		"<li data-process='paidCash' " + dadosInvoice + " data-status='paid'><a href='#'>Cash</a></li>" +
-		        		"<li data-process='paidBank' " + dadosInvoice + " data-status='paid'><a href='#'>Bank</a></li>" +
-		        		"<li data-process='paidCard' " + dadosInvoice + " data-status='paid'><a href='#'>Card</a></li>";
+		        		"<li data-process='paidCash' " + dadosInvoice + " data-status='cash'><a href='#'>Cash</a></li>" +
+		        		"<li data-process='paidBank' " + dadosInvoice + " data-status='bank'><a href='#'>Bank</a></li>" +
+		        		"<li data-process='paidCard' " + dadosInvoice + " data-status='card'><a href='#'>Card</a></li>";
 		        };
-		        if (invoice.status == "cash" || "bank" || "card"){
+		        if (invoice.status == "cash" || invoice.status == "bank" || invoice.status == "card"){
 		        	actions = 
 		        		"<li data-process='unpaid' " + dadosInvoice + " data-status='unpaid'><a href='#'>Unpaid</a></li>";
 		        };
@@ -216,7 +216,11 @@
             	};
             	$("#listInvoice li").off('click');
 	    		$("#listInvoice li").on('click',function(){
-	    			if ($(this).attr('data-process') == "paid" | $(this).attr('data-process') == "unpaid") {
+	    			if ($(this).attr('data-process') == "paidCard" |
+	    					$(this).attr('data-process') == "paidCash" |
+	    					$(this).attr('data-process') == "paidBank" |
+	    					$(this).attr('data-process') == "unpaid") 
+	    				{
 	    				var param  = 
 	    				{
 	    					idInvoice : $(this).attr('data-idInvoice'),

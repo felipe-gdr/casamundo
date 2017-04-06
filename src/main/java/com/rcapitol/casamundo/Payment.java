@@ -43,6 +43,7 @@ public class Payment {
 		public String dueDate;
 		public String amount;
 		public String destination;
+		public Installments installments[];
 		public Itens itens[];
 		public Notes notes[];
 		public Documento() {
@@ -63,6 +64,7 @@ public class Payment {
 						String dueDate,
 						String amount,
 						String destination,
+						Installments installments[],
 						Itens itens[],
 						Notes notes[]
 								) {
@@ -78,6 +80,7 @@ public class Payment {
 						this.dueDate = dueDate; 
 						this.amount = amount; 
 						this.destination = destination;
+						this.installments = installments;
 						this.itens = itens;
 						this.notes = notes;
 		}
@@ -110,6 +113,28 @@ public class Payment {
 	    		this.value = value;
 	    		this.amount = amount;
 	    		this.description = description;
+            };
+		};
+
+		public static final class Installments {
+    		public String value;
+    		public String type;
+    		public String date;
+
+    		public Installments() {
+
+			}
+   
+            @JsonCreator
+            public Installments(
+            			String value,
+            			String type,
+            			String date
+            			)
+            {
+	    		this.value = value;
+	    		this.type = type;
+	    		this.date = date;
             };
 		};
 	};

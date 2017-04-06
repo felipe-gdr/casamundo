@@ -93,8 +93,10 @@ function carregaTela(data, actualTrip) {
 			$(".suite").removeClass("hide");				
 		}
 	};
-	$("#occupancy").val(data.documento.trips[actualTrip].occupancy);
-	if (data.documento.trips[actualTrip].occupancy == "Twin" || data.documento.trips[actualTrip].occupancy == "Couple"){
+	$("#occupancyDorms").val(data.documento.trips[actualTrip].occupancy);
+	$("#occupancyHomestay").val(data.documento.trips[actualTrip].occupancy);
+	$("#occupancySuite").val(data.documento.trips[actualTrip].occupancy);
+	if (data.documento.trips[actualTrip].occupancy != "Single"){
 		$(".guest").removeClass("hide");
 	}else{
 		$(".guest").addClass("hide");
@@ -544,6 +546,18 @@ function getValueStudent (field, actualTrip) {
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].occupancy;		
 	};
+	if (field == "occupancyDorms"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].occupancy;		
+	};
+	if (field == "occupancyHomestay"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].occupancy;		
+	};
+	if (field == "occupancySuite"){
+        var objJson = JSON.parse(localStorage.getItem("student"));
+        return objJson.documento.trips[actualTrip].occupancy;		
+	};
 	if (field == "guestName"){
         var objJson = JSON.parse(localStorage.getItem("student"));
         return objJson.documento.trips[actualTrip].guestName;		
@@ -871,6 +885,21 @@ function setValueStudent (field, value, actualTrip, grava) {
 	if (field == "occupancy"){
         objJson.documento.trips[actualTrip].occupancy = value;
 	};
+	if (field == "occupancyDorms"){
+		if (value){
+			objJson.documento.trips[actualTrip].occupancy = value;
+		};
+	};
+	if (field == "occupancyHomestay"){
+		if (value){
+			objJson.documento.trips[actualTrip].occupancy = value;
+		};
+	};
+	if (field == "occupancySuite"){
+		if (value){
+			objJson.documento.trips[actualTrip].occupancy = value;
+		};
+	};
 	if (field == "familyName"){
         objJson.documento.trips[actualTrip].familyName = value;
 	};
@@ -1190,7 +1219,7 @@ function carregaStudent(data, typePage, actualTrip) {
     //    *** homestay
     //
     $('#occupancy').html(getValueStudent("occupancy",actualTrip));
-	if (getValueStudent("occupancy", actualTrip) == "Twin" || getValueStudent("occupancy", actualTrip) == "Couple"){
+	if (getValueStudent("occupancy", actualTrip) != "Single"){
 		$(".guest").removeClass("hide");
 	}else{
 		$(".guest").addClass("hide");
@@ -1330,14 +1359,14 @@ function criaLinhaNote (i, note) {
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker " data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input class="body-background-color-family"type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class="" type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	

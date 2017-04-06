@@ -145,7 +145,13 @@
 			accommodation : {
 				required : true,
 			},
-			occupancy : {
+			occupancyDorms : {
+				required : true,
+			},
+			occupancyHomestay : {
+				required : true,
+			},
+			occupancySuite : {
 				required : true,
 			},
 			start : {
@@ -274,7 +280,13 @@
 			accommodation : {
 				required : 'Please enter accommodation'
 			},
-			occupancy : {
+			occupancyDorms : {
+				required : 'Please enter occupancy'
+			},
+			occupancyHomestay : {
+				required : 'Please enter occupancy'
+			},
+			occupancySuite : {
 				required : 'Please enter occupancy'
 			},
 			start : {
@@ -442,7 +454,9 @@
 	};
 	
 	$('#accommodation').change(function() {
-		$('#occupancy').find('option:not(:first)').remove();
+		$('#occupancyDorms').find('option:not(:first)').remove();
+		$('#occupancyHomestay').find('option:not(:first)').remove();
+		$('#occupancySuite').find('option:not(:first)').remove();
 		$(".guest").addClass("hide");
     	var table = JSON.parse(localStorage.getItem("table"));
 		if ($(this).val() == "Homestay"){
@@ -451,7 +465,7 @@
 			$(".homestay").removeClass("hide");
 	        $.each(table.documento.occupancyHomestay
 	    		    , function (i, optionValue) {
-	        			$("#occupancy").append( $(option(optionValue)));
+	        			$("#occupancyHomestay").append( $(option(optionValue)));
 	    		    });
 		}else{
 			if ($(this).val() == "Dorms"){
@@ -460,7 +474,7 @@
 				$(".dorms").removeClass("hide");
 		        $.each(table.documento.occupancyDorms
 		    		    , function (i, optionValue) {
-		        			$("#occupancy").append( $(option(optionValue)));
+		        			$("#occupancyDorms").append( $(option(optionValue)));
 		    		    });
 			}else{
 				$(".homestay").addClass("hide");
@@ -468,18 +482,40 @@
 				$(".suite").removeClass("hide");				
 		        $.each(table.documento.occupancySuite
 		    		    , function (i, optionValue) {
-		        			$("#occupancy").append( $(option(optionValue)));
+		        			$("#occupancySuite").append( $(option(optionValue)));
 		    		    });
 			};
 		};
 	});
 	
-	$('#occupancy').change(function() {
-		if ($(this).val() == "Accompanyng" || $(this).val() == "Couple"){
+	$('#occupancyDorms').change(function() {
+		if ($(this).val() != "Single"){
 			$(".guest").removeClass("hide");
 		}else{
 			$(".guest").addClass("hide");
 		};
+		$('#occupancyHomestay').val($(this).val());
+		$('#occupancySuite').val($(this).val());
+	});
+	
+	$('#occupancyHomestay').change(function() {
+		if ($(this).val() != "Single"){
+			$(".guest").removeClass("hide");
+		}else{
+			$(".guest").addClass("hide");
+		};
+		$('#occupancyDorms').val($(this).val());
+		$('#occupancySuite').val($(this).val());
+	});
+	
+	$('#occupancySuite').change(function() {
+		if ($(this).val() != "Single"){
+			$(".guest").removeClass("hide");
+		}else{
+			$(".guest").addClass("hide");
+		};
+		$('#occupancyHomestay').val($(this).val());
+		$('#occupancyDorms').val($(this).val());
 	});
 	
 	$('#start').datepicker({

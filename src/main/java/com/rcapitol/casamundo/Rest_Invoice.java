@@ -336,9 +336,15 @@ public class Rest_Invoice {
 					};
 			    };
 			    if (element[0].equals("filter_status")){
-					if (((String) objJson.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
-						response = false;
-					};
+			    	if (element[1].toLowerCase().equals("overdue")){
+						if (commons.convertToCalendar((String)objJson.get("dueDate")).before(commons.currentTime())){
+							response = false;
+						};			    		
+			    	}else{
+						if (((String) objJson.get("status")).toLowerCase().indexOf(element[1].toLowerCase()) < 0){
+							response = false;
+						};
+			    	};
 			    };
 			    if (element[0].equals("filter_agent")){
 					if (agencySigla.toLowerCase().indexOf(element[1].toLowerCase()) < 0){
@@ -570,6 +576,7 @@ public class Rest_Invoice {
 				itemCost.put("number", payment.numberPayment());
 				itemCost.put("dueDate", commons.calcNewDate(date, 6));
 				itemCost.put("destination", destination);
+				JSONArray installments = new JSONArray();
 				JSONArray itens = new JSONArray();
 				JSONArray notes = new JSONArray();
 				JSONObject item = new JSONObject();
@@ -579,6 +586,9 @@ public class Rest_Invoice {
 				item.put("description", itemInvoice.get("description"));
 				String value = null;
 				String type = null;
+				//
+				//** get value
+				//
 				if (!date.equals("null")){
 					JSONObject jsonCost = new JSONObject();
 					String idPriceTable = (String) itemInvoice.get("item");
@@ -635,9 +645,12 @@ public class Rest_Invoice {
 					itemCost.put("idVendor", idVendor);
 					itemCost.put("type", type);
 					itemCost.put("amount", Double.toString(amountValue));
+					//
+					//** monta installments
+					//
+					itemCost.put("installments", installments);
 					itemCost.put("itens", itens);
 					itemCost.put("notes", notes);
-
 					//
 					// ** incluir novo custo
 					//

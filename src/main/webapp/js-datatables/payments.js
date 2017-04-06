@@ -174,7 +174,11 @@
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
 	        var typePage = "payments";
-        	var dadosPayment = " data-idPayment='" + payment.id + "'";
+	        var balance = calcBalance (payment); 
+	        	parseFloat(payment.amount)
+        	var dadosPayment = " data-idPayment= '" + payment.id + "'" +
+        					   " data-amount= '" + payment.amount + "'" +
+        					   " data-balance= '" + balance + "'";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 		        if (payment.status == "unpaid"){
 		        	actions = 
@@ -182,11 +186,11 @@
 		        };
 		        if (payment.status == "approved"){
 		        	actions = 
-		        		"<li data-process='paid' " + dadosPayment + " data-status='paid'><a href='#'>Paid</a></li>";
+		        		'<li data-process="pay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#paymentModal">Pay</a></li>';
 		        };
 		        if (payment.status == "paid"){
 		        	actions = 
-		        		"<li data-process='unpaid' " + dadosPayment + " data-status='unpaid'><a href='#'>Unpaid</a></li>";
+		        		"<li data-process='unpay' " + dadosPayment + " data-status='unpaid'><a href='#'>Unpay</a></li>";
 		        };
 	        };
 		    var pickupCollor = "success";
@@ -248,7 +252,7 @@
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
 	    				'<ul id="listPayment" class="dropdown-menu">' +
 	    					actions +
-	    				'</ul>' +
+    				'</ul>' +
 	    			'</div>' 
     	    }).draw( false );
         });
@@ -273,7 +277,7 @@
             	};
             	$("#listPayment li").off('click');
 	    		$("#listPayment li").on('click',function(){
-	    			if ($(this).attr('data-process') == "paid" | $(this).attr('data-process') == "approved" | $(this).attr('data-process') == "unpaid") {
+	    			if ($(this).attr('data-process') == "approved") {
 	    				var param  = 
 	    				{
 	    					idPayment : $(this).attr('data-idPayment'),
@@ -281,6 +285,11 @@
 	    				};	 
 	    				localStorage.nextWindow = "payments.html"
 	    				rest_changeStatusPayment(param, atualizacaoEfetuada, semAcao, "Payment updated", "problems to update payment, try again");
+	    			};
+	    			if ($(this).attr('data-process') == "pay") {
+	    				var balance = parseFloat($(this).attr('data-balance'));
+    					$("#paymentId").val($(this).attr('data-idPayment'));
+    					$("#paymentBalance").html(balance.toFixed(2));
 	    			};
 	    		});
             }
@@ -299,3 +308,14 @@
         /* end trip list */   
 };
 
+function calcBalance (payment){
+	var balance = parseFloat(payment.amount);
+	
+    if (payment.installmets){
+		$.each(payment.installmets, function (i, installment) {
+	    	balance = balance - parseFloat(installment.value);
+	    });
+    };
+    
+    return balance;
+};

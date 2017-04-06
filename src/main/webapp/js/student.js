@@ -36,7 +36,8 @@
 		};
 
 		if (localStorage.accommodation == "Dorms"){
-			$(".dorms").removeClass("hide");	
+			$(".dorms").removeClass("hide");
+			localStorage.allocated = "false";
 		};
 	};
 	// 

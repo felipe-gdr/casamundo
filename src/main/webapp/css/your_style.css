@@ -54,6 +54,9 @@
  .label-terminated {
 	background-color: #c0c0c0 !important;
 }
+ .label-canceled {
+	background-color: #408080!important;
+}
  .label-evalueter-received {
 	background-color: #808080 !important;
 }

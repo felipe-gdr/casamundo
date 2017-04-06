@@ -371,10 +371,16 @@
 			    	notes = notes + note.note + "<br>";
 			    });	        	
 	        };
+	        var guestName = "";
+	        if (student.trip.occupancy != "Single") {
+	        	if (student.trip.guestName) {
+	        		guestName = "<small class='text-muted text-column label-warning'><i>" + student.trip.guestName + "<i></small><br>";
+	        	};
+	        };
             student_table.row.add( {
     	    	"student": 
     	    			"<a href='student.html?mail=" + student.mail + "&typePage=change&actualTrip=" + actualTrip + "'>" +
-    	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + 
+    	    			"<span class='text-column'>" + student.firstName +  " " + student.lastName + "</span><br>" + guestName +
     	    			"<small class='label text-column " + genderCollor + " '>" + student.gender + "</small>&nbsp;&nbsp;" +
     	    			"<small class='text-muted text-column'><i>" + student.nationality + "<i></small><br>" +
     	    			"<small class='text-muted text-column'><i>" + student.trip.destination + "<i></small><br>" +
@@ -395,7 +401,7 @@
     	    	"people":
     	    			accommodation +
     	    			"<small class='text-muted text-column'>Driver: " + "Available" + "</small><br>",
-       	    	"preferences":"<small class='text-muted text-column'>" + student.trip.occupancy + "</small>&nbsp;&nbsp;" +
+       	    	"preferences":"<small class='text-muted text-column'>" + student.trip.occupancy + "</small>&nbsp;&nbsp;" + 
     	    				"<small class='text-muted text-column'>Pvt WC: " + student.trip.privateWashroom + "</small><br>" +
     	    				"<small class='text-muted text-column'>Dogs: " + student.trip.liveDogs + "</small>&nbsp;&nbsp;" +
     	    				"<small class='text-muted text-column'>Cats: " + student.trip.liveCats + "</small><br>" +

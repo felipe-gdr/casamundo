@@ -211,13 +211,13 @@ function createItem(i, date, agency, destination, type){
 					'<input id="itemDueDate_' + i + '" type="text" name="itemDueDate_' + i + '" placeholder="" class="datepicker form-control" data-dateformat="dd-M-yy" >' +	
 				'</label>' +
 			'</section>' +
-			'<section class="col-xs-1"></section>' +
-			'<section class="col-xs-1">' +
-				'<a id="newItem_' + i + '"  class="newItem control-item hide"><i class="glyphicon glyphicon-plus control-item hide"></i></a>' +
-			'</section>' +
-			'<section class="col-xs-1">' +
-				'<a id="delItem_' + i + '"  class="delItem control-item hide"><i class="glyphicon glyphicon-minus control-item hide"></i></a>' +
-			'</section>' +
+//			'<section class="col-xs-1"></section>' +
+//			'<section class="col-xs-1">' +
+//				'<a id="newItem_' + i + '"  class="newItem control-item "><i class="glyphicon glyphicon-plus control-item "></i></a>' +
+//			'</section>' +
+//			'<section class="col-xs-1">' +
+//				'<a id="delItem_' + i + '"  class="delItem control-item "><i class="glyphicon glyphicon-minus control-item "></i></a>' +
+//			'</section>' +
 		'</div>';
 	
 	$("#itensPayment").append(item);
@@ -475,26 +475,26 @@ function fillSpaces(text, size){
 function criaLinhaNote (i, note) {
 	var noteLine = '<li class="noteItem">' +
 			'<div class="col-xs-11">' +
-				'<fieldset class="memberList body-background-color-family">' +					
+				'<fieldset class="memberList ">' +					
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-2">' +
 						'<label class="input"> <i class="icon-prepend fa fa-calendar"></i>' +
-							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker body-background-color-family" data-dateformat="dd-M-yy">' +
+							'<input type="text" id="notesDate_' + i + '" name="notesDate_' + i + '" class="datepicker " data-dateformat="dd-M-yy">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-3">' +
 						'<label class="input"><i class="icon-prepend fa fa-user"></i>'  +
-						'<input class="body-background-color-family"type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
+						'<input class="" type="text" id="notesUser_' + i + '" name="notesUser_' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +	
 					'</section>' +
 					'<section class="col-xs-4">' +
 						'<label class="input">'  +
-							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll body-background-color-family"></textarea>' +
+							'<textarea rows="3" cols="40" id="notesNote_' + i + '" name="notesNote_' + i + '" class="custom-scroll "></textarea>' +
 						'</label>' +
 					'</section>' +
 				'</fieldset>' +

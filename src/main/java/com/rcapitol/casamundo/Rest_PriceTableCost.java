@@ -191,36 +191,38 @@ public class Rest_PriceTableCost {
 					jsonDocumento.put("value", jsonObject.get("value"));
 					jsonDocumento.put("nameVendor", "");
 					String type = (String) jsonObject.get("type");
-					if (type.equals("family")){
-						String idFamily = (String) jsonObject.get("idVendor");
-						if (idFamily != null && !idFamily.equals("")){
-							ObjectId objectIdFamily = new ObjectId(idFamily);
-							Mongo mongoFamily = new Mongo();
-							DB dbFamily = (DB) mongoFamily.getDB("documento");
-							DBCollection collectionFamily = dbFamily.getCollection("family");
-							BasicDBObject searchQueryFamily = new BasicDBObject("_id", objectIdFamily);
-							DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
-							if (cursorFamily != null){
-								BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
-								jsonDocumento.put("nameVendor", obj.get("familyName"));
+					if (type != null){
+						if (type.equals("family")){
+							String idFamily = (String) jsonObject.get("idVendor");
+							if (idFamily != null && !idFamily.equals("")){
+								ObjectId objectIdFamily = new ObjectId(idFamily);
+								Mongo mongoFamily = new Mongo();
+								DB dbFamily = (DB) mongoFamily.getDB("documento");
+								DBCollection collectionFamily = dbFamily.getCollection("family");
+								BasicDBObject searchQueryFamily = new BasicDBObject("_id", objectIdFamily);
+								DBObject cursorFamily = collectionFamily.findOne(searchQueryFamily);
+								if (cursorFamily != null){
+									BasicDBObject obj = (BasicDBObject) cursorFamily.get("documento");
+									jsonDocumento.put("nameVendor", obj.get("familyName"));
+								};
+								mongoFamily.close();
 							};
-							mongoFamily.close();
 						};
-					};
-					if (type.equals("pickup")){
-						String idPickup = (String) jsonObject.get("idVendor");
-						if (idPickup != null && !idPickup.equals("")){
-							ObjectId objectIdPickup = new ObjectId(idPickup);
-							Mongo mongoPickup = new Mongo();
-							DB dbPickup = (DB) mongoPickup.getDB("documento");
-							DBCollection collectionPickup = dbPickup.getCollection("pickup");
-							BasicDBObject searchQueryPickup = new BasicDBObject("_id", objectIdPickup);
-							DBObject cursorPickup = collectionPickup.findOne(searchQueryPickup);
-							if (cursorPickup != null){
-								BasicDBObject obj = (BasicDBObject) cursorPickup.get("documento");
-								jsonDocumento.put("nameVendor", obj.get("name"));
+						if (type.equals("pickup")){
+							String idPickup = (String) jsonObject.get("idVendor");
+							if (idPickup != null && !idPickup.equals("")){
+								ObjectId objectIdPickup = new ObjectId(idPickup);
+								Mongo mongoPickup = new Mongo();
+								DB dbPickup = (DB) mongoPickup.getDB("documento");
+								DBCollection collectionPickup = dbPickup.getCollection("pickup");
+								BasicDBObject searchQueryPickup = new BasicDBObject("_id", objectIdPickup);
+								DBObject cursorPickup = collectionPickup.findOne(searchQueryPickup);
+								if (cursorPickup != null){
+									BasicDBObject obj = (BasicDBObject) cursorPickup.get("documento");
+									jsonDocumento.put("nameVendor", obj.get("name"));
+								};
+								mongoPickup.close();
 							};
-							mongoPickup.close();
 						};
 					};
 					documentos.add(jsonDocumento);

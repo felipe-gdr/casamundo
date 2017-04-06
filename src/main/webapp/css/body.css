@@ -1,0 +1,391 @@
+@CHARSET "ISO-8859-1";
+
+aside { 
+    display: block;
+}
+
+/****
+
+SITE: Sistema YggBoard
+DATA: 20/09/2016
+VERSÃO: 1.0
+
+/***************************************************/
+
+/*
+01. IMPORTAÇES
+02. GERAL
+03. TEXTO, FORMS E BOTÕES
+04. TOPO
+05. TÃTULO DA PÃGINA
+06. CONTEÚDO PRINCIPAL
+*/
+
+/***************************************************/
+
+/***  01. IMPORTAÇOES ***/
+
+@import 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700';
+
+/***************************************************/
+
+/***  02. GERAL ***/
+
+body {
+	font-family:'Poppins', Arial, Helvetica, sans-serif;
+	background-color: #97C466;
+}
+
+/* Reset de alguns elementos */
+
+h1, h2, h3, h4, h5, h6, p, ul, li {
+	padding:0;
+	margin:0;
+	line-height:100%;
+	font-weight:normal;
+	list-style:none;
+	border-radius:0;
+	box-shadow:none;
+}
+
+.clear {clear:both;}
+
+/***************************************************/
+
+/***  03. TEXTO, FORMS E BOTÕES ***/
+
+a {}
+a:hover {}
+
+h1 {}
+
+h2 {}
+
+h3 {}
+
+h4 {}
+
+h5 {}
+
+p {}
+
+
+.form-control {
+    border: 1px solid #EBEBED;
+    border-radius: 0px;
+	box-shadow: none;	
+    color: #9D9D9D;
+    font-size: 16px;
+	font-weight:300;
+	height:40px;
+	line-height:40px;
+}
+
+.form-control:focus {
+    border-color: #7B7B81;
+	color:#505058;
+	box-shadow: none;	
+}
+
+.btn-default {
+	border:1px solid #81818B;
+	background:#fff;
+	border-radius:0px;
+	font-size:12px;
+	display:inline-block;
+	padding:0px 25px;
+	color:#1F1F1F;
+	font-weight:500;
+	text-transform:uppercase;
+	height:40px;
+	line-height:40px;
+}
+
+.btn-default:hover {
+	transition: .2s;
+	background:#80ff80;	
+	color:#fff !important;
+}
+
+.btn-primary {
+	border:0;
+	background:#fff;
+	border-radius:0px;
+	font-size:12px;
+	display:inline-block;
+	padding:0px;
+	color:#1F1F1F;
+	font-weight:500;
+	text-transform:uppercase;
+	height:40px;
+	line-height:40px;
+}
+
+.btn-primary:hover {
+	transition: .2s;
+	background:none;
+	border-bottom:2px solid #1F1F1F;
+	color:#1F1F1F;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background-color: transparent;
+    border-color: transparent;
+    color: #1F1F1F;
+}
+
+.btn:active, .btn.active {
+    background-image: none;
+    box-shadow: none;
+    outline: 0 none;
+	color: #1F1F1F;
+};
+
+.legendas-modal 
+{
+	width:850px !important;
+};
+.modal-content{
+	width:850px !important;
+	height:1100px !important;
+};
+.legendas {
+	width:850px !important;
+	height:1100px !important;
+	padding: 0;
+};
+/***************************************************/
+
+/***  04. TOPO ***/
+
+header {
+	background:#6D9E38;
+	height:60px;
+}
+
+header h1 {
+	background:url(../img/logo.png) no-repeat;
+	width:183px;
+	height:40px;
+	display:block;
+	margin-top:10px;
+	text-indent:-9999px;
+}
+
+header .nome-user {
+	color:#fff;
+	font-size:16px;
+	font-weight:500;
+	padding-left:5px;
+}
+
+header > .container > .navbar-nav > li > a {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+header > .container > .navbar-nav > li > a {
+    line-height: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+header > .container > .nav > li > a {
+    display: block;
+    padding: 8px;
+    position: relative;
+	color:#444;
+}
+
+header > .container > .nav > li > a:focus, .nav > li > a:hover {
+    background-color: #85BD46;
+    text-decoration: none;
+}
+
+header .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+    background-color: #85BD46;
+    border-color: transparent;
+}
+
+header .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+    background-color: transparent;
+    color: #6D9E38;
+    text-decoration: none;
+}
+
+header .dropdown-menu {
+    border: none;
+}
+
+
+.login {
+	background-color:#DCE1D3 !important;
+};
+
+.login-background {
+	background:url(../img/logo-login.png) no-repeat;
+}
+
+.dropdown-menu > li {
+	margin:8px 0;
+}
+
+.dropdown-menu > li  i {
+	padding-right:8px;
+}
+
+.dropdown-menu > li > a {
+    clear: both;
+    color: #454545;
+    display: block;
+    font-weight: 400;
+    line-height: 1.42857;
+    padding: 3px 20px;
+    white-space: nowrap;
+}
+
+.navbar-default .navbar-default {
+	background:#fff;
+	height:52px;
+	border-color:none;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+.navbar-default i {
+	padding-right:8px;
+}	
+
+.navbar-default ul.navbar-nav {
+	display:block;
+}
+
+.navbar-default .navbar-default a {
+	color:#545454;
+	font-size:14px;
+	font-weight:400;
+	padding-right: 10px;
+}
+
+.navbar-default .navbar-nav > li {
+    float: left;
+	padding-right:8px;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    background-color: transparent;
+    color: #333;
+	border-bottom:2px solid #6D9E38;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #545454;
+}
+
+.nav-tab{
+    background-color: transparent;
+	border-bottom:2px solid #6D9E38 !important;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #fff;
+    border-color: transparent;
+    border-image: none;
+    border-style: none;
+    border-width: 0px;
+    cursor: default;
+}
+
+.navbar-nav > li.active > a, .navbar-nav > li.active > a:focus, .navbar-nav > li.active > a:hover {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #fff;
+    border-color: transparent;
+    border-image: none;
+    border-style: none;
+    border-width: 0px;
+    cursor: default;
+}
+
+   
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* Firefox 18- */
+input:focus::-moz-placeholder { color:transparent; } /* Firefox 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* oldIE ;) */
+
+/* aside */
+.aside-background{
+	  background-color: #000;
+}

@@ -309,6 +309,17 @@ function checkDates(dp, args, usedDays){
             		" total days allocated (" + daysAllocatted +  ") greater than total days trip (" + args.e.data.student_daysTrip +  ")");
             valid = false;
     	};
+    	if (localStorage.allocated != "false"){
+            dp.message(
+            		"Student: " +
+            		args.e.data.student.firstName + " " + 
+            		args.e.data.student.lastName + 
+            		" - status: " + 
+            		args.e.data.student.trips[args.e.data.actualTrip].status +
+            		" - Student has been already allocated");
+            valid = false;    		
+    	};
+    	
     };	
     
     return valid;
@@ -370,6 +381,7 @@ function atualizaStudent (objStudent, args, actualTrip, dp){
 	delete objStudent.family;
 	delete objStudent.room;
 	localStorage.nextWindow = "";
+	localStorage.allocated = "true";
 	rest_atualizaStudent(objStudent, semAcao, semAcao, "Update status student", "Problems to update status student, try again")
 	
 };

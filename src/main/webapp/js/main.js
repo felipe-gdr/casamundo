@@ -928,6 +928,9 @@ function calculaIdade ( dataNascimento ) {
             case "Evaluete received":
             	statusCollor = "label-evalueter-received"
                 break;
+            case "Canceled":
+            	statusCollor = "label-canceled"
+                break;
             default: 
         		statusCollor = "#ffffff"
             };	    
