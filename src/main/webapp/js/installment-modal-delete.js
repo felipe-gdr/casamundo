@@ -28,7 +28,7 @@ function criaLinhaInstallment (i, installment, idPayment) {
 							'<span type="text" id="installmentValue_' + i + '" name="installmentValue_' + i + '" class="col-xs-3">' + installment.value + '</span>' +
 						'</section>' +
 						'<section class="col-xs-2">' +
-							'<a id="delItem_' + i + '"  class="delItem control-item "><i class="glyphicon glyphicon-remove control-item "></i></a>' +
+							'<a id="delItem_' + i + '"  class="delItem control-item hide"><i class="glyphicon glyphicon-remove control-item "></i></a>' +
 						'</section>' +
 					'</section>' +
 				'</fieldset>' +

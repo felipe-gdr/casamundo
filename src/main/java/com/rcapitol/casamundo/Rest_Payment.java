@@ -506,7 +506,7 @@ public class Rest_Payment {
 			};
 			searchQuery = new BasicDBObject("documento.setupKey", "yearNumberPayment");
 			cursor = collection.findOne(searchQuery);
-			String year = "2016";
+			String year = "2017";
 			if (cursor != null){
 				obj = (BasicDBObject) cursor.get("documento");
 				year = obj.getString("setupValue");
@@ -578,7 +578,7 @@ public class Rest_Payment {
 		return null;
 	};
 
-	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes" })
 	@Path("/incluiInstallment")	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -627,7 +627,7 @@ public class Rest_Payment {
 		return null;
 	};
 
-	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes" })
 	@Path("/excluiInstallment")	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

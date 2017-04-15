@@ -296,13 +296,8 @@
 	doc.setFontType("bold");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 51, 102);
-	doc.text(15, 81, 'ITEM');
-	
-	doc.setFont("helvetica");
-	doc.setFontType("bold");
-	doc.setFontSize(10);
-	doc.setTextColor(0, 51, 102);
-	doc.text(45, 81, 'DESCRIPTION');
+//	doc.text(15, 81, 'DESCRIPTION');
+	doc.textEx('DESCRIPTION', 39, 81, 'right', 'top');
 	
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
@@ -373,19 +368,12 @@
 			$(".item").each(function() {
 				var id = $(this).attr('id');
 				var i = id.split("_")[1];
-				if ($('#itemId_' + i).val()) {
-					doc.setFont("helvetica");
-					doc.setFontType("normal");
-					doc.setFontSize(09);
-					doc.setTextColor(0, 0, 0);
-					doc.text(15, hight, itemPriceTable($('#itemId_' + i).val()).name);					
-				};
 				if ($('#itemDescription_' + i).val()) {
 					doc.setFont("helvetica");
 					doc.setFontType("normal");
 					doc.setFontSize(09);
 					doc.setTextColor(0, 0, 0);
-					doc.text(45, hight,itemPriceTable($('#itemId_' + i).val()).description);
+					doc.text(15, hight,itemPriceTable($('#itemId_' + i).val()).description);
 					
 				};
 				if ($('#itemAmount_' + i).val()) {
@@ -1028,8 +1016,8 @@ function carregaDadosTelaInvoice(data, actualTrip){
 	if (typePage != "change"){
 		createItem(0, data.documento.trips[actualTrip].start, data.documento.trips[actualTrip].agencyName, data.documento.trips[actualTrip].destination, "net");
 		createDue(0);
-		$('#due_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
-		$('#dueGross_0').val(calculaData(data.documento.trips[actualTrip].start, -14));
+		$('#due_0').val(calculaData(data.documento.trips[actualTrip].start, -28));
+		$('#dueGross_0').val(calculaData(data.documento.trips[actualTrip].start, -28));
 	};
 	
 };

@@ -115,6 +115,7 @@ public class Rest_Invoice {
 			String idString = id.toString();
 			BasicDBObject objUpdate = new BasicDBObject();
 			objUpdate.put("documento.id", idString);
+			objUpdate.put("documento.number", numberInvoice());
 			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
 			BasicDBObject setQuery = new BasicDBObject("_id", id);
 			DBObject cursor = collection.findAndModify(setQuery,
@@ -505,7 +506,7 @@ public class Rest_Invoice {
 		return jsonCost;
 	};
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public void criarCosts(ObjectId id, String actualTrip, ObjectId idStudent) {
 		Commons commons = new Commons();
 		Rest_Payment payment = new Rest_Payment();
@@ -550,23 +551,11 @@ public class Rest_Invoice {
 			DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
 			BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
 			mongoStudent.close();
-		    Integer tripIndex = Integer.parseInt((String) objInvoice.get("actualTrip"));
-		    String date = null;
-	    	String idFamily = null;
-	    	String idVendor = null;
-	    	String destination = null;
-		    if (tripIndex != null){
-				List trips = (List) objStudent.get("trips");
-				BasicDBObject jsonTrip =  (BasicDBObject) trips.get(tripIndex);
-				date = (String) jsonTrip.get("start");
-				idFamily = (String) jsonTrip.get("idFamily");
-				destination = (String) jsonTrip.get("destination");
-		    };
 			List listItens = (List) objInvoice.get("itensNet");
-			int w = 0;
-			while (w < listItens.size()) {
-				BasicDBObject itemInvoice = (BasicDBObject) listItens.get(w);
+			while (listItens.size() != 0) {
 				JSONObject itemCost = new JSONObject();
+				BasicDBObject itemInvoice = (BasicDBObject) listItens.get(0);
+			    JSONObject dadosCost = obterDadosCosts (itemCost, objStudent, objInvoice, itemInvoice);
 				itemCost.put("id", "1");
 				itemCost.put("idStudent", idstudentString);
 				itemCost.put("idInvoice", idInvoiceString);
@@ -574,80 +563,40 @@ public class Rest_Invoice {
 				itemCost.put("actualTrip", objInvoice.get("actualTrip"));
 				itemCost.put("status", "unpaid");
 				itemCost.put("number", payment.numberPayment());
-				itemCost.put("dueDate", commons.calcNewDate(date, 6));
-				itemCost.put("destination", destination);
+				if (dadosCost.get("date") != null){
+					itemCost.put("dueDate", commons.calcNewDate((String) dadosCost.get("date"), 6));
+				};
+				itemCost.put("destination", dadosCost.get("destination"));
 				JSONArray installments = new JSONArray();
 				JSONArray itens = new JSONArray();
 				JSONArray notes = new JSONArray();
-				JSONObject item = new JSONObject();
-				item.put("item", itemInvoice.get("item"));
-				item.put("amount", itemInvoice.get("amount"));
-				double amount = Double.parseDouble((String) itemInvoice.get("amount"));
-				item.put("description", itemInvoice.get("description"));
-				String value = null;
-				String type = null;
-				//
-				//** get value
-				//
-				if (!date.equals("null")){
-					JSONObject jsonCost = new JSONObject();
-					String idPriceTable = (String) itemInvoice.get("item");
-					if (idFamily != null && !destination.equals("null")){
-						jsonCost = searchCostValue (idFamily, destination, idPriceTable, date);
-						value = (String) jsonCost.get("value");
-						type = (String) jsonCost.get("type");
-						idVendor = idFamily;
+				String typeItem = (String) dadosCost.get("type");
+				int w = 0;
+				double valueNumber = 0;
+				Double amountValue = 0.00;
+				while (w < listItens.size()) {
+					itemInvoice = (BasicDBObject) listItens.get(w);
+					dadosCost = obterDadosCosts (itemCost, objStudent, objInvoice, itemInvoice);
+					if (typeItem.equals(dadosCost.get("type"))){
+						JSONObject item = new JSONObject();
+						item.put("item", itemInvoice.get("item"));
+						item.put("amount", itemInvoice.get("amount"));
+						double amount = Double.parseDouble((String) itemInvoice.get("amount"));
+						item.put("description", itemInvoice.get("description"));
+						if (dadosCost.get("value") != null){
+							item.put("value", dadosCost.get("value"));
+							itens.add(item);
+							String value = (String) dadosCost.get("value");							
+							valueNumber = Double.parseDouble(value);
+							amountValue = amountValue + amount * valueNumber;
+						};
+						listItens.remove(w);
+						--w;
 					};
-					if (value == null && idFamily != null){
-						jsonCost = searchCostValue (idFamily, "", idPriceTable, date);
-						value = (String) jsonCost.get("value");
-						type = (String) jsonCost.get("type");
-						idVendor = idFamily;
-					};
-					if (value == null ){
-				    	ArrayList arrayListVendors = new ArrayList(); 
-				    	arrayListVendors = (ArrayList) objStudent.get("vendors");
-				    	if (arrayListVendors != null){
-					    	Object arrayVendors[] = arrayListVendors.toArray(); 
-							int z = 0;
-							while (z < arrayVendors.length | value != null) {
-								idVendor = (String) arrayVendors[z];
-								jsonCost = searchCostValue (idVendor, destination, idPriceTable, date);
-								value = (String) jsonCost.get("value");
-								type = (String) jsonCost.get("type");
-								if (value == null){
-									jsonCost = searchCostValue (idVendor, "", idPriceTable, date);
-									value = (String) jsonCost.get("value");
-									type = (String) jsonCost.get("type");
-								};
-								++z;
-							};
-				    	};
-					};
-					if (value == null && !destination.equals("null")){
-						jsonCost = searchCostValue ("", destination, idPriceTable, date);						
-						value = (String) jsonCost.get("value");
-						type = (String) jsonCost.get("type");
-					};
-					if (value == null){
-						jsonCost = searchCostValue ("", "", idPriceTable, date);
-						value = (String) jsonCost.get("value");
-						type = (String) jsonCost.get("type");
-					};
-					if (value != null){
-					};
-			    };
-				if (value != null){
-					item.put("value", value);
-					itens.add(item);
-					double valueNumber = Double.parseDouble(value);
-					Double amountValue = amount * valueNumber;
-					itemCost.put("idVendor", idVendor);
-					itemCost.put("type", type);
-					itemCost.put("amount", Double.toString(amountValue));
-					//
-					//** monta installments
-					//
+					++w;
+				};
+				if (amountValue != 0.00){
+					itemCost.put("amount", amountValue);
 					itemCost.put("installments", installments);
 					itemCost.put("itens", itens);
 					itemCost.put("notes", notes);
@@ -659,7 +608,6 @@ public class Rest_Invoice {
 					DBObject insert = new BasicDBObject(documento);
 					collectionPayment.insert(insert);
 				};
-				++w;
 			};
 			mongoPayment.close();
 			mongo.close();
@@ -668,6 +616,84 @@ public class Rest_Invoice {
 		} catch (MongoException e) {
 			e.printStackTrace();
 		};
+	};
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public JSONObject obterDadosCosts(JSONObject itemCost, BasicDBObject objStudent, BasicDBObject objInvoice, BasicDBObject itemInvoice) {
+
+	    Integer tripIndex = Integer.parseInt((String) objInvoice.get("actualTrip"));
+		String date = null;
+    	String idFamily = null;
+    	String idVendor = null;
+    	String destination = null;
+	    if (tripIndex != null){
+			List trips = (List) objStudent.get("trips");
+			BasicDBObject jsonTrip =  (BasicDBObject) trips.get(tripIndex);
+			date = (String) jsonTrip.get("start");
+			idFamily = (String) jsonTrip.get("idFamily");
+			destination = (String) jsonTrip.get("destination");
+	    };
+		String value = null;
+		String type = null;
+		//
+		//** get value
+		//
+		JSONObject jsonCost = new JSONObject();
+		String idPriceTable = (String) itemInvoice.get("item");
+		if (idFamily != null && !destination.equals("null")){
+			jsonCost = searchCostValue (idFamily, destination, idPriceTable, date);
+			value = (String) jsonCost.get("value");
+			type = (String) jsonCost.get("type");
+			idVendor = idFamily;
+		};
+		if (value == null && idFamily != null){
+			jsonCost = searchCostValue (idFamily, "", idPriceTable, date);
+			value = (String) jsonCost.get("value");
+			type = (String) jsonCost.get("type");
+			idVendor = idFamily;
+		};
+		if (value == null ){
+	    	ArrayList arrayListVendors = new ArrayList(); 
+	    	arrayListVendors = (ArrayList) objStudent.get("vendors");
+	    	if (arrayListVendors != null){
+		    	Object arrayVendors[] = arrayListVendors.toArray(); 
+				int z = 0;
+				while (z < arrayVendors.length | value != null) {
+					idVendor = (String) arrayVendors[z];
+					jsonCost = searchCostValue (idVendor, destination, idPriceTable, date);
+					value = (String) jsonCost.get("value");
+					type = (String) jsonCost.get("type");
+					if (value == null){
+						jsonCost = searchCostValue (idVendor, "", idPriceTable, date);
+						value = (String) jsonCost.get("value");
+						type = (String) jsonCost.get("type");
+					};
+					++z;
+				};
+	    	};
+		};
+		if (value == null && !destination.equals("null")){
+			jsonCost = searchCostValue ("", destination, idPriceTable, date);						
+			value = (String) jsonCost.get("value");
+			type = (String) jsonCost.get("type");
+		};
+		if (value == null){
+			jsonCost = searchCostValue ("", "", idPriceTable, date);
+			value = (String) jsonCost.get("value");
+			type = (String) jsonCost.get("type");
+		};
+		if (type == null){
+			type = "undefined";
+		};
+
+		JSONObject dadosCost = new JSONObject();
+		dadosCost.put("type", type);
+		dadosCost.put("value", value);
+		dadosCost.put("idVendor", idVendor);
+		dadosCost.put("destination", destination);
+		dadosCost.put("date", date);
+		
+		return dadosCost;
 	};
 
 	@SuppressWarnings({ "unused" })
@@ -710,6 +736,58 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
+
+
+	public String numberInvoice(){
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject obj = new BasicDBObject();
+			ObjectId id = new ObjectId(); 
+			DBCollection collection = db.getCollection("setup");
+			BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "numberInvoice");
+			DBObject cursor = collection.findOne(searchQuery);
+			int number = 1;
+			if (cursor != null){
+				obj = (BasicDBObject) cursor.get("documento");
+				id = (ObjectId) cursor.get("_id");
+				String oldNumber = obj.getString("setupValue");
+				number = ((Integer.parseInt(oldNumber) + 1 ));
+			};
+			searchQuery = new BasicDBObject("documento.setupKey", "yearNumberInvoice");
+			cursor = collection.findOne(searchQuery);
+			String year = "2017";
+			if (cursor != null){
+				obj = (BasicDBObject) cursor.get("documento");
+				year = obj.getString("setupValue");
+			};
+			//
+			// ** atualizar novo numero
+			//
+			BasicDBObject objUpdate = new BasicDBObject();
+			objUpdate.put("documento.setupKey", "numberInvoice");
+			objUpdate.put("documento.setupValue", Integer.toString(number));
+			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+			BasicDBObject setQuery = new BasicDBObject("_id", id);
+			cursor = collection.findAndModify(setQuery,
+	                null,
+	                null,
+	                false,
+	                update,
+	                true,
+	                false);
+			mongo.close();
+
+			return Integer.toString(number) + "/" + year;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		};
+		return null;
+	};
+	
 	
 };
 

@@ -513,7 +513,9 @@ function calculaIdade ( dataNascimento ) {
 
 	function intervaloDatas(start, end){
         var daysTotal = calculaDias(separaConverteDataMes(start, "/"), separaConverteDataMes(end, "/"));
-        var weeks = Math.abs(Math.round(daysTotal / 7));
+        if (daysTotal > 6){
+        	var weeks = Math.abs(Math.round(daysTotal / 7));
+		};
         var days = daysTotal % 7;
         var daysInterval = "";
         var litDay = " nights";
