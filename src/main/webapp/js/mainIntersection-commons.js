@@ -33,10 +33,10 @@
 				};
 			});
 			localStorage.setItem("mainIntersection", JSON.stringify(objJson));
-			if (localStorage.mainIntersectionExistente == "true"){
-				rest_atualizaMainIntersection(JSON.parse(localStorage.getItem("mainIntersection")), fechaModalMainIntersection, semAcao);
+			if (localStorage.agencyExistente == "true"){
+				rest_atualizarDocumento (JSON.parse(localStorage.getItem("mainIntersection")), "mainIntersection", fechaModalMainIntersection, semAcao);
 			}else{
-				rest_incluiMainIntersection(JSON.parse(localStorage.getItem("mainIntersection")), fechaModalMainIntersection, semAcao);
+				rest_incluirrDocumento (JSON.parse(localStorage.getItem("mainIntersection")), "mainIntersection", fechaModalMainIntersection, semAcao);
 			};
 		},	
 		// Do not change code below

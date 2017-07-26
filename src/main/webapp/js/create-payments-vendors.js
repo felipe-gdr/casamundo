@@ -17,8 +17,8 @@
 	
 	/**
 	 * 		carrega tabelas
-	 */
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	 */	
+	rest_listaOneKey("table", null, null, true, carregaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
 	//
 	//***   ler dados invoice
 	//
@@ -157,10 +157,10 @@ function criaPayment(i){
 													));
 	});
 
-	if (typePage == "change"){
-		rest_atualizaPayment(objPayment, retornaPayment, semAcao, "payments.html")
+	if (localStorage.agencyExistente == "true"){
+		rest_atualizarDocumento (objPayment, "payment", retornaPayment, semAcao, "payments.html");
 	}else{
-		rest_incluiPayment(objPayment, retornaPayment, semAcao, "invoices.html")
+		rest_incluirrDocumento (objPayment, "payment", retornaPayment, semAcao, "payments.html");
 	};
 
 };

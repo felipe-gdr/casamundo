@@ -17,7 +17,6 @@
 	/**
 	 * 		pega o ultimo numero de invoice
 	 */
-	//rest_obterUltimaInvoice(saveLastInvoice, firstInvoice);
 	if (localStorage.numberInvoice){
 		saveLastInvoice();
 	}else{
@@ -29,14 +28,14 @@
 	/**
 	 * 		carrega tabelas
 	 */
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	rest_listaOneKey("table", null, null, true, carregaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
 	//
 	//***   ler dados invoice
 	//
 	if (typePage == "change"){
 		if (parameter[2]){
 			idInvoice = parameter[2].split("=")[1];
-			rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
+			rest_obterOneKey("invoice", idInvoice, value, true, carregaTelaInvoice, semAcao)			
 		};
 		$("#menuInvoice_li").addClass("active");
 		$("#breadcrumb_label_II").val("Invoices");
@@ -47,7 +46,7 @@
 		if (parameter[2]) {
 		    criaLinhaNote(0);
 			actualTrip = parameter[2].split("=")[1];
-			rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
+			rest_obterOneKey("student", mailUrl, value, true, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip)			
 		};
 	};
 	
@@ -511,11 +510,10 @@ function criaInvoice(id, actualTrip){
 													));
 		};
 	});
-	
-	if (typePage == "change"){
-		rest_atualizaInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
+	if (localStorage.agencyExistente == "true"){
+		rest_atualizarDocumento (objInvoice, "invoice", retornaInvoice, semAcao, "invoices.html");
 	}else{
-		rest_incluiInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
+		rest_incluirrDocumento (objInvoice, "invoice", retornaInvoice, semAcao, "invoices.html");
 	};
 
 };

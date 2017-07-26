@@ -68,10 +68,10 @@
 				};
 			});
 			localStorage.setItem("pricetable", JSON.stringify(objJson));
-			if (localStorage.priceTableExistente == "true"){
-				rest_atualizaPriceTable(JSON.parse(localStorage.getItem("pricetable")), fechaModalPriceTable, semAcao, JSON.parse(localStorage.getItem("pricetable")));
+			if (localStorage.agencyExistente == "true"){
+				rest_atualizarDocumento (JSON.parse(localStorage.getItem("pricetable")), "priceTableCost", fechaModalPriceTable, semAcao, JSON.parse(localStorage.getItem("pricetable")));
 			}else{
-				rest_incluiPriceTable(JSON.parse(localStorage.getItem("pricetable")), retornaListaPriceTable, semAcao);
+				rest_incluirrDocumento (JSON.parse(localStorage.getItem("pricetable")), "priceTableCost", retornaListaPriceTable, semAcao);
 			};
 		},	
 		// Do not change code below

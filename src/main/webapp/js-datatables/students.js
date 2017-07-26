@@ -22,8 +22,7 @@
 	/**
 	 * 		carrega tabelas
 	 */
-
-	rest_obterTable(carregaTabelas, obtencaoNaoEfetuada);
+	rest_listaOneKey("table", null, null, true, carregaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
 
 	/**
      * 			adendo a lista student

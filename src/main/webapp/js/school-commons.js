@@ -70,10 +70,10 @@
 				};
 			});
 			localStorage.setItem("school", JSON.stringify(objJson));
-			if (localStorage.schoolExistente == "true"){
-				rest_atualizaSchool(JSON.parse(localStorage.getItem("school")), fechaModalSchool, semAcao);
+			if (localStorage.agencyExistente == "true"){
+				rest_atualizarDocumento (JSON.parse(localStorage.getItem("school")), "school", fechaModalSchool, semAcao);
 			}else{
-				rest_incluiSchool(JSON.parse(localStorage.getItem("school")), fechaModalSchool, semAcao);
+				rest_incluirDocumento (JSON.parse(localStorage.getItem("school")), "school", fechaModalSchool, semAcao);
 			};
 		},	
 		// Do not change code below

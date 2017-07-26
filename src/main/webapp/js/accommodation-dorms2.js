@@ -222,7 +222,29 @@
 				};
 			objRoom.documento.beds[objBed.idBed].occupancies.push(occupancy);
 		}
+		var objUpdate = 
+			{
+				asybc:true,
+				collection:"room",
+				keys:
+					[
+						{
+							"key":"documento.email",
+							"value":"testeCerto@teste.com"
+						}
+					],
+				update:
+					[
+						{field:"documento",
+						 value:objRoom}
+					]
+			};
+		rest_atualizar (objUpdate, action_ok, action_not_ok, var1, var2, var3)
 
+		updateAllocation (args, semAcao);
+		
+		rest_obterOneKey()
+		rest_obterStudent(null, atualizaStudent, semAcao, null, null, actualTrip, idStudent)
 		rest_atualizaRoom(objRoom, atualizouBed, atualizacaoNaoEfetuada, "Rooms update", "Problems to update rooms, try again", objBed.actualTrip, objBed.idStudent, args );
 		
 	};

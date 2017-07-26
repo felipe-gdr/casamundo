@@ -1897,7 +1897,7 @@ var students =
 //		};
 		if (objJson.documento.trips[0].end != ""){
 			if (objJson.documento.trips[0].start != ""){
-				rest_obterStudent(email, semAcao, incluirEstudante, objJson);
+				rest_obterOneKey("student", email, value, true, semAcao, incluirEstudante, objJson, "Partially allocated", var3)			
 			};
 		};
 		i++;
@@ -1981,7 +1981,6 @@ var students =
 			    consultants : []
 			  }
 		};
-//		rest_incluiAgency(objJson, semAcao, semAcao);
 		++i;
 		
 	}
@@ -2061,7 +2060,6 @@ var students =
 			    consultants : []
 			  }
 		};
-//		rest_incluiSchool(objJson, semAcao, semAcao);
 		++i;
 		
 	}
@@ -2071,6 +2069,6 @@ function incluirEstudante(var1, objJson){
 	if (objJson.documento.mail == "Aliye Ebru_Taze"){
 		console.log ("email repetido " + objJson.documento.mail);
 	}
-	rest_incluiStudent(objJson, semAcao, semAcao);
+	rest_incluirrDocumento (objJson, "student", semAcao, semAcao);
 }
 

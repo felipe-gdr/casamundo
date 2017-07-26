@@ -60,10 +60,10 @@
 			var objPriceTable = JSON.parse(localStorage.getItem("pricetable"));
 			objJson.documento.type = objPriceTable.documento.vendorType;
 			localStorage.setItem("pricecostmain", JSON.stringify(objJson));
-			if (localStorage.priceCostMainExistente == "true"){
-				rest_atualizaPriceTableCost(JSON.parse(localStorage.getItem("pricecostmain")), fechaModalPriceCostMain, semAcao);
+			if (localStorage.agencyExistente == "true"){
+				rest_atualizarDocumento (JSON.parse(localStorage.getItem("pricecostmain")), "priceTableCost", fechaModalPriceCostMain, semAcao);
 			}else{
-				rest_incluiPriceTableCost(JSON.parse(localStorage.getItem("pricecostmain")), fechaModalPriceCostMain, semAcao);
+				rest_incluirrDocumento (JSON.parse(localStorage.getItem("pricecostmain")), "priceTableCost", fechaModalPriceCostMain, semAcao);
 			};
 		},	
 		// Do not change code below

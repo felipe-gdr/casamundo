@@ -1593,4 +1593,411 @@
     	})
     	.always(function(data) {
     	});
+		if (!async){
+	    	return returnData;
+		};
     };
+
+    
+    
+    
+    
+    function rest_obter(objJson, action_ok, action_not_ok, var1, var2, var3) {
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+    		type : "POST",
+    		url : localStorage.mainUrl + "yggboard_server/rest/crud/obter",
+    		contentType : "application/json; charset=utf-8",
+    		dataType : 'json',
+    		data : JSON.stringify(objJson),
+    		async : async
+
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+    
+    function rest_obterOneKey(collection, id, value, async, action_ok, action_not_ok, var1, var2, var3) {
+    	
+    	if (async == null){
+    		async = false;
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/crud/obter/onekey?collection=" + collection + "&id="  + id + "&value=" + value,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+    		async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_incluir (objJson, action_ok, action_not_ok, var1, var2, var3){
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+    		type: "POST",
+            url: localStorage.mainUrl + "yggboard_server/rest/crud/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+    		async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_incluirDocumento (objJson, collection, action_ok, action_not_ok, var1, var2, var3){
+    	
+    	var async = true;
+    	var returnData = null;
+		var objUpdate = 
+		{
+			token: "1170706277ae0af0486017711353ee73",
+			collection : collection,
+			insert : {
+				documento : objJson			}
+		};
+    	$.ajax({
+    		type: "POST",
+            url: localStorage.mainUrl + "yggboard_server/rest/crud/incluir",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+    		async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+    function rest_remover (objJson, action_ok, action_not_ok, var1, var2, var3){
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+    		type: "POST",
+            url: localStorage.mainUrl + "yggboard_server/rest/crud/remover/all",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+        	async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_atualizar (objJson, action_ok, action_not_ok, var1, var2, var3){
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+    		type: "POST",
+            url: localStorage.mainUrl + "yggboard_server/rest/crud/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+        	async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_atualizarDocumento (objJson, collection, action_ok, action_not_ok, var1, var2, var3){
+    	
+    	var async = true;
+    	var returnData = null;
+		var objUpdate = 
+		{
+			asybc:true,
+			collection: collection,
+			keys:
+				[
+					{
+						key:"documento.id",
+						value:objJson.id
+					}
+				],
+			update:
+				[
+					{field:"documento",
+					 value:objJson}
+				]
+		};
+
+    	$.ajax({
+    		type: "POST",
+            url: localStorage.mainUrl + "yggboard_server/rest/crud/atualizar",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objUpdate),
+        	async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_lista (objJson, action_ok, action_not_ok, var1, var2, var3){
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+    		type: "POST",
+            url: localStorage.mainUrl + "yggboard_server/rest/crud/lista",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+        	async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});    	
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_listaOneKey(collection, id, value, async, action_ok, action_not_ok, var1, var2, var3) {
+    	
+    	if (async == null){
+    		async = false;
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/crud/obter/onekey?collection=" + collection + "&id="  + id + "&value=" + value,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+    		async : async
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});    	
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_login (email, senha){
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+            url: localStorage.mainUrl + "yggboard_server/rest/usuario/login?email=" + email + "&password=" + senha,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+           	async : false
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});    	
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    function rest_urlReturn(url, action_not_ok, var1, var2, var3) {
+    	
+    	var async = false;
+    	
+    	if (objJson.async != null){
+    		async = objJson.async
+    	};
+
+    	var returnData = null;
+
+    	$.ajax({
+            url: localStorage.mainUrl + "yggboard_server/rest/" + url,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async : false
+    	}).done(function(data) {
+    		if (!async){
+    			action_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = data;
+    		};
+    	}).fail(function(data) {
+    		if (!async){
+    			action_not_ok(data, var1, var2, var3);
+    		}else{
+    			dataReturn = null;
+    		};
+    	}).always(function(data) {
+    	});
+    	
+		if (!async){
+	    	return returnData;
+		};
+    };
+
+    

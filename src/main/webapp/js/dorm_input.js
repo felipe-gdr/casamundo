@@ -21,7 +21,7 @@
 	 * 		carrega tabelas
 	 */
 
-	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
+	rest_listaOneKey("table", null, null, true, carregaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
 	
 	if (id){
 		localStorage.dormExistente = "true";
@@ -134,11 +134,11 @@
 				objJson.documento.visits.push(visitItem);
 			});
 			localStorage.setItem("dorm", JSON.stringify(objJson));
-			if (localStorage.dormExistente == "true"){
-				rest_atualizaDorm(objJson, retornaDorm, atualizacaoNaoEfetuada);
+			if (localStorage.agencyExistente == "true"){
+				rest_atualizarDocumento (objJson, "dorm", retornaDorm, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluiDorm(objJson, retornaListaDorm, inclusaoNaoEfetuada);
-			}
+				rest_incluirrDocumento (objJson, "dorm", retornaListaDorm, inclusaoNaoEfetuada);
+			};
 		},	
 
 		// Do not change code below
