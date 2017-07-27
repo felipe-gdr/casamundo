@@ -41,11 +41,11 @@
 	 * 		carrega tabelas
 	 */
 
-	rest_listaOneKey("table", null, null, true, carregaTelaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
-	rest_listaOneKey("agency", null, null, false, carregaSelectAgencies, obtencaoNaoEfetuada, var1, var2, var3)
+	rest_obterAgencyAll(carregaSelectAgencies);
 	
-	rest_listaOneKey("school", null, null, false, carregaSelectSchool, obtencaoNaoEfetuada, var1, var2, var3)
+	rest_obterSchoolAll(carregaSelectSchool);
 	
 	/**
 	 * 		carrega tela se alteração

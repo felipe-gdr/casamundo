@@ -45,7 +45,7 @@
 						};
 					};
 				});
-			rest_obterOneKey("room", objJson.idRoom, value, true, updateBeds, semAcao, objJson, "Partially allocated", var3)			
+			rest_obterRoom(objJson.idRoom, updateBeds, semAcao, objJson, "Partially allocated");
 			$(window.document.location).attr('href','students.html?accommodation=Dorms');
 		},	
 		// Do not change code below

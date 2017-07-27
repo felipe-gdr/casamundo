@@ -32,7 +32,7 @@
 	 * 		carrega tabelas
 	 */
 
-	rest_listaOneKey("table", null, null, true, carregaTelaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 	
 	if (id){
 		localStorage.roomExistente = "true";
@@ -145,11 +145,11 @@
 				objJson.documento.visits.push(visitItem);
 			});
 			localStorage.setItem("room", JSON.stringify(objJson));
-			if (localStorage.agencyExistente == "true"){
-				rest_atualizarDocumento (objJson, "room", retornaRoom, atualizacaoNaoEfetuada);
+			if (localStorage.roomExistente == "true"){
+				rest_atualizaRoom(objJson, retornaRoom, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluirrDocumento (objJson, "room", retornaListaRoom, inclusaoNaoEfetuada);
-			};
+				rest_incluiRoom(objJson, retornaListaRoom, inclusaoNaoEfetuada);
+			}
 		},	
 
 		// Do not change code below

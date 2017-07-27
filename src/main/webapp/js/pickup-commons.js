@@ -48,10 +48,10 @@
 				};
 			});
 			localStorage.setItem("pickup", JSON.stringify(objJson));
-			if (localStorage.agencyExistente == "true"){
-				rest_atualizarDocumento (JSON.parse(localStorage.getItem("pickup")), "pickup", fechaModalPickup, semAcao);
+			if (localStorage.pickupExistente == "true"){
+				rest_atualizaPickup(JSON.parse(localStorage.getItem("pickup")), fechaModalPickup, semAcao);
 			}else{
-				rest_incluirrDocumento (JSON.parse(localStorage.getItem("pickup")), "pickup", fechaModalPickup, semAcao);
+				rest_incluiPickup(JSON.parse(localStorage.getItem("pickup")), fechaModalPickup, semAcao);
 			};
 		},	
 		// Do not change code below

@@ -33,10 +33,10 @@
 				};
 			});
 			localStorage.setItem("subway", JSON.stringify(objJson));
-			if (localStorage.agencyExistente == "true"){
-				rest_atualizarDocumento (JSON.parse(localStorage.getItem("subway")), "subway", fechaModalSubway, semAcao);
+			if (localStorage.subwayExistente == "true"){
+				rest_atualizaSubway(JSON.parse(localStorage.getItem("subway")), fechaModalSubway, semAcao);
 			}else{
-				rest_incluirDocumento (JSON.parse(localStorage.getItem("subway")), "subway", fechaModalSubway, semAcao);
+				rest_incluiSubway(JSON.parse(localStorage.getItem("subway")), fechaModalSubway, semAcao);
 			};
 		},	
 		// Do not change code below

@@ -40,10 +40,10 @@
 				};
 			});
 			localStorage.setItem("bank", JSON.stringify(objJson));
-			if (localStorage.agencyExistente == "true"){
-				rest_atualizarDocumento (JSON.parse(localStorage.getItem("bank")), "bank", fechaModalBank, semAcao);
+			if (localStorage.bankExistente == "true"){
+				rest_atualizaBank(JSON.parse(localStorage.getItem("bank")), fechaModalBank, semAcao);
 			}else{
-				rest_incluirrDocumento (JSON.parse(localStorage.getItem("bank")), "bank", fechaModalBank, semAcao);
+				rest_incluiBank(JSON.parse(localStorage.getItem("bank")), fechaModalBank, semAcao);
 			};
 		},	
 		// Do not change code below
@@ -76,7 +76,7 @@ function fechaModalBank (field) {
 	$("#bankName").val("");
 	$("#bankNumber").val("");
 	
-	rest_listaOneKey("bank", null, null, true, carregaBanks, semAcao, var1, var2, var3)
+	rest_obterBankAll(carregaBanks);
 };
 
 function carregaLocalStorageBank (data, tipo) {

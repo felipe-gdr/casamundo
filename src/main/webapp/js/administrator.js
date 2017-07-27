@@ -17,7 +17,7 @@
 			    , function (i, field) {
 					setValueTable (field.id)
 			});
-			rest_atualizarDocumento (JSON.parse(localStorage.getItem("table")), "table", semAcao, semAcao);
+			rest_atualizaTable(JSON.parse(localStorage.getItem("table")), semAcao, semAcao);
 		},	
 		// Do not change code below
 		errorPlacement : function(error, element) {
@@ -63,6 +63,6 @@
 		};
 
 		localStorage.setItem("table", JSON.stringify(objJson));
-		rest_atualizarDocumento (JSON.parse(localStorage.getItem("table")), "table", semAcao, semAcao);
+		rest_atualizaTable(JSON.parse(localStorage.getItem("table")), atualizacaoCampoEfetuada, atualizacaoCampoNaoEfetuada);
 		
 	};		

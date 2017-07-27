@@ -21,9 +21,9 @@
 	 * 		carrega tabelas
 	 */
 
-	rest_listaOneKey("table", null, null, true, carregaTabelas, obtencaoNaoEfetuada, var1, var2, var3)
+	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 	
-	rest_listaOneKey("bank", null, null, false, carregaSelectBanks, obtencaoNaoEfetuada, var1, var2, var3)
+	rest_obterBankAll(carregaSelectBanks);
 	
 	if (familyName){
 		localStorage.familyExistente = "true";
@@ -489,11 +489,11 @@
 				};
 			});
 			localStorage.setItem("family", JSON.stringify(objJson));
-			if (localStorage.agencyExistente == "true"){
-				rest_atualizarDocumento (JSON.parse(localStorage.getItem("family")), "family", retornaFamily, atualizacaoNaoEfetuada);
+			if (localStorage.familyExistente == "true"){
+				rest_atualizaFamily(JSON.parse(localStorage.getItem("family")), retornaFamily, atualizacaoNaoEfetuada);
 			}else{
-				rest_incluirrDocumento (JSON.parse(localStorage.getItem("family")), "family", retornaListaFamily, inclusaoNaoEfetuada);
-			};
+				rest_incluiFamily(JSON.parse(localStorage.getItem("family")), retornaListaFamily, inclusaoNaoEfetuada);
+			}
 		},	
 
 		// Do not change code below

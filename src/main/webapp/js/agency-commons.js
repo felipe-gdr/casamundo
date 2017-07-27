@@ -29,9 +29,9 @@
 			});
 			localStorage.setItem("agency", JSON.stringify(objJson));
 			if (localStorage.agencyExistente == "true"){
-				rest_atualizarDocumento (JSON.parse(localStorage.getItem("agency")), "agency", fechaModalAgency, semAcao);
+				rest_atualizaAgency(JSON.parse(localStorage.getItem("agency")), fechaModalAgency, semAcao);
 			}else{
-				rest_incluirrDocumento (JSON.parse(localStorage.getItem("agency")), "agency", fechaModalAgency, semAcao);
+				rest_incluiAgency(JSON.parse(localStorage.getItem("agency")), fechaModalAgency, semAcao);
 			};
 		},	
 		// Do not change code below
@@ -76,7 +76,7 @@
     	$("#agencyAgencyLogo").val("");
     	$("#agencyConsultants").val("");
     	
-    	rest_listaOneKey("agency", null, null, true, carregaAgencies, action_not_ok, var1, var2, var3)
+    	rest_obterAgencyAll(carregaAgencies);
     };
 
     function carregaLocalStorageAgency (data, tipo) {
