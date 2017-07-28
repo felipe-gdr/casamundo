@@ -536,6 +536,97 @@
 
 		</div>
 		<!-- END MAIN PANEL -->
+		<!-- Modal -->
+		<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="invoiceModalLabel">Invoice balance</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-11">
+									<form id="invoiceModal-form" class="smart-form" novalidate="novalidate">
+											<div>
+											<div class="row">
+												<div class="col-md-2">Balance</div>
+												<div class="col-md-4">
+													<span id="invoiceBalance"></span>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-4">
+													<label for="invoiceValue">Value</label>
+													<input id="invoiceValue" name="invoiceValue" type="text" class="form-control" value="" placeholder="" required />
+													<input id="invoiceId" name="invoiceId" type="text" class="form-control hide" value="" placeholder="" required />
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-3">
+													<label for="invoiceDate">Date</label>
+													<input id="invoiceDate" type="text" name="invoiceDate" placeholder="" class="datepicker form-control" data-dateformat='dd-M-yy' >
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-md-1"></div>
+												<div class="col-md-3">
+													<label class="label text-info">Type</label>							
+													<label class="select ">
+														<select id="invoiceType" name="invoiceType" class="language">
+															<option value="" selected="" disabled="">Choose one item</option>
+															<option value="Cash" >Cash</option>
+															<option value="Bank" >Bank deposit</option>
+															<option value="Card" >Credit Card</option>
+														</select><i></i>
+													</label>																														
+												</div>
+												<br><br>
+												<div class="modal-footer col-md-10">
+													<button type="submit" class="btn btn-primary">Submit</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+												</div>												
+											</div>
+											<br><br>
+										</div>
+									</form>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<!-- Modal -->
+		<div class="modal fade" id="installmentsModal" tabindex="-1" role="dialog" aria-labelledby="installmentsModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="installmentsModalLabel">Instalments</h4>
+					</div>
+					<div class="modal-body">
+							<div class="row">
+								<div class="col-md-11">
+									<div class="col-sm-1"></div>
+									<div  class="col-sm-11">
+										<ul class="list-unstyled" id="installmentsList">
+										</ul>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 		<!-- PAGE FOOTER -->
 		<div class="page-footer">
@@ -719,11 +810,17 @@
 		<script src="js-email/sendEmail.js"></script>
 		<script src="js-template-email/offertofamily.js"></script>
 
+		<!-- mondal installments -->
+		<script src="js/installment-modal-delete.js"></script>
+
 		<!-- out scripts -->
 		<script src="js/main.js"></script>
 		<script src="js/rest_commands.js"></script>
 		<script src="js-datatables/invoices.js"></script>
 		<script src="js/invoices.js"></script>
+
+		<!-- mondal installments -->
+		<script src="js/installment-modal.js"></script>
 
 		<script>
 			$(document).ready(function() {

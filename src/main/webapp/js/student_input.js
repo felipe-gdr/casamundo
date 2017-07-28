@@ -398,7 +398,8 @@
 					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
 				}else{
 					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
-					rest_atualizaStudent(objJson, retornaStudent, atualizacaoNaoEfetuada, actualTrip);					
+					rest_atualizar("students", objJson, "_id", idStudent);
+					retornaStudent(actualTrip);
 				};
 			}else{
 		        var objJson = JSON.parse(localStorage.getItem("student"));
@@ -412,7 +413,7 @@
 																));
 					};
 				});
-				rest_incluiStudent(objJson, retornaListaStudent, inclusaoNaoEfetuada);
+				rest_incluir("students", objJson);
 			}
 		},	
 		// Do not change code below

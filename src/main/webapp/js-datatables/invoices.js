@@ -109,17 +109,9 @@
     			statusCollor = "warning";
     			statusText = "unppaid $";
 	            break;
-	        case "cash":
+	        case "paid":
 				statusCollor = "success";
-				statusText = "cash $";
-	            break;
-	        case "bank":
-				statusCollor = "success";
-				statusText = "bank $";
-	            break;
-	        case "card":
-				statusCollor = "success";
-				statusText = "card $";
+				statusText = "paid $";
 	            break;
 	        default: 
 				statusCollor = "default";
@@ -132,18 +124,35 @@
 		    var accommodation = "Not yet acomodate";
 	        var familyName = "";
 	        var typePage = "accommodation";
+	        var payments = rest_payments_agency (invoice.agencyId);
+	        var balance = calcBalance (payments.installments); 
+	        	parseFloat(payment.amount)
+	    	var dadosPayment = " data-idPayment= '" + payment.id + "'" +
+	    					   " data-amount= '" + payment.amount + "'" +
+	    					   " data-balance= '" + balance + "'";
+			var balanceDecimal = parseFloat(balance);
+			var amountDecimal = parseFloat(payment.amount);
+			var balanceCollor = "";
         	invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
         	var dadosInvoice = " data-idInvoice='" + invoice.id + "'";
 	        if (localStorage.usuarioPerfil == "caretaker" || localStorage.usuarioPerfil == "administrator" || localStorage.usuarioPerfil == "tools"){
 		        if (invoice.status == "unpaid"){
 		        	actions = 
-		        		"<li data-process='paidCash' " + dadosInvoice + " data-status='cash'><a href='#'>Cash</a></li>" +
-		        		"<li data-process='paidBank' " + dadosInvoice + " data-status='bank'><a href='#'>Bank</a></li>" +
-		        		"<li data-process='paidCard' " + dadosInvoice + " data-status='card'><a href='#'>Card</a></li>";
+		        		'<li data-process="pay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#invoiceModal">Pay</a></li>';		        	
+		        	if (balanceDecimal != amountDecimal){
+		        		actions = actions +
+	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>';
+		        		if (balanceDecimal != 0){
+		        			balanceCollor = "label-warning";
+		        		};
+		        	};
+	        		actions = actions +
+        			'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        };
-		        if (invoice.status == "cash" || invoice.status == "bank" || invoice.status == "card"){
+		        if (invoice.status == "paid"){
 		        	actions = 
-		        		"<li data-process='unpaid' " + dadosInvoice + " data-status='unpaid'><a href='#'>Unpaid</a></li>";
+	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>' +
+		        		'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        };
 	        };
 		    var pickupCollor = "success";
@@ -228,6 +237,11 @@
 	    				};	 
 	    				localStorage.nextWindow = "invoices.html"
 	    				rest_changeStatusInvoice(param, atualizacaoEfetuada, semAcao, "Invoice updated", "problems to update invoice, try again");
+	    			};
+	    			if ($(this).attr('data-process') == "pay") {
+	    				var balance = parseFloat($(this).attr('data-balance'));
+    					$("#invoiceId").val($(this).attr('data-idInvoice'));
+    					$("#invoiceBalance").html(balance.toFixed(2));
 	    			};
 	    		});
             };

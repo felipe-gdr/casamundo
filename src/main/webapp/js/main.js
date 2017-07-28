@@ -939,3 +939,18 @@ function calculaIdade ( dataNascimento ) {
     	};
         return statusCollor;
     };
+
+    function calcBalance (payment){
+    	var balance = parseFloat(payment.amount);
+    	
+        if (payment.installments){
+    		$.each(payment.installments, function (i, installment) {
+    	    	balance = balance - parseFloat(installment.value);
+    	    });
+        };
+        
+        return balance;
+    };
+    
+    
+    

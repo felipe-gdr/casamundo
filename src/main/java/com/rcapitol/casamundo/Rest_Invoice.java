@@ -1,9 +1,7 @@
 package com.rcapitol.casamundo;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +17,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -43,6 +37,7 @@ import com.mongodb.MongoException;
 
 public class Rest_Invoice {
 
+	Commons_DB commons_db = new Commons_DB();
 	@SuppressWarnings("unchecked")
 	@Path("/obterInvoice")	
 	@GET
@@ -92,105 +87,51 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "rawtypes" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirInvoice(Invoice invoice	)  {
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("invoice");
-			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(invoice);
-			Map<String,String> mapJson = new HashMap<String,String>();
-			ObjectMapper mapper = new ObjectMapper();
-			mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-			JSONObject documento = new JSONObject();
-			documento.putAll(mapJson);
-			DBObject insert = new BasicDBObject(documento);
-			collection.insert(insert);
-			ObjectId id = (ObjectId)insert.get( "_id" );
-			String idString = id.toString();
-			BasicDBObject objUpdate = new BasicDBObject();
-			objUpdate.put("documento.id", idString);
-			objUpdate.put("documento.number", numberInvoice());
-			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-			BasicDBObject setQuery = new BasicDBObject("_id", id);
-			DBObject cursor = collection.findAndModify(setQuery,
-	                null,
-	                null,
-	                false,
-	                update,
-	                true,
-	                false);
-			criarCosts(id, null, null);
-			mongo.close();
-			return Response.status(200).entity(documento).build();
-		} catch (UnknownHostException e) {
-			System.out.println("UnknownHostException");
-			e.printStackTrace();
-		} catch (MongoException e) {
-			System.out.println("MongoException");
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			System.out.println("JsonMappingException");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("IOException");
-			e.printStackTrace();
-		}
-		return Response.status(500).build();
+	public Response IncluirInvoice(JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
+		String collection = (String) queryParam.get("collection");
+		BasicDBObject documento = new BasicDBObject();
+		documento.putAll((Map) queryParam.get("documento"));
+
+		BasicDBObject objUpdate = new BasicDBObject();
+		objUpdate.putAll((Map) documento.get("documento"));
+		objUpdate.put("number", numberInvoice());
+		documento.put("documento",objUpdate);
+		Response response = commons_db.IncluirCrud(collection, documento);
+		if (response.getStatus() == 200) {
+			BasicDBObject doc = new BasicDBObject();
+			doc.putAll((Map) response.getEntity());
+			ObjectId idObj = new ObjectId(doc.getString("_id"));
+			criarCosts(idObj, null, null);
+		};
+		return response;
+
 	};
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Invoice doc) {
-		String idString = doc.documento.id;
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			ObjectId id = new ObjectId(idString);
-			DBCollection collection = db.getCollection("invoice");
-			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(doc);
-			Map<String,String> mapJson = new HashMap<String,String>();
-			ObjectMapper mapper = new ObjectMapper();
-			try {
-				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-				JSONObject documento = new JSONObject();
-				documento.putAll(mapJson);
-				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-				BasicDBObject setQuery = new BasicDBObject("_id", id);
-				@SuppressWarnings("unused")
-				DBObject cursor = collection.findAndModify(setQuery,
-		                null,
-		                null,
-		                false,
-		                update,
-		                true,
-		                false);
-				mongo.close();
-				criarCosts(id, null, null);
-				return Response.status(200).build();
-			} catch (JsonParseException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public Response AtualizarDocumento(JSONObject queryParam) throws UnknownHostException, MongoException  {
+		
+		String collection = (String) queryParam.get("collection");
+		String key = (String) queryParam.get("key");
+		String value = (String) queryParam.get("value");
+		BasicDBObject documento = new BasicDBObject();
+		documento.putAll((Map) queryParam.get("documento"));
+		Response response = commons_db.AtualizarCrud(collection, documento, key, value);
+		if (response.getStatus() == 200) {
+			BasicDBObject doc = new BasicDBObject();
+			doc.putAll((Map) response.getEntity());
+			ObjectId idObj = new ObjectId(doc.getString("_id"));
+			criarCosts(idObj, null, null);
+		};
+		return response;
+
 	};
 
 	@SuppressWarnings("unchecked")
@@ -788,6 +729,64 @@ public class Rest_Invoice {
 		return null;
 	};
 	
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Path("/agency/payments")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONObject AgencyPayments(@QueryParam("id") String id) {
+
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+
+			DBCollection collection = db.getCollection("invoice");
+
+			BasicDBObject setQuery = new BasicDBObject();
+	    	setQuery.put("documento.agencyId", id);
+			
+			DBCursor cursor = collection.find(setQuery);
+			long amount = 0;
+			long payment = 0;
+			JSONArray installments = new JSONArray();
+			JSONArray invoices = new JSONArray();
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				BasicDBObject doc = new BasicDBObject();
+				doc.putAll((Map) obj.get("documento"));
+				ArrayList<JSONObject> objInstallments = (ArrayList<JSONObject>) doc.get("installments");
+				for (int i = 0; i < objInstallments.size(); i++) {
+					payment = payment + Long.valueOf(objInstallments.get(i).get("value").toString()).longValue();
+				};
+				installments.add(objInstallments);
+				ArrayList<JSONObject> objItens = (ArrayList<JSONObject>) doc.get("itens");
+				long amountItens = 0;
+				for (int i = 0; i < objItens.size(); i++) {
+					amount = amount + Long.valueOf(objItens.get(i).get("value").toString()).longValue();
+					amountItens = amountItens + Long.valueOf(objItens.get(i).get("value").toString()).longValue();
+				};
+				BasicDBObject invoice = new BasicDBObject();
+				invoice.put("number", doc.get("number"));
+				invoice.put("dueDate", doc.get("dueDate"));
+				invoice.put("amount", String.valueOf(amountItens));
+			};
+			JSONObject jsonReturn = new JSONObject();
+			jsonReturn.put("amount", String.valueOf(amount));
+			jsonReturn.put("payment", String.valueOf(payment));
+			jsonReturn.put("balance", String.valueOf(amount - payment));
+			jsonReturn.put("installments", installments);
+			jsonReturn.put("invoices", invoices);
+			
+			mongo.close();
+			return jsonReturn;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
 	
 };
 

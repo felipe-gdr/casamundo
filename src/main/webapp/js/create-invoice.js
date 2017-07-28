@@ -4,7 +4,6 @@
 	//**    carrega dados url
 	//
 
-	var idInvoice = 1; 
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
@@ -13,18 +12,6 @@
 	if (parameter[1]) {
 		typePage = parameter[1].split("=")[1];
 	};
-
-	/**
-	 * 		pega o ultimo numero de invoice
-	 */
-	//rest_obterUltimaInvoice(saveLastInvoice, firstInvoice);
-	if (localStorage.numberInvoice){
-		saveLastInvoice();
-	}else{
-		firstInvoice();
-	};
-		
-
 	
 	/**
 	 * 		carrega tabelas
@@ -470,16 +457,17 @@ function criaInvoice(id, actualTrip){
 					id : id,
 					idStudent : objStudent._id,
 					actualTrip : $('#actualTrip').val(),
-					number : localStorage.numberInvoice,
 					status : "unpaid",
 					dueDate : limpaData($('#due_0').val()),
 					amountNet : $('#dueValue_0').val(),
 					amountGross : $('#dueValueGross_0').val(),
 					destination : objStudent.documento.trips[actualTrip].destination,
+					agenchyName : objStudent.documento.trips[actualTrip].agencyName,
+					agenchyId : objStudent.documento.trips[actualTrip].agencyId,
 					itensNet : [],
 					itensGross : [],
-					notes : [],
-					
+					installlments : [],
+					notes : []					
 				}
 			
 		};
