@@ -32,8 +32,8 @@
 	 */
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
-	rest_obterAgencyAll(carregaSelectAgencies);
-	rest_obterSchoolAll(carregaSelectSchool);
+	rest_obterAgencyAll(carregaSelectAgencies, true);
+	rest_obterSchoolAll(carregaSelectSchool, true);
 	
 	/**
 	 * 		carrega student

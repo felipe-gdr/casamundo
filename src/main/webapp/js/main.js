@@ -799,7 +799,7 @@ function calculaIdade ( dataNascimento ) {
     function carregaSelectAgencies(data, usaId) {
         $.each(data
     		    , function (i, optionValue) {
-        			$("#agencyName").append( $(option(optionValue.name, "", usaId, optionValue._id)));
+        			$("#agencyId").append( $(option(optionValue.name, "", usaId, optionValue._id)));
         });
     };
 
@@ -817,10 +817,10 @@ function calculaIdade ( dataNascimento ) {
         });
     };
 
-    function carregaSelectSchool(data) {
+    function carregaSelectSchool(data, usaId) {
         $.each(data
     		    , function (i, optionValue) {
-        			$("#schoolName").append( $(option(optionValue.name)));
+					$("#schoolId").append( $(option(optionValue.name, "", usaId, optionValue._id)));
         });
     };
         

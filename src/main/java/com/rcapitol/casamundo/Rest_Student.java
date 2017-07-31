@@ -81,7 +81,7 @@ public class Rest_Student {
 			JSONParser parser = new JSONParser(); 
 			try {
 				jsonObject = (JSONObject) parser.parse(docStudent);
-			    Integer actualTrip = Integer.parseInt((String) jsonObject.get("actualTrip"));
+			    Integer actualTrip = Integer.valueOf(jsonObject.get("actualTrip").toString());
 			    String familyName = null;
 			    String idRoom = null;
 			    if (actualTrip != null){

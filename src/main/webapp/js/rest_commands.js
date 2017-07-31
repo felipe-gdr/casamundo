@@ -391,7 +391,7 @@
     };
 
 
-    function rest_obterSchoolAll(action_ok) {
+    function rest_obterSchoolAll(action_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/school/lista",
             contentType: "application/json; charset=utf-8",
@@ -399,7 +399,7 @@
             async:false
     	})
     	.done(function( data ) {
-    		action_ok(data);
+    		action_ok(data, var1, var2);
     	})
     	.fail(function(data) {
     	})

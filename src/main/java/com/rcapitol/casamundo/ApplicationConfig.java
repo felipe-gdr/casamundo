@@ -33,7 +33,8 @@ public class ApplicationConfig extends Application {
         		Rest_Dorm.class,
         		Rest_Room.class,
         		Rest_Pickup.class,
-        		Rest_Setup.class
+        		Rest_Setup.class,
+        		Rest_Crud.class
         		));
     }
 }

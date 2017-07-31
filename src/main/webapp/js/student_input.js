@@ -43,9 +43,9 @@
 
 	rest_obterTable(carregaTelaTabelas, obtencaoNaoEfetuada);
 
-	rest_obterAgencyAll(carregaSelectAgencies);
+	rest_obterAgencyAll(carregaSelectAgencies, true);
 	
-	rest_obterSchoolAll(carregaSelectSchool);
+	rest_obterSchoolAll(carregaSelectSchool, true);
 	
 	/**
 	 * 		carrega tela se alteração
@@ -374,7 +374,26 @@
 					    	};		    			
 					    });
 					};
-					setValueStudent (field.id, value, actualTrip);
+					var parentNode = field.parentNode;
+					var trip = false;
+					var notTrip = false;
+					while (parentNode != null & !trip & !notTrip) {
+						if (parentNode.id == "trip" || parentNode.id == "school" || parentNode.id == "agency"){
+							trip = true;
+						};
+						if (parentNode.id == "body"){
+							notTrip = true;
+						};
+						var parentNode = parentNode.parentNode;
+					};
+					if (field.name != ""){
+						if (!trip){
+							objJson.documento[field.name] = limpaData(value);
+						}else{
+							objJson.documento.trips[actualTrip][field.name] = limpaData(value);
+						};
+					};
+					localStorage.setItem("student", JSON.stringify(objJson));
 			});
 			if (localStorage.studentExistente == "true"){
 		        var objJson = JSON.parse(localStorage.getItem("student"));
@@ -398,7 +417,7 @@
 					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
 				}else{
 					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
-					rest_atualizar("students", objJson, "_id", idStudent);
+					rest_atualizar("student", objJson, "_id", idStudent);
 					retornaStudent(actualTrip);
 				};
 			}else{
@@ -413,7 +432,9 @@
 																));
 					};
 				});
-				rest_incluir("students", objJson);
+				var studentDoc = rest_incluir("student", objJson);
+				localStorage.setItem("students", JSON.stringify(studentDoc.documento));
+				retornaStudent("0");
 			}
 		},	
 		// Do not change code below
@@ -588,7 +609,10 @@
 		$("#agencyConsultPhone").html("");
 		$("#agencyConsultEmail").html("");
 		$(".agency").addClass("hide");
-		rest_obterAgency ($(this).val(), carregaDadosAgency, semAcao);
+		var agencyData = rest_obter("agency", "_id", $(this).val());
+		if (agencyData){
+			carregaDadosAgency(agencyData, false, "");
+		};
 	});
 	$('#agencyConsultName').change(function() {
 		var objJson = JSON.parse(localStorage.getItem("agency"));
@@ -610,7 +634,10 @@
 		$("#schoolConsultPhone").html("");
 		$("#schoolConsultEmail").html("");
 		$(".school").addClass("hide");
-		rest_obterSchool ($(this).val(), carregaDadosSchool, semAcao);
+		var schoolData = rest_obter("school", "_id", $(this).val());
+		if (schoolData){
+			carregaDadosSchool(schoolData, false, "");
+		};
 	});
 	$('#schoolConsultName').change(function() {
 		var objJson = JSON.parse(localStorage.getItem("school"));

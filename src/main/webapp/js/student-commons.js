@@ -17,7 +17,118 @@ function carregaTela(data, actualTrip) {
 	if (!actualTrip){
 		actualTrip = data.documento.actualTrip;
 	};
+
+	$("input").each(function( index ) {
+		if (data.documento[$(this).attr("id")]){
+			if ($(this).attr("type") == "checkbox"){
+				if (data.documento[$(this).attr("id")] == "Yes"){
+					$(this).prop("checked", true)
+				};			
+			}else{
+				var classes = $(this).attr("class");
+				if (stringMatch("datepicker", $(this).attr("class"))){
+					$(this).val(separaDataMes(data.documento[$(this).attr("id")], "-"));						
+				}else{
+					$(this).val(data.documento[$(this).attr("id")]);
+				};
+			};
+		};
+		if (data.documento.trips[actualTrip][$(this).attr("id")]){
+			if ($(this).attr("type") == "checkbox"){
+				if (data.documento.trips[actualTrip][$(this).attr("id")] == "Yes"){
+					$(this).prop("checked", true)
+				};			
+			}else{
+				if (stringMatch("datepicker", $(this).attr("class"))){
+					$(this).val(separaDataMes(data.documento.trips[actualTrip][$(this).attr("id")], "-"));			
+				}else{
+					$(this).val(data.documento.trips[actualTrip][$(this).attr("id")]);
+				};
+			};
+		};
+	});
+	$("select").each(function( index ) {
+		if (data.documento[$(this).attr("id")]){
+			$(this).val(data.documento[$(this).attr("id")]);
+		};
+		if (data.documento.trips[actualTrip][$(this).attr("id")]){
+			$(this).val(data.documento.trips[actualTrip][$(this).attr("id")]);
+		};
+	});
+
+
+	// ** carrega mapa endereco
+	generate_map_6(data.documento.latitude, data.documento.longitude);
+	$('.addressMap').removeClass("hide");
+
+	// ** carrega foto
+	if (data.documento.photoPassport){
+		carregaPhoto (localStorage.app, data.documento.photoPassport, "photoPassport");
+	};
+
+	//  ** setar a visualização da acomodação 
+	if (data.documento.trips[actualTrip].accommodation == "Homestay"){
+		$(".dorms").addClass("hide");
+		$(".suite").addClass("hide");
+		$(".homestay").removeClass("hide");
+	}else{
+		if (data.documento.trips[actualTrip].accommodation == "Dorms"){
+			$(".homestay").addClass("hide");
+			$(".suite").addClass("hide");
+			$(".dorms").removeClass("hide");
+		}else{
+			$(".homestay").addClass("hide");
+			$(".dorms").addClass("hide");
+			$(".suite").removeClass("hide");				
+		}
+	};
+
+	// ** setar a visualização dos convidados
+	if (data.documento.trips[actualTrip].occupancy != "Single"){
+		$(".guest").removeClass("hide");
+	}else{
+		$(".guest").addClass("hide");
+	};
+	// ** carregar dados da agencia
+	if (data.documento.trips[actualTrip].agencyId){
+		$(".agency").addClass("hide");
+		var agencyData = rest_obter("agency", "_id", $("#agencyId").val());
+		if (agencyData){
+			carregaDadosAgency(agencyData, false, $("#agencyConsultName").val());
+		};
+	};
+	// ** carregar dados da escola
+	if (data.documento.trips[actualTrip].schoolId){
+		$(".school").addClass("hide");
+		var schoolData = rest_obter("school", "_id", $("#schoolId").val());
+		if (agencyData){
+			carregaDadosSchool(schoolData, false, $("#schoolConsultName").val());
+		};
+	};
+
+	// ** seta data para nova viagem do mesmo aluno
+	if (localStorage.newTrip == "true"){
+		$("#start").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
+		$("#end").val("");
+		$('#status').val("Available");
+		$('#familyName').val("");
+		$('#idFamily').val("");
+	};
 	
+	// **  criar linhas das notas
+	var linesNote = 0;
+    if (data.documento.notes){
+		$.each(data.documento.notes
+			    , function (i, value) {
+		    criaLinhaNote(i);
+		    $('#notesDate_' + i).val(value.date);
+	    	$('#notesUser_' + i).val(value.user);
+	    	$('#notesNote_' + i).val(value.note);
+	    	linesNote = i + 1;
+	    });
+    };
+    criaLinhaNote(linesNote);
+	/*
 	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);
 	$("#firstName").val(data.documento.firstName);
 	$("#secondName").val(data.documento.secondName);
@@ -42,19 +153,12 @@ function carregaTela(data, actualTrip) {
 	$("#latitude").val(data.documento.latitude);
 	$("#longitude").val(data.documento.longitude);
 
-	// ** carrega mapa endereco
-	generate_map_6(data.documento.latitude, data.documento.longitude);
-	$('.addressMap').removeClass("hide");
-
 	$("#secondaryTelephone").val(data.documento.secondaryTelephone);
 	$("#emergencyContactName").val(data.documento.emergencyContactName);
 	$("#emergencyContactPhone").val(data.documento.emergencyContactPhone);
 	$("#emergencyContactMail").val(data.documento.emergencyContactMail);
 	$("#emergencyContactRelationship").val(data.documento.emergencyContactRelationship);
 	$("#photoPassport").val(data.documento.photoPassport);
-	if (data.documento.photoPassport){
-		carregaPhoto (localStorage.app, data.documento.photoPassport, "photoPassport");
-	};
 	$("#actualTrip").val(actualTrip);
 	$("#status").val(data.documento.trips[actualTrip].status);
 	$("#destination").val(data.documento.trips[actualTrip].destination);
@@ -78,29 +182,9 @@ function carregaTela(data, actualTrip) {
 		$("#dropoff").prop("checked", true)
 	}
 	$("#accommodation").val(data.documento.trips[actualTrip].accommodation);
-	if (data.documento.trips[actualTrip].accommodation == "Homestay"){
-		$(".dorms").addClass("hide");
-		$(".suite").addClass("hide");
-		$(".homestay").removeClass("hide");
-	}else{
-		if (data.documento.trips[actualTrip].accommodation == "Dorms"){
-			$(".homestay").addClass("hide");
-			$(".suite").addClass("hide");
-			$(".dorms").removeClass("hide");
-		}else{
-			$(".homestay").addClass("hide");
-			$(".dorms").addClass("hide");
-			$(".suite").removeClass("hide");				
-		}
-	};
 	$("#occupancyDorms").val(data.documento.trips[actualTrip].occupancy);
 	$("#occupancyHomestay").val(data.documento.trips[actualTrip].occupancy);
 	$("#occupancySuite").val(data.documento.trips[actualTrip].occupancy);
-	if (data.documento.trips[actualTrip].occupancy != "Single"){
-		$(".guest").removeClass("hide");
-	}else{
-		$(".guest").addClass("hide");
-	};
 	$("#familyName").val(data.documento.trips[actualTrip].familyName);
 	$("#guestName").val(data.documento.trips[actualTrip].guestName);
 	$("#guestEmail").val(data.documento.trips[actualTrip].guestEmail);
@@ -170,43 +254,9 @@ function carregaTela(data, actualTrip) {
 	if (data.documento.trips[actualTrip].agrreeSuite == "Yes"){
 		$("#agrreeSuite").prop("checked", true)
 	};
-    
-	if (data.documento.trips[actualTrip].agencyName){
-		$(".agency").addClass("hide");
-		rest_obterAgency (data.documento.trips[actualTrip].agencyName, carregaDadosAgency, semAcao, false, data.documento.trips[actualTrip].agencyConsultName)
-	};
 	$("#agencyConsultName").val(data.documento.trips[actualTrip].agencyConsultName);
-	
-	if (data.documento.trips[actualTrip].schoolName){
-		$(".school").addClass("hide");
-		rest_obterSchool (data.documento.trips[actualTrip].schoolName, carregaDadosSchool, semAcao, false, data.documento.trips[actualTrip].schoolConsultName)
-	};
 	$("#schoolConsultName").val(data.documento.trips[actualTrip].schoolConsultName);
-
-	//
-    //**** 	seta data para nova viagem do mesmo aluno
-	//
-	if (localStorage.newTrip == "true"){
-		$("#start").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
-		$("#end").val("");
-		$('#status').val("Available");
-		$('#familyName').val("");
-		$('#idFamily').val("");
-	};
-
-	var linesNote = 0;
-    if (data.documento.notes){
-		$.each(data.documento.notes
-			    , function (i, value) {
-		    criaLinhaNote(i);
-		    $('#notesDate_' + i).val(value.date);
-	    	$('#notesUser_' + i).val(value.user);
-	    	$('#notesNote_' + i).val(value.note);
-	    	linesNote = i + 1;
-	    });
-    };
-    criaLinhaNote(linesNote);
-
+	 */
 	localStorage.setItem("student", JSON.stringify(data));
 	localStorage.studentExistente = "true";
 };    
@@ -746,305 +796,6 @@ function getValueStudent (field, actualTrip) {
 	return "##erro";
 };				
 
-function setValueStudent (field, value, actualTrip, grava) {
-	
-	var objJson = JSON.parse(localStorage.getItem("student"));
-	
-	if (field == "celPhone"){
-        objJson.documento.celPhone = limpaData(value);
-	};
-	if (field == "phone"){
-        objJson.documento.phone = limpaData(value);
-	};
-	if (field == "mail"){
-        objJson.documento.mail = value;
-	};
-	if (field == "lastName"){
-        objJson.documento.lastName = value;
-	};
-	if (field == "firstName"){
-        objJson.documento.firstName = value;
-	};
-	if (field == "secondName"){
-        objJson.documento.secondName = value;
-	};
-	if (field == "birthDay"){
-        objJson.documento.birthDay = limpaData(value);
-	};
-	if (field == "gender"){
-        objJson.documento.gender = value;
-	};
-	if (field == "nationality"){
-        objJson.documento.nationality = value;
-	};
-	if (field == "firstLanguage"){
-        objJson.documento.firstLanguage = value;
-	};
-	if (field == "profession"){
-        objJson.documento.profession = value;
-	};
-	if (field == "englishLevel"){
-        objJson.documento.englishLevel = value;
-	};
-	if (field == "streetNumber"){
-        objJson.documento.streetNumber = value;
-	};
-	if (field == "streetName"){
-        objJson.documento.streetName = value;
-	};
-	if (field == "state"){
-        objJson.documento.state = value;
-	};
-	if (field == "postalCode"){
-        objJson.documento.postalCode = value;
-	};
-	if (field == "city"){
-        objJson.documento.city = value;
-	};
-	if (field == "country"){
-        objJson.documento.country = value;
-	};
-	if (field == "complement"){
-        objJson.documento.complement = value;
-	};
-	if (field == "latitude"){
-        objJson.documento.latitude = value;
-	};
-	if (field == "longitude"){
-        objJson.documento.longitude = value;
-	};
-	if (field == "secondaryTelephone"){
-        objJson.documento.secondaryTelephone = limpaData(value);
-	};
-	if (field == "emergencyContactName"){
-        objJson.documento.emergencyContactName = value;
-	};
-	if (field == "emergencyContactPhone"){
-        objJson.documento.emergencyContactPhone = limpaData(value);
-	};
-	if (field == "emergencyContactMail"){
-        objJson.documento.emergencyContactMail = value;
-	};
-	if (field == "emergencyContactRelationship"){
-        objJson.documento.emergencyContactRelationship = value;
-	};
-	if (field == "emergencyContactRelationship"){
-        objJson.documento.emergencyContactRelationship = value;
-	};
-	if (field == "photoPassport"){
-        objJson.documento.photoPassport = value;
-	};
-	if (field == "actualTrip"){
-        objJson.documento.actualTrip = value;
-	};
-	if (field == "destination"){
-        objJson.documento.trips[actualTrip].destination = value;
-	};
-	if (field == "start"){
-        objJson.documento.trips[actualTrip].start = limpaData(value);
-	};
-	if (field == "end"){
-        objJson.documento.trips[actualTrip].end = limpaData(value);
-	};
-	if (field == "arrivalDate"){
-        objJson.documento.trips[actualTrip].arrivalDate = limpaData(value);
-	};
-	if (field == "arrivalTime"){
-        objJson.documento.trips[actualTrip].arrivalTime = limpaData(value);
-	};
-	if (field == "arrivalFlightNumber"){
-        objJson.documento.trips[actualTrip].arrivalFlightNumber = value;
-	};
-	if (field == "arrivalAirline"){
-        objJson.documento.trips[actualTrip].arrivalAirline = value;
-	};
-	if (field == "departureDate"){
-        objJson.documento.trips[actualTrip].departureDate = limpaData(value);
-	};
-	if (field == "departureTime"){
-        objJson.documento.trips[actualTrip].departureTime = limpaData(value);
-	};
-	if (field == "departureFlightNumber"){
-        objJson.documento.trips[actualTrip].departureFlightNumber = value;
-	};
-	if (field == "departureAirline"){
-        objJson.documento.trips[actualTrip].departureAirline = value;
-	};
-	if (field == "extend"){
-        objJson.documento.trips[actualTrip].extend = value;
-	};
-	if (field == "pickup"){
-        objJson.documento.trips[actualTrip].pickup = value;
-	};
-	if (field == "dropoff"){
-        objJson.documento.trips[actualTrip].dropoff = value;
-	};
-	if (field == "accommodation"){
-        objJson.documento.trips[actualTrip].accommodation = value;
-	};
-	if (field == "occupancy"){
-        objJson.documento.trips[actualTrip].occupancy = value;
-	};
-	if (field == "occupancyDorms"){
-		if (value){
-			objJson.documento.trips[actualTrip].occupancy = value;
-		};
-	};
-	if (field == "occupancyHomestay"){
-		if (value){
-			objJson.documento.trips[actualTrip].occupancy = value;
-		};
-	};
-	if (field == "occupancySuite"){
-		if (value){
-			objJson.documento.trips[actualTrip].occupancy = value;
-		};
-	};
-	if (field == "familyName"){
-        objJson.documento.trips[actualTrip].familyName = value;
-	};
-	if (field == "status"){
-        objJson.documento.trips[actualTrip].status = value;
-	};
-	if (field == "guestName"){
-        objJson.documento.trips[actualTrip].guestName = value;
-	};
-	if (field == "guestEmail"){
-        objJson.documento.trips[actualTrip].guestEmail = value;
-	};
-	if (field == "relationship"){
-        objJson.documento.trips[actualTrip].relationship = value;
-	};
-	if (field == "bedLinen"){
-        objJson.documento.trips[actualTrip].bedLinen = value;
-	};
-	if (field == "gymMembership"){
-        objJson.documento.trips[actualTrip].gymMembership = value;
-	};
-	if (field == "mealPlan"){
-		var array = value.split(",");
-        objJson.documento.trips[actualTrip].mealPlan = array;
-	};
-	if (field == "specialDiet"){
-		var array = value.split(",");
-        objJson.documento.trips[actualTrip].specialDiet = array;
-	};
-	if (field == "privateWashroom"){
-        objJson.documento.trips[actualTrip].privateWashroom = value;
-	};
-	if (field == "smoke"){
-        objJson.documento.trips[actualTrip].smoke = value;
-	};
-	if (field == "liveDogs"){
-        objJson.documento.trips[actualTrip].liveDogs = value;
-	};
-	if (field == "liveCats"){
-        objJson.documento.trips[actualTrip].liveCats = value;
-	};
-	if (field == "liveWithChildren"){
-        objJson.documento.trips[actualTrip].liveWithChildren = value;
-	};
-	if (field == "hobbies"){
-        objJson.documento.trips[actualTrip].hobbies = value;
-	};
-	if (field == "medical"){
-        objJson.documento.trips[actualTrip].medical = value;
-	};
-	if (field == "comments"){
-        objJson.documento.trips[actualTrip].comments = value;
-	};
-	if (field == "agreeTerm"){
-        objJson.documento.trips[actualTrip].agreeTerm = value;
-	};
-	if (field == "usuallyStudy"){
-		var array = value.split(",");
-        objJson.documento.trips[actualTrip].usuallyStudy = array;
-	};
-	if (field == "keepBedroom"){
-		var array = value.split(",");
-        objJson.documento.trips[actualTrip].keepBedroom = array;
-	};
-	if (field == "iAmUsually"){
-		var array = value.split(",");
-        objJson.documento.trips[actualTrip].iAmUsually = array;
-	};
-	if (field == "creditCardType"){
-        objJson.documento.trips[actualTrip].creditCardType = value;
-	};
-	if (field == "creditCardNumber"){
-        objJson.documento.trips[actualTrip].creditCardNumber = value;
-	};
-	if (field == "creditCardExpire"){
-        objJson.documento.trips[actualTrip].creditCardExpire = value;
-	};
-	if (field == "creditCardCVC"){
-        objJson.documento.trips[actualTrip].creditCardCVC = value;
-	};
-	if (field == "agreeDebit"){
-        objJson.documento.trips[actualTrip].agreeDebit = value;
-	};
-	if (field == "agreeDebitReimbursed"){
-        objJson.documento.trips[actualTrip].agreeDebitReimbursed = value;
-	};
-	if (field == "apartamentType"){
-        objJson.documento.trips[actualTrip].apartamentType = value;
-	};
-	if (field == "petQuantity"){
-        objJson.documento.trips[actualTrip].petQuantity = value;
-	};
-	if (field == "petType"){
-        objJson.documento.trips[actualTrip].petType = value;
-	};
-	if (field == "parking"){
-        objJson.documento.trips[actualTrip].parking = value;
-	};
-	if (field == "wifi"){
-        objJson.documento.trips[actualTrip].wifi = value;
-	};
-	if (field == "peopleQuantity"){
-        objJson.documento.trips[actualTrip].peopleQuantity = value;
-	};
-	if (field == "guest_01"){
-        objJson.documento.trips[actualTrip].guest_01 = value;
-	};
-	if (field == "guest_02"){
-        objJson.documento.trips[actualTrip].guest_02 = value;
-	};
-	if (field == "guest_03"){
-        objJson.documento.trips[actualTrip].guest_03 = value;
-	};
-	if (field == "guest_04"){
-        objJson.documento.trips[actualTrip].guest_04 = value;
-	};
-	if (field == "guest_05"){
-        objJson.documento.trips[actualTrip].guest_05 = value;
-	};
-	if (field == "agrreeDebitSuite"){
-        objJson.documento.trips[actualTrip].agrreeDebitSuite = value;
-	};
-	if (field == "agrreeSuite"){
-        objJson.documento.trips[actualTrip].agrreeSuite = value;
-	};
-	if (field == "agencyName"){
-        objJson.documento.trips[actualTrip].agencyName = value;
-	};
-	if (field == "agencyConsultName"){
-        objJson.documento.trips[actualTrip].agencyConsultName = value;
-	};
-	if (field == "schoolName"){
-        objJson.documento.trips[actualTrip].schoolName = value;
-	};
-	if (field == "schoolConsultName"){
-        objJson.documento.trips[actualTrip].schoolConsultName = value;
-	};
-
-	localStorage.setItem("student", JSON.stringify(objJson));
-	
-	if (grava){
-		rest_atualizaStudent(JSON.parse(localStorage.getItem("student")), atualizacaoCampoEfetuada, atualizacaoCampoNaoEfetuada);
-	}
-};
-
 function carregaInclusao(data) { 	   	
 	localStorage.studentExistente = "false";
 };    
@@ -1057,6 +808,9 @@ function carregaStudent(data, typePage, actualTrip) {
 		actualTrip = getValueStudent("actualTrip");
 	};
 
+	$("input").each(function( index ) {
+		  console.log( "id: " + $(this).attr("id"));
+	});
 	$("#studentCompleteName").html(getValueStudent("firstName") + " " + getValueStudent("lastName"));
 	$("#celPhone").html(getValueStudent("celPhone"));
     $('#phone').html(getValueStudent("phone"));
@@ -1286,12 +1040,18 @@ function carregaStudent(data, typePage, actualTrip) {
     $('#agreeSuite').html(getValueStudent("agreeSuite",actualTrip));
     
 	if (getValueStudent("agencyName",actualTrip)){
-		rest_obterAgency (getValueStudent("agencyName",actualTrip), carregaDadosAgency, semAcao, true, getValueStudent("agencyConsultName",actualTrip))
+		var agencyData = rest_obter("agency", "_id", data.documento.trips[actualTrip].agencyId);
+		if (agencyData){
+			carregaDadosAgency(agencyData, true, data.documento.trips[actualTrip].agencyConsultName);
+		};
 	};
 	$("#agencyConsultName").html(getValueStudent("agencyConsultName",actualTrip));
 	
 	if (getValueStudent("schoolName",actualTrip)){
-		rest_obterSchool (getValueStudent("schoolName",actualTrip), carregaDadosSchool, semAcao, true, getValueStudent("schoolConsultName",actualTrip))
+		var schoolData = rest_obter("school", "_id", data.documento.trips[actualTrip].schoolId);
+		if (schoolData){
+			carregaDadosSchool(schoolData, true, data.documento.trips[actualTrip].schoolConsultName);
+		};
 	};
 	$("#schoolConsultName").html(getValueStudent("schoolConsultName",actualTrip));
 //	

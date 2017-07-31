@@ -26,17 +26,32 @@ public class Commons_DB {
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		BasicDBObject setQuery = new BasicDBObject(key, value);
-		DBObject cursor = collection.findOne(setQuery);
-		BasicDBObject documento = new BasicDBObject();
-		BasicDBObject doc = new BasicDBObject();
-		doc.putAll((Map) cursor.get("documento"));
-		BasicDBObject obj = new BasicDBObject();
-		String id = ((BasicBSONObject) cursor).getString("_id");
-		obj.put("id", id);
-		documento.put("documento", obj);
-		mongo.close();
-		return Response.status(200).entity(documento).build();
+		BasicDBObject setQuery = new BasicDBObject();
+		if (value != null) {
+			if (key.equals("_id")) {
+				ObjectId idObj = new ObjectId(value);
+				setQuery = new BasicDBObject(key, idObj);
+			}else {
+				setQuery = new BasicDBObject(key, value);
+			};
+			DBObject cursor = collection.findOne(setQuery);
+			if (cursor != null) {
+				BasicDBObject documento = new BasicDBObject();
+				BasicDBObject doc = new BasicDBObject();
+				doc.putAll((Map) cursor.get("documento"));
+				String id = ((BasicBSONObject) cursor).getString("_id");
+				documento.put("documento", doc);
+				documento.put("_id", id);
+				mongo.close();
+				return Response.status(200).entity(documento).build();
+			}else {
+				mongo.close();
+				return Response.status(400).entity(null).build();
+			}
+		}else {
+			mongo.close();
+			return Response.status(400).entity(null).build();			
+		}
 	};
 
 	public Response IncluirCrud(String collectionName, DBObject documento) throws UnknownHostException, MongoException {
@@ -88,15 +103,20 @@ public class Commons_DB {
 	    };
 		
 		DBCursor cursor = collection.find(setQuery);
-		JSONArray documentos = new JSONArray();
-		while (((Iterator<DBObject>) cursor).hasNext()) {
-			BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-			BasicDBObject doc = new BasicDBObject();
-			doc.putAll((Map) obj.get("documento"));
-			doc.put("id", obj.get( "_id" ).toString());			
-		};
-	    mongo.close();
-		return Response.status(200).entity(documentos).build();
+		if (cursor != null) {
+			JSONArray documentos = new JSONArray();
+			while (((Iterator<DBObject>) cursor).hasNext()) {
+				BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				BasicDBObject doc = new BasicDBObject();
+				doc.putAll((Map) obj.get("documento"));
+				doc.put("id", obj.get( "_id" ).toString());			
+			};
+		    mongo.close();
+			return Response.status(200).entity(documentos).build();
+		}else {
+		    mongo.close();
+			return Response.status(400).entity(null).build();			
+		}
 	};
 
 };

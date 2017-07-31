@@ -25,6 +25,7 @@ import com.mongodb.MongoException;
 public class Rest_Crud {
 	
 	Commons_DB commons_db = new Commons_DB();
+	Commons commons = new Commons();
 	
 	@Path("/obter")
 	@POST
@@ -50,6 +51,7 @@ public class Rest_Crud {
 		String collection = (String) queryParam.get("collection");
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
+		documento.put("lastchange", String.valueOf(commons.currentTime()));
 		if (collection != null ){
 			return commons_db.IncluirCrud(collection, documento);
 		}else{
@@ -68,6 +70,7 @@ public class Rest_Crud {
 		String value = (String) queryParam.get("value");
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
+		documento.put("lastchange", String.valueOf(commons.currentTime()));
 		if (collection != null ){
 			return commons_db.AtualizarCrud(collection, documento, key, value);
 		}else{
