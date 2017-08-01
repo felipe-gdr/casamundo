@@ -52,6 +52,7 @@
 		$("#asideMenu").append(lineMenuAside ("menuInvoice", "invoices.html", "Invoices"));
 		$("#asideMenu").append(lineMenuAside ("menuPayment", "payments.html", "Payments"));
 		$("#asideMenu").append(lineMenuAside ("carregaStudents", "#", "Carrega Students"));
+		$("#asideMenu").append(lineMenuAside ("atualizaIdsStudents", "#", "Atualiza id Students"));
 		$("#asideMenu").parent().find('ul').slideToggle();
 	}; 
 	if (localStorage.usuarioPerfil == "student"){
@@ -70,6 +71,12 @@
 	//
 	$( "#carregaStudents" ).on( "click", function() {
 		carregaStudents();
+	});
+	//
+	//***   atualiza id estudantes
+	//
+	$( "#atualizaIdsStudents" ).on( "click", function() {
+		atualizaIdsStudents();
 	});
 
 	

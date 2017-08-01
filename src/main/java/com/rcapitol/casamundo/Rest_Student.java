@@ -452,8 +452,6 @@ public class Rest_Student {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONObject ObterStudentsAccommodations(@QueryParam("familyName") String familyName) {
-		Rest_Room rest_room = new Rest_Room();
-		
 		Mongo mongo;
 		try {
 			mongo = new Mongo();

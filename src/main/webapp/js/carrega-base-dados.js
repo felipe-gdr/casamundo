@@ -1,7 +1,34 @@
 /**
  * 
  */
-
+function atualizaIdsStudents (){
+	var data = rest_listaReturn ("student");
+			
+	for (var i = 0; i < data.length; i++) {
+		var actualTrip = data[i].documento.actualTrip;
+		if (data[i].documento.trips[actualTrip].familyName && data[i].documento.trips[actualTrip].familyName != ""){
+			var familyData = rest_obter("family", "documento.familyName", data[i].documento.trips[actualTrip].familyName);
+			if (familyData){
+				data[i].documento.trips[actualTrip].familyId = familyData._id;
+			};
+		};
+		if (data[i].documento.trips[actualTrip].familyName){
+			var agencyData = rest_obter("agency", "documento.name", data[i].documento.trips[actualTrip].agencyName);
+			if (agencyData){
+				data[i].documento.trips[actualTrip].agencyId = agencyData._id;
+			};
+		};
+		if (data[i].documento.trips[actualTrip].familyName){
+			var schoolData = rest_obter("school", "documento.name", data[i].documento.trips[actualTrip].schoolName);
+			if (schoolData){
+				data[i].documento.trips[actualTrip].schoolId = schoolData._id;
+			};
+		};
+		var id = data[i]._id;
+		delete data[i]._id;
+		rest_atualizar("student", data[i], "_id", id);
+	};
+};
 function carregaStudents (){
 
 var students = 

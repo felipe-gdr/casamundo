@@ -70,7 +70,7 @@ public class Rest_Crud {
 		String value = (String) queryParam.get("value");
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
-		documento.put("lastchange", String.valueOf(commons.currentTime()));
+		documento.put("lastChange", String.valueOf(commons.currentTime()));
 		if (collection != null ){
 			return commons_db.AtualizarCrud(collection, documento, key, value);
 		}else{
@@ -83,7 +83,7 @@ public class Rest_Crud {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response Lista(@QueryParam("collection") String collection, @QueryParam("key") String key, @QueryParam("value") String value) throws UnknownHostException, MongoException  {
-		if (collection != null && key != null && value != null){
+		if (collection != null ){
 			return commons_db.listaCrud(collection, key, value);
 		}else{
 			return Response.status(400).entity(null).build();	

@@ -91,7 +91,7 @@ public class Commons_DB {
 		return Response.status(200).entity(documento).build();
 	};
 
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Response listaCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
@@ -108,8 +108,9 @@ public class Commons_DB {
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
 				BasicDBObject doc = new BasicDBObject();
-				doc.putAll((Map) obj.get("documento"));
-				doc.put("id", obj.get( "_id" ).toString());			
+				doc.putAll((Map) obj);
+				doc.put("_id", obj.get( "_id" ).toString());
+				documentos.add(doc);
 			};
 		    mongo.close();
 			return Response.status(200).entity(documentos).build();
@@ -120,3 +121,4 @@ public class Commons_DB {
 	};
 
 };
+

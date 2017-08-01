@@ -1656,21 +1656,13 @@
     	return dataReturn;
     };
 
-    function rest_lista (collection, documento, key, value){
+    function rest_lista (collection, key, value){
     	var dataReturn = null;
-    	var obj = {
-        		collection:collection,
-        		documento:documento,
-        		key:key,
-        		value:value
-        	};
     	$.ajax({
-    		type: "POST",
-            url: localStorage.mainUrl + "casamundo/rest/crud/lista",
+            url: localStorage.mainUrl + "casamundo/rest/crud/lista?collection=" + collection + "&key=" + key + "&value=" + value,
     		contentType : "application/json; charset=utf-8",
     		dataType : 'json',
     		async : false,
-            data : JSON.stringify(obj)
     	}).done(function(data) {
     		dataReturn = data; 
     	}).fail(function(data) {
@@ -1681,25 +1673,15 @@
 
     };
 
-    function rest_listaReturn (collection, action_ok, action_not_ok, var1, var2, var3){
+    function rest_listaReturn (collection){
 
     	var listas = null;
-    	var objJson = 
-    	{	
-    		token: sessionStorage.token,
-    		asybc : false,
-    		collection : collection,
-    		keys : []
-    	};
 
     	$.ajax({
-    		type: "POST",
-            url: localStorage.mainUrl + "casamundo/rest/crud/lista",
+            url: localStorage.mainUrl + "casamundo/rest/crud/lista?collection=" + collection,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson),
-        	async : false
-    	
+        	async : false    	
     	})        	
     	.done(function( data ) {
     		listas = data;
