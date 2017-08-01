@@ -1008,12 +1008,14 @@
     	});
     };
     
-    function rest_atualizaInvoice(collection, documento, key, value){
+    function rest_atualizaInvoice(documento){
     	var dataReturn = null;
 		$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/incluir?collection=" + collection + "&documento=" + documento + "&key=" + key + "&value=" + value,
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/atualizar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
+            data : JSON.stringify(documento)
 		})
 	  	.done(function( data ) {
 	  		dataReturn = data;
@@ -1026,12 +1028,14 @@
 		return dataReturn;
     };
 
-    function rest_incluiInvoice(collection, documento){
+    function rest_incluiInvoice(documento){
     	var dataReturn = null;
 		$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/incluir?collection=" + collection + "&documento=" + documento,
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
+            data : JSON.stringify(documento)
 		})
 	  	.done(function( data ) {
 	  		dataReturn = data;
@@ -1718,7 +1722,7 @@
     function rest_payments_agency(id, action_ok, action_not_ok, var1, var2) {
     	var  payments = {};
     	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice//agency/payments?id="  + id,
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/agency/payments?id="  + id,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             async:false

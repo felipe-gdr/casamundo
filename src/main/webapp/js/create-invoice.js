@@ -20,10 +20,11 @@
 	//
 	//***   ler dados invoice
 	//
+	var invoiceId = "";
 	if (typePage == "change"){
 		if (parameter[2]){
-			idInvoice = parameter[2].split("=")[1];
-			rest_obterInvoice(idInvoice, carregaTelaInvoice, semAcao);
+			invoiceId = parameter[2].split("=")[1];
+			rest_obterInvoice(invoiceId, carregaTelaInvoice, semAcao);
 		};
 		$("#menuInvoice_li").addClass("active");
 		$("#breadcrumb_label_II").val("Invoices");
@@ -142,13 +143,13 @@
 			}
 		});
 		if (localStorage.valid == "true"){
-			criaInvoice(idInvoice, actualTrip);
+			criaInvoice(actualTrip, invoiceId);
 		}
 	});
 
 	$('#geraPayments').off('click');
 	$('#geraPayments').on('click', function () {
-		window.location = "create-payments-vendors.html?mail=" + mailUrl + "&typePage=create&id=" + idInvoice; 
+		window.location = "create-payments-vendors.html?mail=" + mailUrl + "&typePage=create&id=" + invoiceId; 
 	});
 
 	/**
@@ -443,7 +444,7 @@ function limpaStorageInvoice () {
 	
 };
 
-function criaInvoice(id, actualTrip){
+function criaInvoice(actualTrip){
 
 	var objStudent = JSON.parse(localStorage.getItem("student"));
 	
@@ -454,7 +455,6 @@ function criaInvoice(id, actualTrip){
 		{
 			documento:
 				{
-					id : id,
 					idStudent : objStudent._id,
 					actualTrip : $('#actualTrip').val(),
 					status : "unpaid",
@@ -463,10 +463,10 @@ function criaInvoice(id, actualTrip){
 					amountGross : $('#dueValueGross_0').val(),
 					destination : objStudent.documento.trips[actualTrip].destination,
 					agenchyName : objStudent.documento.trips[actualTrip].agencyName,
-					agenchyId : objStudent.documento.trips[actualTrip].agencyId,
+					agencyId : objStudent.documento.trips[actualTrip].agencyId,
 					itensNet : [],
 					itensGross : [],
-					installlments : [],
+					installments : [],
 					notes : []					
 				}
 			
@@ -501,9 +501,12 @@ function criaInvoice(id, actualTrip){
 	});
 	
 	if (typePage == "change"){
-		rest_atualizaInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
+		objInvoice._id = invoiceId;
+		var invoice = rest_atualizaInvoice(objInvoice);
+		retornaInvoice("invoices.html");
 	}else{
-		rest_incluiInvoice(objInvoice, retornaInvoice, semAcao, "invoices.html")
+		var invoice = rest_incluiInvoice(objInvoice);
+		retornaInvoice("invoices.html");
 	};
 
 };

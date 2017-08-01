@@ -372,7 +372,7 @@ public class Rest_Payment {
 				//
 				
 				if (objStudent != null){
-				    Integer tripIndex = Integer.parseInt((String) objStudent.get("actualTrip"));
+					Integer tripIndex = Integer.valueOf(objStudent.get("actualTrip").toString());
 					String agencySigla = null;
 				    String agencyName = null;
 				    if (tripIndex != null){

@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import org.bson.BasicBSONObject;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -54,19 +55,21 @@ public class Commons_DB {
 		}
 	};
 
-	public Response IncluirCrud(String collectionName, DBObject documento) throws UnknownHostException, MongoException {
+	@SuppressWarnings("unchecked")
+	public Response IncluirCrud(String collectionName, JSONObject documento) throws UnknownHostException, MongoException {
 		Mongo mongo;		
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		collection.insert(documento);
-		documento.put("id", documento.get( "_id" ).toString());
+		DBObject insert = new BasicDBObject(documento);
+		collection.insert(insert);
+		documento.put("_id", insert.get( "_id" ).toString());
 		mongo.close();
 		return Response.status(200).entity(documento).build();
 	}
 
 	@SuppressWarnings("rawtypes")
-	public Response AtualizarCrud(String collectionName, Object documento, String key, String value) throws UnknownHostException, MongoException {
+	public Response AtualizarCrud(String collectionName, BasicDBObject documento, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -78,16 +81,18 @@ public class Commons_DB {
 		}else {
 			setQuery = new BasicDBObject(key, value);
 		};
-		BasicDBObject docObj = new BasicDBObject();
-		docObj.putAll((Map) documento);
+		DBObject update = new BasicDBObject(documento);
 		collection.findAndModify(setQuery,
                 null,
                 null,
                 false,
-                (DBObject) documento,
+                update,
                 true,
                 false);
 		mongo.close();
+		if (key.equals("_id")) {
+			documento.put("_id", value);
+		};
 		return Response.status(200).entity(documento).build();
 	};
 

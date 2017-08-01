@@ -87,21 +87,14 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirInvoice(JSONObject queryParam) throws UnknownHostException, MongoException  {
+	public Response IncluirInvoice(JSONObject documento) throws UnknownHostException, MongoException  {
 		
-		String collection = (String) queryParam.get("collection");
-		BasicDBObject documento = new BasicDBObject();
-		documento.putAll((Map) queryParam.get("documento"));
-
-		BasicDBObject objUpdate = new BasicDBObject();
-		objUpdate.putAll((Map) documento.get("documento"));
-		objUpdate.put("number", numberInvoice());
-		documento.put("documento",objUpdate);
-		Response response = commons_db.IncluirCrud(collection, documento);
+		documento.put("number", numberInvoice());
+		Response response = commons_db.IncluirCrud("invoice", documento);
 		if (response.getStatus() == 200) {
 			BasicDBObject doc = new BasicDBObject();
 			doc.putAll((Map) response.getEntity());
@@ -116,19 +109,16 @@ public class Rest_Invoice {
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(JSONObject queryParam) throws UnknownHostException, MongoException  {
+	public Response AtualizarDocumento(BasicDBObject documento) throws UnknownHostException, MongoException  {
 		
-		String collection = (String) queryParam.get("collection");
-		String key = (String) queryParam.get("key");
-		String value = (String) queryParam.get("value");
-		BasicDBObject documento = new BasicDBObject();
-		documento.putAll((Map) queryParam.get("documento"));
-		Response response = commons_db.AtualizarCrud(collection, documento, key, value);
+		String value = documento.get("_id").toString();
+		documento.remove("_id");		
+		Response response = commons_db.AtualizarCrud("invoice", documento, "_id", value);
 		if (response.getStatus() == 200) {
 			BasicDBObject doc = new BasicDBObject();
 			doc.putAll((Map) response.getEntity());
-			ObjectId idObj = new ObjectId(doc.getString("_id"));
-			criarCosts(idObj, null, null);
+			ObjectId id = new ObjectId(doc.getString("_id"));
+			criarCosts(id, null, null);
 		};
 		return response;
 
@@ -164,6 +154,7 @@ public class Rest_Invoice {
 					JSONObject jsonDocumento = new JSONObject();
 					jsonDocumento.put("id", objInvoice.getString("_id"));
 					jsonDocumento.put("idStudent", jsonObject.get("idStudent"));
+					jsonDocumento.put("agencyId", jsonObject.get("agencyId"));
 					jsonDocumento.put("actualTrip", jsonObject.get("actualTrip"));
 					jsonDocumento.put("status", jsonObject.get("status"));
 					jsonDocumento.put("destination", jsonObject.get("destination"));
@@ -747,29 +738,34 @@ public class Rest_Invoice {
 	    	setQuery.put("documento.agencyId", id);
 			
 			DBCursor cursor = collection.find(setQuery);
-			long amount = 0;
-			long payment = 0;
+			float amount = 0;
+			float payment = 0;
 			JSONArray installments = new JSONArray();
 			JSONArray invoices = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
 				BasicDBObject doc = new BasicDBObject();
 				doc.putAll((Map) obj.get("documento"));
-				ArrayList<JSONObject> objInstallments = (ArrayList<JSONObject>) doc.get("installments");
-				for (int i = 0; i < objInstallments.size(); i++) {
-					payment = payment + Long.valueOf(objInstallments.get(i).get("value").toString()).longValue();
+				ArrayList<BasicDBObject> objInstallments = (ArrayList<BasicDBObject>) doc.get("installments");
+				if (objInstallments != null) {
+					for (int i = 0; i < objInstallments.size(); i++) {
+						payment = payment + Float.valueOf(objInstallments.get(i).get("value").toString()).longValue();
+					};
+					installments.add(objInstallments);
 				};
-				installments.add(objInstallments);
-				ArrayList<JSONObject> objItens = (ArrayList<JSONObject>) doc.get("itens");
-				long amountItens = 0;
-				for (int i = 0; i < objItens.size(); i++) {
-					amount = amount + Long.valueOf(objItens.get(i).get("value").toString()).longValue();
-					amountItens = amountItens + Long.valueOf(objItens.get(i).get("value").toString()).longValue();
+				ArrayList<BasicDBObject> objItens = (ArrayList<BasicDBObject>) doc.get("itensNet");
+				float amountItens = 0;
+				if (objItens != null) {
+					for (int i = 0; i < objItens.size(); i++) {
+						amount = amount + Float.valueOf(objItens.get(i).get("value").toString());
+						amountItens = amountItens + Float.valueOf(objItens.get(i).get("value").toString());
+					};
 				};
 				BasicDBObject invoice = new BasicDBObject();
 				invoice.put("number", doc.get("number"));
 				invoice.put("dueDate", doc.get("dueDate"));
 				invoice.put("amount", String.valueOf(amountItens));
+				invoices.add(invoice);
 			};
 			JSONObject jsonReturn = new JSONObject();
 			jsonReturn.put("amount", String.valueOf(amount));

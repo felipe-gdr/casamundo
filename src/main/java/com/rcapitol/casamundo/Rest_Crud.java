@@ -42,14 +42,14 @@ public class Rest_Crud {
 		}
 	};
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response Incluir(JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
 		String collection = (String) queryParam.get("collection");
-		BasicDBObject documento = new BasicDBObject();
+		JSONObject documento = new JSONObject();
 		documento.putAll((Map) queryParam.get("documento"));
 		documento.put("lastchange", String.valueOf(commons.currentTime()));
 		if (collection != null ){

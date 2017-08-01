@@ -126,12 +126,12 @@
 	        var typePage = "accommodation";
 	        var payments = rest_payments_agency (invoice.agencyId);
 	        var balance = calcBalance (payments.installments); 
-	        	parseFloat(payment.amount)
-	    	var dadosPayment = " data-idPayment= '" + payment.id + "'" +
-	    					   " data-amount= '" + payment.amount + "'" +
+	        parseFloat(payments.amount);
+
+	        var dadosPayment = " data-amount= '" + payments.amount + "'" +
 	    					   " data-balance= '" + balance + "'";
 			var balanceDecimal = parseFloat(balance);
-			var amountDecimal = parseFloat(payment.amount);
+			var amountDecimal = parseFloat(payments.amount);
 			var balanceCollor = "";
         	invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
         	var dadosInvoice = " data-idInvoice='" + invoice.id + "'";

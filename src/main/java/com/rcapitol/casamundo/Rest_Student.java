@@ -378,7 +378,7 @@ public class Rest_Student {
 				try {
 					JSONObject jsonObject; 
 					jsonObject = (JSONObject) parser.parse(documento);
-				    Integer actualTrip = Integer.parseInt((String) jsonObject.get("actualTrip"));
+				    Integer actualTrip = Integer.valueOf(jsonObject.get("actualTrip").toString());
 					List trips = (List) jsonObject.get("trips");
 				    if (actualTrip != null){
 						int y = 0;
