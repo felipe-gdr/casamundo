@@ -95,7 +95,6 @@ public class Rest_Invoice {
 		
 		BasicDBObject doc = new BasicDBObject();
 		doc.putAll((Map) documento.get("documento"));
-		doc.put("number", numberInvoice());
 		BasicDBObject docInsert = new BasicDBObject();
 		docInsert.put("documento", doc);		
 		Response response = commons_db.IncluirCrud("invoice", docInsert);
@@ -674,6 +673,10 @@ public class Rest_Invoice {
 		return null;
 	};
 
+	@SuppressWarnings({ "rawtypes" })
+	@Path("/get/number")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 
 	public String numberInvoice(){
 		Mongo mongo;

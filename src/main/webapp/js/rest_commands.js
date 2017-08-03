@@ -1780,3 +1780,24 @@
     	
     	return payments;
     };
+
+    function rest_invoie_get_number() {
+    	var  number = "0/0000";
+    	$.ajax({
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/get/number",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    	})
+    	.fail(function(data, var1, var2) {
+    	})
+    	.always(function(data) {
+    		if (data.status == 200){
+    			number = data.responseText;
+    		};
+    	});
+    	
+    	return number;
+    };

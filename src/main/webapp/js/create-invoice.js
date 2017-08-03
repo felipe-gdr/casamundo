@@ -35,6 +35,7 @@
 		if (parameter[2]) {
 		    criaLinhaNote(0);
 			actualTrip = parameter[2].split("=")[1];
+			$('#number').html(rest_invoie_get_number());
 			rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
 		};
 	};
@@ -166,8 +167,11 @@
 	    var lineCount = 1;
 	    if (vAlign === 'middle' || vAlign === 'bottom' || hAlign === 'center' || hAlign === 'right') {
 	        splittedText = typeof text === 'string' ? text.split(splitRegex) : text;
-
-	        lineCount = splittedText.length || 1;
+	        if (splittedText){
+	        	lineCount = splittedText.length || 1;
+	        }else{
+	        	lineCount = 0;
+	        }
 	    };
 
 	    // Align the top
@@ -467,7 +471,8 @@ function criaInvoice(actualTrip){
 					itensNet : [],
 					itensGross : [],
 					installments : [],
-					notes : []					
+					notes : [],
+					number : $('#dueValue_0').html()
 				}
 			
 		};
@@ -699,7 +704,7 @@ function carregaTelaInvoice(data){
 
 	var actualTrip = data.documento.actualTrip;
 	
-	$('#number').html(data.number);
+	$('#number').html(data.documento.number);
 	
 	rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
 	
@@ -937,26 +942,7 @@ function carregaDadosTelaInvoice(data, actualTrip){
     $('#destination').html(data.documento.trips[actualTrip].destination);
     $('#contactFamilyName').html(data.documento.trips[actualTrip].contactFamilyName);
  
-    var daysTotal = calculaDias(separaConverteDataMes(data.documento.trips[actualTrip].start, "/"), separaConverteDataMes(data.documento.trips[actualTrip].end, "/"));
-    var weeks = Math.abs(Math.round(daysTotal / 7));
-    var days = daysTotal % 7;
-    var durationTrip = "";
-    var litDay = " nights";
-    if (days == 1){
-    	litDay = " night";
-    }
-    var litWeek = " weeks ";
-    if (weeks == 1){
-    	litWeek = " week ";
-    }
-    if (weeks > 0){
-    	durationTrip = weeks + litWeek;
-    };
-    if (days > 0){
-        durationTrip = durationTrip + days + litDay;
-    }else{
-    	durationTrip = durationTrip;
-    };
+    var durationTrip = intervaloDatas(data.documento.trips[actualTrip].start, data.documento.trips[actualTrip].end);
 
 	var mealPlanLiteral = "";
 	var literal = "";

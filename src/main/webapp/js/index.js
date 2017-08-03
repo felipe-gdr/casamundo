@@ -19,6 +19,14 @@
 			localStorage.mainHost = localStorage.urlServidor;
 		};
 
+		if (localStorage.urlServidor == "localhost"){
+			localStorage.mainHost = "www.yggboard.com";
+			localStorage.mainUrl = "http://localhost:8080/";
+		}else{
+			localStorage.mainHost = localStorage.urlServidor;
+			localStorage.mainUrl = "http://52.41.8.255:8080/";
+		};
+
 		// Validation
 		$("#login-form").validate({
 			// Rules for form validation
