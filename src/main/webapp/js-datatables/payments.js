@@ -108,7 +108,7 @@
     			overdue = "<br><span class='text-black label-danger'>Overdue</span>";
     		};
 			switch (payment.status) {
-	    	case "toapprove":
+	    	case "to approve":
     			statusCollor = "warning";
     			statusText = "to approve $";
 	            break;
@@ -187,7 +187,7 @@
 			var amountDecimal = parseFloat(payment.amount);
 			var balanceCollor = "";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
-		        if (payment.status == "toapprove"){
+		        if (payment.status == "to approve"){
 	        		actions = 
 		        		"<li data-process='approved' " + dadosPayment + " data-status='approved'><a href='#'>Approved</a></li>";
 		        };
@@ -214,8 +214,6 @@
 		        			balanceCollor = "label-warning";
 		        		};
 		        	};
-	        		actions = actions +
-        			'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        };
 		        if (payment.status == "paid"){
 		        	actions = 

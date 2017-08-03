@@ -631,7 +631,7 @@ public class Rest_Payment {
 	@Path("/excluiInstallment")	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response EcluiInstallment(JSONObject installment)  {
+	public Response ExcluiInstallment(JSONObject installment)  {
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -651,16 +651,22 @@ public class Rest_Payment {
 		    	ArrayList installments = new ArrayList(); 
 		    	installments = (ArrayList) objPayment.get("installments");
 		    	int z = 0;
+		    	float payment = 0;
 				while (z < installments.size()) {
 					BasicDBObject installmentSource = new BasicDBObject();
 					installmentSource = (BasicDBObject) installments.get(z);
 					if (!installmentSource.get("date").equals(installment.get("date"))){
 						installmentsNew.add(installmentSource);
+						payment = payment + Float.valueOf(installmentSource.get("value").toString());
 					};
 					++z;
 				};
-				objUpdate.put("documento.installments", installmentsNew);
-				objUpdate.put("documento.status", "approved");
+				if (payment == 0) {
+					objUpdate.put("documento.status", "approved");	
+				}else {
+					objUpdate.put("documento.status", "unpaid");
+				};
+				objUpdate.put("documento.installments", installmentsNew);			
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
 				BasicDBObject setQuery = new BasicDBObject("_id", paymentId);
 				cursor = collection.findAndModify(setQuery,

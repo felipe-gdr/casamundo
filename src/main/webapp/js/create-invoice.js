@@ -243,7 +243,7 @@
 	doc.setFontType("bold");
 	doc.setFontSize(10);
 	doc.setTextColor(0, 0, 0);
-	doc.textEx('0001/2016', 190, 55, 'right', 'middle');
+	doc.textEx($('#number').html(), 190, 55, 'right', 'middle');
 
 	doc.setFont("helvetica");
 	doc.setFontType("bold");
@@ -698,7 +698,9 @@ function carregaAppendPriceTable (data, i, type){
 function carregaTelaInvoice(data){
 
 	var actualTrip = data.documento.actualTrip;
-
+	
+	$('#number').html(data.number);
+	
 	rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
 	
 	$.each(data.documento.itensNet, function (i, item) {

@@ -100,10 +100,6 @@
             var genderCollor = genderCollorDef (invoice.gender);
             var durationTrip = intervaloDatas(invoice.trip.start, invoice.trip.end);
             var age = calculaIdade(separaConverteDataMes(invoice.student.birthDay, "/"));
-            var overdue = "";
-            if (!maiorDataHoje (invoice.dueDate)){
-    			overdue = "<br><span class='text-black label-danger'>Overdue</span>";
-    		};
 			switch (invoice.status) {
 	    	case "unpaid":
     			statusCollor = "warning";
@@ -159,6 +155,10 @@
 		        		'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        };
 	        };
+            var overdue = "";
+            if (!maiorDataHoje (invoice.dueDate) && invoice.status != "paid"){
+    			overdue = "<br><span class='text-black label-danger'>Overdue</span>";
+    		};
 			var paymentVisual = "";
 			if (balanceDecimalGeral > 0){
 				paymentVisual = 

@@ -328,7 +328,7 @@
         	//
 	        // *** checa status dos pagamentos
 	        //
-	        var payment = checkPayment(student.invoices);
+	        var payment = checkPayment(student._id);
 		    var paymentCollor = payment.collor;
 	        var paymentText = payment.text;
 
@@ -561,21 +561,19 @@ function obterFamily (objStudent, familyName){
 	
 };
 
-function checkPayment(invoices){
-	var payment =
-		{
-			collor : "info",
-			text : "new $"
-		};
+function checkPayment(studentId){
 	
+	var payment =
+	{
+		collor : "info",
+		text : "new $"
+	};
+	var invoices = rest_lista ("invoice", "documento.idStudent", studentId);
 	if (invoices){
-		$.each(invoices, function (i, invoice) {
-	    	
-			switch (invoice.status) {
+		for (var i = 0; i < invoices.length; i++) {
+			switch (invoices[i].documento.status) {
 	    	case "unpaid":
-	    		if (maiorDataHoje (invoice.dueDate)){
-	    			payment.collor = "warning";
-	    			payment.text = "unppaid $";
+	    		if (maiorDataHoje (invoices[i].documento.dueDate)){
 	    		}else{
 	    			payment.collor = "danger";
 	    			payment.text = "overdue $";    			
@@ -585,12 +583,20 @@ function checkPayment(invoices){
 				payment.collor = "success";
 				payment.text = "paid $";
 	            break;
+	        case "aprroved":
+				payment.collor = "info";
+				payment.text = "paid $";
+	            break;
+	        case "to approve":
+				payment.collor = "info";
+				payment.text = "paid $";
+	            break;
 	        default: 
 				payment.collor = "info";
 				payment.text = "new $";
 	        };	    		
-		});
-	};	
+		};
+	};
 	return payment;
 };
 
