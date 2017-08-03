@@ -2,16 +2,16 @@
 	//**    carrega dados url
 	//
 
-	var idPayment = 1; 
+	var paymentId = 1; 
 	var url   = window.location.search.replace();
 	var parametrosDaUrl = url.split("?")[1];
 	var parameter = parametrosDaUrl.split("&");
-	var idInvoice = "";
+	var invoiceId = "";
 	var typePage = "";
 	var mailUrl = "";
 	if (parameter[1]) {
 		var mailUrl = parametrosDaUrl.split("&")[0].split("=")[1];
-		var idInvoice = parametrosDaUrl.split("&")[1].split("=")[1];
+		var invoiceId = parametrosDaUrl.split("&")[1].split("=")[1];
 		var typePage = parametrosDaUrl.split("&")[2].split("=")[1];
 	};
 	
@@ -23,9 +23,9 @@
 	//***   ler dados invoice
 	//
 	if (typePage == "create"){
-		rest_obterInvoice(idInvoice, carregaTelaPaymentInclusao, semAcao, "cost");
+		rest_obterInvoice(invoiceId, carregaTelaPaymentInclusao, semAcao, "cost");
 	}else{
-		rest_obterPayment(idInvoice, carregaTelaPaymentAlteracao, semAcao, "cost");
+		rest_obterPayment(invoiceId, carregaTelaPaymentAlteracao, semAcao, "cost");
 	}
 	//
 /**
@@ -111,10 +111,10 @@ function criaPayment(i){
 		{
 			documento:
 				{
-					id : $('#itemIdPayment_' + i).val(),
+					id : $('#itempaymentId_' + i).val(),
 					idStudent : $('#itemIdStudent_' + i).val(),
 					idVendor : $('#itemIdVendor_' + i).val(),
-					idInvoice : $('#itemIdInvoice_' + i).val(),
+					invoiceId : $('#iteminvoiceId_' + i).val(),
 					invoiceNumber : $('#itemInvoiceNumber_' + i).val(),
 					actualTrip : $('#itemActualTrip_' + i).val(),
 					status : $('#status_' + i).val(),
@@ -188,8 +188,8 @@ function createItem(i, date, agency, destination, type){
 						'<option value="" selected="" disabled="disabled">Choose one item</option>' +
 					'</select><i></i>' +
 				'</label>' +
-				'<input class="hide" type="text" id="itemIdInvoice_' + i + '" name="itemIdInvoice_' + i + '"  >' +
-				'<input class="hide" type="text" id="itemIdPayment_' + i + '" name="itemIdPayment_' + i + '"  >' +
+				'<input class="hide" type="text" id="iteminvoiceId_' + i + '" name="iteminvoiceId_' + i + '"  >' +
+				'<input class="hide" type="text" id="itempaymentId_' + i + '" name="itempaymentId_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemInvoiceNumber_' + i + '" name="itemInvoiceNumber_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemIdStudent_' + i + '" name="itemIdStudent_' + i + '"  >' +
 				'<input class="hide" type="text" id="itemActualTrip_' + i + '" name="itemActualTrip_' + i + '"  >' +
@@ -289,8 +289,8 @@ function carregaTelaPaymentInclusao(data){
 		var actualTrip = item.actualTrip;
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
 		$('#itemId_' + i).val(item.item);
-		$('#itemIdPayment_' + i).val("");
-		$('#itemIdInvoice_' + i).val(item.idInvoice);
+		$('#itempaymentId_' + i).val("");
+		$('#iteminvoiceId_' + i).val(item.invoiceId);
 		$('#itemInvoiceNumber_' + i).val(item.invoiceNumber);
 		$('#itemIdStudent_' + i).val(item.idStudent);
 		$('#itemActualTrip_' + i).val(item.actualTrip);
@@ -327,8 +327,8 @@ function carregaTelaPaymentAlteracao(data){
 	$.each(data.documento.itens, function (i, item) {
 		createItem(i, data.student.trips[actualTrip].start, data.student.trips[actualTrip].agencyName, data.student.trips[actualTrip].destination);
 		$('#itemId_' + i).val(item.item);
-		$('#itemIdPayment_' + i).val(data.documento.id);
-		$('#itemIdInvoice_' + i).val(data.documento.idInvoice);
+		$('#itempaymentId_' + i).val(data.documento.id);
+		$('#iteminvoiceId_' + i).val(data.documento.invoiceId);
 		$('#itemInvoiceNumber_' + i).val(data.documento.invoiceNumber);
 		$('#itemIdStudent_' + i).val(data.documento.idStudent);
 		$('#itemActualTrip_' + i).val(actualTrip);

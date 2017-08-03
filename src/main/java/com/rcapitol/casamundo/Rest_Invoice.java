@@ -87,18 +87,22 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirInvoice(JSONObject documento) throws UnknownHostException, MongoException  {
+	public Response IncluirInvoice(BasicDBObject documento) throws UnknownHostException, MongoException  {
 		
-		documento.put("number", numberInvoice());
-		Response response = commons_db.IncluirCrud("invoice", documento);
+		BasicDBObject doc = new BasicDBObject();
+		doc.putAll((Map) documento.get("documento"));
+		doc.put("number", numberInvoice());
+		BasicDBObject docInsert = new BasicDBObject();
+		docInsert.put("documento", doc);		
+		Response response = commons_db.IncluirCrud("invoice", docInsert);
 		if (response.getStatus() == 200) {
-			BasicDBObject doc = new BasicDBObject();
-			doc.putAll((Map) response.getEntity());
-			ObjectId idObj = new ObjectId(doc.getString("_id"));
+			BasicDBObject docInserted = new BasicDBObject();
+			docInserted.putAll((Map) response.getEntity());
+			ObjectId idObj = new ObjectId(docInserted.getString("_id"));
 			criarCosts(idObj, null, null);
 		};
 		return response;
@@ -164,6 +168,7 @@ public class Rest_Invoice {
 					jsonDocumento.put("amountGross", jsonObject.get("amountGross"));
 					jsonDocumento.put("itensNet", jsonObject.get("itensNet"));
 					jsonDocumento.put("itensGross", jsonObject.get("itensGross"));
+					jsonDocumento.put("installments", jsonObject.get("installments"));
 					jsonDocumento.put("notes", jsonObject.get("notes"));
 					//
 					//** ler student
@@ -315,7 +320,7 @@ public class Rest_Invoice {
 		while (w < listItens.size()) {
 			BasicDBObject itemInvoice = (BasicDBObject) listItens.get(w);
 			JSONObject itemCost = new JSONObject();
-			itemCost.put("idInvoice", objInvoice.get("id"));
+			itemCost.put("invoiceId", objInvoice.get("id"));
 			itemCost.put("invoiceNumber", objInvoice.get("number"));
 			itemCost.put("idStudent", objStudent.get("id"));
 			itemCost.put("actualTrip", objInvoice.get("actualTrip"));
@@ -460,8 +465,8 @@ public class Rest_Invoice {
 			};
 			DBObject cursor = collection.findOne(setQuery);
 			BasicDBObject objInvoice = (BasicDBObject) cursor.get("documento");
-			ObjectId idInvoice = (ObjectId) cursor.get("_id");
-			String idInvoiceString = idInvoice.toString();
+			ObjectId invoiceId = (ObjectId) cursor.get("_id");
+			String invoiceIdString = invoiceId.toString();
 			//
 			//** deletar payments da invoice
 			//
@@ -470,7 +475,7 @@ public class Rest_Invoice {
 			DB dbPayment = (DB) mongoPayment.getDB("documento");
 			DBCollection collectionPayment = dbPayment.getCollection("payment");
 			BasicDBObject queryDelete = new BasicDBObject();
-			queryDelete.put("documento.idInvoice", idInvoiceString);
+			queryDelete.put("documento.invoiceId", invoiceIdString);
 			collectionPayment.remove(queryDelete);
 			//** ler student
 			//
@@ -490,10 +495,10 @@ public class Rest_Invoice {
 			    JSONObject dadosCost = obterDadosCosts (itemCost, objStudent, objInvoice, itemInvoice);
 				itemCost.put("id", "1");
 				itemCost.put("idStudent", idstudentString);
-				itemCost.put("idInvoice", idInvoiceString);
+				itemCost.put("invoiceId", invoiceIdString);
 				itemCost.put("invoiceNumber", objInvoice.get("number"));
 				itemCost.put("actualTrip", objInvoice.get("actualTrip"));
-				itemCost.put("status", "unpaid");
+				itemCost.put("status", "to approve");
 				itemCost.put("number", payment.numberPayment());
 				if (dadosCost.get("date") != null){
 					itemCost.put("dueDate", commons.calcNewDate((String) dadosCost.get("date"), 6));
@@ -638,9 +643,9 @@ public class Rest_Invoice {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			BasicDBObject objInvoice = new BasicDBObject();
-			ObjectId idInvoice = new ObjectId((String) param.get("idInvoice"));
+			ObjectId invoiceId = new ObjectId((String) param.get("invoiceId"));
 			DBCollection collection = db.getCollection("invoice");
-			BasicDBObject searchQuery = new BasicDBObject("_id", idInvoice);
+			BasicDBObject searchQuery = new BasicDBObject("_id", invoiceId);
 			DBObject cursor = collection.findOne(searchQuery);
 			if (cursor != null){
 				objInvoice = (BasicDBObject) cursor.get("documento");
@@ -651,7 +656,7 @@ public class Rest_Invoice {
 			BasicDBObject objUpdate = new BasicDBObject();
 			objUpdate.put("documento.status", param.get("status"));
 			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-			BasicDBObject setQuery = new BasicDBObject("_id", idInvoice);
+			BasicDBObject setQuery = new BasicDBObject("_id", invoiceId);
 			cursor = collection.findAndModify(setQuery,
 	                null,
 	                null,
@@ -740,6 +745,7 @@ public class Rest_Invoice {
 			DBCursor cursor = collection.find(setQuery);
 			float amount = 0;
 			float payment = 0;
+			float credit = 0;
 			JSONArray installments = new JSONArray();
 			JSONArray invoices = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {
@@ -749,7 +755,12 @@ public class Rest_Invoice {
 				ArrayList<BasicDBObject> objInstallments = (ArrayList<BasicDBObject>) doc.get("installments");
 				if (objInstallments != null) {
 					for (int i = 0; i < objInstallments.size(); i++) {
-						payment = payment + Float.valueOf(objInstallments.get(i).get("value").toString()).longValue();
+						if (objInstallments.get(i).get("type").toString().equals("Use Credit")) {
+							payment = payment + Float.valueOf(objInstallments.get(i).get("value").toString()).longValue();
+						};
+						if (objInstallments.get(i).get("type").toString().equals("Credit")) {
+							credit = credit + Float.valueOf(objInstallments.get(i).get("value").toString()).longValue();
+						};
 					};
 					installments.add(objInstallments);
 				};
@@ -770,7 +781,7 @@ public class Rest_Invoice {
 			JSONObject jsonReturn = new JSONObject();
 			jsonReturn.put("amount", String.valueOf(amount));
 			jsonReturn.put("payment", String.valueOf(payment));
-			jsonReturn.put("balance", String.valueOf(amount - payment));
+			jsonReturn.put("balance", String.valueOf(credit - payment));
 			jsonReturn.put("installments", installments);
 			jsonReturn.put("invoices", invoices);
 			
@@ -783,7 +794,109 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
-	
+
+	@SuppressWarnings({"unchecked", "rawtypes" })
+	@Path("/incluiInstallment")	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response IncluiInstallment(JSONObject installment)  {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject objPayment = new BasicDBObject();
+			ObjectId invoiceId = new ObjectId((String) installment.get("id"));
+			DBCollection collection = db.getCollection("invoice");
+			BasicDBObject searchQuery = new BasicDBObject("_id", invoiceId);
+			DBObject cursor = collection.findOne(searchQuery);
+			BasicDBObject objUpdate = new BasicDBObject();
+			if (cursor != null){
+				objPayment = (BasicDBObject) cursor.get("documento");
+				//
+				// ** inclui installment
+				//
+				BasicDBObject installmentObj = new BasicDBObject();
+				installmentObj.put("value", installment.get("value"));
+				installmentObj.put("type", installment.get("type"));
+				installmentObj.put("date", installment.get("date"));
+		    	ArrayList installments = new ArrayList(); 
+		    	installments = (ArrayList) objPayment.get("installments");
+				installments.add(installmentObj);
+				objUpdate.put("documento.installments", installments);
+				objUpdate.put("documento.status", installment.get("status"));
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+				BasicDBObject setQuery = new BasicDBObject("_id", invoiceId);
+				cursor = collection.findAndModify(setQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+			};
+			mongo.close();
+			return Response.status(200).entity(objUpdate).build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
+	@SuppressWarnings({"unchecked", "rawtypes" })
+	@Path("/excluiInstallment")	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response ExcluiInstallment(JSONObject installment)  {
+		Mongo mongo;
+		try {
+			mongo = new Mongo();
+			DB db = (DB) mongo.getDB("documento");
+			BasicDBObject objPayment = new BasicDBObject();
+			ObjectId invoiceId = new ObjectId((String) installment.get("id"));
+			DBCollection collection = db.getCollection("invoice");
+			BasicDBObject searchQuery = new BasicDBObject("_id", invoiceId);
+			DBObject cursor = collection.findOne(searchQuery);
+			BasicDBObject objUpdate = new BasicDBObject();
+			if (cursor != null){
+				objPayment = (BasicDBObject) cursor.get("documento");
+				//
+				// ** inclui installment
+				//
+		    	ArrayList installmentsNew = new ArrayList(); 
+		    	ArrayList installments = new ArrayList(); 
+		    	installments = (ArrayList) objPayment.get("installments");
+		    	int z = 0;
+				while (z < installments.size()) {
+					BasicDBObject installmentSource = new BasicDBObject();
+					installmentSource = (BasicDBObject) installments.get(z);
+					if (!installmentSource.get("date").equals(installment.get("date"))){
+						installmentsNew.add(installmentSource);
+					};
+					++z;
+				};
+				objUpdate.put("documento.installments", installmentsNew);
+				objUpdate.put("documento.status", "unpaid");
+				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
+				BasicDBObject setQuery = new BasicDBObject("_id", invoiceId);
+				cursor = collection.findAndModify(setQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+			};
+			mongo.close();
+			return Response.status(200).entity(objUpdate).build();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (MongoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
 };
 
 

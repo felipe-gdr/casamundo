@@ -34,7 +34,7 @@ public class Payment {
 		public String id;
 		public String idStudent;
 		public String idVendor;
-		public String idInvoice;
+		public String invoiceId;
 		public String invoiceNumber;
 		public String actualTrip;
 		public String status;
@@ -55,7 +55,7 @@ public class Payment {
 						String id,
 						String idStudent,
 						String idVendor,
-						String idInvoice,
+						String invoiceId,
 						String invoiceNumber,
 						String actualTrip,
 						String status,
@@ -71,7 +71,7 @@ public class Payment {
 						this.id = id; 
 						this.idStudent = idStudent;
 						this.idVendor = idVendor;
-						this.idInvoice = idInvoice;
+						this.invoiceId = invoiceId;
 						this.invoiceNumber = invoiceNumber;
 						this.actualTrip = actualTrip;
 						this.status = status;

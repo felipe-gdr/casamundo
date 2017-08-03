@@ -2,7 +2,7 @@
 	/**
 	 * 		setup dos input do form
 	 */
-	var $tablesForm = $("#paymentModal-form").validate({
+	var $tablesForm = $("#invoiceModal-form").validate({
 		// Rules for form validation
 		rules : {
 			paymentValue : {
@@ -30,32 +30,42 @@
 		},
 		// form submition
 		submitHandler : function(form) {
-			var a = parseFloat($("#paymentValue").val());
-			var b = parseFloat($("#paymentBalance").html());
-			if (parseFloat($("#paymentValue").val()) > parseFloat($("#paymentBalance").html())){
+			var status = "unpaid";
+			if (parseFloat($("#paymentValue").val()) == parseFloat($("#paymentBalance").html())){
+				status = "paid";
+			};
+			var installment = {
+				id : $("#invoiceId").val(),
+				value : $("#paymentValue").val(),
+				type : $("#paymentType").val(),
+				date : limpaData($("#paymentDate").val()),
+				status : status
+			};
+			var installmentOk = true;
+			var message = "";
+			if ($("#paymentType").val() != "Credit"){
+				if (parseFloat($("#paymentValue").val()) > parseFloat($("#paymentBalance").html())){
+					installmentOk = false;
+					message = "No balance for this value";
+				}else{
+					if ($("#paymentType").val() == "Use Credit"){
+						if (parseFloat($("#paymentValue").val()) > parseFloat($("#paymentBalanceGeral").html())){
+							installmentOk = false;
+							message = "No credit for this value";
+						};
+					};
+				};
+			};
+			if (installmentOk){
+				rest_incluiInstallmentInvoice(installment, fechaModalInstallment, semAcao, "", "", "invoices.html");
+			}else{
 				$.smallBox({
 					title : "Error",
-					content : "<i class='fa fa-clock-o'></i> <i>No balance for this value</i>",
+					content : "<i class='fa fa-clock-o'></i> <i>" + message + "</i>",
 					color : "#ff8080",
 					iconSmall : "fa fa-check fa-2x fadeInRight animated",
 					timeout : 4000
 				});
-			}else{
-				var status = "approved";
-				if (parseFloat($("#paymentValue").val()) == parseFloat($("#paymentBalance").html())){
-					status = "paid";
-				}else{
-					status = "unpaid";
-				};
-				var installment =
-					{
-						id : $("#paymentId").val(),
-						value : $("#paymentValue").val(),
-						type :$("#paymentType").val(),
-						date : limpaData($("#paymentDate").val()),
-						status : status
-					};
-				rest_incluiInstallment(installment, fechaModalInstallment, semAcao, "", "", "payments.html");
 			};
 		},	
 		// Do not change code below

@@ -73,3 +73,4 @@
 		rest_obterInvoicesAll(carregaLocalStorageInvoices, semAcao, localStorage.usuarioCity, filters, "true");
 
 	});	
+

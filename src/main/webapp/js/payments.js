@@ -73,3 +73,5 @@
 		rest_obterPaymentsAll(carregaLocalStoragePayments, semAcao, localStorage.usuarioCity, filters, "true");
 
 	});	
+
+	

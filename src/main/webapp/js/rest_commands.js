@@ -1089,6 +1089,48 @@
         	};
        	});
     };
+    
+    function rest_excluiInstallmentInvoice(objJson, action_ok, action_notOk, messageOk, messageNotOk) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/excluiInstallment",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (messageOk);
+        	}else{
+        		actio_not_ok(messageNotOk)
+        	};
+       	});
+    };
+    
+    function rest_incluiInstallmentInvoice(objJson, action_ok, action_notOk, messageOk, messageNotOk, var1) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/incluiInstallment",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson)
+		})
+	  	.done(function( data ) {
+	  	})
+        .fail(function(data) {
+        })
+       	.always(function(data) {
+        	if (data.status = 200) {
+        		action_ok (var1);
+        	}else{
+        		actio_not_ok(messageNotOk)
+        	};
+       	});
+    };
 
     //
     //**** Payment

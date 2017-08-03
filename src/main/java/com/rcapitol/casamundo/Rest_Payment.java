@@ -320,7 +320,7 @@ public class Rest_Payment {
 						//** dados invoice
 						//
 						List listItens = (List) jsonObject.get("itens");
-						jsonDocumento.put("invoice", carregaDadosInvoice(jsonObject.get("idInvoice"), listItens, objStudent));
+						jsonDocumento.put("invoice", carregaDadosInvoice(jsonObject.get("invoiceId"), listItens, objStudent));
 	
 						Boolean filter_ok = checkFilters (filters, jsonDocumento, vendorName, null);
 						if (filter_ok){
@@ -343,15 +343,15 @@ public class Rest_Payment {
 	};
 	
 	@SuppressWarnings("rawtypes")
-	private BasicDBObject carregaDadosInvoice(Object idInvoice, List listItensPayment, BasicDBObject objStudent) {
-		String idInvoiceString = (String) idInvoice;
-		ObjectId invoiceId = new ObjectId(idInvoiceString);
+	private BasicDBObject carregaDadosInvoice(Object invoiceId, List listItensPayment, BasicDBObject objStudent) {
+		String invoiceIdString = (String) invoiceId;
+		ObjectId invoiceIdObj = new ObjectId(invoiceIdString);
 		Mongo mongoInvoice;
 		try {
 			mongoInvoice = new Mongo();
 			DB dbInvoice = (DB) mongoInvoice.getDB("documento");
 			DBCollection collectionInvoice = dbInvoice.getCollection("invoice");
-			BasicDBObject searchQueryInvoice = new BasicDBObject("_id", invoiceId);
+			BasicDBObject searchQueryInvoice = new BasicDBObject("_id", invoiceIdObj);
 			DBObject cursorInvoice = collectionInvoice.findOne(searchQueryInvoice);
 			//
 			//*** json de saida
@@ -547,9 +547,9 @@ public class Rest_Payment {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			BasicDBObject objPayment = new BasicDBObject();
-			ObjectId idPayment = new ObjectId((String) param.get("idPayment"));
+			ObjectId paymentId = new ObjectId((String) param.get("paymentId"));
 			DBCollection collection = db.getCollection("payment");
-			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
+			BasicDBObject searchQuery = new BasicDBObject("_id", paymentId);
 			DBObject cursor = collection.findOne(searchQuery);
 			BasicDBObject objUpdate = new BasicDBObject();
 			if (cursor != null){
@@ -559,7 +559,7 @@ public class Rest_Payment {
 				//
 				objUpdate.put("documento.status", param.get("status"));
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
+				BasicDBObject setQuery = new BasicDBObject("_id", paymentId);
 				cursor = collection.findAndModify(setQuery,
 		                null,
 		                null,
@@ -588,9 +588,9 @@ public class Rest_Payment {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			BasicDBObject objPayment = new BasicDBObject();
-			ObjectId idPayment = new ObjectId((String) installment.get("id"));
+			ObjectId paymentId = new ObjectId((String) installment.get("id"));
 			DBCollection collection = db.getCollection("payment");
-			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
+			BasicDBObject searchQuery = new BasicDBObject("_id", paymentId);
 			DBObject cursor = collection.findOne(searchQuery);
 			BasicDBObject objUpdate = new BasicDBObject();
 			if (cursor != null){
@@ -608,7 +608,7 @@ public class Rest_Payment {
 				objUpdate.put("documento.installments", installments);
 				objUpdate.put("documento.status", installment.get("status"));
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
+				BasicDBObject setQuery = new BasicDBObject("_id", paymentId);
 				cursor = collection.findAndModify(setQuery,
 		                null,
 		                null,
@@ -637,9 +637,9 @@ public class Rest_Payment {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			BasicDBObject objPayment = new BasicDBObject();
-			ObjectId idPayment = new ObjectId((String) installment.get("id"));
+			ObjectId paymentId = new ObjectId((String) installment.get("id"));
 			DBCollection collection = db.getCollection("payment");
-			BasicDBObject searchQuery = new BasicDBObject("_id", idPayment);
+			BasicDBObject searchQuery = new BasicDBObject("_id", paymentId);
 			DBObject cursor = collection.findOne(searchQuery);
 			BasicDBObject objUpdate = new BasicDBObject();
 			if (cursor != null){
@@ -662,7 +662,7 @@ public class Rest_Payment {
 				objUpdate.put("documento.installments", installmentsNew);
 				objUpdate.put("documento.status", "approved");
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-				BasicDBObject setQuery = new BasicDBObject("_id", idPayment);
+				BasicDBObject setQuery = new BasicDBObject("_id", paymentId);
 				cursor = collection.findAndModify(setQuery,
 		                null,
 		                null,

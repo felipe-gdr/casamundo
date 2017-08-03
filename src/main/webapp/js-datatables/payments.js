@@ -108,8 +108,12 @@
     			overdue = "<br><span class='text-black label-danger'>Overdue</span>";
     		};
 			switch (payment.status) {
-	    	case "unpaid":
+	    	case "toapprove":
     			statusCollor = "warning";
+    			statusText = "to approve $";
+	            break;
+	    	case "unpaid":
+    			statusCollor = "";
     			statusText = "unppaid $";
 	            break;
 	        case "paid":
@@ -176,16 +180,29 @@
 	        var typePage = "payments";
 	        var balance = calcBalance (payment); 
 	        	parseFloat(payment.amount)
-        	var dadosPayment = " data-idPayment= '" + payment.id + "'" +
+        	var dadosPayment = " data-paymentId= '" + payment.id + "'" +
         					   " data-amount= '" + payment.amount + "'" +
         					   " data-balance= '" + balance + "'";
 			var balanceDecimal = parseFloat(balance);
 			var amountDecimal = parseFloat(payment.amount);
 			var balanceCollor = "";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
-		        if (payment.status == "unpaid"){
-		        	actions = 
+		        if (payment.status == "toapprove"){
+	        		actions = 
 		        		"<li data-process='approved' " + dadosPayment + " data-status='approved'><a href='#'>Approved</a></li>";
+		        };
+		        if (payment.status == "unpaid"){
+	        		actions = "";
+		        	if (balanceDecimal != 0){
+		        		actions = actions +
+		        		'<li data-process="pay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#paymentModal">Pay</a></li>';
+		        	};
+		        	if (balanceDecimal != amountDecimal){
+		        		actions = actions +
+	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>';
+		        	};
+	        		actions = actions +
+		        		'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        };
 		        if (payment.status == "approved"){
 		        	actions = 
@@ -222,10 +239,6 @@
 			    	notes = notes + note.note + "<br>";
 			    });	        	
 	        };
-	        //
-	        // monta installments
-	        //
-	        montaInstallmentDelete(payment.installments, payment.id);
 	       	
             payment_table.row.add( {
     	    	"vendor":
@@ -300,7 +313,7 @@
 	    			if ($(this).attr('data-process') == "approved") {
 	    				var param  = 
 	    				{
-	    					idPayment : $(this).attr('data-idPayment'),
+	    					paymentId : $(this).attr('data-paymentId'),
 	    					status : $(this).attr('data-status')
 	    				};	 
 	    				localStorage.nextWindow = "payments.html"
@@ -308,12 +321,23 @@
 	    			};
 	    			if ($(this).attr('data-process') == "pay") {
 	    				var balance = parseFloat($(this).attr('data-balance'));
-    					$("#paymentId").val($(this).attr('data-idPayment'));
+    					$("#paymentId").val($(this).attr('data-paymentId'));
     					$("#paymentBalance").html(balance.toFixed(2));
 	    			};
-	    			$(".delItem").addClass("hide");
-	    			if ($(this).attr('data-process') == "unpay") {
-	    				$(".delItem").removeClass("hide");
+	    			if ($(this).attr('data-process') == "unpay" || $(this).attr('data-process') == "consult") {
+	    				var payment = rest_obter("payment", "_id", $(this).attr('data-paymentId'));
+	    		        //
+	    		        // monta installments
+	    		        //
+	    				if (payment){
+	    					$(".installmentItem").remove();
+	    					montaInstallmentDelete(payment.documento.installments, $(this).attr('data-paymentId'));
+	    	    			if ($(this).attr('data-process') == "consult") {
+	    	    				$(".delItem").addClass("hide");
+	    	    			}else{
+	        					$(".delItem").removeClass("hide");	    				
+	    	    			};
+	    				};
 	    			};
 	    		});
             }
@@ -331,3 +355,16 @@
         } );
         /* end trip list */   
 };
+
+function calcBalance (payment){
+	var balance = parseFloat(payment.amount);
+	
+    if (payment.installments){
+		$.each(payment.installments, function (i, installment) {
+	    	balance = balance - parseFloat(installment.value);
+	    });
+    };
+    
+    return balance;
+};
+

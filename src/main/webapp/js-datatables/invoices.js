@@ -125,29 +125,33 @@
 	        var familyName = "";
 	        var typePage = "accommodation";
 	        var payments = rest_payments_agency (invoice.agencyId);
-	        var balance = calcBalance (payments.installments); 
-	        parseFloat(payments.amount);
-
-	        var dadosPayment = " data-amount= '" + payments.amount + "'" +
-	    					   " data-balance= '" + balance + "'";
-			var balanceDecimal = parseFloat(balance);
-			var amountDecimal = parseFloat(payments.amount);
+	        var balanceGeral = payments.balance; 
+			var balanceDecimalGeral = parseFloat(balanceGeral);
 			var balanceCollor = "";
-        	invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
-        	var dadosInvoice = " data-idInvoice='" + invoice.id + "'";
+			var balanceCollorGeral = "";
+			var balance = calcBalance (invoice);
+			var balanceDecimal = parseFloat(balance);
+			var amountDecimal = parseFloat(invoice.amountNet);
+	        var dadosPayment = 	" data-invoiceId= '" + invoice.id + "'" +
+	        					" data-agencyName= '" + invoice.agencyName + "'" +
+	        					" data-amount= '" + invoice.amountNet + "'" +
+	        					" data-balance= '" + balanceDecimal + "'" + 
+	        					" data-balanceGeral= '" + balanceDecimalGeral + "'" +
+								" data-installments= '" + invoice.installments + "'";
+			invoices = "<li><a href='create-invoice.html?mail=" + invoice.mail + "&typePage=create'>Create invoice</a></li>";
+        	var dadosInvoice = " data-invoiceId='" + invoice.id + "'";
 	        if (localStorage.usuarioPerfil == "caretaker" || localStorage.usuarioPerfil == "administrator" || localStorage.usuarioPerfil == "tools"){
 		        if (invoice.status == "unpaid"){
 		        	actions = 
 		        		'<li data-process="pay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#invoiceModal">Pay</a></li>';		        	
 		        	if (balanceDecimal != amountDecimal){
 		        		actions = actions +
-	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>';
-		        		if (balanceDecimal != 0){
-		        			balanceCollor = "label-warning";
-		        		};
+	        			'<li data-process="unpay" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Unpay</a></li>' +
+	        			'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        	};
-	        		actions = actions +
-        			'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
+	        		if (balanceDecimal != 0){
+	        			balanceCollor = "label-warning";
+	        		};
 		        };
 		        if (invoice.status == "paid"){
 		        	actions = 
@@ -155,6 +159,15 @@
 		        		'<li data-process="consult" ' + dadosPayment + '"><a data-toggle="modal" data-target="#installmentsModal">Consult</a></li>';
 		        };
 	        };
+			var paymentVisual = "";
+			if (balanceDecimalGeral > 0){
+				paymentVisual = 
+					"<small class='text-muted text-column label-warning'>Credit: " + balanceDecimalGeral.toFixed(2) + "</small><br>" +
+					"<small class='text-muted text-column " + balanceCollor + "'>Balance: " + balanceDecimal.toFixed(2) + "</small><br>";
+			}else{
+				paymentVisual =
+    			"<small class='text-muted text-column " + balanceCollor + "'>Balance: " + balanceDecimal.toFixed(2) + "</small><br>";				
+			};
 		    var pickupCollor = "success";
 	        if (invoice.trip.pickup == "Yes"){
 	        	pickupCollor = "danger";
@@ -169,7 +182,8 @@
 			    	notes = notes + note.note + "<br>";
 			    });	        	
 	        };
-            invoice_table.row.add( {
+
+	        invoice_table.row.add( {
     	    	"student": 
     	    			"<a href='create-invoice.html?id=" + invoice.student.mail + "&typePage=change&id=" + invoice.id + "'>" +
     	    			"<span class='text-column'>" + invoice.student.firstName +  " " + invoice.student.lastName + "</span><br>" + 
@@ -194,7 +208,8 @@
     	    			"<small class='text-muted text-column'>Amount: " + invoice.amountNet + "</small><br>" +
     	    			"<small class='text-muted text-column'>Due date: " + separaDataMes(invoice.dueDate,"-") + "</small><br>",
     	    	"customer":
-   	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + invoice.agencySigla + "</small><br>",
+   	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + invoice.agencySigla + "</small><br>" +
+   	    				paymentVisual,
        	    	"comments":"<small class='text-muted text-column'>" + notes + "</small>",
                 'actions': 
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' +
@@ -225,23 +240,43 @@
             	};
             	$("#listInvoice li").off('click');
 	    		$("#listInvoice li").on('click',function(){
-	    			if ($(this).attr('data-process') == "paidCard" |
-	    					$(this).attr('data-process') == "paidCash" |
-	    					$(this).attr('data-process') == "paidBank" |
-	    					$(this).attr('data-process') == "unpaid") 
-	    				{
+	    			if ($(this).attr('data-process') == "approved") {
 	    				var param  = 
 	    				{
-	    					idInvoice : $(this).attr('data-idInvoice'),
+	    					paymentId : $(this).attr('data-invoiceId'),
 	    					status : $(this).attr('data-status')
 	    				};	 
 	    				localStorage.nextWindow = "invoices.html"
 	    				rest_changeStatusInvoice(param, atualizacaoEfetuada, semAcao, "Invoice updated", "problems to update invoice, try again");
 	    			};
+    				var balance = parseFloat($(this).attr('data-balance'));
+    				var balanceGeral = parseFloat($(this).attr('data-balanceGeral'));
+					$("#invoiceId").val($(this).attr('data-invoiceId'));
+					$("#invoiceAmount").val($(this).attr('data-amount'));
+					$("#paymentBalance").html(balance.toFixed(2));
+					$("#paymentBalanceGeral").html(balanceGeral.toFixed(2));
+					$("#agencyName").html($(this).attr('data-agencyName'));
 	    			if ($(this).attr('data-process') == "pay") {
-	    				var balance = parseFloat($(this).attr('data-balance'));
-    					$("#invoiceId").val($(this).attr('data-idInvoice'));
-    					$("#invoiceBalance").html(balance.toFixed(2));
+    					if (balanceGeral > 0){
+    						$(".credit").removeClass("hide");
+    					}else{
+    						$(".credit").addClass("hide");
+    					};
+	    			};
+	    			if ($(this).attr('data-process') == "unpay" || $(this).attr('data-process') == "consult") {
+	    				var invoice = rest_obter("invoice", "_id", $(this).attr('data-invoiceId'));
+	    		        //
+	    		        // monta installments
+	    		        //
+	    				if (invoice){
+	    					$(".installmentItem").remove();
+	    					montaInstallmentDelete(invoice.documento.installments, $(this).attr('data-invoiceId'));
+	    	    			if ($(this).attr('data-process') == "consult") {
+	    	    				$(".delItem").addClass("hide");
+	    	    			}else{
+	        					$(".delItem").removeClass("hide");	    				
+	    	    			};
+	    				};
 	    			};
 	    		});
             };
@@ -249,8 +284,7 @@
 
         // Apply the filter
         $("#invoices_list thead th input[type=text]").off( 'keyup change');
-        $("#invoices_list thead th input[type=text]").on( 'keyup change', function () {
-        	
+        $("#invoices_list thead th input[type=text]").on( 'keyup change', function () {        	
         	invoice_table
                 .column( $(this).parent().index()+':visible' )
                 .search( this.value )
@@ -259,3 +293,18 @@
         } );
         /* end trip list */   
 };
+
+function calcBalance (invoice){
+	var balance = parseFloat(invoice.amountNet);
+	
+    if (invoice.installments){
+		$.each(invoice.installments, function (i, installment) {
+			if (installment.type != "Credit"){
+				balance = balance - parseFloat(installment.value);
+			};
+	    });
+    };
+    
+    return balance;
+};
+

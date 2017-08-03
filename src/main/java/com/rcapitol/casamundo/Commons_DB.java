@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 import org.bson.BasicBSONObject;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -55,20 +54,18 @@ public class Commons_DB {
 		}
 	};
 
-	@SuppressWarnings("unchecked")
-	public Response IncluirCrud(String collectionName, JSONObject documento) throws UnknownHostException, MongoException {
+	public Response IncluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
 		Mongo mongo;		
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		DBObject insert = new BasicDBObject(documento);
+		DBObject insert = new BasicDBObject(doc);
 		collection.insert(insert);
-		documento.put("_id", insert.get( "_id" ).toString());
+		doc.put("_id", insert.get( "_id" ).toString());
 		mongo.close();
-		return Response.status(200).entity(documento).build();
+		return Response.status(200).entity(doc).build();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Response AtualizarCrud(String collectionName, BasicDBObject documento, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
