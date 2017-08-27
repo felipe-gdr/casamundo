@@ -1041,7 +1041,7 @@
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load photo ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-photo01" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-photo01" type="file" name="uploadedFile" accept=".jpg" class="imgUpload"> 
 															<input class="hide" type="text" id="photo01" name="photo01" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
@@ -1061,7 +1061,7 @@
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load photo ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-photo02" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-photo02" type="file" name="uploadedFile" accept=".jpg" class="imgUpload"> 
 															<input class="hide" type="text" id="photo02" name="photo02" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
@@ -1081,7 +1081,7 @@
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load photo ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-photo03" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-photo03" type="file" name="uploadedFile" accept=".jpg" class="imgUpload"> 
 															<input class="hide" type="text" id="photo03" name="photo03" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
@@ -1101,7 +1101,7 @@
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load photo ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-photo04" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-photo04" type="file" name="uploadedFile" accept=".jpg" class="imgUpload"> 
 															<input class="hide" type="text" id="photo04" name="photo04" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
@@ -1121,7 +1121,7 @@
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load photo ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-photo05" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-photo05" type="file" name="uploadedFile" accept=".jpg" class="imgUpload"> 
 															<input class="hide" type="text" id="photo05" name="photo05" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
@@ -1141,7 +1141,7 @@
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load photo ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-photo06" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-photo06" type="file" name="uploadedFile" accept=".jpg" class="imgUpload"> 
 															<input class="hide" type="text" id="photo06" name="photo06" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
@@ -1165,28 +1165,27 @@
 											</div>
 											<br>																		
 											<div class="row">
-												<section class="col-xs-2">
+												<section class="col-xs-6">
 													    <br> 
 														<!-- The fileinput-button span is used to style the file input field as button --> 
 													    <span class="btn btn-success fileinput-button "> 
 													        <i class="glyphicon glyphicon-plus"></i> 
 													        <span> Load contract ...</span> 
 													        <!-- The file input field used as target for the file upload widget --> 
-													        <input id="upload-img-uploadContract" type="file" name="uploadedFile" class="imgUpload"> 
+													        <input id="upload-img-uploadContract" type="file" accept= ".pdf" name="uploadedFile" class="imgUpload"> 
 															<input class="hide" type="text" id="uploadContract" name="uploadContract" placeholder="" disabled="disabled">
 													    </span> 
 													    <br> 
 													    <!-- The global progress bar --> 
-													   <div id="progress-uploadContract" class="progress col-xs-04""> 
+													   <div id="progress-uploadContract" class="progress col-xs-12""> 
 													       <div class="progress-bar progress-bar-success"></div> 
 													    </div> 
 													    <!-- The container for the uploaded files --> 
-													    <div id="files-uploadContract" class="input-value files col-xs-04""> 
-													    	<img id="img-uploadContract" class="imgUpload">
+													    <div id="files-uploadContract" class="">
 													    </div>
 												</section>
 											</div>
-											<br>																		
+											<br>											 							
 											<footer class="col-xs-11">
 												<button type="submit" class="btn btn-primary">Submit</button>
 												<button type="button" class="btn btn-default" onclick="window.history.back();">Back</button>

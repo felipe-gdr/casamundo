@@ -420,6 +420,9 @@
 															+  '"}'
 															));
 				};
+				if ($("#docs" + i).val()) {
+					objJson.documento.docs["docs" + i] = $("#docs" + i).val();
+				};
 			});
 
 			$.each(objJson.documento.rooms, function (i, optionValue) {

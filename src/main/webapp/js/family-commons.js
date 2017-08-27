@@ -284,10 +284,9 @@ function carregaTelaFamily(data, tipo) {
 	        $('#familyMemberRelationship_' + z).val(value.relationship);
 	        $('#familyMemberOcuppation_' + z).val(value.ocuppation);
 	        $('#familyMemberDocDate_' + z).val(value.docDate);
-	        var photoDocs = "docs" + z;
-	        $('#docs' + z).val(data.documento.docs[photoDocs]);
+	        $('#docs' + z).val(data.documento.docs["docs" + i]);
 	    	montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "docs" + i);
-	    	if (value.docDate){
+	    	if (data.documento.docs["docs" + i]){
 	    		carregaPhoto (localStorage.app, data.documento.docs["docs" + i], "docs" + i);
 	    	};
 		  	var age = calculaIdade(separaConverteDataMes(value.birthDate, "/"));
@@ -347,7 +346,10 @@ function carregaTelaFamily(data, tipo) {
 	//
 	
 	if (data.documento.uploadContract){
-		carregaPhoto (localStorage.app, data.documento.uploadContract, "uploadContract");
+		var contractPDF =
+			'<embed id="img-uploadContract" src="http://' + localStorage.urlServidor + ':8080/' + localStorage.app + '/rest/upload/images?image=' + data.documento.uploadContract + '" style="width: 100%;height: 100%;border: none;"></embed >';
+//		carregaPhoto (localStorage.app, data.documento.uploadContract, "uploadContract");
+		$("#files-uploadContract").append(contractPDF);
 		$("#uploadContract").val(data.documento.uploadContract);
 	}
 	//
@@ -428,7 +430,7 @@ function criaLinhaFamilyMember (i, familyName) {
 						'<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' + 
 					        '<span> Load document ...</span>' + 
-					        '<input id="upload-img-docs' + i + '" type="file" name="uploadedFile" class="imgUpload body-background-color-family">' + 
+					        '<input id="upload-img-docs' + i + '" type="file" name="uploadedFile" accept=".jpg" class="imgUpload body-background-color-family">' + 
 					    '</span> ' +
 					    '<br> ' +
 					    '<div id="progress-docs' + i + '" class="progress col-xs-04"">' + 
@@ -573,7 +575,7 @@ function criaLinhaRoom (i, familyName) {
 					    '<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' +
 					        '<span> Load photo ...</span>' +
-					        '<input class="body-background-color-family" id="upload-img-roomPhoto' + i + '" type="file" name="uploadedFile" class="imgUpload">' + 
+					        '<input class="body-background-color-family" id="upload-img-roomPhoto' + i + '" type="file" name="uploadedFile" accept=".jpg" class="imgUpload">' + 
 					    '</span>' +
 					    '<br>' + 
 					    '<div id="progress-roomPhoto' + i + '" class="progress col-xs-04"">' + 
@@ -998,9 +1000,9 @@ function setValueFamily (field, value) {
 	if (field.slice(0, 5) == "photo"){
         objJson.documento.fotos[field] = value;
 	};
-	if (field.slice(0, 4) == "docs"){
-        objJson.documento.docs[field] = value;
-	};
+//	if (field.slice(0, 4) == "docs"){
+//        objJson.documento.docs[field] = value;
+//	};
 
 	localStorage.setItem("family", JSON.stringify(objJson));
 };		

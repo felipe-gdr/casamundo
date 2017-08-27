@@ -53,8 +53,6 @@
 	};
 	function carregaLocalStorageStudents (objJson, destroy) {
 
-        console.log ("2 - " + new Date().getTime());
-
         localStorage.setItem("students", JSON.stringify(objJson));
 
     	/* BASIC datatables*/
@@ -124,6 +122,7 @@
         var objJson = JSON.parse(localStorage.getItem("students"));
         
         student_table.clear();
+
         
         $.each(objJson, function (i, student) {
 //	        console.log ("4 - " + new Date().getTime());

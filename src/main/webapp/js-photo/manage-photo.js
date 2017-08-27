@@ -7,7 +7,8 @@ function carregaPhoto (app, label, labelId){
 	$downloadingImage.load(function(){
 	  $image.attr("src", $(this).attr("src"));	
 	});
-	$downloadingImage.attr("src", "http://" + localStorage.urlServidor + ":8080/" + app + "/rest/upload/images?image=" + label);
+//	$downloadingImage.attr("src", "http://" + localStorage.urlServidor + ":8080/" + app + "/rest/upload/images?image=" + label);
+	$("#img-" + labelId).attr("src", "http://" + localStorage.urlServidor + ":8080/" + app + "/rest/upload/images?image=" + label);
 };
 
 function montaPhoto (app, assunto, fotosDiv, id, id2, label){
@@ -41,7 +42,7 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
         autoUpload: true,
         singleFileUploads: true,
         redirect: false,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf)$/i,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf|mp4)$/i,
         maxFileSize: 999000,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
@@ -58,7 +59,7 @@ function montaPhoto (app, assunto, fotosDiv, id, id2, label){
             var node = $('<p/>')
                     .append("");
             node.appendTo(data.context);
-           	$("#" + labelId).val(id + "_" + id2 + "_" + labelId + "_" + file.name);
+           	$("#" + labelId).val(id + "_" + id2 + "_" + labelId + "_" + mudaSufixo(file.name));
 	        $('#img-' + labelId).remove();
         });
     }).on('fileuploadprocessalways', function (e, data) {
@@ -120,4 +121,7 @@ function carregaImagem (label, nomeFoto){
 			});
 			
 	$downloadingImage.attr("src", "http://" + localStorage.urlServidor + ":8080/vistorias/rest/documento/images?image=" + nomeFoto);
+};
+function mudaSufixo(fileName){
+	return fileName.replace("mp4","jpg").replace("jpeg","jpg").replace("png","jpg").replace("gif","jpg");
 };
