@@ -94,6 +94,7 @@
     	localStorage.consultants = "[]";
     	carregaInclusaoSchool();
     	$(".school").addClass("hide");
+    	consultants_table.clear();
     });
     
 	$('#schoolAddress').bind('blur', function () {

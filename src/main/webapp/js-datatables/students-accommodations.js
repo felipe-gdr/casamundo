@@ -45,11 +45,6 @@
     			responsiveHelper_accommodations_list.respond();
     		},		
     		"columns": [
-			            {
-			                "class":          'details-control',
-			                "orderable":      false,
-			                "defaultContent": ''
-			            },
     		            { "data": "accommodation",
     		            	"width": "25%"},
     		            { "data": "dates",
@@ -126,7 +121,6 @@
 	            	specialDiet = "<span class='label label-success text-column'>No food restrictions</span>"
 	            };
 			    
-		        var actions = "";
 		        var invoices = "";
 		        var emailStudent = objJson.documento.mail;
 		        var idStudent = objJson.documento._id;
@@ -229,9 +223,7 @@
 	    	    	"institution":"<small class='text-muted text-column'>School: </small><small class='text-bold text-column'>" + schoolSigla + "</small><br>" +
 	    	    				"<small class='text-muted text-column'>Agent: </small><small class='text-bold text-column'>" + agencySigla + "</small><br>",
 	       	    	"comments":"<small class='text-muted text-column'>" + objJson.documento.trips[actualTrip].comments + "</small>",
-	       	    	"notes":"<small class='text-muted text-column'>" + notes + "</small>",
-	                'actions': 
-	                	action,
+	       	    	"notes":"<small class='text-muted text-column'>" + notes + "</small>"
 	    	    }).draw( false );
 	        });
 	

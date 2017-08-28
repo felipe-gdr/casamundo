@@ -60,6 +60,7 @@
 	   	$('#status').val("Available");
 		$('#birthDay').val("01-Jan-1980");
 		localStorage.newTrip = false;
+		criaLinhaNote();
 	};		
 
 /**
@@ -601,7 +602,7 @@
             console.log ("xx");
         }
     });
-	$('#agencyName').change(function() {
+	$('#agencyId').change(function() {
 		$("#agencyConsultName option").remove();
 		$("#agencyConsultName").append($(option("Choose one item")));
 		$('#agencyConsultName option[value="Choose one item"]').attr('disabled','disabled');
@@ -626,7 +627,7 @@
 	    });
 	});
 
-	$('#schoolName').change(function() {
+	$('#schoolId').change(function() {
 		$("#schoolConsultName option").remove();
 		$("#schoolConsultName").append($(option("Choose one item")));
 		$('#schoolConsultName option[value="Choose one item"]').attr('disabled','disabled');

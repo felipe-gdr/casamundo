@@ -626,7 +626,7 @@ function calculaIdade ( dataNascimento ) {
         	if (campo.length){
 		    	i = 0;
 		    	while (i < campo.length) {
-		    		if (campo.substring(i, (i + 1)) != "." && campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":" && campo.substring(i, (i + 1)) != ")" && campo.substring(i, (i + 1)) != "(" && campo.substring(i, (i + 1)) != "-"){
+		    		if (campo.substring(i, (i + 1)) != "/" && campo.substring(i, (i + 1)) != ":" && campo.substring(i, (i + 1)) != ")" && campo.substring(i, (i + 1)) != "(" && campo.substring(i, (i + 1)) != "-"){
 		    			campoNovo = campoNovo.toString() + campo.substring(i, (i + 1)).toString() 
 		    		};
 		    	    i++;

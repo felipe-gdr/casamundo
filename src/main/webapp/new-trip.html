@@ -421,12 +421,12 @@
 												<ul class="list-unstyled">
 													<li>
 														<p class="text-muted">
-															<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="celPhone" data-mask="(999) 99999-9999"  data-original-title="Cel Phonr"></small></span>
+															<i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;<span class="txt-color-darken"><small class='text-primary' id="celPhone" name="celPhone" data-mask="(999) 99999-9999"  data-original-title="Cel Phonr"></small></span>
 														</p>
 													</li>
 													<li>
 														<p class="text-muted">
-															<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mail"  data-original-title="Email"></small>
+															<i class="fa fa-envelope"></i>&nbsp;&nbsp;<small  class='text-primary' id="mail"  name="mail" data-original-title="Email"></small>
 														</p>
 													</li>
 												</ul>
@@ -463,7 +463,7 @@
 													<section class="col-sm-9">	
 														<label class="label text-info">Name</label>							
 															<label class="select ">
-																<select id="agencyName" name="agencyName" class="language">
+																<select id="agencyId" name="agencyId" class="language">
 																	<option value="" selected="" disabled="">Choose one item</option>
 																</select><i></i>
 															</label>
@@ -488,6 +488,7 @@
 																<select id="agencyConsultName" name="agencyConsultName" class="language">
 																	<option value="" selected="" disabled="">Choose one item</option>
 																</select><i></i>
+															<input type="text" id="agencyName" name="agencyName" class="hide">
 															</label>
 													</section>
 												</div>
@@ -523,9 +524,10 @@
 															<section class="col-sm-11">	
 																<label class="label text-info">Name</label>							
 																	<label class="select ">
-																		<select id="schoolName" name="schoolName" class="language">
+																		<select id="schoolId" name="schoolId" class="language">
 																			<option value="" selected="" disabled="">Choose one item</option>
 																		</select><i></i>
+																		<input type="text" id="schoolName" name="schoolName" class="hide">
 																	</label>
 															</section>
 														</fieldset>
@@ -1210,6 +1212,9 @@
 		
 		<!-- js de chamada e montagem da tela -->
 		<script src="js-photo/manage-photo.js"></script>
+				
+		<!-- commons -->
+		<script src="js/commons.js"></script>
 				
 		<!-- rest commands -->
 		<script src="js/rest_commands.js"></script>

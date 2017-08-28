@@ -7,7 +7,9 @@ function stringMatch(variable, str){
 	if (str) {
 		var words = str.split(" ");
 		for (var i = 0; i < words.length; i++) {
-			if (singularize(words[i]) == singularize(variable)) {
+			var word_a = singularize(words[i]);
+			var word_b = singularize(variable);
+			if ( singularize(words[i]) == singularize(variable)) {
 				returnResult = true;
 			};
 		};
@@ -16,5 +18,5 @@ function stringMatch(variable, str){
 };
 
 function singularize(variable) {
-	var varReturn = variable.toLowerCase().replace(/\s|[0-9_]|\W|[#$%^&*()]/g, "").replace("á", "a").replace("ã", "a").replace("â", "a").replace("é", "e").replace("ê", "e").replace("õ", "o").replace("ô", "o");	
+	return variable.toLowerCase().replace(/\s|[0-9_]|\W|[#$%^&*()]/g, "").replace("á", "a").replace("ã", "a").replace("â", "a").replace("é", "e").replace("ê", "e").replace("õ", "o").replace("ô", "o");	
 };

@@ -429,25 +429,34 @@
 		    	objJson.documento.rooms.splice(0, 1);
 		    });
 		    objJsonSaveRooms = JSON.parse(localStorage.getItem("saveDataRooms"));
+		    var numberRooms = 0;
+		    var numberPrivateWashRoom = 0;
+		    var numberStudentRoom = 0;
 		    $( ".roomItem").each(function(i, value) {
 				if ($("#singleBed_" + i).val() != "0" || $("#coupleBed_" + i).val() != "0" ) {
 					if (objJsonSaveRooms[i]){
 						var occupancySingleBedSave = "";
 						var occupancyCoupleBedSave = "";
+						var occupancy = false;
 						if (objJsonSaveRooms[i].occupancySingleBed){
 							occupancySingleBedSave = objJsonSaveRooms[i].occupancySingleBed
+							if (occupancySingleBedSave[0].emailStudent != ""){
+								occupancy = true;
+							};
 						}else{
 							occupancySingleBedSave = [
 							    		                 {
 								    		                 emailStudent : "",
 								    		                 startOccupancy : "",
-								    		                 endOccupancy : "",
-								    		                 emailStudent : ""
+								    		                 endOccupancy : ""
 							    		                 }
 							                          ];
 						};
 						if (objJsonSaveRooms[i].occupancyCoupleBed){
-							occupancyCoupleBedSave = objJsonSaveRooms[i].occupancyCoupleBed
+							occupancyCoupleBedSave = objJsonSaveRooms[i].occupancyCoupleBed;
+							if (occupancyCoupleBedSave[0].emailStudent != ""){
+								occupancy = true;
+							};
 						}else{
 							occupancyCoupleBedSave = [
 							    		                 {
@@ -471,8 +480,18 @@
 				    		occupancyCoupleBed : occupancyCoupleBedSave
 			        };
 			        objJson.documento.rooms.push(room);
+			        ++numberRooms;
+			        if ($("#privateWashroom_" + i).val() == "Yes"){
+			        	++numberPrivateWashRoom;	
+			        };
+			        if (!occupancy){
+			        	++numberStudentRoom;
+			        };
 				};
 			});
+		    objJson.documento.numbersBedroom = numberRooms;
+		    objJson.documento.numberPrivateWashroom = numberPrivateWashRoom;
+		    objJson.documento.numbersStudentsBedroom = numberStudentRoom;
 			$(".noteItem").each(function(i, value) {
 				if ($("#notesDate_" + i).val()) {
 					objJson.documento.notes.push(JSON.parse('{"date":"' + $("#notesDate_" + i).val() 

@@ -18,6 +18,12 @@ function carregaTela(data, actualTrip) {
 		actualTrip = data.documento.actualTrip;
 	};
 
+	// *** carrega dados estudante do new-trip
+	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);
+	$("#mail").html(data.documento.mail);
+	$("#celPhone").html(data.documento.celPhone);
+	
+	// *** carrega dados de input
 	$("input").each(function( index ) {
 		if (data.documento[$(this).attr("id")]){
 			if ($(this).attr("type") == "checkbox"){
@@ -25,7 +31,6 @@ function carregaTela(data, actualTrip) {
 					$(this).prop("checked", true)
 				};			
 			}else{
-				var classes = $(this).attr("class");
 				if (stringMatch("datepicker", $(this).attr("class"))){
 					$(this).val(separaDataMes(data.documento[$(this).attr("id")], "-"));						
 				}else{
@@ -128,135 +133,6 @@ function carregaTela(data, actualTrip) {
 	    });
     };
     criaLinhaNote(linesNote);
-	/*
-	$("#studentCompleteName").html(data.documento.firstName + " " + data.documento.lastName);
-	$("#firstName").val(data.documento.firstName);
-	$("#secondName").val(data.documento.secondName);
-	$("#lastName").val(data.documento.lastName);
-	$("#celPhone").val(data.documento.celPhone);
-	$("#phone").val(data.documento.phone);
-	$("#mail").val(data.documento.mail);
-	$("#birthDay").val(separaDataMes(data.documento.birthDay, "-"));
-	$("#age").html(calculaIdade(separaConverteDataMes(data.documento.birthDay, "/")));
-	$("#gender").val(data.documento.gender);
-	$("#nationality").val(data.documento.nationality);
-	$("#firstLanguage").val(data.documento.firstLanguage);
-	$("#profession").val(data.documento.profession);
-	$("#englishLevel").val(data.documento.englishLevel);
-	$("#streetNumber").val(data.documento.streetNumber);
-	$("#streetName").val(data.documento.streetName);
-	$("#state").val(data.documento.state);
-	$("#postalCode").val(data.documento.postalCode);
-	$("#city").val(data.documento.city);
-	$("#country").val(data.documento.country);
-	$("#complement").val(data.documento.complement);
-	$("#latitude").val(data.documento.latitude);
-	$("#longitude").val(data.documento.longitude);
-
-	$("#secondaryTelephone").val(data.documento.secondaryTelephone);
-	$("#emergencyContactName").val(data.documento.emergencyContactName);
-	$("#emergencyContactPhone").val(data.documento.emergencyContactPhone);
-	$("#emergencyContactMail").val(data.documento.emergencyContactMail);
-	$("#emergencyContactRelationship").val(data.documento.emergencyContactRelationship);
-	$("#photoPassport").val(data.documento.photoPassport);
-	$("#actualTrip").val(actualTrip);
-	$("#status").val(data.documento.trips[actualTrip].status);
-	$("#destination").val(data.documento.trips[actualTrip].destination);
-	$("#start").val(separaDataMes(data.documento.trips[actualTrip].start, "-"));
-	$("#end").val(separaDataMes(data.documento.trips[actualTrip].end, "-"));
-	$("#arrivalDate").val(separaDataMes(data.documento.trips[actualTrip].arrivalDate, "-"));
-	$("#arrivalTime").val(data.documento.trips[actualTrip].arrivalTime);
-	$("#arrivalFlightNumber").val(data.documento.trips[actualTrip].arrivalFlightNumber);
-	$("#arrivalAirline").val(data.documento.trips[actualTrip].arrivalAirline);
-	$("#departureDate").val(separaDataMes(data.documento.trips[actualTrip].departureDate, "-"));
-	$("#departureTime").val(data.documento.trips[actualTrip].departureTime);
-	$("#departureFlightNumber").val(data.documento.trips[actualTrip].departureFlightNumber);
-	$("#departureAirline").val(data.documento.trips[actualTrip].departureAirline);
-	if (data.documento.trips[actualTrip].extend == "Yes"){
-		$("#extend").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].pickup == "Yes"){
-		$("#pickup").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].dropoff == "Yes"){
-		$("#dropoff").prop("checked", true)
-	}
-	$("#accommodation").val(data.documento.trips[actualTrip].accommodation);
-	$("#occupancyDorms").val(data.documento.trips[actualTrip].occupancy);
-	$("#occupancyHomestay").val(data.documento.trips[actualTrip].occupancy);
-	$("#occupancySuite").val(data.documento.trips[actualTrip].occupancy);
-	$("#familyName").val(data.documento.trips[actualTrip].familyName);
-	$("#guestName").val(data.documento.trips[actualTrip].guestName);
-	$("#guestEmail").val(data.documento.trips[actualTrip].guestEmail);
-	$("#relationship").val(data.documento.trips[actualTrip].relationship);
-	$('#mealPlan').val(data.documento.trips[actualTrip].mealPlan);    	
-	$("#specialDiet").val(data.documento.trips[actualTrip].specialDiet);
-	$("#privateWashroom").val(data.documento.trips[actualTrip].privateWashroom);
-	if (data.documento.trips[actualTrip].smoke == "Yes"){
-		$("#smoke").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].liveDogs == "Yes"){
-		$("#liveDogs").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].liveCats == "Yes"){
-		$("#liveCats").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].liveWithChildren == "Yes"){
-		$("#liveChildren").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].bedLinen == "Yes"){
-		$("#bedLinen").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].gymMembership == "Yes"){
-		$("#gymMembership").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].liveWithChildren == "Yes"){
-		$("#liveChildren").prop("checked", true)
-	}
-	$("#hobbies").val(data.documento.trips[actualTrip].hobbies);
-	$("#medical").val(data.documento.trips[actualTrip].medical);
-	$("#comments").val(data.documento.trips[actualTrip].comments);
-	if (data.documento.trips[actualTrip].agreeTerm == "Yes"){
-		$("#agreeTerm").prop("checked", true)
-	}
-	$("#usuallyStudy").val(data.documento.trips[actualTrip].usuallyStudy);
-	$("#keepBedroom").val(data.documento.trips[actualTrip].keepBedroom);
-	$("#iAmUsually").val(data.documento.trips[actualTrip].iAmUsually);
-	$("#creditCardType").val(data.documento.trips[actualTrip].creditCardType);
-	$("#creditCardNumber").val(data.documento.trips[actualTrip].creditCardNumber);
-	$("#creditCardExpire").val(data.documento.trips[actualTrip].creditCardExpire);
-	$("#creditCardCVC").val(data.documento.trips[actualTrip].creditCardCVC);
-	if (data.documento.trips[actualTrip].agreeDebit == "Yes"){
-		$("#agreeDebit").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].agreeDebitReimbursed == "Yes"){
-		$("#agreeDebitReimbursed").prop("checked", true)
-	}
-	$("#apartamentType").val(data.documento.trips[actualTrip].apartamentType);
-	$("#petQuantity").val(data.documento.trips[actualTrip].petQuantity);
-	$("#petType").val(data.documento.trips[actualTrip].petType);
-
-	if (data.documento.trips[actualTrip].parking == "Yes"){
-		$("#parking").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].wifi == "Yes"){
-		$("#wifi").prop("checked", true)
-	}
-	$("#peopleQuantity").val(data.documento.trips[actualTrip].peopleQuantity);
-	$("#guest_01").val(data.documento.trips[actualTrip].guest_01);
-	$("#guest_02").val(data.documento.trips[actualTrip].guest_02);
-	$("#guest_03").val(data.documento.trips[actualTrip].guest_03);
-	$("#guest_04").val(data.documento.trips[actualTrip].guest_04);
-	$("#guest_05").val(data.documento.trips[actualTrip].guest_05);
-	if (data.documento.trips[actualTrip].agrreeDebitSuite == "Yes"){
-		$("#agrreeDebitSuite").prop("checked", true)
-	}
-	if (data.documento.trips[actualTrip].agrreeSuite == "Yes"){
-		$("#agrreeSuite").prop("checked", true)
-	};
-	$("#agencyConsultName").val(data.documento.trips[actualTrip].agencyConsultName);
-	$("#schoolConsultName").val(data.documento.trips[actualTrip].schoolConsultName);
-	 */
 	localStorage.setItem("student", JSON.stringify(data));
 	localStorage.studentExistente = "true";
 };    

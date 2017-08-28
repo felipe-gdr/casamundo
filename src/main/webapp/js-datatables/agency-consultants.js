@@ -53,7 +53,6 @@
 			            { "data": "phone" },
 			            { "data": "celPhone" },
 			            { "data": "email" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -92,18 +91,14 @@
 	            
 	    } );
 
-	    consultants_table.clear();
+	    $('#agency_consultants_list tbody > tr').remove();
 	    
         $.each(objJson, function (i, consultants) {
         	consultants_table.row.add( {
     	    	'name': '<a id="consultants' + i + '"  data-toggle="modal" data-target="#agencyConsultModal">' + consultants.name + '</a>',
                 'phone':'<small class="text-muted">' + consultants.phone + '</small>',
                 'celPhone':'<small class="text-muted">' + consultants.celPhone + '</small>',
-                'email':'<small class="text-muted">' + consultants.email + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
+                'email':'<small class="text-muted">' + consultants.email + '</small>'
     	    }).draw( false );
             $('#consultants' + i).bind('click', function () {
             	$("#agencyConsultName").val(consultants.name);

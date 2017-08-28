@@ -53,7 +53,6 @@
 			            { "data": "phone" },
 			            { "data": "celPhone" },
 			            { "data": "email" },
-			            { "data": "actions" },
 			            ],
 	        "responsive": true,
 	        "charset" : "UTF-8",
@@ -92,7 +91,7 @@
 	            
 	    } );
 
-	    consultants_table.clear();
+	    $('#school_consultants_list tbody > tr').remove();
 	    
         $.each(objJson, function (i, consultants) {
         	consultants_table.row.add( {
@@ -100,10 +99,6 @@
                 'phone':'<small class="text-muted">' + consultants.phone + '</small>',
                 'celPhone':'<small class="text-muted">' + consultants.celPhone + '</small>',
                 'email':'<small class="text-muted">' + consultants.email + '</small>',
-                'actions': '<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >' +
-                		'Action <span class="caret"></span></button>' + 
-                			'<ul class="dropdown-menu">' +
-                			'</div>'
     	    }).draw( false );
             $('#consultants' + i).bind('click', function () {
             	$("#schoolConsultName").val(consultants.name);
