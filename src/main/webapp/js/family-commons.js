@@ -250,54 +250,84 @@ function carregaTelaFamily(data, tipo) {
 		if ($('#address_street').val()){
 			getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
 		};
-	  	var lines = 0;
-	    criaLinhaFamilyMember(0, data.documento.familyName);
-	    $('#familyMemberName_0').val(data.documento.contact.firstName + " " + data.documento.contact.lastName);
-    	$('#familyMemberGender_0').val(data.documento.contact.gender);
-    	$('#familyMemberBirthdate_0').val(separaDataMes(data.documento.contact.birthDate, "-"));
-    	if (data.documento.contact.genre == "Male") {
-    		$('#familyMemberRelationship_0').val("Host Father");	
-    	}else{
-    		$('#familyMemberRelationship_0').val("Host Mother");
-    	}
-        $('#familyMemberOcuppation_0').val(data.documento.contact.ocuppation);
-        $('#familyMemberDocDate_0').val(data.documento.contact.docDate);
-        $('#docs0').val(data.documento.docs.docs0);
-    	if (data.documento.docs.docs0){
-    		carregaPhoto (localStorage.app, data.documento.docs["docs0"], "docs0");
+
+		//**    monta linha com o contato da familia
+		
+		$('#familyMemberNameHostFather').val(data.documento.contact.firstName + " " + data.documento.contact.lastName);
+    	$('#familyMemberGenderHostFather').val(data.documento.contact.gender);
+    	$('#familyMemberBirthdateHostFather').val(separaDataMes(data.documento.contact.birthDate, "-"));
+        $('#familyMemberOcuppationHostFather').val(data.documento.contact.ocuppation);
+        $('#familyMemberDocDateHostFather').val(data.documento.contact.docDate);
+        $('#contactDocs').val(data.documento.contact.docs);
+    	if (data.documento.contact.docs){
+    		carregaPhoto (localStorage.app, data.documento.contact.docs, "contactDocs");
     	};
 		var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
 		if (idade > 17){
-			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs0");
-			$('.docs0').removeClass("hide");	
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "contactDocs");
+			$('.contactDocs').removeClass("hide");	
 		}else{
-			$('.docs0').addClass("hide");				
+			$('.contactDocs').addClass("hide");				
 		};
-    	lines = 1;
+		
+		$('#familyMemberBirthdateHostFather').datepicker({
+		    changeMonth: true,
+		    changeYear: true,
+			dateFormat : 'dd-M-yy',
+			prevText : '<i class="fa fa-chevron-left"></i>',
+			nextText : '<i class="fa fa-chevron-right"></i>',
+			onSelect : function(selectedDate) {
+			}
+		});
+		$('#familyMemberDocDateHostFather').datepicker({
+		    changeMonth: true,
+		    changeYear: true,
+			dateFormat : 'dd-M-yy',
+			prevText : '<i class="fa fa-chevron-left"></i>',
+			nextText : '<i class="fa fa-chevron-right"></i>',
+			onSelect : function(selectedDate) {
+			}
+		});
+		var table = JSON.parse(localStorage.getItem("table"));
+		$.each(table.documento.relationship
+			, function (j, optionValue) {
+			$("#familyMemberRelationshipHostFather").append( $(option(optionValue)));
+		});	
+    	if (data.documento.contact.genre == "Male") {
+    		$('#familyMemberRelationshipHostFather').val("Host Father");	
+    	}else{
+    		$('#familyMemberRelationshipHostFather').val("Host Mother");
+    	}
+
+		// *** monta as linhas dos membros da familia
+		
+		var lines = 0;
 	    $.each(data.documento.familyMembers
 			    , function (i, value) {
-	    	z = i + 1;
-		    criaLinhaFamilyMember(z, data.documento.familyName);
-		    $('#familyMemberName_' + z).val(value.name);
-	    	$('#familyMemberGender_' + z).val(value.gender);
-	    	$('#familyMemberBirthdate_' + z).val(separaDataMes(value.birthDate, "-"));
-	        $('#familyMemberRelationship_' + z).val(value.relationship);
-	        $('#familyMemberOcuppation_' + z).val(value.ocuppation);
-	        $('#familyMemberDocDate_' + z).val(value.docDate);
-	        $('#docs' + z).val(data.documento.docs["docs" + i]);
-	    	montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "docs" + i);
-	    	if (data.documento.docs["docs" + i]){
-	    		carregaPhoto (localStorage.app, data.documento.docs["docs" + i], "docs" + i);
+		    criaLinhaFamilyMember(i, data.documento.familyName);
+		    $('#familyMemberName_' + i).val(value.name);
+	    	$('#familyMemberGender_' + i).val(value.gender);
+	    	$('#familyMemberBirthdate_' + i).val(separaDataMes(value.birthDate, "-"));
+	        $('#familyMemberRelationship_' + i).val(value.relationship);
+	        $('#familyMemberOcuppation_' + i).val(value.ocuppation);
+	        $('#familyMemberDocDate_' + i).val(value.docDate);
+	        $('#familyMemberDocs' + i).val(value.docs);
+	    	montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "familyMemberDocs" + i);
+	    	if (value.docs){
+	    		carregaPhoto (localStorage.app, value.docs, "familyMemberDocs" + i);
 	    	};
 		  	var age = calculaIdade(separaConverteDataMes(value.birthDate, "/"));
-			$('.docs' + i).removeClass("hide");
-	    	lines = z + 1;
+			$('.familyMemberDocs' + i).removeClass("hide");
+	    	lines = i + 1;
 	    });
 	    criaLinhaFamilyMember(lines, data.documento.familyName);
 	    if (linesRoom != 0){
-		    montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "docs" + lines);
+		    montaPhoto (localStorage.app, "family", "docsFamily", "family", data.documento.familyName, "familyMemberDocs" + lines);
 	    };
-	  	var linesRoom = 0;
+	  	
+	    // *** monta as linhas com os quartos da familia
+	    
+	    var linesRoom = 0;
 	    $.each(data.documento.rooms
 			    , function (i, value) {
 		    criaLinhaRoom(i, data.documento.familyName);
@@ -385,13 +415,14 @@ function carregaTelaFamily(data, tipo) {
 };    
 
 function criaLinhaFamilyMember (i, familyName) {
-	var familyMemberLine = '<li class="familyMemberItem">' +
+	var familyMemberLine = 
+		'<li class="familyMemberItem">' +
 			'<div class="col-xs-11">' +
 				'<fieldset class="memberList body-background-color-family">' +					
 					'<section class="col-xs-3">' +
 						'<label class="input"> <i class="icon-prepend fa fa-user"></i>' +
 							'<input class="body-background-color-family" type="text" id="familyMemberName_' + i + '" name="familyMemberName_' + i + '" placeholder="">' +
-							'<input class="hide body-background-color-family" type="text" id="docs' + i + '" name="docs' + i + '" placeholder="" disabled="disabled">' +
+							'<input class="hide body-background-color-family" type="text" id="familyMemberDocs' + i + '" name="familyMemberDocs' + i + '" placeholder="" disabled="disabled">' +
 						'</label>' +
 					'</section>' +
 					'<section class="col-xs-1">' +
@@ -426,23 +457,23 @@ function criaLinhaFamilyMember (i, familyName) {
 					'</section>' +
 					'<section class="col-xs-1">' +
 					'</section>' +
-					'<section class="col-xs-2 docs' + i + ' hide">' +
+					'<section class="col-xs-2 familyMemberDocs' + i + ' hide">' +
 						'<span class="btn btn-success fileinput-button ">' + 
 					        '<i class="glyphicon glyphicon-plus"></i>' + 
 					        '<span> Load document ...</span>' + 
-					        '<input id="upload-img-docs' + i + '" type="file" name="uploadedFile" accept=".jpg" class="imgUpload body-background-color-family">' + 
+					        '<input id="upload-img-familyMemberDocs' + i + '" type="file" name="uploadedFile" accept=".jpg" class="imgUpload body-background-color-family">' + 
 					    '</span> ' +
 					    '<br> ' +
-					    '<div id="progress-docs' + i + '" class="progress col-xs-04"">' + 
+					    '<div id="progress-familyMemberDocs' + i + '" class="progress col-xs-04"">' + 
 					       '<div class="progress-bar progress-bar-success"></div>' + 
 					    '</div> ' +
-					    '<div id="files-docs' + i + '" class="input-value files col-xs-04""> ' +
-					    	'<img id="img-docs' + i + '" class="imgUpload">' +
+					    '<div id="files-familyMemberDocs' + i + '" class="input-value files col-xs-04""> ' +
+					    	'<img id="img-familyMemberDocs' + i + '" class="imgUpload">' +
 					    '</div>' +
 					'</section>' +
-					'<section class="col-xs-2 hide docs' + i + '">' +
+					'<section class="col-xs-2 hide familyMemberDocs' + i + '">' +
 					'</section>' +
-					'<section class="col-xs-2 hide docs' + i + '">' +
+					'<section class="col-xs-2 hide familyMemberDocs' + i + '">' +
 						'<span class="btn btn-success fileinput-button ">' + 
 					        '<span> Date of issue</span>' + 
 					    '</span> ' +
@@ -470,6 +501,7 @@ function criaLinhaFamilyMember (i, familyName) {
 		dateFormat : 'dd-M-yy',
 		prevText : '<i class="fa fa-chevron-left"></i>',
 		nextText : '<i class="fa fa-chevron-right"></i>',
+		yearRange: "1930:2099",
 		onSelect : function(selectedDate) {
 		}
 	});
@@ -482,17 +514,14 @@ function criaLinhaFamilyMember (i, familyName) {
 		onSelect : function(selectedDate) {
 		}
 	});
+	$('.familyMemberDocs' + i).val("");	
 	$('#familyMemberBirthdate_' + i).bind('blur', function () {
 		var idade = calculaIdade(montaDataMesNum($('#familyMemberBirthdate_' + i).val(),"/"));
 		if (idade > 17){
-			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs" + i);
-			$('.docs' + i).removeClass("hide");	
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "familyMemberDocs" + i);
+			$('.familyMemberDocs' + i).removeClass("hide");	
 		}else{
-			var labelId = "docs" + i;
-        	obj = JSON.parse(localStorage.getItem("family"));
-        	obj.documento.docs[labelId] =  "";
-        	localStorage.setItem("family", JSON.stringify(obj));
-			$('.docs' + i).addClass("hide");				
+			$('.familyMemberDocs' + i).addClass("hide");				
 		};
     });
 
@@ -735,7 +764,8 @@ function limpaStorageFamily () {
 				      phoneNumber : "", 
 				      mobilePhoneNumber : "", 
 				      workPhoneNumber : "", 
-				      docDate : ""
+				      docDate : "",
+				      docs : ""
 				    }, 
 				    address : { 
 				      street : "", 
@@ -766,52 +796,8 @@ function limpaStorageFamily () {
 				      photo05 : "", 
 				      photo06 : "" 
 				    }, 
-				    docs : { 
-				      docs0 : "", 
-				      docs1 : "", 
-				      docs2 : "", 
-				      docs3 : "", 
-				      docs4 : "", 
-				      docs5 : "", 
-				      docs6 : "" 
-				    }, 
-				    familyMembers : [{ 
-				        name : "", 
-				        gender : "", 
-				        relatioship : "", 
-				        birthDate : "", 
-				        ocuppation : "",
-				        docDate : ""
-				      }], 
-				    rooms : [{ 
-				        number : 0, 
-				        singleBed : 0, 
-				        coupleBed : 0, 
-				        privateWashroom : "no",
-				        level : "",
-				    	photo : "",
-				    	note : "",
-				        occupancySingleBed : [ 
-			                 { 
-	   		                 emailStudent : "", 
-	   		                 startOccupancy : "", 
-	   		                 endOccupancy : "" 
-	   		                 } 
-	   		                 ], 
-				        coupleBedAvailable : [ 
-			                 { 
-	   		                 emailStudent : "", 
-	   		                 startOccupancy : "", 
-	   		                 endOccupancy : "" 
-	   		                 } 
-	   		                 ],
- 				        blockDates : [ 
-			                 { 
-	   		                 start : "", 
-	   		                 end : "" 
-	   		                 } 
-	   		                 ] 	   		                 
-				      }], 
+				    familyMembers : [], 
+				    rooms : [], 
 				    notes : [],
 				    visits : [] 
 				  } 
@@ -945,6 +931,9 @@ function setValueFamily (field, value) {
 	};
   	if (field == "contact_birthDate"){
         objJson.documento.contact.birthDate = limpaData(value);
+	};
+  	if (field == "contactDocs"){
+        objJson.documento.contact.docs = value;
 	};
   	if (field == "address_street"){
         objJson.documento.address.street = value;

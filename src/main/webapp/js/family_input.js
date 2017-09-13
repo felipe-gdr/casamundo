@@ -28,6 +28,7 @@
 	if (familyName){
 		localStorage.familyExistente = "true";
 		var data = rest_obterFamily(familyName, carregaTelaFamily, carregaInclusao, "alteracao");
+	   	$('#familyName').attr("disabled", true);
 		//
 		// formata campos img
 		//
@@ -409,19 +410,16 @@
 		    });
 		    objJson.documento.contact.docDate = $("#familyMemberDocDate_0").val();
 			$(".familyMemberItem").each(function(i, value) {
-				w = i + 1;
-				if ($("#familyMemberName_" + w).val()) {
-					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + w).val() 
-															+ '","gender":"' + $("#familyMemberGender_" + w).val() 
-															+ '","relationship":"' + $("#familyMemberRelationship_" + w).val() 
-															+ '","birthDate":"' + limpaData($("#familyMemberBirthdate_" + w).val())
-															+ '","ocuppation":"' + $("#familyMemberOcuppation_" + w).val()
-															+ '","docDate":"' + $("#familyMemberDocDate_" + w).val()
+				if ($("#familyMemberName_" + i).val() && $("#familyMemberName_" + i).val() != "") {
+					objJson.documento.familyMembers.push(JSON.parse('{"name":"' + $("#familyMemberName_" + i).val() 
+															+ '","gender":"' + $("#familyMemberGender_" + i).val() 
+															+ '","relationship":"' + $("#familyMemberRelationship_" + i).val() 
+															+ '","birthDate":"' + limpaData($("#familyMemberBirthdate_" + i).val())
+															+ '","ocuppation":"' + $("#familyMemberOcuppation_" + i).val()
+															+ '","docDate":"' + $("#familyMemberDocDate_" + i).val()
+															+ '","docs":"' + $("#familyMemberDocs" + i).val()
 															+  '"}'
 															));
-				};
-				if ($("#docs" + i).val()) {
-					objJson.documento.docs["docs" + i] = $("#docs" + i).val();
 				};
 			});
 
@@ -557,7 +555,7 @@
 		nextText : '<i class="fa fa-chevron-right"></i>',
 		yearRange: "1930:2099",
 		onSelect : function(selectedDate) {
-	    	$('#familyMemberBirthdate_0').val(selectedDate);
+	    	$('#familyMemberBirthdateHostFather').val(selectedDate);
 			}
 		});
 
@@ -573,28 +571,28 @@
 	
     
 	$("#contact_firstName").bind('blur', function () {
-	    $('#familyMemberName_0').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
+	    $('#familyMemberNameHostFather').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
 	});
 	$("#contact_lastName").bind('blur', function () {
-	    $('#familyMemberName_0').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
+	    $('#familyMemberNameHostFather').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
 	});
-	$("#contact_gender").bind('blur', function () {
-    	$('#familyMemberGender_0').val($("#contact_gender").val());
+	$("#contact_gender").bind('change', function () {
+    	$('#familyMemberGenderHostFather').val($("#contact_gender").val());
     	if ($("#contact_gender").val() == "Male") {
-    		$('#familyMemberRelationship_0').val("Host Father");	
+    		$('#familyMemberRelationshipHostFather').val("Host Father");	
     	}else{
-    		$('#familyMemberRelationship_0').val("Host Mother");
+    		$('#familyMemberRelationshipHostFather').val("Host Mother");
     	}
 	});
 	$("#contact_birthDate").bind('blur', function () {
-    	$('#familyMemberBirthdate_0').val($("#contact_birthDate").val());
-    	$('.docs0').addClass("hide");
+    	$('#familyMemberBirthdateHostFather').val($("#contact_birthDate").val());
+    	$('.contactDocs').addClass("hide");
 		var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
 		if (idade > 17){
-			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "docs0");
-			$('.docs0').removeClass("hide");	
+			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "contactDocs");
+			$('.contactDocs').removeClass("hide");	
 		}else{
-			$('.docs0').addClass("hide");				
+			$('.contactDocs').addClass("hide");				
 		};
 
    	});

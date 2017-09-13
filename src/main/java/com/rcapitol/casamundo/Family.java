@@ -155,6 +155,7 @@ public class Family {
 			public String mobilePhoneNumber;
 			public String workPhoneNumber;
 			public String docDate;
+			public String docs;
 
 			public Contact() {
 
@@ -172,7 +173,8 @@ public class Family {
 					String phoneNumber,
 					String mobilePhoneNumber,
 					String workPhoneNumber,
-					String docDate
+					String docDate,
+					String docs
 			){
 				this.firstName = firstName;
 				this.lastName = lastName;
@@ -185,6 +187,7 @@ public class Family {
 				this.mobilePhoneNumber = mobilePhoneNumber;
 				this.workPhoneNumber = workPhoneNumber;
 				this.docDate = docDate;
+				this.docs = docs;
 			}
 
 		}
@@ -342,6 +345,7 @@ public class Family {
     		public String birthDate;
     		public String ocuppation ;
     		public String docDate;
+    		public String docs;
 
     		public FamilyMembers() {
 
@@ -354,7 +358,8 @@ public class Family {
             			String relationship,
             			String birthDate,
             			String ocuppation ,
-            			String docDate
+            			String docDate,
+            			String docs
             		)
             {
 	    		this.name = name;
@@ -363,6 +368,7 @@ public class Family {
 	    		this.birthDate = birthDate;
 	    		this.ocuppation = ocuppation ;
 	    		this.docDate = docDate;
+	    		this.docs = docs;
             }
 
 		}
