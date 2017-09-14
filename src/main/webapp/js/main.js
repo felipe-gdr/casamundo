@@ -751,6 +751,7 @@ function calculaIdade ( dataNascimento ) {
         $.each(table.documento.relationship
     		    , function (i, optionValue) {
         			$("#emergencyContactRelationship").append( $(option(optionValue)));
+        			$("#familyMemberRelationshipHostFather").append( $(option(optionValue)));
     		    });
         $.each(table.documento.mealPlan
     		    , function (i, optionValue) {

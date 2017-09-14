@@ -349,6 +349,7 @@
 				localStorage.setItem("student", JSON.stringify(objJson));
 			}else{
 				limpaStorageStudent ();				
+		        var objJson = JSON.parse(localStorage.getItem("student"));
 				var actualTrip = 0;
 			};
 			$.each(form
@@ -379,7 +380,7 @@
 					var trip = false;
 					var notTrip = false;
 					while (parentNode != null & !trip & !notTrip) {
-						if (parentNode.id == "trip" || parentNode.id == "school" || parentNode.id == "agency"){
+						if (parentNode.id == "trip" || parentNode.id == "school" || parentNode.id == "agency" || parentNode.id == "trip-1" || parentNode.id == "trip-2"){
 							trip = true;
 						};
 						if (parentNode.id == "body"){

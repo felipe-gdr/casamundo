@@ -547,18 +547,6 @@
 	    montaPhoto (localStorage.app, "family", "roomsPhoto", "family", $("#familyName").val(), "roomPhoto0");
 	});	
 
-	$('#contact_birthDate').datepicker({
-	    changeMonth: true,
-	    changeYear: true,
-		dateFormat : 'dd-M-yy',
-		prevText : '<i class="fa fa-chevron-left"></i>',
-		nextText : '<i class="fa fa-chevron-right"></i>',
-		yearRange: "1930:2099",
-		onSelect : function(selectedDate) {
-	    	$('#familyMemberBirthdateHostFather').val(selectedDate);
-			}
-		});
-
 	$('#address_street').bind('blur', function () {
     	getMapCoordinate($('#address_street').val(), localStorage.mapsCoordinate, carregaMapa, enderecoComErro);
     });
@@ -569,7 +557,6 @@
         showMeridian : false
     });
 	
-    
 	$("#contact_firstName").bind('blur', function () {
 	    $('#familyMemberNameHostFather').val($("#contact_firstName").val() + " " + $("#contact_lastName").val());
 	});
@@ -584,20 +571,27 @@
     		$('#familyMemberRelationshipHostFather').val("Host Mother");
     	}
 	});
-	$("#contact_birthDate").bind('blur', function () {
-    	$('#familyMemberBirthdateHostFather').val($("#contact_birthDate").val());
-    	$('.contactDocs').addClass("hide");
-		var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
-		if (idade > 17){
-			montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "contactDocs");
-			$('.contactDocs').removeClass("hide");	
-		}else{
-			$('.contactDocs').addClass("hide");				
-		};
-
-   	});
+	$('#contact_birthDate').datepicker({
+	    changeMonth: true,
+	    changeYear: true,
+		dateFormat : 'dd-M-yy',
+		prevText : '<i class="fa fa-chevron-left"></i>',
+		nextText : '<i class="fa fa-chevron-right"></i>',
+		yearRange: "1930:2099",
+		onSelect : function(selectedDate) {
+	    	$('#familyMemberBirthdateHostFather').val(selectedDate);
+	    	$('.contactDocs').addClass("hide");
+			var idade = calculaIdade(montaDataMesNum($("#contact_birthDate").val(),"/"));
+			if (idade > 17){
+				montaPhoto (localStorage.app, "family", "docsFamily", "family", $("#familyName").val(), "contactDocs");
+				$('.contactDocs').removeClass("hide");	
+			}else{
+				$('.contactDocs').addClass("hide");				
+			};
+			}
+	});    
 	$("#contact_ocuppation").bind('blur', function () {
-        $('#familyMemberOcuppation_0').val($("#contact_ocuppation").val());
+        $('#familyMemberOcuppationHostFather').val($("#contact_ocuppation").val());
     });
 	$("#haveOtherPet").bind('click', function () {
 		var field = $("#haveOtherPet:checked").val();
