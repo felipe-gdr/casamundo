@@ -101,21 +101,24 @@
 	    localStorage.setItem("agencies", JSON.stringify(objJson));
         var objJson = JSON.parse(localStorage.getItem("agencies"));
         $.each(objJson, function (i, agency) {
+        	var dadosAgency = " data-agencyId='" + agency._id + "' data-agencyName='" + agency.name + "' data-agencyEmail='" + agency.agencyEmail + "' data-agencyPhone='" + agency.agencyPhone + "' data-agencySigla='" + agency.agencySigla + "' data-agencyLogo='" + agency.agencyLogo + "'";
         	agency_table.row.add( {
-    	    	'name': '<a id="agency' + i + '"  data-toggle="modal" data-target="#agencyModal">' + agency.name + '</a>',
+    	    	'name': '<a href="#" data-toggle="modal" data-target="#agencyModal" ' + dadosAgency + '>' + agency.name + '</a>',
                 'agencyPhone':'<small class="text-muted">' + agency.agencyPhone + '</small>',
                 'agencyEmail':'<small class="text-muted">' + agency.agencyEmail + '</small>',
                 'agencySigla':'<small class="text-muted">' + agency.agencySigla + '</small>'
     	    }).draw( false );
-            $('#agency' + i).bind('click', function () {
-            	$("#agencyName").val(agency.name);
-            	$('#agencyName').attr("disabled", true);
-            	$("#agencyAgencyPhone").val(agency.agencyPhone);
-            	$("#agencyAgencyEmail").val(agency.agencyEmail);
-            	$("#agencyAgencySigla").val(agency.agencySigla);
-            	$("#agencyLogo").val(agency.agencyLogo);
-            	localStorage.agencyExistente = "true";
-            	rest_obterAgency(agency.name, carregaLocalStorageAgency, carregaInclusaoAgency, "alteracao");
-            });
         });
+		$( "#agency_list" ).delegate( "a", "click", function() {
+			$("#agencyName").val($(this).attr('data-agencyName'));
+        	$('#agencyName').attr("disabled", true);
+        	$("#agencyAgencyPhone").val($(this).attr('data-agencyPhone'));
+        	$("#agencyAgencyEmail").val($(this).attr('data-agencyEmail'));
+        	$("#agencyAgencySigla").val($(this).attr('data-agencySigla'));
+        	$("#agencyLogo").val($(this).attr('data-agencyLogo'));
+        	localStorage.agencyExistente = "true";
+        	rest_obterAgency(agency.name, carregaLocalStorageAgency, carregaInclusaoAgency, "alteracao");
+		});
+
+	
 	};

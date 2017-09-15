@@ -102,26 +102,37 @@
 	    localStorage.setItem("schools", JSON.stringify(objJson));
         var objJson = JSON.parse(localStorage.getItem("schools"));
         $.each(objJson, function (i, school) {
+        	var dadosSchool = 
+        		" data-schoollId='" + school._id +
+        		"' data-schoolName='" + school.name +
+        		"' data-schoolCelPhone='" + school.celPhone +
+        		"' data-schoolPhone='" + school.phone +
+        		"' data-schoolEmail='" + school.email +
+        		"' data-schoolAddress='" + school.address +
+        		"' data-schoolSigla='" + school.sigla +
+        		"' data-schoolLogo='" + school.logo +
+        		"' data-schoolLatitude='" + school.latitude +
+        		"' data-schoolLongitude='" + school.longitude + "' ";
         	school_table.row.add( {
-    	    	'name': '<a id="school' + i + '"  data-toggle="modal" data-target="#schoolModal">' + school.name + '</a>',
+    	    	'name': '<a href="#" id="school' + i + '"  data-toggle="modal" data-target="#schoolModal"' + dadosSchool + '>' + school.name + '</a>',
                 'sigla':'<small class="text-muted">' + school.sigla + '</small>',
                 'celPhone':'<small class="text-muted">' + school.celPhone + '</small>',
                 'phone':'<small class="text-muted">' + school.phone + '</small>',
                 'email':'<small class="text-muted">' + school.email + '</small>'
     	    }).draw( false );
-            $('#school' + i).bind('click', function () {
-            	$("#schoolName").val(school.name);
-            	$('#schoolName').attr("disabled", true);
-            	$("#schoolCelPhone").val(school.celPhone);
-            	$("#schoolPhone").val(school.phone);
-            	$("#schoolEmail").val(school.email);
-            	$("#schoolAddress").val(school.address);
-            	$("#schoolSigla").val(school.sigla);
-            	$("#schoolLogo").val(school.logo);
-            	$("#schoolLatitude").val(school.logo);
-            	$("#schoolLongitude").val(school.logo);
-            	localStorage.schoolExistente = "true";
-            	rest_obterSchool(school.name, carregaLocalStorageSchool, carregaInclusaoSchool, "alteracao");
-            });
         });
+		$( "#school_list" ).delegate( "a", "click", function() {
+        	$("#schoolName").val($(this).attr('data-schoolName'));
+        	$('#schoolName').attr("disabled", true);
+        	$("#schoolCelPhone").val($(this).attr('data-schoolCelPhone'));
+        	$("#schoolPhone").val($(this).attr('data-schoolPhone'));
+        	$("#schoolEmail").val($(this).attr('data-schoolEmail'));
+        	$("#schoolAddress").val($(this).attr('data-schoolAddress'));
+        	$("#schoolSigla").val($(this).attr('data-schoolSigla'));
+        	$("#schoolLogo").val($(this).attr('data-schoolLogo'));
+        	$("#schoolLatitude").val($(this).attr('data-schoolLatitude'));
+        	$("#schoolLongitude").val($(this).attr('data-schoolLongitude'));
+        	localStorage.schoolExistente = "true";
+        	rest_obterSchool(school.name, carregaLocalStorageSchool, carregaInclusaoSchool, "alteracao");
+		});
 	};
