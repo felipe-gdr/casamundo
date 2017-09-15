@@ -116,7 +116,7 @@
                 	'<div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" >Action <span class="caret"></span></button>' + 
             		'<ul id="listDorms" class="dropdown-menu">' + 
             			'<li data-process="change" data-dormId="' + dorm.id + '"><a href="dorm.html?dormsId=' + dorm.id + '">Change</a></li>' +
-            			'<li data-process="blockDates" data-dormId="' + dorm.id + '"><a data-toggle="modal" data-target="#blockDateModal">Block date</a></li>' +
+//            			'<li data-process="blockDates" data-dormId="' + dorm.id + '"><a data-toggle="modal" data-target="#blockDateModal">Block date</a></li>' +
             	'</ul></div>'
     	    }).draw( false );
         });

@@ -109,7 +109,8 @@
                 'agencySigla':'<small class="text-muted">' + agency.agencySigla + '</small>'
     	    }).draw( false );
         });
-		$( "#agency_list" ).delegate( "a", "click", function() {
+    	$("#agency_list a").off('click');
+		$("#agency_list").delegate( "a", "click", function() {
 			$("#agencyName").val($(this).attr('data-agencyName'));
         	$('#agencyName').attr("disabled", true);
         	$("#agencyAgencyPhone").val($(this).attr('data-agencyPhone'));
@@ -117,7 +118,7 @@
         	$("#agencyAgencySigla").val($(this).attr('data-agencySigla'));
         	$("#agencyLogo").val($(this).attr('data-agencyLogo'));
         	localStorage.agencyExistente = "true";
-        	rest_obterAgency(agency.name, carregaLocalStorageAgency, carregaInclusaoAgency, "alteracao");
+        	rest_obterAgency($(this).attr('data-agencyName'), carregaLocalStorageAgency, carregaInclusaoAgency, "alteracao");
 		});
 
 	

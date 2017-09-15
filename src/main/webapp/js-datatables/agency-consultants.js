@@ -91,11 +91,14 @@
 	            
 	    } );
 
-	    $('#agency_consultants_list tbody > tr').remove();
+	    var rows = consultants_table
+	    .rows()
+	    .remove()
+	    .draw();
 	    
         $.each(objJson, function (i, consultants) {
         	consultants_table.row.add( {
-    	    	'name': '<a id="consultants' + i + '"  data-toggle="modal" data-target="#agencyConsultModal">' + consultants.name + '</a>',
+    	    	'name': '<a id="consultants' + i + '" class="consultants"  data-toggle="modal" data-target="#agencyConsultModal">' + consultants.name + '</a>',
                 'phone':'<small class="text-muted">' + consultants.phone + '</small>',
                 'celPhone':'<small class="text-muted">' + consultants.celPhone + '</small>',
                 'email':'<small class="text-muted">' + consultants.email + '</small>'

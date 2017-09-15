@@ -80,7 +80,12 @@
 	            tr.addClass('shown');
 	        }
 	    });
-	    
+
+	    var rows = consultants_table
+	    .rows()
+	    .remove()
+	    .draw();
+    
 	    // Apply the filter
 	    $("#school_consultants_list thead th input[type=text]").on( 'keyup change', function () {
 	    	

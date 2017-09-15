@@ -46,7 +46,7 @@
 			});
 		}
 	});
-	
+
 	$('#agencyInclusao').off('click');
 	$('#agencyInclusao').on('click', function () {
     	localStorage.agencyExistente = "false";

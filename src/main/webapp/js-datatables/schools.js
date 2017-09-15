@@ -133,6 +133,6 @@
         	$("#schoolLatitude").val($(this).attr('data-schoolLatitude'));
         	$("#schoolLongitude").val($(this).attr('data-schoolLongitude'));
         	localStorage.schoolExistente = "true";
-        	rest_obterSchool(school.name, carregaLocalStorageSchool, carregaInclusaoSchool, "alteracao");
+        	rest_obterSchool($(this).attr('data-schoolName'), carregaLocalStorageSchool, carregaInclusaoSchool, "alteracao");
 		});
 	};
