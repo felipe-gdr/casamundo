@@ -31,6 +31,7 @@ public class Student {
 
 	public static final class Documento {
 
+		public String studentId;
 		public String lastDestination;
 		public String mail;
 		public String celPhone;
@@ -71,6 +72,7 @@ public class Student {
 
 		@JsonCreator
 		public Documento(
+						String studentId,
 						String lastDestination,
 						String mail,
 						String celPhone,
@@ -105,6 +107,7 @@ public class Student {
 						Notes notes[]
 
 						) {
+						this.studentId = studentId;  
 						this.lastDestination = lastDestination;  
 						this.mail = mail; 
 						this.celPhone = celPhone; 

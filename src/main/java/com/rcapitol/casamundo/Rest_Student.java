@@ -243,12 +243,14 @@ public class Rest_Student {
 		return Response.status(500).build();
 		
 	};
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Student doc)  {
-		String mail = doc.documento.mail;
+	public Response AtualizarDocumento(JSONObject student)  {
+		BasicDBObject studentDoc = new BasicDBObject();
+		studentDoc.putAll((Map) student.get("documento"));
+		String mail = studentDoc.get("mail").toString();
 		Commons commons = new Commons();
 		Mongo mongo;
 		try {
@@ -256,7 +258,7 @@ public class Rest_Student {
 			DB db = (DB) mongo.getDB("documento");
 			DBCollection collection = db.getCollection("student");
 			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(doc);
+			String jsonDocumento = gson.toJson(student);
 			Map<String,String> mapJson = new HashMap<String,String>();
 			ObjectMapper mapper = new ObjectMapper();
 			try {

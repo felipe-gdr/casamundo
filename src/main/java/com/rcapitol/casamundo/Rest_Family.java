@@ -106,19 +106,22 @@ public class Rest_Family {
 		return Response.status(500).build();
 		
 	};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(Family doc) {
-		String familyName = doc.documento.familyName;
+	public Response AtualizarDocumento(JSONObject family) {
+		BasicDBObject familyDoc = new BasicDBObject();
+		familyDoc.putAll((Map) family.get("documento"));
+		
+		String familyName = familyDoc.get("familyName").toString();
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
 			DB db = (DB) mongo.getDB("documento");
 			DBCollection collection = db.getCollection("family");
 			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(doc);
+			String jsonDocumento = gson.toJson(family);
 			Map<String,String> mapJson = new HashMap<String,String>();
 			ObjectMapper mapper = new ObjectMapper();
 			try {

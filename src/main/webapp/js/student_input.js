@@ -362,25 +362,11 @@
 							value = "No"
 						}
 					};
-					if (field.type == "select-multiple") {
-						value = "";
-						var first = true;
-					    $.each(field.children, function (i, optionValue) {
-					    	if (optionValue.selected){
-					    		if (first){
-					    			value = optionValue.label;
-					    			first = false;
-					    		}else{
-					    			value = value + "," + optionValue.label;
-					    		};
-					    	};		    			
-					    });
-					};
 					var parentNode = field.parentNode;
 					var trip = false;
 					var notTrip = false;
 					while (parentNode != null & !trip & !notTrip) {
-						if (parentNode.id == "trip" || parentNode.id == "school" || parentNode.id == "agency" || parentNode.id == "trip-1" || parentNode.id == "trip-2"){
+						if (parentNode.id == "trip" || parentNode.id == "school" || parentNode.id == "agency" || parentNode.id == "trip-1" || parentNode.id == "trip-2" || parentNode.id == "trip-3"){
 							trip = true;
 						};
 						if (parentNode.id == "body"){
@@ -389,10 +375,24 @@
 						var parentNode = parentNode.parentNode;
 					};
 					if (field.name != ""){
-						if (!trip){
-							objJson.documento[field.name] = limpaData(value);
+						if (field.type == "select-multiple") {
+							var array = [];
+						    $.each(field.children, function (i, optionValue) {
+						    	if (optionValue.selected){
+					    			array.push(optionValue.label);
+						    	}				    			
+						    });
+							if (!trip){
+								objJson.documento[field.name] = array;
+							}else{
+								objJson.documento.trips[actualTrip][field.name] = array;
+							};
 						}else{
-							objJson.documento.trips[actualTrip][field.name] = limpaData(value);
+							if (!trip){
+								objJson.documento[field.name] = limpaData(value);
+							}else{
+								objJson.documento.trips[actualTrip][field.name] = limpaData(value);
+							};
 						};
 					};
 					localStorage.setItem("student", JSON.stringify(objJson));

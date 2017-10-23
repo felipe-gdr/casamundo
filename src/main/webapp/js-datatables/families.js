@@ -96,9 +96,7 @@
     	    			"<small class='text-muted'><i>Work Phone: " + family.contact.workPhoneNumber +  "<i></small><br>" +
     	    			"<small class='text-muted'><i>Mail: " + family.contact.email +  "<i></small><br></a>",
                 "address":
-                	"<small class='text-muted'>Street:" + family.address.street + " - " + family.address.number + "</small><br>" +
-                		"<small class='text-muted'>City:" + family.address.city + " State - " + family.address.state + "</small><br>" +
-                		"<small class='text-muted'>Postal Code:" + family.address.postalCode + "</small>",
+                	"<small class='text-muted'>Street:" + family.address.street + " - " + family.address.number + "</small><br>",
                 "addressInfo":
                 	"<small class='text-muted'>Main Intersection:" + family.address.mainIntersection + "</small><br>" + 
                 		"<small class='text-muted'>Subway Station - nearest:" + family.address.nearestSubwayStation + " walking time:" + family.address.walkingTimeSubwayStation + "</small><br>" +
