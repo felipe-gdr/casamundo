@@ -337,6 +337,8 @@
 		        var idStudent = objJson._id;
 		        var trips = objJson.documento.trips;
 				var actualTrip = actualTripParam;
+				var startOrigem = trips[actualTripParam].start;
+				var endOrigem = trips[actualTripParam].end;
 				limpaStorageStudent ();
 		        var objJson = JSON.parse(localStorage.getItem("student"));
 				var newTripJson = objJson.documento.trips[0];
@@ -410,16 +412,25 @@
 					};
 				});
 				if (newTrip == "true"){
-					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
+					var actualTrip = objJson.documento.trips.length - 1;
+					var actualTripString = actualTrip.toString();
+					objJson.documento.actualTrip = actualTripString;
 					var newTripJson = 
 						{
 							idStudent : idStudent,
-							trip : objJson.documento.trips[objJson.documento.actualTrip]
+							trip : objJson.documento.trips[actualTrip]
 						}
 					rest_incluiNewTrip(newTripJson, retornaListaStudent, atualizacaoNaoEfetuada);
 				}else{
-					objJson.documento.actualTrip = objJson.documento.trips.length - 1;
+					var actualTrip = objJson.documento.trips.length - 1;
+					var actualTripString = actualTrip.toString();
+					objJson.documento.actualTrip = actualTripString;
 					rest_atualizar("student", objJson, "_id", idStudent);
+					if (objJson.documento.trips[actualTrip].start != startOrigem || objJson.documento.trips[actualTrip].end != endOrigem){
+	    				if (call_rest_get ("family/deallocate/room", "idStudent=" + idStudent  + "&indexTrip=" + actualTrip + "&idFamily=" + objJson.documento.trips[actualTrip].idFamily) + "&start=" + startOrigem + "&end=" + endOrigem){
+	    					call_rest_get ("student/changeStatus", "idStudent=" + idStudent  + "&indexTrip=" + actualTrip + "&status=" + "Available");
+	    				};						
+					};
 					retornaStudent(actualTrip);
 				};
 			}else{

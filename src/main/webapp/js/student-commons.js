@@ -52,6 +52,36 @@ function carregaTela(data, actualTrip) {
 			};
 		};
 	});
+	
+	// *** carrega dados de input
+	$("textarea").each(function( index ) {
+		if (data.documento[$(this).attr("id")]){
+			if ($(this).attr("type") == "checkbox"){
+				if (data.documento[$(this).attr("id")] == "Yes"){
+					$(this).prop("checked", true)
+				};			
+			}else{
+				if (stringMatch("datepicker", $(this).attr("class"))){
+					$(this).val(separaDataMes(data.documento[$(this).attr("id")], "-"));						
+				}else{
+					$(this).val(data.documento[$(this).attr("id")]);
+				};
+			};
+		};
+		if (data.documento.trips[actualTrip][$(this).attr("id")]){
+			if ($(this).attr("type") == "checkbox"){
+				if (data.documento.trips[actualTrip][$(this).attr("id")] == "Yes"){
+					$(this).prop("checked", true)
+				};			
+			}else{
+				if (stringMatch("datepicker", $(this).attr("class"))){
+					$(this).val(separaDataMes(data.documento.trips[actualTrip][$(this).attr("id")], "-"));			
+				}else{
+					$(this).val(data.documento.trips[actualTrip][$(this).attr("id")]);
+				};
+			};
+		};
+	});
 	$("select").each(function( index ) {
 		if (data.documento[$(this).attr("id")]){
 			$(this).val(data.documento[$(this).attr("id")]);
@@ -118,6 +148,14 @@ function carregaTela(data, actualTrip) {
 		$('#status').val("Available");
 		$('#familyName').val("");
 		$('#idFamily').val("");
+	};
+
+	// ** bloquear campos que são usados na alocação
+	if (data.documento.trips[actualTrip].status != "Available"){
+		$("#start").attr("disabled", true);
+		$("#end").attr("disabled", true);
+		$("#occupancy").attr("disabled", true);
+		$("#destination").attr("disabled", true);
 	};
 	
 	// **  criar linhas das notas

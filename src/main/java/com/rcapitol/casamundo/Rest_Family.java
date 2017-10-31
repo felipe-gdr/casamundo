@@ -41,6 +41,11 @@ import com.mongodb.MongoException;
 
 public class Rest_Family {
 
+	
+	Commons commons = new Commons();
+	Commons_DB commos_db = new Commons_DB();
+	Student student = new Student();
+	
 	@SuppressWarnings("unchecked")
 	@Path("/obterFamilyName")	
 	@GET
@@ -155,6 +160,117 @@ public class Rest_Family {
 		}
 		return null;
 	};
+	
+	@SuppressWarnings({ "unchecked" })
+	@Path("/allocate/room")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean AllocateRoom(JSONObject data) throws UnknownHostException, MongoException {
+		
+		BasicDBObject family = commos_db.ObterCrudDoc("family", "_id", data.get("idFamily").toString());
+
+		if (family == null) {
+			return false;
+		};
+				
+		JSONObject occupancy = new JSONObject();
+		occupancy.put("emailStudent", data.get("emailStudent"));
+		occupancy.put("idStudent", data.get("idStudent"));
+		occupancy.put("actualTrip", data.get("actualTrip"));
+		occupancy.put("startOccupancy", data.get("start"));
+		occupancy.put("endOccupancy", data.get("end"));
+
+		ArrayList<JSONObject> rooms = (ArrayList<JSONObject>) family.get("rooms");
+		ArrayList<JSONObject> roomsNew = new ArrayList<JSONObject>();
+		int roomIndex = 0;
+		for (int i = 0; i < rooms.size(); i++) {
+			JSONObject room = new JSONObject();
+			room.putAll(rooms.get(i));
+			if (!room.get("number").equals(data.get("roomNumber")) ) {
+				roomsNew.add(room);
+			}else {
+				roomIndex = i;
+			}
+		};
+		JSONObject room = new JSONObject();
+		room.putAll(rooms.get(roomIndex));
+		if (data.get("occupancy").equals("Single")) {
+			ArrayList<JSONObject> occupancies = (ArrayList<JSONObject>) room.get("occupancySingleBed");
+			occupancies.add(occupancy);
+			room.put("occupancySingleBed", occupancies);
+		};
+		if (data.get("occupancy").equals("Couple")) {
+			ArrayList<JSONObject> occupancies = (ArrayList<JSONObject>) room.get("occupancyCoupleBed");
+			occupancies.add(occupancy);
+			room.put("occupancyCoupleBed", occupancies);
+		};
+		roomsNew.add(room);
+		family.put("rooms", roomsNew);
+		
+		BasicDBObject documento = new BasicDBObject();
+		documento.put("documento", family);
+
+		if (commos_db.AtualizarCrud("family", documento, "_id", data.get("idFamily").toString()).getStatus() == 200) {
+			student.allocateFamily(Integer.valueOf(data.get("actualTrip").toString()), family.get("familyName").toString(), family.get("_id").toString(), data.get("idStudent").toString());
+			return true;
+		}
+		return false;
+	};
+	
+	@SuppressWarnings({ "unchecked" })
+	@Path("/deallocate/room")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean DeallocateRoom(@QueryParam("idFamily") String idFamily, @QueryParam("idStudent") String idStudent, @QueryParam("start") String start, @QueryParam("indexTrip") String indexTrip) throws NumberFormatException, UnknownHostException, MongoException {
+
+		BasicDBObject family = commos_db.ObterCrudDoc("family", "_id", idFamily);
+		
+		if (family == null) {
+			return false;
+		};
+				
+		ArrayList<JSONObject> rooms = (ArrayList<JSONObject>) family.get("rooms");
+		ArrayList<JSONObject> roomsNew = new ArrayList<JSONObject>();
+		for (int i = 0; i < rooms.size(); i++) {
+			JSONObject room = new JSONObject();
+			room.putAll(rooms.get(i));
+			room.put("occupancySingleBed", removeOccupancy((ArrayList<JSONObject>) room.get("occupancySingleBed"), idStudent, start));
+			room.put("occupancyCoupleBed", removeOccupancy((ArrayList<JSONObject>) room.get("occupancyCoupleBed"), idStudent, start));
+			roomsNew.add(room);
+		};
+		family.put("rooms", roomsNew);
+		
+		BasicDBObject documento = new BasicDBObject();
+		documento.put("documento", family);
+
+		if (commos_db.AtualizarCrud("family", documento, "_id", idFamily).getStatus() == 200) {
+			student.deallocateFamily(Integer.valueOf(indexTrip), idStudent);
+			return true;
+		}
+		return false;
+	};
+	
+	
+	@SuppressWarnings("unchecked")
+	private  ArrayList<JSONObject> removeOccupancy(ArrayList<JSONObject> occupancies, String idStudent, String start) {
+		Boolean removeOccupancy = false;
+		int indexOccupancy = 0;
+		for (int j = 0; j < occupancies.size(); j++) {
+			JSONObject occupancy = new JSONObject();
+			occupancy.putAll(occupancies.get(j));
+			if (occupancy.get("idStudent") != null && occupancy.get("startOccupancy") != null) {
+  			if (occupancy.get("idStudent").equals(idStudent) && occupancy.get("startOccupancy").equals(start)) {
+  				indexOccupancy = j;
+  				removeOccupancy = true;
+  			};
+			};
+		};
+		if (removeOccupancy) {
+			return commons.atualizaArrayObjeto(occupancies, null, indexOccupancy, false);
+		};
+		return occupancies;
+	};
+	
 	@SuppressWarnings("unchecked")
 	@Path("/lista")	
 	@GET

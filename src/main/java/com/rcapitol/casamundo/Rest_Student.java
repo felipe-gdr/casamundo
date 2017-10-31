@@ -45,6 +45,9 @@ import com.mongodb.MongoException;
 
 public class Rest_Student {
 
+	Commons commons = new Commons();
+	Commons_DB commons_db = new Commons_DB();
+	Student student = new Student();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/obterEmail")	
 	@GET
@@ -208,7 +211,7 @@ public class Rest_Student {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirStudent(Student student)  {
+	public Response IncluirStudent(JSONObject student)  {
 		Commons commons = new Commons();
 		Mongo mongo;
 		try {
@@ -222,7 +225,7 @@ public class Rest_Student {
 			mapJson = mapper.readValue(jsonDocumento, HashMap.class);
 			JSONObject documento = new JSONObject();
 			documento.putAll(mapJson);
-			documento.put("lastChange", commons.todaysDate("inv_month_number"));
+			documento.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
 			DBObject insert = new BasicDBObject(documento);
 			collection.insert(insert);
 			mongo.close();
@@ -265,7 +268,7 @@ public class Rest_Student {
 				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
 				JSONObject documento = new JSONObject();
 				documento.putAll(mapJson);
-				documento.put("lastChange", commons.todaysDate("inv_month_number"));
+				documento.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
 				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
 				BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
 				DBObject cursor = collection.findAndModify(searchQuery,
@@ -450,7 +453,7 @@ public class Rest_Student {
 	};
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Path("lista/accommodations")	
+	@Path("/lista/accommodations")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONObject ObterStudentsAccommodations(@QueryParam("familyName") String familyName) {
@@ -537,11 +540,23 @@ public class Rest_Student {
 		return null;
 	};
 
-	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
+	
 	@Path("/changeStatus")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String ChangeStatus(@QueryParam("params") String params)  {
+	public Boolean ChangeStatus(@QueryParam("idStudent") String idStudent, @QueryParam("indexTrip") String indexTrip, @QueryParam("status") String status) throws NumberFormatException, UnknownHostException, MongoException {
+		if (student.changeStatus(Integer.valueOf(indexTrip), status, idStudent)) {
+			return true;
+		}else {
+			return false;
+		}
+	};
+	
+	@SuppressWarnings({ "unchecked" })
+	@Path("/changeStatus/email")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String ChangeStatusEmail(@QueryParam("params") String params) throws UnknownHostException, MongoException  {
 		String array[] = new String[6];
 		array = params.split("/");
 		String mail = array [0].split(":")[1]; 
@@ -552,123 +567,72 @@ public class Rest_Student {
 		Integer roomSingle = Integer.parseInt((String) array [5].split(":")[1]);
 		Integer roomCouple = Integer.parseInt((String) array [6].split(":")[1]);
 		String reason = array [7].split(":")[1];
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("student");
-			BasicDBObject searchQuery = new BasicDBObject("documento.mail", mail);
-			DBObject cursor = collection.findOne(searchQuery);
-			JSONParser parser = new JSONParser(); 
-			BasicDBObject objStudent = (BasicDBObject) cursor;
-			String documento = objStudent.getString("documento");
-			JSONObject jsonObject; 
-		    String occupancy = null;
-		    int start = 0;
-		    int end = 0;
-			try {
-				jsonObject = (JSONObject) parser.parse(documento);
-			    Integer actualTrip = Integer.parseInt((String) jsonObject.get("actualTrip"));
-			    if (actualTrip != null){
-					List trips = (List) jsonObject.get("trips");
-					JSONObject jsonTrip = (JSONObject) trips.get(actualTrip);
-					occupancy = (String) jsonTrip.get("occupancy");
-				    start = Integer.parseInt((String) jsonTrip.get("start"));
-				    end = Integer.parseInt((String) jsonTrip.get("end"));
-			    };
-			    mongo.close();
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			};
-			try {
-				jsonObject = (JSONObject) parser.parse("{\"documento.trips." + indexTrip + ".status\":\"" + status + "\"}");
-				String jsonDocumento = documento;
-				Map<String,String> mapJson = new HashMap<String,String>();
-				ObjectMapper mapper = new ObjectMapper();
-				try {
-					mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-					JSONObject docJson = new JSONObject();
-					docJson.putAll(mapJson);
-					BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(jsonObject));
-					BasicDBObject searchQueryUpdate = new BasicDBObject("documento.mail", mail);
-					DBObject cursorUpdate = collection.findAndModify(searchQueryUpdate,
-			                null,
-			                null,
-			                false,
-			                update,
-			                true,
-			                false);
-					mongo.close();
-					String literal = "Confirmed";
-					if (status.equals(literal)){
-						CrudFamily crudFamily = new CrudFamily();
-//						crudFamily.updateRoom(familyName, mail, occupancy, roomSingle, roomCouple, start, end);
-					};
-					TemplateEmail template = new TemplateEmail(); 
-					String studentName = (String) docJson.get("firstName") + " " + (String) docJson.get("lastName");
-					String emailStudent = (String) docJson.get("mail");
-					SendEmailHtml sendEmailHtml = new SendEmailHtml();
-					String message = "";
-					String subject = "";
-					if (reason.equals("Accept")){
-						message = "Family " + familyName + " confirm offer of student " + studentName;
-						subject = "Family "  + familyName + " confirm offer";
-					};
-					if (reason.equals("NoRoom")){
-						message = "Family " + familyName + " decline offer because don't have room available for student " + studentName;
-						subject = "Family "  + familyName + " don't have room";
-					};
-					if (reason.equals("Refuse")){
-						message = "Family " + familyName + " don't accept student " + studentName;
-						subject = "Family "  + familyName + " don't accept student";
-					};
-					if (reason.equals("DocsOk")){
-						message = "Confirmation letter sent to a sutdent " + studentName;
-						subject = "Confirmation letter sent to a sutdent " + studentName;
-					};
-					if (reason.equals("InHouse")){
-						message = "Student " + studentName + " arrived and he is in house";
-						subject = "Student " + studentName + " in house";
-					};
-					if (reason.equals("Cancel")){
-						message = "Student " + studentName + " cancel accommodation";
-						subject = "Student " + studentName + " cancel";
-					};
-					if (reason.equals("Terminated")){
-						message = "Student " + studentName + " finished accommodation";
-						subject = "Student " + studentName + " finished";
-					};
-					sendEmailHtml.sendEmailHtml("smtp.gmail.com", 
-							"grenneglr@gmail.com", 
-							"Hefega0701", 
-							"grenneglr@gmail.com", 
-							"grenneglr@gmail.com", 
-							subject, 
-							template.emailHtml(
-									familyName, 
-									emailFamily, 
-									studentName, 
-									emailStudent, 
-									subject, 
-									message));
 
-					return "Thanks for your decision";
-				} catch (JsonParseException e) {
-					e.printStackTrace();
-				} catch (JsonMappingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		}
-		return null;		
+		BasicDBObject studentDoc = commons_db.ObterCrudDoc("student", "documento.mail", mail);
+		String idStudent = studentDoc.get("id").toString();
+		student.changeStatus(indexTrip, status, idStudent);
+		
+    ArrayList<JSONObject> trips = (ArrayList<JSONObject>) studentDoc.get("trips");
+		JSONObject  trip = new JSONObject();
+		trip.putAll(trips.get(indexTrip));
+    String occupancy = null;
+    int start = Integer.valueOf(trip.get("start").toString());
+    int end = Integer.valueOf(trip.get("end").toString());
+    
+		String literal = "Confirmed";
+		if (status.equals(literal)){
+			CrudFamily crudFamily = new CrudFamily();
+			crudFamily.updateRoom(familyName, mail, occupancy, roomSingle, roomCouple, start, end);
+		};
+		TemplateEmail template = new TemplateEmail(); 
+		String studentName = (String) studentDoc.get("firstName") + " " + (String) studentDoc.get("lastName");
+		String emailStudent = (String) studentDoc.get("mail");
+		SendEmailHtml sendEmailHtml = new SendEmailHtml();
+		String message = "";
+		String subject = "";
+		if (reason.equals("Accept")){
+			message = "Family " + familyName + " confirm offer of student " + studentName;
+			subject = "Family "  + familyName + " confirm offer";
+		};
+		if (reason.equals("NoRoom")){
+			message = "Family " + familyName + " decline offer because don't have room available for student " + studentName;
+			subject = "Family "  + familyName + " don't have room";
+		};
+		if (reason.equals("Refuse")){
+			message = "Family " + familyName + " don't accept student " + studentName;
+			subject = "Family "  + familyName + " don't accept student";
+		};
+		if (reason.equals("DocsOk")){
+			message = "Confirmation letter sent to a sutdent " + studentName;
+			subject = "Confirmation letter sent to a sutdent " + studentName;
+		};
+		if (reason.equals("InHouse")){
+			message = "Student " + studentName + " arrived and he is in house";
+			subject = "Student " + studentName + " in house";
+		};
+		if (reason.equals("Cancel")){
+			message = "Student " + studentName + " cancel accommodation";
+			subject = "Student " + studentName + " cancel";
+		};
+		if (reason.equals("Terminated")){
+			message = "Student " + studentName + " finished accommodation";
+			subject = "Student " + studentName + " finished";
+		};
+		sendEmailHtml.sendEmailHtml("smtp.gmail.com", 
+				"grenneglr@gmail.com", 
+				"Helena#2013", 
+				"grenneglr@gmail.com", 
+				"grenneglr@gmail.com", 
+				subject, 
+				template.emailHtml(
+						familyName, 
+						emailFamily, 
+						studentName, 
+						emailStudent, 
+						subject, 
+						message));
+
+		return "Thanks for your decision";
 	};
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

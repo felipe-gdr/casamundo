@@ -195,7 +195,7 @@
 		    };
 	        var familyName = student.trip.familyName;
         	invoices = "<li><a href='create-invoice.html?mail=" + student.mail + "&typePage=create&actualTrip=" + actualTrip + "'>Create invoice</a></li>";
-        	var dadosStudent = " data-idFamily='" + idFamily + "' data-familyName='" + familyName + "' data-emailStudent='" + emailStudent + "' data-emailStudent='" + idStudent + "' data-actualTrip='" + actualTrip + "'";
+        	var dadosStudent = " data-idFamily='" + idFamily + "' data-familyName='" + familyName +  "' data-emailStudent='" + emailStudent + "' data-idStudent='" + idStudent + "' data-actualTrip='" + actualTrip  + "' data-start='" + student.trip.start + "' data-end='" + student.trip.end + "'";
 	        if (localStorage.usuarioPerfil == "caretaker" | localStorage.usuarioPerfil == "administrator" | localStorage.usuarioPerfil == "tools"){
 	        	if (localStorage.accommodation == "Homestay"){
 		        	if (student.trip.status == "Available" | student.trip.status == "Partially allocated"){
@@ -205,7 +205,7 @@
 			        		"<li data-process='changestatustocanceled'" + dadosStudent + "><a href='#'>Cancel</a></li>";
 			        	if (student.trip.status == "Partially allocated"){
 			        		actions = actions +	
-			        		"<li data-process='deallocatebed' data-idStudent='" + student._id + "' data-emailStudent='" + emailStudent + "'  data-idRoom='" + student.trip.idRoom + "'  data-idBed='" + student.trip.idBed + "' data-actualTrip='" + actualTrip + "'><a href='#'>Deallocated bed</a></li>";
+			        		"<li data-process='deallocatebed''" + dadosStudent + "><a href='#'>Deallocated bed</a></li>";
 			        	};
 			        };
 			        if (student.trip.status == "Allocated"){
@@ -442,8 +442,9 @@
             	$("#listStudent li").off('click');
 	    		$("#listStudent li").on('click',function(){
 	    			if ($(this).attr('data-process') == "deallocateroom") {
-	    				rest_obterFamily($(this).attr('data-familyName'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
-	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Available", $(this).attr('data-actualTrip') );
+	    				if (call_rest_get ("family/deallocate/room", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&idFamily=" + $(this).attr('data-idFamily') + "&start=" + $(this).attr('data-start') + "&end=" + $(this).attr('data-end'))){
+	    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Available");
+	    				};
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 
 	    			};
@@ -453,10 +454,9 @@
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocanceled") {
-	    				if ($(this).attr('data-familyName')){
-	    					rest_obterFamily($(this).attr('data-familyName'), deallocateRoom, semAcao, $(this).attr('data-emailStudent') );
+	    				if (call_rest_get ("family/deallocate/room", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&idFamily=" + $(this).attr('data-idFamily'))){
+	    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Available");
 	    				};
-	    				rest_obterStudent($(this).attr('data-emailStudent'), clearAllocation, semAcao, "Canceled", $(this).attr('data-actualTrip'));
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocanceleddorms") {
@@ -469,62 +469,59 @@
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "confirmdorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), manualConfirmAllocation, semAcao, $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Confirmed");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "sendemailtofamilytoconfirm") {
 	    				rest_obterFamily($(this).attr('data-familyName'), sendEmailToFamilyToConfirm, semAcao, $(this).attr('data-emailStudent') );
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Offered", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Offered");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "sendlettertostudent") {
 	    			//	rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Documents");
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustodocuments") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Documents", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Documents");
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustodocumentsdorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Documents", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Documents");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustoinhouse") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "In house");
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustoinhousedorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "In house");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
+	    			if ($(this).attr('data-process') == "changestatustoinhouse") {
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "In house");
+	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+	    			};
 	    			if ($(this).attr('data-process') == "changestatustocheckout") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Checked out", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Checked out");
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "changestatustocheckoutdorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Checked out", $(this).attr('data-actualTrip'));
-	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
-	    			};
-	    			if ($(this).attr('data-process') == "changestatustoinhouse") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house", $(this).attr('data-actualTrip'));
-	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
-	    			};
-	    			if ($(this).attr('data-process') == "changestatustoinhousedorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "In house", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Checked out");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "recovercanceled") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Available", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Available");
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "recovercanceleddorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Available", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Available");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "evaluetereceived") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Evaluete received", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Evaluete received");
 	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 	    			};
 	    			if ($(this).attr('data-process') == "evaluetereceiveddorms") {
-	    				rest_obterStudent($(this).attr('data-emailStudent'), changeStatus, semAcao, "Evaluete received", $(this).attr('data-actualTrip'));
+    					call_rest_get ("student/changeStatus", "idStudent=" + $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Evaluete received");
 	    				$(window.document.location).attr('href','students.html?accommodation=Dorms');
 	    			};
 	    			if ($(this).attr('data-process') == "newtrip") {

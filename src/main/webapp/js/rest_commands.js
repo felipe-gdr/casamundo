@@ -112,12 +112,15 @@
     	});
     };
     
-    function rest_changeStatus(action_ok, action_notOk, objJson ) {
-    	$.ajax({
-            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/changeStatus?params=mail:" + objJson.mail + "/indexTrip:" + objJson.indexTrip + "/status:" + status + "/familyName:" + objJson.familyName + "/emailFamily:" + objJson.emailFamily + "/reason:" + objJson.reason,
+    function rest_changeStatus(idStudent, action_notOk, objJson ) {
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/changeStatus?",
             contentType: "application/json; charset=utf-8",
-            dataType: 'json'
-    	})
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false    	
+		})        	
     	.done(function( data ) {
     		action_ok(data);
     	})
@@ -311,7 +314,54 @@
     	});
 
     };
-
+    function rest_allocate_room_family (objJson){
+    	var result = false;
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/allocate/room",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		result = true;
+        	}else{
+        		result = false;
+        	};
+    	});    	
+		
+		return result;
+    };
+    function rest_deallocate_room_family (objJson){
+    	var result = false;
+		$.ajax({
+			type: "POST",
+            url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/deallocate/room",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data : JSON.stringify(objJson),
+            async:false    	
+		})        	
+		.done(function( data ) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+        	if (data.status = 200) {
+        		result = true;
+        	}else{
+        		result = false;
+        	};
+    	});    	
+		
+		return result;
+    };
     function rest_obterAgencyAll(action_ok, var1, var2) {
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/agency/lista",
@@ -1781,7 +1831,7 @@
     	return payments;
     };
 
-    function rest_invoie_get_number() {
+    function rest_invoice_get_number() {
     	var  number = "0/0000";
     	$.ajax({
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/get/number",
@@ -1800,4 +1850,44 @@
     	});
     	
     	return number;
+    };
+    
+    function call_rest_get(rest, params){
+    	
+    	var result = null;
+    	$.ajax({
+            url: localStorage.mainUrl + "casamundo/rest/" + rest + "?" + params,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            async:false
+    	})
+    	.done(function(data) {
+    	})
+    	.fail(function(data) {
+    	})
+    	.always(function(data) {
+    		result = data;
+    	});
+    	
+    	return result;
+    	
+    };
+    function call_rest_post(rest, objJson){
+    	var result = null;
+		$.ajax({
+			type: "POST",
+    		url : localStorage.mainUrl + "casamundo/rest/" + rest,
+    		contentType : "application/json; charset=utf-8",
+    		dataType : 'json',
+    		async : false,
+            data : JSON.stringify(objJson)
+
+    	}).done(function(data) {
+    		dataReturn = data; 
+    	}).fail(function(data) {
+    		dataReturn = null;
+    	}).always(function(data) {
+    		result = data;
+    	});
+    	return result;
     };

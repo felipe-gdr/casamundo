@@ -2,8 +2,13 @@ package com.rcapitol.casamundo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.json.simple.JSONObject;
+
+import com.mongodb.BasicDBObject;
 
 
 public class Commons {
@@ -92,6 +97,8 @@ public class Commons {
 		//Note: +1 the month for current month
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int year = calendar.get(Calendar.YEAR);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int min = calendar.get(Calendar.MINUTE);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 		int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
@@ -99,11 +106,25 @@ public class Commons {
 		String dayString = "";
 		String monthString = "";
 		String yearString = "";
+		String hourString = "";
+		String minString = "";
 
 		if (day < 10){
 			dayString = "0" + String.valueOf(day);
  		}else{
  			dayString = String.valueOf(day);
+ 		};
+
+		if (hour < 10){
+			hourString = "0" + String.valueOf(hour);
+ 		}else{
+ 			hourString = String.valueOf(hour);
+ 		};
+
+		if (min < 10){
+			minString = "0" + String.valueOf(min);
+ 		}else{
+ 			minString = String.valueOf(min);
  		};
 
 		if (month < 10){
@@ -115,6 +136,9 @@ public class Commons {
  		String dateString = "";
  		if (type == "inv_month_number"){
  			dateString = String.valueOf(year) + monthString + dayString;
+ 		};
+ 		if (type == "yyyy-mm-dd-time"){
+ 			dateString = String.valueOf(year) + monthString + dayString + hourString + minString;
  		};
 		  
 		return dateString;
@@ -217,5 +241,24 @@ public class Commons {
 	    };
 		return strDate.substring(0, 2) + mesAlpha + strDate.substring(4, 8);
 	};
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<JSONObject> atualizaArrayObjeto (ArrayList<JSONObject> origem, JSONObject elemento, int index, Boolean atualiza) {
+		
+		ArrayList<JSONObject> result = new ArrayList<JSONObject>();
+		for (int i = 0; i < origem.size(); i++) {
+			if (i != index) {
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.putAll(origem.get(i));
+				result.add(jsonObj);
+			};
+		};
+		if (atualiza) {
+			result.add(elemento);
+		};
+		
+		return result;
+	};
 
-}
+		
+};

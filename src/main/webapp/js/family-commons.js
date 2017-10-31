@@ -4,8 +4,8 @@
 	$('.addressMap').removeClass("hide");
 	generate_map_7(results[0].geometry.location.lat(), results[0].geometry.location.lng());	
 	var objJson = JSON.parse(localStorage.getItem("family"));
-	objJson.documento.address.latitude = results[0].geometry.location.lat();
-	objJson.documento.address.longitude = results[0].geometry.location.lng();
+	objJson.documento.address.latitude = results[0].geometry.location.lat().toString();
+	objJson.documento.address.longitude = results[0].geometry.location.lng().toString();
 	localStorage.setItem("family", JSON.stringify(objJson));
 };
 

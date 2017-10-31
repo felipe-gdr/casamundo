@@ -20,6 +20,7 @@ import com.mongodb.MongoException;
 
 public class Commons_DB {
 	
+	Commons commons = new Commons();
 	@SuppressWarnings({ "rawtypes" })
 	public Response ObterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
@@ -53,6 +54,37 @@ public class Commons_DB {
 			return Response.status(400).entity(null).build();			
 		}
 	};
+	@SuppressWarnings({ "rawtypes" })
+	public BasicDBObject ObterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+		Mongo mongo;
+		mongo = new Mongo();
+		DB db = (DB) mongo.getDB("documento");
+		DBCollection collection = db.getCollection(collectionName);
+		BasicDBObject setQuery = new BasicDBObject();
+		if (value != null) {
+			if (key.equals("_id")) {
+				ObjectId idObj = new ObjectId(value);
+				setQuery = new BasicDBObject(key, idObj);
+			}else {
+				setQuery = new BasicDBObject(key, value);
+			};
+			DBObject cursor = collection.findOne(setQuery);
+			if (cursor != null) {
+				BasicDBObject documento = new BasicDBObject();
+				documento.putAll((Map) cursor.get("documento"));
+				String id = ((BasicBSONObject) cursor).getString("_id");
+				documento.put("_id", id);
+				mongo.close();
+				return documento;
+			}else {
+				mongo.close();
+				return null;
+			}
+		}else {
+			mongo.close();
+			return null;			
+		}
+	};
 
 	public Response IncluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
 		Mongo mongo;		
@@ -78,6 +110,8 @@ public class Commons_DB {
 		}else {
 			setQuery = new BasicDBObject(key, value);
 		};
+		documento.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
+
 		DBObject update = new BasicDBObject(documento);
 		collection.findAndModify(setQuery,
                 null,
@@ -121,6 +155,5 @@ public class Commons_DB {
 			return Response.status(400).entity(null).build();			
 		}
 	};
-
 };
 

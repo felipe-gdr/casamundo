@@ -161,7 +161,10 @@
 	    		    			end : $(this).attr('data-end'),
 	    		    			occupancy : $(this).attr('data-occupancy')
 	    				};
-	    				rest_obterFamily($(this).attr('data-familyName'), updateRooms, semAcao, objJson, actualTrip);
+	    				if (call_rest_post ("family/allocate/room", objJson)){
+	    					call_rest_get ("student/changeStatus", "idStudent=" +  $(this).attr('data-idStudent')  + "&indexTrip=" + $(this).attr('data-actualTrip') + "&status=" + "Allocated");
+	    				};
+/*	    				rest_obterFamily($(this).attr('data-familyName'), updateRooms, semAcao, objJson, actualTrip);
 	    				$('#roomNumberHomestay').html((parseInt($(this).attr('data-roomNumber')) + 1));
 	    				$('#singleBed').html($(this).attr('data-roomSingle'));
 	    				$('#coupleBed').html($(this).attr('data-roomCouple'));
@@ -172,7 +175,7 @@
 //	    				$(".notChange" ).addClass("hide");
 //	    				$("#accommodation" ).focus();	    				
 	    				// *** refresh students list
-	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
+*/	    				$(window.document.location).attr('href','students.html?accommodation=Homestay');
 
 	    			};
 	    		});
@@ -291,6 +294,8 @@
 	        	// ** literal para constar na linha
 	            var rooms = "";
 			    $.each(family.rooms, function (i, room) {
+			    	var availableSingleBedText = "no available beds";
+			    	var availableCoupleBedText = "no available beds";
 		            var studentOccupancyData =
 		            	{
 		            		lastEmail : "",
@@ -300,12 +305,6 @@
 		            		nextDate : 999999999999999999999999999999999999,
 		            		nextDateShow : 0
 		            	};
-			    	// ** montar literal dos quartos
-			    	rooms = rooms + 
-				    	"<span class='text text-table-main'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
-				    	"<span class='text text-table'>" + "Single " + room.singleBed + " couple " + room.coupleBed + "</span><br>" +
-				    	"<span class='text text-table'>" + "Private WC " + room.privateWashroom + "</span><br>" +
-				    	"<span class='text text-table'>" + room.level + "</span><br>";
 			    	// ** verificar se ha quartos disponiveis 
 		        	if (room.singleBed){
 			    		if (room.singleBed == 1){
@@ -316,7 +315,7 @@
 			    		if (room.occupancySingleBed){
 				    		var singleBedAvailable = room.singleBed - bedsOccupiedFamily(room.occupancySingleBed, actualTrip);
 				    		if (singleBedAvailable == 0){
-				    			availableBedText = "no available single beds"
+				    			availableSingleBedText = "no available beds"
 				    		}else{
 					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancySingleBed, studentOccupancyData, actualTrip);
 				    			roomSingle = i;
@@ -326,26 +325,12 @@
 				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 				    				};
 				    			};
-				    			if (student.documento.trips[actualTrip].occupancy == "Couple" && singleBedAvailable > 1){
-				    				if (student.documento.trips[actualTrip].status == "Available"){
-				    					roomsAvailable = true;
-				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
-				    				};
-				    			};
-					    		if (singleBedAvailable == 1){
-					    			availableBedText = "available " + singleBedAvailable + " bed"
-					    		}else{
-					    			availableBedText = "available " + singleBedAvailable + " beds"
-					    		};
+				    			availableSingleBedText = "available " + singleBedAvailable
 				    		};
-				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
+				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableSingleBedText
 			    		}else{
-				    		if (room.singleBed == 1){
-				    			availableBedText = "available " + singleBedAvailable + " bed"
-				    		}else{
-				    			availableBedText = "available " + singleBedAvailable + " beds"
-				    		};
-				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableBedText
+			    			availableSingleBedText = "available " + singleBedAvailable
+				    		singleBedText = room.singleBed + " single " + literal_1 + ", " + availableSingleBedText
 	    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 				    		roomsAvailable = true;
 			    		}
@@ -359,7 +344,7 @@
 			    		if (room.occupancyCoupleBed){
 				    		var coupleBedAvailable = room.coupleBed - bedsOccupiedFamily(room.occupancyCoupleBed, actualTrip);
 				    		if (coupleBedAvailable == 0){
-				    			availableBedText = "no available couple beds"
+				    			availableCoupleBedText = "no available couple beds"
 				    		}else{
 					    		studentOccupancyData = lastNextOccupancyFamily(room.occupancyCoupleBed, studentOccupancyData, actualTrip);
 				    			roomCouple = i;
@@ -369,23 +354,22 @@
 				    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 				    				};
 				    			};
-					    		if (coupleBedAvailable == 1){
-					    			availableBedText = "available " + coupleBedAvailable + " bed"
-					    		}else{
-					    			availableBedText = "available " + coupleBedAvailable + " beds"
-					    		};
+				    			availableCoupleBedText = "available " + coupleBedAvailable
 				    		};
-				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
+				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableCoupleBedText
 			    		}else{
-				    		if (room.coupleBed == 1){
-				    			availableBedText = "available " + coupleBedAvailable + " bed"
-				    		}else{
-				    			availableBedText = "available " + coupleBedAvailable + " beds"
-				    		};
-				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableBedText
+			    			availableCoupleBedText = "available " + coupleBedAvailable
+				    		coupleBedText = room.coupleBed + " couple " + literal_1 + ", " + availableCoupleBedText
 	    					actions = actions + "<li  id='room_'" + room.number + "' data-process='offertofamily' data-roomNumber='" + room.number + "' data-note='" + room.note + "' data-roomCouple='" + room.coupleBed + "'  data-roomSingle='" + room.singleBed + "' data-idFamily='" + family._id + "' data-familyName='" + family.familyName + "'  data-emailFamily='" + family.contact.email + "' data-emailStudent='" + emailStudent + "'  data-idStudent='" + idStudent + "'  data-actualTrip='" + actualTrip + "' data-start='" + student.documento.trips[actualTrip].start + "' data-end='" + student.documento.trips[actualTrip].end + "' ' data-occupancy='" + student.documento.trips[actualTrip].occupancy + "'><a href='#' id='allocateRoom_" + room.number + "_" + family.familyName + "'>Allocate room number " + (parseInt(room.number) + 1) + "</a></li>";
 			    		};
 			    	};
+			    	// ** montar literal dos quartos
+			    	rooms = rooms + 
+				    	"<span class='text text-table-main'>" + "Bedroom " + (parseInt(room.number) + 1) + "</span><br>" +
+				    	"<span class='text text-table'>" + room.singleBed + " single " + "- " + availableSingleBedText + "</span><br>" +
+				    	"<span class='text text-table'>" + room.coupleBed + " couple "  + "- " + availableCoupleBedText  + "</span><br>" +
+				    	"<span class='text text-table'>" + "Private WC " + room.privateWashroom + "</span><br>" +
+				    	"<span class='text text-table'>" + room.level + "</span><br>";
 			    	if (room.privateWashroom){
 			    		if (room.privateWashroom == "Yes"){
 			    			privateWashroomText = " Have private washroom"
