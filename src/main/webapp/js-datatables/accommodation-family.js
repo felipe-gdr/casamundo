@@ -533,15 +533,12 @@
 				
 				if (startTrip >= startOccupancy && startTrip <= endOccupancy){
 					occupied = occupied + 1;	
-					return;
 				};
 				if (endTrip >= startOccupancy && endTrip <= endOccupancy){
 					occupied = occupied + 1;	
-					return;
 				};
 				if (startTrip <= startOccupancy && endTrip >= endOccupancy){
 					occupied = occupied + 1;	
-					return;
 				};
 				
 			};

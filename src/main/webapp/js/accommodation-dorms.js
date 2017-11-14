@@ -36,7 +36,7 @@
  				(DayPilot.Date(endNewEvent).getMonth() + 1) + "/" + 
  				DayPilot.Date(endNewEvent).getYear()) + 1) - 1;
 		
-		var usedDays = daysUsed(rooms_actualTrip);
+		var usedDays = daysUsed(rooms_actualTrip, startNewEvent, endNewEvent );
 		var startNewEvent = DayPilot.Date(startNewEvent).addDays(usedDays);
 
 		var realDaysTrip = (calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
@@ -108,7 +108,8 @@
 	    	    unitName : room.unitName,
 	    	    roomName : room.roomName,
 	    	    bedName : room.bed.name,
-	    	    actualTrip: occupancy.actualTrip
+	    	    actualTrip: occupancy.actualTrip,
+	    	    occupancy:room.bed.occupancies
 			};
 
         	var bedUnit = 
@@ -148,7 +149,7 @@
 				        	};
 			        	};		        		
 		        	}
-		        	var occupancies = montaOccpancies(occupancy.student_occupancies);		        	
+		        	var occupancies = montaOcupancies(occupancy.student_occupancies);		        	
 	    			var event = 
 	    				{
 	    		          start: separadorAnoMesDia(occupancy.startOccupancy, "-") + "T12:00:00",
@@ -200,7 +201,7 @@
 	function montaLinhaTree(dp, name, tipo){
 		
 	};
-	function montaOccpancies(student_occupancies){
+	function montaOcupancies(student_occupancies){
 
 		var occupancies = "";
 	    $.each(student_occupancies, function (i, occupancy) {
@@ -219,4 +220,17 @@
 	    	};
 	    });
 		return usedDays;
+	};
+	
+	function inicioFim(occupancie, start, end){
+
+		var inicioFim = "";
+	    $.each(occupancies, function (i, occupancy) {
+	    	startOccupancy = new DayPilot.Date(separadorAnoMesDia(occupancy.startOccupancy, "-") + "T12:00:00");
+	    	endOccupancy = new DayPilot.Date(separadorAnoMesDia(occupancy.endOccupancy, "-") + "T12:00:00");
+	    	if (start <= startOccupancy){
+	    		
+	    	};
+	    });
+		return inicioFim;
 	};

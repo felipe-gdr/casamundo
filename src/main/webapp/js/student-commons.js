@@ -156,6 +156,7 @@ function carregaTela(data, actualTrip) {
 		$("#end").attr("disabled", true);
 		$("#occupancy").attr("disabled", true);
 		$("#destination").attr("disabled", true);
+		$("#accommodation").attr("disabled", true);
 	};
 	
 	// **  criar linhas das notas

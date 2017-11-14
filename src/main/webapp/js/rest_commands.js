@@ -7,7 +7,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -28,7 +29,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/student/incluirNewTrip",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -200,7 +202,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/table/atualizar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})        	
 		.done(function(data, var1, var2, var3) {
     	})
@@ -263,7 +266,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/family/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -408,7 +412,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/agency/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -487,7 +492,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/school/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -582,7 +588,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/bank/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -656,7 +663,6 @@
             dataType: 'json',
             data : JSON.stringify(objJson),
             async:false
-    	
 		})        	
 		.done(function( data ) {
     	})
@@ -677,7 +683,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/mainIntersection/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -755,7 +762,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/subway/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -817,7 +825,6 @@
             dataType: 'json',
             data : JSON.stringify(objJson),
             async:false
-    	
 		})        	
 		.done(function( data ) {
     	})
@@ -838,7 +845,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetable/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false
 		})
 	  	.done(function( data ) {
 	  	})
@@ -921,7 +929,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablevalue/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1004,7 +1013,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pricetablecost/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1065,7 +1075,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/atualizar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(documento)
+            data : JSON.stringify(documento),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  		dataReturn = data;
@@ -1085,7 +1096,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(documento)
+            data : JSON.stringify(documento),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  		dataReturn = data;
@@ -1125,7 +1137,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/changeStatus",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1146,7 +1159,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/excluiInstallment",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1167,7 +1181,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/invoice/incluiInstallment",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1213,7 +1228,6 @@
             dataType: 'json',
             data : JSON.stringify(objJson),
             async:false
-    	
 		})        	
 		.done(function( data ) {
     	})
@@ -1234,7 +1248,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1293,7 +1308,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/changeStatus",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1314,7 +1330,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/excluiInstallment",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1335,7 +1352,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/payment/incluiInstallment",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1381,7 +1399,6 @@
             dataType: 'json',
             data : JSON.stringify(objJson),
             async:false
-    	
 		})        	
 		.done(function( data ) {
     	})
@@ -1402,7 +1419,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/dorm/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1507,8 +1525,7 @@
             dataType: 'json',
             data : JSON.stringify(objJson),
             async:false
-    	
-		})        	
+ 		})        	
 		.done(function( data ) {
     	})
     	.fail(function(data) {
@@ -1528,7 +1545,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1585,7 +1603,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/room/reallocate/bed",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1629,7 +1648,6 @@
             dataType: 'json',
             data : JSON.stringify(objJson),
             async:false
-    	
 		})        	
 		.done(function( data ) {
     	})
@@ -1650,7 +1668,8 @@
             url: "http://" + localStorage.urlServidor + ":8080/casamundo/rest/pickup/incluir",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data : JSON.stringify(objJson)
+            data : JSON.stringify(objJson),
+            async : false            
 		})
 	  	.done(function( data ) {
 	  	})
@@ -1696,7 +1715,6 @@
     		dataType : 'json',
     		async : false,
             data : JSON.stringify(obj)
-
     	}).done(function(data) {
     		dataReturn = data; 
     	}).fail(function(data) {

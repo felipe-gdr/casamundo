@@ -69,7 +69,8 @@ public class Rest_UploadFiles {
         
 		File target = new File(folder + image);
         if(!target.exists()){
-            throw new WebApplicationException(404);
+        	System.out.println("imagem inexistente:" + folder + image);
+//            throw new WebApplicationException(404);
         }
         String mt = new MimetypesFileTypeMap().getContentType(target);
         return Response.ok(target, mt).build();

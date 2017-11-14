@@ -128,84 +128,117 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
 
     
     dp.onRowClick = function (args) {
-    	if (newEventCreated){
-        	dp.events.remove(newEventCreated).queue();
-    	};
-    	var occupancy = {
-    			idStudent : idStudent,
-    			startOccupancy : par_startTrip,
-    			endOccupancy : par_endTrip,
-    			actualTrip : actualTrip
-    	};
-    	var data = {
-                start: startNewEvent,
-                end: endNewEvent,
-                id: DayPilot.guid(),
-                resource: args.resource.id,
-                text: eventName,
-                resource : args.resource.data.room_bed,
-                occupancy : occupancy,
-                idStudent : idStudent,
-    	        actualTrip: actualTrip,
-    	        student : student,
-    	        student_daysTrip : difDiasTripAllocate,
-    	        student_usedDays : 0,
-    	        newAllocated : false
-            };
-        var e = new DayPilot.Event({
-            start: startNewEvent,
-            end: endNewEvent,
-            id: DayPilot.guid(),
-            resource: args.resource.id,
-            text: eventName,
-            resource : args.resource.data.room_bed,
-            occupancy : occupancy,
-            idStudent : idStudent,
-            actualTrip: actualTrip,
-            student : student,
-            student_daysTrip : difDiasTripAllocate,
-            student_usedDays : 0,
-            newAllocated : false,
-            newStart: startNewEvent,
-            newEnd: endNewEvent
-        });
-        var args = {
-        		e : e,
-                newStart: startNewEvent,
-                newEnd: endNewEvent,
-                newResource : args.resource.data.room_bed
+
+        if (checkBedFree(args.row.data.room_bed.occupancy, par_startTrip, par_endTrip)) { 
+	    	
+	    	if (newEventCreated){
+	        	dp.events.remove(newEventCreated).queue();
+	    	};
+	    	var occupancy = {
+	    			idStudent : idStudent,
+	    			startOccupancy : par_startTrip,
+	    			endOccupancy : par_endTrip,
+	    			actualTrip : actualTrip
+	    	};
+	    	var data = {
+	                start: startNewEvent,
+	                end: endNewEvent,
+	                id: DayPilot.guid(),
+	                resource: args.resource.id,
+	                text: eventName,
+	                resource : args.resource.data.room_bed,
+	                occupancy : occupancy,
+	                idStudent : idStudent,
+	    	        actualTrip: actualTrip,
+	    	        student : student,
+	    	        student_daysTrip : difDiasTripAllocate,
+	    	        student_usedDays : 0,
+	    	        newAllocated : false
+	            };
+	        var e = new DayPilot.Event({
+	            start: startNewEvent,
+	            end: endNewEvent,
+	            id: DayPilot.guid(),
+	            resource: args.resource.id,
+	            text: eventName,
+	            resource : args.resource.data.room_bed,
+	            occupancy : occupancy,
+	            idStudent : idStudent,
+	            actualTrip: actualTrip,
+	            student : student,
+	            student_daysTrip : difDiasTripAllocate,
+	            student_usedDays : 0,
+	            newAllocated : false,
+	            newStart: startNewEvent,
+	            newEnd: endNewEvent
+	        });
+	        var args = {
+	        		e : e,
+	                newStart: startNewEvent,
+	                newEnd: endNewEvent,
+	                newResource : args.resource.data.room_bed
+	        };
+	
+	    	var objOccupancy =
+			{
+				idStudent : args.e.data.idStudent,
+				actualTrip : args.e.data.actualTrip,
+				newIdRoom : args.newResource.idRoom,
+				newIdBed : args.newResource.idBed,
+				newStart : converteDayPilotDate (startNewEvent, "", true),
+				newEnd : converteDayPilotDate (endNewEvent, "", true),
+				oldStart : "",
+				oldEnd : ""
+			};
+	    	
+	        localStorage.insert = "true";
+	
+	        var param = 
+	        	{	dp:dp,
+	        		args:args,
+	        		e,
+	        		data,
+	        		startNewEvent:startNewEvent,
+	        		objOccupancy : objOccupancy
+	        	};
+	
+	        rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, dp, actualTrip, idStudent)
+        }else{
+            dp.message(
+            		"Bed occupied");        	
         };
-
-    	var objOccupancy =
-		{
-			idStudent : args.e.data.idStudent,
-			actualTrip : args.e.data.actualTrip,
-			newIdRoom : args.newResource.idRoom,
-			newIdBed : args.newResource.idBed,
-			newStart : converteDayPilotDate (startNewEvent, "", true),
-			newEnd : converteDayPilotDate (endNewEvent, "", true),
-			oldStart : "",
-			oldEnd : ""
-		};
-        
-        localStorage.insert = "true";
-
-        var param = 
-        	{	dp:dp,
-        		args:args,
-        		e,
-        		data,
-        		startNewEvent:startNewEvent,
-        		objOccupancy : objOccupancy
-        	};
-
-        rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, dp, actualTrip, idStudent)
     	
     };
     
     return dp;
 };
 
+function checkBedFree(occupancies, new_startTrip, new_endTrip){
+	var occupied = false;
+    $.each(occupancies, function (i, occupancy) {
+		if (occupancy.idStudent){
+			var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
+			var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));		
+			var startTrip = Date.parse(new Date(separaAnoMesDia(new_startTrip))); 
+			var endTrip = Date.parse(new Date(separaAnoMesDia(new_endTrip)));		
+			if (startTrip >= startOccupancy && startTrip < endOccupancy){
+				occupied = true;	
+			};
+			if (endTrip > startOccupancy && endTrip <= endOccupancy){
+				occupied = true;	
+			};
+			if (startTrip <= startOccupancy && endTrip >= endOccupancy){
+				occupied = true;	
+			};
+			
+		};
+    });
+    if (occupied) {
+    	return false;
+    }else{
+    	return true;
+    };
+};
 function checkDatesCall (objStudent, param, dp, objOccupancy){
 
 	if (checkDates(param.dp, param.args, objStudent, daysUsed(objStudent.rooms_actualTrip))){
@@ -217,7 +250,7 @@ function checkDatesCall (objStudent, param, dp, objOccupancy){
     
 };
 
-function checkDates(dp, args, usedDays){
+function checkDates(dp, args, objStudent, usedDays){
 	
 	var actualTrip = args.e.data.actualTrip;
 	var statusCollor = "#ffff80";
