@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Modal</title>
+    <!-- Jquery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+.
+.
+<!-- #dialog é o id do DIV definido como mostrado a seguir  -->
+<a href="#dialog" name="modal">Janela Modal Simples</a>
+
+<div id="boxes">
+
+<!-- #personalize sua janela modal aqui -->
+
+<div id="dialog" class="window">
+<b>Teste de Janela Modal</b>
+
+<!-- Botão para fechar a janela tem class="close" -->
+<a href="#" class="close">Fechar [X]</a><br /><br>Janela Modal Simples<br />  <br>Aqui vai o conteúdo da sua Janela Modal Simples.<br></div>
+
+<!-- Não remova o div#mask, pois ele é necessário para preencher toda a janela -->
+<div id="mask"></div>
+</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+
+//seleciona os elementos a com atributo name="modal"
+$('a[name=modal]').click(function(e) {
+//cancela o comportamento padrão do link
+e.preventDefault();
+
+//armazena o atributo href do link
+var id = $(this).attr('href');
+
+//armazena a largura e a altura da tela
+var maskHeight = $(document).height();
+var maskWidth = $(window).width();
+
+//Define largura e altura do div#mask iguais ás dimensões da tela
+$('#mask').css({'width':maskWidth,'height':maskHeight});
+
+//efeito de transição
+$('#mask').fadeIn(1000);
+$('#mask').fadeTo("slow",0.8);
+
+//armazena a largura e a altura da janela
+var winH = $(window).height();
+var winW = $(window).width();
+//centraliza na tela a janela popup
+$(id).css('top',  winH/2-$(id).height()/2);
+$(id).css('left', winW/2-$(id).width()/2);
+//efeito de transição
+$(id).fadeIn(2000);
+});
+
+//se o botãoo fechar for clicado
+$('.window .close').click(function (e) {
+//cancela o comportamento padrão do link
+e.preventDefault();
+$('#mask, .window').hide();
+});
+
+//se div#mask for clicado
+$('#mask').click(function () {
+$(this).hide();
+$('.window').hide();
+});
+});
+</script>
+</html>

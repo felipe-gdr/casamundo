@@ -37,7 +37,18 @@
  				DayPilot.Date(endNewEvent).getYear()) + 1) - 1;
 		
 		var usedDays = daysUsed(rooms_actualTrip, startNewEvent, endNewEvent );
-		var startNewEvent = DayPilot.Date(startNewEvent).addDays(usedDays);
+		
+		if (usedDays != 0){
+			if (rooms_actualTrip.length == 1) {
+				if (rooms_actualTrip[0].occupancy.startOccupancy == par_startNewEvent){
+					startNewEvent = DayPilot.Date(startNewEvent).addDays(usedDays);
+				}else{
+					endNewEvent = DayPilot.Date(endNewEvent).addDays((usedDays * -1));
+				};
+			}else{
+				startNewEvent = DayPilot.Date(startNewEvent).addDays(usedDays);
+			};
+		};
 
 		var realDaysTrip = (calculaDias (DayPilot.Date(startNewEvent).getDay() + "/" + 
  				(DayPilot.Date(startNewEvent).getMonth() + 1) + "/" + 
@@ -166,6 +177,7 @@
 	    		          student_daysTrip : realDaysTrip,
 	    		          student_totalDaysTrip : totalDaysTrip,
 	    		          student_usedDays : daysUsed(occupancy.student_occupancies),
+	    		          student_rooms_actualtrip : rooms_actualTrip,
 	    		          newAllocated : false
 	    		        };
 	    			var data =
@@ -180,6 +192,7 @@
 		    		        student_daysTrip : realDaysTrip,
 		    		        student_totalDaysTrip : totalDaysTrip,
 		    		        student_usedDays : daysUsed(occupancy.student_occupancies),
+		    		        student_rooms_actualtrip : rooms_actualTrip,
 		    		        newAllocated : false
 	    				}
 			        events.push(event, data);

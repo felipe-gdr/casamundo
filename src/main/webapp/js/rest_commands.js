@@ -46,6 +46,7 @@
     };
 
     function rest_obterStudent(email, action_ok, action_not_ok, var1, var2, actualTrip, idStudent, var3, var4) {
+    	var result = null;
     	var parametro = "";
     	if (var3){
     		if (var3 == "complementaDados"){
@@ -69,8 +70,9 @@
     	.done(function(data) {
     		if (typeof data !== "undefined") {
     			action_ok(data, var1, var2, var3, var4);
+    			result = data;
     		}else{
-    			action_not_ok (data, var1, var3, var4)	
+    			action_not_ok (data, var1, var3, var4);
     		};
     	})
     	.fail(function(data) {
@@ -78,6 +80,8 @@
     	})
     	.always(function(data) {
     	});
+    	
+    	return result;
     };
     
     function rest_obterStudentsAll(action_ok, action_notOk, destination, accommodation, filters, var1) {

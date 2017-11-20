@@ -259,6 +259,15 @@ function separaAnoMesDia ( data) {
 	}
 };
 
+function converteDataDayPilot ( data) {
+	if (data){
+		var month = DayPilot.Date(data).getMonth() + 1;
+		return '"' + DayPilot.Date(data).getYear() + '","' + month + '","' + DayPilot.Date(data).getDay() + '"';
+	}else{
+		return "2000,01,01";
+	}
+};
+
 function getDia ( data) {
 
 	if (data){

@@ -59,7 +59,7 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     };
 
     dp.onEventMove = function(args) {
-    	checkDates(dp, args, args.e.data.student_usedDays);
+       	checkDates(dp, args, args.e.data.student_usedDays, args.newResource.occupancy, startNewEvent, endNewEvent);
     };
 
     dp.onEventMoved = function (args) {
@@ -91,8 +91,7 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     	if (args.newEnd != args.e.data.end){
     		args.newEnd = DayPilot.Date(args.newEnd).addHours(-12);
     	};
-    	checkDates(dp, args, args.e.data.student_usedDays);
-
+    	checkDates(dp, args, args.e.data.student_usedDays, args.e.data.resource.occupancy, startNewEvent, endNewEvent);
     };
 
     dp.onEventResized = function (args) {
@@ -129,8 +128,8 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     
     dp.onRowClick = function (args) {
 
-        if (checkBedFree(args.row.data.room_bed.occupancy, par_startTrip, par_endTrip)) { 
-	    	
+        if (checkBedFree(args.row.data.room_bed.occupancy, startNewEvent, endNewEvent)) { 
+	    	var args_bed_occupancy = args.row.data.room_bed.occupancy;
 	    	if (newEventCreated){
 	        	dp.events.remove(newEventCreated).queue();
 	    	};
@@ -202,7 +201,12 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
 	        		objOccupancy : objOccupancy
 	        	};
 	
-	        rest_obterStudent(null, checkDatesCall, obtencaoNaoEfetuada, param, dp, actualTrip, idStudent)
+	        objStudent = rest_obterStudent(null, semAcao, obtencaoNaoEfetuada, null, null, null, idStudent);
+	        if (objStudent){
+	        	checkDatesCall (objStudent, param, dp, actualTrip, idStudent, args_bed_occupancy, startNewEvent, endNewEvent);
+	        }else{
+	        	obtencaoNaoEfetuada();
+	        }
         }else{
             dp.message(
             		"Bed occupied");        	
@@ -213,35 +217,9 @@ function setupDayPilot (startDate, size, scale, startNewEvent, endNewEvent, even
     return dp;
 };
 
-function checkBedFree(occupancies, new_startTrip, new_endTrip){
-	var occupied = false;
-    $.each(occupancies, function (i, occupancy) {
-		if (occupancy.idStudent){
-			var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
-			var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));		
-			var startTrip = Date.parse(new Date(separaAnoMesDia(new_startTrip))); 
-			var endTrip = Date.parse(new Date(separaAnoMesDia(new_endTrip)));		
-			if (startTrip >= startOccupancy && startTrip < endOccupancy){
-				occupied = true;	
-			};
-			if (endTrip > startOccupancy && endTrip <= endOccupancy){
-				occupied = true;	
-			};
-			if (startTrip <= startOccupancy && endTrip >= endOccupancy){
-				occupied = true;	
-			};
-			
-		};
-    });
-    if (occupied) {
-    	return false;
-    }else{
-    	return true;
-    };
-};
-function checkDatesCall (objStudent, param, dp, objOccupancy){
+function checkDatesCall (objStudent, param, dp, actualTrip, idStudent, newResource_occupancy, startNewEvent, endNewEvent){
 
-	if (checkDates(param.dp, param.args, objStudent, daysUsed(objStudent.rooms_actualTrip))){
+	if (checkDates(param.dp, param.args, daysUsed(objStudent.rooms_actualTrip), newResource_occupancy, startNewEvent, endNewEvent)){
     	param.dp.events.add(param.e, param.data);
         newEventCreated = param.e;
 	    param.dp.scrollTo(param.startNewEvent, false,  "middle");        	    	
@@ -250,9 +228,10 @@ function checkDatesCall (objStudent, param, dp, objOccupancy){
     
 };
 
-function checkDates(dp, args, objStudent, usedDays){
+function checkDates(dp, args, usedDays, newResource_occupancy, startNewEvent, endNewEvent){
 	
 	var actualTrip = args.e.data.actualTrip;
+	var idStudent = args.e.data.student._id;
 	var statusCollor = "#ffff80";
 	var startTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].start, "-") + "T12:00:00");
 	var endTrip = new DayPilot.Date(separadorAnoMesDia(args.e.data.student.trips[actualTrip].end, "-") + "T12:00:00");
@@ -342,7 +321,14 @@ function checkDates(dp, args, objStudent, usedDays){
             		" total days allocated (" + daysAllocatted +  ") greater than total days trip (" + args.e.data.student_daysTrip +  ")");
             valid = false;
     	};
-    	if (localStorage.allocated != "false"){
+    	if (valid){
+	        if (!checkBedFree(newResource_occupancy, startNewEvent, endNewEvent, idStudent, actualTrip)) {
+	          dp.message(
+	          		"Bed occupied");        	
+	          valid = false;
+	        };
+    	};
+/*    	if (localStorage.allocated != "false"){
             dp.message(
             		"Student: " +
             		args.e.data.student.firstName + " " + 
@@ -352,10 +338,38 @@ function checkDates(dp, args, objStudent, usedDays){
             		" - Student has been already allocated");
             valid = false;    		
     	};
-    	
+*/    	
     };	
     
     return valid;
+};
+
+function checkBedFree(occupancies, new_startTrip, new_endTrip, idStudent, acctualTrip){
+	var occupied = false;
+    $.each(occupancies, function (i, occupancy) {
+		if (occupancy.idStudent){
+			if (occupancy.idStudent != idStudent || occupancy.actualTrip != actualTrip){
+				var startOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.startOccupancy))); 
+				var endOccupancy = Date.parse(new Date(separaAnoMesDia(occupancy.endOccupancy)));		
+				var startTrip = Date.parse(new Date(converteDataDayPilot(new_startTrip))); 
+				var endTrip = Date.parse(new Date(converteDataDayPilot(new_endTrip)));		
+				if (startTrip >= startOccupancy && startTrip < endOccupancy){
+					occupied = true;	
+				};
+				if (endTrip > startOccupancy && endTrip <= endOccupancy){
+					occupied = true;	
+				};
+				if (startTrip <= startOccupancy && endTrip >= endOccupancy){
+					occupied = true;	
+				};
+			};
+		};
+    });
+    if (occupied) {
+    	return false;
+    }else{
+    	return true;
+    };
 };
 
 function atualizouBed(message, actualTrip, idStudent, args, dp){
