@@ -35,7 +35,7 @@
 		if (parameter[2]) {
 		    criaLinhaNote(0);
 			actualTrip = parameter[2].split("=")[1];
-			$('#number').html(rest_invoie_get_number());
+			$('#number').html(rest_invoice_get_number());
 			rest_obterStudent(mailUrl, carregaDadosTelaInvoice, obtencaoNaoEfetuada, actualTrip);
 		};
 	};
