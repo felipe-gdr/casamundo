@@ -59,20 +59,14 @@ public class Rest_Crud {
 		}
 	};
 
-	@SuppressWarnings("rawtypes")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response Atualizar(JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
 		String collection = (String) queryParam.get("collection");
-		String key = (String) queryParam.get("key");
-		String value = (String) queryParam.get("value");
-		BasicDBObject documento = new BasicDBObject();
-		documento.putAll((Map) queryParam.get("documento"));
-		documento.put("lastChange", String.valueOf(commons.currentTime()));
 		if (collection != null ){
-			return commons_db.AtualizarCrud(collection, documento, key, value);
+			return commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 		}else{
 			return Response.status(400).entity(null).build();	
 		}

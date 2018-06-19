@@ -1,7 +1,9 @@
 package com.rcapitol.casamundo;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
@@ -109,33 +111,88 @@ public class Commons_DB {
 		return Response.status(200).entity("true").build();
 	}
 
-	public Response AtualizarCrud(String collectionName, BasicDBObject documento, String key, String value) throws UnknownHostException, MongoException {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Response atualizarCrud(String collectionName, Object updateInput, String key, String valueInp) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		BasicDBObject setQuery = new BasicDBObject();
-		if (key.equals("_id")) {
-			ObjectId idObj = new ObjectId(value);
-			setQuery = new BasicDBObject(key, idObj);
-		}else {
-			setQuery = new BasicDBObject(key, value);
-		};
-		documento.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
+		
+		BasicDBObject objDocumento = new BasicDBObject();
 
-		DBObject update = new BasicDBObject(documento);
-		collection.findAndModify(setQuery,
-                null,
-                null,
-                false,
-                update,
-                true,
-                false);
-		mongo.close();
-		if (key.equals("_id")) {
-			documento.put("_id", value);
+		Response response = ObterCrud(collectionName, key, valueInp);
+		if ((response.getStatus() == 200)){
+			BasicDBObject cursor = new BasicDBObject();
+			cursor.putAll((Map) response.getEntity());
+			if (cursor != null){
+				objDocumento.putAll((Map) cursor.get("documento"));
+			}else {
+				return Response.status(200).entity("false").build();
+			}
+		}else {
+			return Response.status(200).entity("false").build();
+		}
+		
+		if (objDocumento != null) {
+			List arrayUpdate = (List) updateInput;
+			for (int i = 0; i < arrayUpdate.size(); i++) {
+				BasicDBObject setUpdate = new BasicDBObject();
+				setUpdate.putAll((Map) arrayUpdate.get(i));
+				Object value = setUpdate.get("value");
+				if (value instanceof String){
+					String docUpdate = setUpdate.get("value").toString();
+					objDocumento.remove(setUpdate.get("field"));
+					objDocumento.put((String) setUpdate.get("field"), docUpdate);
+				}else{
+					if (value instanceof ArrayList){
+						ArrayList docUpdate = (ArrayList) setUpdate.get("value");
+						objDocumento.remove(setUpdate.get("field"));
+						JSONArray arrayField = new JSONArray();
+						for (int j = 0; j < docUpdate.size(); j++) {
+							if (docUpdate.get(j) instanceof String){
+								arrayField.add(docUpdate.get(j));									
+							}else{
+								BasicDBObject docUpdateItem = new BasicDBObject();
+								docUpdateItem.putAll((Map) docUpdate.get(j));
+								arrayField.add(docUpdateItem);
+							};
+						};
+						objDocumento.put((String) setUpdate.get("field"), arrayField);
+					}else{
+						BasicDBObject docUpdate = new BasicDBObject();
+						docUpdate.putAll((Map) setUpdate.get("value"));
+						if (setUpdate.get("field").equals("documento")){
+							objDocumento.clear();
+							objDocumento.putAll((Map) docUpdate);
+						}else{
+							objDocumento.remove(setUpdate.get("field"));
+							objDocumento.put((String) setUpdate.get("field"), docUpdate);
+						};
+					};
+				};
+			};
+			BasicDBObject doc = new BasicDBObject();
+			doc.put("documento", objDocumento);
+			doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
+			BasicDBObject setQuery = new BasicDBObject();
+			if (key.equals("_id")) {
+				ObjectId idObj = new ObjectId(valueInp);
+				setQuery = new BasicDBObject(key, idObj);
+			}else {
+				setQuery = new BasicDBObject(key, valueInp);
+			};
+
+			DBObject update = new BasicDBObject(doc);
+			collection.findAndModify(setQuery,
+	                null,
+	                null,
+	                false,
+	                update,
+	                true,
+	                false);
 		};
-		return Response.status(200).entity(documento).build();
+		mongo.close();
+		return Response.status(200).entity("true").build();
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
