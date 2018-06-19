@@ -27,7 +27,8 @@ public class Commons_DB {
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		BasicDBObject setQuery = new BasicDBObject();
+		BasicDBObject setQuery = new BasicDBObject();		
+		
 		if (value != null) {
 			if (key.equals("_id")) {
 				ObjectId idObj = new ObjectId(value);
@@ -86,16 +87,26 @@ public class Commons_DB {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	public Response IncluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
 		Mongo mongo;		
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		DBObject insert = new BasicDBObject(doc);
+
+		int id = collection.find().count();
+		
+		BasicDBObject documento = new BasicDBObject();
+		documento.putAll((Map) doc);
+		documento.put("id", id++);
+		BasicDBObject documentoFinal = new BasicDBObject();
+		documentoFinal.put("documento", documento);
+		documentoFinal.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
+		DBObject insert = new BasicDBObject(documentoFinal);
 		collection.insert(insert);
-		doc.put("_id", insert.get( "_id" ).toString());
+		documentoFinal.put("_id", insert.get( "_id" ).toString());
 		mongo.close();
-		return Response.status(200).entity(doc).build();
+		return Response.status(200).entity("true").build();
 	}
 
 	public Response AtualizarCrud(String collectionName, BasicDBObject documento, String key, String value) throws UnknownHostException, MongoException {
@@ -137,8 +148,11 @@ public class Commons_DB {
 		if(key != null){
 	    	setQuery.put(key, value);
 	    };
+
+	    BasicDBObject setSort = new BasicDBObject();
+		setSort.put("lastChange", -1);
 		
-		DBCursor cursor = collection.find(setQuery);
+		DBCursor cursor = collection.find(setQuery).sort(setSort);
 		if (cursor != null) {
 			JSONArray documentos = new JSONArray();
 			while (((Iterator<DBObject>) cursor).hasNext()) {

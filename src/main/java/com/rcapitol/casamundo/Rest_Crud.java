@@ -51,9 +51,9 @@ public class Rest_Crud {
 		String collection = (String) queryParam.get("collection");
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
-		documento.put("lastchange", String.valueOf(commons.currentTime()));
 		if (collection != null ){
-			return commons_db.IncluirCrud(collection, documento);
+			commons_db.IncluirCrud(collection, documento); 
+			return Response.status(200).build();
 		}else{
 			return Response.status(400).entity(null).build();	
 		}
