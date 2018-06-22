@@ -116,7 +116,7 @@ public class Rest_Invoice {
 		
 		String value = documento.get("_id").toString();
 		documento.remove("_id");		
-		Response response = commons_db.AtualizarCrud("invoice", documento, "_id", value);
+		Response response = commons_db.atualizarCrud("invoice", documento, "_id", value);
 		if (response.getStatus() == 200) {
 			BasicDBObject doc = new BasicDBObject();
 			doc.putAll((Map) response.getEntity());

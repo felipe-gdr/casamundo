@@ -210,7 +210,7 @@ public class Rest_Family {
 		BasicDBObject documento = new BasicDBObject();
 		documento.put("documento", family);
 
-		if (commos_db.AtualizarCrud("family", documento, "_id", data.get("idFamily").toString()).getStatus() == 200) {
+		if (commos_db.atualizarCrud("family", documento, "_id", data.get("idFamily").toString()).getStatus() == 200) {
 			student.allocateFamily(Integer.valueOf(data.get("actualTrip").toString()), family.get("familyName").toString(), family.get("_id").toString(), data.get("idStudent").toString());
 			return true;
 		}
@@ -243,7 +243,7 @@ public class Rest_Family {
 		BasicDBObject documento = new BasicDBObject();
 		documento.put("documento", family);
 
-		if (commos_db.AtualizarCrud("family", documento, "_id", idFamily).getStatus() == 200) {
+		if (commos_db.atualizarCrud("family", documento, "_id", idFamily).getStatus() == 200) {
 			student.deallocateFamily(Integer.valueOf(indexTrip), idStudent);
 			return true;
 		}

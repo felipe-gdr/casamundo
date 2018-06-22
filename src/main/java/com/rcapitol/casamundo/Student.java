@@ -27,7 +27,7 @@ public class Student {
     student.put("trips", commons.atualizaArrayObjeto(trips, trip, indexTrip, true));
     BasicDBObject documento = new BasicDBObject();
     documento.put("documento", student);
-    Response result = commons_db.AtualizarCrud("student", documento, "_id", id);
+    Response result = commons_db.atualizarCrud("student", documento, "_id", id);
     if (result.getStatus() == 200) {
     	return true;
     };
@@ -46,7 +46,7 @@ public class Student {
     student.put("trips", commons.atualizaArrayObjeto(trips, trip, indexTrip, true));
     BasicDBObject documento = new BasicDBObject();
     documento.put("documento", student);
-    Response result = commons_db.AtualizarCrud("student", documento, "_id", id);
+    Response result = commons_db.atualizarCrud("student", documento, "_id", id);
     if (result.getStatus() == 200) {
     	return true;
     };
@@ -65,7 +65,7 @@ public class Student {
     student.put("trips", commons.atualizaArrayObjeto(trips, trip, indexTrip, true));
     BasicDBObject documento = new BasicDBObject();
     documento.put("documento", student);
-    Response result = commons_db.AtualizarCrud("student", documento, "_id", id);
+    Response result = commons_db.atualizarCrud("student", documento, "_id", id);
     if (result.getStatus() == 200) {
     	return true;
     };
