@@ -226,5 +226,99 @@ public class Commons_DB {
 			return Response.status(400).entity(null).build();			
 		}
 	};
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Response arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
+		Mongo mongo;
+		mongo = new Mongo();
+		DB db = (DB) mongo.getDB("documento");
+		DBCollection collection = db.getCollection(collectionName);
+		
+		BasicDBObject objDocumento = new BasicDBObject();
+
+		if ((type.equals("update") || type.equals("in")) && item.equals(null) ) {
+			return Response.status(200).entity("false").build();
+		}
+		if ((type.equals("update") || type.equals("out")) && indexInp.equals(null) ) {
+			return Response.status(200).entity("false").build();
+		}
+		Response response = ObterCrud(collectionName, key, value);
+		if ((response.getStatus() == 200)){
+			BasicDBObject cursor = new BasicDBObject();
+			cursor.putAll((Map) response.getEntity());
+			if (cursor != null){
+				objDocumento.putAll((Map) cursor.get("documento"));
+			}else {
+				return Response.status(200).entity("false").build();
+			}
+		}else {
+			return Response.status(200).entity("false").build();
+		}
+		
+		int index = 0;
+		if (!indexInp.equals(null)) {
+			index = Integer.parseInt(indexInp);
+		};
+		if (objDocumento != null) {
+			if (objDocumento.get(field) instanceof ArrayList){
+				ArrayList docUpdate = (ArrayList) objDocumento.get(field);
+				if (!indexInp.equals(null)) {
+					if (index > docUpdate.size()) {
+						return Response.status(200).entity("false").build();						
+					}
+				}
+				objDocumento.remove(field);
+				JSONArray arrayField = new JSONArray();
+				for (int j = 0; j < docUpdate.size(); j++) {
+					if (docUpdate.get(j) instanceof String){
+						if (type.equals("update") && index == j) {
+							arrayField.add(item);
+						}else {
+							if (type.equals("out") && index == j) {
+							}else {
+								arrayField.add(docUpdate.get(j));								
+							}
+						}
+					}else{
+						BasicDBObject docUpdateItem = new BasicDBObject();
+						docUpdateItem.putAll((Map) docUpdate.get(j));
+						if (type.equals("update") && index == j) {
+							arrayField.add(item);
+						}else {
+							if (type.equals("out") && index == j) {
+							}else {
+								arrayField.add(docUpdateItem);
+							}
+						}
+					};
+				};
+				if (type.equals("in")) {
+					arrayField.add(item);
+				}					
+				objDocumento.put(field, arrayField);
+				BasicDBObject doc = new BasicDBObject();
+				doc.put("documento", objDocumento);
+				doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
+				BasicDBObject setQuery = new BasicDBObject();
+				if (key.equals("_id")) {
+					ObjectId idObj = new ObjectId(value);
+					setQuery = new BasicDBObject(key, idObj);
+				}else {
+					setQuery = new BasicDBObject(key, value);
+				};
+	
+				DBObject update = new BasicDBObject(doc);
+				collection.findAndModify(setQuery,
+		                null,
+		                null,
+		                false,
+		                update,
+		                true,
+		                false);
+			};
+		};
+		mongo.close();
+		return Response.status(200).entity("true").build();
+	};
 };
 

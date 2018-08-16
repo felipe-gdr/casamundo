@@ -83,4 +83,17 @@ public class Rest_Crud {
 			return Response.status(400).entity(null).build();	
 		}
 	};
+
+	@Path("/array")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response Array(JSONObject queryParam) throws UnknownHostException, MongoException  {
+		
+		String collection = (String) queryParam.get("collection");
+		if (collection != null ){
+			return commons_db.arrayCrud(queryParam.get("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString(), queryParam.get ("type").toString(), queryParam.get("field").toString(), queryParam.get ("index").toString(), queryParam.get("item"));
+		}else{
+			return Response.status(400).entity(null).build();	
+		}
+	};
 };
