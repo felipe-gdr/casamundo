@@ -41,6 +41,19 @@ public class Rest_Crud {
 			return Response.status(400).entity(null).build();	
 		}
 	};
+	
+
+	@Path("/obter-get")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response obterGet(@QueryParam("collection") String collection, @QueryParam("key") String key, @QueryParam("value") String value) throws UnknownHostException, MongoException  {
+		
+		if (collection != null && key != null && value != null){
+			return commons_db.ObterCrud(collection, key, value);
+		}else{
+			return Response.status(400).entity(null).build();	
+		}
+	};
 
 	@SuppressWarnings({ "rawtypes" })
 	@Path("/incluir")
@@ -72,7 +85,6 @@ public class Rest_Crud {
 		}
 	};
 
-	
 	@Path("/lista")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
