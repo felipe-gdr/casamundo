@@ -67,7 +67,9 @@ public class Commons_DB {
 		
 		if (collection != null) {
 			int id = collection.find().count();
-			return Response.status(200).entity(id++).build();
+			id = id++;
+			String idS = '"'+Integer.toString(id)+'"';
+			return Response.status(200).entity(idS).build();
 		}else {
 			mongo.close();
 			return Response.status(400).entity(null).build();			
