@@ -100,7 +100,7 @@ public class Commons_DB {
 		
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) doc);
-		documento.put("id", id++);
+		documento.put("id", Integer.toString(id++));
 		BasicDBObject documentoFinal = new BasicDBObject();
 		documentoFinal.put("documento", documento);
 		documentoFinal.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
