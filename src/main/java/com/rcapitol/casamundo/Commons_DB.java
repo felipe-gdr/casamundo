@@ -58,6 +58,22 @@ public class Commons_DB {
 		}
 	};
 	@SuppressWarnings({ "rawtypes" })
+	public Response ObterId(String collectionName) throws UnknownHostException, MongoException {
+		Mongo mongo;
+		mongo = new Mongo();
+		DB db = (DB) mongo.getDB("documento");
+		DBCollection collection = db.getCollection(collectionName);
+		BasicDBObject setQuery = new BasicDBObject();		
+		
+		if (collection != null) {
+			int id = collection.find().count();
+			return Response.status(200).entity(id++).build();
+		}else {
+			mongo.close();
+			return Response.status(400).entity(null).build();			
+		}
+	};
+	@SuppressWarnings({ "rawtypes" })
 	public BasicDBObject ObterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
