@@ -60,7 +60,7 @@ public class Rest_HomestayBook {
 				return Response.status(200).entity("Offer canceled.").build();
 			}
 		}
-		return Response.status(200).entity("Offer canceled.").build();
+		return Response.status(200).entity("Error.").build();
 	};
 	
 };
