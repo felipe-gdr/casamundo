@@ -539,12 +539,22 @@ public class Rest_Student {
 		}
 		return null;
 	};
-
 	
 	@Path("/changeStatus")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Boolean ChangeStatus(@QueryParam("idStudent") String idStudent, @QueryParam("indexTrip") String indexTrip, @QueryParam("status") String status) throws NumberFormatException, UnknownHostException, MongoException {
+		if (student.changeStatus(Integer.valueOf(indexTrip), status, idStudent)) {
+			return true;
+		}else {
+			return false;
+		}
+	};
+	
+	@Path("/retorno-email")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean RetonoEmail(@QueryParam("idStudent") String idStudent, @QueryParam("indexTrip") String indexTrip, @QueryParam("status") String status) throws NumberFormatException, UnknownHostException, MongoException {
 		if (student.changeStatus(Integer.valueOf(indexTrip), status, idStudent)) {
 			return true;
 		}else {

@@ -57,13 +57,12 @@ public class Commons_DB {
 			return Response.status(400).entity(null).build();			
 		}
 	};
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ })
 	public Response ObterId(String collectionName) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
-		BasicDBObject setQuery = new BasicDBObject();		
 		
 		if (collection != null) {
 			int id = collection.find().count();
@@ -129,7 +128,7 @@ public class Commons_DB {
 		return Response.status(200).entity("true").build();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public Response atualizarCrud(String collectionName, Object updateInput, String key, String valueInp) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
@@ -245,7 +244,7 @@ public class Commons_DB {
 		}
 	};
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public Response arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
