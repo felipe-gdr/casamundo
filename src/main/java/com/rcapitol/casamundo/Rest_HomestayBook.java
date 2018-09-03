@@ -53,7 +53,12 @@ public class Rest_HomestayBook {
 					}
 				}
 				else {
-					return Response.status(200).entity("Offer already answered.").build();
+					if (invite.equals("yes")) {
+						return Response.status(200).entity("Offer already accepted.").build();
+					}
+					else {
+						return Response.status(200).entity("Offer already recused.").build();
+					}
 				}
 			}
 			else {
