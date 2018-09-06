@@ -31,23 +31,41 @@ public class Rest_HomestayBook {
 
 		BasicDBObject homestayBook = commons_db.ObterCrudDoc("homestayBook", "_id", alocationId);
 		if ( !homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null") ) {
-			if ( homestayBook.getString("ativo").equals("ativo") && homestayBook.getString("invite").equals("pendent") ) {
-				ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
-				BasicDBObject update = new BasicDBObject(); 
-				update.put("field", "invite");
-				update.put("value",invite);
-				arrayUpdate.add(update);
-				if (invite.equals("no")) {
-					update = new BasicDBObject(); 
-					update.put("field", "ativo");
-					update.put("value","inativo");
+			if ( homestayBook.getString("ativo").equals("ativo") ) {
+				if(homestayBook.getString("invite").equals("pendent")) {
+					ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+					BasicDBObject update = new BasicDBObject(); 
+					update.put("field", "invite");
+					update.put("value",invite);
 					arrayUpdate.add(update);
+					if (invite.equals("no")) {
+						update = new BasicDBObject(); 
+						update.put("field", "ativo");
+						update.put("value","inativo");
+						arrayUpdate.add(update);
+					}
+					commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
+					if (invite.equals("yes")) {
+						return Response.status(200).entity("Offer successfull accepted.").build();
+					}
+					else {
+						return Response.status(200).entity("Offer successfull recused.").build();
+					}
 				}
-				commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
-				return Response.status(200).entity("true").build();
+				else {
+					if (invite.equals("yes")) {
+						return Response.status(200).entity("Offer already accepted.").build();
+					}
+					else {
+						return Response.status(200).entity("Offer already recused.").build();
+					}
+				}
+			}
+			else {
+				return Response.status(200).entity("Offer canceled.").build();
 			}
 		}
-		return Response.status(200).entity("false").build();
+		return Response.status(200).entity("Error.").build();
 	};
 	
 };
