@@ -1,6 +1,7 @@
 package com.rcapitol.casamundo;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.inject.Singleton;
@@ -77,8 +78,7 @@ public class Rest_Crud {
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
 		if (collection != null ){
-			commons_db.IncluirCrud(collection, documento); 
-			return Response.status(200).build();
+			return commons_db.IncluirCrud(collection, documento); 
 		}else{
 			return Response.status(400).entity(null).build();	
 		}
@@ -120,4 +120,23 @@ public class Rest_Crud {
 			return Response.status(400).entity(null).build();	
 		}
 	};
+	
+
+	@Path("/atualizaElemento")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ObterEmail(@QueryParam("collection") String collection, @QueryParam("key") String key, @QueryParam("keyValue") String keyValue, @QueryParam("field") String field, @QueryParam("value") String value) throws UnknownHostException, MongoException {
+
+		if ( !collection.equals(null) && !key.equals(null) && !keyValue.equals(null)&& !field.equals(null) && !value.equals(null)) {
+			ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+			BasicDBObject update = new BasicDBObject(); 
+			update.put("field", field);
+			update.put("value", value);
+			arrayUpdate.add(update);
+			commons_db.atualizarCrud(collection, arrayUpdate, key, keyValue);
+			return Response.status(200).entity("true").build();
+		}
+		return Response.status(200).entity("false").build();
+	};
+	
 };

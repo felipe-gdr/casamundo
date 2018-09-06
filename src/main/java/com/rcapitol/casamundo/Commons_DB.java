@@ -125,7 +125,7 @@ public class Commons_DB {
 		collection.insert(insert);
 		documentoFinal.put("_id", insert.get( "_id" ).toString());
 		mongo.close();
-		return Response.status(200).entity("true").build();
+		return Response.status(200).entity(insert.get( "_id" ).toString()).build();
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
