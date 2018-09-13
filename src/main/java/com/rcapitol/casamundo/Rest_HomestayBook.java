@@ -2,6 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
@@ -44,6 +45,15 @@ public class Rest_HomestayBook {
 						update.put("value","inativo");
 						arrayUpdate.add(update);
 					}
+					update = new BasicDBObject(); 
+					update.put("field", "confirmWho");
+					update.put("value","family");
+					arrayUpdate.add(update);
+					Date todaysDate = new Date();
+					update = new BasicDBObject(); 
+					update.put("field", "confirmWhen");
+					update.put("value",todaysDate.toString());
+					arrayUpdate.add(update);
 					commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
 					if (invite.equals("yes")) {
 						return Response.status(200).entity("Offer successfull accepted.").build();
