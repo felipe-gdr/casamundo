@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.SimpleDateFormat;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
@@ -49,10 +50,11 @@ public class Rest_HomestayBook {
 					update.put("field", "confirmWho");
 					update.put("value","family");
 					arrayUpdate.add(update);
-					Date todaysDate = new Date();
+					Date today = new Date();
+					SimpleDateFormat datePattern = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 					update = new BasicDBObject(); 
 					update.put("field", "confirmWhen");
-					update.put("value",todaysDate.toString());
+					update.put("value",datePattern.format(today));
 					arrayUpdate.add(update);
 					commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
 					if (invite.equals("yes")) {
