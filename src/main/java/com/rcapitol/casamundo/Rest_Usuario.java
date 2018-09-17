@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.bson.BasicBSONObject;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -50,6 +51,8 @@ public class Rest_Usuario {
 			JSONObject documento = new JSONObject();
 			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
 			documento.put("documento", obj);
+			String id = ((BasicBSONObject) cursor).getString("_id");
+			documento.put("_id", id);
 			mongo.close();
 			return documento;
 		} catch (UnknownHostException e) {
