@@ -58,11 +58,11 @@ public class Rest_HomestayBook {
 					arrayUpdate.add(update);
 					commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
 					if (invite.equals("yes")) {
-						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(10), homestayBook.getString("end").substring(10), "accepted" );
+						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted" );
 						return Response.status(200).entity("Offer successfull accepted.").build();
 					}
 					else {
-						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(10), homestayBook.getString("end").substring(10), "recused" );
+						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused" );
 						return Response.status(200).entity("Offer successfull recused.").build();
 					}
 				}
@@ -84,10 +84,10 @@ public class Rest_HomestayBook {
 
 	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException, MongoException {
 		BasicDBObject familyDorm = commons_db.ObterCrudDoc("familyDorm", "documento.id", resource);
-		if ( !familyDorm.get("roomid").equals(null)) {
-			BasicDBObject familyRoom = commons_db.ObterCrudDoc("familyRoom", "_id", familyDorm.getString("roomid"));
+		if ( !familyDorm.get("roomId").equals(null)) {
+			BasicDBObject familyRoom = commons_db.ObterCrudDoc("familyRooms", "_id", familyDorm.getString("roomId"));
 			BasicDBObject travel = commons_db.ObterCrudDoc("travel", "_id", travelId);
-			if (!familyRoom.get("familyRooms").equals(null) && !travel.get("studentId").equals(null)) {
+			if (!familyRoom.get("familyId").equals(null) && !travel.get("studentId").equals(null)) {
 				BasicDBObject table = commons_db.ObterCrudDoc("table", null, "onlyOneRegister");
 				BasicDBObject student = commons_db.ObterCrudDoc("student", "_id", travel.getString("studentId"));
 				BasicDBObject family = commons_db.ObterCrudDoc("family", "_id", familyRoom.getString("familyId"));
@@ -102,8 +102,8 @@ public class Rest_HomestayBook {
 							"Casatoronto1q2w3e", 
 							"noreply@casa-toronto.com", 
 							to,
-							"	Family " + family.getString("name") + " " + msg + " student " + student.getString("name") + " for the period of " + start + " to " + end, 
-							templateEmail.emailFamilia(family.getString("name"), student.getString("name"), start, end, msg)
+							"Offer answered", 
+							templateEmail.emailFamilia(family.getString("familyName"), student.getString("firstName")+' '+student.getString("lastName"), start, end, msg)
 							);					
 				}
 			
