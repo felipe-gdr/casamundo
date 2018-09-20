@@ -81,7 +81,17 @@ public class Commons_DB {
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
 		BasicDBObject setQuery = new BasicDBObject();
-		if (value != null) {
+		if (value.equals("onlyOneRegister")) {
+			DBObject cursor = collection.findOne(setQuery);
+			if (cursor != null) {
+				BasicDBObject documento = new BasicDBObject();
+				documento.putAll((Map) cursor.get("documento"));
+				String id = ((BasicBSONObject) cursor).getString("_id");
+				documento.put("_id", id);
+				mongo.close();
+				return documento;				
+			}
+		}else {
 			if (key.equals("_id")) {
 				ObjectId idObj = new ObjectId(value);
 				setQuery = new BasicDBObject(key, idObj);
@@ -96,14 +106,9 @@ public class Commons_DB {
 				documento.put("_id", id);
 				mongo.close();
 				return documento;
-			}else {
-				mongo.close();
-				return null;
 			}
-		}else {
-			mongo.close();
-			return null;			
 		}
+		return null;
 	};
 
 	@SuppressWarnings("rawtypes")

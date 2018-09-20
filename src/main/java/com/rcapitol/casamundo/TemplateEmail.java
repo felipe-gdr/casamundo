@@ -86,4 +86,114 @@ public class TemplateEmail {
 		return email;
 		
 	};
+
+	public String emailFamilia(String familyName, String studentName, String start, String end, String msg){
+		String email =
+				"	<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">	"	+
+						"	<html xmlns=\"http://www.w3.org/1999/xhtml\">	"	+
+						"	<head> 	"	+
+						"	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />	"	+
+						"	<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>	"	+
+						"	<title>YggBoard</title>	"	+
+						"	<style type=\"text/css\">	"	+
+						"	body{font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;}	"	+
+						"	.ExternalClass {width:100%;} /* Força o Hotmail a exibir o email com a largura total */	"	+
+						"	.ExternalClass, .ExternalClass td {line-height: 100%;} /* Força o Hotmail a exibir o espaçamento normal entre linhas */	"	+
+						"	table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; } /* Remove o espaçamento entorno das tabelas no Outlook 07, 10 */	"	+
+						"	table td {border-collapse: collapse; vertical-align:top;} /* Corrige o padding no Outlook 07, 10 */	"	+
+						"	td {margin: 0; padding: 0; font-size: 0px; line-height: 0px;} /* Zera os espaçamentos */	"	+
+						"	td p{font-size: 15px;margin-left: 15px;margin-right: 15px;margin-top: 10px;margin-bottom: 10px;line-height: 20px;}	"	+
+						"	td h1{margin-left: 15px;margin-right: 15px; margin-top: 10px;margin-bottom: 10px;font-size: 25px;line-height: 25px;}	"	+
+						"	img {display: block; max-width: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}	"	+
+						"	@media only screen and (max-width: 600px) {	"	+
+						"	img[class=\"hide\"] {display:block!important;}	"	+
+						"	}	"	+
+						"	@media only screen and (max-width: 600px) {	"	+
+						"	table[class=\"content-wrap\"] {width: 94%!important;}	"	+
+						"	}	"	+
+						"	</style>	"	+
+						"	</head>	"	+
+						"	<body>	"	+
+						"	<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\">	"	+
+						"	<table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" class=\"content-wrap\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\" height=\"130\">	"	+
+						"	<img src=\"http://54.189.197.113/imgemkt/emkt_01.jpg\" alt=\"\" />	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\">	"	+
+						"	<table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" class=\"content-wrap\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"50\" bgcolor=\"#eeeeee\"></td>	"	+
+						"	<td width=\"500\" height=\"200\">	"	+
+						"	<img src=\"http://54.189.197.113/imgemkt/emkt_02.jpg\" alt=\"\" />	"	+
+						"	</td>	"	+
+						"	<td width=\"50\" bgcolor=\"#eeeeee\"></td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\">	"	+
+						"	<table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" class=\"content-wrap\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"50\" bgcolor=\"#eeeeee\"></td>	"	+
+						"	<td width=\"500\">	"	+
+						"	<table width=\"500\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" class=\"content-wrap\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\">	"	+
+						"		"	+
+						"		"	+
+						"		"	+
+						"		"	+
+						"		"	+
+						"	Family " + familyName + " " + msg + " student " + studentName + " for the period of " + start + " to " + end + 
+						"		"	+
+						"		"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	<table width=\"500\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" class=\"content-wrap\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\" height=\"40\">	"	+
+						"	<p align=\"right\">Best regards,<br /> Casa Toronto.</p>	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	</td>	"	+
+						"	<td width=\"50\" bgcolor=\"#eeeeee\"></td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\">	"	+
+						"	<table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" class=\"content-wrap\">	"	+
+						"	<tr>	"	+
+						"	<td width=\"100%\" height=\"64\" bgcolor=\"#eeeeee\">	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	</td>	"	+
+						"	</tr>	"	+
+						"	</table>	"	+
+						"	</body>	"	+
+						"	</html>	";
+
+					
+		return email;
+		
+	};
 }
