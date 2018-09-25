@@ -24,7 +24,7 @@ public class Commons_DB {
 	
 	Commons commons = new Commons();
 	@SuppressWarnings({ "rawtypes" })
-	public Response ObterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+	public Response obterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -58,7 +58,7 @@ public class Commons_DB {
 		}
 	};
 	@SuppressWarnings({ })
-	public Response ObterId(String collectionName) throws UnknownHostException, MongoException {
+	public Response obterId(String collectionName) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -75,7 +75,7 @@ public class Commons_DB {
 		}
 	};
 	@SuppressWarnings({ "rawtypes" })
-	public BasicDBObject ObterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+	public BasicDBObject obterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -112,7 +112,7 @@ public class Commons_DB {
 	};
 
 	@SuppressWarnings("rawtypes")
-	public Response IncluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
+	public Response incluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
 		Mongo mongo;		
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -142,7 +142,7 @@ public class Commons_DB {
 		
 		BasicDBObject objDocumento = new BasicDBObject();
 
-		Response response = ObterCrud(collectionName, key, valueInp);
+		Response response = obterCrud(collectionName, key, valueInp);
 		if ((response.getStatus() == 200)){
 			BasicDBObject cursor = new BasicDBObject();
 			cursor.putAll((Map) response.getEntity());
@@ -264,7 +264,7 @@ public class Commons_DB {
 		if ((type.equals("update") || type.equals("out")) && indexInp.equals(null) ) {
 			return Response.status(200).entity("false").build();
 		}
-		Response response = ObterCrud(collectionName, key, value);
+		Response response = obterCrud(collectionName, key, value);
 		if ((response.getStatus() == 200)){
 			BasicDBObject cursor = new BasicDBObject();
 			cursor.putAll((Map) response.getEntity());

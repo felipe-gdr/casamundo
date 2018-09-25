@@ -24,7 +24,7 @@ public class Calc {
 	
 	Commons commons = new Commons();
 	@SuppressWarnings({ "rawtypes" })
-	public Response ObterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+	public Response obterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -58,7 +58,7 @@ public class Calc {
 		}
 	};
 	@SuppressWarnings({ "rawtypes" })
-	public BasicDBObject ObterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+	public BasicDBObject obterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -90,7 +90,7 @@ public class Calc {
 	};
 
 	@SuppressWarnings("rawtypes")
-	public Response IncluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
+	public Response incluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
 		Mongo mongo;		
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -120,7 +120,7 @@ public class Calc {
 		
 		BasicDBObject objDocumento = new BasicDBObject();
 
-		Response response = ObterCrud(collectionName, key, valueInp);
+		Response response = obterCrud(collectionName, key, valueInp);
 		if ((response.getStatus() == 200)){
 			BasicDBObject cursor = new BasicDBObject();
 			cursor.putAll((Map) response.getEntity());

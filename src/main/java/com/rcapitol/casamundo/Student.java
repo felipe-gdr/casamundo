@@ -18,7 +18,7 @@ public class Student {
 	@SuppressWarnings("unchecked")
 	public Boolean changeStatus(int indexTrip, String status, String id) throws UnknownHostException, MongoException  {
 		
-		BasicDBObject student = commons_db.ObterCrudDoc("student", "_id", id);
+		BasicDBObject student = commons_db.obterCrudDoc("student", "_id", id);
     ArrayList<JSONObject> trips = (ArrayList<JSONObject>) student.get("trips");
 		JSONObject  trip = new JSONObject();
 		trip.putAll(trips.get(indexTrip));
@@ -36,7 +36,7 @@ public class Student {
 	@SuppressWarnings("unchecked")
 	public Boolean allocateFamily(int indexTrip, String familyName, String idFamily, String id) throws UnknownHostException, MongoException  {
 		
-		BasicDBObject student = commons_db.ObterCrudDoc("student", "_id", id);
+		BasicDBObject student = commons_db.obterCrudDoc("student", "_id", id);
     ArrayList<JSONObject> trips = (ArrayList<JSONObject>) student.get("trips");
 		JSONObject  trip = new JSONObject();
 		trip.putAll(trips.get(indexTrip));
@@ -55,7 +55,7 @@ public class Student {
 	@SuppressWarnings("unchecked")
 	public Boolean deallocateFamily(int indexTrip, String id) throws UnknownHostException, MongoException  {
 		
-		BasicDBObject student = commons_db.ObterCrudDoc("student", "_id", id);
+		BasicDBObject student = commons_db.obterCrudDoc("student", "_id", id);
     ArrayList<JSONObject> trips = (ArrayList<JSONObject>) student.get("trips");
 		JSONObject  trip = new JSONObject();
 		trip.putAll(trips.get(indexTrip));

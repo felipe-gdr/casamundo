@@ -31,7 +31,7 @@ public class Rest_HomestayBook {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ObterEmail(@QueryParam("alocationId") String alocationId, @QueryParam("invite") String invite) throws UnknownHostException, MongoException {
 
-		BasicDBObject homestayBook = commons_db.ObterCrudDoc("homestayBook", "_id", alocationId);
+		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId);
 		if ( !homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null") ) {
 			if ( homestayBook.getString("ativo").equals("ativo") ) {
 				if(homestayBook.getString("invite").equals("pendent")) {
@@ -83,14 +83,14 @@ public class Rest_HomestayBook {
 	}
 
 	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException, MongoException {
-		BasicDBObject familyDorm = commons_db.ObterCrudDoc("familyDorm", "documento.id", resource);
+		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource);
 		if ( !familyDorm.get("roomid").equals(null)) {
-			BasicDBObject familyRoom = commons_db.ObterCrudDoc("familyRoom", "_id", familyDorm.getString("roomid"));
-			BasicDBObject travel = commons_db.ObterCrudDoc("travel", "_id", travelId);
+			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("roomid"));
+			BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
 			if (!familyRoom.get("familyRooms").equals(null) && !travel.get("studentId").equals(null)) {
-				BasicDBObject table = commons_db.ObterCrudDoc("table", null, "onlyOneRegister");
-				BasicDBObject student = commons_db.ObterCrudDoc("student", "_id", travel.getString("studentId"));
-				BasicDBObject family = commons_db.ObterCrudDoc("family", "_id", familyRoom.getString("familyId"));
+				BasicDBObject table = commons_db.obterCrudDoc("table", null, "onlyOneRegister");
+				BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
+				BasicDBObject family = commons_db.obterCrudDoc("family", "_id", familyRoom.getString("familyId"));
 				TemplateEmail templateEmail = new TemplateEmail();
 				SendEmailHtml sendEmail = new SendEmailHtml();
 				@SuppressWarnings("unchecked")

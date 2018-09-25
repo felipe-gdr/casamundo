@@ -2,6 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,6 +41,9 @@ import com.mongodb.MongoException;
 @Path("/pricetablevalue")
 
 public class Rest_PriceTableValue {
+
+	Commons commons = new Commons();
+	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings("unchecked")
 	@Path("/obterPriceTableValue")	
@@ -218,6 +222,39 @@ public class Rest_PriceTableValue {
 			e.printStackTrace();
 		}
 		return null;
+	};
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Path("/itensinvoiceautomatica")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId) throws UnknownHostException, MongoException {
+
+		if (travelId.equals(null)) {
+			return null;
+		}
+
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		
+		if (travel == null) {
+			return null;
+		}
+
+		ArrayList<BasicDBObject> result = new ArrayList<BasicDBObject>();
+
+		BasicDBObject item = new BasicDBObject();
+		item.putAll((Map) travel.get("accomodation"));
+
+		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null, null).getEntity();
+		
+		for (BasicDBObject priceTable : priceTableList) {
+			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTableValue", "documento.idPriceTable", priceTable.getString("_id")).getEntity();
+			for (BasicDBObject priceTableValue : priceTableValueList) {
+				System.out.println("valor:" + priceTableValue.getInt("value"));		
+			}
+			
+		}
+		
+		return result;
 	};
 
 }

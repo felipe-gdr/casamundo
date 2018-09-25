@@ -37,7 +37,7 @@ public class Rest_Crud {
 		String key = (String) queryParam.get("key");
 		String value = (String) queryParam.get("value");
 		if (collection != null && key != null && value != null){
-			return commons_db.ObterCrud(collection, key, value);
+			return commons_db.obterCrud(collection, key, value);
 		}else{
 			return Response.status(400).entity(null).build();	
 		}
@@ -50,7 +50,7 @@ public class Rest_Crud {
 	public Response obterGet(@QueryParam("collection") String collection, @QueryParam("key") String key, @QueryParam("value") String value) throws UnknownHostException, MongoException  {
 		
 		if (collection != null && key != null && value != null){
-			return commons_db.ObterCrud(collection, key, value);
+			return commons_db.obterCrud(collection, key, value);
 		}else{
 			return Response.status(400).entity(null).build();	
 		}
@@ -62,7 +62,7 @@ public class Rest_Crud {
 	public Response obterGet(@QueryParam("collection") String collection) throws UnknownHostException, MongoException  {
 		
 		if (collection != null){
-			return commons_db.ObterId(collection);
+			return commons_db.obterId(collection);
 		}else{
 			return Response.status(400).entity(null).build();	
 		}
@@ -72,13 +72,13 @@ public class Rest_Crud {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response Incluir(JSONObject queryParam) throws UnknownHostException, MongoException  {
+	public Response incluir(JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
 		String collection = (String) queryParam.get("collection");
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
 		if (collection != null ){
-			return commons_db.IncluirCrud(collection, documento); 
+			return commons_db.incluirCrud(collection, documento); 
 		}else{
 			return Response.status(400).entity(null).build();	
 		}

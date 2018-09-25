@@ -167,7 +167,7 @@ public class Rest_Family {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Boolean AllocateRoom(JSONObject data) throws UnknownHostException, MongoException {
 		
-		BasicDBObject family = commos_db.ObterCrudDoc("family", "_id", data.get("idFamily").toString());
+		BasicDBObject family = commos_db.obterCrudDoc("family", "_id", data.get("idFamily").toString());
 
 		if (family == null) {
 			return false;
@@ -223,7 +223,7 @@ public class Rest_Family {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Boolean DeallocateRoom(@QueryParam("idFamily") String idFamily, @QueryParam("idStudent") String idStudent, @QueryParam("start") String start, @QueryParam("indexTrip") String indexTrip) throws NumberFormatException, UnknownHostException, MongoException {
 
-		BasicDBObject family = commos_db.ObterCrudDoc("family", "_id", idFamily);
+		BasicDBObject family = commos_db.obterCrudDoc("family", "_id", idFamily);
 		
 		if (family == null) {
 			return false;

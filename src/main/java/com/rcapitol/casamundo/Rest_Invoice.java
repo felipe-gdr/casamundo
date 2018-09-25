@@ -97,7 +97,7 @@ public class Rest_Invoice {
 		doc.putAll((Map) documento.get("documento"));
 		BasicDBObject docInsert = new BasicDBObject();
 		docInsert.put("documento", doc);		
-		Response response = commons_db.IncluirCrud("invoice", docInsert);
+		Response response = commons_db.incluirCrud("invoice", docInsert);
 		if (response.getStatus() == 200) {
 			BasicDBObject docInserted = new BasicDBObject();
 			docInserted.putAll((Map) response.getEntity());
