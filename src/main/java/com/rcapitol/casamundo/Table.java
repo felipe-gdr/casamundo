@@ -58,6 +58,7 @@ public class Table {
         public String airline[];
         public String vendorType[];
         public String emailsHomestay[];
+        public String vendors[];
 
 		public Documento() {
 
@@ -93,7 +94,8 @@ public class Table {
 				        String[] address_subwayStation,
 				        String[] airline,
 				        String[] vendorType,
-				        String[] emailsHomestay
+				        String[] emailsHomestay,
+				        String[] vendors
 						) {
 				        this.nationality = nationality;                  
 				        this.mainPurposeTrip = mainPurposeTrip;              
@@ -124,6 +126,7 @@ public class Table {
 				        this.airline = airline;
 				        this.vendorType = vendorType;
 				        this.emailsHomestay = emailsHomestay;
+				        this.vendors = vendors;
 		}
 
 		@Override
