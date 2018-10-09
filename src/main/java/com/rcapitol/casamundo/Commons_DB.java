@@ -218,7 +218,7 @@ public class Commons_DB {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Response listaCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+	public Response listaCrud(String collectionName, String key, String value, String userId) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -228,18 +228,75 @@ public class Commons_DB {
 	    	setQuery.put(key, value);
 	    };
 
+	    
 	    BasicDBObject setSort = new BasicDBObject();
 		setSort.put("lastChange", -1);
+		
+		BasicDBObject user = obterCrudDoc("usuarios", "_id", userId);
+		
+		if (user == null) {
+			return null;
+		}
+		
+		if (user.get("company") == null) {
+			return null;
+		}
+		
+		if (user.get("city") == null) {
+			return null;
+		}
+				
+		BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
+		
+		BasicDBObject setupValue = (BasicDBObject) setup.get("setupValue");
+		String companyTable = null;
+		String cityTable = null;
+		if (setup != null) {
+			companyTable = setupValue.get("company").toString();
+			if (companyTable == null) {
+				return null;
+			}
+			cityTable = setupValue.get("city").toString();
+			if (cityTable == null) {
+				return null;
+			}
+		}
+
+		if (companyTable != null) {
+			setQuery.put("documento." + companyTable, user.get("company"));
+		}
 		
 		DBCursor cursor = collection.find(setQuery).sort(setSort);
 		if (cursor != null) {
 			JSONArray documentos = new JSONArray();
+			ArrayList cityUser = (ArrayList) user.get("city");
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+				BasicDBObject docObj = (BasicDBObject) obj.get("documento");
 				BasicDBObject doc = new BasicDBObject();
 				doc.putAll((Map) obj);
 				doc.put("_id", obj.get( "_id" ).toString());
-				documentos.add(doc);
+				if (cityTable != null) {
+					Object object = docObj.get(cityTable);
+					if (object != null){
+						if (object instanceof String){
+							if (commons.testaElementoArray(object.toString(), cityUser)){
+								documentos.add(doc);						
+							}
+						}else{
+							if (object instanceof ArrayList){
+								ArrayList cityDoc = (ArrayList)docObj.get(cityTable);
+								if (commons.testaArray(cityUser, cityDoc)){
+									documentos.add(doc);						
+								}
+							}else{
+								documentos.add(doc);						
+							};
+						};
+					}
+				}else{
+					documentos.add(doc);						
+				};
 			};
 		    mongo.close();
 			return Response.status(200).entity(documentos).build();

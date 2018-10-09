@@ -100,9 +100,9 @@ public class Rest_Crud {
 	@Path("/lista")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response Lista(@QueryParam("collection") String collection, @QueryParam("key") String key, @QueryParam("value") String value) throws UnknownHostException, MongoException  {
+	public Response Lista(@QueryParam("collection") String collection, @QueryParam("key") String key, @QueryParam("value") String value, @QueryParam("userId") String userId) throws UnknownHostException, MongoException  {
 		if (collection != null ){
-			return commons_db.listaCrud(collection, key, value);
+			return commons_db.listaCrud(collection, key, value, userId);
 		}else{
 			return Response.status(400).entity(null).build();	
 		}

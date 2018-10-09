@@ -53,6 +53,7 @@ public class Commons {
 		return null;
 	};
 	
+	@SuppressWarnings("null")
 	public int difDate (String start, String end){
 		
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
@@ -79,6 +80,16 @@ public class Commons {
 		return convertDateMesAlfa(df.format(cal.getTime())).replaceAll("/", "");
 	};
 
+	public Integer weekDay (String date){
+		
+		Calendar cal = Calendar.getInstance();   
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(convertDateMes(date).substring(0, 2)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(convertDateMes(date).substring(3, 5)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
+		  
+		return cal.get(Calendar.DAY_OF_WEEK);
+	};
+
 	public Calendar convertToCalendar (String date){
 		
 		Calendar cal = Calendar.getInstance();   
@@ -92,20 +103,15 @@ public class Commons {
 		
 		Calendar calendar = Calendar.getInstance();
 		//getTime() returns the current date in default time zone
-		Date date = calendar.getTime();
 		int day = calendar.get(Calendar.DATE);
 		//Note: +1 the month for current month
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int year = calendar.get(Calendar.YEAR);
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		int min = calendar.get(Calendar.MINUTE);
-		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-		int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
 		
 		String dayString = "";
 		String monthString = "";
-		String yearString = "";
 		String hourString = "";
 		String minString = "";
 
@@ -258,6 +264,79 @@ public class Commons {
 		};
 		
 		return result;
+	};
+
+	public Boolean testaElementoArray(String elemento, ArrayList<String> array) {
+
+		for (int w = 0; w < array.size(); w++) {
+			if (array.get(w).toString().equals(elemento)) {
+				return true;
+			};
+		};
+		return false;
+	};
+
+	public Boolean testaElementoArrayObject(BasicDBObject elemento, ArrayList<BasicDBObject> array) {
+
+		for (int w = 0; w < array.size(); w++) {
+			if (array.get(w).equals(elemento)) {
+				return true;
+			}
+			;
+		}
+		;
+		return false;
+	};
+
+	@SuppressWarnings("rawtypes")
+	public boolean testaArray(ArrayList arrayOrigem, ArrayList arrayElementos) {
+		for (int w = 0; w < arrayOrigem.size(); w++) {
+			Boolean naoAchou = true;
+			for (int i = 0; i < arrayElementos.size(); i++) {
+				if (arrayOrigem.get(w).toString().equals(arrayElementos.get(i))) {
+					naoAchou = false;
+					i = arrayElementos.size() + 1;
+				};
+			};
+			if (naoAchou) {
+				return false;
+			}
+			;
+		}
+		;
+		return true;
+	};
+
+	@SuppressWarnings("rawtypes")
+	public boolean testaArrayTodosElementos(ArrayList arrayOrigem, ArrayList arrayElementos) {
+		for (int w = 0; w < arrayOrigem.size(); w++) {
+			for (int i = 0; i < arrayElementos.size(); i++) {
+				if (arrayOrigem.get(w).toString().equals(arrayElementos.get(i))) {
+					return true;
+				}
+				;
+			}
+			;
+		}
+		;
+		return false;
+	};
+
+	@SuppressWarnings("rawtypes")
+	public int testaArrayElementosIguais(ArrayList arrayOrigem, ArrayList arrayElementos) {
+
+		int elementosIguais = 0;
+		for (int w = 0; w < arrayOrigem.size(); w++) {
+			for (int i = 0; i < arrayElementos.size(); i++) {
+				if (arrayOrigem.get(w).toString().equals(arrayElementos.get(i))) {
+					elementosIguais = elementosIguais + 1;
+				}
+				;
+			}
+			;
+		}
+		;
+		return elementosIguais;
 	};
 
 		

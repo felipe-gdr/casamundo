@@ -227,7 +227,7 @@ public class Rest_PriceTableValue {
 	@Path("/itensinvoiceautomatica")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId) throws UnknownHostException, MongoException {
+	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId) throws UnknownHostException, MongoException {
 
 		if (travelId.equals(null)) {
 			return null;
@@ -244,10 +244,10 @@ public class Rest_PriceTableValue {
 		BasicDBObject item = new BasicDBObject();
 		item.putAll((Map) travel.get("accomodation"));
 
-		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null, null).getEntity();
+		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null, null, userId).getEntity();
 		
 		for (BasicDBObject priceTable : priceTableList) {
-			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTableValue", "documento.idPriceTable", priceTable.getString("_id")).getEntity();
+			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTableValue", "documento.idPriceTable", priceTable.getString("_id"), userId).getEntity();
 			for (BasicDBObject priceTableValue : priceTableValueList) {
 				System.out.println("valor:" + priceTableValue.getInt("value"));		
 			}

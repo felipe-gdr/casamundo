@@ -758,12 +758,6 @@ function createDue(i){
 				'</label>' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="newDue_' + i + '"  class=""><i class="glyphicon glyphicon-plus"></i></a>' +
-//			'</section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="delDue_' + i + '"  class=""><i class="glyphicon glyphicon-minus"></i></a>' +
-//			'</section>' +
 		'</div>' +
 		'<div id="dueItemGross_' + i + '" class="row dueItemGross hide gross">' +
 			'<section class="col-xs-3">' +
@@ -780,12 +774,6 @@ function createDue(i){
 				'</label>' +
 			'</section>' +
 			'<section class="col-xs-1"></section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="newDueGross_' + i + '"  class="hide"><i class="glyphicon glyphicon-plus"></i></a>' +
-//			'</section>' +
-//			'<section class="col-xs-1">' +
-//				'<a id="delDueGross_' + i + '"  class="hide"><i class="glyphicon glyphicon-minus"></i></a>' +
-//			'</section>' +
 		'</div>';
 
 	$("#dues").append(item);
@@ -1060,23 +1048,3 @@ function criaLinhaNote (i, note) {
 		$('#notesUser_' + i).val(localStorage.usuarioEmail);
 	});
 };
-
-
-function salvaCodigoPDF(){
-//	html2canvas($("#div-pdf"), {
-//    onrendered: function(canvas) {
-//    	return Canvas2Image.saveAsPNG(canvas);
-//    }
-//});
-//html2canvas($("#div-pdf"),{
-//	onrendered: function (canvas){
-//		var img = canvas.toDataURL("image/png");
-//		window.open(img);
-//		var doc = new jsPDF();
-//		doc.addImage (img, JPEG, 100, 100);
-//	    doc.save('invoice_' + mailUrl + '.pdf');				
-//	}
-//})
-
-
-}
