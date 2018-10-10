@@ -81,32 +81,32 @@ public class Commons_DB {
 		DB db = (DB) mongo.getDB("documento");
 		DBCollection collection = db.getCollection(collectionName);
 		BasicDBObject setQuery = new BasicDBObject();
-		if (value.equals("onlyOneRegister")) {
-			DBObject cursor = collection.findOne(setQuery);
-			if (cursor != null) {
-				BasicDBObject documento = new BasicDBObject();
-				documento.putAll((Map) cursor.get("documento"));
-				String id = ((BasicBSONObject) cursor).getString("_id");
-				documento.put("_id", id);
-				mongo.close();
-				return documento;				
-			}
+		if (key.equals("_id")) {
+			ObjectId idObj = new ObjectId(value);
+			setQuery = new BasicDBObject(key, idObj);
 		}else {
-			if (key.equals("_id")) {
-				ObjectId idObj = new ObjectId(value);
-				setQuery = new BasicDBObject(key, idObj);
+			if (value.equals("onlyOneRegister")) {
+				DBObject cursor = collection.findOne(setQuery);
+				if (cursor != null) {
+					BasicDBObject documento = new BasicDBObject();
+					documento.putAll((Map) cursor.get("documento"));
+					String id = ((BasicBSONObject) cursor).getString("_id");
+					documento.put("_id", id);
+					mongo.close();
+					return documento;				
+				}
 			}else {
 				setQuery = new BasicDBObject(key, value);
-			};
-			DBObject cursor = collection.findOne(setQuery);
-			if (cursor != null) {
-				BasicDBObject documento = new BasicDBObject();
-				documento.putAll((Map) cursor.get("documento"));
-				String id = ((BasicBSONObject) cursor).getString("_id");
-				documento.put("_id", id);
-				mongo.close();
-				return documento;
 			}
+		};
+		DBObject cursor = collection.findOne(setQuery);
+		if (cursor != null) {
+			BasicDBObject documento = new BasicDBObject();
+			documento.putAll((Map) cursor.get("documento"));
+			String id = ((BasicBSONObject) cursor).getString("_id");
+			documento.put("_id", id);
+			mongo.close();
+			return documento;
 		}
 		return null;
 	};
