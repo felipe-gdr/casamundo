@@ -244,10 +244,10 @@ public class Rest_PriceTableValue {
 		BasicDBObject item = new BasicDBObject();
 		item.putAll((Map) travel.get("accomodation"));
 
-		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null, null, userId).getEntity();
+		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null, null, userId, null).getEntity();
 		
 		for (BasicDBObject priceTable : priceTableList) {
-			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTableValue", "documento.idPriceTable", priceTable.getString("_id"), userId).getEntity();
+			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTableValue", "documento.idPriceTable", priceTable.getString("_id"), userId, null).getEntity();
 			for (BasicDBObject priceTableValue : priceTableValueList) {
 				System.out.println("valor:" + priceTableValue.getInt("value"));		
 			}

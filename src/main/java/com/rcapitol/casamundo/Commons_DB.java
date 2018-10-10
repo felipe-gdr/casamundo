@@ -218,7 +218,7 @@ public class Commons_DB {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Response listaCrud(String collectionName, String key, String value, String userId) throws UnknownHostException, MongoException {
+	public Response listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -228,7 +228,9 @@ public class Commons_DB {
 	    	setQuery.put(key, value);
 	    };
 
-	    
+	    if (setQueryInput != null) {
+	    	setQuery = setQueryInput; 
+	    }
 	    BasicDBObject setSort = new BasicDBObject();
 		setSort.put("lastChange", -1);
 		
@@ -256,14 +258,8 @@ public class Commons_DB {
 		String cityTable = null;
 		if (setup != null) {
 			setupValue = (BasicDBObject) setup.get("setupValue");
-			companyTable = setupValue.get("company").toString();
-			if (companyTable == null) {
-				return null;
-			}
-			cityTable = setupValue.get("city").toString();
-			if (cityTable == null) {
-				return null;
-			}
+			companyTable = (String) setupValue.get("company");
+			cityTable = (String) setupValue.get("city");
 		}
 
 		if (companyTable != null) {

@@ -2,6 +2,7 @@ package com.rcapitol.casamundo;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,6 +41,9 @@ import com.mongodb.MongoException;
 @Path("/pricetable")
 
 public class Rest_PriceTable {
+
+	Commons commons = new Commons();
+	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings("unchecked")
 	@Path("/obterPriceTable")	
@@ -291,24 +295,43 @@ public class Rest_PriceTable {
 	};
 
 	@SuppressWarnings({ "unchecked"})
-	public JSONObject searchValue (String idAgency, String destination, String id, String date){
+	public JSONObject searchValue (String travelId,String productId, String date, String userId){
 
 		JSONObject jsonObject = new JSONObject();
 		JSONObject jsonValue = new JSONObject();
-		Mongo mongoValue;
-			try {
-				mongoValue = new Mongo();
-				DB dbValue = (DB) mongoValue.getDB("documento");
+		
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		String destination =  (String) travel.get("destinatio");
+		String agencyId  = (String) travel.get("agencyId");
+		
+		BasicDBObject setQuery = new BasicDBObject();
+		JSONParser parser = new JSONParser(); 
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+		setQuery.put("documento.destination", destination);
+		setQuery.put("documento.agency", agencyId);
+		Response response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery);
 
-				DBCollection collectionValue = dbValue.getCollection("priceTableValue");
-				BasicDBObject setQuery = new BasicDBObject();
-				JSONParser parser = new JSONParser(); 
-				setQuery = new BasicDBObject();
-		    	setQuery.put("documento.idPriceTable", id);
-				setQuery.put("documento.destination", destination);
-				setQuery.put("documento.agency", idAgency);
-				DBCursor cursorValue = collectionValue.find(setQuery);
-				while (((Iterator<DBObject>) cursorValue).hasNext()) {
+		ArrayList<Object> pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		for (int i = 0; i < pricesList.size(); i++) {
+			BasicDBObject priceList = new BasicDBObject();
+			priceList.putAll((Map) pricesList.get(i));
+			BasicDBObject doc = (BasicDBObject) priceList.get("documento");
+			String bookType = doc.getString("accControl");
+			if (bookType.equals("homestay")){
+				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null);
+				ArrayList<Object> allocations = new ArrayList<Object>();
+				allocations = (JSONArray) response.getEntity();
+				for (int j = 0; j < allocations.size(); j++) {
+					BasicDBObject allocation = new BasicDBObject();
+					allocation.putAll((Map) allocations.get(j));
+//					allocationsHomeStay.add(allocation);
+				};
+			}
+		}
+/*				while (((Iterator<DBObject>) cursorValue).hasNext()) {
 					BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
 					String documentoValue = objValue.getString("documento");
 					try {
@@ -318,20 +341,10 @@ public class Rest_PriceTable {
 							jsonValue.put("gross", jsonObject.get("gross"));
 							jsonValue.put("net", jsonObject.get("net"));
 							jsonValue.put("findValue", true);
-							mongoValue.close();
 							return jsonValue;
 						};
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
 				};
-				mongoValue.close();
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			} catch (MongoException e1) {
-				e1.printStackTrace();
-			}
-		return null;
+*/		return null;
 	};
 
 }
