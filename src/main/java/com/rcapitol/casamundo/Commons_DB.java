@@ -232,22 +232,25 @@ public class Commons_DB {
 	    BasicDBObject setSort = new BasicDBObject();
 		setSort.put("lastChange", -1);
 		
-		BasicDBObject user = obterCrudDoc("usuarios", "_id", userId);
-		
-		if (user == null) {
-			return null;
-		}
-		
-		if (user.get("company") == null) {
-			return null;
-		}
-		
-		if (user.get("city") == null) {
-			return null;
-		}
-				
 		BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
 		
+		BasicDBObject user = new BasicDBObject();
+		if (setup != null) {
+			if (userId == null) {
+				return null;
+			}			
+			user = obterCrudDoc("usuarios", "_id", userId);
+			if (user == null) {
+				return null;
+			}			
+			if (user.get("company") == null) {
+				return null;
+			}
+			if (user.get("city") == null) {
+				return null;
+			}
+		};
+				
 		BasicDBObject setupValue = (BasicDBObject) setup.get("setupValue");
 		String companyTable = null;
 		String cityTable = null;
