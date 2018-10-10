@@ -251,10 +251,11 @@ public class Commons_DB {
 			}
 		};
 				
-		BasicDBObject setupValue = (BasicDBObject) setup.get("setupValue");
+		BasicDBObject setupValue = new BasicDBObject();
 		String companyTable = null;
 		String cityTable = null;
 		if (setup != null) {
+			setupValue = (BasicDBObject) setup.get("setupValue");
 			companyTable = setupValue.get("company").toString();
 			if (companyTable == null) {
 				return null;
