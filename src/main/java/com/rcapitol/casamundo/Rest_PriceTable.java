@@ -98,6 +98,67 @@ public class Rest_PriceTable {
 		ArrayList<Object> pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getEntity();
 
+		JSONObject resultFirstAgency = new JSONObject();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("gross", priceListDoc.get("gross"));
+					result.put("net", priceListDoc.get("net"));
+					result.put("status", cobrado);
+					return result;
+				};
+				if (i == 0){
+					resultFirstAgency.put("gross", priceListDoc.get("gross"));
+					resultFirstAgency.put("net", priceListDoc.get("net"));
+					resultFirstAgency.put("status", cobrado);
+				};
+			}
+		}
+				
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+    	if (destination != null) {
+    		setQuery.put("documento.destination", destination);
+    	}
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		JSONObject resultFirstDestiny = new JSONObject();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("gross", priceListDoc.get("gross"));
+					result.put("net", priceListDoc.get("net"));
+					result.put("status", cobrado);
+					return result;
+				};
+				if (i == 0){
+					resultFirstDestiny.put("gross", priceListDoc.get("gross"));
+					resultFirstDestiny.put("net", priceListDoc.get("net"));
+					resultFirstDestiny.put("status", cobrado);
+				};
+			}
+		}
+		
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
 		JSONObject resultFirst = new JSONObject();
 
 		if (response != null) {
@@ -118,71 +179,14 @@ public class Rest_PriceTable {
 					resultFirst.put("status", cobrado);
 				};
 			}
-			if (resultFirst.get("gross") != null) {
-				return resultFirst;				
-			}
 		}
-				
-		setQuery = new BasicDBObject();
-    	setQuery.put("documento.idPriceTable", productId);
-    	if (destination != null) {
-    		setQuery.put("documento.destination", destination);
-    	}
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
-
-		pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
-
-		if (response != null) {
-			for (int i = 0; i < pricesList.size(); i++) {
-				BasicDBObject priceList = new BasicDBObject();
-				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
-				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
-				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
-					result.put("gross", priceListDoc.get("gross"));
-					result.put("net", priceListDoc.get("net"));
-					result.put("status", cobrado);
-					return result;
-				};
-				if (i == 0){
-					resultFirst.put("gross", priceListDoc.get("gross"));
-					resultFirst.put("net", priceListDoc.get("net"));
-					resultFirst.put("status", cobrado);
-				};
-			}
+		if (resultFirstAgency.get("gross") != null) {
+			return resultFirstAgency;				
 		}
-		
-		if (resultFirst.get("gross") != null) {
-			return resultFirst;				
+		if (resultFirstDestiny.get("gross") != null) {
+			return resultFirstDestiny;				
 		}
-		
-		setQuery = new BasicDBObject();
-    	setQuery.put("documento.idPriceTable", productId);
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
 
-		pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
-
-		if (response != null) {
-			for (int i = 0; i < pricesList.size(); i++) {
-				BasicDBObject priceList = new BasicDBObject();
-				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
-				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
-				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
-					result.put("gross", priceListDoc.get("gross"));
-					result.put("net", priceListDoc.get("net"));
-					result.put("status", cobrado);
-					return result;
-				};
-				if (i == 0){
-					resultFirst.put("gross", priceListDoc.get("gross"));
-					resultFirst.put("net", priceListDoc.get("net"));
-					resultFirst.put("status", cobrado);
-				};
-			}
-		}
 		return resultFirst;
 	};
 
