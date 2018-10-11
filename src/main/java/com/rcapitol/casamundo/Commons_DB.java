@@ -309,6 +309,23 @@ public class Commons_DB {
 			return Response.status(400).entity(null).build();			
 		}
 	};
+	@SuppressWarnings({ })
+	public Response removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
+		Mongo mongo;
+		mongo = new Mongo();
+		DB db = (DB) mongo.getDB("documento");
+		DBCollection collection = db.getCollection(collectionName);
+
+		BasicDBObject setQuery = new BasicDBObject();
+		setQuery.put(key, value);
+		
+		if (setQueryInput != null) {
+			setQuery = setQueryInput;
+		}
+		collection.remove(setQuery);
+		
+		return Response.status(200).entity("true").build();
+	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public Response arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {

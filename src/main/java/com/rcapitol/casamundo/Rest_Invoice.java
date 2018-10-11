@@ -37,7 +37,10 @@ import com.mongodb.MongoException;
 
 public class Rest_Invoice {
 
+	Commons commons = new Commons();
+	Rest_Payment payment = new Rest_Payment();
 	Commons_DB commons_db = new Commons_DB();
+
 	@SuppressWarnings("unchecked")
 	@Path("/obterInvoice")	
 	@GET
@@ -91,7 +94,7 @@ public class Rest_Invoice {
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirInvoice(BasicDBObject documento) throws UnknownHostException, MongoException  {
+	public Response incluirInvoice(BasicDBObject documento) throws UnknownHostException, MongoException  {
 		
 		BasicDBObject doc = new BasicDBObject();
 		doc.putAll((Map) documento.get("documento"));
@@ -102,7 +105,7 @@ public class Rest_Invoice {
 			BasicDBObject docInserted = new BasicDBObject();
 			docInserted.putAll((Map) response.getEntity());
 			ObjectId idObj = new ObjectId(docInserted.getString("_id"));
-			criarCosts(idObj, null, null);
+			criarCosts(idObj.toString(), null);
 		};
 		return response;
 
@@ -121,7 +124,7 @@ public class Rest_Invoice {
 			BasicDBObject doc = new BasicDBObject();
 			doc.putAll((Map) response.getEntity());
 			ObjectId id = new ObjectId(doc.getString("_id"));
-			criarCosts(id, null, null);
+			criarCosts(id.toString(), null);
 		};
 		return response;
 
@@ -443,119 +446,78 @@ public class Rest_Invoice {
 	};
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void criarCosts(ObjectId id, String actualTrip, ObjectId idStudent) {
-		Commons commons = new Commons();
-		Rest_Payment payment = new Rest_Payment();
+	public void criarCosts(String invoiceId, String travelId) throws UnknownHostException, MongoException {
 		
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("invoice");
-			BasicDBObject setQuery = new BasicDBObject();
-			if (id != null){
-				setQuery = new BasicDBObject("_id", id);
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		String studentId =  (String) travel.get("studentId");
+		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+
+		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
+
+		//
+		//** deletar payments da invoice
+		//
+		commons_db.removerCrud("payment", "documento.invoiceId", invoiceId, null);
+
+		ArrayList<Object> products = new ArrayList<Object>();
+		products = (JSONArray) invoice.get("products");
+
+		for (int i = 0; i < products.size(); i++) {
+			BasicDBObject itemCost = new BasicDBObject();
+			BasicDBObject itemInvoice = new BasicDBObject();
+			itemInvoice.putAll((Map) products.get(i));
+		    JSONObject dadosCost = obterDadosCosts (itemCost, accomodation, invoice, itemInvoice);
+			itemCost.put("studentId", studentId);
+			itemCost.put("invoiceId", invoiceId);
+			itemCost.put("invoiceNumber", invoice.get("number"));
+			itemCost.put("travelId", travelId);
+			itemCost.put("status", "to approve");
+			itemCost.put("number", payment.numberPayment());
+			if (dadosCost.get("date") != null){
+				itemCost.put("dueDate", commons.calcNewDate((String) dadosCost.get("date"), 6));
 			};
-			if (actualTrip != null){
-				setQuery = new BasicDBObject("actualTrip", actualTrip);
-			};
-			if (idStudent != null){
-				setQuery = new BasicDBObject("idStudent", idStudent);
-			};
-			DBObject cursor = collection.findOne(setQuery);
-			BasicDBObject objInvoice = (BasicDBObject) cursor.get("documento");
-			ObjectId invoiceId = (ObjectId) cursor.get("_id");
-			String invoiceIdString = invoiceId.toString();
-			//
-			//** deletar payments da invoice
-			//
-			Mongo mongoPayment;
-			mongoPayment = new Mongo();
-			DB dbPayment = (DB) mongoPayment.getDB("documento");
-			DBCollection collectionPayment = dbPayment.getCollection("payment");
-			BasicDBObject queryDelete = new BasicDBObject();
-			queryDelete.put("documento.invoiceId", invoiceIdString);
-			collectionPayment.remove(queryDelete);
-			//** ler student
-			//
-			String idstudentString = objInvoice.getString("idStudent");
-			ObjectId studentId = new ObjectId(idstudentString);
-			Mongo mongoStudent = new Mongo();
-			DB dbStudent = (DB) mongoStudent.getDB("documento");
-			DBCollection collectionStudent = dbStudent.getCollection("student");
-			BasicDBObject searchQueryStudent = new BasicDBObject("_id", studentId);
-			DBObject cursorStudent = collectionStudent.findOne(searchQueryStudent);
-			BasicDBObject objStudent = (BasicDBObject) cursorStudent.get("documento");
-			mongoStudent.close();
-			List listItens = (List) objInvoice.get("itensNet");
-			while (listItens.size() != 0) {
-				JSONObject itemCost = new JSONObject();
-				BasicDBObject itemInvoice = (BasicDBObject) listItens.get(0);
-			    JSONObject dadosCost = obterDadosCosts (itemCost, objStudent, objInvoice, itemInvoice);
-				itemCost.put("id", "1");
-				itemCost.put("idStudent", idstudentString);
-				itemCost.put("invoiceId", invoiceIdString);
-				itemCost.put("invoiceNumber", objInvoice.get("number"));
-				itemCost.put("actualTrip", objInvoice.get("actualTrip"));
-				itemCost.put("status", "to approve");
-				itemCost.put("number", payment.numberPayment());
-				if (dadosCost.get("date") != null){
-					itemCost.put("dueDate", commons.calcNewDate((String) dadosCost.get("date"), 6));
-				};
-				itemCost.put("destination", dadosCost.get("destination"));
-				JSONArray installments = new JSONArray();
-				JSONArray itens = new JSONArray();
-				JSONArray notes = new JSONArray();
-				String typeItem = (String) dadosCost.get("type");
-				int w = 0;
-				double valueNumber = 0;
-				Double amountValue = 0.00;
-				while (w < listItens.size()) {
-					itemInvoice = (BasicDBObject) listItens.get(w);
-					dadosCost = obterDadosCosts (itemCost, objStudent, objInvoice, itemInvoice);
-					if (typeItem.equals(dadosCost.get("type"))){
-						JSONObject item = new JSONObject();
-						item.put("item", itemInvoice.get("item"));
-						item.put("amount", itemInvoice.get("amount"));
-						double amount = Double.parseDouble((String) itemInvoice.get("amount"));
-						item.put("description", itemInvoice.get("description"));
-						if (dadosCost.get("value") != null){
-							item.put("value", dadosCost.get("value"));
-							itens.add(item);
-							String value = (String) dadosCost.get("value");							
-							valueNumber = Double.parseDouble(value);
-							amountValue = amountValue + amount * valueNumber;
-						};
-						listItens.remove(w);
-						--w;
+			itemCost.put("destination", travel.get("destination"));
+			JSONArray itens = new JSONArray();
+			JSONArray notes = new JSONArray();
+			String typeItem = (String) dadosCost.get("type");
+			double valueNumber = 0;
+			Double amountValue = 0.00;
+			for (int w = 0; w < products.size(); w++) {
+				itemInvoice.putAll((Map) products.get(w));
+			    dadosCost = obterDadosCosts (itemCost, accomodation, invoice, itemInvoice);
+				if (typeItem.equals(dadosCost.get("type"))){
+					JSONObject item = new JSONObject();
+					item.put("item", itemInvoice.get("item"));
+					item.put("amount", itemInvoice.get("amount"));
+					double amount = Double.parseDouble((String) itemInvoice.get("amount"));
+					item.put("description", itemInvoice.get("description"));
+					if (dadosCost.get("value") != null){
+						item.put("value", dadosCost.get("value"));
+						itens.add(item);
+						String value = (String) dadosCost.get("value");							
+						valueNumber = Double.parseDouble(value);
+						amountValue = amountValue + amount * valueNumber;
 					};
-					++w;
+					products.remove(w);
+					--w;
 				};
-				if (amountValue != 0.00){
-					itemCost.put("amount", amountValue);
-					itemCost.put("installments", installments);
-					itemCost.put("itens", itens);
-					itemCost.put("notes", notes);
-					//
-					// ** incluir novo custo
-					//
-					BasicDBObject documento = new BasicDBObject();
-					documento.put("documento", itemCost);
-					DBObject insert = new BasicDBObject(documento);
-					collectionPayment.insert(insert);
-				};
+				++w;
 			};
-			mongoPayment.close();
-			mongo.close();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		};
+			if (amountValue != 0.00){
+				itemCost.put("amount", amountValue);
+				itemCost.put("itens", itens);
+				itemCost.put("notes", notes);
+				//
+				// ** incluir novo custo
+				//
+				commons_db.incluirCrud("payment", itemCost);
+			};
+			
+		}
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public JSONObject obterDadosCosts(JSONObject itemCost, BasicDBObject objStudent, BasicDBObject objInvoice, BasicDBObject itemInvoice) {
+	public JSONObject obterDadosCosts(BasicDBObject itemCost, BasicDBObject objStudent, BasicDBObject objInvoice, BasicDBObject itemInvoice) {
 
 	    Integer tripIndex = Integer.parseInt((String) objInvoice.get("actualTrip"));
 		String date = null;
