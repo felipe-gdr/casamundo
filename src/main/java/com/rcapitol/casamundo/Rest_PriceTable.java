@@ -1,38 +1,21 @@
 package com.rcapitol.casamundo;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.bson.types.ObjectId;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
 	
@@ -44,307 +27,163 @@ public class Rest_PriceTable {
 
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
-
-	@SuppressWarnings("unchecked")
-	@Path("/obterPriceTable")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterPriceTable(@QueryParam("id") String idParam ) {
-		ObjectId id = new ObjectId(idParam);
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("priceTable");
-			BasicDBObject setQuery = new BasicDBObject("_id", id);
-			DBObject cursor = collection.findOne(setQuery);
-			JSONObject documento = new JSONObject();
-			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-			ObjectId priceTableIdObject = (ObjectId) cursor.get("_id");
-			String priceTableId = priceTableIdObject.toString();
-			documento.put("_id", priceTableId);
-			documento.put("documento", obj);
-			mongo.close();
-			return documento;
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		}
-		return null;
-	};
-	@SuppressWarnings("unchecked")
-	@Path("/incluir")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response IncluirPriceTable(PriceTable priceTable	)  {
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("priceTable");
-			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(priceTable);
-			Map<String,String> mapJson = new HashMap<String,String>();
-			ObjectMapper mapper = new ObjectMapper();
-			mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-			JSONObject documento = new JSONObject();
-			documento.putAll(mapJson);
-			DBObject insert = new BasicDBObject(documento);
-			collection.insert(insert);
-			ObjectId id = (ObjectId)insert.get( "_id" );
-			String idString = id.toString();
-			BasicDBObject objUpdate = new BasicDBObject();
-			objUpdate.put("documento.id", idString);
-			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-			BasicDBObject setQuery = new BasicDBObject("_id", id);
-			@SuppressWarnings("unused")
-			DBObject cursor = collection.findAndModify(setQuery,
-	                null,
-	                null,
-	                false,
-	                update,
-	                true,
-	                false);
-			mongo.close();
-			return Response.status(200).entity(documento).build();
-		} catch (UnknownHostException e) {
-			System.out.println("UnknownHostException");
-			e.printStackTrace();
-		} catch (MongoException e) {
-			System.out.println("MongoException");
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			System.out.println("JsonMappingException");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("IOException");
-			e.printStackTrace();
-		}
-		return Response.status(500).build();
-		
-	};
-	@SuppressWarnings("unchecked")
-	@Path("/atualizar")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response AtualizarDocumento(PriceTable doc) {
-		String idString = doc.documento.id;
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			ObjectId id = new ObjectId(idString);
-			DBCollection collection = db.getCollection("priceTable");
-			Gson gson = new Gson();
-			String jsonDocumento = gson.toJson(doc);
-			Map<String,String> mapJson = new HashMap<String,String>();
-			ObjectMapper mapper = new ObjectMapper();
-			try {
-				mapJson = mapper.readValue(jsonDocumento, HashMap.class);
-				JSONObject documento = new JSONObject();
-				documento.putAll(mapJson);
-				BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(documento));
-				BasicDBObject setQuery = new BasicDBObject("_id", id);
-				@SuppressWarnings("unused")
-				DBObject cursor = collection.findAndModify(setQuery,
-		                null,
-		                null,
-		                false,
-		                update,
-		                true,
-		                false);
-				mongo.close();
-				return Response.status(200).build();
-			} catch (JsonParseException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		}
-		return null;
-	};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray ObterPriceTables(@QueryParam("date") String date, @QueryParam("destination") String destination, @QueryParam("agency") String agency ) {
+	public JSONArray listaProdutos(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId ) throws UnknownHostException, MongoException {
 
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
+		JSONArray result = new JSONArray();
 
-			DBCollection collection = db.getCollection("priceTable");
-			
-			DBCursor cursor = collection.find();
-			JSONArray documentos = new JSONArray();
-			//
-			// 			tirar este acesso quando mudar o agency para Id no estudante
-			//
-			String agencyId = null;
-			if (!agency.equals("null")){
-				Mongo mongoAgency = new Mongo();
-				DB dbAgency = (DB) mongoAgency.getDB("documento");
-				DBCollection collectionAgency = dbAgency.getCollection("agency");
-				BasicDBObject searchQueryAgency = new BasicDBObject("documento.name", agency);
-				DBObject cursorAgency = collectionAgency.findOne(searchQueryAgency);
-				if (cursorAgency.get("_id") != null){
-					ObjectId agencyObject = (ObjectId) cursorAgency.get("_id");
-					agencyId = agencyObject.toString();
-				};
-				mongoAgency.close();
-			};
-			//
-			while (((Iterator<DBObject>) cursor).hasNext()) {
-				JSONParser parser = new JSONParser(); 
-				BasicDBObject objPriceTable = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-				String documento = objPriceTable.getString("documento");
-				try {
-					JSONObject jsonObject; 
-					jsonObject = (JSONObject) parser.parse(documento);
-					JSONObject jsonDocumento = new JSONObject();
-					jsonDocumento.put("id", "");
-					jsonDocumento.put("name", "");
-					jsonDocumento.put("description", "");
-					jsonDocumento.put("vendorType", "");
-					jsonDocumento.put("valid", "");
-					jsonDocumento.put("gross", "");
-					jsonDocumento.put("net", "");
-					if (objPriceTable.getString("_id") != null){
-						jsonDocumento.put("id", objPriceTable.getString("_id"));
-					};
-					if (jsonObject.get("name") != null){
-						jsonDocumento.put("name", jsonObject.get("name"));
-					};
-					if (jsonObject.get("description") != null){
-						jsonDocumento.put("description", jsonObject.get("description"));
-					};
-					if (jsonObject.get("vendorType") != null){
-						jsonDocumento.put("vendorType", jsonObject.get("vendorType"));
-					};
-					if (jsonObject.get("valid") != null){
-						jsonDocumento.put("valid", jsonObject.get("valid"));
-					};
-					if (!date.equals("null")){
-						Boolean findValue = false;
-						if (agencyId != null && !destination.equals("null")){
-							String idPriceTable = objPriceTable.getString("_id");
-							JSONObject jsonValue = searchValue (agencyId, destination, idPriceTable, date);
-							if (jsonValue != null){
-								if ((Boolean) jsonValue.get("findValue")){
-									jsonDocumento.put("gross", jsonValue.get("gross"));
-									jsonDocumento.put("net", jsonValue.get("net"));
-									findValue = true;
-								};
-							};
-						};
-						if (!findValue && agencyId != null){
-							String idPriceTable = objPriceTable.getString("_id");
-							JSONObject jsonValue = searchValue (agencyId, "", idPriceTable, date);
-							if (jsonValue != null){
-								if ((Boolean) jsonValue.get("findValue")){
-									jsonDocumento.put("gross", jsonValue.get("gross"));
-									jsonDocumento.put("net", jsonValue.get("net"));
-									findValue = true;
-								};
-							};							
-						};
-						if (!findValue && !destination.equals("null")){
-							String idPriceTable = objPriceTable.getString("_id");
-							JSONObject jsonValue = searchValue ("", destination, idPriceTable, date);
-							if (jsonValue != null){
-								if ((Boolean) jsonValue.get("findValue")){
-									jsonDocumento.put("gross", jsonValue.get("gross"));
-									jsonDocumento.put("net", jsonValue.get("net"));
-									findValue = true;
-								};
-							};
-						};
-						if (!findValue){
-							String idPriceTable = objPriceTable.getString("_id");
-							JSONObject jsonValue = searchValue ("", "", idPriceTable, date);
-							if (jsonValue != null){
-								if ((Boolean) jsonValue.get("findValue")){
-									jsonDocumento.put("gross", jsonValue.get("gross"));
-									jsonDocumento.put("net", jsonValue.get("net"));
-									findValue = true;
-								};
-							};
-						};
-				    };
-					documentos.add(jsonDocumento);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			};
-			mongo.close();
-			return documentos;
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
+		BasicDBObject setQuery = new BasicDBObject();
+		BasicDBObject setSort = new BasicDBObject();
+		setSort.put("documento.name", -1);
+		Response response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort);
+		ArrayList<Object> prices = new ArrayList<Object>();
+		prices = (JSONArray) response.getEntity();
+
+		if (response != null) {
+			for (int i = 0; i < prices.size(); i++) {
+				BasicDBObject price = new BasicDBObject();
+				price.putAll((Map) prices.get(i));
+				BasicDBObject priceDoc = (BasicDBObject) price.get("documento");
+				JSONObject priceValue = getValue(travelId, price.getString("_id"), userId);
+				BasicDBObject jsonResult = new BasicDBObject();
+				jsonResult.put("_id", price.get("_id"));
+				jsonResult.put("name", priceDoc.get("name"));
+				jsonResult.put("gross", priceValue.get("gross"));
+				jsonResult.put("net", priceValue.get("net"));
+				jsonResult.put("status", priceValue.get("status"));
+				result.add(jsonResult);
+			}
 		}
-		return null;
-	};
+		return result;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public JSONObject getValue(String travelId, String productId, String userId ) throws UnknownHostException, MongoException {
 
-	@SuppressWarnings({ "unchecked"})
-	public JSONObject searchValue (String travelId,String productId, String date, String userId){
-
-		JSONObject jsonObject = new JSONObject();
-		JSONObject jsonValue = new JSONObject();
+		JSONObject result = new JSONObject();
 		
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
-		String destination =  (String) travel.get("destinatio");
-		String agencyId  = (String) travel.get("agencyId");
-		
+		String destination =  (String) travel.get("destination");
+		String agencyId  = (String) travel.get("agency");
+
 		BasicDBObject setQuery = new BasicDBObject();
-		JSONParser parser = new JSONParser(); 
+    	setQuery.put("documento.trip", travelId);
+    	setQuery.put("documento.products.id", productId);
+    	
+		Response response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null);
+
+		ArrayList<Object> invoice = new ArrayList<Object>();
+		invoice = (JSONArray) response.getEntity();
+		
+		String cobrado = "naocobrado";
+		if (invoice.size() != 0 ) {
+			cobrado = "cobrado";			
+		}
 		setQuery = new BasicDBObject();
     	setQuery.put("documento.idPriceTable", productId);
-		setQuery.put("documento.destination", destination);
-		setQuery.put("documento.agency", agencyId);
-		Response response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery);
+    	if (destination != null) {
+    		setQuery.put("documento.destination", destination);
+    	}
+    	if (agencyId != null) {
+    		setQuery.put("documento.agency", agencyId);
+    	}
+    	
+		BasicDBObject setSort = new BasicDBObject();
+		setSort.put("documento.to", -1);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
 
 		ArrayList<Object> pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getEntity();
 
-		for (int i = 0; i < pricesList.size(); i++) {
-			BasicDBObject priceList = new BasicDBObject();
-			priceList.putAll((Map) pricesList.get(i));
-			BasicDBObject doc = (BasicDBObject) priceList.get("documento");
-			String bookType = doc.getString("accControl");
-			if (bookType.equals("homestay")){
-				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null);
-				ArrayList<Object> allocations = new ArrayList<Object>();
-				allocations = (JSONArray) response.getEntity();
-				for (int j = 0; j < allocations.size(); j++) {
-					BasicDBObject allocation = new BasicDBObject();
-					allocation.putAll((Map) allocations.get(j));
-//					allocationsHomeStay.add(allocation);
+		JSONObject resultFirst = new JSONObject();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("gross", priceListDoc.get("gross"));
+					result.put("net", priceListDoc.get("net"));
+					result.put("status", cobrado);
+					return result;
+				};
+				if (i == 0){
+					resultFirst.put("gross", priceListDoc.get("gross"));
+					resultFirst.put("net", priceListDoc.get("net"));
+					resultFirst.put("status", cobrado);
+				};
+			}
+			if (resultFirst.get("gross") != null) {
+				return resultFirst;				
+			}
+		}
+				
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+    	if (destination != null) {
+    		setQuery.put("documento.destination", destination);
+    	}
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("gross", priceListDoc.get("gross"));
+					result.put("net", priceListDoc.get("net"));
+					result.put("status", cobrado);
+					return result;
+				};
+				if (i == 0){
+					resultFirst.put("gross", priceListDoc.get("gross"));
+					resultFirst.put("net", priceListDoc.get("net"));
+					resultFirst.put("status", cobrado);
 				};
 			}
 		}
-/*				while (((Iterator<DBObject>) cursorValue).hasNext()) {
-					BasicDBObject objValue = (BasicDBObject) ((Iterator<DBObject>) cursorValue).next();
-					String documentoValue = objValue.getString("documento");
-					try {
-						Commons commons = new Commons();
-						jsonObject = (JSONObject) parser.parse(documentoValue);
-						if (commons.verifyInterval (date, (String) jsonObject.get("from"), (String) jsonObject.get("to"))){
-							jsonValue.put("gross", jsonObject.get("gross"));
-							jsonValue.put("net", jsonObject.get("net"));
-							jsonValue.put("findValue", true);
-							return jsonValue;
-						};
+		
+		if (resultFirst.get("gross") != null) {
+			return resultFirst;				
+		}
+		
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("gross", priceListDoc.get("gross"));
+					result.put("net", priceListDoc.get("net"));
+					result.put("status", cobrado);
+					return result;
 				};
-*/		return null;
+				if (i == 0){
+					resultFirst.put("gross", priceListDoc.get("gross"));
+					resultFirst.put("net", priceListDoc.get("net"));
+					resultFirst.put("status", cobrado);
+				};
+			}
+		}
+		return resultFirst;
 	};
 
 }

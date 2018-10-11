@@ -218,7 +218,7 @@ public class Commons_DB {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Response listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
+	public Response listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -233,6 +233,10 @@ public class Commons_DB {
 	    }
 	    BasicDBObject setSort = new BasicDBObject();
 		setSort.put("lastChange", -1);
+
+	    if (setQueryInput != null) {
+	    	setSort = setSortInput; 
+	    }
 		
 		BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
 		

@@ -15,12 +15,12 @@ public class Commons {
 	
 	public Boolean verifyInterval (String date, String initInterval, String endInterval){
 	
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
 		try {
 			if (initInterval != null && endInterval != null){
-				Date d1 = df.parse (convertDateMes (date));
-				Date d2 = df.parse (convertDateMes (initInterval));
-				Date d3 = df.parse (convertDateMes (endInterval));
+				Date d1 = df.parse (date);
+				Date d2 = df.parse (initInterval);
+				Date d3 = df.parse (endInterval);
 				long d1_time = d1.getTime();
 				long d2_time = d2.getTime();
 				long d3_time = d3.getTime();
