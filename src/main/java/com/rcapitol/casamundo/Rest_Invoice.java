@@ -96,11 +96,7 @@ public class Rest_Invoice {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response incluirInvoice(BasicDBObject documento) throws UnknownHostException, MongoException  {
 		
-		BasicDBObject doc = new BasicDBObject();
-		doc.putAll((Map) documento.get("documento"));
-		BasicDBObject docInsert = new BasicDBObject();
-		docInsert.put("documento", doc);		
-		Response response = commons_db.incluirCrud("invoice", docInsert);
+		Response response = commons_db.incluirCrud("invoice", documento);
 		if (response.getStatus() == 200) {
 			BasicDBObject docInserted = new BasicDBObject();
 			docInserted.putAll((Map) response.getEntity());
