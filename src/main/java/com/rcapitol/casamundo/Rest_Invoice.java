@@ -90,7 +90,6 @@ public class Rest_Invoice {
 		}
 		return null;
 	};
-	@SuppressWarnings({ "rawtypes" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -98,10 +97,8 @@ public class Rest_Invoice {
 		
 		Response response = commons_db.incluirCrud("invoice", documento);
 		if (response.getStatus() == 200) {
-			BasicDBObject docInserted = new BasicDBObject();
-			docInserted.putAll((Map) response.getEntity());
-			ObjectId idObj = new ObjectId(docInserted.getString("_id"));
-			criarCosts(idObj.toString(), null);
+			String invoiceId = (String) response.getEntity();
+			criarCosts(invoiceId.toString(), null);
 		};
 		return response;
 
@@ -631,7 +628,6 @@ public class Rest_Invoice {
 		return null;
 	};
 
-	@SuppressWarnings({ "rawtypes" })
 	@Path("/get/number")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
