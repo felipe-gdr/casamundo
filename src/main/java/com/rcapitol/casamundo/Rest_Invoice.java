@@ -459,7 +459,7 @@ public class Rest_Invoice {
 			BasicDBObject itemCost = new BasicDBObject();
 			BasicDBObject itemInvoice = new BasicDBObject();
 			itemInvoice.putAll((Map) products.get(i));
-		    JSONObject dadosCost = obterDadosCosts (itemCost, accomodation, invoice, itemInvoice);
+		    JSONObject dadosCost = obterDadosCosts (itemCost, travel, invoice, itemInvoice);
 			itemCost.put("studentId", studentId);
 			itemCost.put("invoiceId", invoiceId);
 			itemCost.put("invoiceNumber", invoice.get("number"));
@@ -509,74 +509,19 @@ public class Rest_Invoice {
 		}
 	};
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public JSONObject obterDadosCosts(BasicDBObject itemCost, BasicDBObject objStudent, BasicDBObject objInvoice, BasicDBObject itemInvoice) {
+	@SuppressWarnings({"unchecked" })
+	public JSONObject obterDadosCosts(BasicDBObject itemCost, BasicDBObject travel, BasicDBObject objInvoice, BasicDBObject itemInvoice) throws UnknownHostException, MongoException {
 
-	    Integer tripIndex = Integer.parseInt((String) objInvoice.get("actualTrip"));
 		String date = null;
-    	String idFamily = null;
-    	String idVendor = null;
-    	String destination = null;
-	    if (tripIndex != null){
-			List trips = (List) objStudent.get("trips");
-			BasicDBObject jsonTrip =  (BasicDBObject) trips.get(tripIndex);
-			date = (String) jsonTrip.get("start");
-			idFamily = (String) jsonTrip.get("idFamily");
-			destination = (String) jsonTrip.get("destination");
-	    };
-		String value = null;
-		String type = null;
+    	String destination = travel.getString("destination");
+		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", travel.getString("documento.resource"));
+		BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("documento.roomId"));
+    	String idVendor = familyRoom.getString("familyId");
+		String value = "0.00";
+		String type = "family";
 		//
 		//** get value
 		//
-		JSONObject jsonCost = new JSONObject();
-		String idPriceTable = (String) itemInvoice.get("item");
-		if (idFamily != null && !destination.equals("null")){
-			jsonCost = searchCostValue (idFamily, destination, idPriceTable, date);
-			value = (String) jsonCost.get("value");
-			type = (String) jsonCost.get("type");
-			idVendor = idFamily;
-		};
-		if (value == null && idFamily != null){
-			jsonCost = searchCostValue (idFamily, "", idPriceTable, date);
-			value = (String) jsonCost.get("value");
-			type = (String) jsonCost.get("type");
-			idVendor = idFamily;
-		};
-		if (value == null ){
-	    	ArrayList arrayListVendors = new ArrayList(); 
-	    	arrayListVendors = (ArrayList) objStudent.get("vendors");
-	    	if (arrayListVendors != null){
-		    	Object arrayVendors[] = arrayListVendors.toArray(); 
-				int z = 0;
-				while (z < arrayVendors.length | value != null) {
-					idVendor = (String) arrayVendors[z];
-					jsonCost = searchCostValue (idVendor, destination, idPriceTable, date);
-					value = (String) jsonCost.get("value");
-					type = (String) jsonCost.get("type");
-					if (value == null){
-						jsonCost = searchCostValue (idVendor, "", idPriceTable, date);
-						value = (String) jsonCost.get("value");
-						type = (String) jsonCost.get("type");
-					};
-					++z;
-				};
-	    	};
-		};
-		if (value == null && !destination.equals("null")){
-			jsonCost = searchCostValue ("", destination, idPriceTable, date);						
-			value = (String) jsonCost.get("value");
-			type = (String) jsonCost.get("type");
-		};
-		if (value == null){
-			jsonCost = searchCostValue ("", "", idPriceTable, date);
-			value = (String) jsonCost.get("value");
-			type = (String) jsonCost.get("type");
-		};
-		if (type == null){
-			type = "undefined";
-		};
-
 		JSONObject dadosCost = new JSONObject();
 		dadosCost.put("type", type);
 		dadosCost.put("value", value);
