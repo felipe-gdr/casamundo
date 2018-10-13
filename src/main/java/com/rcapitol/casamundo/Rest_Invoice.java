@@ -509,11 +509,13 @@ public class Rest_Invoice {
 		}
 	};
 
-	@SuppressWarnings({"unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public JSONObject obterDadosCosts(BasicDBObject itemCost, BasicDBObject travel, BasicDBObject objInvoice, BasicDBObject itemInvoice) throws UnknownHostException, MongoException {
 
 		String date = null;
     	String destination = travel.getString("destination");
+    	BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "documento.studentId", travel.getString("_id"));
 		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", travel.getString("documento.resource"));
 		BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("documento.roomId"));
     	String idVendor = familyRoom.getString("familyId");

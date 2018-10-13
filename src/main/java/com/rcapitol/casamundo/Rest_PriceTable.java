@@ -54,7 +54,9 @@ public class Rest_PriceTable {
 				jsonResult.put("gross", priceValue.get("gross"));
 				jsonResult.put("net", priceValue.get("net"));
 				jsonResult.put("status", priceValue.get("status"));
-				result.add(jsonResult);
+				if (priceValue.get("net") != null) {
+					result.add(jsonResult);
+				};
 			}
 		}
 		return result;
