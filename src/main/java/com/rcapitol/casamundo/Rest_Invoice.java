@@ -98,7 +98,7 @@ public class Rest_Invoice {
 		Response response = commons_db.incluirCrud("invoice", documento);
 		if (response.getStatus() == 200) {
 			String invoiceId = (String) response.getEntity();
-			criarCosts(invoiceId.toString(), null);
+			criarCosts(invoiceId.toString());
 		};
 		return response;
 
@@ -117,7 +117,7 @@ public class Rest_Invoice {
 			BasicDBObject doc = new BasicDBObject();
 			doc.putAll((Map) response.getEntity());
 			ObjectId id = new ObjectId(doc.getString("_id"));
-			criarCosts(id.toString(), null);
+			criarCosts(id.toString());
 		};
 		return response;
 
@@ -439,13 +439,14 @@ public class Rest_Invoice {
 	};
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void criarCosts(String invoiceId, String travelId) throws UnknownHostException, MongoException {
+	public void criarCosts(String invoiceId) throws UnknownHostException, MongoException {
 		
+
+		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
+		String travelId = invoice.getString("trip"); 
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
 		String studentId =  (String) travel.get("studentId");
 		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
-
-		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
 
 		//
 		//** deletar payments da invoice

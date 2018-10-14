@@ -154,7 +154,7 @@ public class Rest_Payment {
 			DBCursor cursor = collection.find(setQuery);
 			while (((Iterator<DBObject>) cursor).hasNext()) {
 				BasicDBObject objInvoice = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
-				rest_invoice.criarCosts(objInvoice.get("_id").toString(), null);
+				rest_invoice.criarCosts(objInvoice.get("_id").toString());
 			};
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
