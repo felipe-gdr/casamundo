@@ -2,8 +2,6 @@ package com.rcapitol.casamundo;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
@@ -12,20 +10,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
@@ -80,21 +73,21 @@ public class Rest_Receivement {
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 
 		ArrayList<Object> invoices = new ArrayList<Object>();
-		invoices = (JSONArray) receivementAtu.get("products");
+		invoices = (JSONArray) receivementAtu.get("invoices");
 
 		for (int i = 0; i < invoices.size(); i++) {
 			BasicDBObject invoice = new BasicDBObject();
 			invoice.putAll((Map) invoices.get(i));
-			BasicDBObject invoiceObj = commons_db.obterCrudDoc("invoice", "_id", invoice.getString("_id"));
+			BasicDBObject invoiceObj = commons_db.obterCrudDoc("invoice", "_id", invoice.getString("id"));
 			if (invoiceObj.get("netGross") != null && invoiceObj.get("total") != null && invoice.get("value") != null) {
 				if (invoiceObj.getString("netGross") == "gross") {
-					if (invoiceObj.getString("total") == invoice.get("value")) {
+					if (invoiceObj.getString("total") == invoice.get("valuePayed")) {
 						invoiceObj.put("paid","paid");
-						invoiceObj.put("paidValue",invoice.get("value"));
+						invoiceObj.put("valuePayed",invoice.get("valuePayed"));
 					}else {
 						invoiceObj.put("paid","partial");
-						float paidValue = Float.valueOf(invoiceObj.getString("paidValue"));
-						paidValue = paidValue + Float.valueOf(invoice.getString("value"));
+						float paidValue = Float.valueOf(invoiceObj.getString("valuePayed"));
+						paidValue = paidValue + Float.valueOf(invoice.getString("valuePayed"));
 						invoiceObj.put("paidValue", Float.toString(paidValue));
 					}
 					ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
