@@ -38,7 +38,7 @@ public class Rest_PriceTable {
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.name", -1);
-		Response response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort);
+		Response response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> prices = new ArrayList<Object>();
 		prices = (JSONArray) response.getEntity();
 
@@ -75,7 +75,7 @@ public class Rest_PriceTable {
     	setQuery.put("documento.trip", travelId);
     	setQuery.put("documento.products.id", productId);
     	
-		Response response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null);
+		Response response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null, false);
 
 		ArrayList<Object> invoice = new ArrayList<Object>();
 		invoice = (JSONArray) response.getEntity();
@@ -95,7 +95,7 @@ public class Rest_PriceTable {
     	
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.to", -1);
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		ArrayList<Object> pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getEntity();
@@ -127,7 +127,7 @@ public class Rest_PriceTable {
     	if (destination != null) {
     		setQuery.put("documento.destination", destination);
     	}
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getEntity();
@@ -156,7 +156,7 @@ public class Rest_PriceTable {
 		
 		setQuery = new BasicDBObject();
     	setQuery.put("documento.idPriceTable", productId);
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getEntity();

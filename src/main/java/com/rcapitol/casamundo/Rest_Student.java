@@ -53,7 +53,7 @@ public class Rest_Student {
 	@Produces(MediaType.APPLICATION_JSON)
 	public BasicDBObject getAllocation(@QueryParam("studentId") String studentId, @QueryParam("userId") String userId) throws UnknownHostException, MongoException {
 
-		Response response =  commons_db.listaCrud("travel", "documento.studentId", studentId, userId, null, null);
+		Response response =  commons_db.listaCrud("travel", "documento.studentId", studentId, userId, null, null, false);
 
 		ArrayList<Object> allocationsHomeStay = new ArrayList<Object>();
 		ArrayList<Object> allocationsShared = new ArrayList<Object>();
@@ -68,7 +68,7 @@ public class Rest_Student {
 			BasicDBObject doc = (BasicDBObject) travel.get("documento");
 			String bookType = doc.getString("accControl");
 			if (bookType.equals("homestay")){
-				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null, null);
+				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null, null,false);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getEntity();
 				for (int j = 0; j < allocations.size(); j++) {
@@ -78,7 +78,7 @@ public class Rest_Student {
 				};
 			}
 			if (bookType.equals("shared")){
-				response =  commons_db.listaCrud("sharedBook", "documento.studentId", travelId, userId, null, null);
+				response =  commons_db.listaCrud("sharedBook", "documento.studentId", travelId, userId, null, null, false);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getEntity();
 				for (int j = 0; j < allocations.size(); j++) {
@@ -88,7 +88,7 @@ public class Rest_Student {
 				};
 			}
 			if (bookType.equals("suite")){
-				response =  commons_db.listaCrud("suiteBook", "documento.studentId", travelId, userId, null, null);
+				response =  commons_db.listaCrud("suiteBook", "documento.studentId", travelId, userId, null, null,false);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getEntity();
 				for (int j = 0; j < allocations.size(); j++) {

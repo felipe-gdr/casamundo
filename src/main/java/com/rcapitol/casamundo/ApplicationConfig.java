@@ -35,7 +35,8 @@ public class ApplicationConfig extends Application {
         		Rest_Pickup.class,
         		Rest_Setup.class,
         		Rest_Crud.class,
-        		Rest_HomestayBook.class
+        		Rest_HomestayBook.class,
+        		Rest_Receivement.class
         		));
     }
 }
