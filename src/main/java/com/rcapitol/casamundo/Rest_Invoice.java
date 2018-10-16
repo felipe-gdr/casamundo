@@ -291,24 +291,27 @@ public class Rest_Invoice {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public JSONObject obterDadosCosts(BasicDBObject itemCost, BasicDBObject travel, BasicDBObject objInvoice, BasicDBObject itemInvoice) throws UnknownHostException, MongoException {
 
+		JSONObject dadosCost = new JSONObject();
+
 		String date = null;
     	String destination = travel.getString("destination");
     	BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "documento.studentId", travel.getString("_id"));
-		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", travel.getString("documento.resource"));
-		BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("documento.roomId"));
-    	String idVendor = familyRoom.getString("familyId");
-		String value = "0.00";
-		String type = "family";
-		//
-		//** get value
-		//
-		JSONObject dadosCost = new JSONObject();
-		dadosCost.put("type", type);
-		dadosCost.put("value", value);
-		dadosCost.put("idVendor", idVendor);
-		dadosCost.put("destination", destination);
-		dadosCost.put("date", date);
+		if (travel.getString("documento.resource") != null) {
+			BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", travel.getString("documento.resource"));
+			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("documento.roomId"));
+	    	String idVendor = familyRoom.getString("familyId");
+			String value = "0.00";
+			String type = "family";
+			//
+			//** get value
+			//
+			dadosCost.put("type", type);
+			dadosCost.put("value", value);
+			dadosCost.put("idVendor", idVendor);
+			dadosCost.put("destination", destination);
+			dadosCost.put("date", date);
+		};
 		
 		return dadosCost;
 	};
