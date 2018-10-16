@@ -80,8 +80,8 @@ public class Rest_Receivement {
 			invoice.putAll((Map) invoices.get(i));
 			BasicDBObject invoiceObj = commons_db.obterCrudDoc("invoice", "_id", invoice.getString("id"));
 			if (invoiceObj.get("netGross") != null && invoiceObj.get("total") != null && invoice.get("value") != null) {
-				if (invoiceObj.getString("netGross") == "gross") {
-					if (invoiceObj.getString("total") == invoice.get("valuePayed")) {
+				if (invoiceObj.getString("netGross").equals("gross")) {
+					if (invoiceObj.getString("total").equals(invoice.get("valuePayed"))) {
 						invoiceObj.put("paid","paid");
 						invoiceObj.put("valuePayed",invoice.get("valuePayed"));
 					}else {
