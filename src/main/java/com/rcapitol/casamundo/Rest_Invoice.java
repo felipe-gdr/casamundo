@@ -89,7 +89,7 @@ public class Rest_Invoice {
 
 		if (invoice.get("products") != null) {
 			ArrayList<Object> products = new ArrayList<Object>();
-			products = (JSONArray) invoice.get("products");
+			products = (ArrayList) invoice.get("products");
 	
 			for (int i = 0; i < products.size(); i++) {
 				BasicDBObject itemCost = new BasicDBObject();
