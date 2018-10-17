@@ -73,43 +73,49 @@ public class Rest_Receivement {
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 
 		ArrayList<Object> invoices = new ArrayList<Object>();
-		invoices = (JSONArray) receivementAtu.get("invoices");
+		invoices = (ArrayList<Object>) receivementAtu.get("invoices");
 
 		for (int i = 0; i < invoices.size(); i++) {
 			BasicDBObject invoice = new BasicDBObject();
 			invoice.putAll((Map) invoices.get(i));
 			BasicDBObject invoiceObj = commons_db.obterCrudDoc("invoice", "_id", invoice.getString("id"));
-			if (invoiceObj.get("netGross") != null && invoiceObj.get("total") != null && invoice.get("value") != null) {
-				if (invoiceObj.getString("netGross").equals("gross")) {
-					if (invoiceObj.getString("total").equals(invoice.get("valuePayed"))) {
-						invoiceObj.put("paid","paid");
-						invoiceObj.put("valuePayed",invoice.get("valuePayed"));
-					}else {
-						invoiceObj.put("paid","partial");
-						float paidValue = Float.valueOf(invoiceObj.getString("valuePayed"));
-						paidValue = paidValue + Float.valueOf(invoice.getString("valuePayed"));
-						invoiceObj.put("paidValue", Float.toString(paidValue));
-					}
-					ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
-					BasicDBObject update = new BasicDBObject(); 
-					update.put("field", "documento");
-					update.put("value", invoiceObj);
-					arrayUpdate.add(update);
-					commons_db.atualizarCrud("invoice", invoiceObj, "_id", invoice.getString("_id"));
+			if (invoiceObj.get("netGross") != null && invoiceObj.get("total") != null ) {
+				float total = Float.valueOf(invoiceObj.getString("total"));
+				float valuePayedObj = 0;
+				if (invoiceObj.get("valuePayed") != null) {
+					valuePayedObj = Float.valueOf(invoiceObj.getString("valuePayed"));
+				}
+				float valuePayed = 0;
+				if (invoice.get("valuePayed") != null) {
+					valuePayed = Float.valueOf(invoice.getString("valuePayed"));
+				}
+				if ((valuePayedObj + valuePayed) >= total) {
+					invoiceObj.put("valuePayed", Float.toString(total));
+					invoiceObj.put("paid","paid");
+				}else {
+					valuePayedObj = valuePayedObj + valuePayed;						
+					invoiceObj.put("valuePayed", Float.toString(valuePayedObj));
+					invoiceObj.put("paid","partial");
 				}
 			}
+			ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+			BasicDBObject update = new BasicDBObject(); 
+			update.put("field", "documento");
+			update.put("value", invoiceObj);
+			arrayUpdate.add(update);
+			commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoice.getString("id"));
 		}
 		String key = "";
 		String value = "";
 		String collection = "";
 		
-		if (receivementAtu.getString("agencyId") != null) {
-			key = "documento.agencyId";
-			value = receivementAtu.getString("agencyId");
+		if (receivementAtu.getString("agency") != null) {
+			key = "documento.agency";
+			value = receivementAtu.getString("agency");
 			collection = "agency";
 		}else {
-			key = "documento.studentId";
-			value = receivementAtu.getString("studentId");
+			key = "documento.student";
+			value = receivementAtu.getString("student");
 			collection = "student";
 		}
 		Response response = commons_db.listaCrud("invoice", key, value, null, null, null, true);
@@ -122,8 +128,8 @@ public class Rest_Receivement {
 				BasicDBObject invoice = new BasicDBObject();
 				invoice.putAll((Map) invoices.get(i));
 				BasicDBObject invoiceObj = (BasicDBObject) invoice.get("documento");
-				if (invoiceObj.get("paidValue") != null) {
-					paidValueTotal = paidValueTotal + Float.valueOf(invoiceObj.getString("paidValue"));
+				if (invoiceObj.get("valuePayed") != null) {
+					paidValueTotal = paidValueTotal + Float.valueOf(invoiceObj.getString("valuePayed"));
 				};
 			}
 		};
@@ -136,10 +142,10 @@ public class Rest_Receivement {
 		if (response != null) {
 			for (int i = 0; i < receivements.size(); i++) {
 				BasicDBObject receivement = new BasicDBObject();
-				receivement.putAll((Map) invoices.get(i));
+				receivement.putAll((Map) receivements.get(i));
 				BasicDBObject receivementObj = (BasicDBObject) receivement.get("documento");
 				if (receivementObj.get("amount") != null) {
-					receiveValueTotal = paidValueTotal + Float.valueOf(receivementObj.getString("amount"));
+					receiveValueTotal = receiveValueTotal + Float.valueOf(receivementObj.getString("amount"));
 				};
 			}
 		};
@@ -150,10 +156,10 @@ public class Rest_Receivement {
 		};
 		ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
 		BasicDBObject update = new BasicDBObject(); 
-		update.put("field", "documento.balance");
+		update.put("field", "balance");
 		update.put("value", Float.toString(balance));
 		arrayUpdate.add(update);
-		commons_db.atualizarCrud(collection, arrayUpdate, key, value);
+		commons_db.atualizarCrud(collection, arrayUpdate, "_id", value);
 		
 	};
 
