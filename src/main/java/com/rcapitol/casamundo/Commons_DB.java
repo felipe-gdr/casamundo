@@ -68,6 +68,7 @@ public class Commons_DB {
 			int id = collection.find().count();
 			id = id++;
 			String idS = '"'+Integer.toString(id)+'"';
+		    mongo.close();
 			return Response.status(200).entity(idS).build();
 		}else {
 			mongo.close();
@@ -108,6 +109,7 @@ public class Commons_DB {
 			mongo.close();
 			return documento;
 		}
+	    mongo.close();
 		return null;
 	};
 
@@ -149,9 +151,11 @@ public class Commons_DB {
 			if (cursor != null){
 				objDocumento.putAll((Map) cursor.get("documento"));
 			}else {
+			    mongo.close();
 				return Response.status(200).entity("false").build();
 			}
 		}else {
+		    mongo.close();
 			return Response.status(200).entity("false").build();
 		}
 		
@@ -243,16 +247,20 @@ public class Commons_DB {
 		BasicDBObject user = new BasicDBObject();
 		if (setup != null && !onlyPrivate) {
 			if (userId == null) {
+			    mongo.close();
 				return null;
 			}			
 			user = obterCrudDoc("usuarios", "_id", userId);
 			if (user == null) {
+			    mongo.close();
 				return null;
 			}			
 			if (user.get("company") == null) {
+			    mongo.close();
 				return null;
 			}
 			if (user.get("city") == null) {
+			    mongo.close();
 				return null;
 			}
 		};
@@ -324,6 +332,8 @@ public class Commons_DB {
 			setQuery = setQueryInput;
 		}
 		collection.remove(setQuery);
+
+		mongo.close();
 		
 		return Response.status(200).entity("true").build();
 	};
@@ -338,9 +348,11 @@ public class Commons_DB {
 		BasicDBObject objDocumento = new BasicDBObject();
 
 		if ((type.equals("update") || type.equals("in")) && item.equals(null) ) {
+		    mongo.close();
 			return Response.status(200).entity("false").build();
 		}
 		if ((type.equals("update") || type.equals("out")) && indexInp.equals(null) ) {
+		    mongo.close();
 			return Response.status(200).entity("false").build();
 		}
 		Response response = obterCrud(collectionName, key, value);
@@ -350,9 +362,11 @@ public class Commons_DB {
 			if (cursor != null){
 				objDocumento.putAll((Map) cursor.get("documento"));
 			}else {
+			    mongo.close();
 				return Response.status(200).entity("false").build();
 			}
 		}else {
+		    mongo.close();
 			return Response.status(200).entity("false").build();
 		}
 		
@@ -365,6 +379,7 @@ public class Commons_DB {
 				ArrayList docUpdate = (ArrayList) objDocumento.get(field);
 				if (!indexInp.equals(null)) {
 					if (index > docUpdate.size()) {
+					    mongo.close();
 						return Response.status(200).entity("false").build();						
 					}
 				}

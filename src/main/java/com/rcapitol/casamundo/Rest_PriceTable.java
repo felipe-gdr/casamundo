@@ -192,4 +192,110 @@ public class Rest_PriceTable {
 		return resultFirst;
 	};
 
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public BasicDBObject getCost(String travelId, String productId, String vendorId) throws UnknownHostException, MongoException {
+
+		BasicDBObject result = new BasicDBObject();
+		
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		String destination =  (String) travel.get("destination");
+
+		BasicDBObject setQuery = new BasicDBObject();
+		
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+    	if (destination != null) {
+    		setQuery.put("documento.destination", destination);
+    	}
+    	if (vendorId != null) {
+    		setQuery.put("documento.vendorId", vendorId);
+    	}
+    	
+		BasicDBObject setSort = new BasicDBObject();
+		setSort.put("documento.to", -1);
+		Response response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+
+		ArrayList<Object> pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		BasicDBObject resultFirstVendor = new BasicDBObject();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					resultFirstVendor.put("value", priceListDoc.get("value"));
+					return result;
+				};
+				if (i == 0){
+					resultFirstVendor.put("value", priceListDoc.get("value"));
+				};
+			};
+		};
+				
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+    	if (destination != null) {
+    		setQuery.put("documento.destination", destination);
+    	};
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		BasicDBObject resultFirstDestiny = new BasicDBObject();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					resultFirstVendor.put("value", priceListDoc.get("value"));
+					return result;
+				};
+				if (i == 0){
+					resultFirstVendor.put("value", priceListDoc.get("value"));
+				};
+			}
+		}
+		
+		setQuery = new BasicDBObject();
+    	setQuery.put("documento.idPriceTable", productId);
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getEntity();
+
+		BasicDBObject resultFirst = new BasicDBObject();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					resultFirstVendor.put("value", priceListDoc.get("value"));
+					return result;
+				};
+				if (i == 0){
+					resultFirstVendor.put("value", priceListDoc.get("value"));
+				};
+			}
+		}
+		if (resultFirstVendor.get("value") != null) {
+			return resultFirstVendor;				
+		}
+		if (resultFirstDestiny.get("value") != null) {
+			return resultFirstDestiny;				
+		}
+
+		return resultFirst;
+	};
 }

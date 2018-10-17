@@ -56,10 +56,10 @@ public class Commons {
 	@SuppressWarnings("null")
 	public int difDate (String start, String end){
 		
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
 		try {
-			Date d1 = df.parse (convertDateMes (start));
-			Date d2 = df.parse (convertDateMes (end)); 
+			Date d1 = df.parse (start);
+			Date d2 = df.parse (end); 
 			long dt = (d2.getTime() - d1.getTime()) + 3600000;
 			int daysInBetween = (int) (dt / (24*60*60*1000));
 			return daysInBetween;
@@ -71,13 +71,18 @@ public class Commons {
 
 	public String calcNewDate (String date, int days){
 		
-		DateFormat df = new SimpleDateFormat ("ddMMyyyy");
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();   
-		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(convertDateMes(date).substring(0, 2)));
-		cal.set(Calendar.MONTH, (Integer.parseInt(convertDateMes(date).substring(3, 5)) ) - 1 );
-		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
-		cal.add(Calendar.DAY_OF_MONTH, 5);
-		return convertDateMesAlfa(df.format(cal.getTime())).replaceAll("/", "");
+		Integer day = Integer.parseInt(date.substring(8, 10));
+		Integer month = Integer.parseInt(date.substring(5, 7));
+		Integer year = Integer.parseInt(date.substring(0, 4));
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+		cal.add(Calendar.DAY_OF_MONTH, days);
+		return df.format(cal.getTime());
 	};
 
 	public Integer weekDay (String date){
