@@ -113,7 +113,7 @@ public class Rest_Invoice {
 				Double amountValue = 0.00;
 				for (int w = 0; w < products.size(); w++) {
 					itemInvoice.putAll((Map) products.get(w));
-				    dadosCost = obterDadosCosts (itemCost, accomodation, invoice, itemInvoice);
+				    dadosCost = obterDadosCosts (itemCost, travel, invoice, itemInvoice);
 					if (typeItem.equals(dadosCost.get("type"))){
 						JSONObject item = new JSONObject();
 						item.put("item", itemInvoice.get("item"));
@@ -297,22 +297,22 @@ public class Rest_Invoice {
     	String destination = travel.getString("destination");
     	BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "documento.studentId", travel.getString("_id"));
-		if (homestayBook.getString("documento.resource") != null) {
-			BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", homestayBook.getString("documento.resource"));
-			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("documento.roomId"));
-	    	String idVendor = familyRoom.getString("familyId");
-			String value = "0.00";
-			String type = "family";
-			//
-			//** get value
-			//
-			dadosCost.put("type", type);
-			dadosCost.put("value", value);
-			dadosCost.put("idVendor", idVendor);
-			dadosCost.put("destination", destination);
-			dadosCost.put("date", date);
+    	String idVendor = null;
+		String value = "0.00";
+		String type = "family";
+		if (homestayBook != null) {
+			BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", homestayBook.getString("resource"));
+			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRoom", "_id", familyDorm.getString("roomId"));
+	    	idVendor = familyRoom.getString("familyId");
+			value = "0.00";
+			type = "family";
 		};
 		
+		dadosCost.put("type", type);
+		dadosCost.put("value", value);
+		dadosCost.put("idVendor", idVendor);
+		dadosCost.put("destination", destination);
+		dadosCost.put("date", date);
 		return dadosCost;
 	};
 
