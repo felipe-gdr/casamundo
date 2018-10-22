@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -47,22 +48,21 @@ public class Rest_Receivement {
 
 	};
 
-	@SuppressWarnings("rawtypes")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response atualizar(BasicDBObject documento) throws UnknownHostException, MongoException  {
-		
-		String value = documento.get("_id").toString();
-		documento.remove("_id");		
-		Response response = commons_db.atualizarCrud("invoice", documento, "_id", value);
-		if (response.getStatus() == 200) {
-			BasicDBObject doc = new BasicDBObject();
-			doc.putAll((Map) response.getEntity());
-			ObjectId id = new ObjectId(doc.getString("_id"));
-			atualizarInvoice(id.toString());
-		};
-		return response;
+	public Response atualizar(JSONObject queryParam) throws UnknownHostException, MongoException  {
+				
+		String collection = (String) queryParam.get("collection");
+		if (collection != null ){
+			Response response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
+			if (response.getStatus() == 200) {
+				atualizarInvoice(queryParam.get("key").toString());
+			};
+			return Response.status(200).entity("true").build();
+		}else{
+			return Response.status(400).entity(null).build();	
+		}
 
 	};
 	
