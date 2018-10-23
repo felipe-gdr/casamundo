@@ -9,13 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.json.simple.JSONObject;
-
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
 	
@@ -25,30 +19,15 @@ import com.mongodb.MongoException;
 
 public class Rest_Usuario {
 
-	@SuppressWarnings("unchecked")
+	Commons_DB commons_db = new Commons_DB();
+	
 	@Path("/obter")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject ObterUsuarioName(@QueryParam("email") String email) {
+	public BasicDBObject ObterUsuarioName(@QueryParam("email") String email) throws UnknownHostException, MongoException {
 
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("usuarios");
-			BasicDBObject searchQuery = new BasicDBObject("documento.email", email);
-			DBObject cursor = collection.findOne(searchQuery);
-			JSONObject documento = new JSONObject();
-			documento.put("documento", cursor.get("documento"));
-			documento.put("_id", cursor.get("_id"));
-			mongo.close();
-			return documento;
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return commons_db.obterCrudDoc("usuarios", "documento.email", email);
+
 	};
 
 };
