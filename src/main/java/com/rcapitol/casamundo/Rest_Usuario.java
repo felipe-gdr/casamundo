@@ -30,6 +30,7 @@ public class Rest_Usuario {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONObject ObterUsuarioName(@QueryParam("email") String email) {
+
 		Mongo mongo;
 		try {
 			mongo = new Mongo();
@@ -38,8 +39,8 @@ public class Rest_Usuario {
 			BasicDBObject searchQuery = new BasicDBObject("documento.email", email);
 			DBObject cursor = collection.findOne(searchQuery);
 			JSONObject documento = new JSONObject();
-			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-			documento.put("documento", obj);
+			documento.put("documento", cursor.get("documento"));
+			documento.put("_id", cursor.get("_id"));
 			mongo.close();
 			return documento;
 		} catch (UnknownHostException e) {

@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -34,6 +35,42 @@ public class Rest_Payment {
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	Rest_PriceTable priceTable = new Rest_PriceTable();
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Path("/lista")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONArray listaPrayment(@QueryParam("datePayment") String datePayment, @QueryParam("userId") String userId ) throws UnknownHostException, MongoException {
+
+		JSONArray result = new JSONArray();
+
+		BasicDBObject setQuery = new BasicDBObject();
+		BasicDBObject setSort = new BasicDBObject();
+		setSort.put("documento.name", -1);
+		Response response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
+		ArrayList<Object> prices = new ArrayList<Object>();
+		prices = (JSONArray) response.getEntity();
+
+/*
+		if (response != null) {
+			for (int i = 0; i < prices.size(); i++) {
+				BasicDBObject price = new BasicDBObject();
+				price.putAll((Map) prices.get(i));
+				BasicDBObject priceDoc = (BasicDBObject) price.get("documento");
+				JSONObject priceValue = getValue(travelId, price.getString("_id"), userId);
+				BasicDBObject jsonResult = new BasicDBObject();
+				jsonResult.put("_id", price.get("_id"));
+				jsonResult.put("name", priceDoc.get("name"));
+				jsonResult.put("gross", priceValue.get("gross"));
+				jsonResult.put("net", priceValue.get("net"));
+				jsonResult.put("status", priceValue.get("status"));
+				if (priceValue.get("net") != null) {
+					result.add(jsonResult);
+				};
+			}
+		}
+*/		return result;
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public void criarCosts(String invoiceId) throws UnknownHostException, MongoException {
@@ -74,12 +111,17 @@ public class Rest_Payment {
 					itemCost.put("status", "to approve");
 					itemCost.put("number", numberPayment());
 					itemCost.put("destination", travel.get("destination"));
+					itemCost.put("start", vendor.getString("start"));
+					itemCost.put("end", vendor.getString("end"));
+					itemCost.put("lastPayment", vendor.getString("start"));
 					JSONArray itens = new JSONArray();
 					JSONArray notes = new JSONArray();
 					JSONObject item = new JSONObject();
 					item.put("item", product.getString("id"));
 					int amount = commons.difDate(vendor.getString("start"), vendor.getString("end"));
 					item.put("amount", Integer.toString(amount));
+					itemCost.put("days", Integer.toString(amount));;
+					itemCost.put("payedDays", "0.0");
 					BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), vendor.getString("vendorId"));
 					double value = 0.0;
 					if (cost.get("value") != null) {
