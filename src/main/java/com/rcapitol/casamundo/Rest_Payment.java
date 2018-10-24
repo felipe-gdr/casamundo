@@ -36,40 +36,98 @@ public class Rest_Payment {
 	Commons_DB commons_db = new Commons_DB();
 	Rest_PriceTable priceTable = new Rest_PriceTable();
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Path("/lista")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray listaPrayment(@QueryParam("datePayment") String datePayment, @QueryParam("userId") String userId ) throws UnknownHostException, MongoException {
-
-		JSONArray result = new JSONArray();
-
+	public JSONArray listaPrayment(@QueryParam("date") String date, @QueryParam("occHome") String occHome, @QueryParam("userId") String userId ) throws UnknownHostException, MongoException {
+		
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
-		setSort.put("documento.name", -1);
-		Response response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
-		ArrayList<Object> prices = new ArrayList<Object>();
-		prices = (JSONArray) response.getEntity();
-
-/*
-		if (response != null) {
-			for (int i = 0; i < prices.size(); i++) {
-				BasicDBObject price = new BasicDBObject();
-				price.putAll((Map) prices.get(i));
-				BasicDBObject priceDoc = (BasicDBObject) price.get("documento");
-				JSONObject priceValue = getValue(travelId, price.getString("_id"), userId);
-				BasicDBObject jsonResult = new BasicDBObject();
-				jsonResult.put("_id", price.get("_id"));
-				jsonResult.put("name", priceDoc.get("name"));
-				jsonResult.put("gross", priceValue.get("gross"));
-				jsonResult.put("net", priceValue.get("net"));
-				jsonResult.put("status", priceValue.get("status"));
-				if (priceValue.get("net") != null) {
-					result.add(jsonResult);
-				};
+		setSort.put("documento.lastDayPayment", -1);
+		setQuery.put("documento.occHome", occHome);
+		BasicDBObject setCondition = new BasicDBObject();
+		int daysPeriodStart = -20;
+		int daysPeriodEnd = -5;
+		if (!occHome.equals("homestay")) {
+			daysPeriodStart = -50;
+			daysPeriodEnd = -20;
+		}
+		if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
+			daysPeriodStart++;
+			daysPeriodEnd++;				
+		}
+		if (commons.getMonth(date) == 3) {
+			if (commons.anoBissexto(date)) {
+				daysPeriodStart--;
+				daysPeriodEnd++;				
+			}else {
+				daysPeriodStart = daysPeriodStart - 2;
+				daysPeriodEnd = daysPeriodEnd - 2;								
 			}
 		}
-*/		return result;
+		setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
+		setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));			
+		setQuery.put("documento.lastDayPayment", setCondition);
+
+		setQuery.put("documento.extension", "false");
+		
+		JSONArray result = new JSONArray();
+		result = getPayments(userId, setQuery, setSort, result);
+
+		setQuery.put("documento.extension", "true");
+		
+		daysPeriodStart = daysPeriodStart - 5;
+		daysPeriodEnd = daysPeriodEnd - 5;								
+		setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
+		setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));			
+		setQuery.put("documento.lastDayPayment", setCondition);
+		
+		result = getPayments(userId, setQuery, setSort, result);
+		
+		return result;
+
+	}	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked"})
+	public JSONArray getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, JSONArray result) throws UnknownHostException, MongoException {
+
+		Response response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
+		ArrayList<Object> payments = new ArrayList<Object>();
+		payments = (JSONArray) response.getEntity();
+
+		if (response != null) {
+			for (int i = 0; i < payments.size(); i++) {
+				BasicDBObject payment = new BasicDBObject();
+				payment.putAll((Map) payments.get(i));
+				BasicDBObject paymentDoc = new BasicDBObject();
+				paymentDoc = (BasicDBObject) payment.get("documento");
+				if (paymentDoc.get("occHome") != null) {
+					if (paymentDoc.get("occHome").equals("homestay")) {
+						int paymentDays = commons.difDate(paymentDoc.getString("start"), paymentDoc.getString("end"));
+						int payedDays = payment.getInt("payedDays");
+						int payDays = 0;
+						if ((paymentDays - payedDays) > 28) {
+							payedDays = payedDays + 28;
+							payDays = 28;
+						}else {
+							payDays = paymentDays - payedDays;
+						}
+						paymentDoc.put("payDays", payDays);
+						Double payValue = (Double.parseDouble(paymentDoc.getString("totalAmount")) / Integer.parseInt(paymentDoc.getString("days")) * payDays);
+						if ((payedDays + payDays)  == paymentDays ) {
+							payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
+						}
+						paymentDoc.put("payValue", payValue);
+						payment.put("documento", paymentDoc);
+						if (payment != null) {
+							result.add(payment);
+						};
+					}					
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
@@ -87,6 +145,7 @@ public class Rest_Payment {
 			products = (ArrayList) invoice.get("products");
 	
 			for (int i = 0; i < products.size(); i++) {
+				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				BasicDBObject product = new BasicDBObject();
 				product.putAll((Map) products.get(i));
 				ArrayList<Object> vendors =  new ArrayList<Object>();
@@ -103,8 +162,10 @@ public class Rest_Payment {
 					BasicDBObject vendor = new BasicDBObject();
 					vendor.putAll((Map) vendors.get(i));
 					BasicDBObject itemCost = new BasicDBObject();
-					itemCost.put("type", vendor.get("type"));
+					itemCost.put("paymentType", "automatic");
+					itemCost.put("vendorType", vendor.get("type"));
 					itemCost.put("vendorId", vendor.get("vendorId"));
+					itemCost.put("occHome", accomodation.getString("occHome"));
 					itemCost.put("studentId", studentId);
 					itemCost.put("invoiceId", invoiceId);
 					itemCost.put("travelId", travelId);
@@ -113,25 +174,32 @@ public class Rest_Payment {
 					itemCost.put("destination", travel.get("destination"));
 					itemCost.put("start", vendor.getString("start"));
 					itemCost.put("end", vendor.getString("end"));
-					itemCost.put("lastPayment", vendor.getString("start"));
+					itemCost.put("lastDayPayment", vendor.getString("start"));
+					if (vendor.get("extension") != null) {
+						if (vendor.getString("extension").equals("true")) {
+							itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start"), -5));	
+						}
+					}
 					JSONArray itens = new JSONArray();
 					JSONArray notes = new JSONArray();
 					JSONObject item = new JSONObject();
 					item.put("item", product.getString("id"));
-					int amount = commons.difDate(vendor.getString("start"), vendor.getString("end"));
-					item.put("amount", Integer.toString(amount));
-					itemCost.put("days", Integer.toString(amount));;
-					itemCost.put("payedDays", "0.0");
+					int days = commons.difDate(vendor.getString("start"), vendor.getString("end"));
+					itemCost.put("days", Integer.toString(days));;
+					itemCost.put("payedDays", "0");
+					itemCost.put("payedAmount", "0.0");
 					BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), vendor.getString("vendorId"));
+					itemCost.put("cost", cost.get("value"));
 					double value = 0.0;
 					if (cost.get("value") != null) {
 						value = Double.parseDouble(cost.getString("value"));
 					};
-					double amountValue = amount * value;
-					item.put("value", Double.toString(amountValue));
+					double amountValue = days * value;
+					item.put("itemAmount", Double.toString(amountValue));
+					item.put("days", Integer.toString(days));
 					itens.add(item);
 					if (amountValue != 0.00){
-						itemCost.put("amount", Double.toString(amountValue));
+						itemCost.put("totalAmount", Double.toString(amountValue));
 						itemCost.put("itens", itens);
 						itemCost.put("notes", notes);
 						commons_db.incluirCrud("payment", itemCost);

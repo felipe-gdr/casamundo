@@ -43,7 +43,7 @@ public class Commons {
 		
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 		try {
-			Date d1 = df.parse (convertDateMes (birthDate));
+			Date d1 = df.parse (birthDate);
 			Date d2 = new Date(System.currentTimeMillis()); 
 			long dt = (d2.getTime() - d1.getTime()) + 3600000;
 			return ((dt / 86400000L) / 365L);
@@ -88,9 +88,9 @@ public class Commons {
 	public Integer weekDay (String date){
 		
 		Calendar cal = Calendar.getInstance();   
-		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(convertDateMes(date).substring(0, 2)));
-		cal.set(Calendar.MONTH, (Integer.parseInt(convertDateMes(date).substring(3, 5)) ) - 1 );
-		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
 		  
 		return cal.get(Calendar.DAY_OF_WEEK);
 	};
@@ -98,9 +98,9 @@ public class Commons {
 	public Calendar convertToCalendar (String date){
 		
 		Calendar cal = Calendar.getInstance();   
-		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(convertDateMes(date).substring(0, 2)));
-		cal.set(Calendar.MONTH, (Integer.parseInt(convertDateMes(date).substring(3, 5)) ) - 1 );
-		cal.set(Calendar.YEAR, Integer.parseInt(convertDateMes(date).substring(6, 10)));
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
 		return cal;
 	};
 
@@ -155,102 +155,65 @@ public class Commons {
 		return dateString;
    
 	}
+
+	public int getDay(String date) {
+		
+		return Integer.parseInt(date.substring(8, 10));
+
+	};
+
+	public String setDay(String date, String day) {
+		
+		return 	date.substring(0,8)+day;
+
+
+	};
+
+	public int getMonth(String date) {
+		
+		return Integer.parseInt(date.substring(5, 7));
+
+	};
+
+	public String setMonth(String date, String month) {
+		
+		return 	date.substring(0,4)+month+date.substring(8,10);
+
+	};
+
+	public int getYear(String date) {
+		
+		return Integer.parseInt(date.substring(0, 4));
+
+	};
+
+	public String setYar(String date, String year) {
+		
+		return 	year + date.substring(5,10);
+
+	};
+
+	public boolean anoBissexto(String date) {
+		
+		int year = getYear(date);
+		if ((year % 4) == 0) {
+			return true;
+		};
+		
+		return false;
+	}
 	
 	public Long calcTime (String date){
 		System.out.println("date=" + date);
 		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
 		try {
-			Date d1 = df.parse (convertDateMes (date));
+			Date d1 = df.parse (date);
 			long dt = d1.getTime();
 			return dt;
 		} catch (java.text.ParseException e) {
 			e.printStackTrace();
 		}
 		return null;
-	};
-
-	public String convertDateMes (String strDate){
-		String mesNumber = "01";
-		String mesAlpha = strDate.substring	(2, 5);
-	    if (mesAlpha.equals("Jan")){
-	    	mesNumber = "01";
-	    };
-	    if (mesAlpha.equals("Feb")){
-	    	mesNumber = "02";
-	    };
-	    if (mesAlpha.equals("Mar")){
-	    	mesNumber = "03";
-	    };
-	    if (mesAlpha.equals("Apr")){
-	    	mesNumber = "04";
-	    };
-	    if (mesAlpha.equals("May")){
-	    	mesNumber = "05";
-	    };
-	    if (mesAlpha.equals("Jun")){
-	    	mesNumber = "06";
-	    };
-	    if (mesAlpha.equals("Jul")){
-	    	mesNumber = "07";
-	    };
-	    if (mesAlpha.equals("Aug")){
-	    	mesNumber = "08";
-	    };
-	    if (mesAlpha.equals("Sep")){
-	    	mesNumber = "09";
-	    };
-	    if (mesAlpha.equals("Oct")){
-	    	mesNumber = "10";
-	    };
-	    if (mesAlpha.equals("Nov")){
-	    	mesNumber = "11";
-	    };
-	    if (mesAlpha.equals("Dec")){
-	    	mesNumber = "12";
-	    };
-		return strDate.substring(0, 2) + "/" + mesNumber + "/" + strDate.substring(5, 9);
-	};
-
-	public String convertDateMesAlfa (String strDate){
-		String mesAlpha = "Jan";
-		String mesNumber = strDate.substring	(2, 4);
-	    if (mesNumber.equals("01")){
-	    	mesAlpha = "Jan";
-	    };
-	    if (mesNumber.equals("02")){
-	    	mesAlpha = "Feb";
-	    };
-	    if (mesNumber.equals("03")){
-	    	mesAlpha = "Mar";
-	    };
-	    if (mesNumber.equals("04")){
-	    	mesAlpha = "Apr";
-	    };
-	    if (mesNumber.equals("05")){
-	    	mesAlpha = "May";
-	    };
-	    if (mesNumber.equals("06")){
-	    	mesAlpha = "Jun";
-	    };
-	    if (mesNumber.equals("07")){
-	    	mesAlpha = "Jul";
-	    };
-	    if (mesNumber.equals("08")){
-	    	mesAlpha = "Aug";
-	    };
-	    if (mesNumber.equals("09")){
-	    	mesAlpha = "Sep";
-	    };
-	    if (mesNumber.equals("10")){
-	    	mesAlpha = "Out";
-	    };
-	    if (mesNumber.equals("11")){
-	    	mesAlpha = "Nov";
-	    };
-	    if (mesNumber.equals("12")){
-	    	mesAlpha = "Dec";
-	    };
-		return strDate.substring(0, 2) + mesAlpha + strDate.substring(4, 8);
 	};
 	
 	@SuppressWarnings("unchecked")
@@ -342,7 +305,7 @@ public class Commons {
 		}
 		;
 		return elementosIguais;
-	};
+	}
 
 		
 };
