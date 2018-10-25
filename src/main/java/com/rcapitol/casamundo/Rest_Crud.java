@@ -105,9 +105,9 @@ public class Rest_Crud {
 		
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-			ArrayList<Object> keys = (ArrayList<Object>) queryParam.get("keys");
-			for (int i = 0; i < keys.size(); i++) {
-				commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), keys.get(i).toString(), queryParam.get("value").toString());
+			ArrayList<Object> values = (ArrayList<Object>) queryParam.get("values");
+			for (int i = 0; i < values.size(); i++) {
+				commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), values.get(i).toString(), queryParam.get("value").toString());
 			}
 			return Response.status(200).entity(true).build();
 		}else{
