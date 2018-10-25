@@ -97,6 +97,24 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("unchecked")
+	@Path("/multiploatualizar")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response multiploAtualizar(JSONObject queryParam) throws UnknownHostException, MongoException  {
+		
+		String collection = (String) queryParam.get("collection");
+		if (collection != null ){
+			ArrayList<Object> keys = (ArrayList<Object>) queryParam.get("keys");
+			for (int i = 0; i < keys.size(); i++) {
+				commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), keys.get(i).toString(), queryParam.get("value").toString());
+			}
+			return Response.status(200).entity(true).build();
+		}else{
+			return Response.status(400).entity(null).build();	
+		}
+	};
+
 	@Path("/lista")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
