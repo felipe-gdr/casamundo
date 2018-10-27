@@ -37,7 +37,7 @@ public class Rest_Invoice {
 	Rest_Payment payment = new Rest_Payment();
 	Estimated estimated = new Estimated();
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -48,12 +48,45 @@ public class Rest_Invoice {
 		
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"));
 		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
-		JSONObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+		BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
 		documento.put("weeks", weeksDays.get("weeks"));
 		documento.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
 		documento.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
 		documento.put("checkIn", accomodation.get("checkIn"));
 		documento.put("checkOut", accomodation.get("checkOut"));
+		BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+		ArrayList<Object> products = (ArrayList<Object>) documento.get("products");
+		ArrayList<Object> productsResult = new ArrayList<Object>();
+
+		for (int i = 0; i < products.size(); i++) {
+			BasicDBObject product = new BasicDBObject();
+			product.putAll((Map) products.get(i));
+			BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
+			ArrayList<Object> dates = new ArrayList<Object>();
+			if (productDoc.getString("charging").equals("week")) {
+				BasicDBObject date = new BasicDBObject();
+				date.put("start", numberWeeksDays.get("startWeeks"));
+				date.put("end", numberWeeksDays.get("endWeeks"));
+				dates.add(date);
+			}
+			if (productDoc.getString("charging").equals("eNight")) {
+				if (!weeksDays.get("extraNightsEntrada").equals("")) {
+					BasicDBObject date = new BasicDBObject();
+					date.put("start", numberWeeksDays.get("startExtraNightsEntrada"));
+					date.put("end", numberWeeksDays.get("endExtraNightsEntrada"));
+					dates.add(date);
+				}				
+				if (!weeksDays.get("extraNightsSaida").equals("")) {
+					BasicDBObject date = new BasicDBObject();
+					date.put("start", numberWeeksDays.get("startExtraNightsSaida"));
+					date.put("end", numberWeeksDays.get("endExtraNightsSaida"));
+					dates.add(date);
+				}				
+			}
+			productDoc.put("dates", dates);
+			productsResult.add(productDoc);
+		}
+		documento.put("products", productsResult);
 		Response response = commons_db.incluirCrud("invoice", documento);
 		if (response.getStatus() == 200) {
 			String invoiceId = (String) response.getEntity();
@@ -139,7 +172,7 @@ public class Rest_Invoice {
 	@Path("/testadata")	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONObject testaData(@QueryParam("start") String start, @QueryParam("end") String end) throws UnknownHostException, MongoException {
+	public BasicDBObject testaData(@QueryParam("start") String start, @QueryParam("end") String end) throws UnknownHostException, MongoException {
 
 		
 		return commons.numberWeeks(start, end);
