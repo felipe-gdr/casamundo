@@ -73,9 +73,9 @@ public class Commons {
 		
 		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();   
-		Integer day = Integer.parseInt(date.substring(8, 10));
-		Integer month = Integer.parseInt(date.substring(5, 7));
-		Integer year = Integer.parseInt(date.substring(0, 4));
+//		Integer day = Integer.parseInt(date.substring(8, 10));
+//		Integer month = Integer.parseInt(date.substring(5, 7));
+//		Integer year = Integer.parseInt(date.substring(0, 4));
 		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
 		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
 		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
@@ -307,5 +307,105 @@ public class Commons {
 		return elementosIguais;
 	}
 
+
+	@SuppressWarnings("unchecked")
+	public JSONObject numberWeeks (String start, String end){
+				  
+		JSONObject result = new JSONObject();
+		int weekDayStart =  weekDay(start);
+		int weekDayEnd =  weekDay(end);
+		int days = difDate(start, end);		
+		int weeks = days / 7;		
+		int extraNightsSaida = 0;
+		int extraNightsEntrada = 0;
+		
+		if (days < 4) {
+			result.put("weeks", "0");
+			result.put("extraNights", Integer.toString(days));
+			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+			result.put("start", start);
+			result.put("end", end);
+			return criaDatas(result);
+		}
+		if (weekDayStart == 1) {
+			if (weekDayEnd > 3 ) {
+				weeks++;
+			}else {
+				extraNightsSaida = weekDayEnd;
+			}
+			result.put("weeks", Integer.toString(weeks));
+			result.put("extraNights", Integer.toString(extraNightsSaida));
+			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+			return result;				
+		}
+		if (weekDayStart == 7) {
+			if (weekDayEnd > 2 ) {
+				if (weekDayEnd == 7 ) {
+					extraNightsSaida = 1;
+				}else {
+					weeks++;
+				}
+			}else {
+				extraNightsSaida = weekDayEnd + 1;
+			}
+			result.put("weeks", Integer.toString(weeks));
+			result.put("extraNights", Integer.toString(extraNightsSaida));
+			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+			return result;				
+		}
+		if (weekDayEnd == 1) {
+			if (weekDayStart < 6 ) {
+				weeks++;
+			}else {
+				extraNightsEntrada = weekDayStart - 3;
+			}
+			result.put("weeks", Integer.toString(weeks));
+			result.put("extraNights", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+			return result;				
+		}
+		if (weekDayEnd == 7) {
+			if (weekDayStart < 5 ) {
+				weeks++;
+			}else {
+				extraNightsEntrada = 8 - weekDayStart;
+			}
+			result.put("weeks", Integer.toString(weeks));
+			result.put("extraNights", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+			return result;				
+		}
+		Boolean somouSemana = false;
+		if (weekDayEnd > 3 ) {
+			weeks++;
+			somouSemana = true;
+		}else {
+			extraNightsSaida = weekDayEnd;
+		}
+		if (weekDayStart < 5 ) {
+			if (!somouSemana){
+				weeks++;
+			}
+		}else {
+			extraNightsEntrada = 7 - weekDayStart;
+		}
+		int extraNights = extraNightsEntrada + extraNightsSaida;
+		result.put("weeks", Integer.toString(weeks));
+		result.put("extraNights", Integer.toString(extraNights));
+		result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+		result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+		return result;				
+	}
+
+	private JSONObject criaDatas(JSONObject result) {
+		
+		
+		return null;
+	};
 		
 };

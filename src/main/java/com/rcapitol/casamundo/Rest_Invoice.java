@@ -35,16 +35,30 @@ public class Rest_Invoice {
 	Commons_DB commons_db = new Commons_DB();
 	Rest_PriceTable priceTable = new Rest_PriceTable();
 	Rest_Payment payment = new Rest_Payment();
+	Estimated estimated = new Estimated();
+
+	@SuppressWarnings("rawtypes")
 	@Path("/incluir")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response incluir(BasicDBObject documento) throws UnknownHostException, MongoException  {
+	public Response incluir(BasicDBObject doc) throws UnknownHostException, MongoException  {
 		
+		BasicDBObject documento = new BasicDBObject();
+		documento.putAll((Map) doc);
+		
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"));
+		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+		JSONObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+		documento.put("weeks", weeksDays.get("weeks"));
+		documento.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
+		documento.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
+		documento.put("checkIn", accomodation.get("checkIn"));
+		documento.put("checkOut", accomodation.get("checkOut"));
 		Response response = commons_db.incluirCrud("invoice", documento);
 		if (response.getStatus() == 200) {
 			String invoiceId = (String) response.getEntity();
 			if (invoiceId != null) {
-				payment.criarCosts(invoiceId.toString());
+				estimated.criarCosts(invoiceId.toString());
 			}
 		};
 		return response;
@@ -121,6 +135,16 @@ public class Rest_Invoice {
 		};
 		return null;
 	};
+
+	@Path("/testadata")	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONObject testaData(@QueryParam("start") String start, @QueryParam("end") String end) throws UnknownHostException, MongoException {
+
+		
+		return commons.numberWeeks(start, end);
+
+	};
 	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -129,6 +153,8 @@ public class Rest_Invoice {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId) throws UnknownHostException, MongoException {
 
+		
+		
 		if (travelId.equals(null)) {
 			return null;
 		}
@@ -156,6 +182,8 @@ public class Rest_Invoice {
 		
 		return result;
 	};
+	
+	
 };
 
 
