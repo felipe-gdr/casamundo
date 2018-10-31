@@ -39,7 +39,7 @@ public class Rest_Book {
 		
 		String collection = (String) queryParam.get("collection");
 		BasicDBObject documento = new BasicDBObject();
-		documento.putAll((Map) queryParam.get("documento"));
+		documento =  (BasicDBObject) queryParam.get("documento");
 		BasicDBObject doc = (BasicDBObject) documento.get("documento");
 		String travelId = doc.getString("studentId");
 		if (collection != null ){
@@ -62,11 +62,11 @@ public class Rest_Book {
 		if (queryParam.get("collection") != null ){
 			Response result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			BasicDBObject docUpdate = new BasicDBObject();
-			docUpdate.putAll((Map) queryParam.get("update"));
+			docUpdate = (BasicDBObject) queryParam.get("update");
 			BasicDBObject objDocumento = new BasicDBObject();
 			objDocumento.putAll((Map) docUpdate);
 			BasicDBObject doc = (BasicDBObject) objDocumento.get("documento");
-			payment.managementCostsBooking(doc.getString("studentId"), doc.getString("id"));
+			payment.managementCostsBooking(doc.getString("studentId"), queryParam.get("value").toString());
 			return result;
 		}else{
 			return Response.status(400).entity(null).build();	
