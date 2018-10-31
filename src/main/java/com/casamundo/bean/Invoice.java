@@ -12,6 +12,7 @@ import org.json.simple.JSONArray;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
 
 public class Invoice {
 
@@ -73,12 +74,31 @@ public class Invoice {
 			String invoiceId = (String) response.getEntity();
 			if (invoiceId != null) {
 				estimated.criarCosts(invoiceId.toString());
+				criaPayment ("homestayBook", documento.getString("trip"));
+				criaPayment ("sharedBook", documento.getString("trip"));
+				criaPayment ("suiteBook", documento.getString("trip"));
 			}
 		};
 		return response;
 
 	};
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void criaPayment(String travelId, String string2) throws UnknownHostException, MongoException {
+		
+		Response response = commons_db.listaCrud("homestayBook", "documento.studentId", travelId, null, null, null, true);
+		ArrayList<Object> books = new ArrayList<Object>();
+		books = (JSONArray) response.getEntity();
+		if (books != null) {
+			for (int i = 0; i < books.size(); i++) {
+				BasicDBObject book = new BasicDBObject();
+				book.putAll((Map) books.get(i));
+				BasicDBObject bookDoc = (BasicDBObject) book.get("documento");
+				payment.managementCostsBooking(travelId, bookDoc.getString("_id"));
+			}
+		}
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId) throws UnknownHostException {
 
