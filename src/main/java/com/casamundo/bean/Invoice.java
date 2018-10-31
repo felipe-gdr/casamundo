@@ -12,7 +12,6 @@ import org.json.simple.JSONArray;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
 
 public class Invoice {
 
@@ -23,7 +22,7 @@ public class Invoice {
 	Estimated estimated = new Estimated();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Response incluir(BasicDBObject doc) throws UnknownHostException, MongoException  {
+	public Response incluir(BasicDBObject doc) throws UnknownHostException  {
 				
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) doc);
@@ -79,33 +78,9 @@ public class Invoice {
 		return response;
 
 	};
-
-	public String numberInvoice() throws UnknownHostException, MongoException{
-
-		BasicDBObject obj = commons_db.obterCrudDoc("setup", "documento.setupKey", "numberInvoice");
-		int number = 1;
-		if (obj != null){
-			String oldNumber = obj.getString("setupValue");
-			number = ((Integer.parseInt(oldNumber) + 1 ));
-		};
-		String year = "2017";
-		obj = commons_db.obterCrudDoc("setup", "documento.setupKey", "yearNumberInvoice");
-		if (obj != null){
-			year = obj.getString("setupValue");
-		};
-		ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
-		BasicDBObject update = new BasicDBObject(); 
-		update.put("field", "setupValue");
-		update.put("value",Integer.toString(number));
-		arrayUpdate.add(update);
-		commons_db.atualizarCrud("setup", arrayUpdate, "documento.setupKey", "numberInvoice");
-		String result = Integer.toString(number) + "/" + year;
-		return result;
-	
-	};
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId) throws UnknownHostException, MongoException {
+	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId) throws UnknownHostException {
 
 		
 		if (travelId.equals(null)) {
@@ -138,7 +113,7 @@ public class Invoice {
 	};
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void atualizarInvoice(String receivementId) throws UnknownHostException, MongoException {
+	public void atualizarInvoice(String receivementId) throws UnknownHostException {
 		
 
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);

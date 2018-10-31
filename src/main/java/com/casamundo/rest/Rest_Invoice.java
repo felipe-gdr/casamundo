@@ -15,10 +15,8 @@ import javax.ws.rs.core.Response;
 
 import org.json.simple.JSONObject;
 
-import com.casamundo.bean.Estimated;
 import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
-import com.casamundo.bean.PriceTable;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
@@ -34,9 +32,7 @@ public class Rest_Invoice {
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	Invoice invoice = new Invoice();
-	PriceTable priceTable = new PriceTable();
 	Payment payment = new Payment();
-	Estimated estimated = new Estimated();
 
 	@Path("/incluir")
 	@POST
@@ -54,10 +50,7 @@ public class Rest_Invoice {
 		
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-			Response response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
-			if (response.getStatus() == 200) {
-				payment.criarCosts(queryParam.get("key").toString());
-			};
+			commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			return Response.status(200).entity("true").build();
 		}else{
 			return Response.status(400).entity(null).build();	

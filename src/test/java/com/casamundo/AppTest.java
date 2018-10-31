@@ -1,4 +1,4 @@
-package com.rcapitol.casamundo;
+package com.casamundo;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

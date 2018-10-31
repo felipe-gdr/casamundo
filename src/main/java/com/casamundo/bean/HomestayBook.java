@@ -12,14 +12,13 @@ import com.casamundo.commons.SendEmailHtml;
 import com.casamundo.commons.TemplateEmail;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
 
 public class HomestayBook {
 
 	Commons_DB commons_db = new Commons_DB();
 	Commons commons = new Commons();
 
-	public Response responseEmail(String alocationId, String invite) throws UnknownHostException, MongoException {
+	public Response responseEmail(String alocationId, String invite) throws UnknownHostException {
 		
 		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId);
 		if ( !homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null") ) {
@@ -72,7 +71,7 @@ public class HomestayBook {
 		return Response.status(200).entity("Error.").build();
 	}
 
-	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException, MongoException {
+	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException {
 		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource);
 		if ( !familyDorm.get("roomId").equals(null)) {
 			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRooms", "_id", familyDorm.getString("roomId"));

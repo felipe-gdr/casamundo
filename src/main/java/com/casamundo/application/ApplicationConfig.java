@@ -4,6 +4,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import com.casamundo.rest.Rest_Agency;
+import com.casamundo.rest.Rest_Book;
 import com.casamundo.rest.Rest_Crud;
 import com.casamundo.rest.Rest_Email;
 import com.casamundo.rest.Rest_HomestayBook;
@@ -29,6 +30,7 @@ public class ApplicationConfig extends Application {
         return new HashSet<Class<?>>(Arrays.asList(
         		Rest_Student.class,
         		Rest_Agency.class,
+        		Rest_Book.class,
         		Rest_School.class,
         		Rest_Table.class,
         		Rest_UploadFiles.class,

@@ -10,14 +10,13 @@ import org.json.simple.JSONArray;
 
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
 
 public class School {
 
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList<Object> lista() throws UnknownHostException, MongoException {
+	public ArrayList<Object> lista() throws UnknownHostException {
 		BasicDBObject setQuery = new BasicDBObject();
 		Response response = commons_db.listaCrud("school", null, null, null, setQuery, null, false);
 	

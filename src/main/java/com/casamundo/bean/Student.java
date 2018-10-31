@@ -11,7 +11,6 @@ import org.json.simple.JSONArray;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
 
 public class Student {
 
@@ -19,7 +18,7 @@ public class Student {
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public BasicDBObject getAllocation(String studentId, String userId) throws UnknownHostException, MongoException {
+	public BasicDBObject getAllocation(String studentId, String userId) throws UnknownHostException {
 
 		Response response =  commons_db.listaCrud("travel", "documento.studentId", studentId, userId, null, null, false);
 

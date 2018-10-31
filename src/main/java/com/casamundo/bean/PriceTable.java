@@ -12,7 +12,6 @@ import org.json.simple.JSONObject;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
 
 public class PriceTable {
 
@@ -20,7 +19,7 @@ public class PriceTable {
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public JSONArray listaProdutos(String travelId, String userId ) throws UnknownHostException, MongoException {
+	public JSONArray listaProdutos(String travelId, String userId ) throws UnknownHostException {
 
 		JSONArray result = new JSONArray();
 
@@ -52,7 +51,7 @@ public class PriceTable {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public JSONObject getValue(String travelId, String productId, String userId ) throws UnknownHostException, MongoException {
+	public JSONObject getValue(String travelId, String productId, String userId ) throws UnknownHostException {
 
 		JSONObject result = new JSONObject();
 		
@@ -183,7 +182,7 @@ public class PriceTable {
 
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public BasicDBObject getCost(String travelId, String productId, String vendorId) throws UnknownHostException, MongoException {
+	public BasicDBObject getCost(String travelId, String productId, String vendorId) throws UnknownHostException {
 
 		BasicDBObject result = new BasicDBObject();
 		

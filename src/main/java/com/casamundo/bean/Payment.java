@@ -12,7 +12,6 @@ import org.json.simple.JSONObject;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
 
 public class Payment {
 
@@ -20,7 +19,7 @@ public class Payment {
 	Commons_DB commons_db = new Commons_DB();
 	PriceTable priceTable = new PriceTable();
 
-	public JSONArray listaPayment(String date, String occHome, String userId ) throws UnknownHostException, MongoException {
+	public JSONArray listaPayment(String date, String occHome, String userId ) throws UnknownHostException {
 		
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
@@ -70,7 +69,7 @@ public class Payment {
 	}	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public JSONArray getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, JSONArray result) throws UnknownHostException, MongoException {
+	public JSONArray getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, JSONArray result) throws UnknownHostException {
 
 		Response response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> payments = new ArrayList<Object>();
@@ -112,15 +111,15 @@ public class Payment {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void criarCosts(String invoiceId) throws UnknownHostException, MongoException {
+	public void managementCostsBooking(String travelId, String allocationId) throws UnknownHostException {
 		
-		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
-		String travelId = invoice.getString("trip"); 
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
 		String studentId =  (String) travel.get("studentId");
+		String invoiceId =  (String) invoice.get("_id");
 
-		commons_db.removerCrud("payment", "documento.invoiceId", invoiceId, null);
-
+		commons_db.removerCrud("payment", "documento.allocationId" , allocationId, null);
+		
 		if (invoice.get("products") != null) {
 			ArrayList<Object> products = new ArrayList<Object>();
 			products = (ArrayList) invoice.get("products");
@@ -150,6 +149,7 @@ public class Payment {
 					itemCost.put("studentId", studentId);
 					itemCost.put("invoiceId", invoiceId);
 					itemCost.put("travelId", travelId);
+					itemCost.put("allocationId", allocationId);
 					itemCost.put("status", "to approve");
 					itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
 					itemCost.put("destination", travel.get("destination"));
@@ -191,7 +191,7 @@ public class Payment {
 	};
 
 	@SuppressWarnings({"rawtypes" })
-	private ArrayList<Object> searchVendor(ArrayList<Object> vendorArray, ArrayList<Object> resultOutput, BasicDBObject travel, String nameId, String collectionDorm, String collectionRoom, String type) throws UnknownHostException, MongoException {
+	private ArrayList<Object> searchVendor(ArrayList<Object> vendorArray, ArrayList<Object> resultOutput, BasicDBObject travel, String nameId, String collectionDorm, String collectionRoom, String type) throws UnknownHostException {
 		
 		for (int i = 0; i < vendorArray.size(); i++) {
 			BasicDBObject vendor = new BasicDBObject();

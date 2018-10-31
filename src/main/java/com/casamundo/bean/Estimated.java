@@ -5,21 +5,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.inject.Singleton;
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.bson.types.ObjectId;
 
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoException;
 
 	
 @Singleton
@@ -33,7 +23,7 @@ public class Estimated {
 	PriceTable priceTable = new PriceTable();
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void criarCosts(String invoiceId) throws UnknownHostException, MongoException {
+	public void criarCosts(String invoiceId) throws UnknownHostException {
 		
 		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
 		String travelId = invoice.getString("trip"); 
@@ -57,7 +47,7 @@ public class Estimated {
 				itemCost.put("invoiceId", invoiceId);
 				itemCost.put("travelId", travelId);
 				itemCost.put("status", "to approve");
-				itemCost.put("number", numberEstimated());
+				itemCost.put("number", commons_db.getNumber("numberEstimated", "yearNumberEstimated"));
 				itemCost.put("destination", travel.get("destination"));
 				itemCost.put("start", accomodation.getString("checkIn"));
 				itemCost.put("end", accomodation.getString("checkOut"));
@@ -74,60 +64,6 @@ public class Estimated {
 				commons_db.incluirCrud("estimated", itemCost);
 			}
 		}
-	};
-
-	@Path("/get/number")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-
-	public String numberEstimated(){
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			BasicDBObject obj = new BasicDBObject();
-			ObjectId id = new ObjectId(); 
-			DBCollection collection = db.getCollection("setup");
-			BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "numberPayment");
-			DBObject cursor = collection.findOne(searchQuery);
-			int number = 1;
-			if (cursor != null){
-				obj = (BasicDBObject) cursor.get("documento");
-				id = (ObjectId) cursor.get("_id");
-				String oldNumber = obj.getString("setupValue");
-				number = ((Integer.parseInt(oldNumber) + 1 ));
-			};
-			searchQuery = new BasicDBObject("documento.setupKey", "yearNumberEstimated");
-			cursor = collection.findOne(searchQuery);
-			String year = "2017";
-			if (cursor != null){
-				obj = (BasicDBObject) cursor.get("documento");
-				year = obj.getString("setupValue");
-			};
-			//
-			// ** atualizar novo numero
-			//
-			BasicDBObject objUpdate = new BasicDBObject();
-			objUpdate.put("documento.setupKey", "numberEstimated");
-			objUpdate.put("documento.setupValue", Integer.toString(number));
-			BasicDBObject update = new BasicDBObject("$set", new BasicDBObject(objUpdate));
-			BasicDBObject setQuery = new BasicDBObject("_id", id);
-			cursor = collection.findAndModify(setQuery,
-	                null,
-	                null,
-	                false,
-	                update,
-	                true,
-	                false);
-			mongo.close();
-
-			return Integer.toString(number) + "/" + year;
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		};
-		return null;
 	};
 };
 
