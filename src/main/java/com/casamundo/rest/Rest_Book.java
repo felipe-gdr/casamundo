@@ -59,8 +59,7 @@ public class Rest_Book {
 			Response result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			BasicDBObject book = commons_db.obterCrudDoc(queryParam.get ("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString());
 			if (book != null) {
-				BasicDBObject bookDoc = (BasicDBObject) book.get("documento");
-				payment.managementCostsBooking(bookDoc.getString("studentId"), bookDoc.getString("_id"));
+				payment.managementCostsBooking(book.getString("studentId"), book.getString("_id"));
 			}
 			return result;
 		}else{
