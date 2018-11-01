@@ -39,9 +39,8 @@ public class Rest_Book {
 		
 		String collection = (String) queryParam.get("collection");
 		BasicDBObject documento = new BasicDBObject();
-		documento =  (BasicDBObject) queryParam.get("documento");
-		BasicDBObject doc = (BasicDBObject) documento.get("documento");
-		String travelId = doc.getString("studentId");
+		documento.putAll((Map) queryParam.get("documento"));
+		String travelId = documento.getString("studentId");
 		if (collection != null ){
 			Response response = commons_db.incluirCrud(collection, documento);
 			BasicDBObject entity = new BasicDBObject();
