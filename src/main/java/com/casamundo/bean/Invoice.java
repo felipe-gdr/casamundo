@@ -84,9 +84,9 @@ public class Invoice {
 	};
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void criaPayment(String travelId, String string2) throws UnknownHostException, MongoException {
+	private void criaPayment(String collection, String travelId) throws UnknownHostException, MongoException {
 		
-		Response response = commons_db.listaCrud("homestayBook", "documento.studentId", travelId, null, null, null, true);
+		Response response = commons_db.listaCrud(collection, "documento.studentId", travelId, null, null, null, true);
 		ArrayList<Object> books = new ArrayList<Object>();
 		books = (JSONArray) response.getEntity();
 		if (books != null) {

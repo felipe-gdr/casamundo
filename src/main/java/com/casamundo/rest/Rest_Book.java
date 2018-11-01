@@ -50,7 +50,6 @@ public class Rest_Book {
 		}
 	};
 
-	@SuppressWarnings("rawtypes")
 	@Path("/atualizar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -58,12 +57,11 @@ public class Rest_Book {
 		
 		if (queryParam.get("collection") != null ){
 			Response result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
-			BasicDBObject docUpdate = new BasicDBObject();
-			docUpdate = (BasicDBObject) queryParam.get("update");
-			BasicDBObject objDocumento = new BasicDBObject();
-			objDocumento.putAll((Map) docUpdate);
-			BasicDBObject doc = (BasicDBObject) objDocumento.get("documento");
-			payment.managementCostsBooking(doc.getString("studentId"), queryParam.get("value").toString());
+			BasicDBObject book = commons_db.obterCrudDoc(queryParam.get ("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString());
+			if (book != null) {
+				BasicDBObject bookDoc = (BasicDBObject) book.get("documento");
+				payment.managementCostsBooking(bookDoc.getString("studentId"), bookDoc.getString("_id"));
+			}
 			return result;
 		}else{
 			return Response.status(400).entity(null).build();	
