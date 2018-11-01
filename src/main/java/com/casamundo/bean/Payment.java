@@ -187,13 +187,11 @@ public class Payment {
 						item.put("days", Integer.toString(days));
 						itens.add(item);
 						System.out.println("valor payment" + Double.toString(amountValue));
-						if (amountValue != 0.00){
-							System.out.println("criar payment");
-							itemCost.put("totalAmount", Double.toString(amountValue));
-							itemCost.put("itens", itens);
-							itemCost.put("notes", notes);
-							commons_db.incluirCrud("payment", itemCost);
-						};
+						System.out.println("criar payment");
+						itemCost.put("totalAmount", Double.toString(amountValue));
+						itemCost.put("itens", itens);
+						itemCost.put("notes", notes);
+						commons_db.incluirCrud("payment", itemCost);
 					}
 				}
 			}
