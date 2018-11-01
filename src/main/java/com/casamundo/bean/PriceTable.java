@@ -210,8 +210,8 @@ public class PriceTable {
 		BasicDBObject resultFirstVendor = new BasicDBObject();
 
 		if (response != null) {
-			System.out.println("achou preco com vendor");
 			for (int i = 0; i < pricesList.size(); i++) {
+				System.out.println("tem valor datas vendor");
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
@@ -241,9 +241,8 @@ public class PriceTable {
 		BasicDBObject resultFirstDestiny = new BasicDBObject();
 
 		if (response != null) {
-			System.out.println("achou preco destination");
 			for (int i = 0; i < pricesList.size(); i++) {
-				System.out.println("tem valor datas");
+				System.out.println("tem valor datas destiny");
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
@@ -270,20 +269,20 @@ public class PriceTable {
 		BasicDBObject resultFirst = new BasicDBObject();
 
 		if (response != null) {
-			System.out.println("achou preco sem nada");
 			for (int i = 0; i < pricesList.size(); i++) {
+				System.out.println("tem valor sem  nada");
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					System.out.println("tem valor entre datas sem nada ");
-					resultFirstVendor.put("value", priceListDoc.get("value"));
+					resultFirst.put("value", priceListDoc.get("value"));
 					return result;
 				};
 				if (i == 0){
 					System.out.println("tem valor sem datas sem nada - " + priceListDoc.get("value")) ;
-					resultFirstVendor.put("value", priceListDoc.get("value"));
+					resultFirst.put("value", priceListDoc.get("value"));
 				};
 			}
 		}
