@@ -130,6 +130,7 @@ public class Payment {
 				products = (ArrayList) invoice.get("products");
 		
 				for (int i = 0; i < products.size(); i++) {
+					System.out.println("tem produto");
 					BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 					BasicDBObject product = new BasicDBObject();
 					product.putAll((Map) products.get(i));
@@ -185,7 +186,9 @@ public class Payment {
 						item.put("itemAmount", Double.toString(amountValue));
 						item.put("days", Integer.toString(days));
 						itens.add(item);
+						System.out.println("valor payment" + Double.toString(amountValue));
 						if (amountValue != 0.00){
+							System.out.println("criar payment");
 							itemCost.put("totalAmount", Double.toString(amountValue));
 							itemCost.put("itens", itens);
 							itemCost.put("notes", notes);
