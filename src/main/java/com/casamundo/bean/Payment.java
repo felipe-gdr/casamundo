@@ -177,7 +177,7 @@ public class Payment {
 						itemCost.put("payedDays", "0");
 						itemCost.put("payedAmount", "0.0");
 						System.out.println("Procura custo");
-						BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), vendor.getString("vendorId"));
+						BasicDBObject cost = priceTable.getCost(travelId, product.getString("_id"), vendor.getString("vendorId"));
 						itemCost.put("cost", cost.get("value"));
 						double value = 0.0;
 						if (cost.get("value") != null) {
