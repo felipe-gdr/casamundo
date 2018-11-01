@@ -210,6 +210,7 @@ public class PriceTable {
 		BasicDBObject resultFirstVendor = new BasicDBObject();
 
 		if (response != null) {
+			System.out.println("achou preco com vendor");
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
@@ -217,9 +218,11 @@ public class PriceTable {
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					resultFirstVendor.put("value", priceListDoc.get("value"));
+					System.out.println("achou preco com vendor entre datas vendor");
 					return result;
 				};
 				if (i == 0){
+					System.out.println("achou preco com vendor sem datas vendor");
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 				};
 			};
@@ -238,16 +241,20 @@ public class PriceTable {
 		BasicDBObject resultFirstDestiny = new BasicDBObject();
 
 		if (response != null) {
+			System.out.println("achou preco destination");
 			for (int i = 0; i < pricesList.size(); i++) {
+				System.out.println("tem valor datas");
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					System.out.println("tem valor entre datas destination");
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 					return result;
 				};
 				if (i == 0){
+					System.out.println("achou preco com vendor sem datas destination");
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 				};
 			}
@@ -263,16 +270,19 @@ public class PriceTable {
 		BasicDBObject resultFirst = new BasicDBObject();
 
 		if (response != null) {
+			System.out.println("achou preco sem nada");
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					System.out.println("tem valor entre datas sem nada ");
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 					return result;
 				};
 				if (i == 0){
+					System.out.println("tem valor sem datas sem nada ");
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 				};
 			}

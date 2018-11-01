@@ -26,6 +26,7 @@ public class Estimated {
 	public void criarCosts(String invoiceId) throws UnknownHostException {
 		
 		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
+		System.out.println("id travel" + invoice.getString("trip"));
 		String travelId = invoice.getString("trip"); 
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
 		String studentId =  (String) travel.get("studentId");
