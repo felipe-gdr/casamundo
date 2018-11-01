@@ -261,7 +261,9 @@ public class PriceTable {
 		
 		setQuery = new BasicDBObject();
     	setQuery.put("documento.idPriceTable", productId);
-		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+    	System.out.println("produto - " + productId);
+    	System.out.println("query - " + setQuery.toString());
+    	response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getEntity();
