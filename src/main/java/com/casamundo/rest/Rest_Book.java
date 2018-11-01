@@ -43,9 +43,7 @@ public class Rest_Book {
 		String travelId = documento.getString("studentId");
 		if (collection != null ){
 			Response response = commons_db.incluirCrud(collection, documento);
-			BasicDBObject entity = new BasicDBObject();
-			entity.putAll((Map) response.getEntity());
-			payment.managementCostsBooking(travelId, entity.toString());
+			payment.managementCostsBooking(travelId, response.getEntity().toString());
 			return response;
 		}else{
 			return Response.status(400).entity(null).build();	
