@@ -117,12 +117,15 @@ public class Payment {
 		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
 		
 		if (invoice != null && travel != null) {
+			System.out.println("achou invoice");
 			String studentId =  (String) travel.get("studentId");
 			String invoiceId =  (String) invoice.get("_id");
 	
 			commons_db.removerCrud("payment", "documento.allocationId" , allocationId, null);
 			
 			if (invoice.get("products") != null) {
+				System.out.println("achou produto");
+				
 				ArrayList<Object> products = new ArrayList<Object>();
 				products = (ArrayList) invoice.get("products");
 		
@@ -141,6 +144,7 @@ public class Payment {
 					result = (ArrayList<Object>) response.getEntity();
 					vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "suite");
 					for (int j = 0; j < vendors.size(); j++) {
+						System.out.println("achou alocacoes");
 						BasicDBObject vendor = new BasicDBObject();
 						vendor.putAll((Map) vendors.get(i));
 						BasicDBObject itemCost = new BasicDBObject();

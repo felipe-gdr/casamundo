@@ -340,22 +340,22 @@ public class Commons {
 			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
 			return criaDatas(result);
 		}
-		if (weekDayStart == 7) {
-			if (weekDayEnd > 2 ) {
-				if (weekDayEnd == 7 ) {
-					extraNightsSaida = 1;
-				}else {
-					weeks++;
-				}
-			}else {
-				extraNightsSaida = weekDayEnd + 1;
-			}
-			result.put("weeks", Integer.toString(weeks));
-			result.put("extraNights", Integer.toString(extraNightsSaida));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
+//		if (weekDayStart == 7) {
+//			if (weekDayEnd > 2 ) {
+//				if (weekDayEnd == 7 ) {
+//					extraNightsSaida = 1;
+//				}else {
+//					weeks++;
+//				}
+//			}else {
+//				extraNightsSaida = weekDayEnd + 1;
+//			}
+//			result.put("weeks", Integer.toString(weeks));
+//			result.put("extraNights", Integer.toString(extraNightsSaida));
+//			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+//			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+//			return criaDatas(result);
+//		}
 		if (weekDayEnd == 1) {
 			if (weekDayStart < 6 ) {
 				weeks++;
@@ -368,18 +368,18 @@ public class Commons {
 			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
 			return criaDatas(result);
 		}
-		if (weekDayEnd == 7) {
-			if (weekDayStart < 5 ) {
-				weeks++;
-			}else {
-				extraNightsEntrada = 8 - weekDayStart;
-			}
-			result.put("weeks", Integer.toString(weeks));
-			result.put("extraNights", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
+//		if (weekDayEnd == 7) {
+//			if (weekDayStart < 5 ) {
+//				weeks++;
+//			}else {
+//				extraNightsEntrada = 8 - weekDayStart;
+//			}
+//			result.put("weeks", Integer.toString(weeks));
+//			result.put("extraNights", Integer.toString(extraNightsEntrada));
+//			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+//			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+//			return criaDatas(result);
+//		}
 		if (weekDayEnd > 3 ) {
 //			weeks++;
 		}else {
