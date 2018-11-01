@@ -183,8 +183,6 @@ public class PriceTable {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BasicDBObject getCost(String travelId, String productId, String vendorId) throws UnknownHostException {
-
-		BasicDBObject result = new BasicDBObject();
 		
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
 		String destination =  (String) travel.get("destination");
@@ -219,7 +217,7 @@ public class PriceTable {
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 					System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
-					return result;
+					return resultFirstVendor;
 				};
 				if (i == 0){
 					System.out.println("achou preco com vendor sem datas vendor - " + priceListDoc.get("value"));
@@ -249,12 +247,12 @@ public class PriceTable {
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					System.out.println("tem valor entre datas destination");
-					resultFirstVendor.put("value", priceListDoc.get("value"));
-					return result;
+					resultFirstDestiny.put("value", priceListDoc.get("value"));
+					return resultFirstDestiny;
 				};
 				if (i == 0){
 					System.out.println("achou preco com vendor sem datas destination - " + priceListDoc.get("value"));
-					resultFirstVendor.put("value", priceListDoc.get("value"));
+					resultFirstDestiny.put("value", priceListDoc.get("value"));
 				};
 			}
 		}
@@ -280,7 +278,7 @@ public class PriceTable {
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					System.out.println("tem valor entre datas sem nada ");
 					resultFirst.put("value", priceListDoc.get("value"));
-					return result;
+					return resultFirst;
 				};
 				if (i == 0){
 					System.out.println("tem valor sem datas sem nada - " + priceListDoc.get("value")) ;
