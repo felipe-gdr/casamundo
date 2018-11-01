@@ -218,11 +218,11 @@ public class PriceTable {
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					resultFirstVendor.put("value", priceListDoc.get("value"));
-					System.out.println("achou preco com vendor entre datas vendor");
+					System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
 					return result;
 				};
 				if (i == 0){
-					System.out.println("achou preco com vendor sem datas vendor");
+					System.out.println("achou preco com vendor sem datas vendor - " + priceListDoc.get("value"));
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 				};
 			};
@@ -254,7 +254,7 @@ public class PriceTable {
 					return result;
 				};
 				if (i == 0){
-					System.out.println("achou preco com vendor sem datas destination");
+					System.out.println("achou preco com vendor sem datas destination - " + priceListDoc.get("value"));
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 				};
 			}
@@ -282,18 +282,21 @@ public class PriceTable {
 					return result;
 				};
 				if (i == 0){
-					System.out.println("tem valor sem datas sem nada ");
+					System.out.println("tem valor sem datas sem nada - " + priceListDoc.get("value")) ;
 					resultFirstVendor.put("value", priceListDoc.get("value"));
 				};
 			}
 		}
 		if (resultFirstVendor.get("value") != null) {
+			System.out.println("mandou valor vendor sem data - " + resultFirstVendor.get("value")) ;
 			return resultFirstVendor;				
 		}
 		if (resultFirstDestiny.get("value") != null) {
+			System.out.println("mandou valor destiny sem data - " + resultFirstDestiny.get("value")) ;
 			return resultFirstDestiny;				
 		}
 
+		System.out.println("mandou valor sem nada sem data - " + resultFirst.get("value")) ;
 		return resultFirst;
 	};
 
