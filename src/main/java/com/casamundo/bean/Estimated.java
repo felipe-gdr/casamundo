@@ -4,17 +4,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javax.inject.Singleton;
-import javax.ws.rs.Path;
-
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 
 	
-@Singleton
-// @Lock(LockType.READ)
-@Path("/payment")
 
 public class Estimated {
 
@@ -54,7 +48,7 @@ public class Estimated {
 				itemCost.put("end", accomodation.getString("checkOut"));
 				int days = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
 				itemCost.put("days", Integer.toString(days));;
-				BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), null);
+				BasicDBObject cost = priceTable.getCost(travelId, product.getString("_id"), null);
 				itemCost.put("cost", cost.get("value"));
 				double value = 0.0;
 				if (cost.get("value") != null) {

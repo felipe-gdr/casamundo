@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.casamundo</groupId>
 	<artifactId>casamundo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
   	<name>casamundo</name>
@@ -31,17 +30,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>3.0.4.Final</version>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-jackson-provider</artifactId>
+		    <version>3.6.1.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-multipart-provider</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
@@ -67,6 +62,14 @@
 		    <artifactId>servlet-api</artifactId>
 		    <version>2.5</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-multipart-provider</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-jaxrs</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -82,29 +85,31 @@
 				<version>1.1</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jboss.resteasy</groupId>
-				<artifactId>resteasy-multipart-provider</artifactId>
-				<version>3.0.12.Final</version>
+			    <groupId>org.jboss.resteasy</groupId>
+			    <artifactId>resteasy-multipart-provider</artifactId>
+			    <version>3.6.1.Final</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jboss.resteasy</groupId>
-				<artifactId>resteasy-jaxrs</artifactId>
-				<version>3.0.12.Final</version>
+			    <groupId>org.jboss.resteasy</groupId>
+			    <artifactId>resteasy-jaxrs</artifactId>
+			    <version>3.6.1.Final</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	  
 	<build>
 		<finalName>casamundo</finalName>
-		<plugins>
-		  <plugin>
-		    <artifactId>maven-compiler-plugin</artifactId>
-		    <version>2.3.2</version>
-		      <configuration>
-		        <source>1.6</source>
-		        <target>1.6</target>
-		      </configuration>
-		  </plugin>
-		</plugins>	
-	</build>
+		<pluginManagement>
+		   <plugins>
+		    <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>          
+		        <configuration>
+		            <source>1.8</source>
+		            <target>1.8</target>
+		        </configuration>
+		    </plugin>
+		   </plugins>
+		  </pluginManagement>	</build>
+	<version>v1</version>
 </project>

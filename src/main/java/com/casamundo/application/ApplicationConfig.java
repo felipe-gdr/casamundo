@@ -25,7 +25,6 @@ import java.util.Set;
 @ApplicationPath("/rest")
 public class ApplicationConfig extends Application {
 
-	@SuppressWarnings("unchecked")
 	public Set<Class<?>> getClasses() {
         return new HashSet<Class<?>>(Arrays.asList(
         		Rest_Student.class,
