@@ -1,29 +1,23 @@
 package com.casamundo.rest;
 
-import java.net.UnknownHostException;
-import java.util.Map;
-
-import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.json.simple.JSONObject;
-
 import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
+import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-	
-@Singleton
-// @Lock(LockType.READ)
-@Path("/book")
+import java.net.UnknownHostException;
+import java.util.Map;
 
+@RestController
+@RequestMapping("/book")
 public class Rest_Book {
 
 	Commons commons = new Commons();
@@ -32,38 +26,35 @@ public class Rest_Book {
 	Payment payment = new Payment();
 
 	@SuppressWarnings({ "rawtypes" })
-	@Path("/incluir")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response incluir(JSONObject queryParam) throws UnknownHostException, MongoException  {
+	@PostMapping(value = "/incluir", consumes = "application/json")
+	public ResponseEntity incluir(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
 		String collection = (String) queryParam.get("collection");
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) queryParam.get("documento"));
 		String travelId = documento.getString("studentId");
 		if (collection != null ){
-			Response response = commons_db.incluirCrud(collection, documento);
-			payment.managementCostsBooking(travelId, response.getEntity().toString());
+			ResponseEntity response = commons_db.incluirCrud(collection, documento);
+			payment.managementCostsBooking(travelId, response.getBody().toString());
 			return response;
 		}else{
-			return Response.status(400).entity(null).build();	
+			return ResponseEntity.badRequest().build();
 		}
 	};
 
-	@Path("/atualizar")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response Atualizar(JSONObject queryParam) throws UnknownHostException, MongoException  {
+	@PostMapping(value = "/atualizar", consumes = "application/json")
+	public ResponseEntity Atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
 		if (queryParam.get("collection") != null ){
-			Response result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
+			ResponseEntity result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get(
+					"update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			BasicDBObject book = commons_db.obterCrudDoc(queryParam.get ("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString());
 			if (book != null) {
 				payment.managementCostsBooking(book.getString("studentId"), book.getString("_id"));
 			}
 			return result;
 		}else{
-			return Response.status(400).entity(null).build();	
+			return ResponseEntity.badRequest().build();
 		}
 	};
 		

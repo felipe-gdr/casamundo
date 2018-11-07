@@ -1,18 +1,17 @@
 package com.casamundo.bean;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
-import org.json.simple.JSONArray;
-
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
+import org.json.simple.JSONArray;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import javax.websocket.server.PathParam;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Invoice {
 
@@ -23,7 +22,7 @@ public class Invoice {
 	Estimated estimated = new Estimated();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Response incluir(BasicDBObject doc) throws UnknownHostException  {
+	public ResponseEntity incluir(BasicDBObject doc) throws UnknownHostException  {
 				
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) doc);
@@ -69,9 +68,9 @@ public class Invoice {
 			productsResult.add(productDoc);
 		}
 		documento.put("products", productsResult);
-		Response response = commons_db.incluirCrud("invoice", documento);
-		if (response.getStatus() == 200) {
-			String invoiceId = (String) response.getEntity();
+		ResponseEntity response = commons_db.incluirCrud("invoice", documento);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			String invoiceId = (String) response.getBody();
 			if (invoiceId != null) {
 				estimated.criarCosts(invoiceId.toString());
 				criaPayment ("homestayBook", documento.getString("trip"));
@@ -86,9 +85,9 @@ public class Invoice {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void criaPayment(String collection, String travelId) throws UnknownHostException, MongoException {
 		
-		Response response = commons_db.listaCrud(collection, "documento.studentId", travelId, null, null, null, true);
+		ResponseEntity response = commons_db.listaCrud(collection, "documento.studentId", travelId, null, null, null, true);
 		ArrayList<Object> books = new ArrayList<Object>();
-		books = (JSONArray) response.getEntity();
+		books = (JSONArray) response.getBody();
 		if (books != null) {
 			for (int i = 0; i < books.size(); i++) {
 				BasicDBObject book = new BasicDBObject();
@@ -100,7 +99,7 @@ public class Invoice {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(@QueryParam("travelId") String travelId, @QueryParam("userId") String userId) throws UnknownHostException {
+	public ArrayList calculaInvoiceAutomatica(@PathParam("travelId") String travelId, @PathParam("userId") String userId) throws UnknownHostException {
 
 		
 		if (travelId.equals(null)) {
@@ -118,10 +117,13 @@ public class Invoice {
 		BasicDBObject item = new BasicDBObject();
 		item.putAll((Map) travel.get("accomodation"));
 
-		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null, null, userId, null, null, false).getEntity();
+		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null,
+				null, userId, null, null, false).getBody();
 		
 		for (BasicDBObject priceTable : priceTableList) {
-			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTableValue", "documento.idPriceTable", priceTable.getString("_id"), userId, null, null, false).getEntity();
+			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud(
+					"priceTableValue", "documento.idPriceTable", priceTable.getString("_id"), userId, null, null,
+					false).getBody();
 			for (BasicDBObject priceTableValue : priceTableValueList) {
 				System.out.println("valor:" + priceTableValue.getInt("value"));		
 			}
@@ -184,9 +186,9 @@ public class Invoice {
 			value = receivementAtu.getString("student");
 			collection = "student";
 		}
-		Response response = commons_db.listaCrud("invoice", key, value, null, null, null, true);
+		ResponseEntity response = commons_db.listaCrud("invoice", key, value, null, null, null, true);
 		invoices = new ArrayList<Object>();
-		invoices = (JSONArray) response.getEntity();
+		invoices = (JSONArray) response.getBody();
 
 		float paidValueTotal = 0;
 		if (response != null) {
@@ -203,7 +205,7 @@ public class Invoice {
 		float receiveValueTotal = 0;
 		response = commons_db.listaCrud("receivement", key, value, null, null, null, true);
 		ArrayList<Object> receivements = new ArrayList<Object>();
-		receivements = (JSONArray) response.getEntity();
+		receivements = (JSONArray) response.getBody();
 
 		if (response != null) {
 			for (int i = 0; i < receivements.size(); i++) {
