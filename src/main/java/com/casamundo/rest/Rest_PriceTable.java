@@ -20,7 +20,9 @@ public class Rest_PriceTable {
 	Commons_DB commons_db = new Commons_DB();
 	PriceTable priceTable = new PriceTable();
 	@RequestMapping(value = "/lista", produces = "application/json")
-	public JSONArray listaProdutos(@RequestParam("travelId") String travelId, @RequestParam("userId") String userId ) throws UnknownHostException, MongoException {
+	public JSONArray listaProdutos(
+			@RequestParam("travelId") String travelId, 
+			@RequestParam("userId") String userId ) throws UnknownHostException, MongoException {
 
 		if (travelId != null && userId != null) {
 			return priceTable.listaProdutos(travelId, userId);

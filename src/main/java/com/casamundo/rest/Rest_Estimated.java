@@ -12,8 +12,6 @@ import com.casamundo.dao.Commons_DB;
 import com.mongodb.MongoException;
 
 @RestController
-//TODO: estava mapeado como "/payment", resultando em um conflito no endpoint "/payment/get/number" declarado em
-// Rest_Estimated#numberInvoice(). Verificar se pode ser alterado mesmo para "/estimated"
 @RequestMapping("/estimated")
 public class Rest_Estimated {
 	Commons commons = new Commons();

@@ -39,7 +39,9 @@ public class Rest_Crud {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/obter-get", produces = "application/json")
-	public ResponseEntity obterGet(@RequestParam("collection") String collection, @RequestParam("key") String key, @RequestParam(
+	public ResponseEntity obterGet(
+			@RequestParam(value = "collection", required=false) String collection, 
+			@RequestParam(value = "key", required=false) String key, @RequestParam(
 			"value") String value) throws UnknownHostException, MongoException  {
 
 		if (collection != null && key != null && value != null){
@@ -104,7 +106,11 @@ public class Rest_Crud {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/lista", produces = "application/json")
-	public ResponseEntity Lista(@RequestParam("collection") String collection, @RequestParam(value = "key", required=false) String key, @RequestParam(value = "value", required=false) String value, @RequestParam("userId") String userId) throws UnknownHostException, MongoException  {
+	public ResponseEntity Lista(
+			@RequestParam(value = "collection", required=false) String collection, 
+			@RequestParam(value = "key", required=false) String key, 
+			@RequestParam(value = "value", required=false) String value, 
+			@RequestParam(value = "userId", required=false) String userId) throws UnknownHostException, MongoException  {
 		if (collection != null ){
 			return commons_db.listaCrud(collection, key, value, userId, null, null, false);
 		}else{
@@ -127,7 +133,12 @@ public class Rest_Crud {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/atualizaElemento", produces = "application/json")
-	public ResponseEntity ObterEmail(@RequestParam("collection") String collection, @RequestParam("key") String key, @RequestParam("keyValue") String keyValue, @RequestParam("field") String field, @RequestParam("value") String value) throws UnknownHostException, MongoException {
+	public ResponseEntity ObterEmail(
+			@RequestParam(value = "collection", required=false) String collection, 
+			@RequestParam(value = "key", required=false) String key, 
+			@RequestParam(value = "keyValue", required=false) String keyValue, 
+			@RequestParam(value = "field", required=false) String field, 
+			@RequestParam(value = "value", required=false) String value) throws UnknownHostException, MongoException {
 
 		if ( !collection.equals(null) && !key.equals(null) && !keyValue.equals(null)&& !field.equals(null) && !value.equals(null)) {
 			ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
