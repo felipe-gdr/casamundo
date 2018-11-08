@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.boot.jdbc.metadata.CommonsDbcp2DataSourcePoolMetadata;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
@@ -121,20 +122,29 @@ public class Invoice {
 		ArrayList<BasicDBObject> priceTableList = (ArrayList<BasicDBObject>) commons_db.listaCrud("priceTable", null,
 				null, userId, null, null, false).getBody();
 		
-		for (BasicDBObject priceTable : priceTableList) {
-			ArrayList<BasicDBObject> priceTableValueList = (ArrayList<BasicDBObject>) commons_db.listaCrud(
-					"priceTableValue", "documento.idPriceTable", priceTable.getString("_id"), userId, null, null,
-					false).getBody();
-			for (BasicDBObject priceTableValue : priceTableValueList) {
-				System.out.println("valor:" + priceTableValue.getInt("value"));		
-			}
-			
+		for (BasicDBObject priceTableObj : priceTableList) {
+			JSONObject priceValue = priceTable.getValue(travelId, priceTableObj.getString("_id"), userId);
+			if (priceValue.get("net") != null) {
+				System.out.println("produto:" + priceTableObj.getString("name") + " - valor:" + priceValue.get("net").toString());
+				String formula = "";
+				BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
+				BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), variaveis.getString("checkOut"));
+				variaveis.put("weeks", dados.getString("weeks"));
+				variaveis.put("extraNights", dados.getString("extraNights"));
+				variaveis.put("highSeason", dados.getString("true"));
+				variaveis.put("lowSeason", dados.getString("false"));
+				Double valor = calcula(formula, variaveis);
+			};
 		}
 		
 		return result;
 
 	};
 	
+	private Double calcula(String formula, BasicDBObject variáveis ) {
+		return 100.00;
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public void atualizarInvoice(String receivementId) throws UnknownHostException {
 		
