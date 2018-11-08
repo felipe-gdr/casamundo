@@ -78,7 +78,7 @@ public class Rest_Crud {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/atualizar", consumes = "application/json")
-	public ResponseEntity Atualizar(JSONObject queryParam) throws UnknownHostException, MongoException  {
+	public ResponseEntity Atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
