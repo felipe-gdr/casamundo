@@ -1,15 +1,16 @@
 package com.casamundo.rest;
 
+import java.net.UnknownHostException;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.MongoException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.net.UnknownHostException;
 
 @RestController
 //TODO: estava mapeado como "/payment", resultando em um conflito no endpoint "/payment/get/number" declarado em

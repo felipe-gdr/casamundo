@@ -1,11 +1,8 @@
 package com.casamundo.rest;
 
-import com.casamundo.bean.Invoice;
-import com.casamundo.bean.Payment;
-import com.casamundo.commons.Commons;
-import com.casamundo.dao.Commons_DB;
-import com.mongodb.BasicDBObject;
-import com.mongodb.MongoException;
+import java.net.UnknownHostException;
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.UnknownHostException;
-import java.util.Map;
+import com.casamundo.bean.Invoice;
+import com.casamundo.bean.Payment;
+import com.casamundo.commons.Commons;
+import com.casamundo.dao.Commons_DB;
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
 
 @RestController
 @RequestMapping("/book")

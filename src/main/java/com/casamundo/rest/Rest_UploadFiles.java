@@ -1,24 +1,26 @@
 package com.casamundo.rest;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.UnknownHostException;
+
+import javax.activation.MimetypesFileTypeMap;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.websocket.server.PathParam;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.UnknownHostException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
 
 @RestController
 @RequestMapping("/upload")
@@ -33,7 +35,7 @@ public class Rest_UploadFiles {
      * @return imagem com o mime type da imagem fonte.
      */
 	@GetMapping(value = "/images", produces = "image/*")
-    public ResponseEntity getImage(@PathParam("image") String image){
+    public ResponseEntity getImage(@PathVariable("image") String image){
 
 		String folder = "c:/images/casamundo/";
 		Mongo mongo;
@@ -64,7 +66,7 @@ public class Rest_UploadFiles {
 
 	// TODO: implementar upload, no estilo Spring boot (https://spring.io/guides/gs/uploading-files/)
 	@PostMapping(value = "/files", consumes = "multipart/form-data")
-	public ResponseEntity uploadFile(MultipartFile input, @PathParam("prefix") String prefix) {
+	public ResponseEntity uploadFile(MultipartFile input, @PathVariable("prefix") String prefix) {
 //		String folder = "c:/images/casamundo/";
 //		Mongo mongo;
 //		try {

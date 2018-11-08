@@ -1,17 +1,18 @@
 package com.casamundo.bean;
 
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.json.simple.JSONArray;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
-import org.json.simple.JSONArray;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import javax.websocket.server.PathParam;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class Invoice {
 
@@ -99,7 +100,7 @@ public class Invoice {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(@PathParam("travelId") String travelId, @PathParam("userId") String userId) throws UnknownHostException {
+	public ArrayList calculaInvoiceAutomatica(@PathVariable("travelId") String travelId, @PathVariable("userId") String userId) throws UnknownHostException {
 
 		
 		if (travelId.equals(null)) {
