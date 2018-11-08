@@ -75,6 +75,7 @@
 	</profiles>
 
 	<build>
+		<finalName>yggboard_server</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
