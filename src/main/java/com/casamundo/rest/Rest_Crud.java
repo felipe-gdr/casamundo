@@ -104,7 +104,7 @@ public class Rest_Crud {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/lista", produces = "application/json")
-	public ResponseEntity Lista(@RequestParam("collection") String collection, @RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("userId") String userId) throws UnknownHostException, MongoException  {
+	public ResponseEntity Lista(@RequestParam("collection") String collection, @RequestParam(value = "key", required=false) String key, @RequestParam(value = "value", required=false) String value, @RequestParam("userId") String userId) throws UnknownHostException, MongoException  {
 		if (collection != null ){
 			return commons_db.listaCrud(collection, key, value, userId, null, null, false);
 		}else{
