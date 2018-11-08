@@ -3,10 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.casamundo</groupId>
     <artifactId>casamundo</artifactId>
-    <packaging>jar</packaging>
+	<name>casamundo</name>
     <version>v1</version>
-
-    <name>Casamundo API</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

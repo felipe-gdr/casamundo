@@ -20,6 +20,7 @@ public class Rest_HomestayBook {
 	Commons_DB commons_db = new Commons_DB();
 	HomestayBook homestayBook = new HomestayBook();
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/responseEmail", produces = "application/json")
 	public ResponseEntity ObterEmail(@PathParam("alocationId") String alocationId, @PathParam("invite") String invite) throws UnknownHostException, MongoException {
 		return homestayBook.responseEmail(alocationId, invite);

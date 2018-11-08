@@ -23,6 +23,7 @@ public class Rest_Crud {
 	Commons_DB commons_db = new Commons_DB();
 	Commons commons = new Commons();
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/obter", consumes = "application/json")
 	public ResponseEntity Obter(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
@@ -36,6 +37,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/obter-get", produces = "application/json")
 	public ResponseEntity obterGet(@PathParam("collection") String collection, @PathParam("key") String key, @PathParam(
 			"value") String value) throws UnknownHostException, MongoException  {
@@ -47,6 +49,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/obter-id", produces = "application/json")
 	public ResponseEntity obterGet(@PathParam("collection") String collection) throws UnknownHostException, MongoException  {
 
@@ -57,6 +60,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ResponseEntity incluir(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
@@ -70,6 +74,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/atualizar", consumes = "application/json")
 	public ResponseEntity Atualizar(JSONObject queryParam) throws UnknownHostException, MongoException  {
 
@@ -81,6 +86,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping(value = "/multiploatualizar", consumes = "application/json")
 	public ResponseEntity multiploAtualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
@@ -96,6 +102,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/lista", produces = "application/json")
 	public ResponseEntity Lista(@PathParam("collection") String collection, @PathParam("key") String key, @PathParam("value") String value, @PathParam("userId") String userId) throws UnknownHostException, MongoException  {
 		if (collection != null ){
@@ -105,6 +112,7 @@ public class Rest_Crud {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/array", consumes = "application/json")
 	public ResponseEntity Array(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
@@ -117,6 +125,7 @@ public class Rest_Crud {
 	};
 
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/atualizaElemento", produces = "application/json")
 	public ResponseEntity ObterEmail(@PathParam("collection") String collection, @PathParam("key") String key, @PathParam("keyValue") String keyValue, @PathParam("field") String field, @PathParam("value") String value) throws UnknownHostException, MongoException {
 

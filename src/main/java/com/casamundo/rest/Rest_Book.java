@@ -42,6 +42,7 @@ public class Rest_Book {
 		}
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/atualizar", consumes = "application/json")
 	public ResponseEntity Atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		

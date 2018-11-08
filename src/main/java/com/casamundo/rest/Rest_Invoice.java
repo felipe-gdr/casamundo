@@ -27,11 +27,13 @@ public class Rest_Invoice {
 	Invoice invoice = new Invoice();
 	Payment payment = new Payment();
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ResponseEntity incluir(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 		return invoice.incluir(doc);
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/atualizar", consumes = "application/json")
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
@@ -55,6 +57,7 @@ public class Rest_Invoice {
 	};
 	
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/itensinvoiceautomatica", produces = "application/json")
 	public ArrayList calculaInvoiceAutomatica(@PathParam("travelId") String travelId, @PathParam("userId") String userId) throws UnknownHostException, MongoException {
 		return invoice.calculaInvoiceAutomatica(travelId, userId);

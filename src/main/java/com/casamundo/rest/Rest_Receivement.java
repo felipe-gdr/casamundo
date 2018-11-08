@@ -28,6 +28,7 @@ public class Rest_Receivement {
 	Invoice invoice = new Invoice();
 	Receivement receivement = new Receivement();
 	
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ResponseEntity incluir(@RequestBody BasicDBObject documento) throws UnknownHostException, MongoException  {
 		
@@ -40,6 +41,7 @@ public class Rest_Receivement {
 
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/atualizar", consumes = "application/json")
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		String collection = (String) queryParam.get("collection");
