@@ -34,6 +34,7 @@ public class Rest_UploadFiles {
      * @param image nome da imagem a procurar
      * @return imagem com o mime type da imagem fonte.
      */
+	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/images", produces = "image/*")
     public ResponseEntity getImage(@PathVariable("image") String image){
 
@@ -65,6 +66,7 @@ public class Rest_UploadFiles {
     };
 
 	// TODO: implementar upload, no estilo Spring boot (https://spring.io/guides/gs/uploading-files/)
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/files", consumes = "multipart/form-data")
 	public ResponseEntity uploadFile(MultipartFile input, @PathVariable("prefix") String prefix) {
 //		String folder = "c:/images/casamundo/";

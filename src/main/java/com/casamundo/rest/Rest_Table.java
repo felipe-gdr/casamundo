@@ -23,6 +23,7 @@ public class Rest_Table {
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/obter", produces = "application/json")
 	public JSONObject Obter() {
 		

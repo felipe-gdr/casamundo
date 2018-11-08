@@ -29,11 +29,13 @@ public class Rest_Payment {
 	Invoice invoice = new Invoice();
 	Payment payment = new Payment();
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ResponseEntity incluir(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 		return invoice.incluir(doc);
 	};
 
+	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/atualizar", consumes = "application/json")
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		
