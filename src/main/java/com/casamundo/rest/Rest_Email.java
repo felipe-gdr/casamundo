@@ -1,13 +1,13 @@
 package com.casamundo.rest;
 
-import com.casamundo.commons.SendEmail;
-import com.casamundo.commons.SendEmailHtml;
 import org.apache.commons.mail.EmailException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
+import com.casamundo.commons.SendEmail;
+import com.casamundo.commons.SendEmailHtml;
 
 	
 @RestController
@@ -16,13 +16,13 @@ public class Rest_Email {
 
 	@GetMapping(value = "/sendSimpleEmail", produces = "application/json")
 	public String sendSimpleEmail(
-			@PathParam("hostName") String hostName,
-			@PathParam("userName") String userName,
-			@PathParam("password") String password,
-			@PathParam("from") String from,
-			@PathParam("to") String to,
-			@PathParam("subject") String subject,
-			@PathParam("message") String message
+			@PathVariable("hostName") String hostName,
+			@PathVariable("userName") String userName,
+			@PathVariable("password") String password,
+			@PathVariable("from") String from,
+			@PathVariable("to") String to,
+			@PathVariable("subject") String subject,
+			@PathVariable("message") String message
 			) throws EmailException {
 		SendEmail sendEmail = new SendEmail();
 		sendEmail.sendEmail(hostName, userName, password, from, to, subject, message);
@@ -32,13 +32,13 @@ public class Rest_Email {
 
 	@GetMapping(value = "/sendEmailHtml", produces = "application/json")
 	public String sendEmailHtml(
-			@PathParam("hostName") String hostName,
-			@PathParam("userName") String userName,
-			@PathParam("password") String password,
-			@PathParam("from") String from,
-			@PathParam("to") String to,
-			@PathParam("subject") String subject,
-			@PathParam("html") String html
+			@PathVariable("hostName") String hostName,
+			@PathVariable("userName") String userName,
+			@PathVariable("password") String password,
+			@PathVariable("from") String from,
+			@PathVariable("to") String to,
+			@PathVariable("subject") String subject,
+			@PathVariable("html") String html
 			) throws EmailException {
 		SendEmailHtml sendEmailHtml = new SendEmailHtml();
 		sendEmailHtml.sendEmailHtml(hostName, userName, password, from, to, subject, html);

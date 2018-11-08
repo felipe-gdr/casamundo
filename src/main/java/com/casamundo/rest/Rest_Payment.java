@@ -1,22 +1,23 @@
 package com.casamundo.rest;
 
+import java.net.UnknownHostException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.websocket.server.PathParam;
-import java.net.UnknownHostException;
 
 @RestController
 @RequestMapping("/payment")
@@ -48,7 +49,7 @@ public class Rest_Payment {
 	};
 
 	@GetMapping(value = "/lista", produces = "application/json")
-	public JSONArray listaPayment(@PathParam("date") String date, @PathParam("occHome") String occHome, @PathParam("userId") String userId ) throws UnknownHostException, MongoException {
+	public JSONArray listaPayment(@PathVariable("date") String date, @PathVariable("occHome") String occHome, @PathVariable("userId") String userId ) throws UnknownHostException, MongoException {
 		
 		if (date != null && occHome != null && userId != null) {
 			return payment.listaPayment(date, occHome, userId);
