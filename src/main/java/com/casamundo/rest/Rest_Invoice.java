@@ -5,11 +5,10 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.casamundo.bean.Invoice;
@@ -47,20 +46,23 @@ public class Rest_Invoice {
 		}
 	};
 
-	@GetMapping(value = "/get/number", produces = "application/json")
+	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
 		return commons_db.getNumber("numberInvoice", "yearNumberInvoice");
 	};
 
-	@GetMapping(value = "/testadata", produces = "application/json")
-	public BasicDBObject testaData(@PathVariable("start") String start, @PathVariable("end") String end) throws UnknownHostException, MongoException {
+	@RequestMapping(value = "/testadata", produces = "application/json")
+	public BasicDBObject testaData(
+			@RequestParam ("start") String start,
+			@RequestParam ("end") String end
+			) throws UnknownHostException, MongoException {
 		return commons.numberWeeks(start, end);
 	};
 	
 
 	@SuppressWarnings("rawtypes")
-	@GetMapping(value = "/itensinvoiceautomatica", produces = "application/json")
-	public ArrayList calculaInvoiceAutomatica(@PathVariable("travelId") String travelId, @PathVariable("userId") String userId) throws UnknownHostException, MongoException {
+	@RequestMapping(value = "/itensinvoiceautomatica", produces = "application/json")
+	public ArrayList calculaInvoiceAutomatica(@RequestParam("travelId") String travelId, @RequestParam("userId") String userId) throws UnknownHostException, MongoException {
 		return invoice.calculaInvoiceAutomatica(travelId, userId);
 	};
 		

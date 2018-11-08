@@ -6,11 +6,10 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.casamundo.commons.Commons;
@@ -39,8 +38,8 @@ public class Rest_Crud {
 	};
 
 	@SuppressWarnings("rawtypes")
-	@GetMapping(value = "/obter-get", produces = "application/json")
-	public ResponseEntity obterGet(@PathVariable("collection") String collection, @PathVariable("key") String key, @PathVariable(
+	@RequestMapping(value = "/obter-get", produces = "application/json")
+	public ResponseEntity obterGet(@RequestParam("collection") String collection, @RequestParam("key") String key, @RequestParam(
 			"value") String value) throws UnknownHostException, MongoException  {
 
 		if (collection != null && key != null && value != null){
@@ -51,8 +50,8 @@ public class Rest_Crud {
 	};
 
 	@SuppressWarnings("rawtypes")
-	@GetMapping(value = "/obter-id", produces = "application/json")
-	public ResponseEntity obterGet(@PathVariable("collection") String collection) throws UnknownHostException, MongoException  {
+	@RequestMapping(value = "/obter-id", produces = "application/json")
+	public ResponseEntity obterGet(@RequestParam("collection") String collection) throws UnknownHostException, MongoException  {
 
 		if (collection != null){
 			return commons_db.obterId(collection);
@@ -104,8 +103,8 @@ public class Rest_Crud {
 	};
 
 	@SuppressWarnings("rawtypes")
-	@GetMapping(value = "/lista", produces = "application/json")
-	public ResponseEntity Lista(@PathVariable("collection") String collection, @PathVariable("key") String key, @PathVariable("value") String value, @PathVariable("userId") String userId) throws UnknownHostException, MongoException  {
+	@RequestMapping(value = "/lista", produces = "application/json")
+	public ResponseEntity Lista(@RequestParam("collection") String collection, @RequestParam("key") String key, @RequestParam("value") String value, @RequestParam("userId") String userId) throws UnknownHostException, MongoException  {
 		if (collection != null ){
 			return commons_db.listaCrud(collection, key, value, userId, null, null, false);
 		}else{
@@ -127,8 +126,8 @@ public class Rest_Crud {
 
 
 	@SuppressWarnings("rawtypes")
-	@GetMapping(value = "/atualizaElemento", produces = "application/json")
-	public ResponseEntity ObterEmail(@PathVariable("collection") String collection, @PathVariable("key") String key, @PathVariable("keyValue") String keyValue, @PathVariable("field") String field, @PathVariable("value") String value) throws UnknownHostException, MongoException {
+	@RequestMapping(value = "/atualizaElemento", produces = "application/json")
+	public ResponseEntity ObterEmail(@RequestParam("collection") String collection, @RequestParam("key") String key, @RequestParam("keyValue") String keyValue, @RequestParam("field") String field, @RequestParam("value") String value) throws UnknownHostException, MongoException {
 
 		if ( !collection.equals(null) && !key.equals(null) && !keyValue.equals(null)&& !field.equals(null) && !value.equals(null)) {
 			ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();

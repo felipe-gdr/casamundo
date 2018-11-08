@@ -2,7 +2,6 @@ package com.casamundo.rest;
 
 import java.net.UnknownHostException;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +21,7 @@ public class Rest_Estimated {
 	Invoice invoice = new Invoice();
 	Payment payment = new Payment();
 
-	@GetMapping(value = "/get/number", produces = "application/json")
+	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
 		 
 		return commons_db.getNumber("numberEstimated", "yearNumberEstimated");

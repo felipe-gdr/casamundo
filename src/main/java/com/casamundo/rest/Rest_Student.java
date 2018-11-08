@@ -2,9 +2,8 @@ package com.casamundo.rest;
 
 import java.net.UnknownHostException;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.casamundo.bean.Student;
@@ -21,8 +20,8 @@ public class Rest_Student {
 	Commons_DB commons_db = new Commons_DB();
 	Student student = new Student();
 
-	@GetMapping(value = "/getAllocation", produces = "application/json")
-	public BasicDBObject getAllocation(@PathVariable("studentId") String studentId, @PathVariable("userId") String userId) throws UnknownHostException, MongoException {
+	@RequestMapping(value = "/getAllocation", produces = "application/json")
+	public BasicDBObject getAllocation(@RequestParam("studentId") String studentId, @RequestParam("userId") String userId) throws UnknownHostException, MongoException {
 		return student.getAllocation(studentId, userId);
 	};
 
