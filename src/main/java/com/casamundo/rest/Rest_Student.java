@@ -21,7 +21,9 @@ public class Rest_Student {
 	Student student = new Student();
 
 	@RequestMapping(value = "/getAllocation", produces = "application/json")
-	public BasicDBObject getAllocation(@RequestParam("studentId") String studentId, @RequestParam("userId") String userId) throws UnknownHostException, MongoException {
+	public BasicDBObject getAllocation(
+			@RequestParam(value = "studentId") String studentId, 
+			@RequestParam(value = "userId", required=false) String userId) throws UnknownHostException, MongoException {
 		return student.getAllocation(studentId, userId);
 	};
 

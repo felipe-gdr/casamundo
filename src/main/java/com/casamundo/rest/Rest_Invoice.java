@@ -62,7 +62,9 @@ public class Rest_Invoice {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/itensinvoiceautomatica", produces = "application/json")
-	public ArrayList calculaInvoiceAutomatica(@RequestParam("travelId") String travelId, @RequestParam("userId") String userId) throws UnknownHostException, MongoException {
+	public ArrayList calculaInvoiceAutomatica(
+			@RequestParam("travelId") String travelId, 
+			@RequestParam("userId") String userId) throws UnknownHostException, MongoException {
 		return invoice.calculaInvoiceAutomatica(travelId, userId);
 	};
 		

@@ -100,7 +100,7 @@ public class Invoice {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(@PathVariable("travelId") String travelId, @PathVariable("userId") String userId) throws UnknownHostException {
+	public ArrayList calculaInvoiceAutomatica(String travelId, String userId) throws UnknownHostException {
 
 		
 		if (travelId.equals(null)) {
