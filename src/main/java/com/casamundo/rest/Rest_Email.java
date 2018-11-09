@@ -1,35 +1,27 @@
 package com.casamundo.rest;
 
-import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.apache.commons.mail.EmailException;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.casamundo.commons.SendEmail;
 import com.casamundo.commons.SendEmailHtml;
 
 	
-@Singleton
-// @Lock(LockType.READ)
-@Path("/email")
-
+@RestController
+@RequestMapping("/email")
 public class Rest_Email {
 
-	@Path("/sendSimpleEmail")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(value = "/sendSimpleEmail", produces = "application/json")
 	public String sendSimpleEmail(
-			@QueryParam("hostName") String hostName, 
-			@QueryParam("userName") String userName,
-			@QueryParam("password") String password,
-			@QueryParam("from") String from,
-			@QueryParam("to") String to,
-			@QueryParam("subject") String subject,
-			@QueryParam("message") String message
+			@RequestParam("hostName") String hostName,
+			@RequestParam("userName") String userName,
+			@RequestParam("password") String password,
+			@RequestParam("from") String from,
+			@RequestParam("to") String to,
+			@RequestParam("subject") String subject,
+			@RequestParam("message") String message
 			) throws EmailException {
 		SendEmail sendEmail = new SendEmail();
 		sendEmail.sendEmail(hostName, userName, password, from, to, subject, message);
@@ -37,17 +29,15 @@ public class Rest_Email {
 	};
 
 
-	@Path("/sendEmailHtml")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(value = "/sendEmailHtml", produces = "application/json")
 	public String sendEmailHtml(
-			@QueryParam("hostName") String hostName, 
-			@QueryParam("userName") String userName,
-			@QueryParam("password") String password,
-			@QueryParam("from") String from,
-			@QueryParam("to") String to,
-			@QueryParam("subject") String subject,
-			@QueryParam("html") String html
+			@RequestParam("hostName") String hostName,
+			@RequestParam("userName") String userName,
+			@RequestParam("password") String password,
+			@RequestParam("from") String from,
+			@RequestParam("to") String to,
+			@RequestParam("subject") String subject,
+			@RequestParam("html") String html
 			) throws EmailException {
 		SendEmailHtml sendEmailHtml = new SendEmailHtml();
 		sendEmailHtml.sendEmailHtml(hostName, userName, password, from, to, subject, html);

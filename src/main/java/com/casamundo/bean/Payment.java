@@ -1,17 +1,15 @@
 package com.casamundo.bean;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
+
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Payment {
 
@@ -71,9 +69,9 @@ public class Payment {
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public JSONArray getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, JSONArray result) throws UnknownHostException {
 
-		Response response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
+		ResponseEntity response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> payments = new ArrayList<Object>();
-		payments = (JSONArray) response.getEntity();
+		payments = (JSONArray) response.getBody();
 
 		if (response != null) {
 			for (int i = 0; i < payments.size(); i++) {
@@ -135,14 +133,14 @@ public class Payment {
 					BasicDBObject product = new BasicDBObject();
 					product.putAll((Map) products.get(i));
 					ArrayList<Object> vendors =  new ArrayList<Object>();
-					Response response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
-					ArrayList<Object> result = (ArrayList<Object>) response.getEntity();
+					ResponseEntity response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
+					ArrayList<Object> result = (ArrayList<Object>) response.getBody();
 					vendors = searchVendor(result, vendors, travel, "familyId", "familyDorm", "familyRooms", "family");
 					response = commons_db.listaCrud("sharedBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
-					result = (ArrayList<Object>) response.getEntity();
+					result = (ArrayList<Object>) response.getBody();
 					vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "shared");
 					response = commons_db.listaCrud("suiteBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
-					result = (ArrayList<Object>) response.getEntity();
+					result = (ArrayList<Object>) response.getBody();
 					vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "suite");
 					for (int j = 0; j < vendors.size(); j++) {
 						System.out.println("achou alocacoes");

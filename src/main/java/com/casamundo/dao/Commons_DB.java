@@ -1,17 +1,5 @@
 package com.casamundo.dao;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
-
-import org.bson.BasicBSONObject;
-import org.bson.types.ObjectId;
-import org.json.simple.JSONArray;
-
 import com.casamundo.commons.Commons;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -20,12 +8,24 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+import org.bson.BasicBSONObject;
+import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Commons_DB {
 	
 	Commons commons = new Commons();
 	@SuppressWarnings({ "rawtypes" })
-	public Response obterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
+	public ResponseEntity obterCrud(String collectionName, String key, String value) throws UnknownHostException,
+			MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -48,18 +48,18 @@ public class Commons_DB {
 				documento.put("documento", doc);
 				documento.put("_id", id);
 				mongo.close();
-				return Response.status(200).entity(documento).build();
+				return ResponseEntity.ok().body(documento);
 			}else {
 				mongo.close();
-				return Response.status(400).entity(null).build();
+				return ResponseEntity.badRequest().build();
 			}
 		}else {
 			mongo.close();
-			return Response.status(400).entity(null).build();			
+            return ResponseEntity.badRequest().build();
 		}
 	};
 	@SuppressWarnings({ })
-	public Response obterId(String collectionName) throws UnknownHostException, MongoException {
+	public ResponseEntity obterId(String collectionName) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -70,10 +70,10 @@ public class Commons_DB {
 			id = id++;
 			String idS = '"'+Integer.toString(id)+'"';
 		    mongo.close();
-			return Response.status(200).entity(idS).build();
+			return ResponseEntity.ok().body(idS);
 		}else {
 			mongo.close();
-			return Response.status(400).entity(null).build();			
+			return ResponseEntity.badRequest().build();
 		}
 	};
 	@SuppressWarnings({ "rawtypes" })
@@ -115,7 +115,7 @@ public class Commons_DB {
 	};
 
 	@SuppressWarnings("rawtypes")
-	public Response incluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
+	public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
 		Mongo mongo;		
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -133,11 +133,11 @@ public class Commons_DB {
 		collection.insert(insert);
 		documentoFinal.put("_id", insert.get( "_id" ).toString());
 		mongo.close();
-		return Response.status(200).entity(insert.get( "_id" ).toString()).build();
+		return ResponseEntity.ok().body(insert.get( "_id" ).toString());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
-	public Response atualizarCrud(String collectionName, Object updateInput, String key, String valueInp) throws UnknownHostException, MongoException {
+	public ResponseEntity atualizarCrud(String collectionName, Object updateInput, String key, String valueInp) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -145,19 +145,19 @@ public class Commons_DB {
 		
 		BasicDBObject objDocumento = new BasicDBObject();
 
-		Response response = obterCrud(collectionName, key, valueInp);
-		if ((response.getStatus() == 200)){
+		ResponseEntity response = obterCrud(collectionName, key, valueInp);
+		if ((response.getStatusCode() == HttpStatus.OK)){
 			BasicDBObject cursor = new BasicDBObject();
-			cursor.putAll((Map) response.getEntity());
+			cursor.putAll((Map) response.getBody());
 			if (cursor != null){
 				objDocumento.putAll((Map) cursor.get("documento"));
 			}else {
 			    mongo.close();
-				return Response.status(200).entity("false").build();
+				return ResponseEntity.ok().body("false");
 			}
 		}else {
 		    mongo.close();
-			return Response.status(200).entity("false").build();
+			return ResponseEntity.ok().body("false");
 		}
 		
 		if (objDocumento != null) {
@@ -224,11 +224,11 @@ public class Commons_DB {
 	                false);
 		};
 		mongo.close();
-		return Response.status(200).entity("true").build();
+		return ResponseEntity.ok().body("true");
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Response listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate) throws UnknownHostException, MongoException {
+	public ResponseEntity listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -318,14 +318,14 @@ public class Commons_DB {
 				};
 			};
 		    mongo.close();
-			return Response.status(200).entity(documentos).build();
+			return ResponseEntity.ok().body(documentos);
 		}else {
 		    mongo.close();
-			return Response.status(400).entity(null).build();			
+			return ResponseEntity.badRequest().build();
 		}
 	};
 	@SuppressWarnings({ })
-	public Response removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
+	public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -341,11 +341,11 @@ public class Commons_DB {
 
 		mongo.close();
 		
-		return Response.status(200).entity("true").build();
+		return ResponseEntity.ok().body("true");
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
-	public Response arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
+	public ResponseEntity arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
 		Mongo mongo;
 		mongo = new Mongo();
 		DB db = (DB) mongo.getDB("documento");
@@ -355,25 +355,25 @@ public class Commons_DB {
 
 		if ((type.equals("update") || type.equals("in")) && item.equals(null) ) {
 		    mongo.close();
-			return Response.status(200).entity("false").build();
+			return ResponseEntity.ok().body("false");
 		}
 		if ((type.equals("update") || type.equals("out")) && indexInp.equals(null) ) {
 		    mongo.close();
-			return Response.status(200).entity("false").build();
+			return ResponseEntity.ok().body("false");
 		}
-		Response response = obterCrud(collectionName, key, value);
-		if ((response.getStatus() == 200)){
+		ResponseEntity response = obterCrud(collectionName, key, value);
+		if ((response.getStatusCode() == HttpStatus.OK)){
 			BasicDBObject cursor = new BasicDBObject();
-			cursor.putAll((Map) response.getEntity());
+			cursor.putAll((Map) response.getBody());
 			if (cursor != null){
 				objDocumento.putAll((Map) cursor.get("documento"));
 			}else {
 			    mongo.close();
-				return Response.status(200).entity("false").build();
+				return ResponseEntity.ok().body("false");
 			}
 		}else {
 		    mongo.close();
-			return Response.status(200).entity("false").build();
+			return ResponseEntity.ok().body("false");
 		}
 		
 		int index = 0;
@@ -386,7 +386,7 @@ public class Commons_DB {
 				if (!indexInp.equals(null)) {
 					if (index > docUpdate.size()) {
 					    mongo.close();
-						return Response.status(200).entity("false").build();						
+						return ResponseEntity.ok().body("false");
 					}
 				}
 				objDocumento.remove(field);
@@ -440,7 +440,7 @@ public class Commons_DB {
 			};
 		};
 		mongo.close();
-		return Response.status(200).entity("true").build();
+		return ResponseEntity.ok().body("true");
 	};
 
 	public String getNumber(String nameNumber, String nameYear) throws UnknownHostException, MongoException{

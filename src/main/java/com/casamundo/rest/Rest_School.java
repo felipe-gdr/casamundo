@@ -3,16 +3,13 @@ package com.casamundo.rest;
 import java.net.UnknownHostException;
 import java.util.Iterator;
 
-import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -22,16 +19,11 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
-	
-@Singleton
-// @Lock(LockType.READ)
-@Path("/school")
-
+@RestController
+@RequestMapping("/school")
 public class Rest_School {
 	@SuppressWarnings("unchecked")
-	@Path("/lista")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(value = "/lista", produces = "application/json")
 	public JSONArray ObterAgencies() {
 
 		Mongo mongo;

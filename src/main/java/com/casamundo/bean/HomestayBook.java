@@ -1,24 +1,23 @@
 package com.casamundo.bean;
 
-import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.ws.rs.core.Response;
-
 import com.casamundo.commons.Commons;
 import com.casamundo.commons.SendEmailHtml;
 import com.casamundo.commons.TemplateEmail;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import org.springframework.http.ResponseEntity;
+
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class HomestayBook {
 
 	Commons_DB commons_db = new Commons_DB();
 	Commons commons = new Commons();
 
-	public Response responseEmail(String alocationId, String invite) throws UnknownHostException {
+	public ResponseEntity responseEmail(String alocationId, String invite) throws UnknownHostException {
 		
 		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId);
 		if ( !homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null") ) {
@@ -48,27 +47,27 @@ public class HomestayBook {
 					commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
 					if (invite.equals("yes")) {
 						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted" );
-						return Response.status(200).entity("Offer successfull accepted.").build();
+						return ResponseEntity.ok().body("Offer successfull accepted.");
 					}
 					else {
 						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused" );
-						return Response.status(200).entity("Offer successfull recused.").build();
+						return ResponseEntity.ok().body("Offer successfull recused.");
 					}
 				}
 				else {
 					if (invite.equals("yes")) {
-						return Response.status(200).entity("Offer already accepted.").build();
+						return ResponseEntity.ok().body("Offer already accepted.");
 					}
 					else {
-						return Response.status(200).entity("Offer already recused.").build();
+						return ResponseEntity.ok().body("Offer already recused.");
 					}
 				}
 			}
 			else {
-				return Response.status(200).entity("Offer canceled.").build();
+				return ResponseEntity.ok().body("Offer canceled.");
 			}
 		}
-		return Response.status(200).entity("Error.").build();
+		return ResponseEntity.ok().body("Error.");
 	}
 
 	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException {

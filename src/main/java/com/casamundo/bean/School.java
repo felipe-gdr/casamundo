@@ -1,15 +1,13 @@
 package com.casamundo.bean;
 
+import com.casamundo.dao.Commons_DB;
+import com.mongodb.BasicDBObject;
+import org.json.simple.JSONArray;
+import org.springframework.http.ResponseEntity;
+
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
-
-import javax.ws.rs.core.Response;
-
-import org.json.simple.JSONArray;
-
-import com.casamundo.dao.Commons_DB;
-import com.mongodb.BasicDBObject;
 
 public class School {
 
@@ -18,11 +16,11 @@ public class School {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<Object> lista() throws UnknownHostException {
 		BasicDBObject setQuery = new BasicDBObject();
-		Response response = commons_db.listaCrud("school", null, null, null, setQuery, null, false);
+		ResponseEntity response = commons_db.listaCrud("school", null, null, null, setQuery, null, false);
 	
 		ArrayList<Object> resultList = new ArrayList<Object>();
 		ArrayList<Object> arrayList = new ArrayList<Object>();
-		arrayList = (JSONArray) response.getEntity();
+		arrayList = (JSONArray) response.getBody();
 	
 		if (response != null) {
 			for (int i = 0; i < arrayList.size(); i++) {

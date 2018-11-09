@@ -1,17 +1,15 @@
 package com.casamundo.bean;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
+
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class PriceTable {
 
@@ -26,9 +24,9 @@ public class PriceTable {
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.name", -1);
-		Response response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort, false);
+		ResponseEntity response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> prices = new ArrayList<Object>();
-		prices = (JSONArray) response.getEntity();
+		prices = (JSONArray) response.getBody();
 
 		if (response != null) {
 			for (int i = 0; i < prices.size(); i++) {
@@ -63,10 +61,10 @@ public class PriceTable {
     	setQuery.put("documento.trip", travelId);
     	setQuery.put("documento.products.id", productId);
     	
-		Response response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null, false);
+		ResponseEntity response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null, false);
 
 		ArrayList<Object> invoice = new ArrayList<Object>();
-		invoice = (JSONArray) response.getEntity();
+		invoice = (JSONArray) response.getBody();
 		
 		String cobrado = "naocobrado";
 		if (invoice.size() != 0 ) {
@@ -86,7 +84,7 @@ public class PriceTable {
 		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		ArrayList<Object> pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
+		pricesList = (JSONArray) response.getBody();
 
 		JSONObject resultFirstAgency = new JSONObject();
 
@@ -118,7 +116,7 @@ public class PriceTable {
 		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
+		pricesList = (JSONArray) response.getBody();
 
 		JSONObject resultFirstDestiny = new JSONObject();
 
@@ -147,7 +145,7 @@ public class PriceTable {
 		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
+		pricesList = (JSONArray) response.getBody();
 
 		JSONObject resultFirst = new JSONObject();
 
@@ -200,10 +198,10 @@ public class PriceTable {
     	
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.to", -1);
-		Response response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+		ResponseEntity response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
 		ArrayList<Object> pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
+		pricesList = (JSONArray) response.getBody();
 
 		BasicDBObject resultFirstVendor = new BasicDBObject();
 
@@ -234,7 +232,7 @@ public class PriceTable {
 		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
 		pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
+		pricesList = (JSONArray) response.getBody();
 
 		BasicDBObject resultFirstDestiny = new BasicDBObject();
 
@@ -264,7 +262,7 @@ public class PriceTable {
     	response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
 		pricesList = new ArrayList<Object>();
-		pricesList = (JSONArray) response.getEntity();
+		pricesList = (JSONArray) response.getBody();
 
 		BasicDBObject resultFirst = new BasicDBObject();
 

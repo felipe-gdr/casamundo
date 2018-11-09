@@ -2,13 +2,10 @@ package com.casamundo.rest;
 
 import java.net.UnknownHostException;
 
-import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.json.simple.JSONObject;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
@@ -19,20 +16,15 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
-	
-@Singleton
-// @Lock(LockType.READ)
-@Path("/table")
-
+@RestController
+@RequestMapping("/table")
 public class Rest_Table {
 
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	
 	@SuppressWarnings("unchecked")
-	@Path("/obter")	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(value = "/obter", produces = "application/json")
 	public JSONObject Obter() {
 		
 		Mongo mongo;
