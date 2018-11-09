@@ -95,12 +95,16 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("from", priceListDoc.get("from"));
+					result.put("to", priceListDoc.get("to"));
 					result.put("gross", priceListDoc.get("gross"));
 					result.put("net", priceListDoc.get("net"));
 					result.put("status", cobrado);
 					return result;
 				};
 				if (i == 0){
+					resultFirstAgency.put("from", priceListDoc.get("from"));
+					resultFirstAgency.put("to", "9999-99-99");
 					resultFirstAgency.put("gross", priceListDoc.get("gross"));
 					resultFirstAgency.put("net", priceListDoc.get("net"));
 					resultFirstAgency.put("status", cobrado);
@@ -119,6 +123,7 @@ public class PriceTable {
 		pricesList = (JSONArray) response.getBody();
 
 		JSONObject resultFirstDestiny = new JSONObject();
+		resultFirstDestiny.put("values", pricesList);
 
 		if (response != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
@@ -127,12 +132,16 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("from", priceListDoc.get("from"));
+					result.put("to", priceListDoc.get("to"));
 					result.put("gross", priceListDoc.get("gross"));
 					result.put("net", priceListDoc.get("net"));
 					result.put("status", cobrado);
 					return result;
 				};
 				if (i == 0){
+					resultFirstDestiny.put("from", priceListDoc.get("from"));
+					resultFirstDestiny.put("to", "9999-99-99");
 					resultFirstDestiny.put("gross", priceListDoc.get("gross"));
 					resultFirstDestiny.put("net", priceListDoc.get("net"));
 					resultFirstDestiny.put("status", cobrado);
@@ -148,7 +157,7 @@ public class PriceTable {
 		pricesList = (JSONArray) response.getBody();
 
 		JSONObject resultFirst = new JSONObject();
-
+		resultFirst.put("values", pricesList);
 		if (response != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
@@ -156,12 +165,16 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					result.put("from", priceListDoc.get("from"));
+					result.put("to", priceListDoc.get("to"));
 					result.put("gross", priceListDoc.get("gross"));
 					result.put("net", priceListDoc.get("net"));
 					result.put("status", cobrado);
 					return result;
 				};
 				if (i == 0){
+					resultFirst.put("from", priceListDoc.get("from"));
+					resultFirst.put("to", "9999-99-99");
 					resultFirst.put("gross", priceListDoc.get("gross"));
 					resultFirst.put("net", priceListDoc.get("net"));
 					resultFirst.put("status", cobrado);

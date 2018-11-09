@@ -439,6 +439,12 @@ public class Commons {
 		result.put("endExtraNightsSaida", endExtraNightSaida);
 		
 		return result;
+	}
+
+	public int convertDateInt(String date) {
+		
+		return Integer.parseInt(date.replace("-", ""));
+
 	};
 		
 };
