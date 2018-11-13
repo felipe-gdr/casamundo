@@ -4,7 +4,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.casamundo.calculator.FormulaCalculator;
 import com.casamundo.rest.Formula;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -135,15 +134,16 @@ public class Invoice {
                 }
                 System.out.println("produto:" + priceTableObj.getString("name") + " - valor:" + priceValue.get("net").toString());
                 BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), checkOut);
+
                 variaveis.put("weeks", dados.getString("weeks"));
-                variaveis.put("extraNights", dados.getString("extraNights"));
-                variaveis.put("highSeason", dados.getString("true"));
+                variaveis.put("extraNights", dados.getString("extraNights"));variaveis.put("highSeason", dados.getString("true"));
                 variaveis.put("lowSeason", dados.getString("false"));
-                FormulaCalculator value = new FormulaCalculator(priceTableObj.getString("formula"), variaveis);
-//                if (value != 0) {
-//                  variaveis.put("value", value);
-//                    resultArray.add(result);
-//                }
+//				final Double value = new FormulaCalculator(priceTableObj.getString("formula"), variaveis);
+                final Double value = 0.0;
+                if (value != 0) {
+                    variaveis.put("value", value);
+                    resultArray.add(result);
+                }
                 ;
                 if (commons.convertDateInt(checkOut) <= commons.convertDateInt(priceList.getString("to"))) {
                     temporadaValida = false;
