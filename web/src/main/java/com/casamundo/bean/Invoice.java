@@ -4,6 +4,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.casamundo.calculator.FormulaCalculator;
+import com.casamundo.rest.Formula;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.boot.jdbc.metadata.CommonsDbcp2DataSourcePoolMetadata;
@@ -22,6 +24,7 @@ public class Invoice {
 	PriceTable priceTable = new PriceTable();
 	Payment payment = new Payment();
 	Estimated estimated = new Estimated();
+	Formula formula = new Formula();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ResponseEntity incluir(BasicDBObject doc) throws UnknownHostException  {
@@ -124,43 +127,38 @@ public class Invoice {
 			JSONObject priceValue = priceTable.getValue(travelId, priceTableObj.getString("_id"), userId);
 			BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
 			Boolean temporadaValida = true;
-			while (temporadaValida) {
-				if (priceValue.get("net") != null) {
-					BasicDBObject priceList =  (BasicDBObject) priceValue.get("priceList");
-					String checkOut = variaveis.getString("checkOut");
-					if (commons.convertDateInt(priceList.getString("to")) < commons.convertDateInt(checkOut)) {
-						checkOut = priceList.getString("to");
-					}
-					System.out.println("produto:" + priceTableObj.getString("name") + " - valor:" + priceValue.get("net").toString());
-					BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), checkOut);
-					variaveis.put("weeks", dados.getString("weeks"));
-					variaveis.put("extraNights", dados.getString("extraNights"));
-					variaveis.put("highSeason", dados.getString("true"));
-					variaveis.put("lowSeason", dados.getString("false"));
-					Double value = calcula(priceTableObj.get("formula").toString(), variaveis);
-					if (value != 0) {
-						variaveis.put("value", value);
-						resultArray.add(result);
-					};
-					if (commons.convertDateInt(checkOut) <= commons.convertDateInt(priceList.getString("to"))) {
-						temporadaValida = false;
-					}else {
-						String checkIn = commons.calcNewDate(priceList.getString("to"), 1);
-						priceValue = priceTable.getValue(travelId, priceTableObj.getString("_id"), userId);
-					}
-				}else {
-					temporadaValida = false;
-				}
-			}
+			while (temporadaValida) if (priceValue.get("net") != null) {
+                BasicDBObject priceList = (BasicDBObject) priceValue.get("priceList");
+                String checkOut = variaveis.getString("checkOut");
+                if (commons.convertDateInt(priceList.getString("to")) < commons.convertDateInt(checkOut)) {
+                    checkOut = priceList.getString("to");
+                }
+                System.out.println("produto:" + priceTableObj.getString("name") + " - valor:" + priceValue.get("net").toString());
+                BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), checkOut);
+                variaveis.put("weeks", dados.getString("weeks"));
+                variaveis.put("extraNights", dados.getString("extraNights"));
+                variaveis.put("highSeason", dados.getString("true"));
+                variaveis.put("lowSeason", dados.getString("false"));
+                FormulaCalculator value = new FormulaCalculator(priceTableObj.getString("formula"), variaveis);
+//                if (value != 0) {
+//                  variaveis.put("value", value);
+//                    resultArray.add(result);
+//                }
+                ;
+                if (commons.convertDateInt(checkOut) <= commons.convertDateInt(priceList.getString("to"))) {
+                    temporadaValida = false;
+                } else {
+                    String checkIn = commons.calcNewDate(priceList.getString("to"), 1);
+                    priceValue = priceTable.getValue(travelId, priceTableObj.getString("_id"), userId);
+                }
+            } else {
+                temporadaValida = false;
+            }
 		}
 		
 		return resultArray;
 
 	};
-	
-	private Double calcula(String formula, BasicDBObject variáveis ) {
-		return 100.00;
-	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public void atualizarInvoice(String receivementId) throws UnknownHostException {
