@@ -1,12 +1,13 @@
 language: java
 script:
-- mvn package -P prod
+  - mvn clean package
+before_deploy:
+  - mvn package -P prod -DskipTests 
 deploy:
   provider: releases
   api_key:
     secure: BW1f6oG3ciVED5BRXhV1dUhKJgxgIZsmlivMOd7CEyn4iQrGaYHQbOWkrdJ8UWPIJmF2TIO1AQktU7BeoFY+aGdQanhrC9n5t2r12/Fqqud961h7RU8dRu/qxhkC8sJI7AlEgIsTYpjf/Kt++yGqsUBzf/x+l5C3t9yVCaicBInu3ynV2VMy+3ANHJpbarwPs0KSdCKdvYe2BVy7FV1AF4DsdPFEI2cUtJ2GdK1B3pm6EE3EGIL2G20nBBeAPXg4+s5GWGsrywErFwa0M8N/2Jf24b/8WByWxon8il6/rMxiZeDrkhXwGeJSU0V6t+pRNeG0iFeFTVp701szvnwbL5u9YtQjC3Mju3U5bCV02tofN7DEEfLFjpx8pFiESkRDd7EE9HbBlhjw33rAUPkDRr3Zgl3cNace8i+z2LGD0t+kk6dTozCNbhnbGXXo5qFv6yQkzVSqLvoWrfyjOuvbNuqn+zycB8NiLbZkbtqucMyVVFrvSa+mnOQLKlP8Iw/9SRKzvFFQvQnl5VowxEBafRAk9NVV1hwPfrEuN0mEgoDVFa9NuAr3ORAmS7xfJpJ3NXYY+jYEm7RgRIn//gsZB+QHkZKseKzRITMGBRRKchfyKhJZCw3BDEqgQ1rSeAl7xlJflpm4rvtnzrm04V4uMu1T60Npf1u/9Pb9rCqHZAI=
-  file_glob: true
-  file: **/casamundo-web.war
+  file: "web/target/casamundo-web.war"
   on:
     repo: felipe-gdr/casamundo
     branch: travis-ci
