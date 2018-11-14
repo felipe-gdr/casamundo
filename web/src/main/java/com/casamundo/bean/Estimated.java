@@ -49,7 +49,7 @@ public class Estimated {
 				itemCost.put("end", accomodation.getString("checkOut"));
 				int days = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
 				itemCost.put("days", Integer.toString(days));;
-				BasicDBObject cost = priceTable.getCost(travelId, product.getString("_id"), null);
+				BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), null);
 				itemCost.put("cost", cost.get("value"));
 				double value = 0.0;
 				if (cost.get("value") != null) {
