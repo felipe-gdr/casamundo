@@ -1,14 +1,13 @@
 package com.casamundo.bean;
 
 import java.net.UnknownHostException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import com.casamundo.calculator.FormulaCalculator;
-import com.casamundo.rest.Formula;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.boot.jdbc.metadata.CommonsDbcp2DataSourcePoolMetadata;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -19,14 +18,21 @@ import com.mongodb.MongoException;
 
 public class Invoice {
 
-	Commons commons = new Commons();
-	Commons_DB commons_db = new Commons_DB();
-	PriceTable priceTable = new PriceTable();
-	Payment payment = new Payment();
-	Estimated estimated = new Estimated();
-	Formula formula = new Formula();
+    private Commons commons;
+    private Commons_DB commons_db;
+	private PriceTable priceTable;
+    private Payment payment;
+    private Estimated estimated;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+    public Invoice() {
+        commons_db = new Commons_DB();
+        commons = new Commons();
+        priceTable = new PriceTable();
+        payment = new Payment();
+        estimated = new Estimated();
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	public ResponseEntity incluir(BasicDBObject doc) throws UnknownHostException  {
 				
 		BasicDBObject documento = new BasicDBObject();
@@ -77,7 +83,7 @@ public class Invoice {
 		if (response.getStatusCode() == HttpStatus.OK) {
 			String invoiceId = (String) response.getBody();
 			if (invoiceId != null) {
-				estimated.criarCosts(invoiceId.toString());
+				estimated.criarCosts(invoiceId);
 				criaPayment ("homestayBook", documento.getString("trip"));
 				criaPayment ("sharedBook", documento.getString("trip"));
 				criaPayment ("suiteBook", documento.getString("trip"));
@@ -104,7 +110,7 @@ public class Invoice {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(String travelId, String userId) throws UnknownHostException {
+	public ArrayList calculaInvoiceAutomatica(String travelId, String userId) throws UnknownHostException, IOException  {
 
 		
 		if (travelId.equals(null)) {
@@ -147,10 +153,10 @@ public class Invoice {
                 variaveis.put("weeks", dados.getString("weeks"));
                 variaveis.put("extraNights", dados.getString("extraNights"));variaveis.put("highSeason", dados.getString("true"));
                 variaveis.put("lowSeason", dados.getString("false"));
+                Map<String, Object> variables = variaveis;
+                final Double value = new FormulaCalculator(priceList.getString("formula"), variables).calculate();
 
-//              final Double value =  new FormulaCalculator(priceTableObj.getString("formula"), variaveis);
-                final Double value = 0.0;
-                if (value != 0) {
+                if (value != 0.0) {
                     variaveis.put("value", value);
                     resultArray.add(result);
                 }
