@@ -1,5 +1,6 @@
 package com.casamundo.rest;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -64,7 +65,7 @@ public class Rest_Invoice {
 	@RequestMapping(value = "/itensinvoiceautomatica", produces = "application/json")
 	public ArrayList calculaInvoiceAutomatica(
 			@RequestParam("travelId") String travelId, 
-			@RequestParam("userId") String userId) throws UnknownHostException, MongoException {
+			@RequestParam("userId") String userId) throws IOException, MongoException {
 		return invoice.calculaInvoiceAutomatica(travelId, userId);
 	};
 		
