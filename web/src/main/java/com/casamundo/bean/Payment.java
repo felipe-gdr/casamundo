@@ -145,7 +145,7 @@ public class Payment {
 					for (int j = 0; j < vendors.size(); j++) {
 						System.out.println("achou alocacoes");
 						BasicDBObject vendor = new BasicDBObject();
-						vendor.putAll((Map) vendors.get(i));
+						vendor.putAll((Map) vendors.get(j));
 						BasicDBObject itemCost = new BasicDBObject();
 						itemCost.put("paymentType", "automatic");
 						itemCost.put("vendorType", vendor.get("type"));
@@ -179,7 +179,9 @@ public class Payment {
 						itemCost.put("cost", cost.get("value"));
 						double value = 0.0;
 						if (cost.get("value") != null) {
-							value = Double.parseDouble(cost.getString("value"));
+							if (!cost.get("value").equals("")) {
+								value = Double.parseDouble(cost.getString("value"));
+							}
 						};
 						double amountValue = days * value;
 						item.put("itemAmount", Double.toString(amountValue));
