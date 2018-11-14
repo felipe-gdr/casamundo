@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.casamundo.calculator.FormulaCalculator;
 import com.casamundo.rest.Formula;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -68,8 +69,8 @@ public class Invoice {
 					dates.add(date);
 				}				
 			}
-			productDoc.put("dates", dates);
-			productsResult.add(productDoc);
+            product.put("dates", dates);
+			productsResult.add(product);
 		}
 		documento.put("products", productsResult);
 		ResponseEntity response = commons_db.incluirCrud("invoice", documento);
@@ -128,17 +129,26 @@ public class Invoice {
 			Boolean temporadaValida = true;
 			while (temporadaValida) if (priceValue.get("net") != null) {
                 BasicDBObject priceList = (BasicDBObject) priceValue.get("priceList");
+                String checkIn = variaveis.getString("checkIn");
                 String checkOut = variaveis.getString("checkOut");
+                if (commons.convertDateInt(priceList.getString("from")) >= commons.convertDateInt(checkIn)) {
+                    checkIn = priceList.getString("from");
+                }
                 if (commons.convertDateInt(priceList.getString("to")) < commons.convertDateInt(checkOut)) {
-                    checkOut = priceList.getString("to");
+                    checkOut = commons.calcNewDate(priceList.getString("to"), 1);
                 }
                 System.out.println("produto:" + priceTableObj.getString("name") + " - valor:" + priceValue.get("net").toString());
                 BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), checkOut);
-
+                if (!dados.getString("extraNightsSaida").equals("")) {
+//                    if (commons.convertDateInt(checkOut) < priceList.getString("to")) {
+                        checkOut = commons.calcNewDate(priceList.getString("to"), 1);
+//                    }
+                }
                 variaveis.put("weeks", dados.getString("weeks"));
                 variaveis.put("extraNights", dados.getString("extraNights"));variaveis.put("highSeason", dados.getString("true"));
                 variaveis.put("lowSeason", dados.getString("false"));
-//				final Double value = new FormulaCalculator(priceTableObj.getString("formula"), variaveis);
+
+//              final Double value =  new FormulaCalculator(priceTableObj.getString("formula"), variaveis);
                 final Double value = 0.0;
                 if (value != 0) {
                     variaveis.put("value", value);
@@ -148,7 +158,7 @@ public class Invoice {
                 if (commons.convertDateInt(checkOut) <= commons.convertDateInt(priceList.getString("to"))) {
                     temporadaValida = false;
                 } else {
-                    String checkIn = commons.calcNewDate(priceList.getString("to"), 1);
+                    checkIn = commons.calcNewDate(priceList.getString("to"), 1);
                     priceValue = priceTable.getValue(travelId, priceTableObj.getString("_id"), userId);
                 }
             } else {

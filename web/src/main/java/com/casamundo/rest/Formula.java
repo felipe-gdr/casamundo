@@ -18,6 +18,7 @@ public class Formula {
         final String formula = calculoData.getFormula();
         final Map<String, Object> variaveis = calculoData.getVariaveis();
 
-        return new FormulaCalculator(formula, variaveis).calculate();
+        final Double value = new FormulaCalculator(formula, variaveis).calculate();
+        return value;
     }
 }

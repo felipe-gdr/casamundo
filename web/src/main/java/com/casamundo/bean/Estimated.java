@@ -52,7 +52,9 @@ public class Estimated {
 				itemCost.put("cost", cost.get("value"));
 				double value = 0.0;
 				if (cost.get("value") != null) {
-					value = Double.parseDouble(cost.getString("value"));
+					if (!cost.getString("value").equals("")) {
+						value = Double.parseDouble(cost.getString("value"));
+					}
 				};
 				double amountValue = days * value;
 				itemCost.put("totalAmount", Double.toString(amountValue));

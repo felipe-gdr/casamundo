@@ -5,5 +5,5 @@ Executar o método main da classe `com.casamundo.Application` (pode ser em debug
 #Para gerar um WAR e fazer deploy em produção:
 
 ```
-mvn clean package -P prod
+mvn clean install -P prod -DskipTests
 ```
