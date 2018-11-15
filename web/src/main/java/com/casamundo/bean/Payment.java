@@ -173,13 +173,6 @@ public class Payment {
 						if (productDoc.getString("charging").equals("week")){
 						    days = days * 7;
                         }
-						ArrayList<Object> dates = new ArrayList<Object>();
-						dates = (ArrayList) product.get("dates");
-						for (int k = 0; k < dates.size(); k++) {
-							BasicDBObject date = new BasicDBObject();
-							date.putAll((Map) dates.get(k));
-							days = days + commons.difDate(date.getString("start"), date.getString("end"));
-						}
 						itemCost.put("days", Integer.toString(days));
 						itemCost.put("payedDays", "0");
 						itemCost.put("payedAmount", "0.0");
