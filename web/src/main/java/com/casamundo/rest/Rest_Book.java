@@ -37,6 +37,7 @@ public class Rest_Book {
 		if (collection != null ){
 			ResponseEntity response = commons_db.incluirCrud(collection, documento);
 			payment.managementCostsBooking(travelId, response.getBody().toString());
+			commons_db.removerCrud("payment", "documento.trip" , travelId, null);
 			return response;
 		}else{
 			return ResponseEntity.badRequest().build();
