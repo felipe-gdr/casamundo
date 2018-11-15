@@ -163,15 +163,20 @@ public class Payment {
 						itemCost.put("lastDayPayment", vendor.getString("start"));
 						if (vendor.get("extension") != null) {
 							if (vendor.getString("extension").equals("true")) {
-								itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start"), -5));	
+								itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start"), -5));
 							}
 						}
-						JSONArray itens = new JSONArray();
 						JSONArray notes = new JSONArray();
-						JSONObject item = new JSONObject();
-						item.put("item", product.getString("id"));
-						int days = commons.difDate(vendor.getString("start"), vendor.getString("end"));
-						itemCost.put("days", Integer.toString(days));;
+						itemCost.put("item", product.getString("id"));
+						int days = 0;
+						ArrayList<Object> dates = new ArrayList<Object>();
+						dates = (ArrayList) product.get("dates");
+						for (int k = 0; k < dates.size(); k++) {
+							BasicDBObject date = new BasicDBObject();
+							date.putAll((Map) dates.get(k));
+							days = days + commons.difDate(date.getString("start"), date.getString("end"));
+						}
+						itemCost.put("days", Integer.toString(days));
 						itemCost.put("payedDays", "0");
 						itemCost.put("payedAmount", "0.0");
 						System.out.println("Procura custo");
@@ -182,17 +187,17 @@ public class Payment {
 							if (!cost.get("value").equals("")) {
 								value = Double.parseDouble(cost.getString("value"));
 							}
-						};
+						}
 						double amountValue = days * value;
-						item.put("itemAmount", Double.toString(amountValue));
-						item.put("days", Integer.toString(days));
-						itens.add(item);
+						itemCost.put("itemAmount", Double.toString(amountValue));
+						itemCost.put("days", Integer.toString(days));
 						System.out.println("valor payment" + Double.toString(amountValue));
 						System.out.println("criar payment");
 						itemCost.put("totalAmount", Double.toString(amountValue));
-						itemCost.put("itens", itens);
 						itemCost.put("notes", notes);
-						commons_db.incluirCrud("payment", itemCost);
+						if (value != 0.0) {
+							commons_db.incluirCrud("payment", itemCost);
+						}
 					}
 				}
 			}
