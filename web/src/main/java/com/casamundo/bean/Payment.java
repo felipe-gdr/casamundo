@@ -168,7 +168,11 @@ public class Payment {
 						}
 						JSONArray notes = new JSONArray();
 						itemCost.put("item", product.getString("id"));
-						int days = 0;
+						BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
+						int days = Integer.parseInt(productDoc.getString("amount"));
+						if (productDoc.getString("charging").equals("week")){
+						    days = days * 7;
+                        }
 						ArrayList<Object> dates = new ArrayList<Object>();
 						dates = (ArrayList) product.get("dates");
 						for (int k = 0; k < dates.size(); k++) {
