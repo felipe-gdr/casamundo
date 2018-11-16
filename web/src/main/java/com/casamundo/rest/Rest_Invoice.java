@@ -59,7 +59,16 @@ public class Rest_Invoice {
 			) throws UnknownHostException, MongoException {
 		return commons.numberWeeks(start, end);
 	};
-	
+
+	@RequestMapping(value = "/testadatavendor", produces = "application/json")
+	public int testaDataVendor(
+			@RequestParam ("dates") ArrayList dates,
+			@RequestParam ("start") String start,
+			@RequestParam ("end") String end
+	) throws UnknownHostException, MongoException {
+		return payment.calculaDaysVendor(dates,start,end);
+	};
+
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/itensinvoiceautomatica", produces = "application/json")

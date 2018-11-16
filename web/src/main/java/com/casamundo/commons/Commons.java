@@ -321,6 +321,14 @@ public class Commons {
 		result.put("start", start);
 		result.put("end", end);
 
+        if (days < 4) {
+            result.put("weeks", "0");
+            result.put("extraNights", Integer.toString(days));
+            result.put("extraNightsEntrada", Integer.toString(days));
+            result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+            return criaDatas(result);
+        }
+
 		if (weekDayStart < 4){
 		    days = days + weekDayStart - 1;
             if (weekDayEnd > 4){
@@ -487,13 +495,13 @@ public class Commons {
 			return difDate(start1, end1);
 		};
 		if (convertDateInt(start1) >= convertDateInt(start) && convertDateInt(end1) >= convertDateInt(end)){
-			return difDate(start1, end);
+			return difDate(start1, end) + 1;
 		};
 		if (convertDateInt(start1) <= convertDateInt(start) && convertDateInt(end1) <= convertDateInt(end)){
-			return difDate(start, end1);
+			return difDate(start, end1) + 1;
 		};
 		if (convertDateInt(start1) <= convertDateInt(start) && convertDateInt(end1) >= convertDateInt(end)){
-			return difDate(start, end);
+			return difDate(start, end) + 1;
 		};
 		return 0;
     };

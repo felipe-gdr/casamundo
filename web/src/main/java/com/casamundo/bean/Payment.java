@@ -203,7 +203,7 @@ public class Payment {
 		}
 	}
 
-	private int calculaDaysVendor(ArrayList dates, String start, String end) {
+	public int calculaDaysVendor(ArrayList dates, String start, String end) {
 		int days = 0;
 		for (int i = 0; i < dates.size(); i++) {
 			BasicDBObject date = new BasicDBObject();
