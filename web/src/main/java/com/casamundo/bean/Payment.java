@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import jdk.internal.util.xml.BasicXmlPropertiesProvider;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -127,82 +128,92 @@ public class Payment {
 				ArrayList<Object> products = new ArrayList<Object>();
 				products = (ArrayList) invoice.get("products");
 
-				Boolean usouDaily = false;
 				for (int i = 0; i < products.size(); i++) {
 					System.out.println("tem produto");
 					BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 					BasicDBObject product = new BasicDBObject();
 					product.putAll((Map) products.get(i));
                     BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
-                    if (!usouDaily || productDoc.getString("charging").equals("unique")) {
-                        ArrayList<Object> vendors = new ArrayList<Object>();
-                        ResponseEntity response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
-                        ArrayList<Object> result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "familyId", "familyDorm", "familyRooms", "family");
-                        response = commons_db.listaCrud("sharedBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
-                        result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "shared");
-                        response = commons_db.listaCrud("suiteBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
-                        result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "suite");
-                        for (int j = 0; j < vendors.size(); j++) {
-                            System.out.println("achou alocacoes");
-                            BasicDBObject vendor = new BasicDBObject();
-                            vendor.putAll((Map) vendors.get(j));
-                            BasicDBObject itemCost = new BasicDBObject();
-                            itemCost.put("paymentType", "automatic");
-                            itemCost.put("vendorType", vendor.get("type"));
-                            itemCost.put("vendorId", vendor.get("vendorId"));
-                            itemCost.put("occHome", accomodation.getString("occHome"));
-                            itemCost.put("studentId", studentId);
-                            itemCost.put("invoiceId", invoiceId);
-                            itemCost.put("travelId", travelId);
-                            itemCost.put("allocationId", allocationId);
-                            itemCost.put("status", "to approve");
-                            itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
-                            itemCost.put("destination", travel.get("destination"));
-                            itemCost.put("start", vendor.getString("start"));
-                            itemCost.put("end", vendor.getString("end"));
-                            itemCost.put("lastDayPayment", vendor.getString("start"));
-                            if (vendor.get("extension") != null) {
-                                if (vendor.getString("extension").equals("true")) {
-                                    itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start"), -5));
-                                }
-                            }
-                            JSONArray notes = new JSONArray();
-                            itemCost.put("item", product.getString("id"));
-                            int days = commons.difDate(vendor.getString("start"), vendor.getString("end"));
-                            itemCost.put("days", Integer.toString(days));
-                            itemCost.put("payedDays", "0");
-                            itemCost.put("payedAmount", "0.0");
-                            System.out.println("Procura custo");
-                            BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), vendor.getString("vendorId"));
-                            itemCost.put("cost", cost.get("value"));
-                            double value = 0.0;
-                            if (cost.get("value") != null) {
-                                if (!cost.get("value").equals("")) {
-                                    value = Double.parseDouble(cost.getString("value"));
-                                }
-                            }
-                            double amountValue = days * value;
-                            itemCost.put("itemAmount", Double.toString(amountValue));
-                            itemCost.put("days", Integer.toString(days));
-                            System.out.println("valor payment" + Double.toString(amountValue));
-                            System.out.println("criar payment");
-                            itemCost.put("totalAmount", Double.toString(amountValue));
-                            itemCost.put("notes", notes);
-                            if (value != 0.0) {
-                                commons_db.incluirCrud("payment", itemCost);
-                            }
-                            if (!productDoc.getString("charging").equals("unique")) {
-                                usouDaily = true;
-                            }
-                        }
+					ArrayList<Object> vendors = new ArrayList<Object>();
+					ResponseEntity response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
+					ArrayList<Object> result = (ArrayList<Object>) response.getBody();
+					vendors = searchVendor(result, vendors, travel, "familyId", "familyDorm", "familyRooms", "family");
+					response = commons_db.listaCrud("sharedBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
+					result = (ArrayList<Object>) response.getBody();
+					vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "shared");
+					response = commons_db.listaCrud("suiteBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
+					result = (ArrayList<Object>) response.getBody();
+					vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "suite");
+					for (int j = 0; j < vendors.size(); j++) {
+						System.out.println("achou alocacoes");
+						BasicDBObject vendor = new BasicDBObject();
+						vendor.putAll((Map) vendors.get(j));
+						BasicDBObject itemCost = new BasicDBObject();
+						itemCost.put("paymentType", "automatic");
+						itemCost.put("vendorType", vendor.get("type"));
+						itemCost.put("vendorId", vendor.get("vendorId"));
+						itemCost.put("occHome", accomodation.getString("occHome"));
+						itemCost.put("studentId", studentId);
+						itemCost.put("invoiceId", invoiceId);
+						itemCost.put("travelId", travelId);
+						itemCost.put("allocationId", allocationId);
+						itemCost.put("status", "to approve");
+						itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
+						itemCost.put("destination", travel.get("destination"));
+						itemCost.put("start", vendor.getString("start"));
+						itemCost.put("end", vendor.getString("end"));
+						itemCost.put("lastDayPayment", vendor.getString("start"));
+						if (vendor.get("extension") != null) {
+							if (vendor.getString("extension").equals("true")) {
+								itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start"), -5));
+							}
+						}
+						JSONArray notes = new JSONArray();
+						itemCost.put("item", product.getString("id"));
+						int days = commons.difDate(vendor.getString("start"), vendor.getString("end"));
+						if (productDoc.getString("charging").equals("enight") || productDoc.getString("charging").equals("week")){
+							ArrayList dates = (ArrayList) productDoc.get("dates");
+							days = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
+						}
+						itemCost.put("days", Integer.toString(days));
+						itemCost.put("payedDays", "0");
+						itemCost.put("payedAmount", "0.0");
+						System.out.println("Procura custo");
+						BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), vendor.getString("vendorId"));
+						itemCost.put("cost", cost.get("value"));
+						double value = 0.0;
+						if (cost.get("value") != null) {
+							if (!cost.get("value").equals("")) {
+								value = Double.parseDouble(cost.getString("value"));
+							}
+						}
+						double amountValue = days * value;
+						itemCost.put("itemAmount", Double.toString(amountValue));
+						itemCost.put("days", Integer.toString(days));
+						System.out.println("valor payment" + Double.toString(amountValue));
+						System.out.println("criar payment");
+						itemCost.put("totalAmount", Double.toString(amountValue));
+						itemCost.put("notes", notes);
+						if (value != 0.0) {
+							commons_db.incluirCrud("payment", itemCost);
+						}
                     }
 				}
 			}
 		}
-	};
+	}
+
+	private int calculaDaysVendor(ArrayList dates, String start, String end) {
+		int days = 0;
+		for (int i = 0; i < dates.size(); i++) {
+			BasicDBObject date = new BasicDBObject();
+			date.putAll((Map) dates.get(i));
+			days = days + commons.getDaysInterval(start, end, date.getString("start"), date.getString("end"));
+		}
+		return days;
+	}
+
+	;
 
 	@SuppressWarnings({"rawtypes" })
 	private ArrayList<Object> searchVendor(ArrayList<Object> vendorArray, ArrayList<Object> resultOutput, BasicDBObject travel, String nameId, String collectionDorm, String collectionRoom, String type) throws UnknownHostException {

@@ -321,6 +321,29 @@ public class Commons {
 		result.put("start", start);
 		result.put("end", end);
 
+		if (weekDayStart < 4){
+		    days = days + weekDayStart - 1;
+            if (weekDayEnd > 4){
+                days = days + 8 - weekDayEnd;
+            }else{
+                extraNightsSaida = weekDayEnd - 1;
+            }
+        }else{
+            extraNightsEntrada = 7 - weekDayStart;
+            if (weekDayEnd < 4){
+                extraNightsSaida = weekDayEnd;
+            }else{
+                days = days + 8 - weekDayEnd;
+            }
+        }
+
+        weeks = days / 7;
+        int extraNights = extraNightsEntrada + extraNightsSaida;
+        result.put("weeks", Integer.toString(weeks));
+        result.put("extraNights", Integer.toString(extraNights));
+        result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+        result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+/*
 		if (days < 4) {
 			result.put("weeks", "0");
 			result.put("extraNights", Integer.toString(days));
@@ -380,22 +403,34 @@ public class Commons {
 			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
 			return criaDatas(result);
 		}
-		if (weekDayEnd > 3 ) {
-//			weeks++;
-		}else {
-			extraNightsSaida = weekDayEnd;
-		}
+
+        if (weekDayStart < 4 ) {
+            if (weekDayEnd > 5) {
+                weeks++;
+            } else {
+                extraNightsSaida = weekDayEnd - 1;
+            }
+        }else{
+            if (weekDayEnd > 4) {
+//                weeks++;
+            } else {
+                extraNightsSaida = weekDayEnd;
+            }
+        }
 		if (weekDayStart < 4 ) {
 //			weeks++;
 		}else {
 			extraNightsEntrada = 7 - weekDayStart;
 		}
 		int extraNights = extraNightsEntrada + extraNightsSaida;
+		if (days > 7){
+		    weeks = (days - extraNights) / 7;
+        }
 		result.put("weeks", Integer.toString(weeks));
 		result.put("extraNights", Integer.toString(extraNights));
 		result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
 		result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-		
+*/
 		return criaDatas(result);
 	}
 	
@@ -446,5 +481,21 @@ public class Commons {
 		return Integer.parseInt(date.replace("-", ""));
 
 	};
-		
+
+    public int getDaysInterval(String start, String end, String start1, String end1) {
+		if (convertDateInt(start1) >= convertDateInt(start) && convertDateInt(end1) <= convertDateInt(end)){
+			return difDate(start1, end1);
+		};
+		if (convertDateInt(start1) >= convertDateInt(start) && convertDateInt(end1) >= convertDateInt(end)){
+			return difDate(start1, end);
+		};
+		if (convertDateInt(start1) <= convertDateInt(start) && convertDateInt(end1) <= convertDateInt(end)){
+			return difDate(start, end1);
+		};
+		if (convertDateInt(start1) <= convertDateInt(start) && convertDateInt(end1) >= convertDateInt(end)){
+			return difDate(start, end);
+		};
+		return 0;
+    };
+
 };
