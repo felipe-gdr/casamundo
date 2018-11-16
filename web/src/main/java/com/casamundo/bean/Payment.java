@@ -169,7 +169,7 @@ public class Payment {
 						JSONArray notes = new JSONArray();
 						itemCost.put("item", product.getString("id"));
 						BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
-						int days = Integer.parseInt(productDoc.getString("amount"));
+						int days = Integer.parseInt(product.getString("amount"));
 						if (productDoc.getString("charging").equals("week")){
 						    days = days * 7;
                         }
