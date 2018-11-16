@@ -329,6 +329,14 @@ public class Commons {
             return criaDatas(result);
         }
 
+        if (days < 7) {
+            result.put("weeks", "1");
+            result.put("extraNights", "0");
+            result.put("extraNightsEntrada", "0");
+            result.put("extraNightsSaida", "0");
+            return criaDatas(result);
+        }
+
 		if (weekDayStart < 4){
 		    days = days + weekDayStart - 1;
             if (weekDayEnd > 4){
