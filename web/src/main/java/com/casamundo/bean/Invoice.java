@@ -84,9 +84,7 @@ public class Invoice {
 			String invoiceId = (String) response.getBody();
 			if (invoiceId != null) {
 				estimated.criarCosts(invoiceId);
-				criaPayment ("homestayBook", documento.getString("trip"));
-				criaPayment ("sharedBook", documento.getString("trip"));
-				criaPayment ("suiteBook", documento.getString("trip"));
+				payment.managementCostsBooking(documento.getString("trip"));
 			}
 		};
 		return response;
@@ -105,7 +103,7 @@ public class Invoice {
 				book.putAll((Map) books.get(i));
 				BasicDBObject bookDoc = (BasicDBObject) book.get("documento");
                 if (bookDoc.getString("ativo").equals("ativo")) {
-                    payment.managementCostsBooking(travelId, book.getString("_id"));
+                    payment.managementCostsBooking(travelId);
                 }
 			}
 		}

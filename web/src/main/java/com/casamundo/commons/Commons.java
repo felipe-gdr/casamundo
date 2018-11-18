@@ -498,18 +498,31 @@ public class Commons {
 
 	};
 
+    public int convertDateAlocationInt(String date) {
+
+        String dateString = date.substring(0,10);
+        return Integer.parseInt(dateString.replace("-", ""));
+
+    };
+
     public int getDaysInterval(String start, String end, String start1, String end1) {
-		if (convertDateInt(start1) >= convertDateInt(start) && convertDateInt(end1) <= convertDateInt(end)){
+		if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
+                convertDateInt(end1) <= convertDateAlocationInt(end)){
 			return difDate(start1, end1);
 		};
-		if (convertDateInt(start1) >= convertDateInt(start) && convertDateInt(end1) >= convertDateInt(end)){
-			return difDate(start1, end) + 1;
+		if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
+                convertDateInt(start1) < convertDateAlocationInt(end) &&
+                convertDateInt(end1) >= convertDateAlocationInt(end)){
+			return difDate(start1, end);
 		};
-		if (convertDateInt(start1) <= convertDateInt(start) && convertDateInt(end1) <= convertDateInt(end)){
-			return difDate(start, end1) + 1;
+		if (convertDateInt(start1) <= convertDateAlocationInt(start) &&
+                convertDateInt(end1) <= convertDateAlocationInt(end) &&
+                convertDateInt(end1) > convertDateAlocationInt(start)){
+			return difDate(start, end1);
 		};
-		if (convertDateInt(start1) <= convertDateInt(start) && convertDateInt(end1) >= convertDateInt(end)){
-			return difDate(start, end) + 1;
+		if (convertDateInt(start1) <= convertDateAlocationInt(start) &&
+                convertDateInt(end1) >= convertDateAlocationInt(end)){
+			return difDate(start, end);
 		};
 		return 0;
     };
