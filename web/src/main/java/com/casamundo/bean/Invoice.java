@@ -55,20 +55,20 @@ public class Invoice {
 			product.putAll((Map) products.get(i));
 			BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
 			ArrayList<Object> dates = new ArrayList<Object>();
-			if (productDoc.getString("charging").equals("week")) {
+			if (productDoc.getString("charging").equals("week") && numberWeeksDays.get("startWeeks") != "") {
 				BasicDBObject date = new BasicDBObject();
 				date.put("start", numberWeeksDays.get("startWeeks"));
 				date.put("end", numberWeeksDays.get("endWeeks"));
 				dates.add(date);
 			}
-			if (productDoc.getString("charging").equals("eNight")) {
+			if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsEntrada") != "") {
 				if (!weeksDays.get("extraNightsEntrada").equals("")) {
 					BasicDBObject date = new BasicDBObject();
 					date.put("start", numberWeeksDays.get("startExtraNightsEntrada"));
 					date.put("end", numberWeeksDays.get("endExtraNightsEntrada"));
 					dates.add(date);
 				}				
-				if (!weeksDays.get("extraNightsSaida").equals("")) {
+				if (!weeksDays.get("extraNightsSaida").equals("") && numberWeeksDays.get("startExtraNightsSaida") != "") {
 					BasicDBObject date = new BasicDBObject();
 					date.put("start", numberWeeksDays.get("startExtraNightsSaida"));
 					date.put("end", numberWeeksDays.get("endExtraNightsSaida"));

@@ -359,94 +359,7 @@ public class Commons {
         result.put("extraNights", Integer.toString(extraNights));
         result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
         result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-/*
-		if (days < 4) {
-			result.put("weeks", "0");
-			result.put("extraNights", Integer.toString(days));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
-		if (weekDayStart == 1) {
-			if (weekDayEnd > 3 ) {
-				weeks++;
-			}else {
-				extraNightsSaida = weekDayEnd;
-			}
-			result.put("weeks", Integer.toString(weeks));
-			result.put("extraNights", Integer.toString(extraNightsSaida));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
-		if (weekDayStart == 7) {
-			if (weekDayEnd > 2 ) {
-				if (weekDayEnd == 7 ) {
-					extraNightsSaida = 1;
-				}else {
-					weeks++;
-				}
-			}else {
-				extraNightsSaida = weekDayEnd + 1;
-			}
-			result.put("weeks", Integer.toString(weeks));
-			result.put("extraNights", Integer.toString(extraNightsSaida));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
-		if (weekDayEnd == 1) {
-			if (weekDayStart < 6 ) {
-				weeks++;
-			}else {
-				extraNightsEntrada = weekDayStart - 3;
-			}
-			result.put("weeks", Integer.toString(weeks));
-			result.put("extraNights", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
-		if (weekDayEnd == 7) {
-			if (weekDayStart < 5 ) {
-				weeks++;
-			}else {
-				extraNightsEntrada = 8 - weekDayStart;
-			}
-			result.put("weeks", Integer.toString(weeks));
-			result.put("extraNights", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-			result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-			return criaDatas(result);
-		}
 
-        if (weekDayStart < 4 ) {
-            if (weekDayEnd > 5) {
-                weeks++;
-            } else {
-                extraNightsSaida = weekDayEnd - 1;
-            }
-        }else{
-            if (weekDayEnd > 4) {
-//                weeks++;
-            } else {
-                extraNightsSaida = weekDayEnd;
-            }
-        }
-		if (weekDayStart < 4 ) {
-//			weeks++;
-		}else {
-			extraNightsEntrada = 7 - weekDayStart;
-		}
-		int extraNights = extraNightsEntrada + extraNightsSaida;
-		if (days > 7){
-		    weeks = (days - extraNights) / 7;
-        }
-		result.put("weeks", Integer.toString(weeks));
-		result.put("extraNights", Integer.toString(extraNights));
-		result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
-		result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
-*/
 		return criaDatas(result);
 	}
 	
@@ -505,26 +418,42 @@ public class Commons {
 
     };
 
-    public int getDaysInterval(String start, String end, String start1, String end1) {
-		if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
+    public BasicDBObject getDaysInterval(String start, String end, String start1, String end1) {
+        BasicDBObject result = new BasicDBObject();
+        result.put ("days",0);
+        result.put("start", start);
+        result.put("end",end);
+        if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
                 convertDateInt(end1) <= convertDateAlocationInt(end)){
-			return difDate(start1, end1);
+            result.put ("days",difDate(start1, end1));
+            result.put("start", start1);
+            result.put("end",end1);
+			return result;
 		};
 		if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
                 convertDateInt(start1) < convertDateAlocationInt(end) &&
                 convertDateInt(end1) >= convertDateAlocationInt(end)){
-			return difDate(start1, end);
+            result.put ("days",difDate(start1, end));
+            result.put("start", start1);
+            result.put("end", end);
+            return result;
 		};
 		if (convertDateInt(start1) <= convertDateAlocationInt(start) &&
                 convertDateInt(end1) <= convertDateAlocationInt(end) &&
                 convertDateInt(end1) > convertDateAlocationInt(start)){
-			return difDate(start, end1);
+            result.put ("days",difDate(start, end1));
+            result.put("start", start);
+            result.put("end", end1);
+            return result;
 		};
 		if (convertDateInt(start1) <= convertDateAlocationInt(start) &&
                 convertDateInt(end1) >= convertDateAlocationInt(end)){
-			return difDate(start, end);
+            result.put ("days",difDate(start, end));
+            result.put("start", start);
+            result.put("end", end);
+            return result;
 		};
-		return 0;
+		return result;
     };
 
 };

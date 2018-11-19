@@ -160,8 +160,6 @@ public class Payment {
                             itemCost.put("status", "to approve");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
-                            itemCost.put("start", vendor.getString("start"));
-                            itemCost.put("end", vendor.getString("end"));
                             itemCost.put("lastDayPayment", vendor.getString("start"));
                             if (vendor.get("extension") != null) {
                                 if (vendor.getString("extension").equals("true")) {
@@ -171,7 +169,10 @@ public class Payment {
                             JSONArray notes = new JSONArray();
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
-                            int days = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
+                            BasicDBObject resultInterval = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
+                            int days = resultInterval.getInt("days");
+                            itemCost.put("start", resultInterval.getString("start"));
+                            itemCost.put("end", resultInterval.getString("end"));
                             itemCost.put("days", Integer.toString(days));
                             itemCost.put("payedDays", "0");
                             itemCost.put("payedAmount", "0.0");
@@ -201,18 +202,28 @@ public class Payment {
 		}
 	}
 
-	public int calculaDaysVendor(ArrayList dates, String start, String end) {
-		int days = 0;
+	public BasicDBObject calculaDaysVendor(ArrayList dates, String start, String end) {
+        BasicDBObject result = new BasicDBObject();
+        result.put ("days",0);
+        result.put("start", start);
+        result.put("end",end);
+        int days = 0;
 		for (int i = 0; i < dates.size(); i++) {
 			BasicDBObject date = new BasicDBObject();
 			date.putAll((Map) dates.get(i));
 			if (date.get("start") != null && date.get("end") != null) {
                 if (!date.getString("start").equals("") && !date.getString("end").equals("")) {
-                    days = days + commons.getDaysInterval(start, end, date.getString("start"), date.getString("end"));
+                    BasicDBObject resultInterval = commons.getDaysInterval(start, end, date.getString("start"), date.getString("end"));
+                    if (resultInterval.getInt("days") != 0) {
+                        result.put("start", resultInterval.getString("start").substring(0, 10));
+                        result.put("end", resultInterval.getString("end").substring(0, 10));
+                        days = days + resultInterval.getInt("days");
+                    }
                 }
             }
 		}
-		return days;
+        result.put("days",days);
+		return result;
 	}
 
 
@@ -233,7 +244,7 @@ public class Payment {
 						vendorResult.put("start", vendorDoc.getString("start"));
 						vendorResult.put("end", vendorDoc.getString("end"));
 						vendorResult.put("type", type);
-                        vendorResult.put("allocationId", vendorDoc.getString("_id"));
+                        vendorResult.put("allocationId", vendor.getString("_id"));
 						resultOutput.add(vendorResult);
 					};
 				};
