@@ -152,8 +152,7 @@ public class Invoice {
                     }
                     variaveis.put("weeks", dados.getString("weeks"));
                     variaveis.put("extraNights", dados.getString("extraNights"));
-                    variaveis.put("highSeason", dados.getString("true"));
-                    variaveis.put("lowSeason", dados.getString("false"));
+                    variaveis.put("value", priceValue.get("net"));
                     Double value = 0.0;
                     if (priceTableObj.get("formula") != null ) {
                         Map<String, Object> variables = variaveis;

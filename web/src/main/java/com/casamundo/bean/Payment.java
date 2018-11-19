@@ -171,7 +171,8 @@ public class Payment {
                             JSONArray notes = new JSONArray();
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
-                            int days = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));itemCost.put("days", Integer.toString(days));
+                            int days = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
+                            itemCost.put("days", Integer.toString(days));
                             itemCost.put("payedDays", "0");
                             itemCost.put("payedAmount", "0.0");
                             System.out.println("Procura custo");
@@ -205,7 +206,11 @@ public class Payment {
 		for (int i = 0; i < dates.size(); i++) {
 			BasicDBObject date = new BasicDBObject();
 			date.putAll((Map) dates.get(i));
-			days = days + commons.getDaysInterval(start, end, date.getString("start"), date.getString("end"));
+			if (date.get("start") != null && date.get("end") != null) {
+                if (!date.getString("start").equals("") && !date.getString("end").equals("")) {
+                    days = days + commons.getDaysInterval(start, end, date.getString("start"), date.getString("end"));
+                }
+            }
 		}
 		return days;
 	}
