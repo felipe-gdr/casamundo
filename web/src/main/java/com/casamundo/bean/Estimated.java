@@ -45,21 +45,27 @@ public class Estimated {
 				itemCost.put("status", "to approve");
 				itemCost.put("number", commons_db.getNumber("numberEstimated", "yearNumberEstimated"));
 				itemCost.put("destination", travel.get("destination"));
-				itemCost.put("start", accomodation.getString("checkIn"));
-				itemCost.put("end", accomodation.getString("checkOut"));
-				int days = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
-				itemCost.put("days", Integer.toString(days));;
-				BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), null);
-				itemCost.put("cost", cost.get("value"));
-				double value = 0.0;
-				if (cost.get("value") != null) {
-					if (!cost.getString("value").equals("")) {
-						value = Double.parseDouble(cost.getString("value"));
-					}
-				};
-				double amountValue = days * value;
-				itemCost.put("totalAmount", Double.toString(amountValue));
-				commons_db.incluirCrud("estimated", itemCost);
+                itemCost.put("item", product.get("id"));
+				ArrayList dates = (ArrayList) product.get("dates");
+				for (int j = 0; j < dates.size(); j++) {
+					BasicDBObject date = new BasicDBObject();
+					date.putAll((Map) dates.get(j));
+					int days = commons.difDate(date.getString("start"), date.getString("end"));
+					itemCost.put("days", Integer.toString(days));;
+					itemCost.put("start", date.getString("start"));
+					itemCost.put("end", date.getString("end"));
+					BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), null);
+					itemCost.put("cost", cost.get("value"));
+					double value = 0.0;
+					if (cost.get("value") != null) {
+						if (!cost.getString("value").equals("")) {
+							value = Double.parseDouble(cost.getString("value"));
+						}
+					};
+					double amountValue = days * value;
+					itemCost.put("totalAmount", Double.toString(amountValue));
+					commons_db.incluirCrud("estimated", itemCost);
+				}
 			}
 		}
 	};
