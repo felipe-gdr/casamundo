@@ -155,7 +155,7 @@ public class Invoice {
                 variaveis.put("lowSeason", dados.getString("false"));
                 Map<String, Object> variables = variaveis;
                 String formula  = "x1";
-                variaveis.put("x1", "1000.00")
+                variaveis.put("x1", "1000.00");
                 final Double value = new FormulaCalculator(priceList.getString("formula"), variables).calculate();
 
                 if (value != 0.0) {
