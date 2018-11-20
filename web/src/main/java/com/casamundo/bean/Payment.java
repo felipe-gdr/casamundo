@@ -170,30 +170,32 @@ public class Payment {
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
                             BasicDBObject resultInterval = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
-                            int days = resultInterval.getInt("days");
-                            itemCost.put("start", resultInterval.getString("start"));
-                            itemCost.put("end", resultInterval.getString("end"));
-                            itemCost.put("days", Integer.toString(days));
                             itemCost.put("payedDays", "0");
                             itemCost.put("payedAmount", "0.0");
                             System.out.println("Procura custo");
-                            BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), vendor.getString("vendorId"));
-                            itemCost.put("cost", cost.get("value"));
-                            double value = 0.0;
-                            if (cost.get("value") != null) {
-                                if (!cost.get("value").equals("")) {
-                                    value = Double.parseDouble(cost.getString("value"));
+                            ArrayList <BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"),travelId, product.getString("id"), vendor.getString("vendorId"));
+                            for (BasicDBObject cost:costs) {
+                                itemCost.put("cost", cost.get("value"));
+                                itemCost.put("start", cost.getString("start"));
+                                itemCost.put("end", cost.getString("end"));
+                                int days = commons.difDate(cost.getString("start"), cost.getString("end"));
+                                itemCost.put("days", Integer.toString(days));
+                                double value = 0.0;
+                                if (cost.get("value") != null) {
+                                    if (!cost.get("value").equals("")) {
+                                        value = Double.parseDouble(cost.getString("value"));
+                                    }
                                 }
-                            }
-                            double amountValue = days * value;
-                            itemCost.put("itemAmount", Double.toString(amountValue));
-                            itemCost.put("days", Integer.toString(days));
-                            System.out.println("valor payment" + Double.toString(amountValue));
-                            System.out.println("criar payment");
-                            itemCost.put("totalAmount", Double.toString(amountValue));
-                            itemCost.put("notes", notes);
-                            if (value != 0.0 && amountValue > 0) {
-                                commons_db.incluirCrud("payment", itemCost);
+                                double amountValue = days * value;
+                                itemCost.put("itemAmount", Double.toString(amountValue));
+                                itemCost.put("days", Integer.toString(days));
+                                System.out.println("valor payment" + Double.toString(amountValue));
+                                System.out.println("criar payment");
+                                itemCost.put("totalAmount", Double.toString(amountValue));
+                                itemCost.put("notes", notes);
+                                if (value != 0.0 && amountValue > 0) {
+                                    commons_db.incluirCrud("payment", itemCost);
+                                }
                             }
                         }
                     }

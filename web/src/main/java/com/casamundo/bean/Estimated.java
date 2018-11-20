@@ -50,21 +50,25 @@ public class Estimated {
 				for (int j = 0; j < dates.size(); j++) {
 					BasicDBObject date = new BasicDBObject();
 					date.putAll((Map) dates.get(j));
-					int days = commons.difDate(date.getString("start"), date.getString("end"));
-					itemCost.put("days", Integer.toString(days));;
-					itemCost.put("start", date.getString("start"));
-					itemCost.put("end", date.getString("end"));
-					BasicDBObject cost = priceTable.getCost(travelId, product.getString("id"), null);
-					itemCost.put("cost", cost.get("value"));
-					double value = 0.0;
-					if (cost.get("value") != null) {
-						if (!cost.getString("value").equals("")) {
-							value = Double.parseDouble(cost.getString("value"));
-						}
-					};
-					double amountValue = days * value;
-					itemCost.put("totalAmount", Double.toString(amountValue));
-					commons_db.incluirCrud("estimated", itemCost);
+                    ArrayList <BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"),travelId, product.getString("id"), null);
+                    for ( BasicDBObject cost:costs) {
+                        itemCost.put("cost", cost.get("value"));
+                        itemCost.put("start", cost.getString("start"));
+                        itemCost.put("end", cost.getString("end"));
+                        int days = commons.difDate(cost.getString("start"), cost.getString("end"));
+                        itemCost.put("days", Integer.toString(days));;
+                        double value = 0.0;
+                        if (cost.get("value") != null) {
+                            if (!cost.getString("value").equals("")) {
+                                value = Double.parseDouble(cost.getString("value"));
+                            }
+                        };
+                        if (value != 0.0){
+                            double amountValue = days * value;
+                            itemCost.put("totalAmount", Double.toString(amountValue));
+                            commons_db.incluirCrud("estimated", itemCost);
+                        }
+                    }
 				}
 			}
 		}
