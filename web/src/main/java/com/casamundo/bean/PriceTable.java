@@ -360,7 +360,20 @@ public class PriceTable {
                     }
                     System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
                     result.add(resultItem);
-                };
+                }else{
+                    if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+                        BasicDBObject resultItem = new BasicDBObject();
+                        resultItem.put("value", priceListDoc.get("value"));
+                        resultItem.put("start", start);
+                        resultItem.put("end", end);
+                        if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
+                            start = commons.calcNewDate((String) priceListDoc.get("from"), 1);
+                            resultItem.put("start", (String) priceListDoc.get("from"));
+                        }
+                        System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
+                        result.add(resultItem);
+                    }
+                }
             };
         };
 
@@ -398,6 +411,19 @@ public class PriceTable {
                     }
                     System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
                     result.add(resultItem);
+                }else{
+                    if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+                        BasicDBObject resultItem = new BasicDBObject();
+                        resultItem.put("value", priceListDoc.get("value"));
+                        resultItem.put("start", start);
+                        resultItem.put("end", end);
+                        if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
+                            start = commons.calcNewDate((String) priceListDoc.get("from"), 1);
+                            resultItem.put("start", (String) priceListDoc.get("from"));
+                        }
+                        System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
+                        result.add(resultItem);
+                    }
                 };
             };
         };
@@ -435,6 +461,19 @@ public class PriceTable {
                     }
                     System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
                     result.add(resultItem);
+                }else{
+                    if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+                        BasicDBObject resultItem = new BasicDBObject();
+                        resultItem.put("value", priceListDoc.get("value"));
+                        resultItem.put("start", start);
+                        resultItem.put("end", end);
+                        if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
+                            start = commons.calcNewDate((String) priceListDoc.get("from"), 1);
+                            resultItem.put("start", (String) priceListDoc.get("from"));
+                        }
+                        System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
+                        result.add(resultItem);
+                    }
                 };
             };
         };

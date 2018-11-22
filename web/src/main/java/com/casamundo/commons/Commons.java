@@ -460,48 +460,42 @@ public class Commons {
 	}
 
 	public int convertDateInt(String date) {
-		
-		return Integer.parseInt(date.replace("-", ""));
-
-	};
-
-    public int convertDateAlocationInt(String date) {
 
         String dateString = date.substring(0,10);
         return Integer.parseInt(dateString.replace("-", ""));
 
-    };
+	};
 
     public BasicDBObject getDaysInterval(String start, String end, String start1, String end1) {
         BasicDBObject result = new BasicDBObject();
         result.put ("days",0);
         result.put("start", start);
         result.put("end",end);
-        if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
-                convertDateInt(end1) <= convertDateAlocationInt(end)){
+        if (convertDateInt(start1) >= convertDateInt(start) &&
+                convertDateInt(end1) <= convertDateInt(end)){
             result.put ("days",difDate(start1, end1));
             result.put("start", start1);
             result.put("end",end1);
 			return result;
 		};
-		if (convertDateInt(start1) >= convertDateAlocationInt(start) &&
-                convertDateInt(start1) < convertDateAlocationInt(end) &&
-                convertDateInt(end1) >= convertDateAlocationInt(end)){
+		if (convertDateInt(start1) >= convertDateInt(start) &&
+                convertDateInt(start1) < convertDateInt(end) &&
+                convertDateInt(end1) >= convertDateInt(end)){
             result.put ("days",difDate(start1, end));
             result.put("start", start1);
             result.put("end", end);
             return result;
 		};
-		if (convertDateInt(start1) <= convertDateAlocationInt(start) &&
-                convertDateInt(end1) <= convertDateAlocationInt(end) &&
-                convertDateInt(end1) > convertDateAlocationInt(start)){
+		if (convertDateInt(start1) <= convertDateInt(start) &&
+                convertDateInt(end1) <= convertDateInt(end) &&
+                convertDateInt(end1) > convertDateInt(start)){
             result.put ("days",difDate(start, end1));
             result.put("start", start);
             result.put("end", end1);
             return result;
 		};
-		if (convertDateInt(start1) <= convertDateAlocationInt(start) &&
-                convertDateInt(end1) >= convertDateAlocationInt(end)){
+		if (convertDateInt(start1) <= convertDateInt(start) &&
+                convertDateInt(end1) >= convertDateInt(end)){
             result.put ("days",difDate(start, end));
             result.put("start", start);
             result.put("end", end);

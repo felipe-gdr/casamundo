@@ -59,21 +59,33 @@ public class Invoice {
             ArrayList <BasicDBObject> seasons = new ArrayList<>();
 			if (productDoc.getString("charging").equals("week") && numberWeeksDays.get("startWeeks") != "") {
                 seasons = priceTable.getSeasons(numberWeeksDays.get("startWeeks").toString(),numberWeeksDays.get("endWeeks").toString(),documento.getString("trip"),product.getString("id"),null);
+                for (BasicDBObject season:seasons) {
+                    BasicDBObject date = new BasicDBObject();
+                    date.put("start", season.getString("start"));
+                    date.put("end", season.getString("end"));
+                    dates.add(date);
+                }
 			}
 			if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsEntrada") != "") {
 				if (!weeksDays.get("extraNightsEntrada").equals("")) {
                     seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsEntrada").toString(),numberWeeksDays.get("endExtraNightsEntrada").toString(),documento.getString("trip"),product.getString("id"),null);
+                    for (BasicDBObject season:seasons) {
+                        BasicDBObject date = new BasicDBObject();
+                        date.put("start", season.getString("start"));
+                        date.put("end", season.getString("end"));
+                        dates.add(date);
+                    }
 				}
 				if (!weeksDays.get("extraNightsSaida").equals("") && numberWeeksDays.get("startExtraNightsSaida") != "") {
                     seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsSaida").toString(),numberWeeksDays.get("endExtraNightsSaida").toString(),documento.getString("trip"),product.getString("id"),null);
+                    for (BasicDBObject season:seasons) {
+                        BasicDBObject date = new BasicDBObject();
+                        date.put("start", season.getString("start"));
+                        date.put("end", season.getString("end"));
+                        dates.add(date);
+                    }
 				}
 			}
-            for (BasicDBObject season:seasons) {
-                BasicDBObject date = new BasicDBObject();
-                date.put("start", season.getString("start"));
-                date.put("end", season.getString("end"));
-                dates.add(date);
-            }
             product.put("dates", dates);
 			productsResult.add(product);
 		}
