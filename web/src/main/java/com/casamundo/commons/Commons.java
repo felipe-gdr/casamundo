@@ -307,7 +307,6 @@ public class Commons {
 		return elementosIguais;
 	}
 
-
 	public BasicDBObject numberWeeks (String start, String end){
 				  
 		BasicDBObject result = new BasicDBObject();
@@ -362,7 +361,62 @@ public class Commons {
 
 		return criaDatas(result);
 	}
-	
+
+    public BasicDBObject numberWeeksSeason (String start, String end){
+
+        BasicDBObject result = new BasicDBObject();
+        int weekDayStart =  weekDay(start);
+        int weekDayEnd =  weekDay(end);
+        int days = difDate(start, end);
+        int weeks = days / 7;
+        int extraNightsSaida = 0;
+        int extraNightsEntrada = 0;
+
+        result.put("start", start);
+        result.put("end", end);
+
+        if (days < 4) {
+            result.put("weeks", "0");
+            result.put("extraNights", Integer.toString(days));
+            result.put("extraNightsEntrada", Integer.toString(days));
+            result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+            return criaDatas(result);
+        }
+
+        if (days < 7) {
+            result.put("weeks", "1");
+            result.put("extraNights", "0");
+            result.put("extraNightsEntrada", "0");
+            result.put("extraNightsSaida", "0");
+            return criaDatas(result);
+        }
+
+        if (weekDayStart < 4){
+            days = days + weekDayStart - 1;
+            if (weekDayEnd > 4){
+                days = days + 8 - weekDayEnd;
+            }else{
+                extraNightsSaida = weekDayEnd - 1;
+            }
+        }else{
+            extraNightsEntrada = 7 - weekDayStart;
+            if (weekDayEnd < 4){
+                extraNightsSaida = weekDayEnd;
+            }else{
+                days = days + 8 - weekDayEnd;
+            }
+        }
+
+        weeks = days / 7;
+        int extraNights = extraNightsEntrada + extraNightsSaida;
+        result.put("weeks", Integer.toString(weeks));
+        result.put("extraNights", Integer.toString(extraNights));
+        result.put("extraNightsEntrada", Integer.toString(extraNightsEntrada));
+        result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+
+        return criaDatas(result);
+    }
+
 	private BasicDBObject criaDatas(BasicDBObject result) {
 		
 		int weeks = Integer.parseInt(result.getString("weeks"));

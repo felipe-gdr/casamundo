@@ -33,7 +33,7 @@ public class PriceTable {
 				BasicDBObject price = new BasicDBObject();
 				price.putAll((Map) prices.get(i));
 				BasicDBObject priceDoc = (BasicDBObject) price.get("documento");
-				JSONObject priceValue = getValue(travelId, price.getString("_id"), userId);
+				JSONObject priceValue = getDataValue(travelId, price.getString("_id"), userId);
 				BasicDBObject jsonResult = new BasicDBObject();
 				jsonResult.put("_id", price.get("_id"));
 				jsonResult.put("name", priceDoc.get("name"));
@@ -49,7 +49,7 @@ public class PriceTable {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public JSONObject getValue(String travelId, String productId, String userId ) throws UnknownHostException {
+	public JSONObject getDataValue(String travelId, String productId, String userId ) throws UnknownHostException {
 
 		JSONObject result = new JSONObject();
 		
@@ -317,5 +317,129 @@ public class PriceTable {
 
         return result;
 	};
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public ArrayList getSeasons(String start, String end, String travelId, String productId, String vendorId) throws UnknownHostException {
+
+        ArrayList result = new ArrayList();
+        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+        String destination =  (String) travel.get("destination");
+
+        BasicDBObject setQuery = new BasicDBObject();
+
+        setQuery = new BasicDBObject();
+        setQuery.put("documento.idPriceTable", productId);
+        if (destination != null) {
+            setQuery.put("documento.destination", destination);
+        }
+        if (vendorId != null) {
+            setQuery.put("documento.agency", vendorId);
+        }
+
+        BasicDBObject setSort = new BasicDBObject();
+        setSort.put("documento.from", 1);
+        ResponseEntity response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
+
+        ArrayList<Object> pricesList = new ArrayList<Object>();
+        pricesList = (JSONArray) response.getBody();
+
+        if (response != null) {
+            for (int i = 0; i < pricesList.size(); i++) {
+                System.out.println("tem valor datas vendor");
+                BasicDBObject priceList = new BasicDBObject();
+                priceList.putAll((Map) pricesList.get(i));
+                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+                if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+                    BasicDBObject resultItem = new BasicDBObject();
+                    resultItem.put("value", priceListDoc.get("value"));
+                    resultItem.put("start", start);
+                    resultItem.put("end", end);
+                    if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
+                        start = commons.calcNewDate((String) priceListDoc.get("to"), 1);
+                        resultItem.put("end", (String) priceListDoc.get("to"));
+                    }
+                    System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
+                    result.add(resultItem);
+                };
+            };
+        };
+
+        if (result.size() > 0){
+            return result;
+        }
+
+        setQuery = new BasicDBObject();
+        setQuery.put("documento.idPriceTable", productId);
+        if (destination != null) {
+            setQuery.put("documento.destination", destination);
+        };
+        response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
+
+        pricesList = new ArrayList<Object>();
+        pricesList = (JSONArray) response.getBody();
+
+        BasicDBObject resultFirstDestiny = new BasicDBObject();
+
+
+        if (response != null) {
+            for (int i = 0; i < pricesList.size(); i++) {
+                System.out.println("tem valor datas vendor");
+                BasicDBObject priceList = new BasicDBObject();
+                priceList.putAll((Map) pricesList.get(i));
+                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+                if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+                    BasicDBObject resultItem = new BasicDBObject();
+                    resultItem.put("value", priceListDoc.get("value"));
+                    resultItem.put("start", start);
+                    resultItem.put("end", end);
+                    if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
+                        start = commons.calcNewDate((String) priceListDoc.get("to"), 1);
+                        resultItem.put("end", (String) priceListDoc.get("to"));
+                    }
+                    System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
+                    result.add(resultItem);
+                };
+            };
+        };
+
+        if (result.size() > 0){
+            return result;
+        }
+
+        setQuery = new BasicDBObject();
+        setQuery.put("documento.idPriceTable", productId);
+        System.out.println("produto - " + productId);
+        System.out.println("query - " + setQuery.toString());
+        response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
+
+        pricesList = new ArrayList<Object>();
+        pricesList = (JSONArray) response.getBody();
+
+        BasicDBObject resultFirst = new BasicDBObject();
+
+
+        if (response != null) {
+            for (int i = 0; i < pricesList.size(); i++) {
+                System.out.println("tem valor datas vendor");
+                BasicDBObject priceList = new BasicDBObject();
+                priceList.putAll((Map) pricesList.get(i));
+                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+                if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+                    BasicDBObject resultItem = new BasicDBObject();
+                    resultItem.put("value", priceListDoc.get("value"));
+                    resultItem.put("start", start);
+                    resultItem.put("end", end);
+                    if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
+                        start = commons.calcNewDate((String) priceListDoc.get("to"), 1);
+                        resultItem.put("end", (String) priceListDoc.get("to"));
+                    }
+                    System.out.println("achou preco com vendor entre datas vendor - " + priceListDoc.get("value"));
+                    result.add(resultItem);
+                };
+            };
+        };
+
+        return result;
+    };
 
 }
