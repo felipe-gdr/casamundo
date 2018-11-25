@@ -116,6 +116,7 @@ public class PriceTable {
     	setQuery.put("documento.idPriceTable", productId);
     	if (destination != null) {
     		setQuery.put("documento.destination", destination);
+            setQuery.put("documento.agency", "");
     	}
 		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
@@ -151,6 +152,8 @@ public class PriceTable {
 		
 		setQuery = new BasicDBObject();
     	setQuery.put("documento.idPriceTable", productId);
+        setQuery.put("documento.destination", "");
+        setQuery.put("documento.agency", "");
 		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
 
 		pricesList = new ArrayList<Object>();
@@ -209,7 +212,7 @@ public class PriceTable {
     		setQuery.put("documento.destination", destination);
     	}
     	if (vendorId != null) {
-    		setQuery.put("documento.vendorId", vendorId);
+    		setQuery.put("documento.idVendor", vendorId);
     	}
     	
 		BasicDBObject setSort = new BasicDBObject();
@@ -248,6 +251,7 @@ public class PriceTable {
     	setQuery.put("documento.idPriceTable", productId);
     	if (destination != null) {
     		setQuery.put("documento.destination", destination);
+            setQuery.put("documento.idVendor", "");
     	};
 		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
@@ -284,6 +288,8 @@ public class PriceTable {
 		
 		setQuery = new BasicDBObject();
     	setQuery.put("documento.idPriceTable", productId);
+        setQuery.put("documento.destination", "");
+        setQuery.put("documento.idVendor", "");
     	System.out.println("produto - " + productId);
     	System.out.println("query - " + setQuery.toString());
     	response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
