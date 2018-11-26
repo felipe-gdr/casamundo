@@ -156,7 +156,6 @@ public class Invoice {
                     if (commons.convertDateInt(priceValue.get("to").toString()) < commons.convertDateInt(checkOut)) {
                         checkOut = commons.calcNewDate(priceValue.get("to").toString(), 1);
                     }
-                    System.out.println("produto:" + priceTableObj.getString("name") + " - valor:" + priceValue.get("net").toString());
                     BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), checkOut);
                     if (!dados.getString("extraNightsSaida").equals("")) {
     //                    if (commons.convertDateInt(checkOut) < priceList.getString("to")) {

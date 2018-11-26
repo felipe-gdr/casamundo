@@ -115,20 +115,17 @@ public class Payment {
 		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
 		
 		if (invoice != null && travel != null) {
-			System.out.println("achou invoice");
 			String studentId =  (String) travel.get("studentId");
 			String invoiceId =  (String) invoice.get("_id");
 	
 			commons_db.removerCrud("payment", "documento.travelId" , travelId, null);
 			
 			if (invoice.get("products") != null) {
-				System.out.println("achou produto");
-				
+
 				ArrayList<Object> products = new ArrayList<Object>();
 				products = (ArrayList) invoice.get("products");
 
 				for (int i = 0; i < products.size(); i++) {
-					System.out.println("tem produto");
 					BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 					BasicDBObject product = new BasicDBObject();
 					product.putAll((Map) products.get(i));
@@ -145,7 +142,6 @@ public class Payment {
                         result = (ArrayList<Object>) response.getBody();
                         vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "suite");
                         for (int j = 0; j < vendors.size(); j++) {
-                            System.out.println("achou alocacoes");
                             BasicDBObject vendor = new BasicDBObject();
                             vendor.putAll((Map) vendors.get(j));
                             BasicDBObject itemCost = new BasicDBObject();
@@ -172,7 +168,6 @@ public class Payment {
                             BasicDBObject resultInterval = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
                             itemCost.put("payedDays", "0");
                             itemCost.put("payedAmount", "0.0");
-                            System.out.println("Procura custo");
                             ArrayList <BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"),travelId, product.getString("id"), vendor.getString("vendorId"));
                             for (BasicDBObject cost:costs) {
                                 itemCost.put("cost", cost.get("value"));
@@ -189,8 +184,6 @@ public class Payment {
                                 double amountValue = days * value;
                                 itemCost.put("itemAmount", Double.toString(amountValue));
                                 itemCost.put("days", Integer.toString(days));
-                                System.out.println("valor payment" + Double.toString(amountValue));
-                                System.out.println("criar payment");
                                 itemCost.put("totalAmount", Double.toString(amountValue));
                                 itemCost.put("notes", notes);
                                 if (value != 0.0 && amountValue > 0) {
@@ -198,6 +191,45 @@ public class Payment {
                                 }
                             }
                         }
+                    }else{
+                        BasicDBObject itemCost = new BasicDBObject();
+                        itemCost.put("paymentType", "automatic");
+                        itemCost.put("vendorType", "unique");
+                        itemCost.put("vendorId", "");
+                        itemCost.put("occHome", accomodation.getString("occHome"));
+                        itemCost.put("studentId", studentId);
+                        itemCost.put("invoiceId", invoiceId);
+                        itemCost.put("travelId", travelId);
+                        itemCost.put("allocationId", "");
+                        itemCost.put("status", "to approve");
+                        itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
+                        itemCost.put("destination", travel.get("destination"));
+                        itemCost.put("lastDayPayment", accomodation.getString("checkIn"));
+                        JSONArray notes = new JSONArray();
+                        itemCost.put("item", product.getString("id"));
+                        ArrayList <BasicDBObject> costs = priceTable.getCost(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travelId, product.getString("id"), null);
+                        for (BasicDBObject cost:costs) {
+                            itemCost.put("cost", cost.get("value"));
+                            itemCost.put("start", cost.getString("start"));
+                            itemCost.put("end", cost.getString("end"));
+                            int days = commons.difDate(cost.getString("start"), cost.getString("end"));
+                            itemCost.put("days", Integer.toString(days));
+                            double value = 0.0;
+                            if (cost.get("value") != null) {
+                                if (!cost.get("value").equals("")) {
+                                    value = Double.parseDouble(cost.getString("value"));
+                                }
+                            }
+                            double amountValue = days * value;
+                            itemCost.put("itemAmount", Double.toString(amountValue));
+                            itemCost.put("days", Integer.toString(days));
+                            itemCost.put("totalAmount", Double.toString(amountValue));
+                            itemCost.put("notes", notes);
+                            if (value != 0.0 && amountValue > 0) {
+                                commons_db.incluirCrud("payment", itemCost);
+                            }
+                        }
+
                     }
 				}
 			}
