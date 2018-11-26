@@ -50,7 +50,7 @@ public class Rest_Payment {
 	@RequestMapping(value = "/lista", produces = "application/json")
 	public JSONArray listaPayment(
 			@RequestParam(value = "date", required=false) String date, 
-			@RequestParam(value = "occHome", required=false) String occHome, 
+			@RequestParam(value = "accControl", required=false) String occHome,
 			@RequestParam(value = "userId", required=false) String userId ) throws UnknownHostException, MongoException {
 		
 		if (date != null && occHome != null && userId != null) {

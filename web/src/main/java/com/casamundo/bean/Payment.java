@@ -17,16 +17,16 @@ public class Payment {
 	Commons_DB commons_db = new Commons_DB();
 	PriceTable priceTable = new PriceTable();
 
-	public JSONArray listaPayment(String date, String occHome, String userId ) throws UnknownHostException {
+	public JSONArray listaPayment(String date, String accControl, String userId ) throws UnknownHostException {
 		
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.lastDayPayment", -1);
-		setQuery.put("documento.occHome", occHome);
+		setQuery.put("documento.accControl", accControl);
 		BasicDBObject setCondition = new BasicDBObject();
 		int daysPeriodStart = -20;
 		int daysPeriodEnd = -5;
-		if (!occHome.equals("homestay")) {
+		if (!accControl.equals("homestay")) {
 			daysPeriodStart = -50;
 			daysPeriodEnd = -20;
 		}
@@ -79,11 +79,11 @@ public class Payment {
 				payment.putAll((Map) payments.get(i));
 				BasicDBObject paymentDoc = new BasicDBObject();
 				paymentDoc = (BasicDBObject) payment.get("documento");
-				if (paymentDoc.get("occHome") != null) {
-					if (paymentDoc.get("occHome").equals("homestay")) {
+				if (paymentDoc.get("accControl") != null) {
+					if (paymentDoc.get("accControl").equals("homestay")) {
 						int paymentDays = commons.difDate(paymentDoc.getString("start"), paymentDoc.getString("end"));
-						int payedDays = payment.getInt("payedDays");
-						int payDays = 0;
+						int payedDays = Integer.parseInt(paymentDoc.getString("payedDays"));
+                        int payDays = 0;
 						if ((paymentDays - payedDays) > 28) {
 							payedDays = payedDays + 28;
 							payDays = 28;
@@ -148,18 +148,19 @@ public class Payment {
                             itemCost.put("paymentType", "automatic");
                             itemCost.put("vendorType", vendor.get("type"));
                             itemCost.put("vendorId", vendor.get("vendorId"));
-                            itemCost.put("occHome", accomodation.getString("occHome"));
+                            itemCost.put("accControl", travel.getString("accControl"));
                             itemCost.put("studentId", studentId);
                             itemCost.put("invoiceId", invoiceId);
                             itemCost.put("travelId", travelId);
+                            itemCost.put("extension", "false");
                             itemCost.put("allocationId", vendor.get("allocationId"));
                             itemCost.put("status", "to approve");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
-                            itemCost.put("lastDayPayment", vendor.getString("start"));
+                            itemCost.put("lastDayPayment", vendor.getString("start").substring(0,10));
                             if (vendor.get("extension") != null) {
                                 if (vendor.getString("extension").equals("true")) {
-                                    itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start"), -5));
+                                    itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start").substring(0,10), -5));
                                 }
                             }
                             JSONArray notes = new JSONArray();
@@ -196,15 +197,16 @@ public class Payment {
                         itemCost.put("paymentType", "automatic");
                         itemCost.put("vendorType", "unique");
                         itemCost.put("vendorId", "");
-                        itemCost.put("occHome", accomodation.getString("occHome"));
+                        itemCost.put("accControl", travel.getString("accControl"));
                         itemCost.put("studentId", studentId);
                         itemCost.put("invoiceId", invoiceId);
                         itemCost.put("travelId", travelId);
+                        itemCost.put("extension", "false");
                         itemCost.put("allocationId", "");
                         itemCost.put("status", "to approve");
                         itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                         itemCost.put("destination", travel.get("destination"));
-                        itemCost.put("lastDayPayment", accomodation.getString("checkIn"));
+                        itemCost.put("lastDayPayment", accomodation.getString("checkIn").substring(0,10));
                         JSONArray notes = new JSONArray();
                         itemCost.put("item", product.getString("id"));
                         ArrayList <BasicDBObject> costs = priceTable.getCost(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travelId, product.getString("id"), null);
