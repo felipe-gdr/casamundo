@@ -401,7 +401,7 @@ public class PriceTable {
                     resultItem.put("end", end);
                     if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
                         start = commons.calcNewDate((String) priceListDoc.get("to"), 1);
-                        resultItem.put("end", (String) priceListDoc.get("to"));
+                        resultItem.put("end", commons.calcNewDate((String) priceListDoc.get("to"), 1));
                     }
                     result.add(resultItem);
                 }else{
