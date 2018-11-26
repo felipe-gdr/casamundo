@@ -213,7 +213,9 @@ public class PriceTable {
     	}
     	if (vendorId != null) {
     		setQuery.put("documento.idVendor", vendorId);
-    	}
+    	}else{
+            setQuery.put("documento.idVendor", "");
+        }
     	
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
