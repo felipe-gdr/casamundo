@@ -130,8 +130,19 @@ public class Invoice {
 			return null;
 		}
 
-		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
-		
+        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+        BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+
+        BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+        BasicDBObject product = new BasicDBObject();
+        product.put("weeks", weeksDays.get("weeks"));
+        product.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
+        product.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
+        product.put("checkIn", accomodation.get("checkIn"));
+        product.put("checkOut", accomodation.get("checkOut"));
+        BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+        ArrayList<Object> productsResult = new ArrayList<Object>();
+
 		if (travel == null) {
 			return null;
 		}
@@ -145,46 +156,6 @@ public class Invoice {
 			BasicDBObject result = new BasicDBObject();
 			JSONObject priceValue = priceTable.getDataValue(travelId, priceTableObj.getString("_id"), userId);
 			BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
-			Boolean temporadaValida = true;
-			while (temporadaValida.equals(true))
-			    if (priceValue.get("net") != null) {
-                    String checkIn = variaveis.getString("checkIn");
-                    String checkOut = variaveis.getString("checkOut");
-                    if (commons.convertDateInt(priceValue.get("from").toString()) >= commons.convertDateInt(checkIn)) {
-                        checkIn = priceValue.get("from").toString();
-                    }
-                    if (commons.convertDateInt(priceValue.get("to").toString()) < commons.convertDateInt(checkOut)) {
-                        checkOut = commons.calcNewDate(priceValue.get("to").toString(), 1);
-                    }
-                    BasicDBObject dados = commons.numberWeeks(variaveis.getString("checkIn"), checkOut);
-                    if (!dados.getString("extraNightsSaida").equals("")) {
-    //                    if (commons.convertDateInt(checkOut) < priceList.getString("to")) {
-                            checkOut = commons.calcNewDate(priceValue.get("to").toString(), 1);
-    //                    }
-                    }
-                    variaveis.put("weeks", dados.getString("weeks"));
-                    variaveis.put("extraNights", dados.getString("extraNights"));
-                    variaveis.put("value", priceValue.get("net"));
-                    Double value = 0.0;
-                    if (priceTableObj.get("formula") != null ) {
-                        Map<String, Object> variables = variaveis;
-                        value = new FormulaCalculator(priceTableObj.getString("formula"), variables).calculate();
-                    }
-                    if (value != 0.0) {
-                        variaveis.put("value", value);
-                        resultArray.add(result);
-                    }
-                    ;
-                    if (commons.convertDateInt(checkOut) <= commons.convertDateInt(priceValue.get("to").toString())) {
-                        temporadaValida = false;
-                    } else {
-                        checkIn = commons.calcNewDate(priceValue.get("to").toString(), 1);
-                        priceValue = priceTable.getDataValue(travelId, priceTableObj.getString("_id"), userId);
-                    }
-                    temporadaValida = false;
-                } else {
-                    temporadaValida = false;
-                }
 		}
 		
 		return resultArray;
