@@ -166,15 +166,15 @@ public class Payment {
                             JSONArray notes = new JSONArray();
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
-                            BasicDBObject resultInterval = calculaDaysVendor(dates, vendor.getString("start"), vendor.getString("end"));
+                            BasicDBObject resultInterval = calculaDaysVendor(dates, vendor.getString("start").substring(0,10), vendor.getString("end").substring(0,10));
                             itemCost.put("payedDays", "0");
                             itemCost.put("payedAmount", "0.0");
                             ArrayList <BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"),travelId, product.getString("id"), vendor.getString("vendorId"));
                             for (BasicDBObject cost:costs) {
                                 itemCost.put("cost", cost.get("value"));
-                                itemCost.put("start", cost.getString("start"));
-                                itemCost.put("end", cost.getString("end"));
-                                int days = commons.difDate(cost.getString("start"), cost.getString("end"));
+                                itemCost.put("start", cost.getString("start").substring(0,10));
+                                itemCost.put("end", cost.getString("end").substring(0,10));
+                                int days = commons.difDate(cost.getString("start").substring(0,10), cost.getString("end").substring(0,10));
                                 itemCost.put("days", Integer.toString(days));
                                 double value = 0.0;
                                 if (cost.get("value") != null) {
@@ -209,20 +209,20 @@ public class Payment {
                         itemCost.put("lastDayPayment", accomodation.getString("checkIn").substring(0,10));
                         JSONArray notes = new JSONArray();
                         itemCost.put("item", product.getString("id"));
-                        ArrayList <BasicDBObject> costs = priceTable.getCost(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travelId, product.getString("id"), null);
+                        ArrayList <BasicDBObject> costs = priceTable.getCost(accomodation.getString("checkIn").substring(0,10), accomodation.getString("checkOut").substring(0,10),travelId, product.getString("id"), null);
                         for (BasicDBObject cost:costs) {
                             itemCost.put("cost", cost.get("value"));
-                            itemCost.put("start", cost.getString("start"));
-                            itemCost.put("end", cost.getString("end"));
-                            int days = commons.difDate(cost.getString("start"), cost.getString("end"));
-                            itemCost.put("days", Integer.toString(days));
+                            itemCost.put("start", cost.getString("start").substring(0,10));
+                            itemCost.put("end", cost.getString("end").substring(0,10));
+                            int days = commons.difDate(cost.getString("start").substring(0,10), cost.getString("end").substring(0,10));
+                            itemCost.put("days", "1");
                             double value = 0.0;
                             if (cost.get("value") != null) {
                                 if (!cost.get("value").equals("")) {
                                     value = Double.parseDouble(cost.getString("value"));
                                 }
                             }
-                            double amountValue = days * value;
+                            double amountValue = value;
                             itemCost.put("itemAmount", Double.toString(amountValue));
                             itemCost.put("days", Integer.toString(days));
                             itemCost.put("totalAmount", Double.toString(amountValue));

@@ -312,8 +312,9 @@ public class Commons {
 		BasicDBObject result = new BasicDBObject();
 		int weekDayStart =  weekDay(start);
 		int weekDayEnd =  weekDay(end);
-		int days = difDate(start, end);		
-		int weeks = days / 7;		
+		int days = difDate(start, end);
+        int weeks = days / 7;
+        int daysWeek = weeks * 7;
 		int extraNightsSaida = 0;
 		int extraNightsEntrada = 0;
 		
