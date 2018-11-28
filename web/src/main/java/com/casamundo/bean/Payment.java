@@ -24,27 +24,34 @@ public class Payment {
 		setSort.put("documento.lastDayPayment", -1);
 		setQuery.put("documento.accControl", accControl);
 		BasicDBObject setCondition = new BasicDBObject();
-		int daysPeriodStart = -20;
-		int daysPeriodEnd = -5;
-		if (!accControl.equals("homestay")) {
-			daysPeriodStart = -50;
-			daysPeriodEnd = -20;
-		}
-		if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
-			daysPeriodStart++;
-			daysPeriodEnd++;				
-		}
-		if (commons.getMonth(date) == 3) {
-			if (commons.anoBissexto(date)) {
-				daysPeriodStart--;
-				daysPeriodEnd++;				
-			}else {
-				daysPeriodStart = daysPeriodStart - 2;
-				daysPeriodEnd = daysPeriodEnd - 2;								
-			}
-		}
-		setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
-		setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));			
+        int daysPeriodStart = 0;
+        int daysPeriodEnd = 0;
+		if (date != null) {
+            daysPeriodStart = -20;
+            daysPeriodEnd = -5;
+            if (!accControl.equals("homestay")) {
+                daysPeriodStart = -50;
+                daysPeriodEnd = -20;
+            }
+            if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
+                daysPeriodStart++;
+                daysPeriodEnd++;
+            }
+            if (commons.getMonth(date) == 3) {
+                if (commons.anoBissexto(date)) {
+                    daysPeriodStart--;
+                    daysPeriodEnd++;
+                } else {
+                    daysPeriodStart = daysPeriodStart - 2;
+                    daysPeriodEnd = daysPeriodEnd - 2;
+                }
+            }
+            setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
+            setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));
+        }else{
+            setCondition.put("$gte", "1900-01-01");
+            setCondition.put("$lte", "9999-12-31");
+        }
 		setQuery.put("documento.lastDayPayment", setCondition);
 
 		setQuery.put("documento.extension", "false");
@@ -55,11 +62,13 @@ public class Payment {
 		setQuery.put("documento.extension", "true");
 		
 		daysPeriodStart = daysPeriodStart - 5;
-		daysPeriodEnd = daysPeriodEnd - 5;								
-		setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
-		setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));			
+		daysPeriodEnd = daysPeriodEnd - 5;
+        if (date != null) {
+            setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
+            setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));
+        }
 		setQuery.put("documento.lastDayPayment", setCondition);
-		
+
 		result = getPayments(userId, setQuery, setSort, result);
 		
 		return result;
@@ -96,6 +105,19 @@ public class Payment {
 							payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
 						}
 						paymentDoc.put("payValue", payValue);
+                        paymentDoc.put("name", payValue);
+                        BasicDBObject product = commons_db.obterCrudDoc("priceTable", "_id",paymentDoc.getString("item"));
+                        paymentDoc.put("name", product.get("name"));
+                        if (paymentDoc.get("vendorId") != ""){
+                            BasicDBObject vendor = commons_db.obterCrudDoc("family", "_id",paymentDoc.getString("vendorId"));
+                            if (vendor != null){
+                                paymentDoc.put("vendor", vendor.get("familyName"));
+                            }
+                            vendor = commons_db.obterCrudDoc("vendor", "_id",paymentDoc.getString("vendorId"));
+                            if (vendor != null){
+                                paymentDoc.put("vendor", vendor.get("name"));
+                            }
+                        }
 						payment.put("documento", paymentDoc);
 						if (payment != null) {
 							result.add(payment);
@@ -167,28 +189,30 @@ public class Payment {
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
                             BasicDBObject resultInterval = calculaDaysVendor(dates, vendor.getString("start").substring(0,10), vendor.getString("end").substring(0,10));
-                            itemCost.put("payedDays", "0");
-                            itemCost.put("payedAmount", "0.0");
-                            ArrayList <BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"),travelId, product.getString("id"), vendor.getString("vendorId"));
-                            for (BasicDBObject cost:costs) {
-                                itemCost.put("cost", cost.get("value"));
-                                itemCost.put("start", cost.getString("start").substring(0,10));
-                                itemCost.put("end", cost.getString("end").substring(0,10));
-                                int days = commons.difDate(cost.getString("start").substring(0,10), cost.getString("end").substring(0,10));
-                                itemCost.put("days", Integer.toString(days));
-                                double value = 0.0;
-                                if (cost.get("value") != null) {
-                                    if (!cost.get("value").equals("")) {
-                                        value = Double.parseDouble(cost.getString("value"));
+                            if (!resultInterval.getString("days").equals("0")) {
+                                itemCost.put("payedDays", "0");
+                                itemCost.put("payedAmount", "0.0");
+                                ArrayList<BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"), travelId, product.getString("id"), vendor.getString("vendorId"));
+                                for (BasicDBObject cost : costs) {
+                                    itemCost.put("cost", cost.get("value"));
+                                    itemCost.put("start", cost.getString("start").substring(0, 10));
+                                    itemCost.put("end", cost.getString("end").substring(0, 10));
+                                    int days = commons.difDate(cost.getString("start").substring(0, 10), cost.getString("end").substring(0, 10));
+                                    itemCost.put("days", Integer.toString(days));
+                                    double value = 0.0;
+                                    if (cost.get("value") != null) {
+                                        if (!cost.get("value").equals("")) {
+                                            value = Double.parseDouble(cost.getString("value"));
+                                        }
                                     }
-                                }
-                                double amountValue = days * value;
-                                itemCost.put("itemAmount", Double.toString(amountValue));
-                                itemCost.put("days", Integer.toString(days));
-                                itemCost.put("totalAmount", Double.toString(amountValue));
-                                itemCost.put("notes", notes);
-                                if (value != 0.0 && amountValue > 0) {
-                                    commons_db.incluirCrud("payment", itemCost);
+                                    double amountValue = days * value;
+                                    itemCost.put("itemAmount", Double.toString(amountValue));
+                                    itemCost.put("days", Integer.toString(days));
+                                    itemCost.put("totalAmount", Double.toString(amountValue));
+                                    itemCost.put("notes", notes);
+                                    if (value != 0.0 && amountValue > 0) {
+                                        commons_db.incluirCrud("payment", itemCost);
+                                    }
                                 }
                             }
                         }
@@ -227,6 +251,8 @@ public class Payment {
                             itemCost.put("days", Integer.toString(days));
                             itemCost.put("totalAmount", Double.toString(amountValue));
                             itemCost.put("notes", notes);
+                            itemCost.put("payedDays", "0");
+                            itemCost.put("payedAmount", "0.0");
                             if (value != 0.0 && amountValue > 0) {
                                 commons_db.incluirCrud("payment", itemCost);
                             }
