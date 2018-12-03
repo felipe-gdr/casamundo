@@ -38,8 +38,7 @@ public class Commons_DB {
                 setQuery = new BasicDBObject(key, idObj);
             } else {
                 setQuery = new BasicDBObject(key, value);
-            }
-            ;
+            };
             DBObject cursor = collection.findOne(setQuery);
             if (cursor != null) {
                 BasicDBObject documento = new BasicDBObject();
@@ -58,9 +57,7 @@ public class Commons_DB {
             mongo.close();
             return ResponseEntity.badRequest().build();
         }
-    }
-
-    ;
+    };
 
     @SuppressWarnings({})
     public ResponseEntity obterId(String collectionName) throws UnknownHostException, MongoException {
@@ -79,9 +76,7 @@ public class Commons_DB {
             mongo.close();
             return ResponseEntity.badRequest().build();
         }
-    }
-
-    ;
+    };
 
     @SuppressWarnings({"rawtypes"})
     public BasicDBObject obterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
@@ -107,8 +102,7 @@ public class Commons_DB {
             } else {
                 setQuery = new BasicDBObject(key, value);
             }
-        }
-        ;
+        };
         DBObject cursor = collection.findOne(setQuery);
         if (cursor != null) {
             BasicDBObject documento = new BasicDBObject();
@@ -120,9 +114,7 @@ public class Commons_DB {
         }
         mongo.close();
         return null;
-    }
-
-    ;
+    };
 
     @SuppressWarnings("rawtypes")
     public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
@@ -194,10 +186,8 @@ public class Commons_DB {
                                 BasicDBObject docUpdateItem = new BasicDBObject();
                                 docUpdateItem.putAll((Map) docUpdate.get(j));
                                 arrayField.add(docUpdateItem);
-                            }
-                            ;
-                        }
-                        ;
+                            };
+                        };
                         objDocumento.put((String) setUpdate.get("field"), arrayField);
                     } else {
                         BasicDBObject docUpdate = new BasicDBObject();
@@ -208,14 +198,10 @@ public class Commons_DB {
                         } else {
                             objDocumento.remove(setUpdate.get("field"));
                             objDocumento.put((String) setUpdate.get("field"), docUpdate);
-                        }
-                        ;
-                    }
-                    ;
-                }
-                ;
-            }
-            ;
+                        };
+                    };
+                };
+            };
             BasicDBObject doc = new BasicDBObject();
 
             objDocumento.put("companyId", companyId);
@@ -228,18 +214,14 @@ public class Commons_DB {
                 setQuery = new BasicDBObject(key, idObj);
             } else {
                 setQuery = new BasicDBObject(key, valueInp);
-            }
-            ;
+            };
 
             DBObject update = new BasicDBObject(doc);
             collection.findAndModify(setQuery, null, null, false, update, true, false);
-        }
-        ;
+        };
         mongo.close();
         return ResponseEntity.ok().body("true");
-    }
-
-    ;
+    };
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public ResponseEntity listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate) throws UnknownHostException, MongoException {
@@ -284,8 +266,7 @@ public class Commons_DB {
                 mongo.close();
                 return null;
             }
-        }
-        ;
+        };
 
         BasicDBObject setupValue = new BasicDBObject();
         String companyTable = null;
@@ -326,26 +307,20 @@ public class Commons_DB {
                                 }
                             } else {
                                 documentos.add(doc);
-                            }
-                            ;
-                        }
-                        ;
+                            };
+                        };
                     }
                 } else {
                     documentos.add(doc);
-                }
-                ;
-            }
-            ;
+                };
+            };
             mongo.close();
             return ResponseEntity.ok().body(documentos);
         } else {
             mongo.close();
             return ResponseEntity.badRequest().build();
         }
-    }
-
-    ;
+    };
 
     @SuppressWarnings({})
     public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
@@ -365,9 +340,7 @@ public class Commons_DB {
         mongo.close();
 
         return ResponseEntity.ok().body("true");
-    }
-
-    ;
+    };
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
     public ResponseEntity arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
@@ -404,8 +377,7 @@ public class Commons_DB {
         int index = 0;
         if (!indexInp.equals(null)) {
             index = Integer.parseInt(indexInp);
-        }
-        ;
+        };
         if (objDocumento != null) {
             if (objDocumento.get(field) instanceof ArrayList) {
                 ArrayList docUpdate = (ArrayList) objDocumento.get(field);
@@ -438,10 +410,8 @@ public class Commons_DB {
                                 arrayField.add(docUpdateItem);
                             }
                         }
-                    }
-                    ;
-                }
-                ;
+                    };
+                };
                 if (type.equals("in")) {
                     arrayField.add(item);
                 }
@@ -455,20 +425,15 @@ public class Commons_DB {
                     setQuery = new BasicDBObject(key, idObj);
                 } else {
                     setQuery = new BasicDBObject(key, value);
-                }
-                ;
+                };
 
                 DBObject update = new BasicDBObject(doc);
                 collection.findAndModify(setQuery, null, null, false, update, true, false);
-            }
-            ;
-        }
-        ;
+            };
+        };
         mongo.close();
         return ResponseEntity.ok().body("true");
-    }
-
-    ;
+    };
 
     public String getNumber(String nameNumber, String nameYear) throws UnknownHostException, MongoException {
 
@@ -477,14 +442,12 @@ public class Commons_DB {
         if (obj != null) {
             String oldNumber = obj.getString("setupValue");
             number = ((Integer.parseInt(oldNumber) + 1));
-        }
-        ;
+        };
         String year = "2017";
         obj = obterCrudDoc("setup", "documento.setupKey", nameYear);
         if (obj != null) {
             year = obj.getString("setupValue");
-        }
-        ;
+        };
         ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
         BasicDBObject update = new BasicDBObject();
         update.put("field", "setupValue");
@@ -494,9 +457,7 @@ public class Commons_DB {
         String result = Integer.toString(number) + "/" + year;
         return result;
 
-    }
-
-    ;
+    };
 
 };
 

@@ -44,29 +44,33 @@ public class Estimated {
 				itemCost.put("number", commons_db.getNumber("numberEstimated", "yearNumberEstimated"));
 				itemCost.put("destination", travel.get("destination"));
                 itemCost.put("item", product.get("id"));
-				ArrayList dates = (ArrayList) product.get("dates");
-				for (int j = 0; j < dates.size(); j++) {
-					BasicDBObject date = new BasicDBObject();
-					date.putAll((Map) dates.get(j));
-                    ArrayList <BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"),travelId, product.getString("id"), null);
-                    for ( BasicDBObject cost:costs) {
-                        itemCost.put("cost", cost.get("value"));
-                        itemCost.put("start", cost.getString("start"));
-                        itemCost.put("end", cost.getString("end"));
-                        int days = commons.difDate(cost.getString("start"), cost.getString("end"));
-                        itemCost.put("days", Integer.toString(days));;
-                        double value = 0.0;
-                        if (cost.get("value") != null) {
-                            if (!cost.getString("value").equals("")) {
-                                value = Double.parseDouble(cost.getString("value"));
-                            }
-                        };
-                        if (value != 0.0){
-                            double amountValue = days * value;
-                            itemCost.put("totalAmount", Double.toString(amountValue));
-                            commons_db.incluirCrud("estimated", itemCost);
-                        }
-                    }
+                if (product.get("dates") != null) {
+					ArrayList dates = (ArrayList) product.get("dates");
+					for (int j = 0; j < dates.size(); j++) {
+						BasicDBObject date = new BasicDBObject();
+						date.putAll((Map) dates.get(j));
+						ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null);
+						for (BasicDBObject cost : costs) {
+							itemCost.put("cost", cost.get("value"));
+							itemCost.put("start", cost.getString("start"));
+							itemCost.put("end", cost.getString("end"));
+							int days = commons.difDate(cost.getString("start"), cost.getString("end"));
+							itemCost.put("days", Integer.toString(days));
+							;
+							double value = 0.0;
+							if (cost.get("value") != null) {
+								if (!cost.getString("value").equals("")) {
+									value = Double.parseDouble(cost.getString("value"));
+								}
+							}
+							;
+							if (value != 0.0) {
+								double amountValue = days * value;
+								itemCost.put("totalAmount", Double.toString(amountValue));
+								commons_db.incluirCrud("estimated", itemCost);
+							}
+						}
+					}
 				}
 			}
 		}
