@@ -282,11 +282,8 @@ public class Commons {
 				if (arrayOrigem.get(w).toString().equals(arrayElementos.get(i))) {
 					return true;
 				}
-				;
 			}
-			;
 		}
-		;
 		return false;
 	};
 
@@ -299,11 +296,8 @@ public class Commons {
 				if (arrayOrigem.get(w).toString().equals(arrayElementos.get(i))) {
 					elementosIguais = elementosIguais + 1;
 				}
-				;
 			}
-			;
 		}
-		;
 		return elementosIguais;
 	}
 

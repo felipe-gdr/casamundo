@@ -4,7 +4,6 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 
 import java.net.UnknownHostException;
@@ -17,7 +16,7 @@ public class Payment {
 	Commons_DB commons_db = new Commons_DB();
 	PriceTable priceTable = new PriceTable();
 
-	public JSONArray listaPayment(String date, String accControl, String userId ) throws UnknownHostException {
+	public ArrayList listaPayment(String date, String accControl, String userId ) throws UnknownHostException {
 		
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
@@ -55,8 +54,9 @@ public class Payment {
 		setQuery.put("documento.lastDayPayment", setCondition);
 
 		setQuery.put("documento.extension", "false");
-		
-		JSONArray result = new JSONArray();
+        setQuery.put("documento.status", "pending");
+
+		ArrayList result = new JSONArray();
 		result = getPayments(userId, setQuery, setSort, result);
 
 		setQuery.put("documento.extension", "true");
@@ -73,10 +73,40 @@ public class Payment {
 		
 		return result;
 
-	}	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public JSONArray getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, JSONArray result) throws UnknownHostException {
+	}
+
+    public ArrayList<BasicDBObject> listaPending(String date, String accControl, String userId ) throws UnknownHostException {
+
+	    ArrayList <BasicDBObject> processings = listaPayment(date, accControl,userId);
+        BasicDBObject setQuery = new BasicDBObject();
+        BasicDBObject setSort = new BasicDBObject();
+        setSort.put("documento.lastDayPayment", -1);
+        setQuery.put("documento.status", "pending");
+
+        ArrayList<BasicDBObject> payments = new ArrayList<>();
+        payments = getPayments(userId, setQuery, setSort, payments);
+
+        ArrayList <BasicDBObject> result = new ArrayList();
+        for (BasicDBObject payment:payments) {
+            Boolean existe = false;
+            for (BasicDBObject processing:processings) {
+                String id1 = payment.getString("_id");
+                String id2 = processing.getString("_id");
+                if (id1.equals(id2)){
+                    existe = true;
+                }
+            }
+            if (!existe) {
+                result.add(payment);
+            }
+        }
+
+        return result;
+
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked"})
+	public ArrayList<BasicDBObject> getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, ArrayList<BasicDBObject> result) throws UnknownHostException {
 
 		ResponseEntity response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> payments = new ArrayList<Object>();
@@ -104,7 +134,8 @@ public class Payment {
 						if ((payedDays + payDays)  == paymentDays ) {
 							payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
 						}
-						paymentDoc.put("payValue", payValue);
+						paymentDoc.put("sugestPayValue", payValue);
+                        paymentDoc.put("payValue", "0");
                         paymentDoc.put("name", payValue);
                         BasicDBObject product = commons_db.obterCrudDoc("priceTable", "_id",paymentDoc.getString("item"));
                         paymentDoc.put("name", product.get("name"));
@@ -119,6 +150,8 @@ public class Payment {
                             }
                         }
 						payment.put("documento", paymentDoc);
+                        commons_db.atualizarCrud("payment",payment, "_id", paymentDoc.getString("item"));
+
 						if (payment != null) {
 							result.add(payment);
 						};
@@ -139,9 +172,15 @@ public class Payment {
 		if (invoice != null && travel != null) {
 			String studentId =  (String) travel.get("studentId");
 			String invoiceId =  (String) invoice.get("_id");
-	
-			commons_db.removerCrud("payment", "documento.travelId" , travelId, null);
-			
+
+            BasicDBObject setQuery = new BasicDBObject();
+            setQuery.put("documento.status", "pending");
+            setQuery.put("documento.travelId", travelId);
+
+			commons_db.removerCrud("payment", "documento.travelId" , travelId, setQuery);
+
+            BasicDBObject student = commons_db.obterCrudDoc("student", "_id", studentId);
+
 			if (invoice.get("products") != null) {
 
 				ArrayList<Object> products = new ArrayList<Object>();
@@ -171,12 +210,14 @@ public class Payment {
                             itemCost.put("vendorType", vendor.get("type"));
                             itemCost.put("vendorId", vendor.get("vendorId"));
                             itemCost.put("accControl", travel.getString("accControl"));
+                            itemCost.put("companyId", travel.getString("companyId"));
                             itemCost.put("studentId", studentId);
+                            itemCost.put("studentName", student.getString("firstName") + " " + student.getString("firstName"));
                             itemCost.put("invoiceId", invoiceId);
                             itemCost.put("travelId", travelId);
                             itemCost.put("extension", "false");
                             itemCost.put("allocationId", vendor.get("allocationId"));
-                            itemCost.put("status", "to approve");
+                            itemCost.put("status", "pending");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
                             itemCost.put("lastDayPayment", vendor.getString("start").substring(0,10));
@@ -229,7 +270,7 @@ public class Payment {
                         itemCost.put("travelId", travelId);
                         itemCost.put("extension", "false");
                         itemCost.put("allocationId", "");
-                        itemCost.put("status", "to approve");
+                        itemCost.put("status", "pending");
                         itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                         itemCost.put("destination", travel.get("destination"));
                         itemCost.put("lastDayPayment", accomodation.getString("checkIn").substring(0,10));

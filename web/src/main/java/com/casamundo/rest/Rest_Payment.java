@@ -1,6 +1,7 @@
 package com.casamundo.rest;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -47,19 +48,33 @@ public class Rest_Payment {
 		}
 	};
 
-	@RequestMapping(value = "/lista", produces = "application/json")
-	public JSONArray listaPayment(
+	@RequestMapping(value = "/lista/pending", produces = "application/json")
+	public ArrayList<BasicDBObject> listaPending(
 			@RequestParam(value = "date", required=false) String date, 
 			@RequestParam(value = "accControl", required=false) String accControl,
 			@RequestParam(value = "userId", required=false) String userId ) throws UnknownHostException, MongoException {
 		
+		if (date != null && accControl != null && userId != null) {
+			return payment.listaPending(date, accControl, userId);
+		}else{
+			return payment.listaPending(null, accControl, userId);
+		}
+
+	}
+
+	@RequestMapping(value = "/lista", produces = "application/json")
+	public ArrayList<BasicDBObject> listaPayment(
+			@RequestParam(value = "date", required=false) String date,
+			@RequestParam(value = "accControl", required=false) String accControl,
+			@RequestParam(value = "userId", required=false) String userId ) throws UnknownHostException, MongoException {
+
 		if (date != null && accControl != null && userId != null) {
 			return payment.listaPayment(date, accControl, userId);
 		}else{
 			return payment.listaPayment(null, accControl, userId);
 		}
 
-	}	
+	}
 
 	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
