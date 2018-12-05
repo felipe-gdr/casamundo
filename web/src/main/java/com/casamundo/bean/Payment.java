@@ -253,7 +253,6 @@ public class Payment {
                                         itemCost.put("totalAmount", Double.toString(amountValue));
                                         itemCost.put("notes", notes);
                                         if (value != 0.0 && amountValue > 0) {
-                                            itemCost = checaPagamentosEfetuados(itemCost);
                                             commons_db.incluirCrud("payment", itemCost);
                                         }
                                     }
