@@ -103,7 +103,7 @@ public class Invoice {
             if (response.getStatusCode() == HttpStatus.OK) {
                 String invoiceId = (String) response.getBody();
                 if (invoiceId != null) {
-                    estimated.criarCosts(invoiceId);
+                    estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId);
                     payment.managementCostsBooking(documento.getString("trip"));
                 }
             };
@@ -246,6 +246,10 @@ public class Invoice {
 			update.put("value", invoiceObj);
 			arrayUpdate.add(update);
 			commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoice.getString("id"));
+            ArrayList<Object> products = new ArrayList<Object>();
+            products = (ArrayList) invoice.get("products");
+            estimated.criarCosts(products, invoice.getString("trip"), invoice.getString("id"));
+            payment.managementCostsBooking(invoice.getString("trip"));
 		}
 		String key = "";
 		String value = "";
@@ -302,7 +306,7 @@ public class Invoice {
 		update.put("value", Float.toString(balance));
 		arrayUpdate.add(update);
 		commons_db.atualizarCrud(collection, arrayUpdate, "_id", value);
-		
+
 	};
 
 }

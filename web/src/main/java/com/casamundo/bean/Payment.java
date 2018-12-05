@@ -253,6 +253,7 @@ public class Payment {
                                         itemCost.put("totalAmount", Double.toString(amountValue));
                                         itemCost.put("notes", notes);
                                         if (value != 0.0 && amountValue > 0) {
+                                            itemCost = checaPagamentosEfetuados(itemCost);
                                             commons_db.incluirCrud("payment", itemCost);
                                         }
                                     }
@@ -306,7 +307,12 @@ public class Payment {
 		}
 	}
 
-	public BasicDBObject calculaDaysVendor(ArrayList dates, String start, String end) {
+    private BasicDBObject checaPagamentosEfetuados(BasicDBObject itemCost) {
+
+        return null;
+    };
+
+    public BasicDBObject calculaDaysVendor(ArrayList dates, String start, String end) {
         BasicDBObject result = new BasicDBObject();
         result.put ("days",0);
         result.put("start", start);
