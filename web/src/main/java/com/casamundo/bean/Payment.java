@@ -212,7 +212,7 @@ public class Payment {
                             itemCost.put("accControl", travel.getString("accControl"));
                             itemCost.put("companyId", travel.getString("companyId"));
                             itemCost.put("studentId", studentId);
-                            itemCost.put("studentName", student.getString("firstName") + " " + student.getString("firstName"));
+                            itemCost.put("studentName", student.getString("firstName") + " " + student.getString("lastName"));
                             itemCost.put("invoiceId", invoiceId);
                             itemCost.put("travelId", travelId);
                             itemCost.put("extension", "false");

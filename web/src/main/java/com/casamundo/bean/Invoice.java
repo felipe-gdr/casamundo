@@ -96,6 +96,7 @@ public class Invoice {
                     }
                 }
 				product.put("dates", dates);
+                product.put("charging", productDoc.getString("charging"));
 				productsResult.add(product);
 			}
             documento.put("products", productsResult);
