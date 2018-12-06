@@ -30,11 +30,28 @@ public class Invoice {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	public ResponseEntity incluir(BasicDBObject doc) throws UnknownHostException  {
-				
+	public ResponseEntity incluir(BasicDBObject doc) throws UnknownHostException {
+
+        BasicDBObject documento = new BasicDBObject();
+        documento.putAll((Map) doc);
+
+        ResponseEntity response = commons_db.incluirCrud("invoice", documento);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String invoiceId = (String) response.getBody();
+            if (invoiceId != null) {
+                atualiza(documento, invoiceId);
+            }
+        }
+
+        return response;
+    }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public ResponseEntity atualiza(BasicDBObject doc, String invoiceId) throws UnknownHostException  {
+
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) doc);
-		
+
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"));
 		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 
@@ -86,29 +103,34 @@ public class Invoice {
 						}
 					}
 				}
-                if (productDoc.getString("charging").equals("unique")) {
-                    seasons = priceTable.getSeasons(accomodation.getString("checkIn"), accomodation.getString("checkOut"), documento.getString("trip"), product.getString("id"), null);
-                    for (BasicDBObject season : seasons) {
-                        BasicDBObject date = new BasicDBObject();
-                        date.put("start", season.getString("start"));
-                        date.put("end", season.getString("end"));
-                        dates.add(date);
-                    }
-                }
+				if (productDoc.getString("charging").equals("unique")) {
+					seasons = priceTable.getSeasons(accomodation.getString("checkIn"), accomodation.getString("checkOut"), documento.getString("trip"), product.getString("id"), null);
+					for (BasicDBObject season : seasons) {
+						BasicDBObject date = new BasicDBObject();
+						date.put("start", season.getString("start"));
+						date.put("end", season.getString("end"));
+						dates.add(date);
+					}
+				}
 				product.put("dates", dates);
-                product.put("charging", productDoc.getString("charging"));
+				product.put("charging", productDoc.getString("charging"));
 				productsResult.add(product);
 			}
-            documento.put("products", productsResult);
-            ResponseEntity response = commons_db.incluirCrud("invoice", documento);
-            if (response.getStatusCode() == HttpStatus.OK) {
-                String invoiceId = (String) response.getBody();
-                if (invoiceId != null) {
-                    estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId);
-                    payment.managementCostsBooking(documento.getString("trip"));
-                }
-            };
-            return response;
+			documento.put("products", productsResult);
+
+            ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+            BasicDBObject update = new BasicDBObject();
+            update.put("field", "documento");
+            update.put("value", documento);
+            arrayUpdate.add(update);
+			commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoiceId);
+
+			ResponseEntity response = commons_db.incluirCrud("invoice", documento);
+			if (response.getStatusCode() == HttpStatus.OK) {
+                estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId);
+                payment.managementCostsBooking(documento.getString("trip"));
+			};
+			return response;
 		}
 
 		return null;
@@ -210,8 +232,7 @@ public class Invoice {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void atualizarInvoice(String receivementId) throws UnknownHostException {
-		
+	public void atualizarPaymentsInvoice(String receivementId) throws UnknownHostException {
 
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 

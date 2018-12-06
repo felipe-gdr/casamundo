@@ -40,7 +40,10 @@ public class Rest_Invoice {
 		
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-			commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
+            ArrayList<Object> update = new ArrayList<Object>();
+            update = (ArrayList) queryParam.get("update");
+		    BasicDBObject updateDoc = (BasicDBObject) update.get(0);
+            invoice.atualiza((BasicDBObject) updateDoc.get("value"), queryParam.get("key").toString());
 			return ResponseEntity.ok().body("true");
 		}else{
 			return ResponseEntity.badRequest().build();

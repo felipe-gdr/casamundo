@@ -35,7 +35,7 @@ public class Rest_Receivement {
 		ResponseEntity response = commons_db.incluirCrud("receivement", documento);
 		if (response.getStatusCode() == HttpStatus.OK) {
 			String receiveId = (String) response.getBody();
-			invoice.atualizarInvoice(receiveId.toString());
+			invoice.atualizarPaymentsInvoice(receiveId.toString());
 		};
 		return response;
 
@@ -48,7 +48,7 @@ public class Rest_Receivement {
 		if (collection != null ){
 			ResponseEntity response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			if (response.getStatusCode() == HttpStatus.OK) {
-				invoice.atualizarInvoice(queryParam.get("key").toString());
+				invoice.atualizarPaymentsInvoice(queryParam.get("key").toString());
 			};
 			return ResponseEntity.ok().body("true");
 		}else{
