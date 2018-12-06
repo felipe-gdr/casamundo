@@ -8,6 +8,8 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 
+import javax.websocket.RemoteEndpoint;
+
 import static java.lang.System.*;
 
 
@@ -58,7 +60,10 @@ public class Estimated {
                                 value = Double.parseDouble(cost.getString("value"));
                             }
                         }
-                        ;
+                        BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
+                        if (productDoc.getString("charging") != "week" && productDoc.getString("charging") != "eNight"){
+                            days = 0;
+                        }
                         if (value != 0.0) {
                             double amountValue = days * value;
                             itemCost.put("totalAmount", Double.toString(amountValue));
