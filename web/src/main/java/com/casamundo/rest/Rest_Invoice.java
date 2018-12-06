@@ -3,6 +3,8 @@ package com.casamundo.rest;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +42,12 @@ public class Rest_Invoice {
 		
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-            ArrayList<Object> update = new ArrayList<Object>();
-            update = (ArrayList) queryParam.get("update");
-		    BasicDBObject updateDoc = (BasicDBObject) update.get(0);
-            invoice.atualiza((BasicDBObject) updateDoc.get("value"), queryParam.get("key").toString());
+            List arrayUpdate = (List) queryParam.get("update");
+            BasicDBObject update = new BasicDBObject();
+            update.putAll((Map) arrayUpdate.get(0));
+            BasicDBObject doc = new BasicDBObject();
+            doc.putAll((Map) update.get("value"));
+            invoice.atualiza(doc, queryParam.get("value").toString());
 			return ResponseEntity.ok().body("true");
 		}else{
 			return ResponseEntity.badRequest().build();

@@ -123,9 +123,8 @@ public class Invoice {
             update.put("field", "documento");
             update.put("value", documento);
             arrayUpdate.add(update);
-			commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoiceId);
+			ResponseEntity response = commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoiceId);
 
-			ResponseEntity response = commons_db.incluirCrud("invoice", documento);
 			if (response.getStatusCode() == HttpStatus.OK) {
                 estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId);
                 payment.managementCostsBooking(documento.getString("trip"));
