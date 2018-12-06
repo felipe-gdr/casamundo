@@ -1,16 +1,12 @@
 package com.casamundo.bean;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Map;
-
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 
-import javax.websocket.RemoteEndpoint;
-
-import static java.lang.System.*;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
 
 
 public class Estimated {
