@@ -6,6 +6,7 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
+import javax.websocket.RemoteEndpoint;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,23 +27,23 @@ public class Payment {
         int daysPeriodStart = 0;
         int daysPeriodEnd = 0;
 		if (date != null) {
-            daysPeriodStart = -20;
+            daysPeriodStart = -19;
             daysPeriodEnd = -5;
             if (!accControl.equals("homestay")) {
                 daysPeriodStart = -50;
                 daysPeriodEnd = -20;
             }
-            if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
-                daysPeriodStart++;
-                daysPeriodEnd++;
-            }
-            if (commons.getMonth(date) == 3) {
-                if (commons.anoBissexto(date)) {
+            if (commons.getDay(date) < 19){
+                if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
                     daysPeriodStart--;
-                    daysPeriodEnd++;
-                } else {
-                    daysPeriodStart = daysPeriodStart - 2;
-                    daysPeriodEnd = daysPeriodEnd - 2;
+                }
+                if (commons.getMonth(date) == 3) {
+                    if (commons.anoBissexto(date)) {
+                        daysPeriodStart--;
+                    } else {
+                        daysPeriodStart = daysPeriodStart - 2;
+                        daysPeriodEnd = daysPeriodEnd - 2;
+                    }
                 }
             }
             setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
@@ -112,12 +113,21 @@ public class Payment {
 		ArrayList<Object> payments = new ArrayList<Object>();
 		payments = (JSONArray) response.getBody();
 
+        BasicDBObject paymentCycle = new BasicDBObject();
+        ArrayList  paymentsCycle = new ArrayList();
+
+		if (setQuery.getString("documento.cycleId") != null) {
+		    String iddd = setQuery.getString("documento.cycleId");
+            paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", setQuery.getString("documento.cycleId"));
+            paymentsCycle = (ArrayList) paymentCycle.get("payments");
+        }
 		if (response != null) {
 			for (int i = 0; i < payments.size(); i++) {
 				BasicDBObject payment = new BasicDBObject();
 				payment.putAll((Map) payments.get(i));
 				BasicDBObject paymentDoc = new BasicDBObject();
 				paymentDoc = (BasicDBObject) payment.get("documento");
+                String paymentId = payment.getString("_id");
 				if (paymentDoc.get("accControl") != null) {
 					if (paymentDoc.get("accControl").equals("homestay")) {
 						int paymentDays = commons.difDate(paymentDoc.getString("start"), paymentDoc.getString("end"));
@@ -135,7 +145,17 @@ public class Payment {
 							payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
 						}
 						paymentDoc.put("sugestPayValue", payValue);
-                        paymentDoc.put("payValue", "0");
+                        paymentDoc.put("payValue", "0.00");
+                        if (setQuery.getString("documento.cycleId") != null) {
+                            for (int j = 0; j < paymentsCycle.size() ; j++) {
+                                BasicDBObject paymentCycleDoc = new BasicDBObject();
+                                paymentCycleDoc.putAll((Map) paymentsCycle.get(j));
+                                if (paymentCycleDoc.getString("id").equals(paymentId)){
+                                    paymentDoc.put("payValue", paymentCycleDoc.getString("payValue"));
+                                }
+                            }
+                        }
+                        paymentDoc.put("payValue", paymentDoc.get("payValue"));
                         paymentDoc.put("name", payValue);
                         BasicDBObject product = commons_db.obterCrudDoc("priceTable", "_id",paymentDoc.getString("item"));
                         paymentDoc.put("name", product.get("name"));
@@ -164,11 +184,12 @@ public class Payment {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void managementCostsBooking(String travelId) throws UnknownHostException {
+	public BasicDBObject managementCostsBooking(String travelId) throws UnknownHostException {
 		
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
 		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
-		
+
+        BasicDBObject payments = new BasicDBObject();
 		if (invoice != null && travel != null) {
 			String studentId =  (String) travel.get("studentId");
 			String invoiceId =  (String) invoice.get("_id");
@@ -304,6 +325,7 @@ public class Payment {
 				}
 			}
 		}
+		return payments;
 	}
 
     private BasicDBObject checaPagamentosEfetuados(BasicDBObject itemCost) {

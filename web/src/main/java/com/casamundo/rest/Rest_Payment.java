@@ -62,6 +62,24 @@ public class Rest_Payment {
 
 	}
 
+	@RequestMapping(value = "/lista/processing", produces = "application/json")
+	public ArrayList<BasicDBObject> listaPending(
+			@RequestParam(value = "userId", required=false) String userId,
+			@RequestParam(value = "cycleId", required=false) String cycleId
+	) throws UnknownHostException, MongoException {
+
+		if (cycleId != null)  {
+			BasicDBObject setQuery = new BasicDBObject();
+			BasicDBObject setSort = new BasicDBObject();
+			setSort.put("documento.lastDayPayment", -1);
+			setQuery.put("documento.cycleId", cycleId);
+			ArrayList<BasicDBObject> payments = new ArrayList<>();
+			return payment.getPayments(userId, setQuery, setSort, payments);
+		}
+		return null;
+
+	}
+
 	@RequestMapping(value = "/lista", produces = "application/json")
 	public ArrayList<BasicDBObject> listaPayment(
 			@RequestParam(value = "date", required=false) String date,
