@@ -6,7 +6,6 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
-import javax.websocket.RemoteEndpoint;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
