@@ -31,6 +31,10 @@ public class PaymentCycles {
             update.put("field", "cycleId");
             update.put("value", cycleId);
             arrayUpdate.add(update);
+            update = new BasicDBObject();
+            update.put("field", "payValue");
+            update.put("value", payment.getString("payValue"));
+            arrayUpdate.add(update);
             commons_db.atualizarCrud("payment",arrayUpdate,"_id",payment.getString("id"));
         }
         return response;

@@ -116,7 +116,6 @@ public class Payment {
         ArrayList  paymentsCycle = new ArrayList();
 
 		if (setQuery.getString("documento.cycleId") != null) {
-		    String iddd = setQuery.getString("documento.cycleId");
             paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", setQuery.getString("documento.cycleId"));
             paymentsCycle = (ArrayList) paymentCycle.get("payments");
         }
