@@ -6,12 +6,11 @@ import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/paymentCycles")
@@ -35,6 +34,14 @@ public class Rest_PaymentCycles {
 
         return paymentCycles.atualiza(doc);
     };
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/lista/status", produces = "application/json")
+	public ArrayList lista(
+			@RequestParam("status") String status,
+			@RequestParam("userId") String userId) throws IOException, MongoException {
+		return paymentCycles.listaStatus(status, userId);
+	};
 };
 
 

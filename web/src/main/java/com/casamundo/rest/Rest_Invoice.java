@@ -78,7 +78,6 @@ public class Rest_Invoice {
 		return payment.calculaDaysVendor(dates,start,end);
 	};
 
-
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/itensinvoiceautomatica", produces = "application/json")
 	public ArrayList calculaInvoiceAutomatica(

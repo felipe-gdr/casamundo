@@ -233,7 +233,6 @@ public class Commons_DB {
         if (key != null) {
             setQuery.put(key, value);
         }
-        ;
 
         if (setQueryInput != null) {
             setQuery = setQueryInput;
@@ -241,7 +240,7 @@ public class Commons_DB {
         BasicDBObject setSort = new BasicDBObject();
         setSort.put("lastChange", -1);
 
-        if (setQueryInput != null) {
+        if (setSortInput != null) {
             setSort = setSortInput;
         }
 

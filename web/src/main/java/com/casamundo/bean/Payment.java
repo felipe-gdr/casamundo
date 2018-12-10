@@ -168,7 +168,12 @@ public class Payment {
                             }
                         }
 						payment.put("documento", paymentDoc);
-                        commons_db.atualizarCrud("payment",payment, "_id", paymentDoc.getString("item"));
+                        ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                        BasicDBObject update = new BasicDBObject();
+                        update.put("field", "documento");
+                        update.put("value", payment);
+                        arrayUpdate.add(update);
+                        commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentDoc.getString("item"));
 
 						if (payment != null) {
 							result.add(payment);
@@ -239,12 +244,6 @@ public class Payment {
                             itemCost.put("status", "pending");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
-                            itemCost.put("lastDayPayment", vendor.getString("start").substring(0,10));
-                            if (vendor.get("extension") != null) {
-                                if (vendor.getString("extension").equals("true")) {
-                                    itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start").substring(0,10), -5));
-                                }
-                            }
                             JSONArray notes = new JSONArray();
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
@@ -271,6 +270,12 @@ public class Payment {
                                         itemCost.put("days", Integer.toString(days));
                                         itemCost.put("totalAmount", Double.toString(amountValue));
                                         itemCost.put("notes", notes);
+                                        itemCost.put("lastDayPayment", cost.getString("start").substring(0,10));
+                                        if (vendor.get("extension") != null) {
+                                            if (vendor.getString("extension").equals("true")) {
+                                                itemCost.put("lastDayPayment", commons.calcNewDate(cost.getString("start").substring(0,10), -5));
+                                            }
+                                        }
                                         if (value != 0.0 && amountValue > 0) {
                                             commons_db.incluirCrud("payment", itemCost);
                                         }

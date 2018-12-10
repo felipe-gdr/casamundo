@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
 import java.net.UnknownHostException;
@@ -80,4 +81,17 @@ public class PaymentCycles {
         }
         return response;
     }
+
+    public ArrayList listaStatus(String status, String userId ) throws UnknownHostException {
+        BasicDBObject setQuery = new BasicDBObject();
+        BasicDBObject setSort = new BasicDBObject();
+        setQuery.put("documento.status", status);
+
+        ResponseEntity response = commons_db.listaCrud("paymentCycles",null, null, userId, setQuery, null, true);
+        ArrayList<Object> paymentsCycles = new ArrayList<Object>();
+        paymentsCycles = (JSONArray) response.getBody();
+        return paymentsCycles;
+
+    }
+
 }

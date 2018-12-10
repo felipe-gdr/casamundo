@@ -1,17 +1,13 @@
 package com.casamundo.rest;
 
 import com.casamundo.bean.PaymentBank;
-import com.casamundo.bean.PaymentCycles;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -32,10 +28,24 @@ public class Rest_PaymentBank {
 	};
 
     @SuppressWarnings("rawtypes")
-    @PostMapping(value = "/atualizar", consumes = "application/json")
-    public ResponseEntity atualizar(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
+    @PostMapping(value = "/atualizar/pagamento", consumes = "application/json")
+    public Boolean atualizarPagamento(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 
-        return paymentBank.atualiza(doc);
+        return paymentBank.atualizaPagamento(doc);
+    };
+
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/lista", produces = "application/json")
+    public ArrayList lista(
+            @RequestParam("userId") String userId) throws IOException, MongoException {
+        return paymentBank.lista(userId);
+    };
+
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/lista/payments", produces = "application/json")
+    public ArrayList calculaInvoiceAutomatica(
+            @RequestParam("paymentBankId") String paymentBankId) throws IOException, MongoException {
+        return paymentBank.listaPayments(paymentBankId);
     };
 };
 
