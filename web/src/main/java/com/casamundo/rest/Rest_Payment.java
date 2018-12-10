@@ -74,7 +74,7 @@ public class Rest_Payment {
 			setSort.put("documento.lastDayPayment", -1);
 			setQuery.put("documento.cycleId", cycleId);
 			ArrayList<BasicDBObject> payments = new ArrayList<>();
-			return payment.getPayments(userId, setQuery, setSort, payments);
+			return payment.getPayments(userId, setQuery, setSort, payments, "2010-10-10");
 		}
 		return null;
 

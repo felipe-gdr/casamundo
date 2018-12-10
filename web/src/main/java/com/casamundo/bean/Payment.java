@@ -57,7 +57,7 @@ public class Payment {
         setQuery.put("documento.status", "pending");
 
 		ArrayList result = new JSONArray();
-		result = getPayments(userId, setQuery, setSort, result);
+		result = getPayments(userId, setQuery, setSort, result, date);
 
 		setQuery.put("documento.extension", "true");
 		
@@ -69,7 +69,7 @@ public class Payment {
         }
 		setQuery.put("documento.lastDayPayment", setCondition);
 
-		result = getPayments(userId, setQuery, setSort, result);
+		result = getPayments(userId, setQuery, setSort, result, date);
 		
 		return result;
 
@@ -84,7 +84,7 @@ public class Payment {
         setQuery.put("documento.status", "pending");
 
         ArrayList<BasicDBObject> payments = new ArrayList<>();
-        payments = getPayments(userId, setQuery, setSort, payments);
+        payments = getPayments(userId, setQuery, setSort, payments, date);
 
         ArrayList <BasicDBObject> result = new ArrayList();
         for (BasicDBObject payment:payments) {
@@ -106,7 +106,7 @@ public class Payment {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked"})
-	public ArrayList<BasicDBObject> getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, ArrayList<BasicDBObject> result) throws UnknownHostException {
+	public ArrayList<BasicDBObject> getPayments(String userId, BasicDBObject setQuery, BasicDBObject setSort, ArrayList<BasicDBObject> result, String baseDate) throws UnknownHostException {
 
 		ResponseEntity response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> payments = new ArrayList<Object>();
@@ -127,8 +127,12 @@ public class Payment {
 				paymentDoc = (BasicDBObject) payment.get("documento");
                 String paymentId = payment.getString("_id");
 				if (paymentDoc.get("accControl") != null) {
-					if (paymentDoc.get("accControl").equals("homestay")) {
-						int paymentDays = commons.difDate(paymentDoc.getString("start"), paymentDoc.getString("end"));
+					if (paymentDoc.get("accControl").equals("homestay") && commons.convertDateInt(paymentDoc.getString("start")) < commons.convertDateInt(commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28))) {
+					    String endDate = paymentDoc.getString("end");
+					    if (commons.convertDateInt(paymentDoc.getString("end")) > commons.convertDateInt(commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28))){
+                            endDate = commons.calcNewDate(baseDate, 28);
+                        }
+						int paymentDays = commons.difDate(paymentDoc.getString("start"), endDate);
 						int payedDays = Integer.parseInt(paymentDoc.getString("payedDays"));
                         int payDays = 0;
 						if ((paymentDays - payedDays) > 28) {
@@ -143,6 +147,7 @@ public class Payment {
 							payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
 						}
 						paymentDoc.put("sugestPayValue", payValue);
+                        paymentDoc.put("sugestLastDatePayment", commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28));
                         paymentDoc.put("payValue", "0.00");
                         if (setQuery.getString("documento.cycleId") != null) {
                             for (int j = 0; j < paymentsCycle.size() ; j++) {
@@ -171,9 +176,9 @@ public class Payment {
                         ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                         BasicDBObject update = new BasicDBObject();
                         update.put("field", "documento");
-                        update.put("value", payment);
+                        update.put("value", paymentDoc);
                         arrayUpdate.add(update);
-                        commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentDoc.getString("item"));
+                        commons_db.atualizarCrud("payment", arrayUpdate, "_id", payment.getString("_id"));
 
 						if (payment != null) {
 							result.add(payment);
@@ -244,6 +249,12 @@ public class Payment {
                             itemCost.put("status", "pending");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
+                            itemCost.put("lastDayPayment", vendor.getString("start").substring(0,10));
+                            if (vendor.get("extension") != null) {
+                                if (vendor.getString("extension").equals("true")) {
+                                    itemCost.put("lastDayPayment", commons.calcNewDate(vendor.getString("start").substring(0,10), -5));
+                                }
+                            }
                             JSONArray notes = new JSONArray();
                             itemCost.put("item", product.getString("id"));
                             ArrayList dates = (ArrayList) product.get("dates");
@@ -270,12 +281,6 @@ public class Payment {
                                         itemCost.put("days", Integer.toString(days));
                                         itemCost.put("totalAmount", Double.toString(amountValue));
                                         itemCost.put("notes", notes);
-                                        itemCost.put("lastDayPayment", cost.getString("start").substring(0,10));
-                                        if (vendor.get("extension") != null) {
-                                            if (vendor.getString("extension").equals("true")) {
-                                                itemCost.put("lastDayPayment", commons.calcNewDate(cost.getString("start").substring(0,10), -5));
-                                            }
-                                        }
                                         if (value != 0.0 && amountValue > 0) {
                                             commons_db.incluirCrud("payment", itemCost);
                                         }

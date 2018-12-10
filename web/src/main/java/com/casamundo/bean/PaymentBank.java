@@ -156,6 +156,9 @@ public class PaymentBank {
                     }else {
                         paymentDoc.put("status", "pending");
                     }
+                    if (paymentDoc.getString("sugestLastDayPayment") != null) {
+                        paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDayPayment"));
+                    }
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
                     update.put("field", "documento");
