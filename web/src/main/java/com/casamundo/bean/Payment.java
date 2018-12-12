@@ -287,10 +287,10 @@ public class Payment {
                         vendors = searchVendor(result, vendors, travel, "familyId", "familyDorm", "familyRooms", "family");
                         response = commons_db.listaCrud("sharedBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
                         result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "shared");
+                        vendors = searchVendor(result, vendors, travel, "vendorId", "apartment", "room", "shared");
                         response = commons_db.listaCrud("suiteBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
                         result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "vendorId", "dorm", "room", "suite");
+                        vendors = searchVendor(result, vendors, travel, "vendorId", "apartment", "room", "suite");
                         for (int j = 0; j < vendors.size(); j++) {
                             BasicDBObject vendor = new BasicDBObject();
                             vendor.putAll((Map) vendors.get(j));
@@ -433,22 +433,29 @@ public class Payment {
 			BasicDBObject vendor = new BasicDBObject();
 			vendor.putAll((Map) vendorArray.get(i));
 			BasicDBObject vendorDoc = (BasicDBObject) vendor.get("documento");
+            BasicDBObject vendorResult = new BasicDBObject();
+            vendorResult.put("start", vendorDoc.getString("start"));
+            vendorResult.put("end", vendorDoc.getString("end"));
+            vendorResult.put("type", type);
+            vendorResult.put("allocationId", vendor.getString("_id"));
 			if (vendorDoc.getString("ativo").equals("ativo")) {
-				BasicDBObject vendorResult = new BasicDBObject();
 				BasicDBObject dorm = commons_db.obterCrudDoc(collectionDorm, "documento.id", vendorDoc.getString("resource"));
 				if (dorm != null) {
-					BasicDBObject room = commons_db.obterCrudDoc(collectionRoom, "_id", dorm.getString("roomId"));
-					if (room != null) {
-						vendorResult.put("vendorId", room.getString(nameId));
-						vendorResult.put("start", vendorDoc.getString("start"));
-						vendorResult.put("end", vendorDoc.getString("end"));
-						vendorResult.put("type", type);
-                        vendorResult.put("allocationId", vendor.getString("_id"));
-						resultOutput.add(vendorResult);
-					};
-				};
-			};
-		};
+                    if (dorm.getString(nameId) != null) {
+                        vendorResult.put("vendorId", dorm.getString(nameId));
+                        resultOutput.add(vendorResult);
+                    }else{
+                        if (collectionRoom != null) {
+                            BasicDBObject room = commons_db.obterCrudDoc(collectionRoom, "_id", dorm.getString("roomId"));
+                            if (room != null) {
+                                vendorResult.put("vendorId", room.getString(nameId));
+                                resultOutput.add(vendorResult);
+                            }
+                        }
+					}
+				}
+			}
+		}
 		return resultOutput;
 	};
 }
