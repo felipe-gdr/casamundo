@@ -284,13 +284,13 @@ public class Payment {
                         ArrayList<Object> vendors = new ArrayList<Object>();
                         ResponseEntity response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
                         ArrayList<Object> result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "familyId", "familyDorm", "familyRooms", "family");
+                        vendors = searchVendor(result, vendors, "family");
                         response = commons_db.listaCrud("sharedBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
                         result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "vendorId", "apartment", "room", "shared");
+                        vendors = searchVendor(result, vendors, "shared");
                         response = commons_db.listaCrud("suiteBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
                         result = (ArrayList<Object>) response.getBody();
-                        vendors = searchVendor(result, vendors, travel, "vendorId", "apartment", "room", "suite");
+                        vendors = searchVendor(result, vendors, "suite");
                         for (int j = 0; j < vendors.size(); j++) {
                             BasicDBObject vendor = new BasicDBObject();
                             vendor.putAll((Map) vendors.get(j));
@@ -427,7 +427,7 @@ public class Payment {
 
 
 	@SuppressWarnings({"rawtypes" })
-	private ArrayList<Object> searchVendor(ArrayList<Object> vendorArray, ArrayList<Object> resultOutput, BasicDBObject travel, String nameId, String collectionDorm, String collectionRoom, String type) throws UnknownHostException {
+	private ArrayList<Object> searchVendor(ArrayList<Object> vendorArray, ArrayList<Object> resultOutput, String type) throws UnknownHostException {
 		
 		for (int i = 0; i < vendorArray.size(); i++) {
 			BasicDBObject vendor = new BasicDBObject();
@@ -439,23 +439,43 @@ public class Payment {
             vendorResult.put("type", type);
             vendorResult.put("allocationId", vendor.getString("_id"));
 			if (vendorDoc.getString("ativo").equals("ativo")) {
-				BasicDBObject dorm = commons_db.obterCrudDoc(collectionDorm, "documento.id", vendorDoc.getString("resource"));
-				if (dorm != null) {
-                    if (dorm.getString(nameId) != null) {
-                        vendorResult.put("vendorId", dorm.getString(nameId));
-                        resultOutput.add(vendorResult);
-                    }else{
-                        if (collectionRoom != null) {
-                            BasicDBObject room = commons_db.obterCrudDoc(collectionRoom, "_id", dorm.getString("roomId"));
-                            if (room != null) {
-                                vendorResult.put("vendorId", room.getString(nameId));
-                                resultOutput.add(vendorResult);
-                            }
-                        }
-					}
-				}
+                vendorResult.put("vendorId", getVendorId(vendorDoc.getString("resource"), type));
+                resultOutput.add(vendorResult);
 			}
 		}
 		return resultOutput;
-	};
+	}
+
+    private String getVendorId(String resource, String type) throws UnknownHostException {
+
+        if (type.equals("family")) {
+            BasicDBObject dorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource);
+            if (dorm != null) {
+                BasicDBObject room = commons_db.obterCrudDoc("familyRooms", "_id", dorm.getString("roomId"));
+                if (room != null && room.get("familyId") != null){
+                    return room.getString("familyId");
+                }
+            }
+        }
+        if (type.equals("suite")) {
+            BasicDBObject apartament = commons_db.obterCrudDoc("apartment", "documento.id", resource);
+            if (apartament != null && apartament.get("vendorId") != null){
+                return apartament.getString("vendorId");
+            }
+        }
+        if (type.equals("share")) {
+            BasicDBObject dorm = commons_db.obterCrudDoc("dorm", "documento.id", resource);
+            if (dorm != null) {
+                BasicDBObject room = commons_db.obterCrudDoc("room", "_id", dorm.getString("roomId"));
+                if (room != null) {
+                    BasicDBObject apartment = commons_db.obterCrudDoc("apartment", "_id", room.getString("apartmentId"));
+                    if (apartment != null && apartment.get("vendorId") != null) {
+                        return apartment.getString("vendorId");
+                    }
+                }
+            }
+        }
+        return null;
+
+    }
 }
