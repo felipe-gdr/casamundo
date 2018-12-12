@@ -73,9 +73,6 @@ public class Commons {
 		
 		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();   
-//		Integer day = Integer.parseInt(date.substring(8, 10));
-//		Integer month = Integer.parseInt(date.substring(5, 7));
-//		Integer year = Integer.parseInt(date.substring(0, 4));
 		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
 		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
 		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
@@ -84,6 +81,19 @@ public class Commons {
 		cal.add(Calendar.DAY_OF_MONTH, days);
 		return df.format(cal.getTime());
 	};
+
+    public String calcNewMonth (String date, int months){
+
+        DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+        cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
+        cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+        cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+        cal.add(Calendar.MONTH, months);
+        return df.format(cal.getTime());
+    };
 
 	public Integer weekDay (String date){
 		
@@ -498,5 +508,35 @@ public class Commons {
 		};
 		return result;
     };
+
+	public String lastDayMonth(String date) {
+
+        Calendar calendar = convertToCalendar(date);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+        int day = calendar.get(Calendar.DATE);
+        //Note: +1 the month for current month
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR);
+
+        String dayString = "";
+        String monthString = "";
+
+        if (day < 10){
+            dayString = "0" + String.valueOf(day);
+        }else{
+            dayString = String.valueOf(day);
+        };
+
+        if (month < 10){
+            monthString = "0" + String.valueOf(month);
+        }else{
+            monthString = String.valueOf(month);
+        };
+
+        String dateString = String.valueOf(year) + "-" + monthString + "-" + dayString;
+
+        return dateString;
+
+	}
 
 };
