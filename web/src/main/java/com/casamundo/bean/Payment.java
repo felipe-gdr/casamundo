@@ -463,7 +463,7 @@ public class Payment {
                 return apartament.getString("vendorId");
             }
         }
-        if (type.equals("share")) {
+        if (type.equals("shared")) {
             BasicDBObject dorm = commons_db.obterCrudDoc("dorm", "documento.id", resource);
             if (dorm != null) {
                 BasicDBObject room = commons_db.obterCrudDoc("room", "_id", dorm.getString("roomId"));
