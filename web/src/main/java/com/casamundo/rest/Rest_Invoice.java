@@ -69,7 +69,7 @@ public class Rest_Invoice {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/testadatavendor", consumes = "application/json")
-	public BasicDBObject testaDataVendor(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
+	public ArrayList testaDataVendor(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
 		ArrayList<Object> dates = new ArrayList<Object>();
 		dates = (ArrayList) queryParam.get("dates");
