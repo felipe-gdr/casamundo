@@ -26,27 +26,28 @@ public class Payment {
         int daysPeriodStart = 0;
         int daysPeriodEnd = 0;
 		if (date != null) {
-            daysPeriodStart = -19;
-            daysPeriodEnd = -5;
-            if (!accControl.equals("homestay")) {
-                daysPeriodStart = commons.convertDateInt(commons.setDay(commons.calcNewMonth(date,-1),"01"));
-                daysPeriodEnd = commons.convertDateInt(commons.lastDayMonth(commons.calcNewMonth(date, -1)));
-            }
-            if (commons.getDay(date) < 19){
-                if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
-                    daysPeriodStart--;
-                }
-                if (commons.getMonth(date) == 3) {
-                    if (commons.anoBissexto(date)) {
+            if (accControl.equals("homestay")) {
+                daysPeriodStart = -19;
+                daysPeriodEnd = -5;
+                if (commons.getDay(date) < 19) {
+                    if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
                         daysPeriodStart--;
-                    } else {
-                        daysPeriodStart = daysPeriodStart - 2;
-                        daysPeriodEnd = daysPeriodEnd - 2;
+                    }
+                    if (commons.getMonth(date) == 3) {
+                        if (commons.anoBissexto(date)) {
+                            daysPeriodStart--;
+                        } else {
+                            daysPeriodStart = daysPeriodStart - 2;
+                            daysPeriodEnd = daysPeriodEnd - 2;
+                        }
                     }
                 }
+                setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
+                setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));
+            }else{
+                setCondition.put("$gte", commons.setDay(commons.calcNewMonth(date, -1), "01"));
+                setCondition.put("$lte", commons.lastDayMonth(commons.calcNewMonth(date, -1)));
             }
-            setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
-            setCondition.put("$lte", commons.calcNewDate(date, daysPeriodEnd));
         }else{
             setCondition.put("$gte", "1900-01-01");
             setCondition.put("$lte", "9999-12-31");
