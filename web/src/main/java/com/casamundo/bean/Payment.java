@@ -454,11 +454,9 @@ public class Payment {
 			if (date.get("start") != null && date.get("end") != null) {
                 if (!date.getString("start").equals("") && !date.getString("end").equals("")) {
                     BasicDBObject resultInterval = commons.getDaysInterval(start, end, date.getString("start"), date.getString("end"));
-                    int days = commons.difDate(date.getString("start").substring(0, 10), date.getString("end").substring(0, 10));
-                    resultInterval.put("start", date.getString("start").substring(0, 10));
-                    resultInterval.put("end",date.getString("end").substring(0, 10));
-                    resultInterval.put("days",days);
-                    result.add(resultInterval);
+                    if (!resultInterval.getString("days").equals("0")) {
+                        result.add(resultInterval);
+                    }
                 }
             }
 		}
