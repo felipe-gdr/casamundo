@@ -39,7 +39,7 @@ public class PaymentBank {
                 if (!existeResult){
                     BasicDBObject paymentResult = new BasicDBObject();
                     paymentResult.put("vendorId",paymentDoc.getString("vendorId"));
-                    paymentResult.put("payValue",paymentDoc.getString("payValue"));
+                    paymentResult.put("payValue",paymentDoc.getString("sugestPayValue"));
                     paymentsResult.add(paymentResult);
                 }
             }
