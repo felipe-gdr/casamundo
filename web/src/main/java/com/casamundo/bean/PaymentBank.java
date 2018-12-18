@@ -43,6 +43,12 @@ public class PaymentBank {
                     paymentsResult.add(paymentResult);
                 }
             }
+            ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+            BasicDBObject update = new BasicDBObject();
+            update.put("field", "status");
+            update.put("value", "sendind to bank");
+            arrayUpdate.add(update);
+            commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i));
         }
         doc.put("payments",paymentsResult);
         commons_db.incluirCrud("paymentBank",doc);
