@@ -158,48 +158,51 @@ public class Invoice {
             ArrayList<BasicDBObject> dates = new ArrayList<BasicDBObject>();
             ArrayList <BasicDBObject> seasons = new ArrayList<>();
             if (productDoc.getString("charging").equals("week") && numberWeeksDays.get("startWeeks") != "") {
-                seasons = priceTable.getSeasons(numberWeeksDays.get("startWeeks").toString(),numberWeeksDays.get("endWeeks").toString(), travelId,product.getString("_id"),null);
+                seasons = priceTable.getSeasons(numberWeeksDays.get("startWeeks").toString(),numberWeeksDays.get("endWeeks").toString(), travelId,product.getString("_id"),travel.getString("agency"));
                 for (BasicDBObject season:seasons) {
                     BasicDBObject date = new BasicDBObject();
                     date.put("start", season.getString("start"));
                     date.put("end", season.getString("end"));
                     date.put("value", season.getString("value"));
+					date.put("type", "weeks");
                     dates.add(date);
                 }
             }
             if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsEntrada") != "") {
                 if (!numberWeeksDays.get("extraNightsEntrada").equals("")) {
-                    seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsEntrada").toString(), numberWeeksDays.get("endExtraNightsEntrada").toString(), travelId, product.getString("id"), null);
+                    seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsEntrada").toString(), numberWeeksDays.get("endExtraNightsEntrada").toString(), travelId, product.getString("_id"), travel.getString("agency"));
                     for (BasicDBObject season : seasons) {
                         BasicDBObject date = new BasicDBObject();
                         date.put("start", season.getString("start"));
                         date.put("end", season.getString("end"));
                         date.put("value", season.getString("value"));
+						date.put("type", "extraNights");
                         dates.add(date);
                     }
                 }
             }
             if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsSaida") != "") {
                 if (!numberWeeksDays.get("extraNightsSaida").equals("") && numberWeeksDays.get("startExtraNightsSaida") != "") {
-                    seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsSaida").toString(),numberWeeksDays.get("endExtraNightsSaida").toString(), travelId,product.getString("id"),null);
+                    seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsSaida").toString(),numberWeeksDays.get("endExtraNightsSaida").toString(), travelId,product.getString("_id"),travel.getString("agency"));
                     for (BasicDBObject season:seasons) {
                         BasicDBObject date = new BasicDBObject();
                         date.put("start", season.getString("start"));
                         date.put("end", season.getString("end"));
                         date.put("value", season.getString("value"));
+						date.put("type", "extraNights");
                         dates.add(date);
                     }
                 }
             };
             BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
             for (BasicDBObject date:dates) {
-                if (productDoc.getString("charging").equals("eNight")) {
+                if (date.getString("type").equals("extraNights")) {
                     int days = commons.difDate(date.getString("start"), date.getString("end"));
                     variaveis.put("extraNights", Integer.toString(days));
                 }else{
                     variaveis.put("extraNights", "0");
                 }
-                if (productDoc.getString("charging").equals("week")) {
+                if (date.getString("type").equals("weeks")) {
                     int weeks = commons.difDate(date.getString("start"), date.getString("end")) / 7;
                     int days = commons.difDate(date.getString("start"), date.getString("end")) % 7;
                     if  (days > 3){
@@ -209,6 +212,7 @@ public class Invoice {
                 }else{
                     variaveis.put("weeks", "0");
                 }
+				variaveis.put("accControl", travel.getString("accControl"));
                 variaveis.put("value", date.get("value"));
                 Double value = 0.0;
                 if (productDoc.get("formula") != null ) {
@@ -219,7 +223,8 @@ public class Invoice {
                     productDoc.put("date", date);
                     productDoc.put("extraNights", variaveis.getString("extraNights"));
                     productDoc.put("weeks", variaveis.getString("weeks"));
-                    productDoc.put("value", value);
+                    productDoc.put("value", Double.toString(value));
+					productDoc.put("accControl", travel.getString("accControl"));
                     resultArray.add(product);
                 }
 

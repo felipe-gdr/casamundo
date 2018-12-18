@@ -398,7 +398,7 @@ public class PriceTable {
                 BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
-                    resultItem.put("value", priceListDoc.get("value"));
+                    resultItem.put("value", priceListDoc.get("net"));
                     resultItem.put("start", start);
                     resultItem.put("end", end);
                     if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
@@ -409,7 +409,7 @@ public class PriceTable {
                 }else{
                     if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
                         BasicDBObject resultItem = new BasicDBObject();
-                        resultItem.put("value", priceListDoc.get("value"));
+                        resultItem.put("value", priceListDoc.get("net"));
                         resultItem.put("start", start);
                         resultItem.put("end", end);
                         if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
@@ -443,7 +443,7 @@ public class PriceTable {
                 BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
-                    resultItem.put("value", priceListDoc.get("value"));
+                    resultItem.put("value", priceListDoc.get("net"));
                     resultItem.put("start", start);
                     resultItem.put("end", end);
                     if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
@@ -454,7 +454,7 @@ public class PriceTable {
                 }else{
                     if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
                         BasicDBObject resultItem = new BasicDBObject();
-                        resultItem.put("value", priceListDoc.get("value"));
+                        resultItem.put("value", priceListDoc.get("net"));
                         resultItem.put("start", start);
                         resultItem.put("end", end);
                         if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
