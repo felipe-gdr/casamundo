@@ -32,7 +32,7 @@ public class PaymentBank {
                     paymentResult.putAll((Map) paymentsResult.get(k));
                     if (paymentResult.getString("vendorId").equals(paymentDoc.getString("vendorId"))){
                         existeResult = true;
-                        paymentResult.put("payValue", Double.toString(Double.parseDouble(paymentResult.getString("payValue")) + Double.parseDouble(paymentDoc.getString("payValue"))));
+                        paymentResult.put("payValue", Double.toString(Double.parseDouble(paymentResult.getString("payValue")) + Double.parseDouble(paymentDoc.getString("sugestPayValue"))));
                         paymentsResult.set(k,paymentResult);
                     }
                 }

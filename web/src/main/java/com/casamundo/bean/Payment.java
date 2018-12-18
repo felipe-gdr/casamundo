@@ -202,12 +202,12 @@ public class Payment {
         }else {
             payDays = paymentDays - payedDays;
         }
-        paymentDoc.put("payDays", payDays);
+        paymentDoc.put("payDays", String.valueOf(payDays));
         Double payValue = (Double.parseDouble(paymentDoc.getString("totalAmount")) / Integer.parseInt(paymentDoc.getString("days")) * payDays);
         if ((payedDays + payDays)  == paymentDays ) {
             payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
         }
-        paymentDoc.put("sugestPayValue", payValue);
+        paymentDoc.put("sugestPayValue", Double.toString(payValue));
         paymentDoc.put("sugestLastDatePayment", commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28));
         paymentDoc.put("payValue", "0.00");
         if (setQuery.getString("documento.cycleId") != null) {
