@@ -214,6 +214,8 @@ public class Invoice {
                     variaveis.put("weeks", "0");
                 }
 				variaveis.put("accControl", travel.getString("accControl"));
+				variaveis.put("airportPickup", travel.getString("airportPickup"));
+				variaveis.put("airportDropoff", travel.getString("airportDropoff"));
                 variaveis.put("value", date.get("value"));
                 if (commons.calcAge(student.getString("birthday")) < 18){
                     variaveis.put("underage", "yes");
@@ -233,6 +235,8 @@ public class Invoice {
                     productDoc.put("weeks", variaveis.getString("weeks"));
                     productDoc.put("value", Double.toString(value));
 					productDoc.put("accControl", travel.getString("accControl"));
+					productDoc.put("airportPickup", travel.getString("airportPickup"));
+					productDoc.put("airportDropoff", travel.getString("airportDropoff"));
                     resultArray.add(product);
                 }
 
