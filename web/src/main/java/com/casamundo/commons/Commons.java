@@ -41,7 +41,7 @@ public class Commons {
 	
 	public Long calcAge (String birthDate){
 		
-		DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
 		try {
 			Date d1 = df.parse (birthDate);
 			Date d2 = new Date(System.currentTimeMillis()); 

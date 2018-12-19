@@ -144,6 +144,7 @@ public class Invoice {
 			return null;
 		}
         BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+        BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
         BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 
         BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
@@ -214,10 +215,17 @@ public class Invoice {
                 }
 				variaveis.put("accControl", travel.getString("accControl"));
                 variaveis.put("value", date.get("value"));
+                if (commons.calcAge(student.getString("birthday")) < 18){
+                    variaveis.put("underage", "yes");
+                }else{
+                    variaveis.put("underage", "no");
+                }
                 Double value = 0.0;
                 if (productDoc.get("formula") != null ) {
-                    Map<String, Object> variables = variaveis;
-                    value = new FormulaCalculator(productDoc.getString("formula"), variables).calculate();
+					if (!productDoc.getString("formula").equals("")) {
+						Map<String, Object> variables = variaveis;
+						value = new FormulaCalculator(productDoc.getString("formula"), variables).calculate();
+					}
                 }
                 if (value != 0.0) {
                     productDoc.put("date", date);
