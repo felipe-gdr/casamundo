@@ -203,6 +203,7 @@ public class PriceTable {
 	    ArrayList result = new ArrayList();
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
 		String destination =  (String) travel.get("destination");
+		String agencyId =  (String) travel.get("agencyId");
 
 		BasicDBObject setQuery = new BasicDBObject();
 		
@@ -216,7 +217,12 @@ public class PriceTable {
     	}else{
             setQuery.put("documento.idVendor", "");
         }
-    	
+		if (agencyId != null) {
+			setQuery.put("documento.agencyId", agencyId);
+		}else{
+			setQuery.put("documento.agencyId", "");
+		}
+
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
 		ResponseEntity response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
@@ -246,7 +252,89 @@ public class PriceTable {
 		if (result.size() > 0){
             return result;
         }
-				
+
+		setQuery = new BasicDBObject();
+		setQuery.put("documento.idPriceTable", productId);
+		if (destination != null) {
+			setQuery.put("documento.destination", destination);
+		}
+		if (vendorId != null) {
+			setQuery.put("documento.idVendor", vendorId);
+		}else{
+			setQuery.put("documento.idVendor", "");
+		}
+
+		setSort = new BasicDBObject();
+		setSort.put("documento.from", 1);
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getBody();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					BasicDBObject resultItem = new BasicDBObject();
+					resultItem.put("value", priceListDoc.get("value"));
+					resultItem.put("start", start);
+					resultItem.put("end", end);
+					if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
+						start = commons.calcNewDate((String) priceListDoc.get("to"), 1);
+						resultItem.put("end", commons.calcNewDate((String) priceListDoc.get("to"), 1));
+					}
+					result.add(resultItem);
+				};
+			};
+		};
+
+		if (result.size() > 0){
+			return result;
+		}
+
+		setQuery = new BasicDBObject();
+		setQuery.put("documento.idPriceTable", productId);
+		if (destination != null) {
+			setQuery.put("documento.destination", destination);
+		}
+		if (agencyId != null) {
+			setQuery.put("documento.agencyId", agencyId);
+		}else{
+			setQuery.put("documento.agencyId", "");
+		}
+
+		setSort = new BasicDBObject();
+		setSort.put("documento.from", 1);
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+
+		pricesList = new ArrayList<Object>();
+		pricesList = (JSONArray) response.getBody();
+
+		if (response != null) {
+			for (int i = 0; i < pricesList.size(); i++) {
+				BasicDBObject priceList = new BasicDBObject();
+				priceList.putAll((Map) pricesList.get(i));
+				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
+					BasicDBObject resultItem = new BasicDBObject();
+					resultItem.put("value", priceListDoc.get("value"));
+					resultItem.put("start", start);
+					resultItem.put("end", end);
+					if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
+						start = commons.calcNewDate((String) priceListDoc.get("to"), 1);
+						resultItem.put("end", commons.calcNewDate((String) priceListDoc.get("to"), 1));
+					}
+					result.add(resultItem);
+				};
+			};
+		};
+
+		if (result.size() > 0){
+			return result;
+		}
+
 		setQuery = new BasicDBObject();
     	setQuery.put("documento.idPriceTable", productId);
     	if (destination != null) {
