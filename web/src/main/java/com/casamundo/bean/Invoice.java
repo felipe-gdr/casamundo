@@ -347,4 +347,11 @@ public class Invoice {
 
 	};
 
+	public Double testaFormla(String formula, BasicDBObject variaveis)  throws IOException  {
+		Map<String, Object> variables = variaveis;
+		Double value = 0.0;
+		value = new FormulaCalculator(formula, variables).calculate();
+		return value;
+	};
+
 }

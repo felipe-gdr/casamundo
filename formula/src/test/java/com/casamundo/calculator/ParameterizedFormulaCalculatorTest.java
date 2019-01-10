@@ -52,7 +52,7 @@ public class ParameterizedFormulaCalculatorTest {
                 {"if(2 * 3 = 6, 10, 1)", 10.0, emptyMap()},
                 {"if(2 * 3 = 7, 10, 1)", 1.0, emptyMap()},
                 {"if(x = 1, 10, 1)", 10.0, createVars(var("x", 1.0))},
-                {"if(x != 1, 10, 1)", 1.0, createVars(var("x", 1.0))},
+                {"if(x != 1 and x = 1, 10, 1)", 1.0, createVars(var("x", 1.0))},
                 {"if(x = 2, x * y, 1)", 6.0, createVars(var("x", 2.0), var("y", 3.0))},
                 {"if(x = 'yes', 1, 0)", 1.0, createVars(var("x", "yes"))},
                 {"if(x = 'yes' and y = 'yes', 1, 0)", 1.0, createVars(var("x", "yes"), var("y", "yes"))},

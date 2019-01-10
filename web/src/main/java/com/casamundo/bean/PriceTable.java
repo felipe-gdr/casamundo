@@ -218,9 +218,9 @@ public class PriceTable {
             setQuery.put("documento.idVendor", "");
         }
 		if (agencyId != null) {
-			setQuery.put("documento.agencyId", agencyId);
+			setQuery.put("documento.agency", agencyId);
 		}else{
-			setQuery.put("documento.agencyId", "");
+			setQuery.put("documento.agency", "");
 		}
 
 		BasicDBObject setSort = new BasicDBObject();
@@ -263,6 +263,7 @@ public class PriceTable {
 		}else{
 			setQuery.put("documento.idVendor", "");
 		}
+		setQuery.put("documento.agency", "");
 
 		setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
@@ -300,10 +301,11 @@ public class PriceTable {
 			setQuery.put("documento.destination", destination);
 		}
 		if (agencyId != null) {
-			setQuery.put("documento.agencyId", agencyId);
+			setQuery.put("documento.agency", agencyId);
 		}else{
-			setQuery.put("documento.agencyId", "");
+			setQuery.put("documento.agency", "");
 		}
+		setQuery.put("documento.idVendor", "");
 
 		setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
@@ -340,6 +342,7 @@ public class PriceTable {
     	if (destination != null) {
     		setQuery.put("documento.destination", destination);
             setQuery.put("documento.idVendor", "");
+			setQuery.put("documento.agency", "");
     	};
 		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
@@ -376,6 +379,7 @@ public class PriceTable {
     	setQuery.put("documento.idPriceTable", productId);
         setQuery.put("documento.destination", "");
         setQuery.put("documento.idVendor", "");
+		setQuery.put("documento.agency", "");
     	response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
 
 		pricesList = new ArrayList<Object>();
@@ -412,6 +416,7 @@ public class PriceTable {
         ArrayList result = new ArrayList();
         BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
         String destination =  (String) travel.get("destination");
+		String agency =  (String) travel.get("agency");
 
         BasicDBObject setQuery = new BasicDBObject();
 
@@ -420,8 +425,8 @@ public class PriceTable {
         if (destination != null) {
             setQuery.put("documento.destination", destination);
         }
-        if (vendorId != null) {
-            setQuery.put("documento.agency", vendorId);
+        if (agency != null) {
+            setQuery.put("documento.agency", agency);
         }
 
         BasicDBObject setSort = new BasicDBObject();
@@ -470,6 +475,7 @@ public class PriceTable {
         setQuery.put("documento.idPriceTable", productId);
         if (destination != null) {
             setQuery.put("documento.destination", destination);
+			setQuery.put("documento.agency", "");
         };
         response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
 
@@ -516,6 +522,8 @@ public class PriceTable {
 
         setQuery = new BasicDBObject();
         setQuery.put("documento.idPriceTable", productId);
+		setQuery.put("documento.destination", "");
+		setQuery.put("documento.agency", "");
         response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
 
         pricesList = new ArrayList<Object>();

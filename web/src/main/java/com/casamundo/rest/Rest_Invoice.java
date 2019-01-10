@@ -74,6 +74,15 @@ public class Rest_Invoice {
 	};
 
 	@SuppressWarnings("rawtypes")
+	@PostMapping(value = "/testaformula", consumes = "application/json")
+	public Double testaFormula(@RequestBody JSONObject queryParam) throws IOException, MongoException  {
+
+		String formula = (String) queryParam.get("formula");
+		BasicDBObject variaveis = (BasicDBObject) queryParam.get("variaveis");
+		return invoice.testaFormla(formula,variaveis);
+	};
+
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/itensinvoiceautomatica", produces = "application/json")
 	public ArrayList calculaInvoiceAutomatica(
 			@RequestParam("travelId") String travelId, 
