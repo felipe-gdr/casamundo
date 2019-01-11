@@ -109,13 +109,13 @@ public class Payment {
                 String paymentId = payment.getString("_id");
                 if (paymentDoc.get("accControl") != null) {
                     if (paymentDoc.get("accControl").equals("homestay")) {
-                        paymentDoc = calcPaymentHomestay(paymentDoc, payment.getString("_id"), date);
+                        paymentDoc = calcPaymentHomestay(paymentDoc, payment.getString("_id"), date, setQuery);
                         payment.put("documento", paymentDoc);
                         result.add(payment);
                     }
                     String lastDayMonthBefore = commons.lastDayMonth(paymentDoc.getString("lastDayPayment"));
                     if (!paymentDoc.get("accControl").equals("homestay")) {
-                        paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"));
+                        paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"), setQuery);
                         payment.put("documento", paymentDoc);
                         result.add(payment);
                     }
@@ -142,7 +142,7 @@ public class Payment {
                 String paymentId = payment.getString("_id");
 				if (paymentDoc.get("accControl") != null) {
 					if (paymentDoc.get("accControl").equals("homestay") && commons.convertDateInt(paymentDoc.getString("start")) < commons.convertDateInt(commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28))) {
-                        paymentDoc = calcPaymentHomestay(paymentDoc, payment.getString("_id"), baseDate);
+                        paymentDoc = calcPaymentHomestay(paymentDoc, payment.getString("_id"), baseDate, setQuery);
 						payment.put("documento", paymentDoc);
                         ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                         BasicDBObject update = new BasicDBObject();
@@ -156,7 +156,7 @@ public class Payment {
                     }
                     String lastDayMonthBefore = commons.lastDayMonth(paymentDoc.getString("lastDayPayment"));
                     if (!paymentDoc.get("accControl").equals("homestay") && commons.convertDateInt(paymentDoc.getString("start")) < commons.convertDateInt(lastDayMonthBefore)) {
-                        paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"));
+                        paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"), setQuery);
                         payment.put("documento", paymentDoc);
                         ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                         BasicDBObject update = new BasicDBObject();
@@ -175,12 +175,11 @@ public class Payment {
 		return result;
 	}
 
-    private BasicDBObject calcPaymentHomestay(BasicDBObject paymentDoc, String paymentId, String baseDate) throws UnknownHostException {
+    private BasicDBObject calcPaymentHomestay(BasicDBObject paymentDoc, String paymentId, String baseDate, BasicDBObject setQuery) throws UnknownHostException {
 
 	    BasicDBObject paymentCycle = new BasicDBObject();
         ArrayList  paymentsCycle = new ArrayList();
 
-        BasicDBObject setQuery =  new BasicDBObject();
         if (setQuery.getString("documento.cycleId") != null) {
             paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", setQuery.getString("documento.cycleId"));
             paymentsCycle = (ArrayList) paymentCycle.get("payments");
@@ -236,12 +235,11 @@ public class Payment {
         return paymentDoc;
     }
 
-    private BasicDBObject calcPaymentDorms(BasicDBObject paymentDoc, String lastDayMonthBefore, String paymentId) throws UnknownHostException {
+    private BasicDBObject calcPaymentDorms(BasicDBObject paymentDoc, String lastDayMonthBefore, String paymentId, BasicDBObject setQuery) throws UnknownHostException {
 
         BasicDBObject paymentCycle = new BasicDBObject();
         ArrayList  paymentsCycle = new ArrayList();
 
-        BasicDBObject setQuery =  new BasicDBObject();
         if (setQuery.getString("documento.cycleId") != null) {
             paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", setQuery.getString("documento.cycleId"));
             paymentsCycle = (ArrayList) paymentCycle.get("payments");
