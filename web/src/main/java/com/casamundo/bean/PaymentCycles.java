@@ -61,9 +61,8 @@ public class PaymentCycles {
         update.put("field", "documento");
         update.put("value", doc);
         arrayUpdate.add(update);
-        commons_db.atualizarCrud("paymentCycle",arrayUpdate,"documento.cycleId",cycleId);
+        ResponseEntity response = commons_db.atualizarCrud("paymentCycles",arrayUpdate,"_id",cycleId);
 
-        ResponseEntity response = commons_db.incluirCrud("paymentCycles",doc);
         ArrayList <BasicDBObject> payments = (ArrayList<BasicDBObject>) doc.get("payments");
         for (int i = 0; i < payments.size(); i++) {
             BasicDBObject payment = new BasicDBObject();

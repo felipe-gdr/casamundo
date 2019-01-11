@@ -146,7 +146,6 @@ public class Commons_DB {
         DBCollection collection = db.getCollection(collectionName);
 
         BasicDBObject objDocumento = new BasicDBObject();
-
         ResponseEntity response = obterCrud(collectionName, key, valueInp);
         if ((response.getStatusCode() == HttpStatus.OK)) {
             BasicDBObject cursor = new BasicDBObject();
