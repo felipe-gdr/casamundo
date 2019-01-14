@@ -68,13 +68,8 @@ public class Rest_Payment {
 			@RequestParam(value = "cycleId", required=false) String cycleId
 	) throws UnknownHostException, MongoException {
 
-		if (cycleId != null)  {
-			BasicDBObject setQuery = new BasicDBObject();
-			BasicDBObject setSort = new BasicDBObject();
-			setSort.put("documento.lastDayPayment", -1);
-			setQuery.put("documento.cycleId", cycleId);
-			ArrayList<BasicDBObject> payments = new ArrayList<>();
-			return payment.getPayments(userId, setQuery, setSort, payments, "2010-10-10");
+		if (cycleId != null) {
+			return payment.getProcessig(userId, cycleId);
 		}
 		return null;
 

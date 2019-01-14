@@ -43,6 +43,8 @@ public class PaymentCycles {
 
     public ResponseEntity atualiza(BasicDBObject doc) throws UnknownHostException {
 
+        String cycleId = doc.getString("_id");
+
         ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
         BasicDBObject update = new BasicDBObject();
         update.put("field", "status");
@@ -52,9 +54,12 @@ public class PaymentCycles {
         update.put("field", "cycleId");
         update.put("value", "");
         arrayUpdate.add(update);
-        commons_db.atualizarCrud("payment",arrayUpdate,"documento.cycleId",doc.getString("_id"));
+        update = new BasicDBObject();
+        update.put("field", "payValue");
+        update.put("value", "0");
+        arrayUpdate.add(update);
+        commons_db.atualizarCrud("payment",arrayUpdate,"documento.cycleId",cycleId);
 
-        String cycleId = doc.getString("_id");
         doc.remove("_id");
         arrayUpdate = new ArrayList<BasicDBObject>();
         update = new BasicDBObject();
@@ -62,7 +67,6 @@ public class PaymentCycles {
         update.put("value", doc);
         arrayUpdate.add(update);
         ResponseEntity response = commons_db.atualizarCrud("paymentCycles",arrayUpdate,"_id",cycleId);
-
         ArrayList <BasicDBObject> payments = (ArrayList<BasicDBObject>) doc.get("payments");
         for (int i = 0; i < payments.size(); i++) {
             BasicDBObject payment = new BasicDBObject();
