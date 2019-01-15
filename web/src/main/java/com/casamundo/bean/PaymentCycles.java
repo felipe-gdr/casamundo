@@ -45,44 +45,65 @@ public class PaymentCycles {
 
         String cycleId = doc.getString("_id");
 
-        ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
-        BasicDBObject update = new BasicDBObject();
-        update.put("field", "status");
-        update.put("value", "pending");
-        arrayUpdate.add(update);
-        update = new BasicDBObject();
-        update.put("field", "cycleId");
-        update.put("value", "");
-        arrayUpdate.add(update);
-        update = new BasicDBObject();
-        update.put("field", "payValue");
-        update.put("value", "0");
-        arrayUpdate.add(update);
-        commons_db.atualizarCrud("payment",arrayUpdate,"documento.cycleId",cycleId);
+        ResponseEntity response  = commons_db.listaCrud("payment", "documento.cycleId", cycleId, null, null, null, false);
+
+        ArrayList<Object> paymentsAtu = new ArrayList<Object>();
+        paymentsAtu = (JSONArray) response.getBody();
+
+        if (response != null) {
+            for (int i = 0; i < paymentsAtu.size(); i++) {
+                BasicDBObject payment = new BasicDBObject();
+                payment.putAll((Map) paymentsAtu.get(i));
+                ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                BasicDBObject update = new BasicDBObject();
+                update.put("field", "status");
+                update.put("value", "pending");
+                arrayUpdate.add(update);
+                update = new BasicDBObject();
+                update.put("field", "cycleId");
+                update.put("value", "");
+                arrayUpdate.add(update);
+                update = new BasicDBObject();
+                update.put("field", "payValue");
+                update.put("value", "0");
+                arrayUpdate.add(update);
+                commons_db.atualizarCrud("payment",arrayUpdate,"_id",payment.get("_id").toString());
+            }
+        }
+
 
         doc.remove("_id");
-        arrayUpdate = new ArrayList<BasicDBObject>();
-        update = new BasicDBObject();
+        ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+        BasicDBObject update = new BasicDBObject();
         update.put("field", "documento");
         update.put("value", doc);
         arrayUpdate.add(update);
-        ResponseEntity response = commons_db.atualizarCrud("paymentCycles",arrayUpdate,"_id",cycleId);
         ArrayList <BasicDBObject> payments = (ArrayList<BasicDBObject>) doc.get("payments");
-        for (int i = 0; i < payments.size(); i++) {
-            BasicDBObject payment = new BasicDBObject();
-            payment.putAll((Map) payments.get(i));
-            arrayUpdate = new ArrayList<BasicDBObject>();
-            update = new BasicDBObject();
-            update.put("field", "status");
-            update.put("value", "processing");
-            arrayUpdate.add(update);
-            update = new BasicDBObject();
-            update.put("field", "cycleId");
-            update.put("value", cycleId);
-            arrayUpdate.add(update);
-            commons_db.atualizarCrud("payment",arrayUpdate,"_id",payment.getString("id"));
+        if (payments == null){
+            response = commons_db.removerCrud("paymentCycles","_id","documento.cycleId", null);
+            return response;
+        }else {
+            response = commons_db.atualizarCrud("paymentCycles",arrayUpdate,"_id",cycleId);
+            for (int i = 0; i < payments.size(); i++) {
+                BasicDBObject payment = new BasicDBObject();
+                payment.putAll((Map) payments.get(i));
+                arrayUpdate = new ArrayList<BasicDBObject>();
+                update = new BasicDBObject();
+                update.put("field", "status");
+                update.put("value", "processing");
+                arrayUpdate.add(update);
+                update = new BasicDBObject();
+                update.put("field", "cycleId");
+                update.put("value", cycleId);
+                arrayUpdate.add(update);
+                update = new BasicDBObject();
+                update.put("field", "payValue");
+                update.put("value", payment.getString("payValue"));
+                arrayUpdate.add(update);
+                commons_db.atualizarCrud("payment", arrayUpdate, "_id", payment.getString("id"));
+            }
+            return response;
         }
-        return response;
     }
 
     public ArrayList listaStatus(String status, String userId ) throws UnknownHostException {
@@ -97,4 +118,30 @@ public class PaymentCycles {
 
     }
 
+    public ResponseEntity delete(String cycleId) throws UnknownHostException {
+
+        ResponseEntity response = commons_db.listaCrud("paymentCycles", "documento.bankListId", cycleId, null, null, null, false);
+
+        ArrayList<Object> paymentsCycles = new ArrayList<Object>();
+        paymentsCycles = (JSONArray) response.getBody();
+
+        if (response != null) {
+            for (int i = 0; i < paymentsCycles.size(); i++) {
+                BasicDBObject paymentCycle = new BasicDBObject();
+                paymentCycle.putAll((Map) paymentsCycles.get(i));
+                ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                BasicDBObject update = new BasicDBObject();
+                update.put("field", "status");
+                update.put("value", "bank");
+                arrayUpdate.add(update);
+                update = new BasicDBObject();
+                update.put("field", "bankListId");
+                update.put("value", "");
+                arrayUpdate.add(update);
+                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentCycle.get("_id").toString());
+            }
+        }
+
+        return commons_db.removerCrud("paymentBank", "_id", cycleId, null);
+    }
 }

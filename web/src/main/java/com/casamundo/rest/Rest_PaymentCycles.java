@@ -36,6 +36,13 @@ public class Rest_PaymentCycles {
     };
 
 	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/delete", produces = "application/json")
+	public ResponseEntity delete(
+			@RequestParam("paymentCycleId") String paymentCycleId) throws IOException, MongoException {
+		return paymentCycles.delete(paymentCycleId);
+	};
+
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/lista/status", produces = "application/json")
 	public ArrayList lista(
 			@RequestParam("status") String status,

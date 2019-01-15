@@ -5,6 +5,7 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,6 +33,20 @@ public class Rest_PaymentBank {
     public Boolean atualizarPagamento(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 
         return paymentBank.atualizaPagamento(doc);
+    };
+
+    @SuppressWarnings("rawtypes")
+    @PostMapping(value = "/atualizar", consumes = "application/json")
+    public ResponseEntity atualizar(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
+
+        return paymentBank.atualiza(doc);
+    };
+
+    @SuppressWarnings("rawtypes")
+    @RequestMapping(value = "/delete", produces = "application/json")
+    public ResponseEntity delete(
+            @RequestParam("paymentBankId") String paymentBankId) throws IOException, MongoException {
+        return paymentBank.delete(paymentBankId);
     };
 
     @SuppressWarnings("rawtypes")
