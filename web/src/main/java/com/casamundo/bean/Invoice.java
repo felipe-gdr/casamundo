@@ -158,6 +158,17 @@ public class Invoice {
             BasicDBObject productDoc = (BasicDBObject) product.get("documento");
             ArrayList<BasicDBObject> dates = new ArrayList<BasicDBObject>();
             ArrayList <BasicDBObject> seasons = new ArrayList<>();
+            if (productDoc.getString("charging").equals("unique") && numberWeeksDays.get("startWeeks") != "") {
+                seasons = priceTable.getSeasons(accomodation.getString("checkIn"),accomodation.getString("checkOut"), travelId,product.getString("_id"),travel.getString("agency"));
+                if (seasons.size() > 0){
+                    BasicDBObject date = new BasicDBObject();
+                    date.put("start", seasons.get(0).getString("start"));
+                    date.put("end", seasons.get(0).getString("end"));
+                    date.put("value", seasons.get(0).getString("value"));
+                    date.put("type", "unique");
+                    dates.add(date);
+                }
+            }
             if (productDoc.getString("charging").equals("week") && numberWeeksDays.get("startWeeks") != "") {
                 seasons = priceTable.getSeasons(numberWeeksDays.get("startWeeks").toString(),numberWeeksDays.get("endWeeks").toString(), travelId,product.getString("_id"),travel.getString("agency"));
                 for (BasicDBObject season:seasons) {
@@ -271,8 +282,13 @@ public class Invoice {
 			BasicDBObject invoice = new BasicDBObject();
 			invoice.putAll((Map) invoices.get(i));
 			BasicDBObject invoiceObj = commons_db.obterCrudDoc("invoice", "_id", invoice.getString("id"));
-			if (invoiceObj.get("netGross") != null && invoiceObj.get("total") != null ) {
-				float total = Float.valueOf(invoiceObj.getString("total"));
+			if (invoiceObj.get("netGross") != null ) {
+                float total = 0;
+			    if (invoiceObj.getString("netGross").equals("net")){
+                    total = Float.valueOf(invoiceObj.getString("totalNet"));
+                }else{
+                    total = Float.valueOf(invoiceObj.getString("totalGross"));
+                }
 				float valuePayedObj = 0;
 				if (invoiceObj.get("valuePayed") != null) {
 					valuePayedObj = Float.valueOf(invoiceObj.getString("valuePayed"));
@@ -296,25 +312,24 @@ public class Invoice {
 			update.put("value", invoiceObj);
 			arrayUpdate.add(update);
 			commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoice.getString("id"));
-            ArrayList<Object> products = new ArrayList<Object>();
-            products = (ArrayList) invoice.get("products");
-            estimated.criarCosts(products, invoice.getString("trip"), invoice.getString("id"));
-            payment.managementCostsBooking(invoice.getString("trip"));
 		}
 		String key = "";
+        String keyInvoice = "";
 		String value = "";
 		String collection = "";
 		
-		if (receivementAtu.getString("agency") != null) {
-			key = "documento.agency";
-			value = receivementAtu.getString("agency");
+		if (receivementAtu.getString("agencyId") != null) {
+			key = "documento.agencyId";
+            keyInvoice = "documento.agency";
+			value = receivementAtu.getString("agencyId");
 			collection = "agency";
 		}else {
-			key = "documento.student";
-			value = receivementAtu.getString("student");
+			key = "documento.studentId";
+            keyInvoice = "documento.student";
+			value = receivementAtu.getString("studentId");
 			collection = "student";
 		}
-		ResponseEntity response = commons_db.listaCrud("invoice", key, value, null, null, null, true);
+		ResponseEntity response = commons_db.listaCrud("invoice", keyInvoice, value, null, null, null, true);
 		invoices = new ArrayList<Object>();
 		invoices = (JSONArray) response.getBody();
 

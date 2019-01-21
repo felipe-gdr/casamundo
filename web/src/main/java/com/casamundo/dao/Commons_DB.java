@@ -163,7 +163,6 @@ public class Commons_DB {
 
         if (objDocumento != null) {
             String companyId = (String) objDocumento.get("companyId");
-            String balance = (String) objDocumento.get("balance");
             List arrayUpdate = (List) updateInput;
             for (int i = 0; i < arrayUpdate.size(); i++) {
                 BasicDBObject setUpdate = new BasicDBObject();
@@ -204,7 +203,6 @@ public class Commons_DB {
             BasicDBObject doc = new BasicDBObject();
 
             objDocumento.put("companyId", companyId);
-            objDocumento.put("balance", balance);
             doc.put("documento", objDocumento);
             doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
             BasicDBObject setQuery = new BasicDBObject();

@@ -538,8 +538,92 @@ public class Payment {
 
     private void atualizaPayment(String travelId) throws UnknownHostException {
 
-	    ResponseEntity payments = commons_db.listaCrud("payments", "documento.trip", travelId, null, null, null, true);
+	    ResponseEntity response = commons_db.listaCrud("payments", "documento.trip", travelId, null, null, null, true);
+        ArrayList<Object> payments = new ArrayList<Object>();
+        payments = (JSONArray) response.getBody();
 
+        if (response != null) {
+            for (int i = 0; i < payments.size(); i++) {
+                BasicDBObject payment = new BasicDBObject();
+                payment.putAll((Map) payments.get(i));
+                BasicDBObject paymentDoc = new BasicDBObject();
+                paymentDoc = (BasicDBObject) payment.get("documento");
+                if (paymentDoc.getString("status").equals("processing")){
+                    removeCycle(payment.getString("_id"));
+                    removeBank(payment.getString("_id"));
+                }
+                if (paymentDoc.getString("payedAmount").equals("0.0")) {
+                    commons_db.removerCrud("payment","_id", payment.getString("_id"), null);
+                }else{
+                    paymentDoc.put("status", "partialPayed");
+                    payment.put("documento", paymentDoc);
+                    ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                    BasicDBObject update = new BasicDBObject();
+                    update.put("field", "documento");
+                    update.put("value", payment);
+                    arrayUpdate.add(update);
+                    response = commons_db.atualizarCrud("payment", arrayUpdate, "_id", payment.getString("_id"));
+                }
+                BasicDBObject vendor = new BasicDBObject();
+                if  (paymentDoc.getString("vendorType").equals("family")){
+                    vendor = commons_db.obterCrudDoc("family", "_id", paymentDoc.getString("vendorId"));
+                }
+                Double debit = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
+
+            }
+        }
+    }
+
+    private void removeBank(String paymentId) throws UnknownHostException {
+
+        ResponseEntity response = commons_db.listaCrud("paymentCycle", "documento.payments", paymentId, null, null, null, true);
+        ArrayList<Object> paymentsCycles = new ArrayList<Object>();
+        paymentsCycles = (JSONArray) response.getBody();
+
+        if (response != null) {
+            for (int i = 0; i < paymentsCycles.size(); i++) {
+                BasicDBObject paymentCycle = new BasicDBObject();
+                paymentCycle.putAll((Map) paymentsCycles.get(i));
+                BasicDBObject paymentCycleDoc = new BasicDBObject();
+                paymentCycleDoc = (BasicDBObject) paymentCycle.get("documento");
+                ArrayList<String> payments = (ArrayList<String>) paymentCycleDoc.get("payments");
+                payments = commons.removeString(payments,paymentId);
+                paymentCycleDoc.put("payments", payments);
+                paymentCycle.put("documento",paymentCycleDoc);
+                ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                BasicDBObject update = new BasicDBObject();
+                update.put("field", "documento");
+                update.put("value", paymentCycle);
+                arrayUpdate.add(update);
+                response = commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentCycle.getString("_id"));
+            }
+        }
+    }
+
+    private void removeCycle(String paymentId) throws UnknownHostException {
+
+        ResponseEntity response = commons_db.listaCrud("paymentBank", "documento.payments", paymentId, null, null, null, true);
+        ArrayList<Object> paymentsBank = new ArrayList<Object>();
+        paymentsBank = (JSONArray) response.getBody();
+
+        if (response != null) {
+            for (int i = 0; i < paymentsBank.size(); i++) {
+                BasicDBObject paymentBank = new BasicDBObject();
+                paymentBank.putAll((Map) paymentsBank.get(i));
+                BasicDBObject paymentBankDoc = new BasicDBObject();
+                paymentBankDoc = (BasicDBObject) paymentBank.get("documento");
+                ArrayList<String> payments = (ArrayList<String>) paymentBankDoc.get("payments");
+                payments = commons.removeString(payments,paymentId);
+                paymentBankDoc.put("payments", payments);
+                paymentBank.put("documento",paymentBankDoc);
+                ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                BasicDBObject update = new BasicDBObject();
+                update.put("field", "documento");
+                update.put("value", paymentBank);
+                arrayUpdate.add(update);
+                response = commons_db.atualizarCrud("paymentBank", arrayUpdate, "_id", paymentBankDoc.getString("_id"));
+            }
+        }
     }
 
     private BasicDBObject checaPagamentosEfetuados(BasicDBObject itemCost) {

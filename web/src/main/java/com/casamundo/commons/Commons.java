@@ -538,4 +538,34 @@ public class Commons {
 
 	}
 
+
+	public ArrayList<Object> removeObjeto(ArrayList<Object> array, Object elemento) {
+		if (array != null) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i).equals(elemento)) {
+					array.remove(i);
+					return array;
+				};
+			};
+		} else {
+			return array;
+		};
+		return array;
+	};
+
+	public ArrayList<String> removeString(ArrayList<String> array, String elemento) {
+		if (array != null) {
+			for (int i = 0; i < array.size(); i++) {
+				if (array.get(i).equals(elemento)) {
+					array.remove(i);
+					return array;
+				};
+			};
+		} else {
+			return array;
+		};
+		return array;
+	};
+
+
 };
