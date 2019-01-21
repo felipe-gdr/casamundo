@@ -196,9 +196,13 @@ public class Invoice {
                 }
             };
             BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
+            Integer totalWeeks = 0;
+            Integer totalDays = 0;
+            Double totalValue = 0.0;
             for (BasicDBObject date:dates) {
                 if (date.getString("type").equals("extraNights")) {
                     int days = commons.difDate(date.getString("start"), date.getString("end"));
+                    totalDays = days + totalDays;
                     variaveis.put("extraNights", Integer.toString(days));
                 }else{
                     variaveis.put("extraNights", "0");
@@ -209,6 +213,7 @@ public class Invoice {
                     if  (days > 3){
                         weeks++;
                     }
+                    totalWeeks = weeks + totalWeeks;
                     variaveis.put("weeks", Integer.toString(weeks));
                 }else{
                     variaveis.put("weeks", "0");
@@ -229,20 +234,27 @@ public class Invoice {
 						value = new FormulaCalculator(productDoc.getString("formula"), variables).calculate();
 					}
                 }
+                totalValue = value + totalValue;
                 if (value != 0.0) {
-                    productDoc.put("date", date);
-                    productDoc.put("extraNights", variaveis.getString("extraNights"));
-                    productDoc.put("weeks", variaveis.getString("weeks"));
-                    productDoc.put("value", Double.toString(value));
+//                    productDoc.put("date", date);
+//                    productDoc.put("extraNights", variaveis.getString("extraNights"));
+//                    productDoc.put("weeks", variaveis.getString("weeks"));
+//                    productDoc.put("value", Double.toString(value));
 					productDoc.put("accControl", travel.getString("accControl"));
 					productDoc.put("airportPickup", travel.getString("airportPickup"));
 					productDoc.put("airportDropoff", travel.getString("airportDropoff"));
-                    resultArray.add(product);
                 }
-
             }
-		}
-		
+            if (totalValue != 0.0) {
+                productDoc.put("extraNights", Integer.toString(totalDays));
+                productDoc.put("weeks", Integer.toString(totalWeeks));
+                productDoc.put("value", Double.toString(totalValue));
+                productDoc.put("dates", dates);
+                product.put("documento", productDoc);
+                resultArray.add(product);
+            };
+        }
+
 		return resultArray;
 
 	};

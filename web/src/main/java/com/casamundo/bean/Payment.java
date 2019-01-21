@@ -400,9 +400,11 @@ public class Payment {
             BasicDBObject setQuery = new BasicDBObject();
             setQuery.put("documento.status", "pending");
             setQuery.put("documento.travelId", travelId);
+            setQuery.put("documento.payedAmount", "0.0");
 
 			commons_db.removerCrud("payment", "documento.travelId" , travelId, setQuery);
-
+            
+			atualizaPayment(travelId);
             BasicDBObject student = commons_db.obterCrudDoc("student", "_id", studentId);
 
 			if (invoice.get("products") != null) {
@@ -533,6 +535,12 @@ public class Payment {
 		}
 		return payments;
 	}
+
+    private void atualizaPayment(String travelId) throws UnknownHostException {
+
+	    ResponseEntity payments = commons_db.listaCrud("payments", "documento.trip", travelId, null, null, null, true);
+
+    }
 
     private BasicDBObject checaPagamentosEfetuados(BasicDBObject itemCost) {
 
