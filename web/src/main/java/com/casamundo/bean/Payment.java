@@ -284,19 +284,23 @@ public class Payment {
             }
             int paymentDays = commons.difDate(startDate, endDate);
             int payedDays = Integer.parseInt(paymentDoc.getString("payedDays"));
+            int days = Integer.parseInt(paymentDoc.getString("days"));
             int payDays = 0;
-            if ((paymentDays - payedDays) > 28) {
+            if ((days - payedDays) > 28) {
                 payedDays = payedDays + 28;
                 payDays = 28;
             } else {
-                payDays = paymentDays - payedDays;
+                payDays = days - payedDays;
+                payedDays = days;
             }
             paymentDoc.put("payDays", String.valueOf(payDays));
-            Double payValue = (Double.parseDouble(paymentDoc.getString("totalAmount")) / Integer.parseInt(paymentDoc.getString("days")) * payDays);
-            if ((payedDays + payDays) == paymentDays) {
-                payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
+            BigDecimal payValue = BigDecimal.valueOf(Double.parseDouble(paymentDoc.getString("totalAmount")) / Integer.parseInt(paymentDoc.getString("days")) * payDays);
+            payValue = payValue.setScale(2, RoundingMode.CEILING);
+            if (payedDays == days) {
+                payValue = BigDecimal.valueOf(Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount")));
+                payValue = payValue.setScale(2, RoundingMode.CEILING);
             }
-            paymentDoc.put("sugestPayValue", Double.toString(payValue));
+            paymentDoc.put("sugestPayValue", payValue.toString());
             paymentDoc.put("sugestLastDatePayment", commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28));
         }else{
             paymentDoc.put("payDays", String.valueOf("0"));
@@ -354,11 +358,12 @@ public class Payment {
         int payedDays = Integer.parseInt(paymentDoc.getString("payedDays"));
         int payDays = paymentDays - payedDays;
         paymentDoc.put("payDays", String.valueOf(payDays));
-        Double payValue = (Double.parseDouble(paymentDoc.getString("totalAmount")) / Integer.parseInt(paymentDoc.getString("days")) * payDays);
+        BigDecimal payValue = BigDecimal.valueOf(Double.parseDouble(paymentDoc.getString("totalAmount")) / Integer.parseInt(paymentDoc.getString("days")) * payDays);
+        payValue = payValue.setScale(2, RoundingMode.CEILING);
         if ((payedDays + payDays) == paymentDays) {
-            payValue = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
+            payValue = BigDecimal.valueOf(Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount")));
         }
-        paymentDoc.put("sugestPayValue", Double.toString(payValue));
+        paymentDoc.put("sugestPayValue", payValue.toString());
         paymentDoc.put("sugestLastDatePayment", commons.lastDayMonth(paymentDoc.getString("lastDayPayment")));
         paymentDoc.put("payValue", "0.00");
         if (setQuery.getString("documento.cycleId") != null) {
