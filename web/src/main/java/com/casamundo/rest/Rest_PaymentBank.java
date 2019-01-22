@@ -30,9 +30,9 @@ public class Rest_PaymentBank {
 
     @SuppressWarnings("rawtypes")
     @PostMapping(value = "/atualizar/pagamento", consumes = "application/json")
-    public Boolean atualizarPagamento(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
+    public Boolean atualizarPagamento(@RequestBody String paymentBankId) throws UnknownHostException, MongoException  {
 
-        return paymentBank.atualizaPagamento(doc);
+        return paymentBank.atualizaPagamento(paymentBankId);
     };
 
     @SuppressWarnings("rawtypes")

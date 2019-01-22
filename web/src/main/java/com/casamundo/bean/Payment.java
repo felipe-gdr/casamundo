@@ -6,6 +6,8 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -444,6 +446,7 @@ public class Payment {
                             itemCost.put("extension", "false");
                             itemCost.put("allocationId", vendor.get("allocationId"));
                             itemCost.put("status", "pending");
+                            itemCost.put("debit", "false");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
                             if (vendor.get("extension") != null) {
@@ -474,12 +477,13 @@ public class Payment {
                                                     value = Double.parseDouble(cost.getString("value"));
                                                 }
                                             }
-                                            double amountValue = days * value;
-                                            itemCost.put("itemAmount", Double.toString(amountValue));
+                                            BigDecimal amountValue = BigDecimal.valueOf(days * value);
+                                            amountValue = amountValue.setScale(2, RoundingMode.CEILING);
+                                            itemCost.put("itemAmount", amountValue.toString());
                                             itemCost.put("days", Integer.toString(days));
-                                            itemCost.put("totalAmount", Double.toString(amountValue));
+                                            itemCost.put("totalAmount", amountValue.toString());
                                             itemCost.put("notes", notes);
-                                            if (value != 0.0 && amountValue > 0) {
+                                            if (value != 0.0 && amountValue.intValue() > 0) {
                                                 itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                                                 commons_db.incluirCrud("payment", itemCost);
                                             }
@@ -500,6 +504,7 @@ public class Payment {
                         itemCost.put("extension", "false");
                         itemCost.put("allocationId", "");
                         itemCost.put("status", "pending");
+                        itemCost.put("debit", "false");
                         itemCost.put("destination", travel.get("destination"));
                         itemCost.put("lastDayPayment", accomodation.getString("checkIn").substring(0,10));
                         JSONArray notes = new JSONArray();
@@ -548,14 +553,21 @@ public class Payment {
                 payment.putAll((Map) payments.get(i));
                 BasicDBObject paymentDoc = new BasicDBObject();
                 paymentDoc = (BasicDBObject) payment.get("documento");
-                if (paymentDoc.getString("status").equals("processing")){
+                if (paymentDoc.getString("status").equals("processing")) {
                     removeCycle(payment.getString("_id"));
                     removeBank(payment.getString("_id"));
                 }
                 if (paymentDoc.getString("payedAmount").equals("0.0")) {
-                    commons_db.removerCrud("payment","_id", payment.getString("_id"), null);
-                }else{
-                    paymentDoc.put("status", "partialPayed");
+                    commons_db.removerCrud("payment", "_id", payment.getString("_id"), null);
+                } else {
+                    if (paymentDoc.get("payedAmount").equals(paymentDoc.get("totalAmount"))){
+                        paymentDoc.put("status", "partialPayed");
+                    }else {
+                        paymentDoc.put("status", "payed");
+                    }
+                    paymentDoc.put("debit", "true");
+                    paymentDoc.put("totalAmount", paymentDoc.get("payedAmount"));
+                    paymentDoc.put("payedAmount", "0.0");
                     payment.put("documento", paymentDoc);
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
@@ -564,12 +576,6 @@ public class Payment {
                     arrayUpdate.add(update);
                     response = commons_db.atualizarCrud("payment", arrayUpdate, "_id", payment.getString("_id"));
                 }
-                BasicDBObject vendor = new BasicDBObject();
-                if  (paymentDoc.getString("vendorType").equals("family")){
-                    vendor = commons_db.obterCrudDoc("family", "_id", paymentDoc.getString("vendorId"));
-                }
-                Double debit = Double.parseDouble(paymentDoc.getString("totalAmount")) - Double.parseDouble(paymentDoc.getString("payedAmount"));
-
             }
         }
     }

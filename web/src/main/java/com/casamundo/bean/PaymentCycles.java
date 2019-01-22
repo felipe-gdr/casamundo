@@ -118,9 +118,9 @@ public class PaymentCycles {
 
     }
 
-    public ResponseEntity delete(String cycleId) throws UnknownHostException {
+    public ResponseEntity delete(String bankListId) throws UnknownHostException {
 
-        ResponseEntity response = commons_db.listaCrud("paymentCycles", "documento.bankListId", cycleId, null, null, null, false);
+        ResponseEntity response = commons_db.listaCrud("paymentCycles", "documento.bankListId", bankListId, null, null, null, false);
 
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
@@ -142,6 +142,6 @@ public class PaymentCycles {
             }
         }
 
-        return commons_db.removerCrud("paymentBank", "_id", cycleId, null);
+        return commons_db.removerCrud("paymentBank", "_id", bankListId, null);
     }
 }

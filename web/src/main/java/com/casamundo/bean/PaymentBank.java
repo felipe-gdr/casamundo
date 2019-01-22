@@ -6,6 +6,7 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
+import javax.websocket.RemoteEndpoint;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.UnknownHostException;
@@ -243,8 +244,9 @@ public class PaymentBank {
         }
     }
 
-    public Boolean atualizaPagamento(BasicDBObject doc) throws UnknownHostException {
+    public Boolean atualizaPagamento(String paymentBankId) throws UnknownHostException {
 
+        BasicDBObject doc = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId);
         ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
         for (int i = 0; i < paymentsCycles.size(); i++) {
@@ -255,13 +257,14 @@ public class PaymentBank {
                 BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
                 if (paymentDoc != null){
                     paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
+                    paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
                     if (Double.parseDouble(paymentDoc.getString("payedAmount")) >= Double.parseDouble(paymentDoc.getString("totalAmount"))){
                         paymentDoc.put("status", "payed");
                     }else {
                         paymentDoc.put("status", "pending");
                     }
-                    if (paymentDoc.getString("sugestLastDayPayment") != null) {
-                        paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDayPayment"));
+                    if (paymentDoc.getString("sugestLastDatePayment") != null) {
+                        paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
                     }
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
@@ -279,6 +282,14 @@ public class PaymentBank {
             update.put("value", paymentCycle);
             arrayUpdate.add(update);
             commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i));
+
+            doc.put("status","payed");
+            arrayUpdate = new ArrayList<BasicDBObject>();
+            update = new BasicDBObject();
+            update.put("field", "documento");
+            update.put("value", doc);
+            arrayUpdate.add(update);
+            commons_db.atualizarCrud("paymentBank", arrayUpdate, "_id", paymentBankId);
         }
 
         return true;
