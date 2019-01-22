@@ -51,7 +51,38 @@ public class Commons {
 		}
 		return null;
 	};
-	
+
+	public Long calcAgeData (String birthDate, String date){
+
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
+		try {
+			Date d1 = df.parse (birthDate);
+			Date d2 = df.parse (date);
+			long dt = (d2.getTime() - d1.getTime()) + 3600000;
+			return ((dt / 86400000L) / 365L);
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
+	public Boolean comparaData (String dataIni, String dataFim){
+
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
+		try {
+			Date d1 = df.parse (dataIni);
+			Date d2 = df.parse (dataFim);
+			if (d1.after(d2)){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	};
+
 	@SuppressWarnings("null")
 	public int difDate (String start, String end){
 		

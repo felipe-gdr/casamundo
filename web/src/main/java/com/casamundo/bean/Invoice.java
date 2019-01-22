@@ -209,6 +209,8 @@ public class Invoice {
             BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
             Integer totalWeeks = 0;
             Integer totalDays = 0;
+            Integer totalWeeksUnderage = 0;
+            Integer totalDaysUnderage = 0;
             Double totalValue = 0.0;
             for (BasicDBObject date:dates) {
                 if (date.getString("type").equals("extraNights")) {
@@ -233,10 +235,41 @@ public class Invoice {
 				variaveis.put("airportPickup", travel.getString("airportPickup"));
 				variaveis.put("airportDropoff", travel.getString("airportDropoff"));
                 variaveis.put("value", date.get("value"));
-                if (commons.calcAge(student.getString("birthday")) < 18){
+                if (commons.calcAgeData(student.getString("birthday"), travel.getString("accControl")) < 18){
                     variaveis.put("underage", "yes");
                 }else{
                     variaveis.put("underage", "no");
+                }
+                variaveis.put("weeksUnderage", "0");
+                variaveis.put("extraNightsUnderage", "0");
+                if (commons.comparaData(student.getString("birthday"), date.getString("end") )){
+                    if (date.getString("type").equals("extraNights")){
+                        variaveis.put("extraNightsUnderage", variaveis.getString("extraNights"));
+                        totalDaysUnderage = Integer.parseInt(variaveis.getString("extraNights")) + totalDaysUnderage;
+                    }
+                    if (date.getString("type").equals("weeks")){
+                        variaveis.put("weeksUnderage", variaveis.getString("weeks"));
+                        totalWeeksUnderage = Integer.parseInt(variaveis.getString("weeks")) + totalWeeksUnderage;
+                    }
+                }else{
+                    if (date.getString("type").equals("extraNights")) {
+                        int days = commons.difDate(date.getString("start"), student.getString("birthday"));
+                        totalDaysUnderage = days + totalDaysUnderage;
+                        variaveis.put("extraNightsUnderage", Integer.toString(days));
+                    }else{
+                        variaveis.put("extraNightsUnderage", "0");
+                    }
+                    if (date.getString("type").equals("weeks")) {
+                        int weeks = commons.difDate(date.getString("start"), student.getString("birthday")) / 7;
+                        int days = commons.difDate(date.getString("start"), student.getString("birthday")) % 7;
+                        if  (days > 3){
+                            weeks++;
+                        }
+                        totalWeeksUnderage = weeks + totalWeeksUnderage;
+                        variaveis.put("weeksUnderage", Integer.toString(weeks));
+                    }else{
+                        variaveis.put("weeksUnderage", "0");
+                    }
                 }
                 Double value = 0.0;
                 if (productDoc.get("formula") != null ) {
@@ -259,6 +292,8 @@ public class Invoice {
             if (totalValue != 0.0) {
                 productDoc.put("extraNights", Integer.toString(totalDays));
                 productDoc.put("weeks", Integer.toString(totalWeeks));
+                productDoc.put("extraNightsUnderage", Integer.toString(totalDays));
+                productDoc.put("weeksUnderage", Integer.toString(totalWeeks));
                 productDoc.put("value", Double.toString(totalValue));
                 productDoc.put("dates", dates);
                 product.put("documento", productDoc);
