@@ -6,6 +6,7 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.UnknownHostException;
@@ -410,8 +411,8 @@ public class Payment {
             setQuery.put("documento.payedAmount", "0.0");
 
 			commons_db.removerCrud("payment", "documento.travelId" , travelId, setQuery);
-            
-			atualizaPayment(travelId);
+
+			ArrayList<BasicDBObject> debits = atualizaPayment(travelId);
             BasicDBObject student = commons_db.obterCrudDoc("student", "_id", studentId);
 
 			if (invoice.get("products") != null) {
@@ -452,6 +453,12 @@ public class Payment {
                             itemCost.put("allocationId", vendor.get("allocationId"));
                             itemCost.put("status", "pending");
                             itemCost.put("debit", "false");
+                            itemCost.put("totalDebit", "0.0");
+                            itemCost.put("totalDaysDebit", "0");
+                            itemCost.put("usedDebit", "0.0");
+                            itemCost.put("usedDaysDebit", "0");
+                            itemCost.put("payedAmount", "0.0");
+                            itemCost.put("payedDays", "0");
                             itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                             itemCost.put("destination", travel.get("destination"));
                             if (vendor.get("extension") != null) {
@@ -488,6 +495,35 @@ public class Payment {
                                             itemCost.put("days", Integer.toString(days));
                                             itemCost.put("totalAmount", amountValue.toString());
                                             itemCost.put("notes", notes);
+                                            int z = 0;
+                                            for (BasicDBObject debit:debits) {
+                                                if (debit.get("vendorId").equals(itemCost.get("vendorId"))){
+                                                    if ( BigDecimal.valueOf(Double.valueOf(itemCost.getString("totalAmount"))).compareTo(BigDecimal.valueOf(Double.valueOf(debit.getString("totalDebit")) - Double.valueOf(debit.getString("usedDebit")))) < 0){
+                                                        itemCost.put("payedAmount", itemCost.getString("totalAmount"));
+                                                        itemCost.put("payedDays", itemCost.getString("days"));
+                                                        itemCost.put("status", "payed");
+                                                        debits.get(z).put("usedDebit", Double.toString(Double.valueOf(itemCost.getString("totalAmount"))) + Double.toString(Double.valueOf(debits.get(z).getString("usedDebit"))));
+                                                        debits.get(z).put("usedDaysDebit", Integer.toString(Integer.valueOf(itemCost.getString("days")) + Integer.valueOf(debit.getString("usedDaysDebit"))));
+                                                    }else{
+                                                        itemCost.put("payedAmount", Double.toString(Double.valueOf(itemCost.getString("totalAmount")) - (Double.valueOf(debit.getString("totalDebit")) - Double.valueOf(debit.getString("usedDebit")))));
+                                                        itemCost.put("payedDays", Integer.toString(Integer.valueOf(itemCost.getString("days")) - (Integer.valueOf(debit.getString("totalDaysDebit")) - Integer.valueOf(debit.getString("usedDaysDebit")))));
+                                                        itemCost.put("status", "partialPayed");
+                                                        debits.get(z).put("usedDebit", debit.getString("totalDebit"));
+                                                        debits.get(z).put("usedDaysDebit", debit.getString("totalDaysDebit"));
+                                                    }
+                                                }
+                                                z++;
+                                            }
+                                            for (BasicDBObject debit:debits) {
+                                                String paymentId = debit.getString("_id");
+                                                debit.remove("_id");
+                                                ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+                                                BasicDBObject update = new BasicDBObject();
+                                                update.put("field", "documento");
+                                                update.put("value", debit);
+                                                arrayUpdate.add(update);
+                                                response = commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentId);
+                                            }
                                             if (value != 0.0 && amountValue.intValue() > 0) {
                                                 itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                                                 commons_db.incluirCrud("payment", itemCost);
@@ -510,6 +546,10 @@ public class Payment {
                         itemCost.put("allocationId", "");
                         itemCost.put("status", "pending");
                         itemCost.put("debit", "false");
+                        itemCost.put("totalDebit", "0.0");
+                        itemCost.put("totalDaysDebit", "0");
+                        itemCost.put("usedDebit", "0.0");
+                        itemCost.put("usedDaysDebit", "0");
                         itemCost.put("destination", travel.get("destination"));
                         itemCost.put("lastDayPayment", accomodation.getString("checkIn").substring(0,10));
                         JSONArray notes = new JSONArray();
@@ -546,11 +586,12 @@ public class Payment {
 		return payments;
 	}
 
-    private void atualizaPayment(String travelId) throws UnknownHostException {
+    private ArrayList<BasicDBObject> atualizaPayment(String travelId) throws UnknownHostException {
 
 	    ResponseEntity response = commons_db.listaCrud("payments", "documento.trip", travelId, null, null, null, true);
         ArrayList<Object> payments = new ArrayList<Object>();
         payments = (JSONArray) response.getBody();
+        ArrayList<BasicDBObject> debits = new ArrayList<BasicDBObject>();
 
         if (response != null) {
             for (int i = 0; i < payments.size(); i++) {
@@ -565,14 +606,12 @@ public class Payment {
                 if (paymentDoc.getString("payedAmount").equals("0.0")) {
                     commons_db.removerCrud("payment", "_id", payment.getString("_id"), null);
                 } else {
-                    if (paymentDoc.get("payedAmount").equals(paymentDoc.get("totalAmount"))){
-                        paymentDoc.put("status", "partialPayed");
-                    }else {
-                        paymentDoc.put("status", "payed");
-                    }
+                    paymentDoc.put("_id", payment.get("_id"));
                     paymentDoc.put("debit", "true");
-                    paymentDoc.put("totalAmount", paymentDoc.get("payedAmount"));
-                    paymentDoc.put("payedAmount", "0.0");
+                    paymentDoc.put("totalDebit", paymentDoc.get("payedAmount"));
+                    paymentDoc.put("totalDaysDebit", paymentDoc.get("payedDays"));
+                    paymentDoc.put("usedDebit", "0.0");
+                    paymentDoc.put("usedDaysDebit", "0");
                     payment.put("documento", paymentDoc);
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
@@ -580,9 +619,11 @@ public class Payment {
                     update.put("value", payment);
                     arrayUpdate.add(update);
                     response = commons_db.atualizarCrud("payment", arrayUpdate, "_id", payment.getString("_id"));
+                    debits.add(paymentDoc);
                 }
             }
         }
+        return debits;
     }
 
     private void removeBank(String paymentId) throws UnknownHostException {
