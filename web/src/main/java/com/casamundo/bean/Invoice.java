@@ -242,7 +242,7 @@ public class Invoice {
                 }
                 variaveis.put("weeksUnderage", "0");
                 variaveis.put("extraNightsUnderage", "0");
-                if (commons.comparaData(student.getString("birthday"), date.getString("end") )){
+                if (commons.comparaData(commons.calcNewYear(student.getString("birthday"), 18), date.getString("end") )){
                     if (date.getString("type").equals("extraNights")){
                         variaveis.put("extraNightsUnderage", variaveis.getString("extraNights"));
                         totalDaysUnderage = Integer.parseInt(variaveis.getString("extraNights")) + totalDaysUnderage;
@@ -253,15 +253,15 @@ public class Invoice {
                     }
                 }else{
                     if (date.getString("type").equals("extraNights")) {
-                        int days = commons.difDate(date.getString("start"), student.getString("birthday"));
+                        int days = commons.difDate(date.getString("start"), commons.calcNewYear(student.getString("birthday"), 18));
                         totalDaysUnderage = days + totalDaysUnderage;
                         variaveis.put("extraNightsUnderage", Integer.toString(days));
                     }else{
                         variaveis.put("extraNightsUnderage", "0");
                     }
                     if (date.getString("type").equals("weeks")) {
-                        int weeks = commons.difDate(date.getString("start"), student.getString("birthday")) / 7;
-                        int days = commons.difDate(date.getString("start"), student.getString("birthday")) % 7;
+                        int weeks = commons.difDate(date.getString("start"), commons.calcNewYear(student.getString("birthday"), 18)) / 7;
+                        int days = commons.difDate(date.getString("start"), commons.calcNewYear(student.getString("birthday"), 18)) % 7;
                         if  (days > 3){
                             weeks++;
                         }

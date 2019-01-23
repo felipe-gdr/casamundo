@@ -125,6 +125,19 @@ public class Commons {
         return df.format(cal.getTime());
     };
 
+	public String calcNewYear (String date, int years){
+
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+		cal.add(Calendar.YEAR, years);
+		return df.format(cal.getTime());
+	};
+
 	public Integer weekDay (String date){
 		
 		Calendar cal = Calendar.getInstance();   
