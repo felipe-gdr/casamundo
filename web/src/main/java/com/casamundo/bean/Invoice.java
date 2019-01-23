@@ -212,6 +212,7 @@ public class Invoice {
             Integer totalWeeksUnderage = 0;
             Integer totalDaysUnderage = 0;
             Double totalValue = 0.0;
+            String studentAge = commons.calcNewYear(student.getString("birthday"), 18);
             for (BasicDBObject date:dates) {
                 if (date.getString("type").equals("extraNights")) {
                     int days = commons.difDate(date.getString("start"), date.getString("end"));
@@ -242,7 +243,7 @@ public class Invoice {
                 }
                 variaveis.put("weeksUnderage", "0");
                 variaveis.put("extraNightsUnderage", "0");
-                if (commons.comparaData(commons.calcNewYear(student.getString("birthday"), 18), date.getString("end") )){
+                if (commons.comparaData(studentAge, date.getString("end"))){
                     if (date.getString("type").equals("extraNights")){
                         variaveis.put("extraNightsUnderage", variaveis.getString("extraNights"));
                         totalDaysUnderage = Integer.parseInt(variaveis.getString("extraNights")) + totalDaysUnderage;
@@ -253,20 +254,28 @@ public class Invoice {
                     }
                 }else{
                     if (date.getString("type").equals("extraNights")) {
-                        int days = commons.difDate(date.getString("start"), commons.calcNewYear(student.getString("birthday"), 18));
-                        totalDaysUnderage = days + totalDaysUnderage;
-                        variaveis.put("extraNightsUnderage", Integer.toString(days));
+                        if (commons.comparaData(studentAge, date.getString("start"))) {
+                            int days = commons.difDate(date.getString("start"), studentAge);
+                            totalDaysUnderage = days + totalDaysUnderage;
+                            variaveis.put("extraNightsUnderage", Integer.toString(days));
+                        }else{
+                            variaveis.put("extraNightsUnderage", variaveis.getString("extraNights"));
+                        }
                     }else{
                         variaveis.put("extraNightsUnderage", "0");
                     }
                     if (date.getString("type").equals("weeks")) {
-                        int weeks = commons.difDate(date.getString("start"), commons.calcNewYear(student.getString("birthday"), 18)) / 7;
-                        int days = commons.difDate(date.getString("start"), commons.calcNewYear(student.getString("birthday"), 18)) % 7;
-                        if  (days > 3){
-                            weeks++;
+                        if (commons.comparaData(studentAge, date.getString("start"))) {
+                            int weeks = commons.difDate(date.getString("start"), studentAge) / 7;
+                            int days = commons.difDate(date.getString("start"), studentAge) % 7;
+                            if (days > 3) {
+                                weeks++;
+                            }
+                            totalWeeksUnderage = weeks + totalWeeksUnderage;
+                            variaveis.put("weeksUnderage", Integer.toString(weeks));
+                        }else{
+                            variaveis.put("weeksUnderage", variaveis.getString("weeks"));
                         }
-                        totalWeeksUnderage = weeks + totalWeeksUnderage;
-                        variaveis.put("weeksUnderage", Integer.toString(weeks));
                     }else{
                         variaveis.put("weeksUnderage", "0");
                     }
@@ -292,8 +301,8 @@ public class Invoice {
             if (totalValue != 0.0) {
                 productDoc.put("extraNights", Integer.toString(totalDays));
                 productDoc.put("weeks", Integer.toString(totalWeeks));
-                productDoc.put("extraNightsUnderage", Integer.toString(totalDays));
-                productDoc.put("weeksUnderage", Integer.toString(totalWeeks));
+                productDoc.put("extraNightsUnderage", Integer.toString(totalDaysUnderage));
+                productDoc.put("weeksUnderage", Integer.toString(totalWeeksUnderage));
                 productDoc.put("value", Double.toString(totalValue));
                 productDoc.put("dates", dates);
                 product.put("documento", productDoc);
