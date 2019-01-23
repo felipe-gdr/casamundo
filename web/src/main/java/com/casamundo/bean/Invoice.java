@@ -242,7 +242,7 @@ public class Invoice {
                     variaveis.put("underage", "no");
                 }
                 variaveis.put("weeksUnderage", "0");
-                variaveis.put("extraNightsUnderage", "0");
+                variaveis.put("weeksUnderage", "0");
                 if (commons.comparaData(studentAge, date.getString("end"))){
                     if (date.getString("type").equals("extraNights")){
                         variaveis.put("extraNightsUnderage", variaveis.getString("extraNights"));
@@ -301,8 +301,12 @@ public class Invoice {
             if (totalValue != 0.0) {
                 productDoc.put("extraNights", Integer.toString(totalDays));
                 productDoc.put("weeks", Integer.toString(totalWeeks));
-                productDoc.put("extraNightsUnderage", Integer.toString(totalDaysUnderage));
-                productDoc.put("weeksUnderage", Integer.toString(totalWeeksUnderage));
+                if (productDoc.get("underage") != null) {
+                    if (productDoc.getString("underage").equals("true")) {
+                        productDoc.put("extraNights", Integer.toString(totalDaysUnderage));
+                        productDoc.put("weeks", Integer.toString(totalWeeksUnderage));
+                    }
+                }
                 productDoc.put("value", Double.toString(totalValue));
                 productDoc.put("dates", dates);
                 product.put("documento", productDoc);
