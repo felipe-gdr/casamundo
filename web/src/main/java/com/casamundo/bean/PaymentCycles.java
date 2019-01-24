@@ -6,6 +6,8 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -143,5 +145,53 @@ public class PaymentCycles {
         }
 
         return commons_db.removerCrud("paymentBank", "_id", bankListId, null);
+    }
+
+    public BasicDBObject historico(String vendorId) throws UnknownHostException {
+
+        ResponseEntity response = commons_db.listaCrud("payment", "documento.vendorId", vendorId, null, null, null, false);
+
+        ArrayList<BasicDBObject> paymentsResult = new ArrayList<BasicDBObject>();
+        ArrayList<BasicDBObject> paymentsCycleResult = new ArrayList<BasicDBObject>();
+
+        ArrayList<BasicDBObject> payments = new ArrayList<BasicDBObject>();
+        payments = (JSONArray) response.getBody();
+
+        if (response != null) {
+            for (BasicDBObject payment : payments) {
+                paymentsResult.add(payment);
+                BasicDBObject paymentDoc = new BasicDBObject();
+                paymentDoc = (BasicDBObject) payment.get("documento");
+                Boolean existe = false;
+                for (BasicDBObject paymentCycle : paymentsCycleResult) {
+                    if (paymentDoc.getString("cycleId").equals(paymentCycle.getString("_id"))) {
+                        existe = true;
+                    }
+                }
+                if (!existe) {
+                    BasicDBObject paymentCycles = commons_db.obterCrudDoc("paymentCycles", "_id", paymentDoc.getString("cycleId"));
+                    ArrayList<BasicDBObject> resultPaymentsCycle = new ArrayList<BasicDBObject>();
+                    ArrayList<BasicDBObject> paymentsCycle = (ArrayList<BasicDBObject>) paymentCycles.get("payments");
+                    BigDecimal totalCycle = new BigDecimal(0.0);
+                    for (BasicDBObject paymentCycle: paymentsCycle) {
+                        BasicDBObject paymentRead = commons_db.obterCrudDoc("payment", "_id", paymentCycle.getString("id"));
+                        if (paymentRead.getString("vendorId").equals(vendorId)){
+                            resultPaymentsCycle.add(paymentCycle);
+                            BigDecimal itemCycle = new BigDecimal(Double.valueOf(paymentCycle.getString("payValue")));
+                            itemCycle = itemCycle.setScale(2, RoundingMode.CEILING);
+                            totalCycle = totalCycle.add(itemCycle);
+                        }
+                    }
+                    paymentCycles.put("payments",resultPaymentsCycle);
+                    paymentCycles.put("totalCycle",totalCycle.toString());
+                    paymentsCycleResult.add(paymentCycles);
+                }
+
+            }
+        }
+        BasicDBObject result = new BasicDBObject();
+        result.put("payments", paymentsResult);
+        result.put("paymentsCycle", paymentsCycleResult);
+        return result;
     }
 }

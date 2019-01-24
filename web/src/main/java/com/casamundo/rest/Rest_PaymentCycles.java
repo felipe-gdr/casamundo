@@ -49,6 +49,14 @@ public class Rest_PaymentCycles {
 			@RequestParam("userId") String userId) throws IOException, MongoException {
 		return paymentCycles.listaStatus(status, userId);
 	};
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/historicos", produces = "application/json")
+	public BasicDBObject historicos(
+			@RequestParam("vendorId") String vendorId
+												) throws IOException, MongoException {
+		return paymentCycles.historico(vendorId);
+	};
 };
 
 
