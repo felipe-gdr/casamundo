@@ -19,6 +19,7 @@ public class Estimated {
 	public void criarCosts(ArrayList<Object> products,  String travelId,  String invoiceId) throws UnknownHostException {
 
         BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+        BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
         String studentId =  (String) travel.get("studentId");
 
         commons_db.removerCrud("estimated", "documento.invoiceId", invoiceId, null);
@@ -42,7 +43,7 @@ public class Estimated {
                 for (int j = 0; j < dates.size(); j++) {
                     BasicDBObject date = new BasicDBObject();
                     date.putAll((Map) dates.get(j));
-                    ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null);
+                    ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null, invoice.getString("notGross"));
                     for (BasicDBObject cost : costs) {
                         itemCost.put("cost", cost.get("value"));
                         itemCost.put("start", cost.getString("start"));

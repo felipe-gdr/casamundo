@@ -198,7 +198,7 @@ public class PriceTable {
 	};
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList getCost(String start, String end, String travelId, String productId, String vendorId) throws UnknownHostException {
+	public ArrayList getCost(String start, String end, String travelId, String productId, String vendorId, String notGross) throws UnknownHostException {
 
 	    ArrayList result = new ArrayList();
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
@@ -237,7 +237,11 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
-                    resultItem.put("value", priceListDoc.get("value"));
+                    if (notGross.equals("net")) {
+						resultItem.put("value", priceListDoc.get("value"));
+					}else{
+						resultItem.put("value", priceListDoc.get("valueGross"));
+					}
                     resultItem.put("start", start);
                     resultItem.put("end", end);
                     if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){

@@ -261,9 +261,10 @@ public class PaymentBank {
                         paymentDoc.put("status", "payed");
                     }else {
                         paymentDoc.put("status", "pending");
-                    }
-                    if (paymentDoc.getString("sugestLastDatePayment") != null) {
-                        paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
+                        if (paymentDoc.getString("sugestLastDatePayment") != null) {
+                            paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
+                            paymentDoc.put("controlDatePayment", paymentDoc.getString("sugestLastDatePayment"));
+                        }
                     }
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
