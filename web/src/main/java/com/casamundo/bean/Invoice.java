@@ -233,6 +233,7 @@ public class Invoice {
                     variaveis.put("weeks", "0");
                 }
 				variaveis.put("accControl", travel.getString("accControl"));
+                variaveis.put("extension", travel.get("extension"));
 				variaveis.put("airportPickup", travel.getString("airportPickup"));
 				variaveis.put("airportDropoff", travel.getString("airportDropoff"));
                 variaveis.put("value", date.get("value"));
