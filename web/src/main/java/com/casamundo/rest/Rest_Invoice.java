@@ -59,7 +59,7 @@ public class Rest_Invoice {
 			@RequestParam ("start") String start,
 			@RequestParam ("end") String end
 			) throws UnknownHostException, MongoException {
-		return commons.numberWeeks(start, end);
+		return commons.numberWeeks(start, end, "homestay");
 	};
 
 	@SuppressWarnings("rawtypes")

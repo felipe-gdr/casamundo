@@ -198,7 +198,7 @@ public class PriceTable {
 	};
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList getCost(String start, String end, String travelId, String productId, String vendorId, String notGross) throws UnknownHostException {
+	public ArrayList getCost(String start, String end, String travelId, String productId, String vendorId, String netGross) throws UnknownHostException {
 
 	    ArrayList result = new ArrayList();
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
@@ -237,7 +237,7 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
-                    if (notGross.equals("net")) {
+                    if (netGross.equals("net")) {
 						resultItem.put("value", priceListDoc.get("value"));
 					}else{
 						resultItem.put("value", priceListDoc.get("valueGross"));
@@ -456,7 +456,7 @@ public class PriceTable {
                     }
                     result.add(resultItem);
                 }else{
-                    if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+                    if (commons.verifyInterval (commons.calcNewDate(end, -1), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
                         BasicDBObject resultItem = new BasicDBObject();
                         resultItem.put("value", priceListDoc.get("net"));
                         resultItem.put("start", start);
@@ -505,7 +505,7 @@ public class PriceTable {
                     }
                     result.add(resultItem);
                 }else{
-                    if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+                    if (commons.verifyInterval (commons.calcNewDate(end, -1), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
                         BasicDBObject resultItem = new BasicDBObject();
                         resultItem.put("value", priceListDoc.get("net"));
                         resultItem.put("start", start);
@@ -552,7 +552,7 @@ public class PriceTable {
                     }
                     result.add(resultItem);
                 }else{
-                    if (commons.verifyInterval (end, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+                    if (commons.verifyInterval (commons.calcNewDate(end, -1), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
                         BasicDBObject resultItem = new BasicDBObject();
                         resultItem.put("value", priceListDoc.get("net"));
                         resultItem.put("start", start);

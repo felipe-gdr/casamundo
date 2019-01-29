@@ -56,13 +56,13 @@ public class Invoice {
 		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 
 		if (travel.get("accomodation") != null){
-			BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+			BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
 			documento.put("weeks", weeksDays.get("weeks"));
 			documento.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
 			documento.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
 			documento.put("checkIn", accomodation.get("checkIn"));
 			documento.put("checkOut", accomodation.get("checkOut"));
-			BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+			BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
 			ArrayList<Object> products = (ArrayList<Object>) documento.get("products");
 			ArrayList<Object> productsResult = new ArrayList<Object>();
 
@@ -147,7 +147,7 @@ public class Invoice {
         BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
         BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 
-        BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
+        BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
 
 		ArrayList<BasicDBObject> resultArray = new ArrayList<BasicDBObject>();
 
@@ -158,7 +158,7 @@ public class Invoice {
             BasicDBObject productDoc = (BasicDBObject) product.get("documento");
             ArrayList<BasicDBObject> dates = new ArrayList<BasicDBObject>();
             ArrayList <BasicDBObject> seasons = new ArrayList<>();
-            if (productDoc.getString("charging").equals("unique") && numberWeeksDays.get("startWeeks") != "") {
+            if (productDoc.getString("charging").equals("unique")) {
                 seasons = priceTable.getSeasons(accomodation.getString("checkIn"),accomodation.getString("checkOut"), travelId,product.getString("_id"),travel.getString("agency"));
                 if (seasons.size() > 0){
                     BasicDBObject date = new BasicDBObject();

@@ -250,6 +250,9 @@ public class Payment {
                             paymentCycleDoc.putAll((Map) paymentsCycle.get(j));
                             if (paymentCycleDoc.getString("id").equals(paymentId)) {
                                 paymentDoc.put("payValue", paymentCycleDoc.getString("payValue"));
+                                paymentDoc.put("startPaying", paymentCycleDoc.getString("startPaying"));
+                                paymentDoc.put("endPaying", paymentCycleDoc.getString("endPaying"));
+                                paymentDoc.put("payingDays", paymentCycleDoc.getString("payingDays"));
                             }
                         }
                     }
@@ -455,7 +458,7 @@ public class Payment {
                                     if (!resultInterval.getString("days").equals("0")) {
                                         itemCost.put("payedDays", "0");
                                         itemCost.put("payedAmount", "0.0");
-                                        ArrayList<BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"), travelId, product.getString("id"), vendor.getString("vendorId"), invoice.getString("notGross"));
+                                        ArrayList<BasicDBObject> costs = priceTable.getCost(resultInterval.getString("start"), resultInterval.getString("end"), travelId, product.getString("id"), vendor.getString("vendorId"), invoice.getString("netGross"));
                                         for (BasicDBObject cost : costs) {
                                             itemCost.put("cost", cost.get("value"));
                                             itemCost.put("start", cost.getString("start").substring(0, 10));

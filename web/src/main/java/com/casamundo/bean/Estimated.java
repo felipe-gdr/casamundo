@@ -43,7 +43,7 @@ public class Estimated {
                 for (int j = 0; j < dates.size(); j++) {
                     BasicDBObject date = new BasicDBObject();
                     date.putAll((Map) dates.get(j));
-                    ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null, invoice.getString("notGross"));
+                    ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null, invoice.getString("netGross"));
                     for (BasicDBObject cost : costs) {
                         itemCost.put("cost", cost.get("value"));
                         itemCost.put("start", cost.getString("start"));

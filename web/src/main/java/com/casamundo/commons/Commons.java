@@ -354,7 +354,7 @@ public class Commons {
 		return elementosIguais;
 	}
 
-	public BasicDBObject numberWeeks (String start, String end){
+	public BasicDBObject numberWeeks (String start, String end, String accControl){
 				  
 		BasicDBObject result = new BasicDBObject();
 		int weekDayStart =  weekDay(start);
@@ -367,6 +367,16 @@ public class Commons {
 		
 		result.put("start", start);
 		result.put("end", end);
+
+        if (!accControl.equals("homestay")) {
+            if (days < 28) {
+                result.put("weeks", "0");
+                result.put("extraNights", Integer.toString(days));
+                result.put("extraNightsEntrada", Integer.toString(days));
+                result.put("extraNightsSaida", Integer.toString(extraNightsSaida));
+                return criaDatas(result);
+            }
+        }
 
         if (days < 4) {
             result.put("weeks", "0");
