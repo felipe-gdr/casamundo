@@ -541,7 +541,7 @@ public class Payment {
                         itemCost.put("lastDayPayment", accomodation.getString("checkIn").substring(0,10));
                         JSONArray notes = new JSONArray();
                         itemCost.put("item", product.getString("id"));
-                        ArrayList <BasicDBObject> costs = priceTable.getCost(accomodation.getString("checkIn").substring(0,10), accomodation.getString("checkOut").substring(0,10),travelId, product.getString("id"), null, invoice.getString("notGross"));
+                        ArrayList <BasicDBObject> costs = priceTable.getCost(accomodation.getString("checkIn").substring(0,10), accomodation.getString("checkOut").substring(0,10),travelId, product.getString("id"), null, invoice.getString("netGross"));
                         for (BasicDBObject cost:costs) {
                             itemCost.put("cost", cost.get("value"));
                             itemCost.put("start", cost.getString("start").substring(0,10));
