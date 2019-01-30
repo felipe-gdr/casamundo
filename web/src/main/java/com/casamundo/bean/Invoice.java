@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -244,6 +246,14 @@ public class Invoice {
                 }
                 variaveis.put("weeksUnderage", "0");
                 variaveis.put("weeksUnderage", "0");
+                int daysTrip = commons.difDate(date.getString("start"), date.getString("end"));
+                if (daysTrip < 28){
+                    variaveis.put("proRate", "1.00");
+                }else{
+                    BigDecimal proRate = BigDecimal.valueOf(daysTrip / 28);
+                    proRate = proRate.setScale(2, RoundingMode.CEILING);
+                    variaveis.put("proRate", proRate.toString());
+                }
                 if (commons.comparaData(studentAge, date.getString("end"))){
                     if (date.getString("type").equals("extraNights")){
                         variaveis.put("extraNightsUnderage", variaveis.getString("extraNights"));

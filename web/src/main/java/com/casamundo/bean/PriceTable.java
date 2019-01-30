@@ -283,7 +283,11 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					BasicDBObject resultItem = new BasicDBObject();
-					resultItem.put("value", priceListDoc.get("value"));
+                    if (netGross.equals("net")) {
+                        resultItem.put("value", priceListDoc.get("value"));
+                    }else{
+                        resultItem.put("value", priceListDoc.get("valueGross"));
+                    }
 					resultItem.put("start", start);
 					resultItem.put("end", end);
 					if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
@@ -325,7 +329,11 @@ public class PriceTable {
 				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					BasicDBObject resultItem = new BasicDBObject();
-					resultItem.put("value", priceListDoc.get("value"));
+                    if (netGross.equals("net")) {
+                        resultItem.put("value", priceListDoc.get("value"));
+                    }else{
+                        resultItem.put("value", priceListDoc.get("valueGross"));
+                    }
 					resultItem.put("start", start);
 					resultItem.put("end", end);
 					if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
@@ -363,7 +371,11 @@ public class PriceTable {
                 BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
-                    resultItem.put("value", priceListDoc.get("value"));
+                    if (netGross.equals("net")) {
+                        resultItem.put("value", priceListDoc.get("value"));
+                    }else{
+                        resultItem.put("value", priceListDoc.get("valueGross"));
+                    }
                     resultItem.put("start", start);
                     resultItem.put("end", end);
                     if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
@@ -399,7 +411,11 @@ public class PriceTable {
                 BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
-                    resultItem.put("value", priceListDoc.get("value"));
+                    if (netGross.equals("net")) {
+                        resultItem.put("value", priceListDoc.get("value"));
+                    }else{
+                        resultItem.put("value", priceListDoc.get("valueGross"));
+                    }
                     resultItem.put("start", start);
                     resultItem.put("end", end);
                     if (commons.convertDateInt(priceListDoc.getString("to")) < commons.convertDateInt(end)){
