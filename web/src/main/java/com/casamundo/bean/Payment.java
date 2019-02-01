@@ -541,9 +541,9 @@ public class Payment {
                         } else {
                             BasicDBObject itemCost = new BasicDBObject();
                             itemCost.put("paymentType", "automatic");
-                            itemCost.put("vendorType", "unique");
+                            itemCost.put("vendorType", "service");
                             itemCost.put("vendorId", vendorId);
-                            itemCost.put("accControl", travel.getString("accControl"));
+                            itemCost.put("accControl", "service");
                             itemCost.put("studentId", studentId);
                             itemCost.put("invoiceId", invoiceId);
                             itemCost.put("travelId", travelId);
