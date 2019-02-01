@@ -66,7 +66,6 @@ public class Payment {
 		setQuery.put("documento.extension", "true");
 		
         if (date != null) {
-            setCondition.put("$gte", commons.calcNewDate(date, daysPeriodStart));
             setCondition.put("$lte", date);
         }
 		setQuery.put("documento.controlDatePayment", setCondition);
@@ -422,6 +421,7 @@ public class Payment {
 					product.putAll((Map) products.get(i));
                     BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
                     if (produtoUnicoNaoProcessado(groups, productDoc.get("group"), productDoc.get("paying"))) {
+                        String vendorId = getIdVendor(productDoc, accomodation);
                         if (productDoc.getString("charging").equals("eNight") || productDoc.getString("charging").equals("week")) {
                             ArrayList<Object> vendors = new ArrayList<Object>();
                             ResponseEntity response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
@@ -476,11 +476,13 @@ public class Payment {
                                                 int days = commons.difDate(cost.getString("start").substring(0, 10), cost.getString("end").substring(0, 10));
                                                 itemCost.put("lastDayPayment", cost.getString("start").substring(0, 10));
                                                 if (commons.comparaData(cost.getString("start").substring(0, 10), commons.calcNewDate(vendor.getString("start").substring(0, 10), 29))) {
-                                                    itemCost.put("controlDatePayment", cost.getString("start").substring(0, 10));
+                                                    int difDays = commons.difDate(vendor.getString("start").substring(0, 10), cost.getString("start").substring(0, 10));
+                                                    int cycles = difDays / 28;
+                                                    itemCost.put("controlDatePayment", commons.calcNewDate(vendor.getString("start").substring(0, 10), cycles * 28));
                                                 }
                                                 // quando a data do produto nao for igual a do checin da viagem ele sera tratado como extensao na regra de pagamento
                                                 if (!cost.getString("start").substring(0, 10).equals(vendor.getString("start").substring(0, 10))) {
-                                                    itemCost.put("extension", travel.get("true"));
+                                                    itemCost.put("extension", "true");
                                                 }
                                                 itemCost.put("days", Integer.toString(days));
                                                 double value = 0.0;
@@ -540,7 +542,7 @@ public class Payment {
                             BasicDBObject itemCost = new BasicDBObject();
                             itemCost.put("paymentType", "automatic");
                             itemCost.put("vendorType", "unique");
-                            itemCost.put("vendorId", "");
+                            itemCost.put("vendorId", vendorId);
                             itemCost.put("accControl", travel.getString("accControl"));
                             itemCost.put("studentId", studentId);
                             itemCost.put("invoiceId", invoiceId);
@@ -593,6 +595,22 @@ public class Payment {
 		}
 		return payments;
 	}
+
+    private String getIdVendor(BasicDBObject productDoc, BasicDBObject accomodation) {
+
+	    String variable = "service";
+
+        for (int i = 1; i < 20; i++) {
+            if (accomodation.get(variable += String.valueOf(i)) != null) {
+                if (accomodation.getString(variable).equals(productDoc.getString("id"))) {
+                    if (productDoc.get("vendorId") != null) {
+                        return productDoc.getString("vendorId");
+                    }
+                }
+            }
+        }
+	    return null;
+    }
 
     private boolean produtoUnicoNaoProcessado(ArrayList<String> groups, Object group, Object paying) {
 	    if (group == null || paying == null){
