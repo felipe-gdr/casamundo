@@ -283,7 +283,7 @@ public class Payment {
                 startDate = paymentDoc.getString("lastDayPayment");
             }
             if (commons.convertDateInt(paymentDoc.getString("end")) > commons.convertDateInt(commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28))) {
-                endDate = commons.calcNewDate(baseDate, 28);
+                endDate = commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28);
             }
             int payedDays = Integer.parseInt(paymentDoc.getString("payedDays"));
             int days = Integer.parseInt(paymentDoc.getString("days"));
