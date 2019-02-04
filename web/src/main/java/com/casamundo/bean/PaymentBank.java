@@ -261,6 +261,7 @@ public class PaymentBank {
                         paymentDoc.put("status", "payed");
                     }else {
                         paymentDoc.put("status", "pending");
+                        paymentDoc.put("extension", "true");
                     }
                     paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
                     paymentDoc.put("controlDatePayment", paymentDoc.getString("sugestLastDatePayment"));
