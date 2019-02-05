@@ -456,6 +456,7 @@ public class Payment {
                                 itemCost.put("usedDaysDebit", "0");
                                 itemCost.put("payedAmount", "0.0");
                                 itemCost.put("payedDays", "0");
+                                itemCost.put("payDays", "0");
                                 itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                                 itemCost.put("destination", travel.get("destination"));
                                 itemCost.put("controlDatePayment", vendor.getString("start").substring(0, 10));
@@ -579,6 +580,7 @@ public class Payment {
                                 itemCost.put("notes", notes);
                                 itemCost.put("payedDays", "0");
                                 itemCost.put("payedAmount", "0.0");
+                                itemCost.put("payDays", "0");
                                 if (value != 0.0 && amountValue > 0) {
                                     itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
                                     commons_db.incluirCrud("payment", itemCost);

@@ -164,27 +164,31 @@ public class PaymentCycles {
                 paymentDoc = (BasicDBObject) payment.get("documento");
                 Boolean existe = false;
                 for (BasicDBObject paymentCycle : paymentsCycleResult) {
-                    if (paymentDoc.getString("cycleId").equals(paymentCycle.getString("_id"))) {
-                        existe = true;
+                    if (paymentDoc.get("cycleId") != null) {
+                        if (paymentDoc.getString("cycleId").equals(paymentCycle.getString("_id"))) {
+                            existe = true;
+                        }
                     }
                 }
                 if (!existe) {
-                    BasicDBObject paymentCycles = commons_db.obterCrudDoc("paymentCycles", "_id", paymentDoc.getString("cycleId"));
-                    ArrayList<BasicDBObject> resultPaymentsCycle = new ArrayList<BasicDBObject>();
-                    ArrayList<BasicDBObject> paymentsCycle = (ArrayList<BasicDBObject>) paymentCycles.get("payments");
-                    BigDecimal totalCycle = new BigDecimal(0.0);
-                    for (BasicDBObject paymentCycle: paymentsCycle) {
-                        BasicDBObject paymentRead = commons_db.obterCrudDoc("payment", "_id", paymentCycle.getString("id"));
-                        if (paymentRead.getString("vendorId").equals(vendorId)){
-                            resultPaymentsCycle.add(paymentCycle);
-                            BigDecimal itemCycle = new BigDecimal(Double.valueOf(paymentCycle.getString("payValue")));
-                            itemCycle = itemCycle.setScale(2, RoundingMode.CEILING);
-                            totalCycle = totalCycle.add(itemCycle);
+                    if (paymentDoc.get("cycleId") != null) {
+                        BasicDBObject paymentCycles = commons_db.obterCrudDoc("paymentCycles", "_id", paymentDoc.getString("cycleId"));
+                        ArrayList<BasicDBObject> resultPaymentsCycle = new ArrayList<BasicDBObject>();
+                        ArrayList<BasicDBObject> paymentsCycle = (ArrayList<BasicDBObject>) paymentCycles.get("payments");
+                        BigDecimal totalCycle = new BigDecimal(0.0);
+                        for (BasicDBObject paymentCycle : paymentsCycle) {
+                            BasicDBObject paymentRead = commons_db.obterCrudDoc("payment", "_id", paymentCycle.getString("id"));
+                            if (paymentRead.getString("vendorId").equals(vendorId)) {
+                                resultPaymentsCycle.add(paymentCycle);
+                                BigDecimal itemCycle = new BigDecimal(Double.valueOf(paymentCycle.getString("payValue")));
+                                itemCycle = itemCycle.setScale(2, RoundingMode.CEILING);
+                                totalCycle = totalCycle.add(itemCycle);
+                            }
                         }
+                        paymentCycles.put("payments", resultPaymentsCycle);
+                        paymentCycles.put("totalCycle", totalCycle.toString());
+                        paymentsCycleResult.add(paymentCycles);
                     }
-                    paymentCycles.put("payments",resultPaymentsCycle);
-                    paymentCycles.put("totalCycle",totalCycle.toString());
-                    paymentsCycleResult.add(paymentCycles);
                 }
 
             }
