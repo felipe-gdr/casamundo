@@ -42,7 +42,7 @@ public class Rest_Invoice {
             update.putAll((Map) arrayUpdate.get(0));
             BasicDBObject doc = new BasicDBObject();
             doc.putAll((Map) update.get("value"));
-            invoice.atualiza(doc, queryParam.get("value").toString());
+            invoice.atualiza(doc, queryParam.get("value").toString(), true, false);
 			return ResponseEntity.ok().body("true");
 		}else{
 			return ResponseEntity.badRequest().build();

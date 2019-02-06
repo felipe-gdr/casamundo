@@ -36,8 +36,7 @@ public class Rest_Book {
 		String travelId = documento.getString("studentId");
 		if (collection != null ){
 			ResponseEntity response = commons_db.incluirCrud(collection, documento);
-			commons_db.removerCrud("payment", "documento.travelId" , travelId, null);
-			payment.managementCostsBooking(travelId);
+			payment.managementCostsBooking(travelId, null, false, true);
 			return response;
 		}else{
 			return ResponseEntity.badRequest().build();
@@ -53,7 +52,7 @@ public class Rest_Book {
 					"update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			BasicDBObject book = commons_db.obterCrudDoc(queryParam.get ("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString());
 			if (book != null) {
-				payment.managementCostsBooking(book.getString("studentId"));
+				payment.managementCostsBooking(book.getString("studentId"), null, false, true);
 			}
 			return result;
 		}else{

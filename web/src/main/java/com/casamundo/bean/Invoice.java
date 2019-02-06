@@ -41,7 +41,7 @@ public class Invoice {
         if (response.getStatusCode() == HttpStatus.OK) {
             String invoiceId = (String) response.getBody();
             if (invoiceId != null) {
-                atualiza(documento, invoiceId);
+                atualiza(documento, invoiceId, false, false);
             }
         }
 
@@ -49,7 +49,7 @@ public class Invoice {
     }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ResponseEntity atualiza(BasicDBObject doc, String invoiceId) throws UnknownHostException  {
+	public ResponseEntity atualiza(BasicDBObject doc, String invoiceId, Boolean atualiza, Boolean book) throws UnknownHostException  {
 
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) doc);
@@ -129,7 +129,7 @@ public class Invoice {
 
 			if (response.getStatusCode() == HttpStatus.OK) {
                 estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId);
-                payment.managementCostsBooking(documento.getString("trip"));
+                payment.managementCostsBooking(documento.getString("trip"), invoiceId,  atualiza, book);
 			};
 			return response;
 		}

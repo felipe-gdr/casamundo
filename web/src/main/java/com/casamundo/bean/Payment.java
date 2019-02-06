@@ -389,23 +389,32 @@ public class Payment {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked"})
-	public BasicDBObject managementCostsBooking(String travelId) throws UnknownHostException {
+	public BasicDBObject managementCostsBooking(String travelId,String invoiceId, Boolean atualiza, Boolean book) throws UnknownHostException {
 		
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
-		BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
+        BasicDBObject invoice = new BasicDBObject();
+	    if (invoiceId == null) {
+            invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
+            invoiceId = invoice.getString("_id");
+        }else{
+            invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
+        }
 
         BasicDBObject payments = new BasicDBObject();
         ArrayList<String> groups = new ArrayList<String>();
 		if (invoice != null && travel != null) {
 			String studentId =  (String) travel.get("studentId");
-			String invoiceId =  (String) invoice.get("_id");
-
             BasicDBObject setQuery = new BasicDBObject();
             setQuery.put("documento.status", "pending");
             setQuery.put("documento.travelId", travelId);
             setQuery.put("documento.payedAmount", "0.0");
 
-			commons_db.removerCrud("payment", "documento.travelId" , travelId, setQuery);
+			if (atualiza) {
+                commons_db.removerCrud("payment", "documento.invoiceId", invoiceId, setQuery);
+            }
+            if (book) {
+                commons_db.removerCrud("payment", "documento.travelId", travelId, setQuery);
+            }
 
 			ArrayList<BasicDBObject> debits = atualizaPayment(travelId);
             BasicDBObject student = commons_db.obterCrudDoc("student", "_id", studentId);
@@ -601,10 +610,9 @@ public class Payment {
     private String getIdVendor(BasicDBObject productDoc, BasicDBObject accomodation) {
 
 	    String variable = "service";
-
         for (int i = 1; i < 20; i++) {
-            if (accomodation.get(variable += String.valueOf(i)) != null) {
-                if (accomodation.getString(variable).equals(productDoc.getString("id"))) {
+            if (accomodation.get(variable + String.valueOf(i)) != null) {
+                if (accomodation.getString(variable + String.valueOf(i)).equals(productDoc.getString("id"))) {
                     if (productDoc.get("vendorId") != null) {
                         return productDoc.getString("vendorId");
                     }

@@ -170,7 +170,7 @@ public class PaymentCycles {
                         }
                     }
                 }
-                if (!existe) {
+                if (!existe){
                     if (paymentDoc.get("cycleId") != null) {
                         BasicDBObject paymentCycles = commons_db.obterCrudDoc("paymentCycles", "_id", paymentDoc.getString("cycleId"));
                         ArrayList<BasicDBObject> resultPaymentsCycle = new ArrayList<BasicDBObject>();
