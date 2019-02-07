@@ -335,7 +335,9 @@ public class Invoice {
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 
 		ArrayList<Object> invoices = new ArrayList<Object>();
-		invoices = (ArrayList<Object>) receivementAtu.get("invoices");
+		if (receivementAtu.get("invoices") != null) {
+            invoices = (ArrayList<Object>) receivementAtu.get("invoices");
+        }
 
 		for (int i = 0; i < invoices.size(); i++) {
 			BasicDBObject invoice = new BasicDBObject();
