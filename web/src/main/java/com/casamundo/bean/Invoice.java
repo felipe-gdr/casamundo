@@ -330,7 +330,7 @@ public class Invoice {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void atualizarPaymentsInvoice(String receivementId) throws UnknownHostException {
+	public void atualizarReceivementsInvoice(String receivementId, Boolean estorno) throws UnknownHostException {
 
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 
@@ -356,14 +356,25 @@ public class Invoice {
 				if (invoice.get("valuePayed") != null) {
 					valuePayed = Float.valueOf(invoice.getString("valuePayed"));
 				}
-				if ((valuePayedObj + valuePayed) >= total) {
-					invoiceObj.put("valuePayed", Float.toString(total));
-					invoiceObj.put("paid","paid");
-				}else {
-					valuePayedObj = valuePayedObj + valuePayed;						
-					invoiceObj.put("valuePayed", Float.toString(valuePayedObj));
-					invoiceObj.put("paid","partial");
-				}
+				if (estorno){
+                    if ((valuePayedObj - valuePayed) == 0.0) {
+                        invoiceObj.put("valuePayed", "0.0");
+                        invoiceObj.put("paid", "unpaid");
+                    } else {
+                        valuePayedObj = valuePayedObj - valuePayed;
+                        invoiceObj.put("valuePayed", Float.toString(valuePayedObj));
+                        invoiceObj.put("paid", "partial");
+                    }
+                }else {
+                    if ((valuePayedObj + valuePayed) >= total) {
+                        invoiceObj.put("valuePayed", Float.toString(total));
+                        invoiceObj.put("paid", "paid");
+                    } else {
+                        valuePayedObj = valuePayedObj + valuePayed;
+                        invoiceObj.put("valuePayed", Float.toString(valuePayedObj));
+                        invoiceObj.put("paid", "partial");
+                    }
+                }
 			}
 			ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
 			BasicDBObject update = new BasicDBObject(); 
