@@ -395,7 +395,9 @@ public class Payment {
         BasicDBObject invoice = new BasicDBObject();
 	    if (invoiceId == null) {
             invoice = commons_db.obterCrudDoc("invoice", "documento.trip", travelId);
-            invoiceId = invoice.getString("_id");
+            if (invoice != null){
+                invoiceId = invoice.getString("_id");
+            }
         }else{
             invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
         }
