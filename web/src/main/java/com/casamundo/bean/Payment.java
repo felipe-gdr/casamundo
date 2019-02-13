@@ -432,8 +432,8 @@ public class Payment {
 					product.putAll((Map) products.get(i));
                     BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
                     if (produtoUnicoNaoProcessado(groups, productDoc.get("group"), productDoc.get("paying"))) {
-                        String vendorId = getIdVendor(productDoc, accomodation);
-                        if (productDoc.getString("charging").equals("eNight") || productDoc.getString("charging").equals("week")) {
+                        String vendorId = getIdVendor(productDoc, accomodation, travel.getString("id"));
+                        if (productDoc.getString("paying").equals("eNight") || productDoc.getString("paying").equals("week")) {
                             ArrayList<Object> vendors = new ArrayList<Object>();
                             ResponseEntity response = commons_db.listaCrud("homestayBook", "documento.studentId", travel.getString("_id"), null, null, null, true);
                             ArrayList<Object> result = (ArrayList<Object>) response.getBody();
@@ -609,9 +609,40 @@ public class Payment {
 		return payments;
 	}
 
-    private String getIdVendor(BasicDBObject productDoc, BasicDBObject accomodation) {
+    private String getIdVendor(BasicDBObject productDoc, BasicDBObject accomodation, String travelId) throws UnknownHostException {
 
 	    String variable = "service";
+        if (productDoc.get("group") != null){
+            if (!productDoc.getString("group").equals("")){
+                if (productDoc.get("vendorId") != null) {
+                    return productDoc.getString("vendorId");
+                }
+            }
+        }
+	    if (productDoc.get("transferType") != null){
+            if (productDoc.getString("transferType").equals("pickup") || productDoc.getString("transferType").equals("dropoff") || productDoc.getString("transferType").equals("manual")){
+                BasicDBObject setSort = new BasicDBObject();
+                setSort.put("documento.date", 1);
+                BasicDBObject setQuery = new BasicDBObject();
+                setQuery.put("documento.travelId", travelId);
+                setQuery.put("documento.transferType", productDoc.getString("transferType"));
+                setQuery.put("documento.paymentId", "");
+                ResponseEntity response = commons_db.listaCrud("payment", null, null, null, setQuery, setSort, false);
+                ArrayList<Object> transfers = new ArrayList<Object>();
+                transfers = (JSONArray) response.getBody();
+                if (response != null) {
+                    for (int i = 0; i < transfers.size(); i++) {
+                        BasicDBObject transfer = new BasicDBObject();
+                        transfer.putAll((Map) transfer.get(i));
+                        BasicDBObject transferDoc = new BasicDBObject();
+                        transferDoc = (BasicDBObject) transferDoc.get("documento");
+                        return transferDoc.getString("vendorId");
+                    }
+                }else{
+                    return null;
+                }
+            }
+        }
         for (int i = 1; i < 50; i++) {
             if (accomodation.get(variable + String.valueOf(i)) != null) {
                 if (accomodation.getString(variable + String.valueOf(i)).equals(productDoc.getString("id"))) {

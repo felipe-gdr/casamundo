@@ -38,13 +38,28 @@ public class Invoice {
         documento.putAll((Map) doc);
 
         ResponseEntity response = commons_db.incluirCrud("invoice", documento);
+        String invoiceId = "";
         if (response.getStatusCode() == HttpStatus.OK) {
-            String invoiceId = (String) response.getBody();
+            invoiceId = (String) response.getBody();
             if (invoiceId != null) {
                 atualiza(documento, invoiceId, false, false);
             }
         }
 
+        BasicDBObject setQuery = new BasicDBObject();
+        setQuery.put("documento.vendorId", null);
+        setQuery.put("documento.invoiceId", invoiceId);
+        response = commons_db.listaCrud("payment", null, null, null, setQuery, null, false);
+        ArrayList<Object> payments = new ArrayList<Object>();
+        payments = (JSONArray) response.getBody();
+        if (response != null) {
+            if (payments.size() > 0) {
+                commons_db.removerCrud("invoice", "_id", invoiceId, null);
+                commons_db.removerCrud("payment", "documento.invoiceId", invoiceId, null);
+                commons_db.removerCrud("estimated", "documento.invoiceId", invoiceId, null);
+                return null;
+            }
+        }
         return response;
     }
 
