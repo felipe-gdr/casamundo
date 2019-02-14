@@ -296,7 +296,6 @@ public class PaymentBank {
 
     public ResponseEntity delete(String bankListId) throws UnknownHostException {
 
-
         ResponseEntity response  = commons_db.listaCrud("paymentCycles", "documento.bankListId", bankListId, null, null, null, false);
 
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();

@@ -487,10 +487,10 @@ public class Payment {
                                                 itemCost.put("end", cost.getString("end").substring(0, 10));
                                                 int days = commons.difDate(cost.getString("start").substring(0, 10), cost.getString("end").substring(0, 10));
                                                 itemCost.put("lastDayPayment", cost.getString("start").substring(0, 10));
-                                                if (commons.comparaData(cost.getString("start").substring(0, 10), commons.calcNewDate(vendor.getString("start").substring(0, 10), 29))) {
+                                                if (commons.comparaData(cost.getString("start").substring(0, 10), commons.calcNewDate(accomodation.getString("checkIn").substring(0, 10), 29))) {
                                                     int difDays = commons.difDate(vendor.getString("start").substring(0, 10), cost.getString("start").substring(0, 10));
                                                     int cycles = difDays / 28;
-                                                    itemCost.put("controlDatePayment", commons.calcNewDate(vendor.getString("start").substring(0, 10), cycles * 28));
+                                                    itemCost.put("controlDatePayment", commons.calcNewDate(accomodation.getString("checkIn").substring(0, 10), cycles * 28));
                                                 }
                                                 // quando a data do produto nao for igual a do checin da viagem ele sera tratado como extensao na regra de pagamento
                                                 if (!cost.getString("start").substring(0, 10).equals(vendor.getString("start").substring(0, 10))) {
