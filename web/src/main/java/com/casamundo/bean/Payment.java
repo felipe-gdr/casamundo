@@ -488,7 +488,7 @@ public class Payment {
                                                 int days = commons.difDate(cost.getString("start").substring(0, 10), cost.getString("end").substring(0, 10));
                                                 itemCost.put("lastDayPayment", cost.getString("start").substring(0, 10));
                                                 if (commons.comparaData(cost.getString("start").substring(0, 10), commons.calcNewDate(accomodation.getString("checkIn").substring(0, 10), 29))) {
-                                                    int difDays = commons.difDate(vendor.getString("start").substring(0, 10), cost.getString("start").substring(0, 10));
+                                                    int difDays = commons.difDate(accomodation.getString("checkIn").substring(0, 10), cost.getString("start").substring(0, 10));
                                                     int cycles = difDays / 28;
                                                     itemCost.put("controlDatePayment", commons.calcNewDate(accomodation.getString("checkIn").substring(0, 10), cycles * 28));
                                                 }
