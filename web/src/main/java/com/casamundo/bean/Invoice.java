@@ -45,7 +45,7 @@ public class Invoice {
                 atualiza(documento, invoiceId, false, false);
             }
         }
-
+/*
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.put("documento.vendorId", null);
         setQuery.put("documento.invoiceId", invoiceId);
@@ -60,6 +60,7 @@ public class Invoice {
                 return null;
             }
         }
+*/
         return response;
     }
 

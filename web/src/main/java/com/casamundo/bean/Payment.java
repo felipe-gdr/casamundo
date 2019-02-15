@@ -594,7 +594,13 @@ public class Payment {
                                 itemCost.put("payDays", "0");
                                 if (value != 0.0 && amountValue > 0) {
                                     itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
-                                    commons_db.incluirCrud("payment", itemCost);
+                                    if (productDoc.get("transferType") != null) {
+                                        if (!productDoc.getString("transferType").equals("pickup") && !productDoc.getString("transferType").equals("dropoff") && !productDoc.getString("transferType").equals("manual")) {
+                                            commons_db.incluirCrud("payment", itemCost);
+                                        }
+                                    }else{
+                                        commons_db.incluirCrud("payment", itemCost);
+                                    }
                                     if (productDoc.get("group") != null) {
                                         groups.add(productDoc.getString("group"));
                                     }
@@ -619,7 +625,8 @@ public class Payment {
                 }
             }
         }
-	    if (productDoc.get("transferType") != null){
+/*
+        if (productDoc.get("transferType") != null){
             if (productDoc.getString("transferType").equals("pickup") || productDoc.getString("transferType").equals("dropoff") || productDoc.getString("transferType").equals("manual")){
                 BasicDBObject setSort = new BasicDBObject();
                 setSort.put("documento.date", 1);
@@ -643,6 +650,7 @@ public class Payment {
                 }
             }
         }
+*/
         for (int i = 1; i < 50; i++) {
             if (accomodation.get(variable + String.valueOf(i)) != null) {
                 if (accomodation.getString(variable + String.valueOf(i)).equals(productDoc.getString("id"))) {
