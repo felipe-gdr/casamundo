@@ -405,8 +405,8 @@ public class Invoice {
 		String value = "";
 		String collection = "";
 		
-		if (receivementAtu.getString("agencyId") != null) {
-			key = "documento.agencyId";
+		if (receivementAtu.getString("payerType").equals("agency")) {
+		    key = "documento.agencyId";
             keyInvoice = "documento.agency";
 			value = receivementAtu.getString("agencyId");
 			collection = "agency";
