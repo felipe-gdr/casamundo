@@ -3,6 +3,7 @@ package com.casamundo.rest;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import com.casamundo.bean.PriceTable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class Rest_Payment {
 	Commons_DB commons_db = new Commons_DB();
 	Invoice invoice = new Invoice();
 	Payment payment = new Payment();
+	PriceTable priceTable = new PriceTable();
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
@@ -86,6 +88,23 @@ public class Rest_Payment {
 		}else{
 			return payment.listaPayment(null, accControl, userId);
 		}
+
+	}
+
+	@RequestMapping(value = "/getCost", produces = "application/json")
+	public ArrayList<BasicDBObject> getCost(
+			@RequestParam(value = "start", required=false) String start,
+			@RequestParam(value = "end", required=false) String end,
+			@RequestParam(value = "travelId", required=false) String travelId,
+			@RequestParam(value = "productId", required=false) String productId,
+			@RequestParam(value = "vendorId", required=false) String vendorId,
+			@RequestParam(value = "netGross", required=false) String netGross
+	) throws UnknownHostException, MongoException {
+
+		if (start != null && end != null && travelId != null  && productId != null && netGross != null) {
+			return priceTable.getCost(start, end, travelId,productId, vendorId, netGross);
+		}
+		return null;
 
 	}
 
