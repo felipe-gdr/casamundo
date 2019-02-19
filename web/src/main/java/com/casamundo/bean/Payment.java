@@ -594,11 +594,7 @@ public class Payment {
                                 itemCost.put("payDays", "0");
                                 if (value != 0.0 && amountValue > 0) {
                                     itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment"));
-                                    if (productDoc.get("transferType") != null) {
-                                        if (!productDoc.getString("transferType").equals("pickup") && !productDoc.getString("transferType").equals("dropoff") && !productDoc.getString("transferType").equals("manual")) {
-                                            commons_db.incluirCrud("payment", itemCost);
-                                        }
-                                    }else{
+                                    if (paymentValido(productDoc)) {
                                         commons_db.incluirCrud("payment", itemCost);
                                     }
                                     if (productDoc.get("group") != null) {
@@ -614,6 +610,16 @@ public class Payment {
 		}
 		return payments;
 	}
+
+	private Boolean paymentValido(BasicDBObject productDoc){
+        if (productDoc.get("transferType") != null) {
+            if (productDoc.getString("transferType").equals("pickup") || productDoc.getString("transferType").equals("dropoff") || productDoc.getString("transferType").equals("manual")) {
+                return false;
+            }
+        }
+
+	    return true;
+    }
 
     private String getIdVendor(BasicDBObject productDoc, BasicDBObject accomodation, String travelId) throws UnknownHostException {
 
