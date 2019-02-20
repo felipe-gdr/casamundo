@@ -5,6 +5,7 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
+import org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -355,6 +356,8 @@ public class Invoice {
             if (receivementAtu.get("invoices") != null) {
                 invoices = (ArrayList<Object>) receivementAtu.get("invoices");
             }
+        }else{
+            System.out.println("não leu receivment " + receivementId);
         }
 
 		for (int i = 0; i < invoices.size(); i++) {
