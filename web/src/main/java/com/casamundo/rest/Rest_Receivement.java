@@ -1,6 +1,8 @@
 package com.casamundo.rest;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -35,7 +37,7 @@ public class Rest_Receivement {
 		ResponseEntity response = commons_db.incluirCrud("receivement", documento);
 		if (response.getStatusCode() == HttpStatus.OK) {
 			String receiveId = (String) response.getBody();
-			invoice.atualizarReceivementsInvoice(receiveId.toString(), false);
+			invoice.atualizarReceivementsInvoice(receiveId.toString(), false, documento);
 		};
 		return response;
 
@@ -46,10 +48,12 @@ public class Rest_Receivement {
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-			invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), true);
+			BasicDBObject receivement = new BasicDBObject();
+			receivement.putAll((Map) queryParam.get("value"));
+			invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), true, receivement);
 			ResponseEntity response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
 			if (response.getStatusCode() == HttpStatus.OK) {
-				invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), false);
+				invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), false, receivement);
 			};
 			return ResponseEntity.ok().body("true");
 		}else{

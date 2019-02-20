@@ -40,6 +40,7 @@ public class Invoice {
 
         ResponseEntity response = commons_db.incluirCrud("invoice", documento);
         String invoiceId = "";
+
         if (response.getStatusCode() == HttpStatus.OK) {
             invoiceId = (String) response.getBody();
             if (invoiceId != null) {
@@ -347,7 +348,7 @@ public class Invoice {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void atualizarReceivementsInvoice(String receivementId, Boolean estorno) throws UnknownHostException {
+	public void atualizarReceivementsInvoice(String receivementId, Boolean estorno, BasicDBObject receivementInput) throws UnknownHostException {
 
 		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 
@@ -357,7 +358,8 @@ public class Invoice {
                 invoices = (ArrayList<Object>) receivementAtu.get("invoices");
             }
         }else{
-            System.out.println("não leu receivment " + receivementId);
+            invoices = (ArrayList<Object>) receivementInput.get("invoices");
+            receivementAtu = receivementInput;
         }
 
 		for (int i = 0; i < invoices.size(); i++) {
