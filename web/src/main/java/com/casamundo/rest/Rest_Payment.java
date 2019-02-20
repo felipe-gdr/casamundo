@@ -2,6 +2,7 @@ package com.casamundo.rest;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.casamundo.bean.PriceTable;
 import org.json.simple.JSONArray;
@@ -91,19 +92,29 @@ public class Rest_Payment {
 
 	}
 
-	@RequestMapping(value = "/getCost", produces = "application/json")
-	public ArrayList<BasicDBObject> getCost(
-			@RequestParam(value = "start", required=false) String start,
-			@RequestParam(value = "end", required=false) String end,
-			@RequestParam(value = "travelId", required=false) String travelId,
-			@RequestParam(value = "productId", required=false) String productId,
-			@RequestParam(value = "vendorId", required=false) String vendorId,
-			@RequestParam(value = "netGross", required=false) String netGross
+	@RequestMapping(value = "/getCostDriver", produces = "application/json")
+	public String getCostDriver(
+			@RequestParam(value = "date", required=false) String date,
+			@RequestParam(value = "typeTransfer", required=false) String typeTransfer,
+			@RequestParam(value = "driverId", required=false) String vendorId,
+            @RequestParam(value = "travelId", required=false) String travelId,
+            @RequestParam(value = "netGross", required=false) String netGross
+
 	) throws UnknownHostException, MongoException {
 
-		if (start != null && end != null && travelId != null  && productId != null && netGross != null) {
-			return priceTable.getCost(start, end, travelId,productId, vendorId, netGross);
-		}
+		if (date != null && typeTransfer != null  && vendorId != null && netGross != null) {
+            BasicDBObject product = commons_db.obterCrudDoc("priceTable", "documento.transferType", typeTransfer);
+            if (product != null) {
+                if (product.get("_id") != null) {
+                    ArrayList<BasicDBObject> results = priceTable.getCost(date, date, travelId, product.getString("_id"), vendorId, netGross);
+                    if (results.size() > 0) {
+                        BasicDBObject result = new BasicDBObject();
+                        result.putAll((Map) results.get(0));
+                        return result.getString("value");
+                    }
+                }
+            }
+        }
 		return null;
 
 	}
