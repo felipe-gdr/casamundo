@@ -93,24 +93,32 @@ public class Rest_Payment {
 	}
 
 	@RequestMapping(value = "/getCostDriver", produces = "application/json")
-	public String getCostDriver(
-			@RequestParam(value = "date", required=false) String date,
-			@RequestParam(value = "typeTransfer", required=false) String typeTransfer,
-			@RequestParam(value = "driverId", required=false) String vendorId,
-            @RequestParam(value = "travelId", required=false) String travelId,
+	public BasicDBObject getCostDriver(
+			@RequestParam(value = "driverId", required=false) String driverId,
+            @RequestParam(value = "transferId", required=false) String transferId,
             @RequestParam(value = "netGross", required=false) String netGross
 
 	) throws UnknownHostException, MongoException {
 
-		if (date != null && typeTransfer != null  && vendorId != null && netGross != null) {
-            BasicDBObject product = commons_db.obterCrudDoc("priceTable", "documento.transferType", typeTransfer);
-            if (product != null) {
-                if (product.get("_id") != null) {
-                    ArrayList<BasicDBObject> results = priceTable.getCost(date, date, travelId, product.getString("_id"), vendorId, netGross);
-                    if (results.size() > 0) {
-                        BasicDBObject result = new BasicDBObject();
-                        result.putAll((Map) results.get(0));
-                        return result.getString("value");
+		if (transferId != null  && driverId != null && netGross != null) {
+            BasicDBObject transfer = commons_db.obterCrudDoc("transfers", "_id", transferId);
+            if (transfer != null) {
+                BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", transfer.getString("travelId"));
+                BasicDBObject product = commons_db.obterCrudDoc("priceTable", "documento.transferType", transfer.getString("transferType"));
+                if (product != null && travel != null) {
+                    if (product.get("_id") != null) {
+                        BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
+                        ArrayList<BasicDBObject> costs = priceTable.getCost(transfer.getString("date"), transfer.getString("date"), transfer.getString("travelId"), product.getString("_id"), driverId, netGross);
+                        if (costs.size() > 0) {
+                            BasicDBObject cost = new BasicDBObject();
+                            cost.putAll((Map) costs.get(0));
+                            BasicDBObject result = new BasicDBObject();
+                            result.put("amount",cost.get("value"));
+                            result.put("date",cost.get("start"));
+                            result.put("destinationId",travel.get("destination"));
+                            result.put("studentName",student.get("firstName") + " "  + student.get("lastName"));
+                            return result;
+                        }
                     }
                 }
             }

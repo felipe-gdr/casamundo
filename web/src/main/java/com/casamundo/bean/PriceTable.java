@@ -202,6 +202,9 @@ public class PriceTable {
 
 	    ArrayList result = new ArrayList();
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		if (travel == null){
+			return null;
+		}
 		String destination =  (String) travel.get("destination");
 		String agencyId =  (String) travel.get("agency");
 
