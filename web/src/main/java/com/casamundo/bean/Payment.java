@@ -189,7 +189,7 @@ public class Payment {
                             };
                         }
                         String lastDayMonthBefore = commons.lastDayMonth(paymentDoc.getString("lastDayPayment"));
-                        if (!paymentDoc.get("accControl").equals("homestay") && commons.convertDateInt(paymentDoc.getString("lastDayPayment")) < commons.convertDateInt(lastDayMonthBefore)) {
+                        if (!paymentDoc.get("accControl").equals("homestay") && commons.convertDateInt(paymentDoc.getString("lastDayPayment")) <= commons.convertDateInt(lastDayMonthBefore)) {
                             paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"), setQuery);
                             payment.put("documento", paymentDoc);
                             ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();

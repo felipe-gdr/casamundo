@@ -254,17 +254,32 @@ public class PaymentBank {
             for (int j = 0; j < payments.size(); j++) {
                 BasicDBObject payment = (BasicDBObject) payments.get(j);
                 BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
-                if (paymentDoc != null){
+                if (paymentDoc != null) {
                     paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
                     paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
-                    if (Double.parseDouble(paymentDoc.getString("payedAmount")) >= Double.parseDouble(paymentDoc.getString("totalAmount"))){
+                    if (Double.parseDouble(paymentDoc.getString("payedAmount")) >= Double.parseDouble(paymentDoc.getString("totalAmount"))) {
                         paymentDoc.put("status", "payed");
-                    }else {
+                    } else {
                         paymentDoc.put("status", "pending");
                         paymentDoc.put("extension", "true");
                     }
-                    paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
-                    paymentDoc.put("controlDatePayment", paymentDoc.getString("sugestLastDatePayment"));
+                    if (paymentDoc.get("sugestLastDatePayment") != null) {
+                        paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
+                        paymentDoc.put("controlDatePayment", paymentDoc.getString("sugestLastDatePayment"));
+                    }else {
+                        if (paymentDoc.getString("paymentType").equals("manual")) {
+                            paymentDoc.put("lastDayPayment", doc.get("dueDate"));
+                            paymentDoc.put("sugestLastDatePayment", doc.get("dueDate"));
+                        }else {
+                            if (paymentDoc.getString("paymentType").equals("homestay")) {
+                                paymentDoc.put("lastDayPayment", commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28));
+                                paymentDoc.put("sugestLastDatePayment", commons.calcNewDate(paymentDoc.getString("lastDayPayment"), 28));
+                            } else {
+                                paymentDoc.put("lastDayPayment", commons.calcNewDate(commons.lastDayMonth(paymentDoc.getString("lastDayPayment")), 1));
+                                paymentDoc.put("sugestLastDatePayment", commons.calcNewDate(commons.lastDayMonth(paymentDoc.getString("lastDayPayment")), 1));
+                            }
+                        }
+                    }
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
                     update.put("field", "documento");
