@@ -33,7 +33,7 @@ public class Payment {
                 daysPeriodStart = -19;
                 daysPeriodEnd = -5;
                 if (commons.getDay(date) < 19) {
-                    if (commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
+                    if (commons.getMonth(date) == 1 || commons.getMonth(date) == 2 || commons.getMonth(date) == 4 || commons.getMonth(date) == 6 || commons.getMonth(date) == 8 || commons.getMonth(date) == 9 || commons.getMonth(date) == 11) {
                         daysPeriodStart--;
                     }
                     if (commons.getMonth(date) == 3) {
