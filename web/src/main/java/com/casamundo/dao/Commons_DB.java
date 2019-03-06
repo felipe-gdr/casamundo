@@ -370,7 +370,7 @@ public class Commons_DB {
         if (companyTable != null) {
             setQuery.put("documento." + companyTable, user.get("company"));
         }
-        Pattern regex = Pattern.compile("/" + params.get("search[value]") + "/i");
+        Pattern regex = Pattern.compile(params.get("search[value]"));
         DBObject clause1 = new BasicDBObject("documento.firstName", regex);
         DBObject clause2 = new BasicDBObject("documento.id", regex);
         BasicDBList or = new BasicDBList();
