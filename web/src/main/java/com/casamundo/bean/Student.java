@@ -6,6 +6,7 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
+import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -71,5 +72,21 @@ public class Student {
 		return result;
 
 	};
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
+
+		BasicDBObject result = new BasicDBObject();
+		result.put("draw", params.get("draw"));
+
+        ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        BasicDBObject retorno = new BasicDBObject();
+        retorno.putAll((Map) response.getBody());
+        ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");
+		result.put("data", students);
+        result.put("recordsFiltered", retorno.get("count"));
+        result.put("recordsTotal", retorno.get("count"));
+        return result;
+
+	}
 
 }

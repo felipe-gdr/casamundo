@@ -20,4 +20,9 @@ public class Rest_Usuario {
 	public BasicDBObject ObterUsuarioName(@RequestParam("email") String email) throws UnknownHostException, MongoException {
 		return commons_db.obterCrudDoc("usuarios", "documento.email", email);
 	};
+
+	@RequestMapping(value = "/login", produces = "application/json")
+	public BasicDBObject processaLogin(@RequestParam("email") String email, @RequestParam("paswword") String passqord) throws UnknownHostException, MongoException {
+		return commons_db.obterCrudDoc("usuarios", "documento.email", email);
+	};
 };

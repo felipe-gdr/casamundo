@@ -3,12 +3,17 @@ package com.casamundo.commons;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Commons {
 		
@@ -620,6 +625,70 @@ public class Commons {
 		};
 		return array;
 	};
+
+	@SuppressWarnings("unchecked")
+	public JSONObject getProperties() {
+		Properties prop = new Properties();
+		InputStream input = null;
+		try {
+			input = getClass().getClassLoader().getResourceAsStream("config.properties");
+			// load a properties file
+			prop.load(input);
+			JSONObject properties = new JSONObject();
+			properties.put("database", prop.getProperty("database"));
+			properties.put("dbuser", prop.getProperty("dbuser"));
+			properties.put("dbpassword", prop.getProperty("dbpassword"));
+			properties.put("host", prop.getProperty("host"));
+			return properties;
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	};
+
+	private static MessageDigest md;
+
+	public static String cryptWithMD5(String pass){
+		try {
+			md = MessageDigest.getInstance("MD5");
+			byte[] passBytes = pass.getBytes();
+			md.reset();
+			byte[] digested = md.digest(passBytes);
+			StringBuffer sb = new StringBuffer();
+			for(int i=0;i<digested.length;i++){
+				sb.append(Integer.toHexString(0xff & digested[i]));
+			}
+			return sb.toString();
+		} catch (NoSuchAlgorithmException ex) {
+			Logger.getLogger(Commons.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+
+
+	}
+	public String getDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+		StringBuilder result = new StringBuilder();
+		boolean first = true;
+		for(Map.Entry<String, String> entry : params.entrySet()){
+			if (first)
+				first = false;
+			else
+				result.append("&");
+			result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+			result.append("=");
+			result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+		}
+		return result.toString();
+	}
+
 
 
 };

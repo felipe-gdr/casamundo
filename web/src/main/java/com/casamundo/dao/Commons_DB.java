@@ -1,13 +1,7 @@
 package com.casamundo.dao;
 
 import com.casamundo.commons.Commons;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoException;
+import com.mongodb.*;
 import org.bson.BasicBSONObject;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
@@ -19,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Commons_DB {
 
@@ -318,6 +313,120 @@ public class Commons_DB {
         }
     };
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public ResponseEntity listaCrudSkip(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate, Integer start, Integer length, Map<String, String> params) throws UnknownHostException, MongoException {
+        Mongo mongo;
+        mongo = new Mongo();
+        DB db = (DB) mongo.getDB("documento");
+        DBCollection collection = db.getCollection(collectionName);
+        BasicDBObject setQuery = new BasicDBObject();
+        if (key != null) {
+            setQuery.put(key, value);
+        }
+
+        if (setQueryInput != null) {
+            setQuery = setQueryInput;
+        }
+        BasicDBObject setSort = new BasicDBObject();
+        setSort.put("lastChange", -1);
+
+        if (setSortInput != null) {
+            setSort = setSortInput;
+        }
+
+        BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
+
+        BasicDBObject user = new BasicDBObject();
+        if (setup != null && !onlyPrivate) {
+            if (userId == null) {
+                mongo.close();
+                return null;
+            }
+            user = obterCrudDoc("usuarios", "_id", userId);
+            if (user == null) {
+                mongo.close();
+                return null;
+            }
+            if (user.get("company") == null) {
+                mongo.close();
+                return null;
+            }
+            if (user.get("city") == null) {
+                mongo.close();
+                return null;
+            }
+        };
+
+        BasicDBObject setupValue = new BasicDBObject();
+        String companyTable = null;
+        String cityTable = null;
+
+        if (setup != null) {
+            setupValue = (BasicDBObject) setup.get("setupValue");
+            companyTable = (String) setupValue.get("company");
+            cityTable = (String) setupValue.get("city");
+        }
+
+        if (companyTable != null) {
+            setQuery.put("documento." + companyTable, user.get("company"));
+        }
+        Pattern regex = Pattern.compile("/" + params.get("search[value]") + "/i");
+        DBObject clause1 = new BasicDBObject("documento.firstName", regex);
+        DBObject clause2 = new BasicDBObject("documento.id", regex);
+        BasicDBList or = new BasicDBList();
+        or.add(clause1);
+        or.add(clause2);
+        setQuery.put("$or", or);
+
+
+        DBCursor cursor = collection.find(setQuery).sort(setSort);
+        Integer count = cursor.count();
+        if (length != -1) {
+            cursor.skip(start);
+            cursor.limit(length);
+        }
+        if (cursor != null) {
+            JSONArray documentos = new JSONArray();
+            ArrayList cityUser = (ArrayList) user.get("city");
+            while (((Iterator<DBObject>) cursor).hasNext()) {
+                BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+                BasicDBObject docObj = (BasicDBObject) obj.get("documento");
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) obj);
+                doc.put("_id", obj.get("_id").toString());
+                docObj.put("age", commons.calcAge(docObj.getString("birthday")));
+                if (cityTable != null) {
+                    Object object = docObj.get(cityTable);
+                    if (object != null) {
+                        if (object instanceof String) {
+                            if (commons.testaElementoArray(object.toString(), cityUser)) {
+                                documentos.add(doc);
+                            }
+                        } else {
+                            if (object instanceof ArrayList) {
+                                ArrayList cityDoc = (ArrayList) docObj.get(cityTable);
+                                if (commons.testaArray(cityUser, cityDoc)) {
+                                    documentos.add(doc);
+                                }
+                            } else {
+                                documentos.add(doc);
+                            };
+                        };
+                    }
+                } else {
+                    documentos.add(doc);
+                };
+            };
+            mongo.close();
+            BasicDBObject result = new BasicDBObject();
+            result.put("count", count);
+            result.put("documentos", documentos );
+            return ResponseEntity.ok().body(result);
+        } else {
+            mongo.close();
+            return ResponseEntity.badRequest().build();
+        }
+    };
     @SuppressWarnings({})
     public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
         Mongo mongo;
