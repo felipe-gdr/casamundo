@@ -372,9 +372,7 @@ public class Commons_DB {
         }
         Pattern regex = Pattern.compile(params.get("search[value]"), Pattern.CASE_INSENSITIVE);
         DBObject clause1 = new BasicDBObject("documento.firstName", regex);
-        ((BasicDBObject) clause1).append("$options", "i");
         DBObject clause2 = new BasicDBObject("documento.id", regex);
-        ((BasicDBObject) clause2).append("$options", "i");
         BasicDBList or = new BasicDBList();
         or.add(clause1);
         or.add(clause2);
