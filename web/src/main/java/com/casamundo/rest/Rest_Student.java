@@ -39,4 +39,13 @@ public class Rest_Student {
 	public BasicDBObject lista( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
 		return student.lista(params);
 	};
+
+    @RequestMapping(value = "/teste", produces = "application/json")
+    public BasicDBObject teste(
+            @RequestParam(value = "regex") String regex
+                            ) throws UnknownHostException, MongoException {
+        ResponseEntity response = commons_db.teste("student", "documento.companyId", "5bb273e7fff5a60c78ae7acf", "5b2bf5859ad9d2a693778f7d", null, null, false, 0,10, regex);
+        return null;
+
+    };
 };
