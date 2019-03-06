@@ -44,8 +44,7 @@ public class Rest_Student {
     public BasicDBObject teste(
             @RequestParam(value = "regex") String regex
                             ) throws UnknownHostException, MongoException {
-        ResponseEntity response = commons_db.teste("student", "documento.companyId", "5bb273e7fff5a60c78ae7acf", "5b2bf5859ad9d2a693778f7d", null, null, false, 0,10, regex);
-        return null;
+        return student.teste(regex);
 
     };
 };
