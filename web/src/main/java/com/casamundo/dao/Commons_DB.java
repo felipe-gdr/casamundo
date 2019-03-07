@@ -388,8 +388,10 @@ public class Commons_DB {
                     if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop"))  {
                         String a = params.get("columns[" + i + "][data]").substring(10);
                         if (docObj.get(params.get("columns[" + i + "][data]").substring(10)) != null) {
-                            if (!commons.testaElementoArray(params.get("columns[" + i + "][data]"), listas.get(i))) {
-                                listas.get(i).add(docObj.getString(params.get("columns[" + i + "][data]").substring(10)));
+                            if (!commons.testaElementoArray(docObj.getString(params.get("columns[" + i + "][data]").substring(10)), listas.get(i))) {
+                                if (!docObj.getString(params.get("columns[" + i + "][data]").substring(10)).equals("")) {
+                                    listas.get(i).add(docObj.getString(params.get("columns[" + i + "][data]").substring(10)));
+                                }
                             }
                         }
                     }
