@@ -263,7 +263,6 @@ public class Invoice {
                     variaveis.put("underage", "no");
                 }
                 variaveis.put("weeksUnderage", "0");
-                variaveis.put("weeksUnderage", "0");
                 int daysTrip = commons.difDate(date.getString("start"), date.getString("end"));
                 if (daysTrip < 28){
                     variaveis.put("proRate", "1.00");

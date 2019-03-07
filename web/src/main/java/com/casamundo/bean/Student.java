@@ -79,12 +79,14 @@ public class Student {
 		result.put("draw", params.get("draw"));
 
         ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
-        BasicDBObject retorno = new BasicDBObject();
-        retorno.putAll((Map) response.getBody());
-        ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");
-		result.put("data", students);
-        result.put("recordsFiltered", retorno.get("count"));
-        result.put("recordsTotal", retorno.get("count"));
+        if (response != null) {
+            BasicDBObject retorno = new BasicDBObject();
+            retorno.putAll((Map) response.getBody());
+            ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");
+            result.put("data", students);
+            result.put("recordsFiltered", retorno.get("countFiltered"));
+            result.put("recordsTotal", retorno.get("count"));
+        }
         return result;
 
 	}

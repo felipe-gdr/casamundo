@@ -328,11 +328,10 @@ public class Commons_DB {
             setQuery = setQueryInput;
         }
         BasicDBObject setSort = new BasicDBObject();
-        setSort.put("lastChange", -1);
 
-        if (setSortInput != null) {
-            setSort = setSortInput;
-        }
+//        if (setSortInput != null) {
+//            setSort = setSortInput;
+//        }
 
         BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
 
@@ -370,17 +369,40 @@ public class Commons_DB {
         if (companyTable != null) {
             setQuery.put("documento." + companyTable, user.get("company"));
         }
-        Pattern regex = Pattern.compile(params.get("search[value]"), Pattern.CASE_INSENSITIVE);
-        DBObject clause1 = new BasicDBObject("documento.firstName", regex);
-        DBObject clause2 = new BasicDBObject("documento.id", regex);
+
+        Long count = collection.count(setQuery);
+
         BasicDBList or = new BasicDBList();
-        or.add(clause1);
-        or.add(clause2);
-        setQuery.put("$or", or);
+        int i = 0;
+        if (params.get("search[value]") != null){
+            if (params.get("search[value]") != "") {
+                Pattern regex = Pattern.compile(params.get("search[value]"), Pattern.CASE_INSENSITIVE);
+                while (params.get("columns[" + i + "][data]") != null) {
+                    if (params.get("columns[" + i + "][searchable]").equals("true")) {
+                        DBObject clause = new BasicDBObject(params.get("columns[" + i + "][data]"), regex);
+                        or.add(clause);
+                    }
+                    ++i;
+                }
+                setQuery.put("$or", or);
+            }
+        }
 
+        if (params.get("order[0][column]") != null) {
+            String a = params.get("order[0][column]");
+            if (params.get("order[0][dir]").equals("asc")) {
+                String b = params.get("columns[" + params.get("order[0][column]") + "][data]");
+                setSort.put(params.get("columns[" + params.get("order[0][column]") + "][data]"), 1);
+            } else {
+                setSort.put(params.get("columns[" + params.get("order[0][column]") + "][data]"), -1);
+            }
+        }
 
+        Integer countFiltered = 0;
         DBCursor cursor = collection.find(setQuery).sort(setSort);
-        Integer count = cursor.count();
+        if (cursor != null) {
+            countFiltered = cursor.count();
+        }
         if (length != -1) {
             cursor.skip(start);
             cursor.limit(length);
@@ -420,6 +442,7 @@ public class Commons_DB {
             mongo.close();
             BasicDBObject result = new BasicDBObject();
             result.put("count", count);
+            result.put("countFiltered", countFiltered);
             result.put("documentos", documentos );
             return ResponseEntity.ok().body(result);
         } else {
