@@ -319,6 +319,7 @@ public class Commons_DB {
         mongo = new Mongo();
         DB db = (DB) mongo.getDB("documento");
         DBCollection collection = db.getCollection(collectionName);
+
         BasicDBObject setQuery = new BasicDBObject();
         if (key != null) {
             setQuery.put(key, value);
@@ -370,28 +371,77 @@ public class Commons_DB {
             setQuery.put("documento." + companyTable, user.get("company"));
         }
 
-        Long count = collection.count(setQuery);
-
-        BasicDBList or = new BasicDBList();
-        int i = 0;
-        if (params.get("search[value]") != null){
-            if (params.get("search[value]") != "") {
-                Pattern regex = Pattern.compile(params.get("search[value]"), Pattern.CASE_INSENSITIVE);
+        DBCursor cursor = collection.find(setQuery).sort(setSort);
+        Integer count = 0;
+        ArrayList<ArrayList<String>> listas = new ArrayList<>();
+        if (cursor != null){
+            count = cursor.count();
+            ArrayList cityUser = (ArrayList) user.get("city");
+            while (((Iterator<DBObject>) cursor).hasNext()) {
+                BasicDBObject obj = (BasicDBObject) ((Iterator<DBObject>) cursor).next();
+                BasicDBObject docObj = (BasicDBObject) obj.get("documento");
+                int i = 0;
                 while (params.get("columns[" + i + "][data]") != null) {
-                    if (params.get("columns[" + i + "][searchable]").equals("true")) {
-                        DBObject clause = new BasicDBObject(params.get("columns[" + i + "][data]"), regex);
-                        or.add(clause);
+                    if (listas.size() < (i + 1)){
+                        listas.add(new ArrayList<>());
+                    }
+                    if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop"))  {
+                        String a = params.get("columns[" + i + "][data]").substring(10);
+                        if (docObj.get(params.get("columns[" + i + "][data]").substring(10)) != null) {
+                            if (!commons.testaElementoArray(params.get("columns[" + i + "][data]"), listas.get(i))) {
+                                listas.get(i).add(docObj.getString(params.get("columns[" + i + "][data]").substring(10)));
+                            }
+                        }
                     }
                     ++i;
                 }
-                setQuery.put("$or", or);
             }
         }
 
+        BasicDBList or = new BasicDBList();
+        int i = 0;
+        Boolean temClause = false;
+        while (params.get("columns[" + i + "][data]") != null) {
+            if (params.get("columns[" + i + "][searchable]").equals("true")) {
+                if (params.get("search[value]") != null){
+                    if (!params.get("search[value]").equals("")) {
+                        Pattern regex = Pattern.compile(params.get("search[value]"), Pattern.CASE_INSENSITIVE);
+                        DBObject clause = new BasicDBObject(params.get("columns[" + i + "][data]"), regex);
+                        or.add(clause);
+                        temClause = true;
+                    }
+                }
+                if (params.get("columns[" + i + "][search][value]") != null) {
+                    int pos = params.get("columns[" + i + "][search][value]").indexOf("-yadcf_delim-");
+                    if (!params.get("columns[" + i + "][search][value]").equals("") && pos < 0){
+                        Pattern regex = Pattern.compile(params.get("columns[" + i + "][search][value]"), Pattern.CASE_INSENSITIVE);
+                        setQuery.put(params.get("columns[" + i + "][data]"), regex);
+                    }else{
+                        if (pos >= 0) {
+                            String from = "0";
+                            String to = "99999999999999999999999";
+                            if (pos > 0){
+                                from = params.get("columns[" + i + "][search][value]").substring(0, pos);
+                            }
+                            if (pos + 13 <  params.get("columns[" + i + "][search][value]").length()) {
+                                to = params.get("columns[" + i + "][search][value]").substring(pos + 13);
+                            }
+                            BasicDBObject setCondition = new BasicDBObject();
+                            setCondition.put("$gte", from);
+                            setCondition.put("$lte", to);
+                            setQuery.put(params.get("columns[" + i + "][data]"), setCondition);
+                        }
+                    }
+                }
+            }
+            ++i;
+        }
+        if (temClause) {
+            setQuery.put("$or", or);
+        };
+
         if (params.get("order[0][column]") != null) {
-            String a = params.get("order[0][column]");
             if (params.get("order[0][dir]").equals("asc")) {
-                String b = params.get("columns[" + params.get("order[0][column]") + "][data]");
                 setSort.put(params.get("columns[" + params.get("order[0][column]") + "][data]"), 1);
             } else {
                 setSort.put(params.get("columns[" + params.get("order[0][column]") + "][data]"), -1);
@@ -399,7 +449,7 @@ public class Commons_DB {
         }
 
         Integer countFiltered = 0;
-        DBCursor cursor = collection.find(setQuery).sort(setSort);
+        cursor = collection.find(setQuery).sort(setSort);
         if (cursor != null) {
             countFiltered = cursor.count();
         }
@@ -443,6 +493,11 @@ public class Commons_DB {
             BasicDBObject result = new BasicDBObject();
             result.put("count", count);
             result.put("countFiltered", countFiltered);
+            i = 0;
+            for (ArrayList lista : listas) {
+                result.put("yadcf_data_" + i, lista);
+                ++i;
+            }
             result.put("documentos", documentos );
             return ResponseEntity.ok().body(result);
         } else {
