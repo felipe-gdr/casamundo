@@ -31,7 +31,8 @@ public class Student {
 			BasicDBObject travel = new BasicDBObject();
 			travel.putAll((Map) travels.get(i));
 			String travelId = travel.getString("_id");
-			BasicDBObject doc = (BasicDBObject) travel.get("documento");
+			BasicDBObject doc = new BasicDBObject();
+			doc.putAll((Map) travel.get("documento"));
 			String bookType = doc.getString("accControl");
 			if (bookType.equals("homestay")){
 				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null, null,false);
@@ -79,9 +80,10 @@ public class Student {
 		result.put("draw", params.get("draw"));
 
         ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
-        if (response != null) {
-            BasicDBObject retorno = new BasicDBObject();
-            retorno.putAll((Map) response.getBody());
+		BasicDBObject retorno = new BasicDBObject();
+		retorno.putAll((Map) response.getBody());
+
+        if (retorno != null) {
             ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");
             result.put("data", students);
             result.put("recordsFiltered", retorno.get("countFiltered"));

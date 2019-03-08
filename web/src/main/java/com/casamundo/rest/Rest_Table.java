@@ -1,8 +1,14 @@
 package com.casamundo.rest;
 
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 
+import com.casamundo.bean.Table;
 import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,29 +28,13 @@ public class Rest_Table {
 
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
+	Table table = new Table();
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/obter", produces = "application/json")
-	public JSONObject Obter() {
-		
-		Mongo mongo;
-		try {
-			mongo = new Mongo();
-			DB db = (DB) mongo.getDB("documento");
-			DBCollection collection = db.getCollection("table");
-			BasicDBObject searchQuery = new BasicDBObject();
-			DBObject cursor = collection.findOne(searchQuery);
-			JSONObject documento = new JSONObject();
-			BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-			documento.put("documento", obj);
-			mongo.close();
-			return documento;
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (MongoException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public BasicDBObject Obter() throws UnknownHostException {
+
+		return table.obterTable();
 	};
 
 }

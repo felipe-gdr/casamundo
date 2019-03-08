@@ -25,7 +25,8 @@ public class Estimated {
         commons_db.removerCrud("estimated", "documento.invoiceId", invoiceId, null);
 
         for (int i = 0; i < products.size(); i++) {
-            BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+            BasicDBObject accomodation = new BasicDBObject();
+            accomodation.putAll((Map) travel.get("accomodation"));
             BasicDBObject product = new BasicDBObject();
             product.putAll((Map) products.get(i));
             BasicDBObject itemCost = new BasicDBObject();

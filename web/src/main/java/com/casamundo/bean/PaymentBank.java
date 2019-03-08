@@ -29,7 +29,8 @@ public class PaymentBank {
             BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i));
             ArrayList  payments = (ArrayList) paymentCycle.get("payments");
             for (int j = 0; j < payments.size(); j++) {
-                BasicDBObject payment = (BasicDBObject) payments.get(j);
+                BasicDBObject payment = new BasicDBObject();
+                payment.putAll((Map) payments.get(j));
                 BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
                 Boolean existeResult = false;
                 for (int k = 0; k < paymentsResult.size(); k++) {
@@ -172,7 +173,7 @@ public class PaymentBank {
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (paymentsCycles != null) {
             for (int i = 0; i < paymentsCycles.size(); i++) {
                 BasicDBObject paymentCycle = new BasicDBObject();
                 paymentCycle.putAll((Map) paymentsCycles.get(i));
@@ -209,7 +210,8 @@ public class PaymentBank {
                 BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", String.valueOf(paymentCycles.get(i)));
                 ArrayList  payments = (ArrayList) paymentCycle.get("payments");
                 for (int j = 0; j < payments.size(); j++) {
-                    BasicDBObject payment = (BasicDBObject) payments.get(j);
+                    BasicDBObject payment = new BasicDBObject();
+                    payment.putAll((Map) payments.get(j));
                     BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
                     Boolean existeResult = false;
                     for (int k = 0; k < paymentsResult.size(); k++) {
@@ -252,7 +254,8 @@ public class PaymentBank {
             BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i));
             ArrayList  payments = (ArrayList) paymentCycle.get("payments");
             for (int j = 0; j < payments.size(); j++) {
-                BasicDBObject payment = (BasicDBObject) payments.get(j);
+                BasicDBObject payment = new BasicDBObject();
+                payment.putAll((Map) payments.get(j));
                 BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
                 if (paymentDoc != null) {
                     paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
@@ -316,7 +319,7 @@ public class PaymentBank {
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (paymentsCycles != null) {
             for (int i = 0; i < paymentsCycles.size(); i++) {
                 BasicDBObject paymentCycle = new BasicDBObject();
                 paymentCycle.putAll((Map) paymentsCycles.get(i));

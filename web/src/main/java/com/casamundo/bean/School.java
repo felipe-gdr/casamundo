@@ -22,11 +22,12 @@ public class School {
 		ArrayList<Object> arrayList = new ArrayList<Object>();
 		arrayList = (JSONArray) response.getBody();
 	
-		if (response != null) {
+		if (arrayList != null) {
 			for (int i = 0; i < arrayList.size(); i++) {
 				BasicDBObject itemList = new BasicDBObject();
 				itemList.putAll((Map) arrayList.get(i));
-				BasicDBObject itemListDoc = (BasicDBObject) itemList.get("documento");
+				BasicDBObject itemListDoc = new BasicDBObject();
+				itemListDoc.putAll((Map) itemList.get("documento"));
 				BasicDBObject result = new BasicDBObject();
 				result.put("_id", itemList.getString("_id"));
 				result.put("name", itemListDoc.get("name"));

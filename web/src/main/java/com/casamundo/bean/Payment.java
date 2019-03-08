@@ -4,6 +4,7 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -89,46 +90,48 @@ public class Payment {
         ArrayList<Object> payments = new ArrayList<Object>();
         payments = (JSONArray) response.getBody();
 
-        ArrayList <BasicDBObject> result = new ArrayList();
-        for (int i = 0; i < payments.size(); i++) {
-            BasicDBObject payment = new BasicDBObject();
-            payment.putAll((Map) payments.get(i));
-            BasicDBObject paymentDoc = new BasicDBObject();
-            paymentDoc = (BasicDBObject) payment.get("documento");
-            Boolean existe = false;
-            for (BasicDBObject processing:processings) {
-                String id1 = payment.getString("_id");
-                String id2 = processing.getString("_id");
-                if (id1.equals(id2)){
-                    existe = true;
+        ArrayList<BasicDBObject> result = new ArrayList();
+        if (payments != null) {
+            for (int i = 0; i < payments.size(); i++) {
+                BasicDBObject payment = new BasicDBObject();
+                payment.putAll((Map) payments.get(i));
+                BasicDBObject paymentDoc = new BasicDBObject();
+                paymentDoc.putAll((Map) payment.get("documento"));
+                Boolean existe = false;
+                for (BasicDBObject processing : processings) {
+                    String id1 = payment.getString("_id");
+                    String id2 = processing.getString("_id");
+                    if (id1.equals(id2)) {
+                        existe = true;
+                    }
                 }
-            }
-            if (!existe) {
-                String paymentId = payment.getString("_id");
-                if (paymentDoc.get("accControl") != null) {
-                    if (paymentDoc.get("paymentType").equals("manual")){
-                        BasicDBObject vendor = commons_db.obterCrudDoc("family", "_id", paymentDoc.getString("vendorId"));
-                        if (vendor != null) {
-                            paymentDoc.put("vendor", vendor.get("familyName"));
-                        }
-                        vendor = commons_db.obterCrudDoc("vendor", "_id", paymentDoc.getString("vendorId"));
-                        if (vendor != null) {
-                            paymentDoc.put("vendor", vendor.get("name"));
-                        }
-                        paymentDoc.put("studentName", "N/A");
-                        payment.put("documento", paymentDoc);
-                        result.add(payment);
-                    }else {
-                        if (paymentDoc.get("accControl").equals("homestay")) {
-                            paymentDoc = calcPaymentHomestay(paymentDoc, payment.getString("_id"), date, setQuery);
+                if (!existe) {
+                    String paymentId = payment.getString("_id");
+                    if (paymentDoc.get("accControl") != null) {
+                        if (paymentDoc.get("paymentType").equals("manual")) {
+                            BasicDBObject vendor = commons_db.obterCrudDoc("family", "_id", paymentDoc.getString("vendorId"));
+                            if (vendor != null) {
+                                paymentDoc.put("vendor", vendor.get("familyName"));
+                            }
+                            vendor = commons_db.obterCrudDoc("vendor", "_id", paymentDoc.getString("vendorId"));
+                            if (vendor != null) {
+                                paymentDoc.put("vendor", vendor.get("name"));
+                            }
+                            paymentDoc.put("studentName", "N/A");
                             payment.put("documento", paymentDoc);
                             result.add(payment);
-                        }
-                        String lastDayMonthBefore = commons.lastDayMonth(paymentDoc.getString("lastDayPayment"));
-                        if (!paymentDoc.get("accControl").equals("homestay")) {
-                            paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"), setQuery);
-                            payment.put("documento", paymentDoc);
-                            result.add(payment);
+                        } else {
+                            if (paymentDoc.get("accControl").equals("homestay")) {
+                                paymentDoc = calcPaymentHomestay(paymentDoc, payment.getString("_id"), date, setQuery);
+                                payment.put("documento", paymentDoc);
+                                result.add(payment);
+                            }
+                            String lastDayMonthBefore = commons.lastDayMonth(paymentDoc.getString("lastDayPayment"));
+                            if (!paymentDoc.get("accControl").equals("homestay")) {
+                                paymentDoc = calcPaymentDorms(paymentDoc, lastDayMonthBefore, payment.getString("_id"), setQuery);
+                                payment.put("documento", paymentDoc);
+                                result.add(payment);
+                            }
                         }
                     }
                 }
@@ -144,13 +147,13 @@ public class Payment {
 		ResponseEntity response = commons_db.listaCrud("payment", null, null, userId, setQuery, setSort, false);
 		ArrayList<Object> payments = new ArrayList<Object>();
 		payments = (JSONArray) response.getBody();
-
-		if (response != null) {
+        HttpStatus a = response.getStatusCode();
+		if (payments != null) {
 			for (int i = 0; i < payments.size(); i++) {
 				BasicDBObject payment = new BasicDBObject();
 				payment.putAll((Map) payments.get(i));
 				BasicDBObject paymentDoc = new BasicDBObject();
-				paymentDoc = (BasicDBObject) payment.get("documento");
+                paymentDoc.putAll((Map) payment.get("documento"));
                 String paymentId = payment.getString("_id");
                 BasicDBObject product = commons_db.obterCrudDoc("priceTable", "_id", paymentDoc.getString("item"));
 				if (paymentDoc.get("accControl") != null) {
@@ -225,12 +228,12 @@ public class Payment {
         paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", cycleId);
         paymentsCycle = (ArrayList) paymentCycle.get("payments");
 
-        if (response != null) {
+        if (paymentsCycle != null) {
             for (int i = 0; i < payments.size(); i++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) payments.get(i));
                 BasicDBObject paymentDoc = new BasicDBObject();
-                paymentDoc = (BasicDBObject) payment.get("documento");
+                paymentDoc.putAll((Map) payment.get("documento"));
                 String paymentId = payment.getString("_id");
                 if (paymentDoc.get("accControl") != null) {
                     BasicDBObject vendor = commons_db.obterCrudDoc("family", "_id", paymentDoc.getString("vendorId"));
@@ -427,7 +430,8 @@ public class Payment {
 				products = (ArrayList) invoice.get("products");
 
 				for (int i = 0; i < products.size(); i++) {
-					BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+                    BasicDBObject accomodation = new BasicDBObject();
+                    accomodation.putAll((Map) travel.get("accomodation"));
 					BasicDBObject product = new BasicDBObject();
 					product.putAll((Map) products.get(i));
                     BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
@@ -643,7 +647,7 @@ public class Payment {
                 ResponseEntity response = commons_db.listaCrud("payment", null, null, null, setQuery, setSort, false);
                 ArrayList<Object> transfers = new ArrayList<Object>();
                 transfers = (JSONArray) response.getBody();
-                if (response != null) {
+                if (transfers != null) {
                     for (int i = 0; i < transfers.size(); i++) {
                         BasicDBObject transfer = new BasicDBObject();
                         transfer.putAll((Map) transfer.get(i));
@@ -689,12 +693,12 @@ public class Payment {
         payments = (JSONArray) response.getBody();
         ArrayList<BasicDBObject> debits = new ArrayList<BasicDBObject>();
 
-        if (response != null) {
+        if (payments != null) {
             for (int i = 0; i < payments.size(); i++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) payments.get(i));
                 BasicDBObject paymentDoc = new BasicDBObject();
-                paymentDoc = (BasicDBObject) payment.get("documento");
+                paymentDoc.putAll((Map) payment.get("documento"));
                 if (paymentDoc.getString("status").equals("processing")) {
                     removeCycle(payment.getString("_id"));
                     removeBank(payment.getString("_id"));
@@ -728,12 +732,12 @@ public class Payment {
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (paymentsCycles != null) {
             for (int i = 0; i < paymentsCycles.size(); i++) {
                 BasicDBObject paymentCycle = new BasicDBObject();
                 paymentCycle.putAll((Map) paymentsCycles.get(i));
                 BasicDBObject paymentCycleDoc = new BasicDBObject();
-                paymentCycleDoc = (BasicDBObject) paymentCycle.get("documento");
+                paymentCycleDoc.putAll((Map) paymentCycle.get("documento"));
                 ArrayList<String> payments = (ArrayList<String>) paymentCycleDoc.get("payments");
                 payments = commons.removeString(payments,paymentId);
                 paymentCycleDoc.put("payments", payments);
@@ -754,12 +758,12 @@ public class Payment {
         ArrayList<Object> paymentsBank = new ArrayList<Object>();
         paymentsBank = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (paymentsBank != null) {
             for (int i = 0; i < paymentsBank.size(); i++) {
                 BasicDBObject paymentBank = new BasicDBObject();
                 paymentBank.putAll((Map) paymentsBank.get(i));
                 BasicDBObject paymentBankDoc = new BasicDBObject();
-                paymentBankDoc = (BasicDBObject) paymentBank.get("documento");
+                paymentBankDoc.putAll((Map) paymentBank.get("documento"));
                 ArrayList<String> payments = (ArrayList<String>) paymentBankDoc.get("payments");
                 payments = commons.removeString(payments,paymentId);
                 paymentBankDoc.put("payments", payments);
@@ -803,7 +807,8 @@ public class Payment {
 		for (int i = 0; i < vendorArray.size(); i++) {
 			BasicDBObject vendor = new BasicDBObject();
 			vendor.putAll((Map) vendorArray.get(i));
-			BasicDBObject vendorDoc = (BasicDBObject) vendor.get("documento");
+            BasicDBObject vendorDoc = new BasicDBObject();
+            vendorDoc.putAll((Map) vendor.get("documento"));
             BasicDBObject vendorResult = new BasicDBObject();
             vendorResult.put("start", vendorDoc.getString("start"));
             vendorResult.put("end", vendorDoc.getString("end"));

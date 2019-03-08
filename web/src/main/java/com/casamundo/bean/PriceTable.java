@@ -28,11 +28,12 @@ public class PriceTable {
 		ArrayList<Object> prices = new ArrayList<Object>();
 		prices = (JSONArray) response.getBody();
 
-		if (response != null) {
+		if (prices != null) {
 			for (int i = 0; i < prices.size(); i++) {
 				BasicDBObject price = new BasicDBObject();
 				price.putAll((Map) prices.get(i));
-				BasicDBObject priceDoc = (BasicDBObject) price.get("documento");
+				BasicDBObject priceDoc = new BasicDBObject();
+				priceDoc.putAll((Map) price.get("documento"));
 				JSONObject priceValue = getDataValue(travelId, price.getString("_id"), userId);
 				BasicDBObject jsonResult = new BasicDBObject();
 				jsonResult.put("_id", price.get("_id"));
@@ -88,12 +89,14 @@ public class PriceTable {
 
 		JSONObject resultFirstAgency = new JSONObject();
 
-		if (response != null) {
+		if (pricesList != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
-				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
+				BasicDBObject accomodation = new BasicDBObject();
+				accomodation.putAll((Map) travel.get("accomodation"));
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					result.put("from", priceListDoc.get("from"));
 					result.put("to", priceListDoc.get("to"));
@@ -126,12 +129,14 @@ public class PriceTable {
 		JSONObject resultFirstDestiny = new JSONObject();
 		resultFirstDestiny.put("values", pricesList);
 
-		if (response != null) {
+		if (pricesList != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
-				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
+				BasicDBObject accomodation = new BasicDBObject();
+				accomodation.putAll((Map) travel.get("accomodation"));
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					result.put("from", priceListDoc.get("from"));
 					result.put("to", priceListDoc.get("to"));
@@ -161,12 +166,14 @@ public class PriceTable {
 
 		JSONObject resultFirst = new JSONObject();
 		resultFirst.put("values", pricesList);
-		if (response != null) {
+		if (pricesList != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
-				BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
+				BasicDBObject accomodation = new BasicDBObject();
+				accomodation.putAll((Map) travel.get("accomodation"));
 				if (commons.verifyInterval ((String) accomodation.get("checkIn"), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					result.put("from", priceListDoc.get("from"));
 					result.put("to", priceListDoc.get("to"));
@@ -233,11 +240,12 @@ public class PriceTable {
 		ArrayList<Object> pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
 
-		if (response != null) {
+		if (pricesList != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
                     if (netGross.equals("net")) {
@@ -279,11 +287,12 @@ public class PriceTable {
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
 
-		if (response != null) {
+		if (pricesList != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					BasicDBObject resultItem = new BasicDBObject();
                     if (netGross.equals("net")) {
@@ -325,11 +334,12 @@ public class PriceTable {
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
 
-		if (response != null) {
+		if (pricesList != null) {
 			for (int i = 0; i < pricesList.size(); i++) {
 				BasicDBObject priceList = new BasicDBObject();
 				priceList.putAll((Map) pricesList.get(i));
-				BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
 				if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
 					BasicDBObject resultItem = new BasicDBObject();
                     if (netGross.equals("net")) {
@@ -366,12 +376,12 @@ public class PriceTable {
 
 		BasicDBObject resultFirstDestiny = new BasicDBObject();
 
-
-        if (response != null) {
+        if (pricesList != null) {
             for (int i = 0; i < pricesList.size(); i++) {
                 BasicDBObject priceList = new BasicDBObject();
                 priceList.putAll((Map) pricesList.get(i));
-                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
                     if (netGross.equals("net")) {
@@ -407,11 +417,12 @@ public class PriceTable {
 		BasicDBObject resultFirst = new BasicDBObject();
 
 
-        if (response != null) {
+        if (pricesList != null) {
             for (int i = 0; i < pricesList.size(); i++) {
                 BasicDBObject priceList = new BasicDBObject();
                 priceList.putAll((Map) pricesList.get(i));
-                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
                     if (netGross.equals("net")) {
@@ -459,11 +470,12 @@ public class PriceTable {
         ArrayList<Object> pricesList = new ArrayList<Object>();
         pricesList = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (pricesList != null) {
             for (int i = 0; i < pricesList.size(); i++) {
                 BasicDBObject priceList = new BasicDBObject();
                 priceList.putAll((Map) pricesList.get(i));
-                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
                     resultItem.put("value", priceListDoc.get("net"));
@@ -508,11 +520,12 @@ public class PriceTable {
         BasicDBObject resultFirstDestiny = new BasicDBObject();
 
 
-        if (response != null) {
+        if (pricesList != null) {
             for (int i = 0; i < pricesList.size(); i++) {
                 BasicDBObject priceList = new BasicDBObject();
                 priceList.putAll((Map) pricesList.get(i));
-                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
                     resultItem.put("value", priceListDoc.get("net"));
@@ -555,11 +568,12 @@ public class PriceTable {
         BasicDBObject resultFirst = new BasicDBObject();
 
 
-        if (response != null) {
+        if (pricesList != null) {
             for (int i = 0; i < pricesList.size(); i++) {
                 BasicDBObject priceList = new BasicDBObject();
                 priceList.putAll((Map) pricesList.get(i));
-                BasicDBObject priceListDoc = (BasicDBObject) priceList.get("documento");
+				BasicDBObject priceListDoc = new BasicDBObject();
+				priceListDoc.putAll((Map) priceList.get("documento"));
                 if (commons.verifyInterval (start, (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))){
                     BasicDBObject resultItem = new BasicDBObject();
                     resultItem.put("value", priceListDoc.get("net"));

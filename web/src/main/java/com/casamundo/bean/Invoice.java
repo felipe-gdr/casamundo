@@ -54,7 +54,7 @@ public class Invoice {
         response = commons_db.listaCrud("payment", null, null, null, setQuery, null, false);
         ArrayList<Object> payments = new ArrayList<Object>();
         payments = (JSONArray) response.getBody();
-        if (response != null) {
+        if (payments != null) {
             if (payments.size() > 0) {
                 commons_db.removerCrud("invoice", "_id", invoiceId, null);
                 commons_db.removerCrud("payment", "documento.invoiceId", invoiceId, null);
@@ -73,9 +73,11 @@ public class Invoice {
 		documento.putAll((Map) doc);
 
 		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"));
-		BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
 
-		if (travel.get("accomodation") != null){
+		BasicDBObject accomodation = new BasicDBObject();
+
+        if (travel.get("accomodation") != null){
+            accomodation.putAll((Map) travel.get("accomodation"));
 			BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
 			documento.put("weeks", weeksDays.get("weeks"));
 			documento.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
@@ -165,7 +167,8 @@ public class Invoice {
 		}
         BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
         BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
-        BasicDBObject accomodation = (BasicDBObject) travel.get("accomodation");
+        BasicDBObject accomodation = new BasicDBObject();
+        accomodation.putAll((Map) travel.get("accomodation"));
 
         BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
 
@@ -175,7 +178,8 @@ public class Invoice {
 				null, userId, null, null, false).getBody();
 		
 		for (BasicDBObject product : priceTableList) {
-            BasicDBObject productDoc = (BasicDBObject) product.get("documento");
+            BasicDBObject productDoc = new BasicDBObject();
+            productDoc.putAll((Map) product.get("documento"));
             ArrayList<BasicDBObject> dates = new ArrayList<BasicDBObject>();
             ArrayList <BasicDBObject> seasons = new ArrayList<>();
             if (productDoc.getString("charging").equals("unique")) {
@@ -226,7 +230,9 @@ public class Invoice {
                     }
                 }
             };
-            BasicDBObject variaveis = (BasicDBObject) travel.get("accomodation");
+            BasicDBObject variaveis = new BasicDBObject();
+            accomodation.putAll((Map) travel.get("accomodation"));
+
             Integer totalWeeks = 0;
             Integer totalDays = 0;
             Integer totalWeeksUnderage = 0;
@@ -428,11 +434,12 @@ public class Invoice {
 		invoices = (JSONArray) response.getBody();
 
 		float paidValueTotal = 0;
-		if (response != null) {
+		if (invoices != null) {
 			for (int i = 0; i < invoices.size(); i++) {
 				BasicDBObject invoice = new BasicDBObject();
 				invoice.putAll((Map) invoices.get(i));
-				BasicDBObject invoiceObj = (BasicDBObject) invoice.get("documento");
+                BasicDBObject invoiceObj = new BasicDBObject();
+                invoiceObj.putAll((Map) invoice.get("documento"));
 				if (invoiceObj.get("valuePayed") != null) {
 					paidValueTotal = paidValueTotal + Float.valueOf(invoiceObj.getString("valuePayed"));
 				};
@@ -444,11 +451,12 @@ public class Invoice {
 		ArrayList<Object> receivements = new ArrayList<Object>();
 		receivements = (JSONArray) response.getBody();
 
-		if (response != null) {
+		if (receivements != null) {
 			for (int i = 0; i < receivements.size(); i++) {
 				BasicDBObject receivement = new BasicDBObject();
 				receivement.putAll((Map) receivements.get(i));
-				BasicDBObject receivementObj = (BasicDBObject) receivement.get("documento");
+                BasicDBObject receivementObj = new BasicDBObject();
+                receivementObj.putAll((Map) receivement.get("documento"));
 				if (receivementObj.get("amount") != null) {
 					receiveValueTotal = receiveValueTotal + Float.valueOf(receivementObj.getString("amount"));
 				};

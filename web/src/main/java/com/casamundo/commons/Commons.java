@@ -631,7 +631,7 @@ public class Commons {
 		Properties prop = new Properties();
 		InputStream input = null;
 		try {
-			input = getClass().getClassLoader().getResourceAsStream("config.properties");
+			input = getClass().getClassLoader().getResourceAsStream("application.properties");
 			// load a properties file
 			prop.load(input);
 			JSONObject properties = new JSONObject();

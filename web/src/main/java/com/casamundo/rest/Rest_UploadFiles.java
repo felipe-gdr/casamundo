@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/upload")
@@ -41,26 +42,23 @@ public class Rest_UploadFiles {
      */
     @SuppressWarnings("rawtypes")
     @GetMapping(value = "/images", produces = "image/*")
-    public ResponseEntity getImage(@PathVariable("image") String image) {
+    public ResponseEntity getImage(@PathVariable("image") String image) throws UnknownHostException {
 
         String folder = "c:/images/casamundo/";
         Mongo mongo;
-        try {
-            mongo = new Mongo();
-            DB db = mongo.getDB("documento");
-            DBCollection collection = db.getCollection("setup");
-            BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
-            DBObject cursor = collection.findOne(searchQuery);
+        mongo = new Mongo();
+        DB db = mongo.getDB("documento");
+        DBCollection collection = db.getCollection("setup");
+        BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
+        DBObject cursor = collection.findOne(searchQuery);
 
-            if (cursor != null) {
-                BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-                folder = obj.getString("setupValue");
-            }
-
-            mongo.close();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        if (cursor != null) {
+            BasicDBObject obj = new BasicDBObject();
+            obj.putAll((Map) cursor.get("documento"));
+            folder = obj.getString("setupValue");
         }
+
+        mongo.close();
 
         File target = new File(folder + image);
         if (!target.exists()) {
@@ -74,23 +72,19 @@ public class Rest_UploadFiles {
 
     @SuppressWarnings("rawtypes")
     @PostMapping(value = "/files", consumes = "multipart/form-data")
-    public ResponseEntity uploadFile(@RequestParam MultipartFile input, @PathVariable("prefix") String prefix) {
+    public ResponseEntity uploadFile(@RequestParam MultipartFile input, @PathVariable("prefix") String prefix) throws UnknownHostException {
         String folder = "c:/images/casamundo/";
         Mongo mongo;
 
-        try {
-            mongo = new Mongo();
-            DB db = mongo.getDB("documento");
-            DBCollection collection = db.getCollection("setup");
-            BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
-            DBObject cursor = collection.findOne(searchQuery);
-            if (cursor != null) {
-                BasicDBObject obj = (BasicDBObject) cursor.get("documento");
-                folder = obj.getString("setupValue");
-            }
-            mongo.close();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        mongo = new Mongo();
+        DB db = mongo.getDB("documento");
+        DBCollection collection = db.getCollection("setup");
+        BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
+        DBObject cursor = collection.findOne(searchQuery);
+        if (cursor != null) {
+            BasicDBObject obj = new BasicDBObject();
+            obj.putAll((Map) cursor.get("documento"));
+            folder = obj.getString("setupValue");
         }
 
         String fileName = prefix + "_" + StringUtils.cleanPath(input.getOriginalFilename());

@@ -52,7 +52,7 @@ public class PaymentCycles {
         ArrayList<Object> paymentsAtu = new ArrayList<Object>();
         paymentsAtu = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (paymentsAtu != null) {
             for (int i = 0; i < paymentsAtu.size(); i++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) paymentsAtu.get(i));
@@ -127,7 +127,7 @@ public class PaymentCycles {
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (paymentsCycles != null) {
             for (int i = 0; i < paymentsCycles.size(); i++) {
                 BasicDBObject paymentCycle = new BasicDBObject();
                 paymentCycle.putAll((Map) paymentsCycles.get(i));
@@ -157,11 +157,11 @@ public class PaymentCycles {
         ArrayList<BasicDBObject> payments = new ArrayList<BasicDBObject>();
         payments = (JSONArray) response.getBody();
 
-        if (response != null) {
+        if (payments != null) {
             for (BasicDBObject payment : payments) {
                 paymentsResult.add(payment);
                 BasicDBObject paymentDoc = new BasicDBObject();
-                paymentDoc = (BasicDBObject) payment.get("documento");
+                paymentDoc.putAll((Map) payment.get("documento"));
                 Boolean existe = false;
                 for (BasicDBObject paymentCycle : paymentsCycleResult) {
                     if (paymentDoc.get("cycleId") != null) {
