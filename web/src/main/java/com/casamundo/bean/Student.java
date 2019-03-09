@@ -97,20 +97,5 @@ public class Student {
         return result;
 
 	}
-    public BasicDBObject teste(String regex) throws UnknownHostException {
-
-        BasicDBObject result = new BasicDBObject();
-        result.put("draw", "1");
-
-        ResponseEntity response = commons_db.teste("student", "documento.companyId", "5bb273e7fff5a60c78ae7acf", "5b2bf5859ad9d2a693778f7d", null, null, false, 0,10, regex);
-        BasicDBObject retorno = new BasicDBObject();
-        retorno.putAll((Map) response.getBody());
-        ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");
-        result.put("data", students);
-        result.put("recordsFiltered", retorno.get("count"));
-        result.put("recordsTotal", retorno.get("count"));
-        return result;
-
-    }
 
 }

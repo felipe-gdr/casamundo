@@ -2,15 +2,10 @@ package com.casamundo.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import com.casamundo.bean.Student;
@@ -37,14 +32,17 @@ public class Rest_Student {
 	@SuppressWarnings("rawtypes")
     @RequestMapping(value = "/lista", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public BasicDBObject lista( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
+
 		return student.lista(params);
+
 	};
 
     @RequestMapping(value = "/teste", produces = "application/json")
-    public BasicDBObject teste(
+    public ResponseEntity teste(
             @RequestParam(value = "regex") String regex
                             ) throws UnknownHostException, MongoException {
-        return student.teste(regex);
+
+        return commons_db.teste(0,100);
 
     };
 };
