@@ -2,14 +2,9 @@ package com.casamundo.dao;
 
 import com.casamundo.commons.Commons;
 import com.mongodb.*;
-import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
-import org.bson.BasicBSONObject;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
@@ -17,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Commons_DB {
@@ -113,10 +110,19 @@ public class Commons_DB {
     };
 
     @SuppressWarnings({"rawtypes"})
-    public BasicDBObject obterCrudQuery(String collectionName, BasicDBObject setQuery) throws UnknownHostException, MongoException {
+    public BasicDBObject obterCrudQuery(String collectionName, String key, String value) throws UnknownHostException, MongoException {
         MongoClient mongo = new MongoClient();
         MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
         MongoCollection<Document> collection = db.getCollection(collectionName);
+
+        BasicDBObject setQuery = new BasicDBObject();
+        if (key.equals("_id")) {
+            ObjectId idObj = new ObjectId(value);
+            setQuery = new BasicDBObject("_id", idObj);
+        }else{
+            setQuery = new BasicDBObject(key, value);
+        }
+
 
         FindIterable<Document> cursor = collection.find(setQuery);
         if (cursor.first() != null) {
@@ -411,7 +417,7 @@ public class Commons_DB {
                 docObj.putAll((Map) current.get("documento"));
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
-                doc = dinamicData(doc,collectionName,montaSetQuery(current));
+                doc = triggerDinamicData(doc,collectionName,montaSetQuery(doc.getString("_id")));
                 int i = 0;
                 while (params.get("columns[" + i + "][data]") != null) {
                     if (listas.size() < (i + 1)){
@@ -542,20 +548,19 @@ public class Commons_DB {
     public ResponseEntity teste(int start, int length) throws UnknownHostException, MongoException {
         MongoClient mongo = new MongoClient();
         MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
-        MongoCollection<Document> collection = db.getCollection("student");
+        MongoCollection<Document> collection = db.getCollection("travel");
 
         BasicDBObject setQuery = new BasicDBObject();
 
         long count = 0;
         FindIterable<Document> cursor = collection.find(setQuery);
-        ArrayList<ArrayList<String>> listas = new ArrayList<>();
         if (cursor.first() != null) {
             for (Document current : cursor) {
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) current.get("documento"));
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
-                doc = dinamicData(doc,"student",montaSetQuery(current));
+                doc = triggerDinamicData(doc,"travel",montaSetQuery(doc.getString("_id")));
                 ++count;
             }
         }
@@ -587,14 +592,6 @@ public class Commons_DB {
             return ResponseEntity.badRequest().build();
         }
     }
-
-    private BasicDBObject montaSetQuery(Document current) {
-
-        BasicDBObject setQuery = new BasicDBObject();
-        setQuery.put("_id", current.get("_id"));
-        return setQuery;
-
-    };
 
     public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
         MongoClient mongo = new MongoClient();
@@ -732,12 +729,15 @@ public class Commons_DB {
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public BasicDBObject dinamicData(BasicDBObject doc, String collectionName, BasicDBObject setQuery) throws UnknownHostException {
+    public BasicDBObject triggerDinamicData(BasicDBObject doc, String collectionName, BasicDBObject setQuery) throws UnknownHostException {
 
         BasicDBObject result = new BasicDBObject();
         switch(collectionName) {
             case "student":
                 triggerStudentDinamicData(doc, setQuery);
+                break;
+            case "travel":
+                triggerTravelDinamicData(doc, setQuery);
                 break;
             default:
                 // code block
@@ -758,7 +758,7 @@ public class Commons_DB {
         if (docObj.getString("age") == null) {
             atualiza = true;
         }else {
-            if (docObj.getString("age").equals(age)) {
+            if (!docObj.getString("age").equals(Long.toString(age))) {
                 atualiza = true;
             }
         }
@@ -769,6 +769,85 @@ public class Commons_DB {
             atualizarCrudTrigger("student", doc, setQuery);
         };
     }
+
+    private void triggerTravelDinamicData(BasicDBObject doc, BasicDBObject setQuery) throws UnknownHostException {
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+
+        Boolean atualiza = verificaObjeto("agency","agency","agencyName","name", docObj);
+        atualiza = verificaObjeto("school","school","schoolName","name", docObj);
+        atualiza = verificaObjeto("city","destination","destinationName","name", docObj);
+        atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
+        atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
+
+        if (atualiza){
+            doc.put("documento", docObj);
+            String a = setQuery.getString("key");
+            String b = setQuery.getString("value");
+            atualizarCrudTrigger("travel", doc, setQuery);
+        };
+    }
+
+    private Boolean verificaObjeto(String collection,String id, String name,String originalName, BasicDBObject docObj) throws UnknownHostException {
+
+        Object objectName = "";
+        if (docObj.get(id) != null){
+            if (!docObj.getString(id).equals("")){
+                BasicDBObject docOriginal = obterCrudQuery(collection, "_id", docObj.getString(id));
+                if (docOriginal != null) {
+                    if (docOriginal.get(originalName) != null) {
+                        objectName = docOriginal.get(originalName);
+                    }
+                    if (docObj.get(name) != null) {
+                        if (docObj.getString(name).equals(objectName)) {
+                            docObj.put(name, objectName);
+                            return true;
+                        }
+                    } else {
+                        docObj.put(name, objectName);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+
+    };
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public BasicDBObject triggerInsert(BasicDBObject doc, String collectionName, BasicDBObject setQuery) throws UnknownHostException {
+
+        BasicDBObject result = new BasicDBObject();
+        switch(collectionName) {
+            case "invoice":
+                triggerInsertInvoice(doc, setQuery);
+                break;
+            default:
+                // code block
+        }
+
+        return result;
+    }
+
+    private void triggerInsertInvoice(BasicDBObject doc, BasicDBObject setQuery) throws UnknownHostException {
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+
+        Boolean atualiza = false;
+
+    }
+
+    private BasicDBObject montaSetQuery(String id) {
+
+        BasicDBObject setQuery = new BasicDBObject();
+        ObjectId idObj = new ObjectId(id);
+        setQuery.put("_id", idObj);
+        return setQuery;
+
+    };
 
 };
 
