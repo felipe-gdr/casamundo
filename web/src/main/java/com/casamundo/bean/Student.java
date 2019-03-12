@@ -4,6 +4,7 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Array;
@@ -81,7 +82,9 @@ public class Student {
 
         ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
 		BasicDBObject retorno = new BasicDBObject();
-		retorno.putAll((Map) response.getBody());
+		if ((response.getStatusCode() == HttpStatus.OK)) {
+			retorno.putAll((Map) response.getBody());
+		};
 
         if (retorno != null) {
             ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");

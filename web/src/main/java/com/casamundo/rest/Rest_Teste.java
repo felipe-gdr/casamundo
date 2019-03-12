@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.UnknownHostException;
@@ -40,11 +41,14 @@ public class Rest_Teste {
 
     @SuppressWarnings("unchecked")
     @GetMapping(value = "/teste2", produces = "application/json")
-    public ResponseEntity teste2() throws UnknownHostException {
+    public ResponseEntity teste2(
+			@RequestParam(value = "collectionName") String collectionName
+
+			) throws UnknownHostException {
         MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("documento");
-        MongoCollection<Document> collection = database.getCollection("student");
-        return commons_db.teste(0, 50);
+        MongoCollection<Document> collection = database.getCollection(collectionName);
+        return commons_db.teste(0, 50,collectionName);
     };
 
 	Block<Document> printBlock = new Block<Document>() {

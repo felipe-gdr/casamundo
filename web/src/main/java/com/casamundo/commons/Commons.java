@@ -209,7 +209,10 @@ public class Commons {
  		if (type == "yyyy-mm-dd-time"){
  			dateString = String.valueOf(year) + monthString + dayString + hourString + minString;
  		};
-		  
+		if (type == "yyyy-mm-dd"){
+			dateString = String.valueOf(year) + monthString + dayString;
+		};
+
 		return dateString;
    
 	}

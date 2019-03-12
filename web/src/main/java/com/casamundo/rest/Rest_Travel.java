@@ -1,33 +1,28 @@
 package com.casamundo.rest;
 
-import java.io.UnsupportedEncodingException;
-import java.net.UnknownHostException;
-import java.util.Map;
-
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.casamundo.bean.Student;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/student")
-public class Rest_Student {
+@RequestMapping("/travel")
+public class Rest_Travel {
 
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	Student student = new Student();
-
-	@RequestMapping(value = "/getAllocation", produces = "application/json")
-	public BasicDBObject getAllocation(
-			@RequestParam(value = "studentId") String studentId, 
-			@RequestParam(value = "userId", required=false) String userId) throws UnknownHostException, MongoException {
-		return student.getAllocation(studentId, userId);
-	};
 
 	@SuppressWarnings("rawtypes")
     @RequestMapping(value = "/lista", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -36,4 +31,5 @@ public class Rest_Student {
 		return student.lista(params);
 
 	};
+
 };

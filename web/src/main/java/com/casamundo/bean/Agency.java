@@ -28,7 +28,7 @@ public class Agency {
 				BasicDBObject itemList = new BasicDBObject();
 				itemList.putAll((Map) arrayList.get(i));
 				BasicDBObject itemListDoc = new BasicDBObject();
-				itemListDoc.putAll((Map) itemList.get(i));
+				itemListDoc.putAll((Map) itemList.get("documento"));
 				BasicDBObject result = new BasicDBObject();
 				result.put("_id", itemList.getString("_id"));
 				result.put("name", itemListDoc.get("name"));
