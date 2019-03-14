@@ -799,6 +799,8 @@ public class Commons_DB {
         atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
         atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
         atualiza = verificaObjeto("student","studentId","birthday","birthday", docObj);
+        atualiza = verificaObjeto("student","studentId","gender","gender", docObj);
+        atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
 
         Long age = commons.calcAge(docObj.getString("birthday"));
 
