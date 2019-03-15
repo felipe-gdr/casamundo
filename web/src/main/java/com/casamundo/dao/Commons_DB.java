@@ -799,6 +799,7 @@ public class Commons_DB {
         atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
         atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
         atualiza = verificaObjeto("student","studentId","birthday","birthday", docObj);
+        atualiza = verificaObjeto("student","studentId","age","age", docObj);
         atualiza = verificaObjeto("student","studentId","gender","gender", docObj);
         atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
 
@@ -841,12 +842,12 @@ public class Commons_DB {
             daysTrip = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
         };
 
-        String status = "available";
+        String status = "Available";
         if (daysTrip == daysAllocated){
-            status = "allocated";
+            status = "Allocated";
         }else{
             if (daysAllocated != 0){
-                status = "partial";
+                status = "Partial";
             }
         }
 
