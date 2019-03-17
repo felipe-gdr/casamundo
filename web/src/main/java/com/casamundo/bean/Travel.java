@@ -18,31 +18,31 @@ public class Travel {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
 
-		if (params.get("companyId") == null || params.get("userId") == null || params.get("accControl") == null){
+		if (params.get("companyId") == null || params.get("usuarioId") == null || params.get("accControl") == null){
 			return null;
 		}
 
-		if (params.get("companyId").equals("") || params.get("userId").equals("") || params.get("accControl").equals("")){
+		if (params.get("companyId").equals("") || params.get("usuarioId").equals("") || params.get("accControl").equals("")){
 			return null;
 		}
 
 		BasicDBObject setQuery = new BasicDBObject();
-		setQuery.put("accControl", params.get("accControl"));
+		setQuery.put("documento.accControl", params.get("accControl"));
 
 		BasicDBObject result = new BasicDBObject();
 		result.put("draw", params.get("draw"));
 
 
 
-        ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        ResponseEntity response = commons_db.listaCrudSkip("travel", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
 		BasicDBObject retorno = new BasicDBObject();
 		if ((response.getStatusCode() == HttpStatus.OK)) {
 			retorno.putAll((Map) response.getBody());
 		};
 
         if (retorno != null) {
-            ArrayList<Object> students = (ArrayList<Object>) retorno.get("documentos");
-            result.put("data", students);
+            ArrayList<Object> travels = (ArrayList<Object>) retorno.get("documentos");
+            result.put("data", travels);
             result.put("recordsFiltered", retorno.get("countFiltered"));
             result.put("recordsTotal", retorno.get("count"));
             int i = 0;

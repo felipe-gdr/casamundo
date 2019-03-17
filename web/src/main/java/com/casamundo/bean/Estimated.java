@@ -14,7 +14,7 @@ public class Estimated {
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	PriceTable priceTable = new PriceTable();
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked"})
 	public void criarCosts(ArrayList<Object> products,  String travelId,  String invoiceId) throws UnknownHostException {
 

@@ -1,6 +1,6 @@
 package com.casamundo.rest;
 
-import com.casamundo.bean.Student;
+import com.casamundo.bean.Travel;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
@@ -22,13 +22,13 @@ public class Rest_Travel {
 
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
-	Student student = new Student();
+	Travel travel = new Travel();
 
 	@SuppressWarnings("rawtypes")
     @RequestMapping(value = "/lista", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public BasicDBObject lista( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
 
-		return student.lista(params);
+		return travel.lista(params);
 
 	};
 
