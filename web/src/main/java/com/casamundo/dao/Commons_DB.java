@@ -799,7 +799,6 @@ public class Commons_DB {
         atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
         atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
         atualiza = verificaObjeto("student","studentId","birthday","birthday", docObj);
-        atualiza = verificaObjeto("student","studentId","age","age", docObj);
         atualiza = verificaObjeto("student","studentId","gender","gender", docObj);
         atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
 
@@ -917,7 +916,7 @@ public class Commons_DB {
                         objectName = docOriginal.get(originalName);
                     }
                     if (docObj.get(name) != null) {
-                        if (docObj.getString(name).equals(objectName)) {
+                        if (!docObj.getString(name).equals(objectName)) {
                             docObj.put(name, objectName);
                             return true;
                         }

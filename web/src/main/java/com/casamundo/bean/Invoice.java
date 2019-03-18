@@ -231,7 +231,7 @@ public class Invoice {
                 }
             };
             BasicDBObject variaveis = new BasicDBObject();
-            accomodation.putAll((Map) travel.get("accomodation"));
+            variaveis.putAll((Map) travel.get("accomodation"));
 
             Integer totalWeeks = 0;
             Integer totalDays = 0;
