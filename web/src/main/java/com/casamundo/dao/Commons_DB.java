@@ -792,19 +792,83 @@ public class Commons_DB {
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
+        BasicDBObject accomodation = new BasicDBObject();
+        accomodation.putAll((Map) docObj.get("accomodation"));
+        if (accomodation.get("twinEmail") != null){
+            if (!accomodation.getString("twinEmail").equals("")){
+                docObj.put("twinId", obterCrudDoc("student", "documento.email", accomodation.getString("twinEmail")).get("_id"));
+            }
+        }
 
         Boolean atualiza = verificaObjeto("agency","agency","agencyName","name", docObj);
-        atualiza = verificaObjeto("school","school","schoolName","name", docObj);
-        atualiza = verificaObjeto("city","destination","destinationName","name", docObj);
-        atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
-        atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
-        atualiza = verificaObjeto("student","studentId","birthday","birthday", docObj);
-        atualiza = verificaObjeto("student","studentId","gender","gender", docObj);
-        atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
+        if (!atualiza) {
+            atualiza = verificaObjeto("school", "school", "schoolName", "name", docObj);
+        }else{
+            verificaObjeto("school", "school", "schoolName", "name", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("city","destination","destinationName","name", docObj);
+        }else{
+            verificaObjeto("city","destination","destinationName","name", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
+        }else{
+            verificaObjeto("student","studentId","firstName","firstName", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
+        }else{
+            verificaObjeto("student","studentId","lastName","lastName", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","studentId","birthday","birthday", docObj);
+        }else{
+            verificaObjeto("student","studentId","birthday","birthday", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","studentId","gender","gender", docObj);
+        }else{
+            verificaObjeto("student","studentId","gender","gender", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
+        }else{
+            verificaObjeto("student","studentId","nationality","nationality", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
+        }else{
+            verificaObjeto("student","studentId","nationality","nationality", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","twinId","firstNameTwin","firstName", docObj);
+        }else{
+            verificaObjeto("student","twinId","firstNameTwin","firstName", docObj);
+        }
+        if (!atualiza) {
+            atualiza = verificaObjeto("student","twinId","lastNameTwin","lastName", docObj);
+        }else{
+            verificaObjeto("student","twinId","lastNameTwin","lastName", docObj);
+        }
+
+        String nameTwin = "noTwin";
+        if (docObj.get("firstNameTwin") != null && docObj.get("lastNameTwin") != null){
+            nameTwin =  docObj.getString("firstNameTwin") + " " + docObj.get("lastNameTwin");
+        }
+        if (docObj.get("nameTwin") == null) {
+            docObj.put("nameTwin", nameTwin);
+            atualiza = true;
+        }else {
+            if (!docObj.getString("nameTwin").equals(nameTwin)) {
+                docObj.put("nameTwin", nameTwin);
+                atualiza = true;
+            }
+        }
 
         Long age = commons.calcAge(docObj.getString("birthday"));
 
-        if (docObj.getString("age") == null) {
+        if (docObj.get("age") == null) {
             docObj.put("age", Long.toString(age));
             atualiza = true;
         }else {
@@ -813,11 +877,6 @@ public class Commons_DB {
                 atualiza = true;
             }
         }
-
-        BasicDBObject accomodation = new BasicDBObject();
-
-        accomodation.putAll((Map) docObj.get("accomodation"));
-
 
         String collecion = "homebook";
         switch(docObj.getString("accControl")) {
@@ -834,7 +893,9 @@ public class Commons_DB {
                 collecion = "homestayBook";
         }
 
-        int daysAllocated = daysAllocated(docObj,collecion, mongo);
+        BasicDBObject dataAllocate = dataAllocate(docObj,collecion, mongo);
+        int daysAllocated = dataAllocate.getInt("daysAllocated");
+        int allocations = dataAllocate.getInt("allocations");
 
         int daysTrip = 0;
         if (accomodation.get("checkIn") != null && accomodation.get("checkOut") != null) {
@@ -842,11 +903,37 @@ public class Commons_DB {
         };
 
         String status = "Available";
-        if (daysTrip == daysAllocated){
-            status = "Allocated";
+        String nextCheckIn = "N/A";
+        if (daysAllocated >= daysTrip){
+            if (allocations > 1) {
+                status = "Multiple";
+            }else{
+                status = dataAllocate.getString("status");
+            }
         }else{
             if (daysAllocated != 0){
                 status = "Partial";
+                nextCheckIn = dataAllocate.getString("nextCheckIn");
+            }
+        }
+
+        if (docObj.get("nextCheckIn") == null) {
+            docObj.put("nextCheckIn", nextCheckIn);
+            atualiza = true;
+        }else {
+            if (!docObj.getString("nextCheckIn").equals(nextCheckIn)) {
+                docObj.put("nextCheckIn", nextCheckIn);
+                atualiza = true;
+            }
+        }
+
+        if (docObj.get("uniqueAlocId") == null) {
+            docObj.put("uniqueAlocId", dataAllocate.getString("uniqueAlocId"));
+            atualiza = true;
+        }else {
+            if (!docObj.getString("uniqueAlocId").equals(dataAllocate.getString("uniqueAlocId"))) {
+                docObj.put("uniqueAlocId", dataAllocate.getString("uniqueAlocId"));
+                atualiza = true;
             }
         }
 
@@ -884,14 +971,20 @@ public class Commons_DB {
 
     }
 
-    private int daysAllocated(BasicDBObject docObj, String collecion, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject dataAllocate(BasicDBObject docObj, String collecion, MongoClient mongo) throws UnknownHostException {
 
+        BasicDBObject result = new BasicDBObject();
         int daysAllocated = 0;
-
+        int allocationsNumber = 0;
+        String status = "";
+        String nextCheckIn = "N/A";
+        String uniqueAlocId = "";
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.put("documento.studentId", docObj.getString("_id"));
         setQuery.put("documento.ativo", docObj.getString("ativo"));
-        ResponseEntity response = listaCrudTrigger(collecion, setQuery, mongo);
+        BasicDBObject setSort = new BasicDBObject();
+        setSort.put("documento.end", 1);
+        ResponseEntity response = listaCrudTrigger(collecion, setQuery, setSort, mongo);
         ArrayList<Object> allocations = new ArrayList<Object>();
         allocations = (JSONArray) response.getBody();
         if ((response.getStatusCode() == HttpStatus.OK)) {
@@ -899,10 +992,83 @@ public class Commons_DB {
                 BasicDBObject allocation = new BasicDBObject();
                 allocation.putAll((Map) allocations.get(i));
                 daysAllocated = daysAllocated + commons.difDate(allocation.getString("start").substring(0, 10), allocation.getString("end").substring(0, 10));
+                status = getStatusAllocation(allocation);
+                uniqueAlocId = allocation.getString("_id");
+                nextCheckIn = allocation.getString("end").substring(0,10);
+                ++allocationsNumber;
             }
         }
 
-        return daysAllocated;
+        result.put("daysAllocated", daysAllocated);
+        result.put("allocations", allocationsNumber);
+        result.put("status", status);
+        result.put("uniqueAlocId", uniqueAlocId);
+        result.put("nextCheckIn", nextCheckIn);
+        return result;
+    }
+
+    private String getStatusAllocation(BasicDBObject allocation) {
+
+        String status = "";
+        if(allocation.get("invite")  == null){
+            status = "Allocated";
+        }else{
+            if(allocation.getString("invite").equals("")){
+                status = "Allocated";
+            }
+            if(allocation.getString("invite").equals("pendent")){
+                status = "Offered";
+            }
+            if(allocation.getString("invite").equals("no")){
+                status = "Refused";
+            }
+            if (allocation.getString("invite").equals("yes")) {
+                status = "Confirmed";
+            }
+        }
+        if(allocation.get("allocate")  != null) {
+            if (allocation.getString("allocate").equals("confirmed")) {
+                status = "Confirmed";
+            }
+        }
+        if(allocation.get("emailSent")  != null) {
+            if (allocation.getString("emailSent").equals("sent")) {
+                status = "Documents";
+            }
+        }
+        if(allocation.get("checkedIn")  != null) {
+            if (allocation.getString("checkedIn").equals("true")) {
+                status = "Checked in";
+            }
+        }
+        if(allocation.get("checkedOut")  != null) {
+            if (allocation.getString("checkedOut").equals("true")) {
+                status = "Checked out";
+            }
+        }
+        if(allocation.get("inspection")  != null) {
+            if (allocation.getString("inspection").equals("true")) {
+                status = "Inspected";
+            }
+        }
+        if(allocation.get("reviewed")  != null) {
+            if (allocation.getString("reviewed").equals("true")) {
+                status = "Reviewed";
+            }
+        }
+        if(allocation.get("archived")  != null) {
+            if (allocation.getString("archived").equals("true")) {
+                status = "Archived";
+            }
+        }
+        if(allocation.get("ativo")  != null) {
+            if (allocation.getString("ativo").equals("inativo")) {
+                status = "Deleted";
+            }
+        }
+
+        return status;
+
     }
 
     private Boolean verificaObjeto(String collection,String id, String name,String originalName, BasicDBObject docObj) throws UnknownHostException {
@@ -976,12 +1142,12 @@ public class Commons_DB {
         return ResponseEntity.ok().body("true");
     };
 
-    public ResponseEntity listaCrudTrigger(String collectionName, BasicDBObject setQuery,  MongoClient mongo) throws UnknownHostException, MongoException {
+    public ResponseEntity listaCrudTrigger(String collectionName, BasicDBObject setQuery, BasicDBObject setSort,  MongoClient mongo) throws UnknownHostException, MongoException {
 
         MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
-        FindIterable<Document> cursor = collection.find(setQuery);
+        FindIterable<Document> cursor = collection.find(setQuery).sort(setSort);
 
         if (cursor.first() != null) {
             JSONArray documentos = new JSONArray();

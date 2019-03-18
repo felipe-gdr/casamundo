@@ -18,16 +18,17 @@ public class Travel {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
 
-		if (params.get("companyId") == null || params.get("usuarioId") == null || params.get("accControl") == null){
+		if (params.get("companyId") == null || params.get("usuarioId") == null || params.get("accControl") == null  || params.get("cityId") == null){
 			return null;
 		}
 
-		if (params.get("companyId").equals("") || params.get("usuarioId").equals("") || params.get("accControl").equals("")){
+		if (params.get("companyId").equals("") || params.get("usuarioId").equals("") || params.get("accControl").equals("") || params.get("cityId").equals("")){
 			return null;
 		}
 
 		BasicDBObject setQuery = new BasicDBObject();
 		setQuery.put("documento.accControl", params.get("accControl"));
+        setQuery.put("documento.destination", params.get("cityId"));
 
 		BasicDBObject result = new BasicDBObject();
 		result.put("draw", params.get("draw"));
