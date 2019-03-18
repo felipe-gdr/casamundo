@@ -982,9 +982,9 @@ public class Commons_DB {
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("priceTable" , "item", "productNamr", "name", docObj);
+            atualiza = verificaObjeto("priceTable" , "item", "productName", "name", docObj);
         }else{
-            verificaObjeto("priceTable" , "item", "productNamr", "name", docObj);
+            verificaObjeto("priceTable" , "item", "productName", "name", docObj);
         }
 
         if (atualiza){
