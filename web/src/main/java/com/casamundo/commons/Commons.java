@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import org.json.simple.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -692,6 +693,15 @@ public class Commons {
 		return result.toString();
 	}
 
+	public ArrayList<Object> addArray(ArrayList<Object> arrayA, ArrayList<Object> arrayB) {
 
+		ArrayList<Object> result = arrayA;
 
+		for (Object array:arrayB) {
+			result.add(array);
+		}
+
+		return result;
+
+	}
 };

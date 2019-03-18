@@ -7,10 +7,12 @@ import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import org.json.simple.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +82,16 @@ public class Rest_Invoice {
 			@RequestParam("userId") String userId) throws IOException, MongoException {
 		return invoice.calculaInvoiceAutomatica(travelId, userId);
 	};
-		
+
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/lista", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public BasicDBObject lista( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
+
+		return invoice.lista(params);
+
+	};
+
 };
 
 

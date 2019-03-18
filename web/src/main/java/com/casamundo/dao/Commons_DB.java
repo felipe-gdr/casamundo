@@ -739,6 +739,15 @@ public class Commons_DB {
             case "travel":
                 triggerTravelDinamicData(doc, setQuery, mongo);
                 break;
+            case "invoice":
+                triggerInvoiceDinamicData(doc, setQuery, mongo);
+                break;
+            case "payment":
+                triggerPaymentDinamicData(doc, setQuery, mongo);
+                break;
+            case "estimated":
+                triggerEstimatedDinamicData(doc, setQuery, mongo);
+                break;
             case "familyDorm":
                 triggerFamilyDormDinamicData(doc, setQuery, mongo);
                 break;
@@ -749,6 +758,310 @@ public class Commons_DB {
             mongo.close();
         }
         return result;
+    }
+
+    private void triggerEstimatedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+        docObj.put("_id", doc.get("_id"));
+
+        Boolean atualiza = false;
+        if (!atualiza) {
+            atualiza = verificaObjeto("student" , "studentId", "firstName", "firstName", docObj);
+            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        }else{
+            verificaObjeto("student", "studentId", "firstName", "firstName", docObj);
+            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+        }else{
+            verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+        }else{
+            verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+        }else{
+            verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+        }
+
+        if (docObj.get("tabelType") == null) {
+            docObj.put("tabelType", "estimated");
+            atualiza = true;
+        }else {
+            if (!docObj.getString("tabelType").equals("estimated")) {
+                docObj.put("tabelType", "estimated");
+                atualiza = true;
+            }
+        }
+
+        if (docObj.get("checkIn") == null) {
+            docObj.put("checkIn", "N/A");
+            atualiza = true;
+        } else {
+            if (!docObj.getString("checkIn").equals("N/A")) {
+                docObj.put("checkIn", "N/A");
+                atualiza = true;
+            }
+        }
+
+        if (docObj.get("checkOut") == null) {
+            docObj.put("checkOut", "N/A");
+            atualiza = true;
+        } else {
+            if (!docObj.getString("checkOut").equals("N/A")) {
+                docObj.put("checkOut", "N/A");
+                atualiza = true;
+            }
+        }
+
+        if (docObj.get("occHome") == null) {
+            docObj.put("occHome", "N/A");
+            atualiza = true;
+        } else {
+            if (!docObj.getString("occHome").equals("N/A")) {
+                docObj.put("occHome", "N/A");
+                atualiza = true;
+            }
+        }
+
+        if (docObj.get("extension") == null) {
+            docObj.put("extension", "N/A");
+            atualiza = true;
+        } else {
+            if (!docObj.getString("extension").equals("N/A")) {
+                docObj.put("extension", "N/A");
+                atualiza = true;
+            }
+        }
+
+        if (atualiza){
+            docObj.remove("_id");
+            doc.put("documento", docObj);
+            atualizarCrudTrigger("estimated", doc, setQuery, mongo);
+        };
+    }
+
+    private void triggerPaymentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+        docObj.put("_id", doc.get("_id"));
+
+        BasicDBObject travel = new BasicDBObject();
+        BasicDBObject accomodation = new BasicDBObject();
+        if (docObj.get("travelId") != null){
+            travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"));
+            if (travel != null) {
+                accomodation.putAll((Map) travel.get("accomodation"));
+            }
+        }
+
+        Boolean atualiza = false;
+
+        if (docObj.get("vendorType") != null && docObj.get("vendorId") != null){
+            String collection = "family";
+            String objectName = "familyName";
+            switch(docObj.getString("vendorType")) {
+                case "family":
+                    collection = "family";
+                    objectName = "familyName";
+                    break;
+                case "travel":
+                    collection = "vendor";
+                    objectName = "name";
+                    break;
+                case "invoice":
+                    collection = "driver";
+                    objectName = "name";
+                    break;
+                default:
+                    // code block
+            }
+            if (!atualiza) {
+                atualiza = verificaObjeto(collection , "vendorId", "nameVendor", objectName, docObj);
+            }else{
+                verificaObjeto(collection, "vendorId", "nameVendor", objectName, docObj);
+            }
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("student" , "studentId", "firstName", "firstName", docObj);
+            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        }else{
+            verificaObjeto("student", "studentId", "firstName", "firstName", docObj);
+            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+        }else{
+            verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+        }
+
+        if (docObj.get("tabelType") == null) {
+            docObj.put("tabelType", "payment");
+            atualiza = true;
+        }else {
+            if (!docObj.getString("tabelType").equals("payment")) {
+                docObj.put("tabelType", "payment");
+                atualiza = true;
+            }
+        }
+
+        if (accomodation.get("checkIn") != null) {
+            if (docObj.get("checkIn") == null) {
+                docObj.put("checkIn", accomodation.getString("checkIn"));
+                atualiza = true;
+            } else {
+                if (!docObj.getString("checkIn").equals(accomodation.getString("checkIn"))) {
+                    docObj.put("checkIn", accomodation.getString("checkIn"));
+                    atualiza = true;
+                }
+            }
+        }
+
+        if (accomodation.get("checkOut") != null) {
+            if (docObj.get("checkOut") == null) {
+                docObj.put("checkOut", accomodation.getString("checkOut"));
+                atualiza = true;
+            } else {
+                if (!docObj.getString("checkOut").equals(accomodation.getString("checkOut"))) {
+                    docObj.put("checkOut", accomodation.getString("checkOut"));
+                    atualiza = true;
+                }
+            }
+        }
+
+        if (accomodation.get("occHome") != null) {
+            if (docObj.get("occHome") == null) {
+                docObj.put("occHome", accomodation.getString("occHome"));
+                atualiza = true;
+            } else {
+                if (!docObj.getString("occHome").equals(accomodation.getString("occHome"))) {
+                    docObj.put("occHome", accomodation.getString("occHome"));
+                    atualiza = true;
+                }
+            }
+        }
+
+        if (travel.get("extension") != null) {
+            if (docObj.get("extension") == null) {
+                docObj.put("extension", travel.getString("checkOut"));
+                atualiza = true;
+            } else {
+                if (!docObj.getString("extension").equals(travel.getString("extension"))) {
+                    docObj.put("extension", travel.getString("extension"));
+                    atualiza = true;
+                }
+            }
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+        }else{
+            verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+        }else{
+            verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("priceTable" , "item", "productNamr", "name", docObj);
+        }else{
+            verificaObjeto("priceTable" , "item", "productNamr", "name", docObj);
+        }
+
+        if (atualiza){
+            docObj.remove("_id");
+            doc.put("documento", docObj);
+            atualizarCrudTrigger("payment", doc, setQuery, mongo);
+        };
+    }
+
+    private void triggerInvoiceDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+        docObj.put("_id", doc.get("_id"));
+
+        if (docObj.get("travelId") != null){
+            BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"));
+            if (travel != null) {
+                docObj.put("studentTripId", travel.getString("studentId"));
+                docObj.put("destinationTripId", travel.getString("destination"));
+            }
+        }
+
+        Boolean atualiza = false;
+        atualiza = verificaObjeto("agency", "agency", "nameAgency", "name", docObj);
+        if (!atualiza) {
+            atualiza = verificaObjeto("student" , "studentTripId", "firstName", "firstName", docObj);
+            verificaObjeto("student", "studentTripId", "lastName", "lastName", docObj);
+            docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        }else{
+            verificaObjeto("student", "studentTripId", "firstName", "firstName", docObj);
+            verificaObjeto("student", "studentTripId", "lastName", "lastName", docObj);
+            docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        }
+
+        if (!atualiza) {
+            atualiza = verificaObjeto("city" , "destinationTripId", "nameCity", "name", docObj);
+        }else{
+            verificaObjeto("city" , "destinationTripId", "nameCity", "name", docObj);
+        }
+
+        String total= "";
+        if (docObj.get("netGross") != null){
+            if (docObj.getString("netGross").equals("net")){
+                total = docObj.getString("totalNet");
+            }else{
+                total = docObj.getString("totalGross");
+            }
+        }
+        if (docObj.get("total") == null) {
+            docObj.put("total", total);
+            atualiza = true;
+        }else {
+            if (!docObj.getString("total").equals(total)) {
+                docObj.put("total", total);
+                atualiza = true;
+            }
+        }
+        String balanceDue= "";
+        if (docObj.get("total") != null &&  docObj.get("valuePayed") != null){
+            balanceDue = Float.toString(Float.valueOf(docObj.getString("total")) - Float.valueOf(docObj.getString("valuePayed")));
+        }
+        if (docObj.get("balanceDue") == null) {
+            docObj.put("balanceDue", balanceDue);
+            atualiza = true;
+        }else {
+            if (!docObj.getString("balanceDue").equals(balanceDue)) {
+                docObj.put("balanceDue", balanceDue);
+                atualiza = true;
+            }
+        }
+
+        if (atualiza){
+            docObj.remove("_id");
+            doc.put("documento", docObj);
+            atualizarCrudTrigger("invoice", doc, setQuery, mongo);
+        };
     }
 
     private void triggerStudentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
@@ -796,7 +1109,7 @@ public class Commons_DB {
         accomodation.putAll((Map) docObj.get("accomodation"));
         if (accomodation.get("twinEmail") != null){
             if (!accomodation.getString("twinEmail").equals("")){
-                docObj.put("twinId", obterCrudDoc("student", "documento.email", accomodation.getString("twinEmail")).get("_id"));
+                docObj.put("twinId", obterCrudQuery("student", "documento.email", accomodation.getString("twinEmail")).get("_id"));
             }
         }
 

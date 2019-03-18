@@ -483,4 +483,39 @@ public class Invoice {
 		return value;
 	};
 
+    public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
+
+        if (params.get("companyId") == null || params.get("usuarioId") == null){
+            return null;
+        }
+
+        if (params.get("companyId").equals("") || params.get("usuarioId").equals("")){
+            return null;
+        }
+
+        BasicDBObject setQuery = new BasicDBObject();
+
+        BasicDBObject result = new BasicDBObject();
+        result.put("draw", params.get("draw"));
+
+        ResponseEntity response = commons_db.listaCrudSkip("invoice", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        BasicDBObject retorno = new BasicDBObject();
+        if ((response.getStatusCode() == HttpStatus.OK)) {
+            retorno.putAll((Map) response.getBody());
+        };
+
+        if (retorno != null) {
+            ArrayList<Object> invoices = (ArrayList<Object>) retorno.get("documentos");
+            result.put("data", invoices);
+            result.put("recordsFiltered", retorno.get("countFiltered"));
+            result.put("recordsTotal", retorno.get("count"));
+            int i = 0;
+            while (retorno.get("yadcf_data_" + i) != null){
+                result.put("yadcf_data_" + i, retorno.get("yadcf_data_" + i));
+                ++i;
+            }
+        }
+        return result;
+    }
+
 }

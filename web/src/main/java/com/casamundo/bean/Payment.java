@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.UnknownHostException;
@@ -853,5 +854,68 @@ public class Payment {
         }
         return null;
 
+    }
+
+    public BasicDBObject listaDatatable(Map<String, String> params) throws UnknownHostException {
+
+        if (params.get("companyId") == null || params.get("usuarioId") == null){
+            return null;
+        }
+
+        if (params.get("companyId").equals("") || params.get("usuarioId").equals("")){
+            return null;
+        }
+
+        BasicDBObject setQuery = new BasicDBObject();
+
+        BasicDBObject result = new BasicDBObject();
+        result.put("draw", params.get("draw"));
+
+        ResponseEntity response = commons_db.listaCrudSkip("payment", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        BasicDBObject retorno = new BasicDBObject();
+        if ((response.getStatusCode() == HttpStatus.OK)) {
+            retorno.putAll((Map) response.getBody());
+        };
+
+        ArrayList<Object> payments = new ArrayList<>();
+        String countFiltered =  "";
+        String count =  "";
+        int i = 0;
+        if (retorno != null) {
+            payments = (ArrayList<Object>) retorno.get("documentos");
+            countFiltered =  retorno.getString("countFiltered");
+            count =  retorno.getString("count");
+            while (retorno.get("yadcf_data_" + i) != null){
+                result.put("yadcf_data_" + i, retorno.get("yadcf_data_" + i));
+                ++i;
+            }
+        }
+
+        response = commons_db.listaCrudSkip("estimated", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        retorno = new BasicDBObject();
+        if ((response.getStatusCode() == HttpStatus.OK)) {
+            retorno.putAll((Map) response.getBody());
+        };
+
+        ArrayList<Object> estimateds = new ArrayList<>();
+        if (retorno != null) {
+            estimateds = (ArrayList<Object>) retorno.get("documentos");
+            countFiltered =  Integer.toString(Integer.valueOf(retorno.getString("countFiltered")) + Integer.valueOf(countFiltered));
+            count =  Integer.toString(Integer.valueOf(retorno.getString("count")) + Integer.valueOf(count));
+            int w = 0;
+            while (retorno.get("yadcf_data_" + w) != null){
+                result.put("yadcf_data_" + i, retorno.get("yadcf_data_" + w));
+                ++i;
+                ++w;
+            }
+        }
+
+
+        ArrayList<Object> finalResult = commons.addArray(payments, estimateds);
+        result.put("data", finalResult);
+        result.put("recordsFiltered", countFiltered);
+        result.put("recordsTotal", count);
+
+        return result;
     }
 }

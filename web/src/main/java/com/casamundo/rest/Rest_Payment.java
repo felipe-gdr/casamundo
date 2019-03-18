@@ -1,5 +1,6 @@
 package com.casamundo.rest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,12 +8,9 @@ import java.util.Map;
 import com.casamundo.bean.PriceTable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
@@ -126,6 +124,14 @@ public class Rest_Payment {
 		return null;
 
 	}
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/lista/datatable", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public BasicDBObject listaDatatable( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
+
+		return payment.listaDatatable(params);
+
+	};
 
 	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
