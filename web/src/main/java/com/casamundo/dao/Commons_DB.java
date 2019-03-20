@@ -110,8 +110,12 @@ public class Commons_DB {
     };
 
     @SuppressWarnings({"rawtypes"})
-    public BasicDBObject obterCrudQuery(String collectionName, String key, String value) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
+    public BasicDBObject obterCrudQuery(String collectionName, String key, String value, MongoClient mongo) throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -129,10 +133,14 @@ public class Commons_DB {
             BasicDBObject documento = new BasicDBObject();
             documento.putAll((Map) cursor.first().get("documento"));
             documento.put("_id", cursor.first().get("_id").toString());
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return documento;
         }
-        mongo.close();
+        if (fechaMongo){
+            mongo.close();
+        }
         return null;
     };
 
@@ -734,22 +742,25 @@ public class Commons_DB {
         BasicDBObject result = new BasicDBObject();
         switch(collectionName) {
             case "student":
-                triggerStudentDinamicData(doc, setQuery, mongo);
+                result = triggerStudentDinamicData(doc, setQuery, mongo);
                 break;
             case "travel":
-                triggerTravelDinamicData(doc, setQuery, mongo);
+                result = triggerTravelDinamicData(doc, setQuery, mongo);
                 break;
             case "invoice":
-                triggerInvoiceDinamicData(doc, setQuery, mongo);
+                result = triggerInvoiceDinamicData(doc, setQuery, mongo);
                 break;
             case "payment":
-                triggerPaymentDinamicData(doc, setQuery, mongo);
+                result = triggerPaymentDinamicData(doc, setQuery, mongo);
                 break;
             case "estimated":
-                triggerEstimatedDinamicData(doc, setQuery, mongo);
+                result = triggerEstimatedDinamicData(doc, setQuery, mongo);
                 break;
             case "familyDorm":
-                triggerFamilyDormDinamicData(doc, setQuery, mongo);
+                result = triggerFamilyDormDinamicData(doc, setQuery, mongo);
+                break;
+            case "homeStay":
+                result = triggerHomeStayDinamicData(doc, setQuery, mongo);
                 break;
             default:
                 // code block
@@ -760,7 +771,44 @@ public class Commons_DB {
         return result;
     }
 
-    private void triggerEstimatedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject triggerHomeStayDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+        }
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+        docObj.put("_id", doc.get("_id"));
+
+
+        Boolean atualiza = false;
+        atualiza = trigerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
+        atualiza = trigerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
+        atualiza = trigerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
+        atualiza = trigerObjeto("student", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
+
+        if (atualiza){
+            docObj.remove("_id");
+            doc.put("documento", docObj);
+            atualizarCrudTrigger("homeStayBook", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
+        };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return null;
+    }
+
+    private BasicDBObject triggerEstimatedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+        }
 
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
@@ -768,31 +816,31 @@ public class Commons_DB {
 
         Boolean atualiza = false;
         if (!atualiza) {
-            atualiza = verificaObjeto("student" , "studentId", "firstName", "firstName", docObj);
-            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            atualiza = verificaObjeto("student", null, "studentId", "firstName", "firstName", docObj, mongo);
+            verificaObjeto("student", null, "studentId", "lastName", "lastName", docObj, mongo);
             docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         }else{
-            verificaObjeto("student", "studentId", "firstName", "firstName", docObj);
-            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            verificaObjeto("student", null, "studentId", "firstName", "firstName", docObj, mongo);
+            verificaObjeto("student", null, "studentId", "lastName", "lastName", docObj, mongo);
             docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+            atualiza = verificaObjeto("city", null, "destination", "nameCity", "name", docObj, mongo);
         }else{
-            verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+            verificaObjeto("city", null, "destination", "nameCity", "name", docObj, mongo);
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+            atualiza = verificaObjeto("invoice", null, "invoiceId", "invoiceStatus", "paid", docObj, mongo);
         }else{
-            verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+            verificaObjeto("invoice", null, "invoiceId", "invoiceStatus", "paid", docObj, mongo);
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+            atualiza = verificaObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, mongo);
         }else{
-            verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+            verificaObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, mongo);
         }
 
         if (docObj.get("tabelType") == null) {
@@ -849,10 +897,22 @@ public class Commons_DB {
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("estimated", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
         };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return null;
     }
 
-    private void triggerPaymentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject triggerPaymentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+        }
 
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
@@ -861,7 +921,7 @@ public class Commons_DB {
         BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
         if (docObj.get("travelId") != null){
-            travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"));
+            travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"), mongo);
             if (travel != null) {
                 accomodation.putAll((Map) travel.get("accomodation"));
             }
@@ -889,26 +949,26 @@ public class Commons_DB {
                     // code block
             }
             if (!atualiza) {
-                atualiza = verificaObjeto(collection , "vendorId", "nameVendor", objectName, docObj);
+                atualiza = verificaObjeto(collection, null, "vendorId", "nameVendor", objectName, docObj, mongo);
             }else{
-                verificaObjeto(collection, "vendorId", "nameVendor", objectName, docObj);
+                verificaObjeto(collection, null, "vendorId", "nameVendor", objectName, docObj, mongo);
             }
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("student" , "studentId", "firstName", "firstName", docObj);
-            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            atualiza = verificaObjeto("student", null, "studentId", "firstName", "firstName", docObj, mongo);
+            verificaObjeto("student", null, "studentId", "lastName", "lastName", docObj, mongo);
             docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         }else{
-            verificaObjeto("student", "studentId", "firstName", "firstName", docObj);
-            verificaObjeto("student", "studentId", "lastName", "lastName", docObj);
+            verificaObjeto("student", null, "studentId", "firstName", "firstName", docObj, mongo);
+            verificaObjeto("student", null, "studentId", "lastName", "lastName", docObj, mongo);
             docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+            atualiza = verificaObjeto("city", null, "destination", "nameCity", "name", docObj, mongo);
         }else{
-            verificaObjeto("city" , "destination", "nameCity", "name", docObj);
+            verificaObjeto("city", null, "destination", "nameCity", "name", docObj, mongo);
         }
 
         if (docObj.get("tabelType") == null) {
@@ -970,38 +1030,50 @@ public class Commons_DB {
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+            atualiza = verificaObjeto("invoice", null, "invoiceId", "invoiceStatus", "paid", docObj, mongo);
         }else{
-            verificaObjeto("invoice" , "invoiceId", "invoiceStatus", "paid", docObj);
+            verificaObjeto("invoice", null, "invoiceId", "invoiceStatus", "paid", docObj, mongo);
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+            atualiza = verificaObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, mongo);
         }else{
-            verificaObjeto("invoice" , "invoiceId", "invoiceNumber", "invoiceNumber", docObj);
+            verificaObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, mongo);
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("priceTable" , "item", "productName", "name", docObj);
+            atualiza = verificaObjeto("priceTable", null, "item", "productName", "name", docObj, mongo);
         }else{
-            verificaObjeto("priceTable" , "item", "productName", "name", docObj);
+            verificaObjeto("priceTable", null, "item", "productName", "name", docObj, mongo);
         }
 
         if (atualiza){
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("payment", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
         };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return null;
     }
 
-    private void triggerInvoiceDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject triggerInvoiceDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+        }
 
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
         if (docObj.get("travelId") != null){
-            BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"));
+            BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"), mongo);
             if (travel != null) {
                 docObj.put("studentTripId", travel.getString("studentId"));
                 docObj.put("destinationTripId", travel.getString("destination"));
@@ -1009,21 +1081,21 @@ public class Commons_DB {
         }
 
         Boolean atualiza = false;
-        atualiza = verificaObjeto("agency", "agency", "nameAgency", "name", docObj);
+        atualiza = verificaObjeto("agency", null, "agency", "nameAgency", "name", docObj, mongo);
         if (!atualiza) {
-            atualiza = verificaObjeto("student" , "studentTripId", "firstName", "firstName", docObj);
-            verificaObjeto("student", "studentTripId", "lastName", "lastName", docObj);
+            atualiza = verificaObjeto("student", null, "studentTripId", "firstName", "firstName", docObj, mongo);
+            verificaObjeto("student", null, "studentTripId", "lastName", "lastName", docObj, mongo);
             docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         }else{
-            verificaObjeto("student", "studentTripId", "firstName", "firstName", docObj);
-            verificaObjeto("student", "studentTripId", "lastName", "lastName", docObj);
+            verificaObjeto("student", null, "studentTripId", "firstName", "firstName", docObj, mongo);
+            verificaObjeto("student", null, "studentTripId", "lastName", "lastName", docObj, mongo);
             docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         }
 
         if (!atualiza) {
-            atualiza = verificaObjeto("city" , "destinationTripId", "nameCity", "name", docObj);
+            atualiza = verificaObjeto("city", null, "destinationTripId", "nameCity", "name", docObj, mongo);
         }else{
-            verificaObjeto("city" , "destinationTripId", "nameCity", "name", docObj);
+            verificaObjeto("city", null, "destinationTripId", "nameCity", "name", docObj, mongo);
         }
 
         String total= "";
@@ -1061,13 +1133,20 @@ public class Commons_DB {
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("invoice", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
         };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return null;
     }
 
-    private void triggerStudentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject triggerStudentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
 
         Boolean fechaMongo = false;
-
         if (mongo == null) {
             mongo = new MongoClient();
             fechaMongo = true;
@@ -1093,14 +1172,25 @@ public class Commons_DB {
         if (atualiza){
             doc.put("documento", docObj);
             atualizarCrudTrigger("student", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
         };
 
         if (fechaMongo){
             mongo.close();
         }
+        return null;
     }
 
-    private void triggerTravelDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject triggerTravelDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+            fechaMongo = true;
+        }
 
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
@@ -1109,60 +1199,60 @@ public class Commons_DB {
         accomodation.putAll((Map) docObj.get("accomodation"));
         if (accomodation.get("twinEmail") != null){
             if (!accomodation.getString("twinEmail").equals("")){
-                docObj.put("twinId", obterCrudQuery("student", "documento.email", accomodation.getString("twinEmail")).get("_id"));
+                docObj.put("twinId", obterCrudQuery("student", "documento.email", accomodation.getString("twinEmail"), mongo).get("_id"));
             }
         }
 
-        Boolean atualiza = verificaObjeto("agency","agency","agencyName","name", docObj);
+        Boolean atualiza = verificaObjeto("agency", null,"agency","agencyName","name", docObj, mongo);
         if (!atualiza) {
-            atualiza = verificaObjeto("school", "school", "schoolName", "name", docObj);
+            atualiza = verificaObjeto("school", null, "school", "schoolName", "name", docObj, mongo);
         }else{
-            verificaObjeto("school", "school", "schoolName", "name", docObj);
+            verificaObjeto("school", null, "school", "schoolName", "name", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("city","destination","destinationName","name", docObj);
+            atualiza = verificaObjeto("city", null,"destination","destinationName","name", docObj, mongo);
         }else{
-            verificaObjeto("city","destination","destinationName","name", docObj);
+            verificaObjeto("city", null,"destination","destinationName","name", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","studentId","firstName","firstName", docObj);
+            atualiza = verificaObjeto("student", null,"studentId","firstName","firstName", docObj, mongo);
         }else{
-            verificaObjeto("student","studentId","firstName","firstName", docObj);
+            verificaObjeto("student", null,"studentId","firstName","firstName", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","studentId","lastName","lastName", docObj);
+            atualiza = verificaObjeto("student", null,"studentId","lastName","lastName", docObj, mongo);
         }else{
-            verificaObjeto("student","studentId","lastName","lastName", docObj);
+            verificaObjeto("student", null,"studentId","lastName","lastName", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","studentId","birthday","birthday", docObj);
+            atualiza = verificaObjeto("student", null,"studentId","birthday","birthday", docObj, mongo);
         }else{
-            verificaObjeto("student","studentId","birthday","birthday", docObj);
+            verificaObjeto("student", null,"studentId","birthday","birthday", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","studentId","gender","gender", docObj);
+            atualiza = verificaObjeto("student", null,"studentId","gender","gender", docObj, mongo);
         }else{
-            verificaObjeto("student","studentId","gender","gender", docObj);
+            verificaObjeto("student", null,"studentId","gender","gender", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
+            atualiza = verificaObjeto("student", null,"studentId","nationality","nationality", docObj, mongo);
         }else{
-            verificaObjeto("student","studentId","nationality","nationality", docObj);
+            verificaObjeto("student", null,"studentId","nationality","nationality", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","studentId","nationality","nationality", docObj);
+            atualiza = verificaObjeto("student", null,"studentId","nationality","nationality", docObj, mongo);
         }else{
-            verificaObjeto("student","studentId","nationality","nationality", docObj);
+            verificaObjeto("student", null,"studentId","nationality","nationality", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","twinId","firstNameTwin","firstName", docObj);
+            atualiza = verificaObjeto("student", null,"twinId","firstNameTwin","firstName", docObj, mongo);
         }else{
-            verificaObjeto("student","twinId","firstNameTwin","firstName", docObj);
+            verificaObjeto("student", null,"twinId","firstNameTwin","firstName", docObj, mongo);
         }
         if (!atualiza) {
-            atualiza = verificaObjeto("student","twinId","lastNameTwin","lastName", docObj);
+            atualiza = verificaObjeto("student", null,"twinId","lastNameTwin","lastName", docObj, mongo);
         }else{
-            verificaObjeto("student","twinId","lastNameTwin","lastName", docObj);
+            verificaObjeto("student", null,"twinId","lastNameTwin","lastName", docObj, mongo);
         }
 
         String nameTwin = "noTwin";
@@ -1264,23 +1354,48 @@ public class Commons_DB {
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("travel", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
         };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return null;
     }
 
-    private void triggerFamilyDormDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+    private BasicDBObject triggerFamilyDormDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+        }
 
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
-        Boolean atualiza = verificaObjeto("familyRooms","roomId","familyId","familyId", docObj);
-        atualiza = verificaObjeto("family","familyId","city","city", docObj);
+
+        Boolean atualiza = false;
+        atualiza = trigerObjeto("familyRooms", null,"roomId", "familyId", "familyId", docObj, atualiza, mongo);
+        atualiza = trigerObjeto("familyRooms", null,"roomId","roomNumber","roomNumber", docObj, atualiza, mongo);
+        atualiza = trigerObjeto("family", null,"familyId","city","city", docObj, atualiza, mongo);
+        atualiza = trigerObjeto("family", null,"familyId","familyName","familyName", docObj, atualiza, mongo);
 
         if (atualiza){
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("familyDorm", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
         };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return null;
 
     }
 
@@ -1384,15 +1499,33 @@ public class Commons_DB {
 
     }
 
-    private Boolean verificaObjeto(String collection,String id, String name,String originalName, BasicDBObject docObj) throws UnknownHostException {
+    private Boolean trigerObjeto(String collection, String group, String nameId, String nameFinalTable, String nameOriginTable, BasicDBObject docObj, Boolean atualiza, MongoClient mongo) throws UnknownHostException {
+
+        if (!atualiza) {
+            atualiza = verificaObjeto(collection, group, nameId, nameFinalTable, nameOriginTable, docObj, mongo);
+        }else{
+            verificaObjeto(collection, group, nameId, nameFinalTable, nameOriginTable, docObj, mongo);
+        }
+
+        return atualiza;
+    }
+
+    private Boolean verificaObjeto(String collection, String group, String id, String name, String originalName, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
 
         Object objectName = "";
         if (docObj.get(id) != null){
             if (!docObj.getString(id).equals("")){
-                BasicDBObject docOriginal = obterCrudQuery(collection, "_id", docObj.getString(id));
+                BasicDBObject docOriginal = obterCrudQuery(collection, "_id", docObj.getString(id), mongo);
                 if (docOriginal != null) {
                     if (docOriginal.get(originalName) != null) {
                         objectName = docOriginal.get(originalName);
+                    }
+                    if (group != null) {
+                        BasicDBObject groupOriginal = new BasicDBObject();
+                        groupOriginal.putAll((Map) docOriginal.get(group));
+                        if (groupOriginal.get(originalName) != null) {
+                            objectName = groupOriginal.get(originalName);
+                        }
                     }
                     if (docObj.get(name) != null) {
                         if (!docObj.getString(name).equals(objectName)) {

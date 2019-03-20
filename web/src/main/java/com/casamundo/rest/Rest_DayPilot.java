@@ -23,8 +23,8 @@ public class Rest_DayPilot {
 	Commons_DB commons_db = new Commons_DB();
 	DayPilot dayPilot = new DayPilot();
 
-	@RequestMapping(value = "/monta", produces = "application/json")
-	public ArrayList<BasicDBObject> listaPending(
+	@RequestMapping(value = "/monta/dorm", produces = "application/json")
+	public BasicDBObject monta(
 			@RequestParam(value = "start", required=false) String start,
 			@RequestParam(value = "end", required=false) String end,
 			@RequestParam(value = "companyId", required=false) String companyId,
@@ -32,9 +32,9 @@ public class Rest_DayPilot {
 			@RequestParam(value = "city", required=false) String city ) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null &&  city != null && companyId != null && userId != null) {
-			return dayPilot.monta(companyId, userId, start, end, city);
+			return dayPilot.montaDorm(companyId, userId, start, end, city);
 		}
-		return new ArrayList<BasicDBObject>();
+		return null;
 
 	}
 
