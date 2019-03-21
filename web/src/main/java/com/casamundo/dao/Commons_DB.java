@@ -19,12 +19,14 @@ import java.util.regex.Pattern;
 
 public class Commons_DB {
 
-    Commons commons = new Commons();
+    private final Commons commons = new Commons();
+
+    private static final String HOST = System.getProperty("mongodb.host");
 
     @SuppressWarnings({"rawtypes"})
     public ResponseEntity obterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -35,7 +37,8 @@ public class Commons_DB {
                 setQuery = new BasicDBObject(key, idObj);
             } else {
                 setQuery = new BasicDBObject(key, value);
-            };
+            }
+
             FindIterable<Document> cursor = collection.find(setQuery);
             if (cursor.first() != null) {
                 BasicDBObject documento = new BasicDBObject();
@@ -53,12 +56,15 @@ public class Commons_DB {
             mongo.close();
             return ResponseEntity.badRequest().build();
         }
-    };
+    }
 
-    @SuppressWarnings({})
+    private MongoDatabase getDatabase(MongoClient mongo) {
+        return mongo.getDatabase(commons.getProperties().get("database").toString());
+    }
+
     public ResponseEntity obterId(String collectionName) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         if (collection != null) {
@@ -71,12 +77,12 @@ public class Commons_DB {
             mongo.close();
             return ResponseEntity.badRequest().build();
         }
-    };
+    }
 
     @SuppressWarnings({"rawtypes"})
-    public BasicDBObject obterCrudDoc(String collectionName, String key, String value) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+    public BasicDBObject obterCrudDoc(String collectionName, String key, String value) throws MongoException {
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -96,7 +102,8 @@ public class Commons_DB {
             } else {
                 setQuery = new BasicDBObject(key, value);
             }
-        };
+        }
+
         FindIterable<Document> cursor = collection.find(setQuery);
         if (cursor.first() != null) {
             BasicDBObject documento = new BasicDBObject();
@@ -107,13 +114,13 @@ public class Commons_DB {
         }
         mongo.close();
         return null;
-    };
+    }
 
     @SuppressWarnings({"rawtypes"})
     public BasicDBObject obterCrudDocQuery(String collectionName, String key, String value, MongoClient mongo) throws UnknownHostException, MongoException {
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
             fechaMongo= true;
         }
         MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
@@ -159,17 +166,17 @@ public class Commons_DB {
     public BasicDBObject obterCrudQuery(String collectionName, String key, String value, MongoClient mongo) throws UnknownHostException, MongoException {
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
             fechaMongo = true;
         }
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
         if (key.equals("_id")) {
             ObjectId idObj = new ObjectId(value);
             setQuery = new BasicDBObject("_id", idObj);
-        }else{
+        } else {
             setQuery = new BasicDBObject(key, value);
         }
 
@@ -184,16 +191,16 @@ public class Commons_DB {
             }
             return documento;
         }
-        if (fechaMongo){
+        if (fechaMongo) {
             mongo.close();
         }
         return null;
-    };
+    }
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+    public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws MongoException {
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         long id = collection.count();
@@ -207,15 +214,15 @@ public class Commons_DB {
         Document insert = new Document();
         insert.putAll((Map) documentoFinal);
         collection.insertOne(insert);
-        insert.put("_id", insert.get( "_id" ).toString());
+        insert.put("_id", insert.get("_id").toString());
         mongo.close();
         return ResponseEntity.ok().body(insert.get("_id").toString());
     }
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
     public ResponseEntity atualizarCrud(String collectionName, Object updateInput, String key, String valueInp) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject objDocumento = new BasicDBObject();
@@ -257,8 +264,9 @@ public class Commons_DB {
                                 BasicDBObject docUpdateItem = new BasicDBObject();
                                 docUpdateItem.putAll((Map) docUpdate.get(j));
                                 arrayField.add(docUpdateItem);
-                            };
-                        };
+                            }
+                        }
+
                         objDocumento.put((String) setUpdate.get("field"), arrayField);
                     } else {
                         BasicDBObject docUpdate = new BasicDBObject();
@@ -269,10 +277,11 @@ public class Commons_DB {
                         } else {
                             objDocumento.remove(setUpdate.get("field"));
                             objDocumento.put((String) setUpdate.get("field"), docUpdate);
-                        };
-                    };
-                };
-            };
+                        }
+                    }
+                }
+            }
+
             BasicDBObject doc = new BasicDBObject();
 
             objDocumento.put("companyId", companyId);
@@ -284,20 +293,20 @@ public class Commons_DB {
                 setQuery = new BasicDBObject(key, idObj);
             } else {
                 setQuery = new BasicDBObject(key, valueInp);
-            };
+            }
             Document objDocumentoUpdate = new Document();
             objDocumentoUpdate.putAll((Map) doc);
-            collection.replaceOne(setQuery,objDocumentoUpdate);
-        };
+            collection.replaceOne(setQuery, objDocumentoUpdate);
+        }
         mongo.close();
         return ResponseEntity.ok().body("true");
-    };
+    }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public ResponseEntity listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate) throws UnknownHostException, MongoException {
+    public ResponseEntity listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate) throws MongoException {
 
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -336,7 +345,7 @@ public class Commons_DB {
                 mongo.close();
                 return null;
             }
-        };
+        }
 
         String companyTable = null;
         String cityTable = null;
@@ -379,13 +388,13 @@ public class Commons_DB {
                                 }
                             } else {
                                 documentos.add(doc);
-                            };
-                        };
+                            }
+                        }
                     }
                 } else {
                     documentos.add(doc);
-                };
-            };
+                }
+            }
             mongo.close();
             return ResponseEntity.ok().body(documentos);
         } else {
@@ -399,7 +408,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null){
-            mongo = new MongoClient();
+            mongo = getMongoClient();
             fechaMongo = true;
         }
         MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
@@ -513,8 +522,8 @@ public class Commons_DB {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public ResponseEntity listaCrudSkip(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate, Integer start, Integer length, Map<String, String> params) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -552,7 +561,7 @@ public class Commons_DB {
                 mongo.close();
                 return null;
             }
-        };
+        }
 
         String companyTable = null;
         String cityTable = null;
@@ -575,13 +584,13 @@ public class Commons_DB {
                 docObj.putAll((Map) current.get("documento"));
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
-                doc = triggerDinamicData(doc,collectionName,montaSetQuery(doc.getString("_id")), mongo);
+                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
                 int i = 0;
                 while (params.get("columns[" + i + "][data]") != null) {
-                    if (listas.size() < (i + 1)){
+                    if (listas.size() < (i + 1)) {
                         listas.add(new ArrayList<>());
                     }
-                    if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop"))  {
+                    if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop")) {
                         String a = params.get("columns[" + i + "][data]").substring(10);
                         if (docObj.get(params.get("columns[" + i + "][data]").substring(10)) != null) {
                             if (!commons.testaElementoArray(docObj.getString(params.get("columns[" + i + "][data]").substring(10)), listas.get(i))) {
@@ -617,7 +626,7 @@ public class Commons_DB {
         Boolean temClause = false;
         while (params.get("columns[" + i + "][data]") != null) {
             if (params.get("columns[" + i + "][searchable]").equals("true")) {
-                if (params.get("search[value]") != null){
+                if (params.get("search[value]") != null) {
                     if (!params.get("search[value]").equals("")) {
                         Pattern regex = Pattern.compile(params.get("search[value]"), Pattern.CASE_INSENSITIVE);
                         DBObject clause = new BasicDBObject(params.get("columns[" + i + "][data]"), regex);
@@ -627,17 +636,17 @@ public class Commons_DB {
                 }
                 if (params.get("columns[" + i + "][search][value]") != null) {
                     int pos = params.get("columns[" + i + "][search][value]").indexOf("-yadcf_delim-");
-                    if (!params.get("columns[" + i + "][search][value]").equals("") && pos < 0){
+                    if (!params.get("columns[" + i + "][search][value]").equals("") && pos < 0) {
                         Pattern regex = Pattern.compile(params.get("columns[" + i + "][search][value]"), Pattern.CASE_INSENSITIVE);
                         setQuery.put(params.get("columns[" + i + "][data]"), regex);
-                    }else{
+                    } else {
                         if (pos >= 0) {
                             String from = "0";
                             String to = "99999999999999999999999";
-                            if (pos > 0){
+                            if (pos > 0) {
                                 from = params.get("columns[" + i + "][search][value]").substring(0, pos);
                             }
-                            if (pos + 13 <  params.get("columns[" + i + "][search][value]").length()) {
+                            if (pos + 13 < params.get("columns[" + i + "][search][value]").length()) {
                                 to = params.get("columns[" + i + "][search][value]").substring(pos + 13);
                             }
                             BasicDBObject setCondition = new BasicDBObject();
@@ -652,7 +661,7 @@ public class Commons_DB {
         }
         if (temClause) {
             setQuery.put("$or", or);
-        };
+        }
 
         if (params.get("order[0][column]") != null) {
             if (params.get("order[0][dir]").equals("asc")) {
@@ -662,7 +671,8 @@ public class Commons_DB {
             }
         }
 
-        long countFiltered = collection.countDocuments(setQuery);;
+        long countFiltered = collection.countDocuments(setQuery);
+
         cursor = collection.find(setQuery).sort(setSort);
         if (length != -1) {
             cursor.skip(start);
@@ -692,13 +702,13 @@ public class Commons_DB {
                                 }
                             } else {
                                 documentos.add(doc);
-                            };
-                        };
+                            }
+                        }
                     }
                 } else {
                     documentos.add(doc);
-                };
-            };
+                }
+            }
             mongo.close();
             BasicDBObject result = new BasicDBObject();
             result.put("count", count);
@@ -708,7 +718,7 @@ public class Commons_DB {
                 result.put("yadcf_data_" + i, lista);
                 ++i;
             }
-            result.put("documentos", documentos );
+            result.put("documentos", documentos);
             return ResponseEntity.ok().body(result);
         } else {
             mongo.close();
@@ -720,16 +730,16 @@ public class Commons_DB {
                 result.put("yadcf_data_" + i, lista);
                 ++i;
             }
-            result.put("documentos", documentos );
+            result.put("documentos", documentos);
             return ResponseEntity.ok().body(result);
         }
-    };
+    }
 
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public ResponseEntity teste(int start, int length, String collectionName) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -742,12 +752,13 @@ public class Commons_DB {
                 docObj.putAll((Map) current.get("documento"));
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
-                doc = triggerDinamicData(doc,collectionName,montaSetQuery(doc.getString("_id")), mongo );
+                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
                 ++count;
             }
         }
 
-        long countFiltered = collection.countDocuments(setQuery);;
+        long countFiltered = collection.countDocuments(setQuery);
+
         cursor = collection.find(setQuery);
         if (length != -1) {
             cursor.skip(start);
@@ -762,12 +773,13 @@ public class Commons_DB {
                 doc.putAll((Map) current);
                 doc.put("_id", current.get("_id").toString());
                 documentos.add(doc);
-            };
+            }
+
             mongo.close();
             BasicDBObject result = new BasicDBObject();
             result.put("count", count);
             result.put("countFiltered", countFiltered);
-            result.put("documentos", documentos );
+            result.put("documentos", documentos);
             return ResponseEntity.ok().body(result);
         } else {
             mongo.close();
@@ -776,8 +788,8 @@ public class Commons_DB {
     }
 
     public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -791,12 +803,13 @@ public class Commons_DB {
         mongo.close();
 
         return ResponseEntity.ok().body("true");
-    };
+    }
+
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
     public ResponseEntity arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
-        MongoClient mongo = new MongoClient();
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoClient mongo = getMongoClient();
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject objDocumento = new BasicDBObject();
@@ -827,7 +840,8 @@ public class Commons_DB {
         int index = 0;
         if (!indexInp.equals(null)) {
             index = Integer.parseInt(indexInp);
-        };
+        }
+
         if (objDocumento != null) {
             if (objDocumento.get(field) instanceof ArrayList) {
                 ArrayList docUpdate = (ArrayList) objDocumento.get(field);
@@ -860,8 +874,10 @@ public class Commons_DB {
                                 arrayField.add(docUpdateItem);
                             }
                         }
-                    };
-                };
+                    }
+
+                }
+
                 if (type.equals("in")) {
                     arrayField.add(item);
                 }
@@ -875,15 +891,19 @@ public class Commons_DB {
                     setQuery = new BasicDBObject(key, idObj);
                 } else {
                     setQuery = new BasicDBObject(key, value);
-                };
+                }
+
                 Document objDocumentoUpdate = new Document();
                 objDocumentoUpdate.put("documento", doc);
-                collection.replaceOne(setQuery,objDocumentoUpdate);
-            };
-        };
+                collection.replaceOne(setQuery, objDocumentoUpdate);
+            }
+
+        }
+
         mongo.close();
         return ResponseEntity.ok().body("true");
-    };
+    }
+
 
     public String getNumber(String nameNumber, String nameYear) throws UnknownHostException, MongoException {
 
@@ -892,12 +912,14 @@ public class Commons_DB {
         if (obj != null) {
             String oldNumber = obj.getString("setupValue");
             number = ((Integer.parseInt(oldNumber) + 1));
-        };
+        }
+
         String year = "2017";
         obj = obterCrudDoc("setup", "documento.setupKey", nameYear);
         if (obj != null) {
             year = obj.getString("setupValue");
-        };
+        }
+
         ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
         BasicDBObject update = new BasicDBObject();
         update.put("field", "setupValue");
@@ -907,17 +929,17 @@ public class Commons_DB {
         String result = Integer.toString(number) + "/" + year;
         return result;
 
-    };
+    }
 
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public BasicDBObject triggerDinamicData(BasicDBObject doc, String collectionName, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
         BasicDBObject result = new BasicDBObject();
-        switch(collectionName) {
+        switch (collectionName) {
             case "student":
                 result = triggerStudentDinamicData(doc, setQuery, mongo);
                 break;
@@ -960,7 +982,7 @@ public class Commons_DB {
             default:
                 // code block
         }
-        if (fechaMongo){
+        if (fechaMongo) {
             mongo.close();
         }
         return result;
@@ -970,7 +992,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -982,7 +1004,7 @@ public class Commons_DB {
         atualiza = triggerObjeto("building", null,"buildingId","city","city", docObj, atualiza, mongo);
         atualiza = triggerObjeto("vendor", null,"vendorId","vendorName","name", docObj, atualiza, mongo);
 
-        if (atualiza){
+        if (atualiza) {
             docObj.remove("_id");
             doc.remove("_id");
             doc.put("documento", docObj);
@@ -991,8 +1013,9 @@ public class Commons_DB {
                 mongo.close();
             }
             return docObj;
-        };
-        if (fechaMongo){
+        }
+        ;
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1002,7 +1025,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1037,7 +1060,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1071,7 +1094,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1106,7 +1129,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1155,7 +1178,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1190,7 +1213,7 @@ public class Commons_DB {
     private BasicDBObject triggerEstimatedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1210,17 +1233,18 @@ public class Commons_DB {
         atualiza = setObjeto(docObj,"occHome","N/A", atualiza);
         atualiza = setObjeto(docObj,"extension","N/A", atualiza);
 
-        if (atualiza){
+        if (atualiza) {
             docObj.remove("_id");
             doc.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("estimated", doc, setQuery, mongo);
-            if (fechaMongo){
+            if (fechaMongo) {
                 mongo.close();
             }
             return docObj;
-        };
-        if (fechaMongo){
+        }
+        ;
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1229,7 +1253,7 @@ public class Commons_DB {
     private BasicDBObject triggerPaymentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1238,7 +1262,7 @@ public class Commons_DB {
 
         BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
-        if (docObj.get("travelId") != null){
+        if (docObj.get("travelId") != null) {
             travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"), mongo);
             if (travel != null) {
                 accomodation.putAll((Map) travel.get("accomodation"));
@@ -1247,10 +1271,10 @@ public class Commons_DB {
 
         Boolean atualiza = false;
 
-        if (docObj.get("vendorType") != null && docObj.get("vendorId") != null){
+        if (docObj.get("vendorType") != null && docObj.get("vendorId") != null) {
             String collection = "family";
             String objectName = "familyName";
-            switch(docObj.getString("vendorType")) {
+            switch (docObj.getString("vendorType")) {
                 case "family":
                     collection = "family";
                     objectName = "familyName";
@@ -1293,16 +1317,17 @@ public class Commons_DB {
         atualiza = triggerObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, atualiza, mongo);
         atualiza = triggerObjeto("priceTable", null, "item", "productName", "name", docObj, atualiza, mongo);
 
-        if (atualiza){
+        if (atualiza) {
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("payment", doc, setQuery, mongo);
-            if (fechaMongo){
+            if (fechaMongo) {
                 mongo.close();
             }
             return docObj;
-        };
-        if (fechaMongo){
+        }
+        ;
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1311,14 +1336,14 @@ public class Commons_DB {
     private BasicDBObject triggerInvoiceDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
-        if (docObj.get("travelId") != null){
+        if (docObj.get("travelId") != null) {
             BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"), mongo);
             if (travel != null) {
                 docObj.put("studentTripId", travel.getString("studentId"));
@@ -1333,11 +1358,11 @@ public class Commons_DB {
         docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
         atualiza = triggerObjeto("city", null, "destinationTripId", "nameCity", "name", docObj, atualiza, mongo);
 
-        String total= "";
-        if (docObj.get("netGross") != null){
-            if (docObj.getString("netGross").equals("net")){
+        String total = "";
+        if (docObj.get("netGross") != null) {
+            if (docObj.getString("netGross").equals("net")) {
                 total = docObj.getString("totalNet");
-            }else{
+            } else {
                 total = docObj.getString("totalGross");
             }
         }
@@ -1349,16 +1374,17 @@ public class Commons_DB {
         }
         atualiza = setObjeto(docObj, "balanceDue", total, atualiza);
 
-        if (atualiza){
+        if (atualiza) {
             docObj.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("invoice", doc, setQuery, mongo);
-            if (fechaMongo){
+            if (fechaMongo) {
                 mongo.close();
             }
             return docObj;
-        };
-        if (fechaMongo){
+        }
+        ;
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1368,7 +1394,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
             fechaMongo = true;
         }
 
@@ -1385,13 +1411,13 @@ public class Commons_DB {
             doc.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("student", doc, setQuery, mongo);
-            if (fechaMongo){
+            if (fechaMongo) {
                 mongo.close();
             }
             return docObj;
-        };
+        }
 
-        if (fechaMongo){
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1401,7 +1427,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
             fechaMongo = true;
         }
 
@@ -1410,8 +1436,8 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
         BasicDBObject accomodation = new BasicDBObject();
         accomodation.putAll((Map) docObj.get("accomodation"));
-        if (accomodation.get("twinEmail") != null){
-            if (!accomodation.getString("twinEmail").equals("")){
+        if (accomodation.get("twinEmail") != null) {
+            if (!accomodation.getString("twinEmail").equals("")) {
                 docObj.put("twinId", obterCrudQuery("student", "documento.email", accomodation.getString("twinEmail"), mongo).get("_id"));
             }
         }
@@ -1438,8 +1464,8 @@ public class Commons_DB {
         atualiza = triggerObjeto("student", null,"twinId","lastNameTwin","lastName", docObj, atualiza, mongo);
 
         String nameTwin = "noTwin";
-        if (docObj.get("firstNameTwin") != null && docObj.get("lastNameTwin") != null){
-            nameTwin =  docObj.getString("firstNameTwin") + " " + docObj.get("lastNameTwin");
+        if (docObj.get("firstNameTwin") != null && docObj.get("lastNameTwin") != null) {
+            nameTwin = docObj.getString("firstNameTwin") + " " + docObj.get("lastNameTwin");
         }
         atualiza = setObjeto(docObj,"nameTwin", nameTwin, atualiza);
 
@@ -1448,7 +1474,7 @@ public class Commons_DB {
         atualiza = setObjeto(docObj,"age",Long.toString(age), atualiza);
 
         String collecion = "homebook";
-        switch(docObj.getString("accControl")) {
+        switch (docObj.getString("accControl")) {
             case "homestay":
                 collecion = "homestayBook";
                 break;
@@ -1462,25 +1488,26 @@ public class Commons_DB {
                 collecion = "homestayBook";
         }
 
-        BasicDBObject dataAllocate = dataAllocate(docObj,collecion, mongo);
+        BasicDBObject dataAllocate = dataAllocate(docObj, collecion, mongo);
         int daysAllocated = dataAllocate.getInt("daysAllocated");
         int allocations = dataAllocate.getInt("allocations");
 
         int daysTrip = 0;
         if (accomodation.get("checkIn") != null && accomodation.get("checkOut") != null) {
             daysTrip = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
-        };
+        }
+
 
         String status = "Available";
         String nextCheckIn = "N/A";
-        if (daysAllocated >= daysTrip){
+        if (daysAllocated >= daysTrip) {
             if (allocations > 1) {
                 status = "Multiple";
-            }else{
+            } else {
                 status = dataAllocate.getString("status");
             }
-        }else{
-            if (daysAllocated != 0){
+        } else {
+            if (daysAllocated != 0) {
                 status = "Partial";
                 nextCheckIn = dataAllocate.getString("nextCheckIn");
             }
@@ -1489,17 +1516,18 @@ public class Commons_DB {
         atualiza = setObjeto(docObj,"nextCheckIn", nextCheckIn, atualiza);
         atualiza = setObjeto(docObj,"uniqueAlocId", dataAllocate.getString("uniqueAlocId"), atualiza);
 
-        if (atualiza){
+        if (atualiza) {
             docObj.remove("_id");
             doc.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("travel", doc, setQuery, mongo);
-            if (fechaMongo){
+            if (fechaMongo) {
                 mongo.close();
             }
             return docObj;
-        };
-        if (fechaMongo){
+        }
+        ;
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1509,7 +1537,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1523,17 +1551,18 @@ public class Commons_DB {
         atualiza = triggerObjeto("family", null,"familyId","familyName","familyName", docObj, atualiza, mongo);
         atualiza = triggerObjeto("family", null,"familyId","contractIssue","contractIssue", docObj, atualiza, mongo);
 
-        if (atualiza){
+        if (atualiza) {
             docObj.remove("_id");
             doc.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("familyDorm", doc, setQuery, mongo);
-            if (fechaMongo){
+            if (fechaMongo) {
                 mongo.close();
             }
             return docObj;
-        };
-        if (fechaMongo){
+        }
+        ;
+        if (fechaMongo) {
             mongo.close();
         }
         return docObj;
@@ -1544,7 +1573,7 @@ public class Commons_DB {
 
         Boolean fechaMongo = false;
         if (mongo == null) {
-            mongo = new MongoClient();
+            mongo = getMongoClient();
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1603,7 +1632,7 @@ public class Commons_DB {
                 daysAllocated = daysAllocated + commons.difDate(allocation.getString("start").substring(0, 10), allocation.getString("end").substring(0, 10));
                 status = getStatusAllocation(allocation);
                 uniqueAlocId = allocation.getString("_id");
-                nextCheckIn = allocation.getString("end").substring(0,10);
+                nextCheckIn = allocation.getString("end").substring(0, 10);
                 ++allocationsNumber;
             }
         }
@@ -1619,58 +1648,58 @@ public class Commons_DB {
     private String getStatusAllocation(BasicDBObject allocation) {
 
         String status = "";
-        if(allocation.get("invite")  == null){
+        if (allocation.get("invite") == null) {
             status = "Allocated";
-        }else{
-            if(allocation.getString("invite").equals("")){
+        } else {
+            if (allocation.getString("invite").equals("")) {
                 status = "Allocated";
             }
-            if(allocation.getString("invite").equals("pendent")){
+            if (allocation.getString("invite").equals("pendent")) {
                 status = "Offered";
             }
-            if(allocation.getString("invite").equals("no")){
+            if (allocation.getString("invite").equals("no")) {
                 status = "Refused";
             }
             if (allocation.getString("invite").equals("yes")) {
                 status = "Confirmed";
             }
         }
-        if(allocation.get("allocate")  != null) {
+        if (allocation.get("allocate") != null) {
             if (allocation.getString("allocate").equals("confirmed")) {
                 status = "Confirmed";
             }
         }
-        if(allocation.get("emailSent")  != null) {
+        if (allocation.get("emailSent") != null) {
             if (allocation.getString("emailSent").equals("sent")) {
                 status = "Documents";
             }
         }
-        if(allocation.get("checkedIn")  != null) {
+        if (allocation.get("checkedIn") != null) {
             if (allocation.getString("checkedIn").equals("true")) {
                 status = "Checked in";
             }
         }
-        if(allocation.get("checkedOut")  != null) {
+        if (allocation.get("checkedOut") != null) {
             if (allocation.getString("checkedOut").equals("true")) {
                 status = "Checked out";
             }
         }
-        if(allocation.get("inspection")  != null) {
+        if (allocation.get("inspection") != null) {
             if (allocation.getString("inspection").equals("true")) {
                 status = "Inspected";
             }
         }
-        if(allocation.get("reviewed")  != null) {
+        if (allocation.get("reviewed") != null) {
             if (allocation.getString("reviewed").equals("true")) {
                 status = "Reviewed";
             }
         }
-        if(allocation.get("archived")  != null) {
+        if (allocation.get("archived") != null) {
             if (allocation.getString("archived").equals("true")) {
                 status = "Archived";
             }
         }
-        if(allocation.get("ativo")  != null) {
+        if (allocation.get("ativo") != null) {
             if (allocation.getString("ativo").equals("inativo")) {
                 status = "Deleted";
             }
@@ -1697,7 +1726,7 @@ public class Commons_DB {
 
         if (!atualiza) {
             atualiza = verificaObjeto(collection, group, nameId, nameFinalTable, nameOriginTable, docObj, mongo);
-        }else{
+        } else {
             verificaObjeto(collection, group, nameId, nameFinalTable, nameOriginTable, docObj, mongo);
         }
 
@@ -1747,13 +1776,14 @@ public class Commons_DB {
 
         return false;
 
-    };
+    }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public BasicDBObject triggerInsert(BasicDBObject doc, String collectionName, BasicDBObject setQuery) throws UnknownHostException {
 
         BasicDBObject result = new BasicDBObject();
-        switch(collectionName) {
+        switch (collectionName) {
             case "invoice":
                 triggerInsertInvoice(doc, setQuery);
                 break;
@@ -1780,22 +1810,24 @@ public class Commons_DB {
         setQuery.put("_id", idObj);
         return setQuery;
 
-    };
+    }
+
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
     public ResponseEntity atualizarCrudTrigger(String collectionName, BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException, MongoException {
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
         doc.put("lastTriggerChange", commons.todaysDate("yyyy-mm-dd"));
         Document docUpdate = new Document();
         docUpdate.putAll((Map) doc);
-        collection.replaceOne(setQuery,docUpdate);
+        collection.replaceOne(setQuery, docUpdate);
         return ResponseEntity.ok().body("true");
-    };
+    }
 
-    public ResponseEntity listaCrudTrigger(String collectionName, BasicDBObject setQuery, BasicDBObject setSort,  MongoClient mongo) throws UnknownHostException, MongoException {
 
-        MongoDatabase db = mongo.getDatabase(commons.getProperties().get("database").toString());
+    public ResponseEntity listaCrudTrigger(String collectionName, BasicDBObject setQuery, BasicDBObject setSort, MongoClient mongo) throws UnknownHostException, MongoException {
+
+        MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         FindIterable<Document> cursor = collection.find(setQuery).sort(setSort);
@@ -1807,12 +1839,14 @@ public class Commons_DB {
                 docObj.putAll((Map) current.get("documento"));
                 docObj.put("_id", current.get("_id").toString());
                 documentos.add(docObj);
-            };
+            }
             return ResponseEntity.ok().body(documentos);
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
-};
-
+    public static MongoClient getMongoClient() {
+        return new MongoClient(HOST);
+    }
+}

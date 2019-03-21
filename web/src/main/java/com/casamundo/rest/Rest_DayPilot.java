@@ -30,7 +30,7 @@ public class Rest_DayPilot {
 			) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null &&  cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null) {
-			MongoClient mongo = new MongoClient();
+			MongoClient mongo = Commons_DB.getMongoClient();
 			BasicDBObject result =  dayPilot.montaHomeStay(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, mongo);
 			mongo.close();
 
@@ -54,7 +54,7 @@ public class Rest_DayPilot {
 	) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null &&  cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null && filtroIdIV != null) {
-			MongoClient mongo = new MongoClient();
+			MongoClient mongo = Commons_DB.getMongoClient();
 			BasicDBObject result =  dayPilot.montaShared(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, mongo);
 			mongo.close();
 			return result;
@@ -77,7 +77,7 @@ public class Rest_DayPilot {
 	) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null &&  cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null && filtroIdIV != null) {
-			MongoClient mongo = new MongoClient();
+			MongoClient mongo = Commons_DB.getMongoClient();
 			BasicDBObject result =  dayPilot.montaSuite(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, mongo);
 			mongo.close();
 			return result;

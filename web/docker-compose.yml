@@ -1,0 +1,12 @@
+version: '3'
+services:
+  casamundo-api:
+    build: .
+    depends_on:
+      - casamundo-mongo
+    ports:
+      - "8080:8080"
+  casamundo-mongo:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"
