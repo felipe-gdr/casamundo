@@ -890,7 +890,7 @@ public class Payment {
                 ++i;
             }
         }
-
+/*
         response = commons_db.listaCrudSkip("estimated", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
         retorno = new BasicDBObject();
         if ((response.getStatusCode() == HttpStatus.OK)) {
@@ -909,9 +909,9 @@ public class Payment {
                 ++w;
             }
         }
-
-
         ArrayList<Object> finalResult = commons.addArray(payments, estimateds);
+*/
+        ArrayList<Object> finalResult = payments;
         result.put("data", finalResult);
         result.put("recordsFiltered", countFiltered);
         result.put("recordsTotal", count);

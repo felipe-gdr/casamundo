@@ -46,6 +46,7 @@ public class Travel {
             result.put("data", travels);
             result.put("recordsFiltered", retorno.get("countFiltered"));
             result.put("recordsTotal", retorno.get("count"));
+
             int i = 0;
             while (retorno.get("yadcf_data_" + i) != null){
                 result.put("yadcf_data_" + i, retorno.get("yadcf_data_" + i));

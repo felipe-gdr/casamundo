@@ -89,6 +89,22 @@ public class Commons {
 		return false;
 	};
 
+	public Boolean comparaDataTime (String dataIni, String dataFim){
+
+		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd'T'HH:mm:ss");
+		try {
+			Date d1 = df.parse (dataIni);
+			Date d2 = df.parse (dataFim);
+			if (d1.after(d2)){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	};
 	@SuppressWarnings("null")
 	public int difDate (String start, String end){
 		
@@ -311,10 +327,8 @@ public class Commons {
 		for (int w = 0; w < array.size(); w++) {
 			if (array.get(w).equals(elemento)) {
 				return true;
-			}
-			;
-		}
-		;
+			};
+		};
 		return false;
 	};
 
@@ -698,6 +712,17 @@ public class Commons {
 		ArrayList<Object> result = arrayA;
 
 		for (Object array:arrayB) {
+			result.add(array);
+		}
+
+		return result;
+
+	}
+	public ArrayList<BasicDBObject> addArrayBasicDBObject(ArrayList<BasicDBObject> arrayA, ArrayList<BasicDBObject> arrayB) {
+
+		ArrayList<BasicDBObject> result = arrayA;
+
+		for (BasicDBObject array:arrayB) {
 			result.add(array);
 		}
 
