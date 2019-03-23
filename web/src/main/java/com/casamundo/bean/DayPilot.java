@@ -859,8 +859,10 @@ public class DayPilot {
 
                 ArrayList<BasicDBObject> sharedPeriods = new ArrayList();
                 sharedPeriods = (ArrayList) docObj.get("sharedPeriods");
-                for (BasicDBObject sharedPeriod:sharedPeriods) {
-                    resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriod.getString("start"), sharedPeriod.getString("end"), "Shared Period", "P");
+                for (Object sharedPeriod : sharedPeriods) {
+                    BasicDBObject sharedPeriodObj = new BasicDBObject();
+                    sharedPeriodObj.putAll((Map) sharedPeriod);
+                    resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriodObj.getString("start"), sharedPeriodObj.getString("end"), "Shared Period", "P");
                 }
 
                 String startOut = start;

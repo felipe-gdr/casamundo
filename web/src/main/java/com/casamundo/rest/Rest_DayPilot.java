@@ -63,7 +63,7 @@ public class Rest_DayPilot {
 
 	}
 
-	@RequestMapping(value = "/monta/suit", produces = "application/json")
+	@RequestMapping(value = "/monta/suite", produces = "application/json")
 	public BasicDBObject montaSuit(
 			@RequestParam(value = "start", required=false) String start,
 			@RequestParam(value = "end", required=false) String end,
