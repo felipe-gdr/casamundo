@@ -844,8 +844,8 @@ public class DayPilot {
                 result.put("buildName",docObj.getString("buildName"));
                 result.put("unit",docObj.getString("unit"));
                 result.put("resource",docObj.getString("id"));
-                result.put("resourceType",docObj.getString("bed"));
-                result.put("_id",docObj.get("_id"));
+                result.put("resourceType","ap");
+                result.put("_id",doc.get("_id"));
                 result.put("vendorName",docObj.getString("vendorName"));
                 ArrayList columns = new ArrayList();
                 BasicDBObject column = new BasicDBObject();
