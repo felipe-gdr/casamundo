@@ -1,21 +1,14 @@
 package com.casamundo.rest;
 
 import com.casamundo.bean.DayPilot;
-import com.casamundo.bean.Invoice;
-import com.casamundo.bean.Payment;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
-import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/daypilot")
@@ -98,7 +91,35 @@ public class Rest_DayPilot {
 	public BasicDBObject resizeCheckHomestay(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
 
 		if (params != null) {
-			return dayPilot.resizeCheck(params);
+			return dayPilot.resizeCheck(params, "homestayBook");
+		};
+		BasicDBObject result = new BasicDBObject();
+		result.put("allow", "false");
+		result.put("reason", "No parameters");
+		return result;
+
+	};
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping(value = "/resize/check/shared", consumes = "application/json")
+	public BasicDBObject resizeCheckShared(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
+
+		if (params != null) {
+			return dayPilot.resizeCheck(params, "sharedBook");
+		};
+		BasicDBObject result = new BasicDBObject();
+		result.put("allow", "false");
+		result.put("reason", "No parameters");
+		return result;
+
+	};
+
+	@SuppressWarnings("rawtypes")
+	@PostMapping(value = "/resize/check/suite", consumes = "application/json")
+	public BasicDBObject resizeCheckSuite(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
+
+		if (params != null) {
+			return dayPilot.resizeCheck(params, "suiteBook");
 		};
 		BasicDBObject result = new BasicDBObject();
 		result.put("allow", "false");

@@ -395,8 +395,6 @@ public class DayPilot {
             }
         }
 
-        setQuery = montafiltroShared(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
-
         response = commons_db.listaCrudQuery("sharedBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
@@ -409,6 +407,21 @@ public class DayPilot {
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
                 docObj = commons_db.triggerDinamicData(doc, "sharedBook", commons_db.montaSetQuery(doc.getString("_id")),mongo);
+            }
+        }
+
+        response = commons_db.listaCrudQuery("unSharedBook", null, null, userId, setQuery, null, false, mongo);
+
+        arrayList = new ArrayList<Object>();
+        arrayList = (JSONArray) response.getBody();
+
+        if (arrayList != null) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) arrayList.get(i));
+                BasicDBObject docObj = new BasicDBObject();
+                docObj.putAll((Map) doc.get("documento"));
+                docObj = commons_db.triggerDinamicData(doc, "unSharedBook", commons_db.montaSetQuery(doc.getString("_id")),mongo);
             }
         }
 
@@ -470,7 +483,7 @@ public class DayPilot {
                     for (Object suitePeriod : suitePeriods) {
                         BasicDBObject suitePeriodObj = new BasicDBObject();
                         suitePeriodObj.putAll((Map) suitePeriod);
-                        resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suit Period");
+                        resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suit Period", "P");
                     }
                 }
                 if (docObj.getString("id").equals("105")){
@@ -486,29 +499,29 @@ public class DayPilot {
                 }
                 if (docObj.get("startDate") != null) {
                     if (commons.comparaData(end, docObj.getString("endDate")) &&
-                            commons.comparaData(docObj.getString("endDate"), start)) {
+                            commons.comparaData(docObj.getString("endDate"), commons.calcNewDate(start, -1))) {
                         endOut = docObj.getString("endDate");
                     }
                 }
                 if (docObj.get("endDate") != null) {
                     if (commons.comparaData(start, docObj.getString("endDate"))) {
-                        resultListEventII = montaEventShared(resultListEventII, docObj, start, end, "Out of contract");
+                        resultListEventII = montaEventShared(resultListEventII, docObj, start, end, "Out of contract", "O");
                     }
                 }
                 if (docObj.get("startDate") != null) {
                     if (commons.comparaData(docObj.getString("startDate"), end)) {
-                        resultListEventII = montaEventShared(resultListEventII, docObj, start, end, "Out of contract");
+                        resultListEventII = montaEventShared(resultListEventII, docObj, start, end, "Out of contract", "O");
                     }
                 }
                 if (!start.equals(startOut) && end.equals(endOut)) {
-                    resultListEventII = montaEventShared(resultListEventII, docObj, start, startOut, "Out of contract");
+                    resultListEventII = montaEventShared(resultListEventII, docObj, start, startOut, "Out of contract", "O");
                 }
                 if (start.equals(startOut) && !end.equals(endOut)) {
-                    resultListEventII = montaEventShared(resultListEventII, docObj, endOut, end, "Out of contract");
+                    resultListEventII = montaEventShared(resultListEventII, docObj, endOut, end, "Out of contract", "O");
                 }
                 if (!start.equals(startOut) && !end.equals(endOut)) {
-                    resultListEventII = montaEventShared(resultListEventII, docObj, start, startOut, "Out of contract");
-                    resultListEventII = montaEventShared(resultListEventII, docObj, endOut, end, "Out of contract");
+                    resultListEventII = montaEventShared(resultListEventII, docObj, start, startOut, "Out of contract", "O");
+                    resultListEventII = montaEventShared(resultListEventII, docObj, endOut, end, "Out of contract", "O");
                 }
             }
         }
@@ -617,12 +630,6 @@ public class DayPilot {
         setQuery.put("documento.companyId", companyId );
         setQuery.put("documento.ativo", "ativo" );
         setQuery.put("documento.city", city );
-        setConditionStart = new BasicDBObject();
-        setConditionStart.put("$gte", start + "T12:00:00");
-        setConditionEnd = new BasicDBObject();
-        setConditionEnd.put("$lte", end);
-        setQuery.put("documento.unavailables.start", setConditionStart);
-        setQuery.put("documento.unavailables.end", setConditionEnd);
 
         response = commons_db.listaCrudQuery("unSharedBook", null, null, userId, setQuery, null, false, mongo);
 
@@ -635,16 +642,16 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                BasicDBObject unSharedBook = new BasicDBObject();
                 BasicDBObject result = new BasicDBObject();
-                result.put("resource", docObj.get("id"));
-                result.put("start",unSharedBook.get("start"));
-                result.put("end",unSharedBook.get("end"));
-                result.put("id",unSharedBook.get("id"));
+                result.put("resource", docObj.get("resource"));
+                result.put("resourceType", docObj.get("resourceType"));
+                result.put("start",docObj.get("start"));
+                result.put("end",docObj.get("end"));
+                result.put("id","u" + docObj.get("id"));
                 result.put("text","Unavailable");
-                result.put("resizeDisabled",true);
-                result.put("moveDisabled",true);
-                result.put("deleteDisabled",true);
+                result.put("resizeDisabled",false);
+                result.put("moveDisabled",false);
+                result.put("deleteDisabled",false);
                 result.put("barHidden",true);
                 result.put("backColor","#8e8e8e");
                 result.put("fontColor","#ffffff");
@@ -717,7 +724,6 @@ public class DayPilot {
             result.put("checkIn",accomodation.get("checkIn"));
             result.put("checkOut",accomodation.get("checkOut"));
         }
-        result.put("studentIdTravel",docObj.get("studentIdTravel"));
         if (docObj.get("allocate") != null) {
             result.put("allocate", docObj.get("allocate"));
         }else{
@@ -734,13 +740,13 @@ public class DayPilot {
         return resultListBook;
     }
 
-    private ArrayList<BasicDBObject> montaEventShared(ArrayList<BasicDBObject> resultListEventII, BasicDBObject docObj, String start, String end, String text) {
+    private ArrayList<BasicDBObject> montaEventShared(ArrayList<BasicDBObject> resultListEventII, BasicDBObject docObj, String start, String end, String text, String letter) {
 
 	    BasicDBObject result = new BasicDBObject();
         result.put("resource", docObj.get("id"));
         result.put("start", start);
         result.put("end", end);
-        result.put("id", docObj.get("id"));
+        result.put("id", letter + docObj.get("id"));
         result.put("text", text);
         result.put("resizeDisabled", true);
         result.put("moveDisabled", true);
@@ -768,7 +774,7 @@ public class DayPilot {
         return result;
     }
 
-    public BasicDBObject montaSuite(String companyId, String userId, String start, String end, String city, String filtroIdI, String filtroIdII, String filtroIdIII, String filtroIdIv, MongoClient mongo) throws UnknownHostException {
+    public BasicDBObject montaSuite(String companyId, String userId, String start, String end, String city, String filtroIdI, String filtroIdII, String filtroIdIII, String filtroIdIV, MongoClient mongo) throws UnknownHostException {
 
         ArrayList<BasicDBObject> resultListBook = new ArrayList<BasicDBObject>();
         ArrayList<BasicDBObject> resultListEventI = new ArrayList<BasicDBObject>();
@@ -778,18 +784,7 @@ public class DayPilot {
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.put("documento.companyId", companyId );
 
-        if (!filtroIdI.equals("") && !filtroIdII.equals("")) {
-            BasicDBList or = new BasicDBList();
-            DBObject clause = new BasicDBObject("documento.familyId", filtroIdI);
-            or.add(clause);
-            clause = new BasicDBObject("documento.familyId", filtroIdII);
-            or.add(clause);
-            setQuery.put("$or", or);
-        }else{
-            if (!filtroIdI.equals("")) {
-                setQuery.put("documento.familyId", filtroIdI );
-            }
-        }
+        setQuery = montafiltroShared(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
 
         ResponseEntity response = commons_db.listaCrudQuery("apartment", null, null, userId, setQuery, null, false, mongo);
 
@@ -825,18 +820,7 @@ public class DayPilot {
         setQuery.put("documento.companyId", companyId );
         setQuery.put("documento.city", city );
 
-        if (!filtroIdI.equals("") && !filtroIdII.equals("")) {
-            BasicDBList or = new BasicDBList();
-            DBObject clause = new BasicDBObject("documento.familyId", filtroIdI);
-            or.add(clause);
-            clause = new BasicDBObject("documento.familyId", filtroIdII);
-            or.add(clause);
-            setQuery.put("$or", or);
-        }else{
-            if (!filtroIdI.equals("")) {
-                setQuery.put("documento.familyId", filtroIdI );
-            }
-        }
+        setQuery = montafiltroShared(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
 
         BasicDBObject setSort = new BasicDBObject();
         setSort.put("documento.buildName", 1);
@@ -875,8 +859,8 @@ public class DayPilot {
 
                 ArrayList<BasicDBObject> sharedPeriods = new ArrayList();
                 sharedPeriods = (ArrayList) docObj.get("sharedPeriods");
-                for (BasicDBObject suitePeriod:sharedPeriods) {
-                    resultListEventI = montaEventSuit(resultListEventI, docObj, suitePeriod.getString("start"), suitePeriod.getString("end"), "Suit Period");
+                for (BasicDBObject sharedPeriod:sharedPeriods) {
+                    resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriod.getString("start"), sharedPeriod.getString("end"), "Shared Period", "P");
                 }
 
                 String startOut = start;
@@ -889,25 +873,25 @@ public class DayPilot {
                 }
                 if (docObj.get("startDate") != null) {
                     if (commons.comparaData(end, docObj.getString("endDate")) &&
-                            commons.comparaData(docObj.getString("endDate"), start)) {
+                            commons.comparaData(docObj.getString("endDate"), commons.calcNewDate(start, -1))) {
                         endOut = docObj.getString("endDate");
                     }
                 }
                 if (docObj.get("endDate") != null) {
                     if (commons.comparaData(start, docObj.getString("endDate"))) {
-                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract");
+                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
                     }
                 }
                 if (docObj.get("startDate") != null) {
                     if (commons.comparaData(docObj.getString("startDate"), end)) {
-                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract");
+                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
                     }
                 }
                 if (!start.equals(startOut) && end.equals(endOut)) {
-                    resultListEventII = montaEventSuit(resultListEventII, docObj, start, startOut, "Out of contract");
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, start, startOut, "Out of contract", "O");
                 }
                 if (start.equals(startOut) && !end.equals(endOut)) {
-                    resultListEventII = montaEventSuit(resultListEventII, docObj, endOut, end, "Out of contract");
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, endOut, end, "Out of contract", "O");
                 }
             }
         }
@@ -1016,25 +1000,6 @@ public class DayPilot {
         setQuery.put("documento.companyId", companyId );
         setQuery.put("documento.ativo", "ativo" );
         setQuery.put("documento.city", city );
-        setConditionStart = new BasicDBObject();
-        setConditionStart.put("$gte", start + "T12:00:00");
-        setConditionEnd = new BasicDBObject();
-        setConditionEnd.put("$lte", end);
-        setQuery.put("documento.unavailables.start", setConditionStart);
-        setQuery.put("documento.unavailables.end", setConditionEnd);
-
-        if (!filtroIdI.equals("") && !filtroIdII.equals("")) {
-            BasicDBList or = new BasicDBList();
-            DBObject clause = new BasicDBObject("documento.familyId", filtroIdI);
-            or.add(clause);
-            clause = new BasicDBObject("documento.familyId", filtroIdII);
-            or.add(clause);
-            setQuery.put("$or", or);
-        }else{
-            if (!filtroIdI.equals("")) {
-                setQuery.put("documento.familyId", filtroIdI );
-            }
-        }
 
         response = commons_db.listaCrudQuery("unSharedBook", null, null, userId, setQuery, null, false, mongo);
 
@@ -1049,66 +1014,15 @@ public class DayPilot {
                 docObj.putAll((Map) doc.get("documento"));
                 BasicDBObject unSharedBook = new BasicDBObject();
                 BasicDBObject result = new BasicDBObject();
-                result.put("resource", docObj.get("id"));
+                result.put("resource", docObj.get("resource"));
+                result.put("resourceType", docObj.get("resourceType"));
                 result.put("start",unSharedBook.get("start"));
                 result.put("end",unSharedBook.get("end"));
                 result.put("id",unSharedBook.get("id"));
                 result.put("text","Unavailable");
-                result.put("resizeDisabled",true);
-                result.put("moveDisabled",true);
-                result.put("deleteDisabled",true);
-                result.put("barHidden",true);
-                result.put("backColor","#8e8e8e");
-                result.put("fontColor","#ffffff");
-                resultListEventI.add(result);
-            }
-        }
-
-        setQuery = new BasicDBObject();
-        setQuery.put("documento.companyId", companyId );
-        setQuery.put("documento.ativo", "ativo" );
-        setQuery.put("documento.city", city );
-        setConditionStart = new BasicDBObject();
-        setConditionStart.put("$gte", start + "T12:00:00");
-        setConditionEnd = new BasicDBObject();
-        setConditionEnd.put("$lte", end);
-        setQuery.put("documento.unavailables.start", setConditionStart);
-        setQuery.put("documento.unavailables.end", setConditionEnd);
-
-        if (!filtroIdI.equals("") && !filtroIdII.equals("")) {
-            BasicDBList or = new BasicDBList();
-            DBObject clause = new BasicDBObject("documento.familyId", filtroIdI);
-            or.add(clause);
-            clause = new BasicDBObject("documento.familyId", filtroIdII);
-            or.add(clause);
-            setQuery.put("$or", or);
-        }else{
-            if (!filtroIdI.equals("")) {
-                setQuery.put("documento.familyId", filtroIdI );
-            }
-        }
-
-        response = commons_db.listaCrud("unSharedBook", null, null, userId, setQuery, null, false);
-
-        arrayList = new ArrayList<Object>();
-        arrayList = (JSONArray) response.getBody();
-
-        if (arrayList != null) {
-            for (int i = 0; i < arrayList.size(); i++) {
-                BasicDBObject doc = new BasicDBObject();
-                doc.putAll((Map) arrayList.get(i));
-                BasicDBObject docObj = new BasicDBObject();
-                docObj.putAll((Map) doc.get("documento"));
-                BasicDBObject unSharedBook = new BasicDBObject();
-                BasicDBObject result = new BasicDBObject();
-                result.put("resource", docObj.get("id"));
-                result.put("start",unSharedBook.get("start"));
-                result.put("end",unSharedBook.get("end"));
-                result.put("id",unSharedBook.get("id"));
-                result.put("text","Unavailable");
-                result.put("resizeDisabled",true);
-                result.put("moveDisabled",true);
-                result.put("deleteDisabled",true);
+                result.put("resizeDisabled",false);
+                result.put("moveDisabled",false);
+                result.put("deleteDisabled",false);
                 result.put("barHidden",true);
                 result.put("backColor","#8e8e8e");
                 result.put("fontColor","#ffffff");
@@ -1155,7 +1069,6 @@ public class DayPilot {
             result.put("checkIn",accomodation.get("checkIn"));
             result.put("checkOut",accomodation.get("checkOut"));
         }
-        result.put("studentIdTravel",docObj.get("studentIdTravel"));
         if (docObj.get("allocate") != null) {
             result.put("allocate", docObj.get("allocate"));
         }else{
@@ -1172,13 +1085,13 @@ public class DayPilot {
         return resultListBook;
     }
 
-    private ArrayList<BasicDBObject> montaEventSuit(ArrayList<BasicDBObject> resultListEvent, BasicDBObject docObj, String start, String end, String text) {
+    private ArrayList<BasicDBObject> montaEventSuit(ArrayList<BasicDBObject> resultListEvent, BasicDBObject docObj, String start, String end, String text, String letter) {
 
         BasicDBObject result = new BasicDBObject();
         result.put("resource", docObj.get("id"));
         result.put("start", start);
         result.put("end", end);
-        result.put("id", docObj.get("id"));
+        result.put("id", letter + docObj.get("id"));
         result.put("text", text);
         result.put("resizeDisabled", true);
         result.put("moveDisabled", true);
@@ -1227,7 +1140,7 @@ public class DayPilot {
 
     }
 
-    public BasicDBObject resizeCheck(BasicDBObject paramsInput) throws UnknownHostException {
+    public BasicDBObject resizeCheck(BasicDBObject paramsInput, String collection) throws UnknownHostException {
 
 	    BasicDBObject data = new BasicDBObject();
         if (paramsInput.get("data") != null) {
@@ -1250,7 +1163,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.start", setCondition);
 
-            ResponseEntity response = commons_db.listaCrud("homestayBook", null, null, params.getString("userId"), setQuery, null, false);
+            ResponseEntity response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
 
             ArrayList arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1278,7 +1191,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.end", setCondition);
 
-            response = commons_db.listaCrud("homestayBook", null, null, params.getString("userId"), setQuery, null, false);
+            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
 
             arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1309,7 +1222,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.start", setCondition);
 
-            ResponseEntity response = commons_db.listaCrud("homestayBook", null, null, params.getString("userId"), setQuery, null, false);
+            ResponseEntity response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
 
             ArrayList arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1339,7 +1252,7 @@ public class DayPilot {
             setCondition.put("$gte", params.getString("newEnd"));
             setQuery.put("documento.end", setCondition);
 
-            response = commons_db.listaCrud("homestayBook", null, null, params.getString("userId"), setQuery, null, false);
+            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
 
             arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1368,7 +1281,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.end", setCondition);
 
-            response = commons_db.listaCrud("homestayBook", null, null, params.getString("userId"), setQuery, null, false);
+            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
 
             arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();

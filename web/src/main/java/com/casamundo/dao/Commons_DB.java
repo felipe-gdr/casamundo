@@ -948,6 +948,9 @@ public class Commons_DB {
             case "sharedBook":
                 result = triggerSharedDinamicData(doc, setQuery, mongo);
                 break;
+            case "unSharedBook":
+                result = triggerUnSharedDinamicData(doc, setQuery, mongo);
+                break;
             case "suiteBook":
                 result = triggerSuiteDinamicData(doc, setQuery, mongo);
                 break;
@@ -1041,7 +1044,6 @@ public class Commons_DB {
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
-
         Boolean atualiza = false;
         atualiza = triggerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
         atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
@@ -1054,6 +1056,41 @@ public class Commons_DB {
             doc.remove("_id");
             doc.put("documento", docObj);
             atualizarCrudTrigger("sharedBook", doc, setQuery, mongo);
+            if (fechaMongo){
+                mongo.close();
+            }
+            return docObj;
+        };
+        if (fechaMongo){
+            mongo.close();
+        }
+        return docObj;
+    }
+
+    private BasicDBObject triggerUnSharedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
+
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = new MongoClient();
+        }
+
+        BasicDBObject docObj = new BasicDBObject();
+        docObj.putAll((Map) doc.get("documento"));
+        docObj.put("_id", doc.get("_id"));
+
+
+        Boolean atualiza = false;
+        atualiza = triggerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
+        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
+        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
+        atualiza = triggerObjeto("travel", null, "studentId", "city", "destination", docObj, atualiza, mongo);
+        atualiza = triggerObjeto("student", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
+
+        if (atualiza){
+            docObj.remove("_id");
+            doc.remove("_id");
+            doc.put("documento", docObj);
+            atualizarCrudTrigger("unSharedBook", doc, setQuery, mongo);
             if (fechaMongo){
                 mongo.close();
             }
@@ -1672,16 +1709,27 @@ public class Commons_DB {
         String objectName = "";
         if (docObj.get(id) != null){
             if (!docObj.getString(id).equals("")){
-                BasicDBObject docOriginal = obterCrudQuery(collection, "_id", docObj.getString(id), mongo);
+                BasicDBObject docOriginal = new BasicDBObject();
+                if (group != null) {
+                    if (group.equals("documento")) {
+                        docOriginal = obterCrudQuery(collection, "documento." + id + id, docObj.getString(id), mongo);
+                    }else{
+                        docOriginal = obterCrudQuery(collection, "_id", docObj.getString(id), mongo);
+                    }
+                }else {
+                    docOriginal = obterCrudQuery(collection, "_id", docObj.getString(id), mongo);
+                }
                 if (docOriginal != null) {
                     if (docOriginal.get(originalName) != null) {
                         objectName = docOriginal.getString(originalName);
                     }
                     if (group != null) {
-                        BasicDBObject groupOriginal = new BasicDBObject();
-                        groupOriginal.putAll((Map) docOriginal.get(group));
-                        if (groupOriginal.get(originalName) != null) {
-                            objectName = groupOriginal.getString(originalName);
+                        if (!group.equals("documento")) {
+                            BasicDBObject groupOriginal = new BasicDBObject();
+                            groupOriginal.putAll((Map) docOriginal.get(group));
+                            if (groupOriginal.get(originalName) != null) {
+                                objectName = groupOriginal.getString(originalName);
+                            }
                         }
                     }
                     if (docObj.get(name) != null) {
