@@ -6,6 +6,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
@@ -784,7 +785,7 @@ public class DayPilot {
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.put("documento.companyId", companyId );
 
-        setQuery = montafiltroShared(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
+        setQuery = montafiltroSuite(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
 
         ResponseEntity response = commons_db.listaCrudQuery("apartment", null, null, userId, setQuery, null, false, mongo);
 
@@ -820,7 +821,7 @@ public class DayPilot {
         setQuery.put("documento.companyId", companyId );
         setQuery.put("documento.city", city );
 
-        setQuery = montafiltroShared(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
+        setQuery = montafiltroSuite(filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, setQuery);
 
         BasicDBObject setSort = new BasicDBObject();
         setSort.put("documento.buildName", 1);
@@ -842,6 +843,7 @@ public class DayPilot {
                 BasicDBObject result = new BasicDBObject();
                 result.put("id",docObj.getString("id"));
                 result.put("buildName",docObj.getString("buildName"));
+                result.put("name",docObj.getString("buildName"));
                 result.put("unit",docObj.getString("unit"));
                 result.put("resource",docObj.getString("id"));
                 result.put("resourceType","ap");
@@ -1003,7 +1005,7 @@ public class DayPilot {
         setQuery.put("documento.ativo", "ativo" );
         setQuery.put("documento.city", city );
 
-        response = commons_db.listaCrudQuery("unSharedBook", null, null, userId, setQuery, null, false, mongo);
+        response = commons_db.listaCrudQuery("unSuiteBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
         arrayList = (JSONArray) response.getBody();
@@ -1014,13 +1016,12 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                BasicDBObject unSharedBook = new BasicDBObject();
                 BasicDBObject result = new BasicDBObject();
                 result.put("resource", docObj.get("resource"));
                 result.put("resourceType", docObj.get("resourceType"));
-                result.put("start",unSharedBook.get("start"));
-                result.put("end",unSharedBook.get("end"));
-                result.put("id",unSharedBook.get("id"));
+                result.put("start",docObj.get("start"));
+                result.put("end",docObj.get("end"));
+                result.put("id","u"+ docObj.get("id"));
                 result.put("text","Unavailable");
                 result.put("resizeDisabled",false);
                 result.put("moveDisabled",false);
@@ -1041,6 +1042,35 @@ public class DayPilot {
         finalResult = commons.addArrayBasicDBObject(finalResult, resultListEventIII);
         result.put("events", finalResult);
         return result;
+    }
+
+    private BasicDBObject montafiltroSuite(String filtroIdI, String filtroIdII, String filtroIdIII, String filtroIdIV, BasicDBObject setQuery){
+
+        BasicDBList or = new BasicDBList();
+        DBObject clause = new BasicDBObject();
+        if (!filtroIdI.equals("") && filtroIdII.equals("")) {
+            clause = new BasicDBObject("documento.buildingId", filtroIdI);
+            or.add(clause);
+        }
+        if (!filtroIdII.equals("")) {
+            ObjectId filtroIdIIObj = new ObjectId(filtroIdII);
+            clause = new BasicDBObject("_id", filtroIdIIObj);
+            or.add(clause);
+        }
+        if (!filtroIdIII.equals("")  && filtroIdIV.equals("")) {
+            clause = new BasicDBObject("documento.buildingId", filtroIdIII);
+            or.add(clause);
+        }
+        if (!filtroIdIV.equals("")) {
+            ObjectId filtroIdIVObj = new ObjectId(filtroIdIV);
+            clause = new BasicDBObject("_id", filtroIdIVObj);
+            or.add(clause);
+        }
+        if (or.size() > 0) {
+            setQuery.put("$or", or);
+        }
+        return setQuery;
+
     }
 
     private ArrayList<BasicDBObject> montaBookSuit(ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
