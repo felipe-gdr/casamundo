@@ -58,10 +58,6 @@ public class Commons_DB {
         }
     }
 
-    private MongoDatabase getDatabase(MongoClient mongo) {
-        return mongo.getDatabase(commons.getProperties().get("database").toString());
-    }
-
     public ResponseEntity obterId(String collectionName) throws UnknownHostException, MongoException {
         MongoClient mongo = getMongoClient();
         MongoDatabase db = getDatabase(mongo);
@@ -1849,4 +1845,9 @@ public class Commons_DB {
     public static MongoClient getMongoClient() {
         return new MongoClient(HOST);
     }
+    
+    private MongoDatabase getDatabase(MongoClient mongo) {
+        return mongo.getDatabase(commons.getProperties().get("database").toString());
+    }
+
 }
