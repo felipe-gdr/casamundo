@@ -31,7 +31,7 @@ public class Rest_Teste {
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/teste", produces = "application/json")
 	public void teste() {
-		MongoClient mongoClient = new MongoClient();
+		MongoClient mongoClient = Commons_DB.getMongoClient();
 		MongoDatabase database = mongoClient.getDatabase("documento");
 		MongoCollection<Document> collection = database.getCollection("student");
 		collection.aggregate(Arrays.asList(Aggregates.match(Filters.eq("documento.gender", "Male"))
@@ -45,7 +45,7 @@ public class Rest_Teste {
 			@RequestParam(value = "collectionName") String collectionName
 
 			) throws UnknownHostException {
-        MongoClient mongoClient = new MongoClient();
+        MongoClient mongoClient = Commons_DB.getMongoClient();
         MongoDatabase database = mongoClient.getDatabase("documento");
         MongoCollection<Document> collection = database.getCollection(collectionName);
         return commons_db.teste(0, 50,collectionName);
