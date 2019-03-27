@@ -1287,6 +1287,15 @@ public class Commons_DB {
                     collection = "vendor";
                     objectName = "name";
                     break;
+                case "shared":
+                    collection = "vendor";
+                    objectName = "name";
+                    break;
+                case "suite":
+                    collection = "vendor";
+                    objectName = "name";
+                    break;
+
                 default:
                     // code block
             }
