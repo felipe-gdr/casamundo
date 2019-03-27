@@ -1360,6 +1360,11 @@ public class Commons_DB {
         }
 
         Boolean atualiza = false;
+        atualiza = triggerObjeto("agency", null,"agency","nameAgency","name", docObj, atualiza, mongo);
+        if (docObj.get("nameAgency") == null){
+            docObj.put("nameAgency","no agency");
+            atualiza = true;
+        }
         atualiza = triggerObjeto("agency", null, "agency", "nameAgency", "name", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null, "studentTripId", "studentFirstName", "firstName", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null, "studentTripId", "studentLastName", "lastName", docObj, atualiza, mongo);
