@@ -1289,9 +1289,8 @@ public class Commons_DB {
             atualiza = triggerObjeto(collection, null, "vendorId", "nameVendor", objectName, docObj, atualiza, mongo);
         }
 
-        atualiza = triggerObjeto("student", null, "studentId", "firstName", "firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentId", "lastName", "lastName", docObj, atualiza, mongo);
-        docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        atualiza = triggerObjeto("student", null, "studentId", "studentFirstName", "firstName", docObj, atualiza, mongo);
+        atualiza = triggerObjeto("student", null, "studentId", "studentLastName", "lastName", docObj, atualiza, mongo);
         atualiza = triggerObjeto("city", null, "destination", "nameCity", "name", docObj, atualiza, mongo);
 
         String hasNotes= "no";
