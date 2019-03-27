@@ -1339,8 +1339,8 @@ public class Commons_DB {
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
-        if (docObj.get("travelId") != null) {
-            BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"), mongo);
+        if (docObj.get("trip") != null) {
+            BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("trip"), mongo);
             if (travel != null) {
                 docObj.put("studentTripId", travel.getString("studentId"));
                 docObj.put("destinationTripId", travel.getString("destination"));
@@ -1349,9 +1349,8 @@ public class Commons_DB {
 
         Boolean atualiza = false;
         atualiza = triggerObjeto("agency", null, "agency", "nameAgency", "name", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentTripId", "firstName", "firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentTripId", "lastName", "lastName", docObj, atualiza, mongo);
-        docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
+        atualiza = triggerObjeto("student", null, "studentTripId", "studentFirstName", "firstName", docObj, atualiza, mongo);
+        atualiza = triggerObjeto("student", null, "studentTripId", "studentLastName", "lastName", docObj, atualiza, mongo);
         atualiza = triggerObjeto("city", null, "destinationTripId", "nameCity", "name", docObj, atualiza, mongo);
 
         String total = "";
