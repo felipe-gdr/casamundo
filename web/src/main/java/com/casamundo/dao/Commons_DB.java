@@ -1283,6 +1283,10 @@ public class Commons_DB {
                     collection = "driver";
                     objectName = "name";
                     break;
+                case "service":
+                    collection = "vendor";
+                    objectName = "name";
+                    break;
                 default:
                     // code block
             }
