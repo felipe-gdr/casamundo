@@ -262,6 +262,8 @@ public class Invoice {
                 variaveis.put("extension", travel.get("extension"));
 				variaveis.put("airportPickup", travel.getString("airportPickup"));
 				variaveis.put("airportDropoff", travel.getString("airportDropoff"));
+                variaveis.put("echeckIn", travel.getString("echeckIn"));
+                variaveis.put("lcheckOut", travel.getString("lcheckOut"));
                 variaveis.put("value", date.get("value"));
                 if (commons.calcAgeData(student.getString("birthday"), accomodation.getString("checkIn")) < 18){
                     variaveis.put("underage", "yes");
