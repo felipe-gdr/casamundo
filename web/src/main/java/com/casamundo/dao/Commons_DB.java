@@ -1135,16 +1135,17 @@ public class Commons_DB {
         Boolean atualiza = false;
 
         String payerId= "";
-        if (docObj.get("agencyId") != null){
+        String agency = "agency";
+        if (docObj.getString("payerType").equals(agency)) {
             atualiza = triggerObjeto("agency", null, "agencyId", "payerName", "name", docObj, atualiza, mongo);
             payerId = docObj.getString("agencyId");
         }else{
-            atualiza = triggerObjeto("student", null, "studentId", "firstNsme", "firstNsme", docObj, atualiza, mongo);
-            atualiza = triggerObjeto("student", null, "studentId", "lastNsme", "lastNsme", docObj, atualiza, mongo);
+            atualiza = triggerObjeto("student", null, "studentId", "firstName", "firstName", docObj, atualiza, mongo);
+            atualiza = triggerObjeto("student", null, "studentId", "lastName", "lastName", docObj, atualiza, mongo);
             docObj.put("payerName", docObj.get("firstName") + " " + docObj.get("lastName"));
-            payerId= docObj.getString("studentId");;
-
+            payerId = docObj.getString("studentId");
         }
+
         if (docObj.get("payerId") == null) {
             docObj.put("payerId", payerId);
             atualiza = true;
@@ -1356,6 +1357,7 @@ public class Commons_DB {
             if (travel != null) {
                 docObj.put("studentTripId", travel.getString("studentId"));
                 docObj.put("destinationTripId", travel.getString("destination"));
+                docObj.put("agency", travel.getString("agency"));
             }
         }
 
@@ -1470,7 +1472,6 @@ public class Commons_DB {
         atualiza = triggerObjeto("student", null,"studentId","lastName","lastName", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null,"studentId","birthday","birthday", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null,"studentId","gender","gender", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"studentId","nationality","nationality", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null,"studentId","nationality","nationality", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null,"twinId","firstNameTwin","firstName", docObj, atualiza, mongo);
         atualiza = triggerObjeto("student", null,"twinId","lastNameTwin","lastName", docObj, atualiza, mongo);
