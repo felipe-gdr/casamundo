@@ -1296,6 +1296,10 @@ public class Commons_DB {
                     collection = "vendor";
                     objectName = "name";
                     break;
+                case "driver":
+                    collection = "driver";
+                    objectName = "name";
+                    break;
 
                 default:
                     // code block
