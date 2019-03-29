@@ -1134,9 +1134,9 @@ public class Commons_DB {
 
         Boolean atualiza = false;
 
-        String payerId= "";
-        String agency = "agency";
-        if (docObj.getString("payerType").equals(agency)) {
+        String payerId = "";
+        String agencyAux = "agency";
+        if (docObj.getString("payerType").equals(agencyAux)) {
             atualiza = triggerObjeto("agency", null, "agencyId", "payerName", "name", docObj, atualiza, mongo);
             payerId = docObj.getString("agencyId");
         }else{
