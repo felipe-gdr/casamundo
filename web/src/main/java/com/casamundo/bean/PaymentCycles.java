@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
@@ -174,12 +175,12 @@ public class PaymentCycles {
                     if (paymentDoc.get("cycleId") != null) {
                         BasicDBObject paymentCycles = commons_db.obterCrudDoc("paymentCycles", "_id", paymentDoc.getString("cycleId"));
                         ArrayList<BasicDBObject> resultPaymentsCycle = new ArrayList<BasicDBObject>();
-                        ArrayList<BasicDBObject> paymentsCycle = (ArrayList<BasicDBObject>) paymentCycles.get("payments");
+                        ArrayList<Document> paymentsCycle = (ArrayList<Document>) paymentCycles.get("payments");
                         BigDecimal totalCycle = new BigDecimal(0.0);
-                        for (BasicDBObject paymentCycle : paymentsCycle) {
+                        for (Document paymentCycle : paymentsCycle) {
                             BasicDBObject paymentRead = commons_db.obterCrudDoc("payment", "_id", paymentCycle.getString("id"));
                             if (paymentRead.getString("vendorId").equals(vendorId)) {
-                                resultPaymentsCycle.add(paymentCycle);
+                                resultPaymentsCycle.add(paymentRead);
                                 BigDecimal itemCycle = new BigDecimal(Double.valueOf(paymentCycle.getString("payValue")));
                                 itemCycle = itemCycle.setScale(2, RoundingMode.CEILING);
                                 totalCycle = totalCycle.add(itemCycle);
