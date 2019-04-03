@@ -580,7 +580,7 @@ public class Commons_DB {
                 docObj.putAll((Map) current.get("documento"));
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
-                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
+//                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
                 int i = 0;
                 while (params.get("columns[" + i + "][data]") != null) {
                     if (listas.size() < (i + 1)) {
