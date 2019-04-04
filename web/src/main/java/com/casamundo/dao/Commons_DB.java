@@ -414,7 +414,12 @@ public class Commons_DB {
 
         BasicDBObject setQuery = new BasicDBObject();
         if (key != null) {
-            setQuery.put(key, value);
+            if (key.equals("_id")) {
+                ObjectId idObj = new ObjectId(value);
+                setQuery.put(key, idObj);
+            } else {
+                setQuery.put(key, value);
+            }
         }
 
         if (setQueryInput != null) {
@@ -1413,6 +1418,10 @@ public class Commons_DB {
                                 atualiza = true;
                             }
                         }
+                        if (collectionName.equals(trigger.getString("collection"))){
+                            atualiza = true;
+                        }
+                        triggedDoc = triggerCollection(triggedDoc,trigger.getString("collection"));
                         if (atualiza) {
                             BasicDBObject setQuery = montaSetQuery(trigged.getString("_id"));
                             trigged.remove("_id");
@@ -1425,6 +1434,18 @@ public class Commons_DB {
             }
         }
         return true;
+    }
+
+    private BasicDBObject triggerCollection(BasicDBObject triggedDoc, String collection) {
+
+        switch (collection) {
+            case "student":
+                triggedDoc.put("studentName", triggedDoc.get("firstName") + " " + triggedDoc.get("lastName"));
+                break;
+            default:
+                break;
+        }
+        return triggedDoc;
     }
 
     private String group(BasicDBObject doc, BasicDBObject field, String typeGroup, String type) {
