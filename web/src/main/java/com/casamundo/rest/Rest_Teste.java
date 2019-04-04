@@ -48,8 +48,24 @@ public class Rest_Teste {
         MongoClient mongoClient = Commons_DB.getMongoClient();
         MongoDatabase database = mongoClient.getDatabase("documento");
         MongoCollection<Document> collection = database.getCollection(collectionName);
+
         return commons_db.teste(0, 50,collectionName);
     };
+
+	@SuppressWarnings("unchecked")
+	@GetMapping(value = "/trigger", produces = "application/json")
+	public ResponseEntity trigger(
+			@RequestParam(value = "collectionName") String collectionName,
+			@RequestParam(value = "id") String id
+
+
+	) throws UnknownHostException {
+		MongoClient mongoClient = Commons_DB.getMongoClient();
+
+		commons_db.trigger(collectionName, id,mongoClient);
+		mongoClient.close();
+		return null;
+	};
 
 	Block<Document> printBlock = new Block<Document>() {
 		@Override

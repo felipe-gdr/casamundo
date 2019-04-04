@@ -1863,6 +1863,60 @@ public class Commons_DB {
         }
     }
 
+    public Boolean trigger(String collectionName, String id, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject triggerObj = obterCrudDocQuery("triggers", "documento.collection", collectionName, mongo);
+        if (triggerObj == null){
+            return false;
+        }
+        BasicDBObject doc = obterCrudDocQuery(collectionName, "_id", id, mongo);
+        if (doc == null){
+            return false;
+        }
+
+        ArrayList<Object> triggers = (ArrayList<Object>) triggerObj.get("triggers");
+
+        for (int i = 0; i < triggers.size(); i++) {
+            BasicDBObject trigger = new BasicDBObject();
+            trigger.putAll((Map) triggers.get(i));
+            if (doc.get(trigger.getString("idOrigin")) != null){
+                ResponseEntity response = listaCrudQuery(trigger.getString("collection"), trigger.getString("idDestiny"), doc.getString(trigger.getString("idOrigin")), null, null, null, true, mongo);
+                ArrayList<Object> triggeds = new ArrayList<Object>();
+                triggeds = (JSONArray) response.getBody();
+                if (triggeds != null) {
+                    ArrayList<Object> fields = (ArrayList<Object>) trigger.get("fields");
+                    for (int j = 0; j < triggeds.size(); j++) {
+                        BasicDBObject trigged = new BasicDBObject();
+                        trigged.putAll((Map) triggeds.get(j));
+                        BasicDBObject triggedDoc = new BasicDBObject();
+                        triggedDoc.putAll((Map) trigged.get("documento"));
+                        Boolean atualiza = false;
+                        for (int w = 0; w < fields.size(); w++) {
+                            BasicDBObject field = new BasicDBObject();
+                            field.putAll((Map) fields.get(w));
+                            if (triggedDoc.get(field.getString("destiny")) != null) {
+                                if (!triggedDoc.getString(field.getString("destiny")).equals(doc.getString(field.getString("origin")))) {
+                                    triggedDoc.put(field.getString("destiny"), doc.getString(field.getString("origin")));
+                                    atualiza = true;
+                                }
+                            } else {
+                                triggedDoc.put(field.getString("destiny"), doc.getString(field.getString("origin")));
+                                atualiza = true;
+                            }
+                        }
+                        if (atualiza) {
+                            BasicDBObject setQuery = montaSetQuery(trigged.getString("_id"));
+                            trigged.remove("_id");
+                            trigged.put("documento", triggedDoc);
+                            atualizarCrudTrigger(trigger.getString("collection"), trigged, setQuery, mongo);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public static MongoClient getMongoClient() {
         return new MongoClient(HOST);
     }
