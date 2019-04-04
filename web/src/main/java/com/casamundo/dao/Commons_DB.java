@@ -285,16 +285,21 @@ public class Commons_DB {
             doc.put("documento", objDocumento);
             doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
             BasicDBObject setQuery = new BasicDBObject();
+            String id = null;
+            id = valueInp;
             if (key.equals("_id")) {
                 ObjectId idObj = new ObjectId(valueInp);
                 setQuery = new BasicDBObject(key, idObj);
+
             } else {
                 setQuery = new BasicDBObject(key, valueInp);
             }
             Document objDocumentoUpdate = new Document();
             objDocumentoUpdate.putAll((Map) doc);
             collection.replaceOne(setQuery, objDocumentoUpdate);
-            trigger(collectionName, doc.get("_id").toString(), mongo);
+            if (id != null){
+                trigger(collectionName, id, mongo);
+            }
         }
         mongo.close();
         return ResponseEntity.ok().body("true");
@@ -1441,6 +1446,14 @@ public class Commons_DB {
         switch (collection) {
             case "student":
                 triggedDoc.put("studentName", triggedDoc.get("firstName") + " " + triggedDoc.get("lastName"));
+                break;
+            case "travel":
+                if (triggedDoc.get("agency") == null){
+                    triggedDoc.put("agencyName", "no agency");
+                }
+                if (triggedDoc.get("school") == null){
+                    triggedDoc.put("schoolName", "no school");
+                }
                 break;
             default:
                 break;
