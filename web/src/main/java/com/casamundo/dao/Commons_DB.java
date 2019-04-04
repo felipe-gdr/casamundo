@@ -194,7 +194,7 @@ public class Commons_DB {
     }
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws MongoException {
+    public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws MongoException, UnknownHostException {
         MongoClient mongo = getMongoClient();
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
@@ -211,6 +211,7 @@ public class Commons_DB {
         insert.putAll((Map) documentoFinal);
         collection.insertOne(insert);
         insert.put("_id", insert.get("_id").toString());
+        trigger(collectionName,insert.get("_id").toString(), mongo);
         mongo.close();
         return ResponseEntity.ok().body(insert.get("_id").toString());
     }
@@ -293,6 +294,7 @@ public class Commons_DB {
             Document objDocumentoUpdate = new Document();
             objDocumentoUpdate.putAll((Map) doc);
             collection.replaceOne(setQuery, objDocumentoUpdate);
+            trigger(collectionName, doc.get("_id").toString(), mongo);
         }
         mongo.close();
         return ResponseEntity.ok().body("true");
@@ -948,33 +950,6 @@ public class Commons_DB {
             case "payment":
                 result = triggerPaymentDinamicData(doc, setQuery, mongo);
                 break;
-            case "estimated":
-//                result = triggerEstimatedDinamicData(doc, setQuery, mongo);
-                break;
-            case "familyDorm":
-//                result = triggerFamilyDormDinamicData(doc, setQuery, mongo);
-                break;
-            case "dorm":
-//                result = triggerDormDinamicData(doc, setQuery, mongo);
-                break;
-            case "apartment":
-//                result = triggerApartmentDinamicData(doc, setQuery, mongo);
-                break;
-            case "homestayBook":
-//                result = triggerHomeStayDinamicData(doc, setQuery, mongo);
-                break;
-            case "sharedBook":
-//                result = triggerSharedDinamicData(doc, setQuery, mongo);
-                break;
-            case "unSharedBook":
-//                result = triggerUnSharedDinamicData(doc, setQuery, mongo);
-                break;
-            case "suiteBook":
-//                result = triggerSuiteDinamicData(doc, setQuery, mongo);
-                break;
-            case "receivement":
-//                result = triggerReceivementDinamicData(doc, setQuery, mongo);
-                break;
             default:
                 // code block
         }
@@ -982,212 +957,6 @@ public class Commons_DB {
             mongo.close();
         }
         return result;
-    }
-
-    private BasicDBObject triggerApartmentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-        Boolean atualiza = false;
-
-        if (atualiza) {
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("apartment", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        }
-        ;
-        if (fechaMongo) {
-            mongo.close();
-        }
-        return docObj;
-    }
-
-    private BasicDBObject triggerSuiteDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-
-        Boolean atualiza = false;
-
-        if (atualiza){
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("suiteBook", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        };
-        if (fechaMongo){
-            mongo.close();
-        }
-        return docObj;
-    }
-
-    private BasicDBObject triggerSharedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-        Boolean atualiza = false;
-
-        if (atualiza){
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("sharedBook", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        };
-        if (fechaMongo){
-            mongo.close();
-        }
-        return docObj;
-    }
-
-    private BasicDBObject triggerUnSharedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-
-        Boolean atualiza = false;
-
-        if (atualiza){
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("unSharedBook", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        };
-        if (fechaMongo){
-            mongo.close();
-        }
-        return docObj;
-    }
-
-    private BasicDBObject triggerReceivementDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-        Boolean atualiza = false;
-
-        if (atualiza){
-            docObj.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("receivement", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        };
-        if (fechaMongo){
-            mongo.close();
-        }
-        return docObj;
-    }
-
-    private BasicDBObject triggerHomeStayDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-
-        Boolean atualiza = false;
-
-        if (atualiza){
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("homestayBook", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        };
-        if (fechaMongo){
-            mongo.close();
-        }
-        return docObj;
-    }
-
-    private BasicDBObject triggerEstimatedDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-        Boolean atualiza = false;
-
-        if (atualiza) {
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("estimated", doc, setQuery, mongo);
-            if (fechaMongo) {
-                mongo.close();
-            }
-            return docObj;
-        }
-        ;
-        if (fechaMongo) {
-            mongo.close();
-        }
-        return docObj;
     }
 
     private BasicDBObject triggerPaymentDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
@@ -1384,66 +1153,6 @@ public class Commons_DB {
         return docObj;
     }
 
-    private BasicDBObject triggerFamilyDormDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-        Boolean atualiza = false;
-
-        if (atualiza) {
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("familyDorm", doc, setQuery, mongo);
-            if (fechaMongo) {
-                mongo.close();
-            }
-            return docObj;
-        }
-        ;
-        if (fechaMongo) {
-            mongo.close();
-        }
-        return docObj;
-
-    }
-
-    private BasicDBObject triggerDormDinamicData(BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException {
-
-        Boolean fechaMongo = false;
-        if (mongo == null) {
-            mongo = getMongoClient();
-        }
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-        docObj.put("_id", doc.get("_id"));
-
-        Boolean atualiza = false;
-
-        if (atualiza){
-            docObj.remove("_id");
-            doc.remove("_id");
-            doc.put("documento", docObj);
-            atualizarCrudTrigger("dorm", doc, setQuery, mongo);
-            if (fechaMongo){
-                mongo.close();
-            }
-            return docObj;
-        };
-        if (fechaMongo){
-            mongo.close();
-        }
-        return docObj;
-    }
-
     private BasicDBObject dataAllocate(BasicDBObject docObj, String collecion, MongoClient mongo) throws UnknownHostException {
 
         BasicDBObject result = new BasicDBObject();
@@ -1613,31 +1322,6 @@ public class Commons_DB {
 
     }
 
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public BasicDBObject triggerInsert(BasicDBObject doc, String collectionName, BasicDBObject setQuery) throws UnknownHostException {
-
-        BasicDBObject result = new BasicDBObject();
-        switch (collectionName) {
-            case "invoice":
-                triggerInsertInvoice(doc, setQuery);
-                break;
-            default:
-                // code block
-        }
-
-        return result;
-    }
-
-    private void triggerInsertInvoice(BasicDBObject doc, BasicDBObject setQuery) throws UnknownHostException {
-
-        BasicDBObject docObj = new BasicDBObject();
-        docObj.putAll((Map) doc.get("documento"));
-
-        Boolean atualiza = false;
-
-    }
-
     public BasicDBObject montaSetQuery(String id) {
 
         BasicDBObject setQuery = new BasicDBObject();
@@ -1646,7 +1330,6 @@ public class Commons_DB {
         return setQuery;
 
     }
-
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
     public ResponseEntity atualizarCrudTrigger(String collectionName, BasicDBObject doc, BasicDBObject setQuery, MongoClient mongo) throws UnknownHostException, MongoException {
@@ -1712,13 +1395,21 @@ public class Commons_DB {
                         for (int w = 0; w < fields.size(); w++) {
                             BasicDBObject field = new BasicDBObject();
                             field.putAll((Map) fields.get(w));
-                            if (triggedDoc.get(field.getString("destiny")) != null) {
-                                if (!triggedDoc.getString(field.getString("destiny")).equals(doc.getString(field.getString("origin")))) {
-                                    triggedDoc.put(field.getString("destiny"), doc.getString(field.getString("origin")));
+                            if (group(triggedDoc, field, "Destiny", "destiny") != null) {
+                                if (!group(triggedDoc, field, "Destiny", "destiny").equals(group(doc, field, "Origin", "origin"))) {
+                                    if (field.getString("fixed") != null){
+                                        triggedDoc.put(field.getString("destiny"), field.getString("value"));
+                                    }else {
+                                        triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+                                    }
                                     atualiza = true;
                                 }
                             } else {
-                                triggedDoc.put(field.getString("destiny"), doc.getString(field.getString("origin")));
+                                if (field.getString("fixed") != null){
+                                    triggedDoc.put(field.getString("destiny"), field.getString("value"));
+                                }else {
+                                    triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+                                }
                                 atualiza = true;
                             }
                         }
@@ -1730,9 +1421,34 @@ public class Commons_DB {
                         }
                     }
                 }
+
             }
         }
         return true;
+    }
+
+    private String group(BasicDBObject doc, BasicDBObject field, String typeGroup, String type) {
+        if (field.get("group" + typeGroup + "0") == null) {
+            if (doc.get(field.getString(type)) == null) {
+                return null;
+            }else{
+                return doc.getString(field.getString(type));
+            }
+        }
+        BasicDBObject group = new BasicDBObject();
+        for (Integer i = 0; i < 4; i++) {
+            if (field.get("group" + typeGroup + Integer.toString(i)) != null){
+                group.putAll((Map) doc.get(field.get("group" + typeGroup +  Integer.toString(i))));
+            }else{
+                i = 4;
+            }
+        }
+
+        if (group.get(field.getString(type)) == null) {
+            return null;
+        }else{
+            return group.getString(field.getString(type));
+        }
     }
 
     public static MongoClient getMongoClient() {
