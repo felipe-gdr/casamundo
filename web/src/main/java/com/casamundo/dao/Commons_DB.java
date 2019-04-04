@@ -949,31 +949,31 @@ public class Commons_DB {
                 result = triggerPaymentDinamicData(doc, setQuery, mongo);
                 break;
             case "estimated":
-                result = triggerEstimatedDinamicData(doc, setQuery, mongo);
+//                result = triggerEstimatedDinamicData(doc, setQuery, mongo);
                 break;
             case "familyDorm":
-                result = triggerFamilyDormDinamicData(doc, setQuery, mongo);
+//                result = triggerFamilyDormDinamicData(doc, setQuery, mongo);
                 break;
             case "dorm":
-                result = triggerDormDinamicData(doc, setQuery, mongo);
+//                result = triggerDormDinamicData(doc, setQuery, mongo);
                 break;
             case "apartment":
-                result = triggerApartmentDinamicData(doc, setQuery, mongo);
+//                result = triggerApartmentDinamicData(doc, setQuery, mongo);
                 break;
             case "homestayBook":
-                result = triggerHomeStayDinamicData(doc, setQuery, mongo);
+//                result = triggerHomeStayDinamicData(doc, setQuery, mongo);
                 break;
             case "sharedBook":
-                result = triggerSharedDinamicData(doc, setQuery, mongo);
+//                result = triggerSharedDinamicData(doc, setQuery, mongo);
                 break;
             case "unSharedBook":
-                result = triggerUnSharedDinamicData(doc, setQuery, mongo);
+//                result = triggerUnSharedDinamicData(doc, setQuery, mongo);
                 break;
             case "suiteBook":
-                result = triggerSuiteDinamicData(doc, setQuery, mongo);
+//                result = triggerSuiteDinamicData(doc, setQuery, mongo);
                 break;
             case "receivement":
-                result = triggerReceivementDinamicData(doc, setQuery, mongo);
+//                result = triggerReceivementDinamicData(doc, setQuery, mongo);
                 break;
             default:
                 // code block
@@ -996,9 +996,6 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("building", null,"buildingId","buildName","name", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("building", null,"buildingId","city","city", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("vendor", null,"vendorId","vendorName","name", docObj, atualiza, mongo);
 
         if (atualiza) {
             docObj.remove("_id");
@@ -1030,11 +1027,6 @@ public class Commons_DB {
 
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "city", "destination", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
 
         if (atualiza){
             docObj.remove("_id");
@@ -1064,11 +1056,6 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "city", "destination", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
 
         if (atualiza){
             docObj.remove("_id");
@@ -1099,11 +1086,6 @@ public class Commons_DB {
 
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "city", "destination", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
 
         if (atualiza){
             docObj.remove("_id");
@@ -1134,28 +1116,6 @@ public class Commons_DB {
 
         Boolean atualiza = false;
 
-        String payerId = "";
-        String agencyAux = "agency";
-        if (docObj.getString("payerType").equals(agencyAux)) {
-            atualiza = triggerObjeto("agency", null, "agencyId", "payerName", "name", docObj, atualiza, mongo);
-            payerId = docObj.getString("agencyId");
-        }else{
-            atualiza = triggerObjeto("student", null, "studentId", "firstName", "firstName", docObj, atualiza, mongo);
-            atualiza = triggerObjeto("student", null, "studentId", "lastName", "lastName", docObj, atualiza, mongo);
-            docObj.put("payerName", docObj.get("firstName") + " " + docObj.get("lastName"));
-            payerId = docObj.getString("studentId");
-        }
-
-        if (docObj.get("payerId") == null) {
-            docObj.put("payerId", payerId);
-            atualiza = true;
-        }else {
-            if (!docObj.getString("payerId").equals(payerId)) {
-                docObj.put("payerId", payerId);
-                atualiza = true;
-            }
-        }
-
         if (atualiza){
             docObj.remove("_id");
             doc.put("documento", docObj);
@@ -1184,12 +1144,6 @@ public class Commons_DB {
 
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("travel", "accomodation", "studentId", "occHome", "occHome", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "studentIdTravel", "studentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("travel", null, "studentId", "city", "destination", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("family", null, "studentIdTravel", "gender", "gender", docObj, atualiza, mongo);
 
         if (atualiza){
             docObj.remove("_id");
@@ -1218,17 +1172,6 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("student", null, "studentId", "firstName", "firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentId", "lastName", "lastName", docObj, atualiza, mongo);
-        docObj.put("nameStudent", docObj.getString("firstName") + " " + docObj.getString("lastName"));
-        atualiza = triggerObjeto("city", null, "destination", "nameCity", "name", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("invoice", null, "invoiceId", "invoiceStatus", "paid", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, atualiza, mongo);
-        atualiza = setObjeto(docObj,"tabelType","estimated", atualiza);
-        atualiza = setObjeto(docObj,"checkIn","N/A", atualiza);
-        atualiza = setObjeto(docObj,"checkOut","N/A", atualiza);
-        atualiza = setObjeto(docObj,"occHome","N/A", atualiza);
-        atualiza = setObjeto(docObj,"extension","N/A", atualiza);
 
         if (atualiza) {
             docObj.remove("_id");
@@ -1257,59 +1200,7 @@ public class Commons_DB {
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
-        BasicDBObject travel = new BasicDBObject();
-        BasicDBObject accomodation = new BasicDBObject();
-        if (docObj.get("travelId") != null) {
-            travel = obterCrudQuery("travel", "_id", docObj.getString("travelId"), mongo);
-            if (travel != null) {
-                accomodation.putAll((Map) travel.get("accomodation"));
-            }
-        }
-
         Boolean atualiza = false;
-
-        if (docObj.get("vendorType") != null && docObj.get("vendorId") != null) {
-            String collection = "family";
-            String objectName = "familyName";
-            switch (docObj.getString("vendorType")) {
-                case "family":
-                    collection = "family";
-                    objectName = "familyName";
-                    break;
-                case "travel":
-                    collection = "vendor";
-                    objectName = "name";
-                    break;
-                case "invoice":
-                    collection = "driver";
-                    objectName = "name";
-                    break;
-                case "service":
-                    collection = "vendor";
-                    objectName = "name";
-                    break;
-                case "shared":
-                    collection = "vendor";
-                    objectName = "name";
-                    break;
-                case "suite":
-                    collection = "vendor";
-                    objectName = "name";
-                    break;
-                case "driver":
-                    collection = "driver";
-                    objectName = "name";
-                    break;
-
-                default:
-                    // code block
-            }
-            atualiza = triggerObjeto(collection, null, "vendorId", "nameVendor", objectName, docObj, atualiza, mongo);
-        }
-
-        atualiza = triggerObjeto("student", null, "studentId", "studentFirstName", "firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentId", "studentLastName", "lastName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("city", null, "destination", "nameCity", "name", docObj, atualiza, mongo);
 
         String hasNotes= "no";
         if (docObj.get("notes") != null){
@@ -1320,15 +1211,6 @@ public class Commons_DB {
             }
         }
         atualiza = setObjeto(docObj,"hasNotes", hasNotes, atualiza);
-        atualiza = setObjeto(docObj,"tabelType", "payment", atualiza);
-        atualiza = setObjeto(docObj,"checkIn",accomodation.getString("checkIn"), atualiza);
-        atualiza = setObjeto(docObj,"checkOut",accomodation.getString("checkOut"), atualiza);
-        atualiza = setObjeto(docObj,"occHome",accomodation.getString("occHome"), atualiza);
-        atualiza = setObjeto(docObj,"extension",travel.getString("extension"), atualiza);
-
-        atualiza = triggerObjeto("invoice", null, "invoiceId", "invoiceStatus", "paid", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("invoice", null, "invoiceId", "invoiceNumber", "invoiceNumber", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("priceTable", null, "item", "productName", "name", docObj, atualiza, mongo);
 
         if (atualiza) {
             docObj.remove("_id");
@@ -1356,25 +1238,7 @@ public class Commons_DB {
         docObj.putAll((Map) doc.get("documento"));
         docObj.put("_id", doc.get("_id"));
 
-        if (docObj.get("trip") != null) {
-            BasicDBObject travel = obterCrudQuery("travel", "_id", docObj.getString("trip"), mongo);
-            if (travel != null) {
-                docObj.put("studentTripId", travel.getString("studentId"));
-                docObj.put("destinationTripId", travel.getString("destination"));
-                docObj.put("agency", travel.getString("agency"));
-            }
-        }
-
         Boolean atualiza = false;
-        atualiza = triggerObjeto("agency", null,"agency","nameAgency","name", docObj, atualiza, mongo);
-        if (docObj.get("nameAgency") == null){
-            docObj.put("nameAgency","no agency");
-            atualiza = true;
-        }
-        atualiza = triggerObjeto("agency", null, "agency", "nameAgency", "name", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentTripId", "studentFirstName", "firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null, "studentTripId", "studentLastName", "lastName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("city", null, "destinationTripId", "nameCity", "name", docObj, atualiza, mongo);
 
         String total = "";
         if (docObj.get("netGross") != null) {
@@ -1454,37 +1318,8 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
         BasicDBObject accomodation = new BasicDBObject();
         accomodation.putAll((Map) docObj.get("accomodation"));
-        if (accomodation.get("twinEmail") != null) {
-            if (!accomodation.getString("twinEmail").equals("")) {
-                docObj.put("twinId", obterCrudQuery("student", "documento.email", accomodation.getString("twinEmail"), mongo).get("_id"));
-            }
-        }
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("agency", null,"agency","agencyName","name", docObj, atualiza, mongo);
-        if (docObj.get("agencyName") == null){
-            docObj.put("agencyName","no agency");
-            atualiza = true;
-        }
-        atualiza = triggerObjeto("school", null, "school", "schoolName", "name", docObj, atualiza, mongo);
-        if (docObj.get("schoolName") == null){
-            docObj.put("schoolName","no school");
-            atualiza = true;
-        }
-        atualiza = triggerObjeto("city", null,"destination","destinationName","name", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"studentId","firstName","firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"studentId","lastName","lastName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"studentId","birthday","birthday", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"studentId","gender","gender", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"studentId","nationality","nationality", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"twinId","firstNameTwin","firstName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("student", null,"twinId","lastNameTwin","lastName", docObj, atualiza, mongo);
-
-        String nameTwin = "noTwin";
-        if (docObj.get("firstNameTwin") != null && docObj.get("lastNameTwin") != null) {
-            nameTwin = docObj.getString("firstNameTwin") + " " + docObj.get("lastNameTwin");
-        }
-        atualiza = setObjeto(docObj,"nameTwin", nameTwin, atualiza);
 
         Long age = commons.calcAge(docObj.getString("birthday"));
 
@@ -1513,7 +1348,6 @@ public class Commons_DB {
         if (accomodation.get("checkIn") != null && accomodation.get("checkOut") != null) {
             daysTrip = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
         }
-
 
         String status = "Available";
         String nextCheckIn = "N/A";
@@ -1562,11 +1396,6 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("familyRooms", null,"roomId", "familyId", "familyId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("familyRooms", null,"roomId","roomNumber","roomNumber", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("family", null,"familyId","city","city", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("family", null,"familyId","familyName","familyName", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("family", null,"familyId","contractIssue","contractIssue", docObj, atualiza, mongo);
 
         if (atualiza) {
             docObj.remove("_id");
@@ -1598,17 +1427,6 @@ public class Commons_DB {
         docObj.put("_id", doc.get("_id"));
 
         Boolean atualiza = false;
-        atualiza = triggerObjeto("room", null,"roomId", "apartmentId", "apartmentId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("room", null,"roomId","roomNumber","roomNumber", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("apartment", null,"apartmentId","buildingId","buildingId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("apartment", null,"apartmentId","vendorId","vendorId", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("apartment", null,"apartmentId","startDate","startDate", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("apartment", null,"apartmentId","endDate","endDate", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("apartment", null,"apartmentId","unit","unit", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("apartment", null,"apartmentId","apType","apType", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("building", null,"buildingId","buildName","name", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("building", null,"buildingId","city","city", docObj, atualiza, mongo);
-        atualiza = triggerObjeto("vendor", null,"vendorId","vendorName","name", docObj, atualiza, mongo);
 
         if (atualiza){
             docObj.remove("_id");
