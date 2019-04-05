@@ -1926,6 +1926,15 @@ public class Commons_DB {
                     triggedDoc.put("nameTwin","no twin");
                 }
                 break;
+            case "invoice":
+                if (triggedDoc.get("agency") == null){
+                    triggedDoc.put("agencyName", "no agency");
+                }else{
+                    if (triggedDoc.get("agency").equals("")) {
+                        triggedDoc.put("agencyName", "no agency");
+                    }
+                }
+                break;
             default:
                 break;
         }
