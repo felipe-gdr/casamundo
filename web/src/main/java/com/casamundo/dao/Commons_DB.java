@@ -286,10 +286,11 @@ public class Commons_DB {
             doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
             BasicDBObject setQuery = new BasicDBObject();
             String id = null;
-            id = valueInp;
+            id = null;
             if (key.equals("_id")) {
                 ObjectId idObj = new ObjectId(valueInp);
                 setQuery = new BasicDBObject(key, idObj);
+                id = valueInp;
 
             } else {
                 setQuery = new BasicDBObject(key, valueInp);
@@ -1834,6 +1835,7 @@ public class Commons_DB {
                 BasicDBObject travel = obterCrudDocQuery("travel","_id", triggedDoc.getString("trip"), mongo);
                 if (travel != null){
                     triggedDoc.put("studentTripId", travel.getString("studentId"));
+                    triggedDoc.put("destinationTripId", travel.getString("destination"));
                 }
                 break;
             default:
