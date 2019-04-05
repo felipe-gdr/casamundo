@@ -1798,9 +1798,11 @@ public class Commons_DB {
                             if (atualiza) {
                                 BasicDBObject setQuery = montaSetQuery(trigged.getString("_id"));
                                 trigged.remove("_id");
+                                String idObj = triggerObj.getString("_id");
                                 triggedDoc.remove("_id");
                                 trigged.put("documento", triggedDoc);
                                 atualizarCrudTrigger(trigger.getString("collection"), trigged, setQuery, mongo);
+                                triggedDoc.put("_id", idObj);
                                 if (triggerObj.get("triggersExternal") != null) {
                                     ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
                                     for (int k = 0; k < triggersExternal.size(); k++) {
