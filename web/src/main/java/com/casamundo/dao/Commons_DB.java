@@ -1807,7 +1807,9 @@ public class Commons_DB {
                                         triggerExternal.putAll((Map) triggersExternal.get(k));
                                         if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null) {
                                             if (triggedDoc.get(triggerExternal.getString("idOrigin")) != null) {
-                                                trigger(triggerExternal.getString("collection"), triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
+                                                if (!triggedDoc.get(triggerExternal.getString("idOrigin")).equals("")) {
+                                                    trigger(triggerExternal.getString("collection"), triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
+                                                }
                                             }
                                         }
 
