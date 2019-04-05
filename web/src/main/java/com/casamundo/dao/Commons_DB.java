@@ -1768,6 +1768,7 @@ public class Commons_DB {
                             BasicDBObject triggedDoc = new BasicDBObject();
                             triggedDoc.putAll((Map) trigged.get("documento"));
                             triggedDoc.put("_id", trigged.getString("_id"));
+                            triggedDoc = triggerCollectionBefore(triggedDoc, trigger.getString("collection"), mongo);
                             Boolean atualiza = false;
                             for (int w = 0; w < fields.size(); w++) {
                                 BasicDBObject field = new BasicDBObject();
@@ -1822,6 +1823,21 @@ public class Commons_DB {
             }
         }
         return true;
+    }
+
+    private BasicDBObject triggerCollectionBefore(BasicDBObject triggedDoc, String collection, MongoClient mongo) throws UnknownHostException {
+
+        switch (collection) {
+            case "invoice":
+                BasicDBObject travel = obterCrudDocQuery("travel","_id", triggedDoc.getString("trip"), mongo);
+                if (travel != null){
+                    triggedDoc.put("studentTripId", travel.getString("studentId"));
+                }
+                break;
+            default:
+                break;
+        }
+        return triggedDoc;
     }
 
     private BasicDBObject triggerCollection(BasicDBObject triggedDoc, String collection, MongoClient mongo) throws UnknownHostException {

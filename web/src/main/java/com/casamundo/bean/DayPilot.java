@@ -86,8 +86,9 @@ public class DayPilot {
                 result.put("columns",columns);
                 resultListDorm.add(result);
                 ArrayList<Object> contracts = (ArrayList<Object>) docObj.get("contracts");
+                ArrayList<BasicDBObject> outOffContracts = new ArrayList<>();
                 if (contracts != null) {
-                    ArrayList<BasicDBObject> outOffContracts = getOutOffContract(start, end, contracts );
+                    outOffContracts = getOutOffContract(start, end, contracts );
                 }
                 if (docObj.get("contractIssue") != null) {
                     if (commons.comparaData(docObj.getString("contractIssue"), start)) {
@@ -319,9 +320,9 @@ public class DayPilot {
             BasicDBObject contractStart = new BasicDBObject();
             contractStart.putAll((Map) contracts.get(0));
             BasicDBObject contractEnd = new BasicDBObject();
-            contractEnd.putAll((Map) contracts.get(contracts.size()));
+            contractEnd.putAll((Map) contracts.get((contracts.size() - 1)));
             if (contractStart.get("start") != null && contractStart.get("end") != null && contractEnd.get("start") != null && contractEnd.get("end") != null) {
-                if (commons.comparaData(contractStart.getString("start"), end) || commons.comparaData(contractEnd.getString("end"), startCompare)) {
+                if (commons.comparaData(contractStart.getString("start"), end) || commons.comparaData(startCompare, contractEnd.getString("end"))) {
                     BasicDBObject outOffContract = new BasicDBObject();
                     outOffContract.put("start", startCompare);
                     outOffContract.put("end", endCompare);
@@ -331,25 +332,71 @@ public class DayPilot {
 
         }
 
+        int daysInterval = 0;
         for (int i = 0; i < contracts.size() ; i++) {
             BasicDBObject contract = new BasicDBObject();
             contract.putAll((Map) contracts.get(i));
             if (contract.get("start") != null && contract.get("end") != null){
-                if (commons.comparaData(contract.getString("start"), start) && commons.comparaData(endCompare, contract.getString("start"))){
+                if (commons.comparaData(contract.getString("start"), startCompare) && commons.comparaData(endCompare, contract.getString("start"))){
                     BasicDBObject outOffContract = new BasicDBObject();
-                    outOffContract.put("start", start);
-                    outOffContract.put("end", startCompare);
+                    outOffContract.put("start", startCompare);
+                    outOffContract.put("end", contract.getString("start"));
                     result.add(outOffContract);
-                    if (commons.comparaData(endCompare, contract.getString("start"))){
-                        startCompare = contract.getString("start");
+                    if (commons.comparaData(endCompare, contract.getString("end"))){
+                        startCompare = contract.getString("end");
                     }else{
                         startCompare = endCompare;
                     }
                 }
+                if (commons.comparaData(contract.getString("end"), startCompare) && commons.comparaData(startCompare, contract.getString("start"))){
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.put("start", contract.getString("end"));
+                    if ((i + 1) >= contracts.size()){
+                        BasicDBObject nextContract = new BasicDBObject();
+                        nextContract.putAll((Map) contracts.get(i + 1));
+                        if (nextContract.get("start") != null && nextContract.get("end") != null) {
+                            if (commons.comparaData(nextContract.getString("start"), end)) {
+                                outOffContract.put("end", end);
+                            }else{
+                                outOffContract.put("end", nextContract.getString("start"));
+                            }
+                        }
+                        result.add(outOffContract);
+                        if (commons.comparaData(endCompare, nextContract.getString("end"))){
+                            startCompare = nextContract.getString("end");
+                        }else{
+                            startCompare = endCompare;
+                        }
+                    }
+                }
+                daysInterval = daysInterval + commons.getDaysInterval(start, end, contract.getString("start"), contract.getString("end")).getInt("days");
             }
         }
-
+        if (daysInterval == 0 ){
+            BasicDBObject outOffContract = new BasicDBObject();
+            outOffContract.put("start", start);
+            outOffContract.put("end", end);
+            result.add(outOffContract);
+        }else {
+            BasicDBObject contractEnd = new BasicDBObject();
+            contractEnd.putAll((Map) contracts.get((contracts.size() - 1)));
+            if (contractEnd.get("start") != null && contractEnd.get("end") != null) {
+                if (commons.comparaData(end, contractEnd.getString("end")) && commons.comparaData(contractEnd.getString("end"), startCompare)) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.put("start", contractEnd.get("end"));
+                    outOffContract.put("end", end);
+                    result.add(outOffContract);
+                }
+            }
+        }
 	    return result;
+    }
+
+    private Boolean comparaIntervalo(String start, String end, String start1, String end1) {
+
+
+
+	    return true;
     }
 
     private BasicDBObject montaFiltroHomeStay(String filtroIdI, String filtroIdII, BasicDBObject setQuery){
