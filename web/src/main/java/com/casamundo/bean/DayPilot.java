@@ -600,6 +600,12 @@ public class DayPilot {
                         endOut = docObj.getString("endDate");
                     }
                 }
+                ArrayList<Object> contracts = (ArrayList<Object>) docObj.get("contracts");
+                ArrayList<BasicDBObject> outOffContracts = new ArrayList<>();
+                if (contracts != null) {
+                    outOffContracts = getOutOffContract(start, end, contracts );
+                }
+
                 if (docObj.get("endDate") != null) {
                     if (commons.comparaData(start, docObj.getString("endDate"))) {
                         resultListEventII = montaEventShared(resultListEventII, docObj, start, end, "Out of contract", "O");
@@ -976,6 +982,11 @@ public class DayPilot {
                             commons.comparaData(docObj.getString("endDate"), commons.calcNewDate(start, -1))) {
                         endOut = docObj.getString("endDate");
                     }
+                }
+                ArrayList<Object> contracts = (ArrayList<Object>) docObj.get("contracts");
+                ArrayList<BasicDBObject> outOffContracts = new ArrayList<>();
+                if (contracts != null) {
+                    outOffContracts = getOutOffContract(start, end, contracts );
                 }
                 if (docObj.get("endDate") != null) {
                     if (commons.comparaData(start, docObj.getString("endDate"))) {

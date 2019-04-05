@@ -1931,7 +1931,7 @@ public class Commons_DB {
                     triggedDoc.put("agencyName", "no agency");
                 }else{
                     if (triggedDoc.get("agency").equals("")) {
-                        triggedDoc.put("agencyName", "no agency");
+                        triggedDoc.put("nameAgency", "no agency");
                     }
                 }
                 break;
