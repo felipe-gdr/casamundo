@@ -5,10 +5,7 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
@@ -59,7 +56,45 @@ public class Rest_Book {
 			return ResponseEntity.badRequest().build();
 		}
 	};
-		
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/getbook", produces = "application/json")
+	public BasicDBObject getBook(@RequestParam("idBook") String idBook) {
+
+		if (idBook != null ){
+			BasicDBObject book = commons_db.obterCrudDoc("homestayBook", "_id", idBook);
+			if (book != null){
+				BasicDBObject result = new BasicDBObject();
+				result.put("documento", book);
+				result.put("collection", "homestayBook");
+				return result;
+			}
+			book = commons_db.obterCrudDoc("suiteBook", "_id", idBook);
+			if (book != null){
+				BasicDBObject result = new BasicDBObject();
+				result.put("documento", book);
+				result.put("collection", "suiteBook");
+				return result;
+			}
+			book = commons_db.obterCrudDoc("sharedBook", "_id", idBook);
+			if (book != null){
+				BasicDBObject result = new BasicDBObject();
+				result.put("documento", book);
+				result.put("collection", "sharedBook");
+				return result;
+			}
+			BasicDBObject result = new BasicDBObject();
+			result.put("documento", null);
+			result.put("collection", null);
+			return result;
+		}else{
+			BasicDBObject result = new BasicDBObject();
+			result.put("documento", null);
+			result.put("collection", null);
+			return result;
+		}
+	};
+
 };
 
 

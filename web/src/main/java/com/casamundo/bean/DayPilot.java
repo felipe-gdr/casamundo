@@ -85,6 +85,10 @@ public class DayPilot {
                 columns.add(column);
                 result.put("columns",columns);
                 resultListDorm.add(result);
+                ArrayList<Object> contracts = (ArrayList<Object>) docObj.get("contracts");
+                if (contracts != null) {
+                    ArrayList<BasicDBObject> outOffContracts = getOutOffContract(start, end, contracts );
+                }
                 if (docObj.get("contractIssue") != null) {
                     if (commons.comparaData(docObj.getString("contractIssue"), start)) {
                         result = new BasicDBObject();
@@ -306,7 +310,49 @@ public class DayPilot {
         return result;
 	}
 
-	private BasicDBObject montaFiltroHomeStay(String filtroIdI, String filtroIdII, BasicDBObject setQuery){
+    private ArrayList<BasicDBObject> getOutOffContract(String start, String end, ArrayList<Object> contracts) {
+	    ArrayList<BasicDBObject> result = new ArrayList<>();
+        String startCompare = start;
+        String endCompare = end;
+
+        if (contracts.size() > 0){
+            BasicDBObject contractStart = new BasicDBObject();
+            contractStart.putAll((Map) contracts.get(0));
+            BasicDBObject contractEnd = new BasicDBObject();
+            contractEnd.putAll((Map) contracts.get(contracts.size()));
+            if (contractStart.get("start") != null && contractStart.get("end") != null && contractEnd.get("start") != null && contractEnd.get("end") != null) {
+                if (commons.comparaData(contractStart.getString("start"), end) || commons.comparaData(contractEnd.getString("end"), startCompare)) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.put("start", startCompare);
+                    outOffContract.put("end", endCompare);
+                    result.add(outOffContract);
+                }
+            }
+
+        }
+
+        for (int i = 0; i < contracts.size() ; i++) {
+            BasicDBObject contract = new BasicDBObject();
+            contract.putAll((Map) contracts.get(i));
+            if (contract.get("start") != null && contract.get("end") != null){
+                if (commons.comparaData(contract.getString("start"), start) && commons.comparaData(endCompare, contract.getString("start"))){
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.put("start", start);
+                    outOffContract.put("end", startCompare);
+                    result.add(outOffContract);
+                    if (commons.comparaData(endCompare, contract.getString("start"))){
+                        startCompare = contract.getString("start");
+                    }else{
+                        startCompare = endCompare;
+                    }
+                }
+            }
+        }
+
+	    return result;
+    }
+
+    private BasicDBObject montaFiltroHomeStay(String filtroIdI, String filtroIdII, BasicDBObject setQuery){
 
         if (!filtroIdI.equals("") && !filtroIdII.equals("")) {
             BasicDBList or = new BasicDBList();
