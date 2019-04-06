@@ -82,19 +82,19 @@ public class Commons_DB {
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject setQuery = new BasicDBObject();
-        if (key.equals("_id")) {
-            ObjectId idObj = new ObjectId(value);
-            setQuery = new BasicDBObject(key, idObj);
+        if (value.equals("onlyOneRegister")) {
+            FindIterable<Document> cursor = collection.find(setQuery);
+            if (cursor.first() != null) {
+                BasicDBObject documento = new BasicDBObject();
+                documento.putAll((Map) cursor.first().get("documento"));
+                documento.put("_id", cursor.first().get("_id").toString());
+                mongo.close();
+                return documento;
+            }
         } else {
-            if (value.equals("onlyOneRegister")) {
-                FindIterable<Document> cursor = collection.find(setQuery);
-                if (cursor.first() != null) {
-                    BasicDBObject documento = new BasicDBObject();
-                    documento.putAll((Map) cursor.first().get("documento"));
-                    documento.put("_id", cursor.first().get("_id").toString());
-                    mongo.close();
-                    return documento;
-                }
+            if (key.equals("_id")) {
+                ObjectId idObj = new ObjectId(value);
+                setQuery = new BasicDBObject(key, idObj);
             } else {
                 setQuery = new BasicDBObject(key, value);
             }

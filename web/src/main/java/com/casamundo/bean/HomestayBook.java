@@ -20,54 +20,52 @@ public class HomestayBook {
 	public ResponseEntity responseEmail(String alocationId, String invite) throws UnknownHostException {
 		
 		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId);
-		if ( !homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null") ) {
-			if ( homestayBook.getString("ativo").equals("ativo") ) {
-				if(homestayBook.getString("invite").equals("pendent")) {
-					ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
-					BasicDBObject update = new BasicDBObject(); 
-					update.put("field", "invite");
-					update.put("value",invite);
-					arrayUpdate.add(update);
-					if (invite.equals("no")) {
-						update = new BasicDBObject(); 
-						update.put("field", "ativo");
-						update.put("value","inativo");
+		if (homestayBook != null) {
+			if (!homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null")) {
+				if (homestayBook.getString("ativo").equals("ativo")) {
+					if (homestayBook.getString("invite").equals("pendent")) {
+						ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+						BasicDBObject update = new BasicDBObject();
+						update.put("field", "invite");
+						update.put("value", invite);
 						arrayUpdate.add(update);
+						if (invite.equals("no")) {
+							update = new BasicDBObject();
+							update.put("field", "ativo");
+							update.put("value", "inativo");
+							arrayUpdate.add(update);
+						}
+						update = new BasicDBObject();
+						update.put("field", "confirmWho");
+						update.put("value", "family");
+						arrayUpdate.add(update);
+						Date today = new Date();
+						SimpleDateFormat datePattern = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+						update = new BasicDBObject();
+						update.put("field", "confirmWhen");
+						update.put("value", datePattern.format(today));
+						arrayUpdate.add(update);
+						commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
+						if (invite.equals("yes")) {
+							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted");
+							return ResponseEntity.ok().body("Offer successfull accepted.");
+						} else {
+							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused");
+							return ResponseEntity.ok().body("Offer successfull recused.");
+						}
+					} else {
+						if (invite.equals("yes")) {
+							return ResponseEntity.ok().body("Offer already accepted.");
+						} else {
+							return ResponseEntity.ok().body("Offer already recused.");
+						}
 					}
-					update = new BasicDBObject(); 
-					update.put("field", "confirmWho");
-					update.put("value","family");
-					arrayUpdate.add(update);
-					Date today = new Date();
-					SimpleDateFormat datePattern = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-					update = new BasicDBObject(); 
-					update.put("field", "confirmWhen");
-					update.put("value",datePattern.format(today));
-					arrayUpdate.add(update);
-					commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
-					if (invite.equals("yes")) {
-						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted" );
-						return ResponseEntity.ok().body("Offer successfull accepted.");
-					}
-					else {
-						emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused" );
-						return ResponseEntity.ok().body("Offer successfull recused.");
-					}
+				} else {
+					return ResponseEntity.ok().body("Offer canceled.");
 				}
-				else {
-					if (invite.equals("yes")) {
-						return ResponseEntity.ok().body("Offer already accepted.");
-					}
-					else {
-						return ResponseEntity.ok().body("Offer already recused.");
-					}
-				}
-			}
-			else {
-				return ResponseEntity.ok().body("Offer canceled.");
 			}
 		}
-		return ResponseEntity.ok().body("Error.");
+		return ResponseEntity.ok().body("The trip does not exist or invalid.");
 	}
 
 	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException {
