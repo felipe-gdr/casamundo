@@ -76,7 +76,7 @@ public class Rest_DayPilot {
 			@RequestParam(value = "filtroIdIV", required=false) String filtroIdIV
 	) throws UnknownHostException, MongoException {
 
-		if (start != null && end != null &&  cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null && filtroIdIV != null) {
+		if (start != null && end != null && cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null && filtroIdIV != null) {
 			MongoClient mongo = Commons_DB.getMongoClient();
 			BasicDBObject result =  dayPilot.montaSuite(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, mongo);
 			mongo.close();

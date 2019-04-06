@@ -580,7 +580,7 @@ public class DayPilot {
                     for (Object suitePeriod : suitePeriods) {
                         BasicDBObject suitePeriodObj = new BasicDBObject();
                         suitePeriodObj.putAll((Map) suitePeriod);
-                        resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suit Period", "P");
+                        resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suite Period", "P");
                     }
                 }
                 if (docObj.getString("id").equals("105")){
@@ -904,7 +904,7 @@ public class DayPilot {
             }
         }
 
-        response = commons_db.listaCrudQuery("suitBook", null, null, userId, setQuery, null, false, mongo);
+        response = commons_db.listaCrudQuery("suiteBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
         arrayList = (JSONArray) response.getBody();
@@ -915,7 +915,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                docObj = commons_db.triggerDinamicData(doc, "suitBook", commons_db.montaSetQuery(doc.getString("_id")),mongo);
+                docObj = commons_db.triggerDinamicData(doc, "suiteBook", commons_db.montaSetQuery(doc.getString("_id")),mongo);
             }
         }
 
@@ -1018,7 +1018,7 @@ public class DayPilot {
         setQuery.put("documento.start", setConditionStart);
         setQuery.put("documento.end", setConditionEnd);
 
-        response = commons_db.listaCrudQuery("suitBook", null, null, userId, setQuery, null, false, mongo);
+        response = commons_db.listaCrudQuery("suiteBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
         arrayList = (JSONArray) response.getBody();
@@ -1042,7 +1042,7 @@ public class DayPilot {
         setConditionEnd.put("$lte", end);
         setQuery.put("documento.end", setConditionEnd);
 
-        response = commons_db.listaCrudQuery("suitBook", null, null, userId, setQuery, null, false, mongo);
+        response = commons_db.listaCrudQuery("suiteBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
         arrayList = (JSONArray) response.getBody();
@@ -1066,7 +1066,7 @@ public class DayPilot {
         setConditionEnd.put("$lte", end);
         setQuery.put("documento.start", setConditionEnd);
 
-        response = commons_db.listaCrudQuery("suitBook", null, null, userId, setQuery, null, false, mongo);
+        response = commons_db.listaCrudQuery("suiteBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
         arrayList = (JSONArray) response.getBody();
@@ -1092,7 +1092,7 @@ public class DayPilot {
         setQuery.put("documento.start", setConditionStart);
         setQuery.put("documento.end", setConditionEnd);
 
-        response = commons_db.listaCrudQuery("suitBook", null, null, userId, setQuery, null, false, mongo);
+        response = commons_db.listaCrudQuery("suiteBook", null, null, userId, setQuery, null, false, mongo);
 
         arrayList = new ArrayList<Object>();
         arrayList = (JSONArray) response.getBody();
