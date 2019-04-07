@@ -355,19 +355,9 @@ public class Invoice {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void atualizarReceivementsInvoice(String receivementId, Boolean estorno, BasicDBObject receivementInput) throws UnknownHostException {
+	public void atualizarReceivementsInvoice(String receivementId, Boolean estorno, ArrayList<Object> invoices) throws UnknownHostException {
 
-		BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
-
-		ArrayList<Object> invoices = new ArrayList<Object>();
-        if (receivementAtu != null) {
-            if (receivementAtu.get("invoices") != null) {
-                invoices = (ArrayList<Object>) receivementAtu.get("invoices");
-            }
-        }else{
-            invoices = (ArrayList<Object>) receivementInput.get("invoices");
-            receivementAtu = receivementInput;
-        }
+        BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", receivementId);
 
 		for (int i = 0; i < invoices.size(); i++) {
 			BasicDBObject invoice = new BasicDBObject();

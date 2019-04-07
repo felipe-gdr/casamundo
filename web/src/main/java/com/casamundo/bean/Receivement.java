@@ -3,17 +3,21 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Receivement {
 
     Commons commons = new Commons();
     Commons_DB commons_db = new Commons_DB();
+    Invoice invoice = new Invoice();
 
     public BasicDBObject listaDatatable(Map<String, String> params) throws UnknownHostException {
 
@@ -55,5 +59,44 @@ public class Receivement {
         result.put("recordsTotal", count);
 
         return result;
+    }
+
+    public ResponseEntity atualiza (JSONObject queryParam) throws UnknownHostException {
+        List arrayUpdate = (List) queryParam.get("update");
+
+        BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", queryParam.get("value").toString());
+
+        ArrayList<Object> invoices = new ArrayList<Object>();
+
+        if (receivementAtu != null) {
+            if (receivementAtu.get("invoices") != null) {
+                invoices = (ArrayList<Object>) receivementAtu.get("invoices");
+                invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), true, invoices);
+            }
+        }
+
+        for (int i = 0; i < arrayUpdate.size(); i++) {
+            BasicDBObject setUpdate = new BasicDBObject();
+            setUpdate.putAll((Map) arrayUpdate.get(i));
+            if (setUpdate.getString("field").equals("invoices")) {
+                ArrayList docUpdate = (ArrayList) setUpdate.get("value");
+                JSONArray arrayField = new JSONArray();
+                for (int j = 0; j < docUpdate.size(); j++) {
+                    if (docUpdate.get(j) instanceof String) {
+                        invoices.add(docUpdate.get(j));
+                    } else {
+                        BasicDBObject docUpdateItem = new BasicDBObject();
+                        docUpdateItem.putAll((Map) docUpdate.get(j));
+                        invoices.add(docUpdateItem);
+                    }
+                }
+            }
+        }
+
+        ResponseEntity response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
+        if (response.getStatusCode() == HttpStatus.OK) {
+            invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), false, invoices);
+        };
+        return ResponseEntity.ok().body("true");
     }
 }

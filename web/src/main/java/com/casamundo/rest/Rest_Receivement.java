@@ -37,7 +37,9 @@ public class Rest_Receivement {
 		ResponseEntity response = commons_db.incluirCrud("receivement", documento);
 		if (response.getStatusCode() == HttpStatus.OK) {
 			String receiveId = (String) response.getBody();
-			invoice.atualizarReceivementsInvoice(receiveId.toString(), false, documento);
+			ArrayList<Object> invoices = new ArrayList<Object>();
+			invoices = (ArrayList<Object>) documento.get("invoices");
+			invoice.atualizarReceivementsInvoice(receiveId, true, invoices);
 		};
 		return response;
 
@@ -48,17 +50,7 @@ public class Rest_Receivement {
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-            List arrayUpdate = (List) queryParam.get("update");
-            BasicDBObject setUpdate = new BasicDBObject();
-            setUpdate.putAll((Map) arrayUpdate.get(0));
-            BasicDBObject receivement = new BasicDBObject();
-            receivement.putAll((Map) setUpdate.get("value"));
-			invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), true, receivement);
-			ResponseEntity response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
-			if (response.getStatusCode() == HttpStatus.OK) {
-				invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), false, receivement);
-			};
-			return ResponseEntity.ok().body("true");
+			return receivement.atualiza(queryParam);
 		}else{
 			return ResponseEntity.badRequest().build();
 		}
