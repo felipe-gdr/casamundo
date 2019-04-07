@@ -54,7 +54,7 @@ public class HomestayBook {
 							return ResponseEntity.ok().body("Offer successfull recused.");
 						}
 					} else {
-						if (invite.equals("yes")) {
+						if (homestayBook.getString("invite").equals("yes")) {
 							return ResponseEntity.ok().body("Offer already accepted.");
 						} else {
 							return ResponseEntity.ok().body("Offer already recused.");
