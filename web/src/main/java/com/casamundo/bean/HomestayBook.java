@@ -48,16 +48,16 @@ public class HomestayBook {
 						commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
 						if (invite.equals("yes")) {
 							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted");
-							return ResponseEntity.ok().body("Offer successfull accepted.");
+							return ResponseEntity.ok().body("Offer successfully accepted.");
 						} else {
 							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused");
-							return ResponseEntity.ok().body("Offer successfull recused.");
+							return ResponseEntity.ok().body("Offer successfully refused.");
 						}
 					} else {
 						if (homestayBook.getString("invite").equals("yes")) {
 							return ResponseEntity.ok().body("Offer already accepted.");
 						} else {
-							return ResponseEntity.ok().body("Offer already recused.");
+							return ResponseEntity.ok().body("Offer already refused.");
 						}
 					}
 				} else {
