@@ -90,7 +90,13 @@ public class DayPilot {
                 if (contracts != null) {
                     outOffContracts = getOutOffContract(start, end, contracts );
                 }
-                if (docObj.get("contractIssue") != null) {
+                for (int j = 0; j < outOffContracts.size(); j++) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.putAll((Map) outOffContracts.get(j));
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
+
+                }
+/*                if (docObj.get("contractIssue") != null) {
                     if (commons.comparaData(docObj.getString("contractIssue"), start)) {
                         result = new BasicDBObject();
                         result.put("start", start + "T00:00:00");
@@ -124,7 +130,7 @@ public class DayPilot {
                         resultListEventIII.add(result);
                     }
                 }
-            }
+*/            }
         }
 
         setQuery = new BasicDBObject();
@@ -605,7 +611,13 @@ public class DayPilot {
                 if (contracts != null) {
                     outOffContracts = getOutOffContract(start, end, contracts );
                 }
+                for (int j = 0; j < outOffContracts.size(); j++) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.putAll((Map) outOffContracts.get(j));
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
 
+                }
+/*
                 if (docObj.get("endDate") != null) {
                     if (commons.comparaData(start, docObj.getString("endDate"))) {
                         resultListEventII = montaEventShared(resultListEventII, docObj, start, end, "Out of contract", "O");
@@ -626,7 +638,7 @@ public class DayPilot {
                     resultListEventII = montaEventShared(resultListEventII, docObj, start, startOut, "Out of contract", "O");
                     resultListEventII = montaEventShared(resultListEventII, docObj, endOut, end, "Out of contract", "O");
                 }
-            }
+*/            }
         }
 
         setQuery = new BasicDBObject();
@@ -988,22 +1000,28 @@ public class DayPilot {
                 if (contracts != null) {
                     outOffContracts = getOutOffContract(start, end, contracts );
                 }
-                if (docObj.get("endDate") != null) {
-                    if (commons.comparaData(start, docObj.getString("endDate"))) {
-                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
-                    }
+                for (int j = 0; j < outOffContracts.size(); j++) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.putAll((Map) outOffContracts.get(j));
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
+
                 }
-                if (docObj.get("startDate") != null) {
-                    if (commons.comparaData(docObj.getString("startDate"), end)) {
-                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
-                    }
-                }
-                if (!start.equals(startOut) && end.equals(endOut)) {
-                    resultListEventII = montaEventSuit(resultListEventII, docObj, start, startOut, "Out of contract", "O");
-                }
-                if (start.equals(startOut) && !end.equals(endOut)) {
-                    resultListEventII = montaEventSuit(resultListEventII, docObj, endOut, end, "Out of contract", "O");
-                }
+//                if (docObj.get("endDate") != null) {
+//                    if (commons.comparaData(start, docObj.getString("endDate"))) {
+//                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
+//                    }
+//                }
+//                if (docObj.get("startDate") != null) {
+//                    if (commons.comparaData(docObj.getString("startDate"), end)) {
+//                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
+//                    }
+//                }
+//                if (!start.equals(startOut) && end.equals(endOut)) {
+//                    resultListEventII = montaEventSuit(resultListEventII, docObj, start, startOut, "Out of contract", "O");
+//                }
+//                if (start.equals(startOut) && !end.equals(endOut)) {
+//                    resultListEventII = montaEventSuit(resultListEventII, docObj, endOut, end, "Out of contract", "O");
+//                }
             }
         }
 
