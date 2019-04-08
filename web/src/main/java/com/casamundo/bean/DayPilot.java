@@ -1053,7 +1053,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookSuit(resultListBook, docObj, mongo);
             }
         }
 
@@ -1077,7 +1077,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookSuit(resultListBook, docObj, mongo);
             }
         }
 
@@ -1281,12 +1281,10 @@ public class DayPilot {
 
     private String montabackColorSuite(BasicDBObject docObj) {
 
-        String backColor = "#ff8b2c";;
+        String backColor = "#ffc0c0";;
 
         if(docObj.getString("gender").equals("Male")){
             backColor = "#D5E6F9";
-        }else{
-            backColor = "#ffc0c0";
         }
 
         return backColor;
