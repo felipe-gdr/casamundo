@@ -1202,7 +1202,7 @@ public class DayPilot {
         result.put("deleteDisabled",false);
         result.put("studentId",docObj.get("studentId"));
         result.put("barHidden",true);
-        result.put("backColor",montabackColor(docObj));
+        result.put("backColor",montabackColorSuite(docObj));
         result.put("studentIdTravel",docObj.get("studentIdTravel"));
         if (accomodation != null){
             result.put("checkIn",accomodation.get("checkIn"));
@@ -1273,6 +1273,20 @@ public class DayPilot {
             if (docObj.getString("allocate").equals("")) {
                 backColor = "#eeeeee";
             }
+        }
+
+        return backColor;
+
+    }
+
+    private String montabackColorSuite(BasicDBObject docObj) {
+
+        String backColor = "#ff8b2c";;
+
+        if(docObj.getString("gender").equals("Male")){
+            backColor = "#D5E6F9";
+        }else{
+            backColor = "#ffc0c0";
         }
 
         return backColor;
