@@ -345,7 +345,11 @@ public class DayPilot {
             if (contract.get("start") != null && contract.get("end") != null){
                 if (commons.comparaData(contract.getString("start"), startCompare) && commons.comparaData(endCompare, contract.getString("start"))){
                     BasicDBObject outOffContract = new BasicDBObject();
-                    outOffContract.put("start", startCompare);
+                    if (startCompare.equals(start)) {
+                        outOffContract.put("start", startCompare);
+                    }else{
+                        outOffContract.put("start", commons.calcNewDate(startCompare,1));
+                    }
                     outOffContract.put("end", contract.getString("start"));
                     result.add(outOffContract);
                     if (commons.comparaData(endCompare, contract.getString("end"))){
@@ -356,7 +360,7 @@ public class DayPilot {
                 }
                 if (commons.comparaData(contract.getString("end"), startCompare) && commons.comparaData(startCompare, contract.getString("start"))){
                     BasicDBObject outOffContract = new BasicDBObject();
-                    outOffContract.put("start", contract.getString("end"));
+                    outOffContract.put("start", commons.calcNewDate(contract.getString("end"), 1));
                     if ((i + 1) < contracts.size()){
                         BasicDBObject nextContract = new BasicDBObject();
                         nextContract.putAll((Map) contracts.get(i + 1));
@@ -392,7 +396,7 @@ public class DayPilot {
             if (contractEnd.get("start") != null && contractEnd.get("end") != null) {
                 if (commons.comparaData(end, contractEnd.getString("end")) && commons.comparaData(commons.calcNewDate(contractEnd.getString("end"), + 1), startCompare)) {
                     BasicDBObject outOffContract = new BasicDBObject();
-                    outOffContract.put("start", contractEnd.get("end"));
+                    outOffContract.put("start", commons.calcNewDate(contractEnd.getString("end"), 1));
                     outOffContract.put("end", end);
                     result.add(outOffContract);
                 }
