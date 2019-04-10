@@ -729,4 +729,20 @@ public class Commons {
 		return result;
 
 	}
+
+    public boolean checkData(String date) {
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, (Integer.parseInt(date.substring(5, 7)) ) - 1 );
+		cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+		cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(8, 10)));
+		cal.setLenient(false);
+		try {
+			cal.getTime();
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 };

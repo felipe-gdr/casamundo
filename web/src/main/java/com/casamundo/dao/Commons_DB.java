@@ -962,25 +962,25 @@ public class Commons_DB {
                 result = triggerPaymentDinamicData(doc, setQuery, mongo);
                 break;
             case "familyDorm":
-                result = triggerFamilyDormDinamicData(doc, setQuery, mongo);
+ //               result = triggerFamilyDormDinamicData(doc, setQuery, mongo);
                 break;
             case "dorm":
-                result = triggerDormDinamicData(doc, setQuery, mongo);
+ //               result = triggerDormDinamicData(doc, setQuery, mongo);
                 break;
             case "apartment":
-                result = triggerApartmentDinamicData(doc, setQuery, mongo);
+ //               result = triggerApartmentDinamicData(doc, setQuery, mongo);
                 break;
             case "homestayBook":
-                result = triggerHomeStayDinamicData(doc, setQuery, mongo);
+ //               result = triggerHomeStayDinamicData(doc, setQuery, mongo);
                 break;
             case "sharedBook":
-                result = triggerSharedDinamicData(doc, setQuery, mongo);
+  //              result = triggerSharedDinamicData(doc, setQuery, mongo);
                 break;
             case "unSharedBook":
-                result = triggerUnSharedDinamicData(doc, setQuery, mongo);
+ //               result = triggerUnSharedDinamicData(doc, setQuery, mongo);
                 break;
             case "suiteBook":
-                result = triggerSuiteDinamicData(doc, setQuery, mongo);
+  //              result = triggerSuiteDinamicData(doc, setQuery, mongo);
                 break;
             default:
                 // code block
@@ -1393,7 +1393,7 @@ public class Commons_DB {
             docObj.put("age", "0");
         }
 
-
+/*
         String collecion = "homebook";
         switch (docObj.getString("accControl")) {
             case "homestay":
@@ -1435,7 +1435,7 @@ public class Commons_DB {
         atualiza = setObjeto(docObj,"status", status, atualiza);
         atualiza = setObjeto(docObj,"nextCheckIn", nextCheckIn, atualiza);
         atualiza = setObjeto(docObj,"uniqueAlocId", dataAllocate.getString("uniqueAlocId"), atualiza);
-
+*/
         if (atualiza) {
             docObj.remove("_id");
             doc.remove("_id");
@@ -1447,6 +1447,7 @@ public class Commons_DB {
             return docObj;
         }
         ;
+
         if (fechaMongo) {
             mongo.close();
         }
