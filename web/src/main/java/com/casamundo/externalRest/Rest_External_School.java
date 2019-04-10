@@ -1,6 +1,6 @@
 package com.casamundo.externalRest;
 
-import com.casamundo.externalBean.School;
+import com.casamundo.externalBean.External_School;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +10,9 @@ import java.net.UnknownHostException;
 
 @RestController
 @RequestMapping("/external/school")
-public class Rest_School {
+public class Rest_External_School {
 
-	School school = new School();
+	External_School school = new External_School();
 
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/lista", produces = "application/json")

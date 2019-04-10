@@ -4,7 +4,7 @@ import com.casamundo.bean.Invoice;
 import com.casamundo.bean.Payment;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
-import com.casamundo.externalBean.Book;
+import com.casamundo.externalBean.External_Book;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoException;
 import org.bson.types.ObjectId;
@@ -17,13 +17,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/external/book")
-public class Rest_Book {
+public class Rest_External_Book {
 
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	Invoice invoice = new Invoice();
 	Payment payment = new Payment();
-	Book book = new Book();
+	External_Book book = new External_Book();
 
 	@SuppressWarnings({ "rawtypes" })
 	@PostMapping(value = "/insert", consumes = "application/json")

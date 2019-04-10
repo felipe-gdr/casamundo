@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-public class Book {
+public class External_Book {
 
 	Commons_DB commons_db = new Commons_DB();
 	Commons commons = new Commons();

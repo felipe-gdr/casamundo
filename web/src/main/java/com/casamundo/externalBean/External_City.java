@@ -9,20 +9,19 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Agency {
+public class External_City {
 
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ResponseEntity listaAgency() throws UnknownHostException{
-
+	public ResponseEntity lista() throws UnknownHostException {
 		BasicDBObject setQuery = new BasicDBObject();
-		ResponseEntity response = commons_db.listaCrud("agency", null, null, null, setQuery, null, false);
-
+		ResponseEntity response = commons_db.listaCrud("school", null, null, null, setQuery, null, false);
+	
 		ArrayList<Object> resultList = new ArrayList<Object>();
 		ArrayList<Object> arrayList = new ArrayList<Object>();
 		arrayList = (JSONArray) response.getBody();
-
+	
 		if (arrayList != null) {
 			for (int i = 0; i < arrayList.size(); i++) {
 				BasicDBObject itemList = new BasicDBObject();
@@ -35,7 +34,9 @@ public class Agency {
 				resultList.add(result);
 			}
 		}
+
 		return ResponseEntity.ok().body(resultList);
+	
 	}
 
 }

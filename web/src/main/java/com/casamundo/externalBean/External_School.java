@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class City {
+public class External_School {
 
 	Commons_DB commons_db = new Commons_DB();
 
