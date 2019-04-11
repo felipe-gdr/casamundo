@@ -589,34 +589,17 @@ public class DayPilot {
                         columns.add(column);
                         result.put("columns", columns);
                         resultListDorm.add(result);
-                    }
-                }
 
-                ArrayList suitePeriods = new ArrayList();
-                BasicDBObject apartment = commons_db.obterCrudDocQuery("apartment", "_id", docObj.getString("apartmentId"), mongo);
-                if (apartment.get("suitePeriods") != null) {
-                    suitePeriods = (ArrayList) apartment.get("suitePeriods");
-                    for (Object suitePeriod : suitePeriods) {
-                        BasicDBObject suitePeriodObj = new BasicDBObject();
-                        suitePeriodObj.putAll((Map) suitePeriod);
-                        resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suite Period", "P");
-                    }
-                }
-                if (docObj.getString("id").equals("105")){
-                    String a= "";
-                }
-                String startOut = start;
-                String endOut = end;
-                if (docObj.get("startDate") != null) {
-                    if (commons.comparaData(docObj.getString("startDate"), start) &&
-                            commons.comparaData(end, docObj.getString("startDate"))) {
-                        startOut = docObj.getString("startDate");
-                    }
-                }
-                if (docObj.get("startDate") != null) {
-                    if (commons.comparaData(end, docObj.getString("endDate")) &&
-                            commons.comparaData(docObj.getString("endDate"), commons.calcNewDate(start, -1))) {
-                        endOut = docObj.getString("endDate");
+                        ArrayList suitePeriods = new ArrayList();
+                        BasicDBObject apartment = commons_db.obterCrudDocQuery("apartment", "_id", docObj.getString("apartmentId"), mongo);
+                        if (apartment.get("suitePeriods") != null) {
+                            suitePeriods = (ArrayList) apartment.get("suitePeriods");
+                            for (Object suitePeriod : suitePeriods) {
+                                BasicDBObject suitePeriodObj = new BasicDBObject();
+                                suitePeriodObj.putAll((Map) suitePeriod);
+                                resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suite Period", "P");
+                            }
+                        }
                     }
                 }
             }
@@ -644,7 +627,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookShared(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -668,7 +651,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookShared(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -692,7 +675,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookShared(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -718,7 +701,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookShared(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -738,20 +721,29 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                BasicDBObject result = new BasicDBObject();
-                result.put("resource", docObj.get("resource"));
-                result.put("resourceType", docObj.get("resourceType"));
-                result.put("start",docObj.get("start"));
-                result.put("end",docObj.get("end"));
-                result.put("id","u" + docObj.get("id"));
-                result.put("text","Unavailable");
-                result.put("resizeDisabled",false);
-                result.put("moveDisabled",false);
-                result.put("deleteDisabled",false);
-                result.put("barHidden",true);
-                result.put("backColor","#8e8e8e");
-                result.put("fontColor","#ffffff");
-                resultListEventIII.add(result);
+                Boolean existeId = false;
+                for (BasicDBObject listDorm: resultListDorm){
+                        if (listDorm.get("id").equals(docObj.get("id"))){
+                        existeId = true;
+                        break;
+                    }
+                }
+                if (existeId) {
+                    BasicDBObject result = new BasicDBObject();
+                    result.put("resource", docObj.get("resource"));
+                    result.put("resourceType", docObj.get("resourceType"));
+                    result.put("start", docObj.get("start"));
+                    result.put("end", docObj.get("end"));
+                    result.put("id", "u" + docObj.get("id"));
+                    result.put("text", "Unavailable");
+                    result.put("resizeDisabled", false);
+                    result.put("moveDisabled", false);
+                    result.put("deleteDisabled", false);
+                    result.put("barHidden", true);
+                    result.put("backColor", "#8e8e8e");
+                    result.put("fontColor", "#ffffff");
+                    resultListEventIII.add(result);
+                }
             }
         }
 
@@ -792,7 +784,18 @@ public class DayPilot {
         return setQuery;
 
     }
-    private ArrayList<BasicDBObject> montaBookShared(ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
+    private ArrayList<BasicDBObject> montaBookShared(ArrayList<BasicDBObject> resultListDorm, ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
+
+        Boolean existeId = false;
+        for (BasicDBObject listDorm: resultListDorm){
+            if (listDorm.get("id").equals(docObj.get("id"))){
+                existeId = true;
+                break;
+            }
+        }
+        if (existeId) {
+            return resultListBook;
+        }
         BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
         if (docObj.get("studentId") != null) {
@@ -965,47 +968,16 @@ public class DayPilot {
                         columns.add(column);
                         result.put("columns", columns);
                         resultListDorm.add(result);
-                    }
-                }
 
-                ArrayList<BasicDBObject> sharedPeriods = new ArrayList();
-                sharedPeriods = (ArrayList) docObj.get("sharedPeriods");
-                for (Object sharedPeriod : sharedPeriods) {
-                    BasicDBObject sharedPeriodObj = new BasicDBObject();
-                    sharedPeriodObj.putAll((Map) sharedPeriod);
-                    resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriodObj.getString("start"), sharedPeriodObj.getString("end"), "Shared Period", "P");
-                }
-
-                String startOut = start;
-                String endOut = end;
-                if (docObj.get("startDate") != null) {
-                    if (commons.comparaData(docObj.getString("startDate"), start) &&
-                            commons.comparaData(end, docObj.getString("startDate"))) {
-                        startOut = docObj.getString("startDate");
+                        ArrayList<BasicDBObject> sharedPeriods = new ArrayList();
+                        sharedPeriods = (ArrayList) docObj.get("sharedPeriods");
+                        for (Object sharedPeriod : sharedPeriods) {
+                            BasicDBObject sharedPeriodObj = new BasicDBObject();
+                            sharedPeriodObj.putAll((Map) sharedPeriod);
+                            resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriodObj.getString("start"), sharedPeriodObj.getString("end"), "Shared Period", "P");
+                        }
                     }
                 }
-                if (docObj.get("startDate") != null) {
-                    if (commons.comparaData(end, docObj.getString("endDate")) &&
-                            commons.comparaData(docObj.getString("endDate"), commons.calcNewDate(start, -1))) {
-                        endOut = docObj.getString("endDate");
-                    }
-                }
-//                if (docObj.get("endDate") != null) {
-//                    if (commons.comparaData(start, docObj.getString("endDate"))) {
-//                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
-//                    }
-//                }
-//                if (docObj.get("startDate") != null) {
-//                    if (commons.comparaData(docObj.getString("startDate"), end)) {
-//                        resultListEventII = montaEventSuit(resultListEventII, docObj, start, end, "Out of contract", "O");
-//                    }
-//                }
-//                if (!start.equals(startOut) && end.equals(endOut)) {
-//                    resultListEventII = montaEventSuit(resultListEventII, docObj, start, startOut, "Out of contract", "O");
-//                }
-//                if (start.equals(startOut) && !end.equals(endOut)) {
-//                    resultListEventII = montaEventSuit(resultListEventII, docObj, endOut, end, "Out of contract", "O");
-//                }
             }
         }
 
@@ -1031,7 +1003,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookSuit(resultListBook, docObj, mongo);
+                resultListBook = montaBookSuit(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -1055,7 +1027,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookSuit(resultListBook, docObj, mongo);
+                resultListBook = montaBookSuit(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -1079,7 +1051,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookSuit(resultListBook, docObj, mongo);
+                resultListBook = montaBookSuit(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -1105,7 +1077,7 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                resultListBook = montaBookShared(resultListBook, docObj, mongo);
+                resultListBook = montaBookShared(resultListDorm, resultListBook, docObj, mongo);
             }
         }
 
@@ -1125,20 +1097,29 @@ public class DayPilot {
                 doc.putAll((Map) arrayList.get(i));
                 BasicDBObject docObj = new BasicDBObject();
                 docObj.putAll((Map) doc.get("documento"));
-                BasicDBObject result = new BasicDBObject();
-                result.put("resource", docObj.get("resource"));
-                result.put("resourceType", docObj.get("resourceType"));
-                result.put("start",docObj.get("start"));
-                result.put("end",docObj.get("end"));
-                result.put("id","u"+ docObj.get("id"));
-                result.put("text","Unavailable");
-                result.put("resizeDisabled",false);
-                result.put("moveDisabled",false);
-                result.put("deleteDisabled",false);
-                result.put("barHidden",true);
-                result.put("backColor","#8e8e8e");
-                result.put("fontColor","#ffffff");
-                resultListEventI.add(result);
+                Boolean existeId = false;
+                for (BasicDBObject listDorm: resultListDorm){
+                    if (listDorm.get("id").equals(docObj.get("id"))){
+                        existeId = true;
+                        break;
+                    }
+                }
+                if (existeId) {
+                    BasicDBObject result = new BasicDBObject();
+                    result.put("resource", docObj.get("resource"));
+                    result.put("resourceType", docObj.get("resourceType"));
+                    result.put("start", docObj.get("start"));
+                    result.put("end", docObj.get("end"));
+                    result.put("id", "u" + docObj.get("id"));
+                    result.put("text", "Unavailable");
+                    result.put("resizeDisabled", false);
+                    result.put("moveDisabled", false);
+                    result.put("deleteDisabled", false);
+                    result.put("barHidden", true);
+                    result.put("backColor", "#8e8e8e");
+                    result.put("fontColor", "#ffffff");
+                    resultListEventI.add(result);
+                }
             }
         }
 
@@ -1182,7 +1163,18 @@ public class DayPilot {
 
     }
 
-    private ArrayList<BasicDBObject> montaBookSuit(ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
+    private ArrayList<BasicDBObject> montaBookSuit(ArrayList<BasicDBObject> resultListDorm, ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
+
+        Boolean existeId = false;
+        for (BasicDBObject listDorm: resultListDorm){
+            if (listDorm.get("id").equals(docObj.get("id"))){
+                existeId = true;
+                break;
+            }
+        }
+        if (existeId) {
+            return resultListBook;
+        }
         BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
         if (docObj.get("studentId") != null) {
