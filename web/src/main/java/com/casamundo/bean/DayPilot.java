@@ -385,7 +385,7 @@ public class DayPilot {
         }
 
         BasicDBObject result = new BasicDBObject();
-        result.put("resultArray", resultArray);
+        result.put("outOffContracts", resultArray);
         result.put("totalOutOffContract", totalOutOffContract);
 	    return result;
     }
