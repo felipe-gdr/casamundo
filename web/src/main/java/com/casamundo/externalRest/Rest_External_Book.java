@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Map;
 
@@ -98,8 +99,9 @@ public class Rest_External_Book {
 	public ResponseEntity getBook(@RequestParam("type") String type,
 								  @RequestParam("start") String start,
 								  @RequestParam("end") String end,
-								  @RequestParam("city") String city
-								 ) {
+								  @RequestParam("city") String city,
+								  @RequestParam("variables") JSONObject variables
+								 ) throws IOException {
 
 		if (!type.equals("homestayBook") && !type.equals("suiteBook") && !type.equals("sharedBook") ){
 			return ResponseEntity.badRequest().build();
@@ -121,7 +123,7 @@ public class Rest_External_Book {
 			return ResponseEntity.badRequest().build();
 		}
 
-		return book.getAvailable(type, start, end,city);
+		return book.getAvailable(type, start, end,city, variables);
 	};
 
 };

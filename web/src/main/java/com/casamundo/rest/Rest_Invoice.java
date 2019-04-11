@@ -80,7 +80,7 @@ public class Rest_Invoice {
 	public ArrayList calculaInvoiceAutomatica(
 			@RequestParam("travelId") String travelId, 
 			@RequestParam("userId") String userId) throws IOException, MongoException {
-		return invoice.calculaInvoiceAutomatica(travelId, userId);
+		return invoice.calculaInvoiceAutomatica(travelId, userId, null);
 	};
 
 

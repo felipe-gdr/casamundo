@@ -1,14 +1,17 @@
 package com.casamundo.externalBean;
 
+import com.casamundo.bean.Invoice;
 import com.casamundo.commons.Commons;
 import com.casamundo.commons.SendEmailHtml;
 import com.casamundo.commons.TemplateEmail;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 
 import javax.xml.ws.Response;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ public class External_Book {
 
 	Commons_DB commons_db = new Commons_DB();
 	Commons commons = new Commons();
+	Invoice invoice = new Invoice();
 
 	public ResponseEntity responseEmail(String alocationId, String invite) throws UnknownHostException {
 		
@@ -100,44 +104,63 @@ public class External_Book {
 		}
 	};
 
-	public ResponseEntity getAvailable(String type, String start, String end, String city) {
+	public ResponseEntity getAvailable(String type, String start, String end, String city, JSONObject variables) throws IOException {
 
 
 		ArrayList<BasicDBObject> result = new ArrayList<>();
 
 		String collection = "";
-		String allocation = "";
-		String allocationId = "";
+		String allocationCollection = "";
+		String idOrigem = "";
+		String idDestino = "";
 		switch(type) {
 			case "homestay":
 				collection = "familyDorns";
-				allocation = "homestayBook";
-				allocationId = "familyRoom";
+				allocationCollection = "homestayBook";
+				idOrigem = "familyRoom";
+				idDestino = "documento.familyRoom";
 				break;
 			case "suite":
-				collection = "room";
-				allocation = "suiteBook";
-				allocationId = "resource";
+				collection = "dorm";
+				allocationCollection = "suiteBook";
+				idOrigem = "id";
+				idDestino = "documento.resource";
 				break;
 			case "shared":
-				collection = "room";
-				allocation = "sharedBook";
-				allocationId = "resource";
+				collection = "dorm";
+				allocationCollection = "sharedBook";
+				idOrigem = "id";
+				idDestino = "documento.resource";
 				break;
 			default:
 				// code block
 		}
 
 		ResponseEntity response = commons_db.listaCrud(collection, "documento.city", city, null, null, null, true);
-		ArrayList<Object> books = new ArrayList<Object>();
-		books = (JSONArray) response.getBody();
+		ArrayList<Object> resources = new ArrayList<Object>();
+		resources = (JSONArray) response.getBody();
 
-		if (books != null) {
-			for (int i = 0; i < books.size(); i++) {
-				BasicDBObject book = new BasicDBObject();
-				book.putAll((Map) books.get(i));
-				BasicDBObject bookDoc = new BasicDBObject();
-				bookDoc.putAll((Map) book.get("documento"));
+		if (resources != null) {
+			for (int i = 0; i < resources.size(); i++) {
+				BasicDBObject resource = new BasicDBObject();
+				resource.putAll((Map) resources.get(i));
+				BasicDBObject resourceDoc = new BasicDBObject();
+				resourceDoc.putAll((Map) resource.get("documento"));
+				response = commons_db.listaCrud(allocationCollection, idDestino, city, null, null, null, true);
+				ArrayList<Object> allocations = new ArrayList<Object>();
+				allocations = (JSONArray) response.getBody();
+
+				if (allocations != null) {
+					for (int j = 0; j < allocations.size(); j++) {
+						BasicDBObject allocation = new BasicDBObject();
+						allocation.putAll((Map) allocations.get(j));
+						BasicDBObject allocationDoc = new BasicDBObject();
+						allocationDoc.putAll((Map) allocation.get("documento"));
+						if (commons.getDaysInterval(start, end, allocationDoc.getString("start"), allocationDoc.getString("end")).getInt("days") == 0){
+							ArrayList products = invoice.calculaInvoiceAutomatica(null,null,variables);
+						}
+					}
+				}
 			}
 		}
 		return null;

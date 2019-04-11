@@ -5,6 +5,7 @@ import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -159,7 +160,7 @@ public class Invoice {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(String travelId, String userId) throws IOException  {
+	public ArrayList calculaInvoiceAutomatica(String travelId, String userId, JSONObject accomodationInput) throws IOException  {
 
 
 		if (travelId.equals(null)) {
