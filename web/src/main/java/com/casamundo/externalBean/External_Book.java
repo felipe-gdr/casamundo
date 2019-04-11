@@ -104,7 +104,31 @@ public class External_Book {
 
 
 		ArrayList<BasicDBObject> result = new ArrayList<>();
-		ResponseEntity response = commons_db.listaCrud(type, "documento.city", city, null, null, null, true);
+
+		String collection = "";
+		String allocation = "";
+		String allocationId = "";
+		switch(type) {
+			case "homestay":
+				collection = "familyDorns";
+				allocation = "homestayBook";
+				allocationId = "familyRoom";
+				break;
+			case "suite":
+				collection = "room";
+				allocation = "suiteBook";
+				allocationId = "resource";
+				break;
+			case "shared":
+				collection = "room";
+				allocation = "sharedBook";
+				allocationId = "resource";
+				break;
+			default:
+				// code block
+		}
+
+		ResponseEntity response = commons_db.listaCrud(collection, "documento.city", city, null, null, null, true);
 		ArrayList<Object> books = new ArrayList<Object>();
 		books = (JSONArray) response.getBody();
 
@@ -112,8 +136,8 @@ public class External_Book {
 			for (int i = 0; i < books.size(); i++) {
 				BasicDBObject book = new BasicDBObject();
 				book.putAll((Map) books.get(i));
-				BasicDBObject paymentDoc = new BasicDBObject();
-				paymentDoc.putAll((Map) book.get("documento"));
+				BasicDBObject bookDoc = new BasicDBObject();
+				bookDoc.putAll((Map) book.get("documento"));
 			}
 		}
 		return null;

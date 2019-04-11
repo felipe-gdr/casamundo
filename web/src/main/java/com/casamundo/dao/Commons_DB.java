@@ -583,6 +583,7 @@ public class Commons_DB {
         if (companyTable != null) {
             setQuery.put("documento." + companyTable, user.get("company"));
         }
+        long count = collection.count(setQuery);
 
         BasicDBList or = new BasicDBList();
         int i = 0;
@@ -634,16 +635,27 @@ public class Commons_DB {
             }
         }
 
+        ArrayList<ArrayList<String>> listas = new ArrayList<>();
+        FindIterable<Document> cursor = collection.find(setQuery);
+        if (cursor.first() != null) {
+            for (Document current : cursor) {
+                BasicDBObject docObj = new BasicDBObject();
+                docObj.putAll((Map) current.get("documento"));
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) current);
+                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
+                montaDropDown(collectionName, docObj, listas, params);
+            }
+        }
+
         long countFiltered = collection.countDocuments(setQuery);
 
-        FindIterable<Document> cursor = collection.find(setQuery).sort(setSort);
+        cursor = collection.find(setQuery).sort(setSort);
         if (length != -1) {
             cursor.skip(start);
             cursor.limit(length);
         }
         JSONArray documentos = new JSONArray();
-        ArrayList<ArrayList<String>> listas = new ArrayList<>();
-        long count = 0;
         if (cursor.first() != null) {
             ArrayList cityUser = (ArrayList) user.get("city");
             for (Document current : cursor) {
@@ -652,7 +664,6 @@ public class Commons_DB {
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
                 doc.put("_id", current.get("_id").toString());
-                montaDropDown(collectionName, docObj, listas, params);
                 if (cityTable != null) {
                     Object object = docObj.get(cityTable);
                     if (object != null) {
