@@ -102,6 +102,7 @@ public class External_Book {
 
 	public ResponseEntity getAvailable(String type, String start, String end, String city) {
 
+
 		ArrayList<BasicDBObject> result = new ArrayList<>();
 		ResponseEntity response = commons_db.listaCrud(type, "documento.city", city, null, null, null, true);
 		ArrayList<Object> books = new ArrayList<Object>();
