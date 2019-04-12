@@ -1633,12 +1633,12 @@ public class Commons_DB {
 
     }
 
-    private Boolean setObjeto(BasicDBObject docObj, String nameColumn, String value, Boolean atualiza) {
+    private Boolean setObjeto(BasicDBObject docObj, String nameColumn, Object value, Boolean atualiza) {
         if (docObj.get(nameColumn) == null) {
             docObj.put(nameColumn, value);
             atualiza = true;
         }else {
-            if (!docObj.getString(nameColumn).equals(value)) {
+            if (!docObj.get(nameColumn).equals(value)) {
                 docObj.put(nameColumn, value);
                 atualiza = true;
             }
@@ -1781,17 +1781,49 @@ public class Commons_DB {
                                 if (group(triggedDoc, field, "Destiny", "destiny") != null) {
                                     if (!group(triggedDoc, field, "Destiny", "destiny").equals(group(doc, field, "Origin", "origin"))) {
                                         if (field.getString("fixed") != null) {
-                                            triggedDoc.put(field.getString("destiny"), field.getString("value"));
+                                            triggedDoc.put(field.getString("destiny"), field.get("value"));
                                         } else {
-                                            triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+                                            if (group(doc, field, "Origin", "origin") instanceof ArrayList) {
+                                                ArrayList docUpdate = (ArrayList) group(doc, field, "Origin", "origin");
+                                                triggedDoc.remove(field.getString("destiny"));
+                                                JSONArray arrayField = new JSONArray();
+                                                for (int z = 0; z < docUpdate.size(); z++) {
+                                                    if (docUpdate.get(z) instanceof String) {
+                                                        arrayField.add(docUpdate.get(z));
+                                                    } else {
+                                                        BasicDBObject docUpdateItem = new BasicDBObject();
+                                                        docUpdateItem.putAll((Map) docUpdate.get(z));
+                                                        arrayField.add(docUpdateItem);
+                                                    }
+                                                }
+                                                triggedDoc.put(field.getString("destiny"), arrayField);
+                                            }else {
+                                                triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+                                            }
                                         }
                                         atualiza = true;
                                     }
                                 } else {
                                     if (field.getString("fixed") != null) {
-                                        triggedDoc.put(field.getString("destiny"), field.getString("value"));
+                                        triggedDoc.put(field.getString("destiny"), field.get("value"));
                                     } else {
-                                        triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+                                        if (group(doc, field, "Origin", "origin") instanceof ArrayList) {
+                                            ArrayList docUpdate = (ArrayList) group(doc, field, "Origin", "origin");
+                                            triggedDoc.remove(field.getString("destiny"));
+                                            JSONArray arrayField = new JSONArray();
+                                            for (int z = 0; z < docUpdate.size(); z++) {
+                                                if (docUpdate.get(z) instanceof String) {
+                                                    arrayField.add(docUpdate.get(z));
+                                                } else {
+                                                    BasicDBObject docUpdateItem = new BasicDBObject();
+                                                    docUpdateItem.putAll((Map) docUpdate.get(z));
+                                                    arrayField.add(docUpdateItem);
+                                                }
+                                            }
+                                            triggedDoc.put(field.getString("destiny"), arrayField);
+                                        }else {
+                                            triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+                                        }
                                     }
                                     atualiza = true;
                                 }
@@ -1811,6 +1843,7 @@ public class Commons_DB {
                                 if (triggerObj.get("triggersExternal") != null) {
                                     ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
                                     for (int k = 0; k < triggersExternal.size(); k++) {
+                                        triggedDoc = obterCrudDoc(trigger.getString("collection"),"_id", setQuery.getString("_id"));
                                         BasicDBObject triggerExternal = new BasicDBObject();
                                         triggerExternal.putAll((Map) triggersExternal.get(k));
                                         if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null) {
@@ -1945,12 +1978,12 @@ public class Commons_DB {
         return triggedDoc;
     }
 
-    private String group(BasicDBObject doc, BasicDBObject field, String typeGroup, String type) {
+    private Object group(BasicDBObject doc, BasicDBObject field, String typeGroup, String type) {
         if (field.get("group" + typeGroup + "0") == null) {
             if (doc.get(field.getString(type)) == null) {
                 return null;
             }else{
-                return doc.getString(field.getString(type));
+                return doc.get(field.getString(type));
             }
         }
         BasicDBObject group = new BasicDBObject();
@@ -1965,7 +1998,7 @@ public class Commons_DB {
         if (group.get(field.getString(type)) == null) {
             return null;
         }else{
-            return group.getString(field.getString(type));
+            return group.get(field.getString(type));
         }
     }
 
