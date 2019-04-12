@@ -583,7 +583,23 @@ public class Commons_DB {
         if (companyTable != null) {
             setQuery.put("documento." + companyTable, user.get("company"));
         }
-        long count = collection.count(setQuery);
+
+
+        long count = 0;
+
+        ArrayList<ArrayList<String>> listas = new ArrayList<>();
+        FindIterable<Document> cursor = collection.find(setQuery);
+        if (cursor.first() != null) {
+            for (Document current : cursor) {
+                BasicDBObject docObj = new BasicDBObject();
+                docObj.putAll((Map) current.get("documento"));
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) current);
+                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
+                montaDropDownFilters(collectionName, docObj, listas, params);
+                count++;
+            }
+        }
 
         BasicDBList or = new BasicDBList();
         int i = 0;
@@ -635,8 +651,7 @@ public class Commons_DB {
             }
         }
 
-        ArrayList<ArrayList<String>> listas = new ArrayList<>();
-        FindIterable<Document> cursor = collection.find(setQuery);
+        cursor = collection.find(setQuery);
         if (cursor.first() != null) {
             for (Document current : cursor) {
                 BasicDBObject docObj = new BasicDBObject();
@@ -712,30 +727,66 @@ public class Commons_DB {
         }
     }
 
-    private void montaDropDown(String collectionName, BasicDBObject docObj, ArrayList<ArrayList<String>> listas,  Map<String, String> params) {
+    private void montaDropDownFilters(String collectionName, BasicDBObject docObj, ArrayList<ArrayList<String>> listas, Map<String, String> params) {
         int i = 0;
         while (params.get("columns[" + i + "][data]") != null) {
             if (listas.size() < (i + 1)) {
                 listas.add(new ArrayList<>());
             }
-            if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop")) {
-                String a = params.get("columns[" + i + "][data]").substring(10);
-                if (docObj.get(params.get("columns[" + i + "][data]").substring(10)) != null) {
-                    if (!commons.testaElementoArray(docObj.getString(params.get("columns[" + i + "][data]").substring(10)), listas.get(i))) {
-                        if (!docObj.getString(params.get("columns[" + i + "][data]").substring(10)).equals("")) {
-                            listas.get(i).add(docObj.getString(params.get("columns[" + i + "][data]").substring(10)));
+            if (params.get("columns[" + i + "][search][value]") != "") {
+                if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop")) {
+                    String a = params.get("columns[" + i + "][data]").substring(10);
+                    if (docObj.get(params.get("columns[" + i + "][data]").substring(10)) != null) {
+                        if (!commons.testaElementoArray(docObj.getString(params.get("columns[" + i + "][data]").substring(10)), listas.get(i))) {
+                            if (!docObj.getString(params.get("columns[" + i + "][data]").substring(10)).equals("")) {
+                                listas.get(i).add(docObj.getString(params.get("columns[" + i + "][data]").substring(10)));
+                            }
+                        }
+                    }
+                    if (collectionName.equals("travel")) {
+                        BasicDBObject accomodation = new BasicDBObject();
+                        if (docObj.get("accomodation") != null) {
+                            accomodation.putAll((Map) docObj.get("accomodation"));
+                            if (params.get("columns[" + i + "][data]").length() > 23) {
+                                if (accomodation.get(params.get("columns[" + i + "][data]").substring(23)) != null) {
+                                    if (!commons.testaElementoArray(accomodation.getString(params.get("columns[" + i + "][data]").substring(23)), listas.get(i))) {
+                                        if (!accomodation.getString(params.get("columns[" + i + "][data]").substring(23)).equals("")) {
+                                            listas.get(i).add(accomodation.getString(params.get("columns[" + i + "][data]").substring(23)));
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                if (collectionName.equals("travel")) {
-                    BasicDBObject accomodation = new BasicDBObject();
-                    if (docObj.get("accomodation") != null) {
-                        accomodation.putAll((Map) docObj.get("accomodation"));
-                        if (params.get("columns[" + i + "][data]").length() > 23) {
-                            if (accomodation.get(params.get("columns[" + i + "][data]").substring(23)) != null) {
-                                if (!commons.testaElementoArray(accomodation.getString(params.get("columns[" + i + "][data]").substring(23)), listas.get(i))) {
-                                    if (!accomodation.getString(params.get("columns[" + i + "][data]").substring(23)).equals("")) {
-                                        listas.get(i).add(accomodation.getString(params.get("columns[" + i + "][data]").substring(23)));
+            }
+            ++i;
+        }
+    }
+
+    private void montaDropDown(String collectionName, BasicDBObject docObj, ArrayList<ArrayList<String>> listas,  Map<String, String> params) {
+        int i = 0;
+        while (params.get("columns[" + i + "][data]") != null) {
+            if (params.get("columns[" + i + "][search][value]") == "") {
+                if (params.get("columns[" + i + "][data]").length() > 9 && !params.get("columns[" + i + "][name]").equals("notPop")) {
+                    String a = params.get("columns[" + i + "][data]").substring(10);
+                    if (docObj.get(params.get("columns[" + i + "][data]").substring(10)) != null) {
+                        if (!commons.testaElementoArray(docObj.getString(params.get("columns[" + i + "][data]").substring(10)), listas.get(i))) {
+                            if (!docObj.getString(params.get("columns[" + i + "][data]").substring(10)).equals("")) {
+                                listas.get(i).add(docObj.getString(params.get("columns[" + i + "][data]").substring(10)));
+                            }
+                        }
+                    }
+                    if (collectionName.equals("travel")) {
+                        BasicDBObject accomodation = new BasicDBObject();
+                        if (docObj.get("accomodation") != null) {
+                            accomodation.putAll((Map) docObj.get("accomodation"));
+                            if (params.get("columns[" + i + "][data]").length() > 23) {
+                                if (accomodation.get(params.get("columns[" + i + "][data]").substring(23)) != null) {
+                                    if (!commons.testaElementoArray(accomodation.getString(params.get("columns[" + i + "][data]").substring(23)), listas.get(i))) {
+                                        if (!accomodation.getString(params.get("columns[" + i + "][data]").substring(23)).equals("")) {
+                                            listas.get(i).add(accomodation.getString(params.get("columns[" + i + "][data]").substring(23)));
+                                        }
                                     }
                                 }
                             }
