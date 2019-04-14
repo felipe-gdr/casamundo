@@ -1885,6 +1885,11 @@ public class Commons_DB {
             return false;
         }
 
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         ArrayList<Object> triggers = (ArrayList<Object>) triggerObj.get("triggers");
 
         for (int i = 0; i < triggers.size(); i++) {
@@ -1991,6 +1996,9 @@ public class Commons_DB {
                     }
                 }
             }
+        }
+        if (fechaMongo){
+            mongo.close();
         }
         return true;
     }
