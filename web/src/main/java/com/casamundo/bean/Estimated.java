@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ public class Estimated {
 	PriceTable priceTable = new PriceTable();
 
 	@SuppressWarnings({ "rawtypes", "unchecked"})
-	public void criarCosts(ArrayList<Object> products,  String travelId,  String invoiceId) throws UnknownHostException {
+	public void criarCosts(ArrayList<Object> products, String travelId, String invoiceId, MongoClient mongo) throws UnknownHostException {
 
-        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
-        BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId);
+        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
+        BasicDBObject invoice = commons_db.obterCrudDoc("invoice", "_id", invoiceId, mongo);
         String studentId =  (String) travel.get("studentId");
 
-        commons_db.removerCrud("estimated", "documento.invoiceId", invoiceId, null);
+        commons_db.removerCrud("estimated", "documento.invoiceId", invoiceId, null, mongo);
 
         for (int i = 0; i < products.size(); i++) {
             BasicDBObject accomodation = new BasicDBObject();
@@ -36,7 +37,7 @@ public class Estimated {
             itemCost.put("invoiceId", invoiceId);
             itemCost.put("travelId", travelId);
             itemCost.put("status", "to approve");
-            itemCost.put("number", commons_db.getNumber("numberEstimated", "yearNumberEstimated"));
+            itemCost.put("number", commons_db.getNumber("numberEstimated", "yearNumberEstimated", mongo));
             itemCost.put("destination", travel.get("destination"));
             itemCost.put("item", product.get("id"));
             if (product.get("dates") != null) {
@@ -44,7 +45,7 @@ public class Estimated {
                 for (int j = 0; j < dates.size(); j++) {
                     BasicDBObject date = new BasicDBObject();
                     date.putAll((Map) dates.get(j));
-                    ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null, invoice.getString("netGross"));
+                    ArrayList<BasicDBObject> costs = priceTable.getCost(date.getString("start"), date.getString("end"), travelId, product.getString("id"), null, invoice.getString("netGross"), mongo);
                     for (BasicDBObject cost : costs) {
                         itemCost.put("cost", cost.get("value"));
                         itemCost.put("start", cost.getString("start"));
@@ -58,14 +59,14 @@ public class Estimated {
                                 value = Double.parseDouble(cost.getString("value"));
                             }
                         }
-                        BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"));
+                        BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"), mongo);
                         if (productDoc.getString("charging") != "week" && productDoc.getString("charging") != "eNight"){
                             days = 0;
                         }
                         if (value != 0.0) {
                             double amountValue = days * value;
                             itemCost.put("totalAmount", Double.toString(amountValue));
-                            commons_db.incluirCrud("estimated", itemCost);
+                            commons_db.incluirCrud("estimated", itemCost, mongo);
                         }
                     }
                 }

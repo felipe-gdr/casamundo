@@ -4,6 +4,7 @@ import com.casamundo.bean.PaymentBank;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,42 +26,61 @@ public class Rest_PaymentBank {
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ArrayList incluir(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 
-        return paymentBank.incluir(doc);
+        MongoClient mongo = new MongoClient();
+        ArrayList response = paymentBank.incluir(doc, mongo);
+        mongo.close();
+        return response;
 	};
 
     @SuppressWarnings("rawtypes")
     @PostMapping(value = "/atualizar/pagamento", consumes = "application/json")
     public Boolean atualizarPagamento(@RequestBody String paymentBankId) throws UnknownHostException, MongoException  {
 
-        return paymentBank.atualizaPagamento(paymentBankId);
+        MongoClient mongo = new MongoClient();
+        Boolean response =paymentBank.atualizaPagamento(paymentBankId, mongo);
+        mongo.close();;
+        return response;
     };
 
     @SuppressWarnings("rawtypes")
     @PostMapping(value = "/atualizar", consumes = "application/json")
     public ResponseEntity atualizar(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 
-        return paymentBank.atualiza(doc);
+        MongoClient mongo = commons_db.getMongoClient();
+        ResponseEntity response = paymentBank.atualiza(doc, mongo);
+        mongo.close();
+        return response;
     };
 
     @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/delete", produces = "application/json")
     public ResponseEntity delete(
             @RequestParam("paymentBankId") String paymentBankId) throws IOException, MongoException {
-        return paymentBank.delete(paymentBankId);
+
+        MongoClient mongo = commons_db.getMongoClient();
+        ResponseEntity response = paymentBank.delete(paymentBankId, mongo);
+        mongo.close();
+        return response;
     };
 
     @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/lista", produces = "application/json")
     public ArrayList lista(
             @RequestParam("userId") String userId) throws IOException, MongoException {
-        return paymentBank.lista(userId);
+        MongoClient mongo = commons_db.getMongoClient();
+        ArrayList response = paymentBank.lista(userId, mongo);
+        mongo.close();
+        return response;
     };
 
     @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/lista/payments", produces = "application/json")
-    public ArrayList calculaInvoiceAutomatica(
+    public ArrayList listaPayments(
             @RequestParam("paymentBankId") String paymentBankId) throws IOException, MongoException {
-        return paymentBank.listaPayments(paymentBankId);
+        MongoClient mongo = commons_db.getMongoClient();
+        ArrayList response = paymentBank.listaPayments(paymentBankId, mongo);
+        mongo.close();
+        return response;
     };
 };
 

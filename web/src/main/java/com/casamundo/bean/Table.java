@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 
 import java.net.UnknownHostException;
 
@@ -12,9 +13,9 @@ public class Table {
     Commons_DB commons_db = new Commons_DB();
     Commons commons = new Commons();
 
-    public BasicDBObject obterTable() throws UnknownHostException {
+    public BasicDBObject obterTable(MongoClient mongo) throws UnknownHostException {
 
-        BasicDBObject table = commons_db.obterCrudDoc("table", "", "onlyOneRegister");
+        BasicDBObject table = commons_db.obterCrudDoc("table", "", "onlyOneRegister", mongo);
 
         BasicDBObject result = new BasicDBObject();
         result.put("_id", table.get("_id"));

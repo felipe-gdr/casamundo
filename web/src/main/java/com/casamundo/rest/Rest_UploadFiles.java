@@ -1,10 +1,8 @@
 package com.casamundo.rest;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
+import com.casamundo.bean.UploadFiles;
+import com.casamundo.dao.Commons_DB;
+import com.mongodb.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,65 +38,26 @@ public class Rest_UploadFiles {
      * Devolve a imagem com o mime type do ficheiro ou 404 caso
      * o ficheiro n�o seja encontrada.
      */
+
+     Commons_DB commons_db = new Commons_DB();
+     UploadFiles uploadFiles = new UploadFiles();
     @SuppressWarnings("rawtypes")
     @GetMapping(value = "/images", produces = "image/*")
     public ResponseEntity getImage(@PathVariable("image") String image) throws UnknownHostException {
 
-        String folder = "c:/images/casamundo/";
-        Mongo mongo;
-        mongo = new Mongo();
-        DB db = mongo.getDB("documento");
-        DBCollection collection = db.getCollection("setup");
-        BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
-        DBObject cursor = collection.findOne(searchQuery);
-
-        if (cursor != null) {
-            BasicDBObject obj = new BasicDBObject();
-            obj.putAll((Map) cursor.get("documento"));
-            folder = obj.getString("setupValue");
-        }
-
+        MongoClient mongo = commons_db.getMongoClient();
+        ResponseEntity response = uploadFiles.uploadFiles(image, mongo);
         mongo.close();
-
-        File target = new File(folder + image);
-        if (!target.exists()) {
-            System.out.println("imagem inexistente:" + folder + image);
-//            throw new WebApplicationException(404);
-        }
-        String mt = new MimetypesFileTypeMap().getContentType(target);
-
-        return ResponseEntity.ok().contentType(MediaType.valueOf(mt)).body(target);
+        return response;
     }
+
 
     @SuppressWarnings("rawtypes")
     @PostMapping(value = "/files", consumes = "multipart/form-data")
     public ResponseEntity uploadFile(@RequestParam MultipartFile input, @PathVariable("prefix") String prefix) throws UnknownHostException {
-        String folder = "c:/images/casamundo/";
-        Mongo mongo;
-
-        mongo = new Mongo();
-        DB db = mongo.getDB("documento");
-        DBCollection collection = db.getCollection("setup");
-        BasicDBObject searchQuery = new BasicDBObject("documento.setupKey", "fotosCasamundo");
-        DBObject cursor = collection.findOne(searchQuery);
-        if (cursor != null) {
-            BasicDBObject obj = new BasicDBObject();
-            obj.putAll((Map) cursor.get("documento"));
-            folder = obj.getString("setupValue");
-        }
-
-        String fileName = prefix + "_" + StringUtils.cleanPath(input.getOriginalFilename());
-
-        try {
-            try (InputStream inputStream = input.getInputStream()) {
-                Files.copy(inputStream, Paths.get(folder + fileName),
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro inesperado ao salvar arquivo");
-        }
-
-        return ResponseEntity.ok()
-                .body("uploadFile is called, Uploaded file name : " + fileName);
+        MongoClient mongo = commons_db.getMongoClient();
+        ResponseEntity response = uploadFiles.uploadFile(input, prefix, mongo);
+        mongo.close();
+        return response;
     }
 }

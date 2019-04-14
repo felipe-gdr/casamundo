@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class Receivement {
     Commons_DB commons_db = new Commons_DB();
     Invoice invoice = new Invoice();
 
-    public BasicDBObject listaDatatable(Map<String, String> params) throws UnknownHostException {
+    public BasicDBObject listaDatatable(Map<String, String> params, MongoClient mongo) throws UnknownHostException {
 
         if (params.get("companyId") == null || params.get("usuarioId") == null){
             return null;
@@ -34,7 +35,7 @@ public class Receivement {
         BasicDBObject result = new BasicDBObject();
         result.put("draw", params.get("draw"));
 
-        ResponseEntity response = commons_db.listaCrudSkip("receivement", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        ResponseEntity response = commons_db.listaCrudSkip("receivement", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params, mongo);
         BasicDBObject retorno = new BasicDBObject();
         if ((response.getStatusCode() == HttpStatus.OK)) {
             retorno.putAll((Map) response.getBody());
@@ -61,17 +62,17 @@ public class Receivement {
         return result;
     }
 
-    public ResponseEntity atualiza (JSONObject queryParam) throws UnknownHostException {
+    public ResponseEntity atualiza (JSONObject queryParam, MongoClient mongo) throws UnknownHostException {
         List arrayUpdate = (List) queryParam.get("update");
 
-        BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", queryParam.get("value").toString());
+        BasicDBObject receivementAtu = commons_db.obterCrudDoc("receivement", "_id", queryParam.get("value").toString(), mongo);
 
         ArrayList<Object> invoices = new ArrayList<Object>();
 
         if (receivementAtu != null) {
             if (receivementAtu.get("invoices") != null) {
                 invoices = (ArrayList<Object>) receivementAtu.get("invoices");
-                invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), true, invoices);
+                invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), true, invoices, mongo);
             }
         }
 
@@ -93,9 +94,9 @@ public class Receivement {
             }
         }
 
-        ResponseEntity response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
+        ResponseEntity response = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString(), mongo);
         if (response.getStatusCode() == HttpStatus.OK) {
-            invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), false, invoices);
+            invoice.atualizarReceivementsInvoice(queryParam.get("value").toString(), false, invoices, mongo);
         };
         return ResponseEntity.ok().body("true");
     }

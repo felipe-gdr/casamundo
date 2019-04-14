@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.MongoClient;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,13 +34,14 @@ public class Rest_Receivement {
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ResponseEntity incluir(@RequestBody BasicDBObject documento) throws UnknownHostException, MongoException  {
-		
-		ResponseEntity response = commons_db.incluirCrud("receivement", documento);
+
+		MongoClient mongo = commons_db.getMongoClient();
+		ResponseEntity response = commons_db.incluirCrud("receivement", documento, mongo);
 		if (response.getStatusCode() == HttpStatus.OK) {
 			String receiveId = (String) response.getBody();
 			ArrayList<Object> invoices = new ArrayList<Object>();
 			invoices = (ArrayList<Object>) documento.get("invoices");
-			invoice.atualizarReceivementsInvoice(receiveId, true, invoices);
+			invoice.atualizarReceivementsInvoice(receiveId, true, invoices, mongo);
 		};
 		return response;
 
@@ -50,7 +52,10 @@ public class Rest_Receivement {
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-			return receivement.atualiza(queryParam);
+			MongoClient mongo = commons_db.getMongoClient();
+			ResponseEntity response = receivement.atualiza(queryParam, mongo);
+			mongo.close();
+			return response;
 		}else{
 			return ResponseEntity.badRequest().build();
 		}
@@ -61,13 +66,19 @@ public class Rest_Receivement {
 	@RequestMapping(value = "/lista/datatable", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public BasicDBObject listaDatatable( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
 
-		return receivement.listaDatatable(params);
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = receivement.listaDatatable(params, mongo);
+		mongo.close();
+		return response;
 
 	};
 
 	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
-		return commons_db.getNumber("numberReceivement", "yearNumberReceivement");
+		MongoClient mongo = commons_db.getMongoClient();
+		String response = commons_db.getNumber("numberReceivement", "yearNumberReceivement", mongo);
+		mongo.close();
+		return response;
 	};
 };
 

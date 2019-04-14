@@ -2,6 +2,7 @@ package com.casamundo.rest;
 
 import java.net.UnknownHostException;
 
+import com.mongodb.MongoClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,10 @@ public class Rest_HomestayBook {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/responseEmail", produces = "application/json")
 	public ResponseEntity ObterEmail(@RequestParam("alocationId") String alocationId, @RequestParam("invite") String invite) throws UnknownHostException, MongoException {
-		return homestayBook.responseEmail(alocationId, invite);
+		MongoClient mongo = commons_db.getMongoClient();
+		ResponseEntity response = homestayBook.responseEmail(alocationId, invite, mongo);
+		mongo.close();
+		return response;
 
 	}
 };

@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,12 @@ public class Family {
 
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
+	public BasicDBObject lista(Map<String, String> params, MongoClient mongo) throws UnknownHostException {
 
 		BasicDBObject result = new BasicDBObject();
 		result.put("draw", params.get("draw"));
 
-        ResponseEntity response = commons_db.listaCrudSkip("family", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        ResponseEntity response = commons_db.listaCrudSkip("family", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params, mongo);
 		BasicDBObject retorno = new BasicDBObject();
 		if ((response.getStatusCode() == HttpStatus.OK)) {
 			retorno.putAll((Map) response.getBody());

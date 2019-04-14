@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.Map;
 
+import com.mongodb.MongoClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +27,20 @@ public class Rest_Student {
 	public BasicDBObject getAllocation(
 			@RequestParam(value = "studentId") String studentId, 
 			@RequestParam(value = "userId", required=false) String userId) throws UnknownHostException, MongoException {
-		return student.getAllocation(studentId, userId);
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = student.getAllocation(studentId, userId, mongo);
+		mongo.close();
+		return response;
 	};
 
 	@SuppressWarnings("rawtypes")
     @RequestMapping(value = "/lista", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public BasicDBObject lista( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
 
-		return student.lista(params);
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = student.lista(params, mongo);
+		mongo.close();
+		return response;
 
 	};
 };

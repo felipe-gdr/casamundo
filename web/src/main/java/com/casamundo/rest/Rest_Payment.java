@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.casamundo.bean.PriceTable;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.MediaType;
@@ -33,7 +34,10 @@ public class Rest_Payment {
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/incluir", consumes = "application/json")
 	public ResponseEntity incluir(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
-		return invoice.incluir(doc);
+		MongoClient mongo = new MongoClient();
+		ResponseEntity response = invoice.incluir(doc, mongo);
+		mongo.close();
+		return response;
 	};
 
 	@SuppressWarnings("rawtypes")
@@ -42,7 +46,8 @@ public class Rest_Payment {
 		
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-			commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString());
+			MongoClient mongo = commons_db.getMongoClient();
+			commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get("update"), queryParam.get("key").toString(), queryParam.get("value").toString(), mongo);
 			return ResponseEntity.ok().body("true");
 		}else{
 			return ResponseEntity.badRequest().build();
@@ -55,10 +60,15 @@ public class Rest_Payment {
 			@RequestParam(value = "accControl", required=false) String accControl,
 			@RequestParam(value = "userId", required=false) String userId ) throws UnknownHostException, MongoException {
 		
+		MongoClient mongo = commons_db.getMongoClient();
 		if (date != null && accControl != null && userId != null) {
-			return payment.listaPending(date, accControl, userId);
+			ArrayList<BasicDBObject> response = payment.listaPending(date, accControl, userId, mongo);
+			mongo.close();
+			return response;
 		}else{
-			return payment.listaPending(null, accControl, userId);
+			ArrayList<BasicDBObject> response = payment.listaPending(null, accControl, userId, mongo);
+			mongo.close();
+			return response;
 		}
 
 	}
@@ -70,7 +80,9 @@ public class Rest_Payment {
 	) throws UnknownHostException, MongoException {
 
 		if (cycleId != null) {
-			return payment.getProcessig(userId, cycleId);
+			MongoClient mongo = commons_db.getMongoClient();
+			ArrayList<BasicDBObject> response = payment.getProcessig(userId, cycleId, mongo);
+			return response;
 		}
 		return null;
 
@@ -82,10 +94,15 @@ public class Rest_Payment {
 			@RequestParam(value = "accControl", required=false) String accControl,
 			@RequestParam(value = "userId", required=false) String userId ) throws UnknownHostException, MongoException {
 
+		MongoClient mongo = commons_db.getMongoClient();
 		if (date != null && accControl != null && userId != null) {
-			return payment.listaPayment(date, accControl, userId);
+			ArrayList<BasicDBObject> response = payment.listaPayment(date, accControl, userId, mongo);
+			mongo.close();
+			return response;
 		}else{
-			return payment.listaPayment(null, accControl, userId);
+			ArrayList<BasicDBObject> response = payment.listaPayment(null, accControl, userId, mongo);
+			mongo.close();
+			return response;
 		}
 
 	}
@@ -98,15 +115,16 @@ public class Rest_Payment {
 
 	) throws UnknownHostException, MongoException {
 
+		MongoClient mongo = commons_db.getMongoClient();
 		if (transferId != null  && driverId != null && netGross != null) {
-            BasicDBObject transfer = commons_db.obterCrudDoc("transfers", "_id", transferId);
+            BasicDBObject transfer = commons_db.obterCrudDoc("transfers", "_id", transferId, mongo);
             if (transfer != null) {
-                BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", transfer.getString("travelId"));
-                BasicDBObject product = commons_db.obterCrudDoc("priceTable", "documento.transferType", transfer.getString("transferType"));
+                BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", transfer.getString("travelId"), mongo);
+                BasicDBObject product = commons_db.obterCrudDoc("priceTable", "documento.transferType", transfer.getString("transferType"), mongo);
                 if (product != null && travel != null) {
                     if (product.get("_id") != null) {
-                        BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
-                        ArrayList<BasicDBObject> costs = priceTable.getCost(transfer.getString("date"), transfer.getString("date"), transfer.getString("travelId"), product.getString("_id"), driverId, netGross);
+                        BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"), mongo);
+                        ArrayList<BasicDBObject> costs = priceTable.getCost(transfer.getString("date"), transfer.getString("date"), transfer.getString("travelId"), product.getString("_id"), driverId, netGross, mongo);
                         if (costs.size() > 0) {
                             BasicDBObject cost = new BasicDBObject();
                             cost.putAll((Map) costs.get(0));
@@ -115,12 +133,14 @@ public class Rest_Payment {
                             result.put("date",cost.get("start"));
                             result.put("destinationId",travel.get("destination"));
                             result.put("studentName",student.get("firstName") + " "  + student.get("lastName"));
+                            mongo.close();
                             return result;
                         }
                     }
                 }
             }
         }
+		mongo.close();
 		return null;
 
 	}
@@ -129,13 +149,19 @@ public class Rest_Payment {
 	@RequestMapping(value = "/lista/datatable", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public BasicDBObject listaDatatable( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
 
-		return payment.listaDatatable(params);
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = payment.listaDatatable(params, mongo);
+		mongo.close();
+		return response;
 
 	};
 
 	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
-		return commons_db.getNumber("numberPayment", "yearNumberPayment");
+		MongoClient mongo = commons_db.getMongoClient();
+		String response = commons_db.getNumber("numberPayment", "yearNumberPayment", mongo);
+		mongo.close();
+		return response;
 
 	};
 };

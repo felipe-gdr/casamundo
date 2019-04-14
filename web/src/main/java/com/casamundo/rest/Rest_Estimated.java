@@ -2,6 +2,7 @@ package com.casamundo.rest;
 
 import java.net.UnknownHostException;
 
+import com.mongodb.MongoClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +22,11 @@ public class Rest_Estimated {
 
 	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
-		 
-		return commons_db.getNumber("numberEstimated", "yearNumberEstimated");
+
+		MongoClient mongo = commons_db.getMongoClient();
+		String response = commons_db.getNumber("numberEstimated", "yearNumberEstimated", mongo);
+		mongo.close();
+		return response;
 
 	};
 };

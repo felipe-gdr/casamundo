@@ -30,10 +30,9 @@ public class Rest_DayPilot {
 			) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null &&  cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null) {
-			MongoClient mongo = Commons_DB.getMongoClient();
+			MongoClient mongo = commons_db.getMongoClient();
 			BasicDBObject result =  dayPilot.montaHomeStay(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, mongo);
 			mongo.close();
-
 			return result;
 		}
 		return null;
@@ -54,7 +53,7 @@ public class Rest_DayPilot {
 	) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null &&  cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null && filtroIdIV != null) {
-			MongoClient mongo = Commons_DB.getMongoClient();
+			MongoClient mongo = commons_db.getMongoClient();
 			BasicDBObject result =  dayPilot.montaShared(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, mongo);
 			mongo.close();
 			return result;
@@ -77,7 +76,7 @@ public class Rest_DayPilot {
 	) throws UnknownHostException, MongoException {
 
 		if (start != null && end != null && cityId != null && companyId != null && userId != null && filtroIdI != null && filtroIdII != null && filtroIdIV != null) {
-			MongoClient mongo = Commons_DB.getMongoClient();
+			MongoClient mongo = commons_db.getMongoClient();
 			BasicDBObject result =  dayPilot.montaSuite(companyId, userId, start, end, cityId, filtroIdI, filtroIdII, filtroIdIII, filtroIdIV, mongo);
 			mongo.close();
 			return result;
@@ -91,7 +90,10 @@ public class Rest_DayPilot {
 	public BasicDBObject resizeCheckHomestay(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
 
 		if (params != null) {
-			return dayPilot.resizeCheck(params, "homestayBook");
+			MongoClient mongo = commons_db.getMongoClient();
+			BasicDBObject response = dayPilot.resizeCheck(params, "homestayBook", mongo);
+			mongo.close();
+			return response;
 		};
 		BasicDBObject result = new BasicDBObject();
 		result.put("allow", "false");
@@ -105,7 +107,10 @@ public class Rest_DayPilot {
 	public BasicDBObject resizeCheckShared(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
 
 		if (params != null) {
-			return dayPilot.resizeCheck(params, "sharedBook");
+			MongoClient mongo = commons_db.getMongoClient();
+			BasicDBObject response = dayPilot.resizeCheck(params, "sharedBook", mongo);
+			mongo.close();
+			return response;
 		};
 		BasicDBObject result = new BasicDBObject();
 		result.put("allow", "false");
@@ -119,7 +124,10 @@ public class Rest_DayPilot {
 	public BasicDBObject resizeCheckSuite(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
 
 		if (params != null) {
-			return dayPilot.resizeCheck(params, "suiteBook");
+			MongoClient mongo = commons_db.getMongoClient();
+			BasicDBObject response = dayPilot.resizeCheck(params, "suiteBook", mongo);
+			mongo.close();
+			return response;
 		};
 		BasicDBObject result = new BasicDBObject();
 		result.put("allow", "false");
