@@ -89,6 +89,15 @@ public class Rest_Invoice {
 
 	};
 
+	@RequestMapping(value = "/calculanoiteextra", produces = "application/json")
+	public BasicDBObject testaData(
+			@RequestParam ("start") String start,
+			@RequestParam ("end") String end
+	) throws UnknownHostException, MongoException {
+		return commons.numberWeeks(start, end, "homestay");
+	};
+
+
 };
 
 
