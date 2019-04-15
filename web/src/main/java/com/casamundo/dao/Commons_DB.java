@@ -245,7 +245,6 @@ public class Commons_DB {
         insert.putAll((Map) documentoFinal);
         collection.insertOne(insert);
         insert.put("_id", insert.get("_id").toString());
-        System.out.println("incluiu invoice");
         if (fechaMongo) {
             mongo.close();
         }
@@ -271,9 +270,11 @@ public class Commons_DB {
 
         BasicDBObject objDocumento = new BasicDBObject();
         ResponseEntity response = obterCrud(collectionName, key, valueInp, mongo);
+        String triggerId = null;
         if ((response.getStatusCode() == HttpStatus.OK)) {
             BasicDBObject cursor = new BasicDBObject();
             cursor.putAll((Map) response.getBody());
+            triggerId = cursor.getString("_id");
             if (cursor != null) {
                 objDocumento.putAll((Map) cursor.get("documento"));
             } else {
@@ -337,7 +338,6 @@ public class Commons_DB {
             doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
             BasicDBObject setQuery = new BasicDBObject();
             String id = null;
-            id = null;
             if (key.equals("_id")) {
                 ObjectId idObj = new ObjectId(valueInp);
                 setQuery = new BasicDBObject(key, idObj);
@@ -345,12 +345,13 @@ public class Commons_DB {
 
             } else {
                 setQuery = new BasicDBObject(key, valueInp);
+
             }
             Document objDocumentoUpdate = new Document();
             objDocumentoUpdate.putAll((Map) doc);
             collection.replaceOne(setQuery, objDocumentoUpdate);
-            if (id != null){
-                String finalId = id;
+            if (triggerId != null){
+                String finalId = triggerId;
                 CompletableFuture.runAsync(() -> {
                     try {
                         trigger(collectionName, finalId, null);

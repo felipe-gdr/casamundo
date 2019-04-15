@@ -86,6 +86,8 @@ public class Invoice {
 			documento.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
 			documento.put("checkIn", accomodation.get("checkIn"));
 			documento.put("checkOut", accomodation.get("checkOut"));
+            documento.put("city", travel.getString("destination"));
+            documento.put("nameCity", travel.getString("destinationName") );
 			BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
             ArrayList<Object> products = (ArrayList<Object>) documento.get("products");
 			ArrayList<Object> productsResult = new ArrayList<Object>();
