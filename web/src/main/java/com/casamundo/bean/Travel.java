@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class Travel {
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
+	public BasicDBObject lista(Map<String, String> params, MongoClient mongo) throws UnknownHostException {
 
 		if (params.get("companyId") == null || params.get("usuarioId") == null || params.get("accControl") == null  || params.get("cityId") == null){
 			return null;
@@ -35,7 +36,7 @@ public class Travel {
 
 
 
-        ResponseEntity response = commons_db.listaCrudSkip("travel", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        ResponseEntity response = commons_db.listaCrudSkip("travel", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params, mongo);
 		BasicDBObject retorno = new BasicDBObject();
 		if ((response.getStatusCode() == HttpStatus.OK)) {
 			retorno.putAll((Map) response.getBody());

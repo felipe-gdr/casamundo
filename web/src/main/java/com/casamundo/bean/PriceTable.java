@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,14 @@ public class PriceTable {
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public JSONArray listaProdutos(String travelId, String userId ) throws UnknownHostException {
+	public JSONArray listaProdutos(String travelId, String userId, MongoClient mongo) throws UnknownHostException {
 
 		JSONArray result = new JSONArray();
 
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.name", -1);
-		ResponseEntity response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort, false);
+		ResponseEntity response = commons_db.listaCrud("priceTable", null, null, userId, setQuery, setSort, false, mongo);
 		ArrayList<Object> prices = new ArrayList<Object>();
 		prices = (JSONArray) response.getBody();
 
@@ -34,7 +35,7 @@ public class PriceTable {
 				price.putAll((Map) prices.get(i));
 				BasicDBObject priceDoc = new BasicDBObject();
 				priceDoc.putAll((Map) price.get("documento"));
-				JSONObject priceValue = getDataValue(travelId, price.getString("_id"), userId);
+				JSONObject priceValue = getDataValue(travelId, price.getString("_id"), userId, mongo);
 				BasicDBObject jsonResult = new BasicDBObject();
 				jsonResult.put("_id", price.get("_id"));
 				jsonResult.put("name", priceDoc.get("name"));
@@ -50,11 +51,11 @@ public class PriceTable {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public JSONObject getDataValue(String travelId, String productId, String userId ) throws UnknownHostException {
+	public JSONObject getDataValue(String travelId, String productId, String userId, MongoClient mongo ) throws UnknownHostException {
 
 		JSONObject result = new JSONObject();
 		
-		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
 		String destination =  (String) travel.get("destination");
 		String agencyId  = (String) travel.get("agency");
 
@@ -62,7 +63,7 @@ public class PriceTable {
     	setQuery.put("documento.trip", travelId);
     	setQuery.put("documento.products.id", productId);
     	
-		ResponseEntity response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null, false);
+		ResponseEntity response = commons_db.listaCrud("invoice", null, null, userId, setQuery, null, false, mongo);
 
 		ArrayList<Object> invoice = new ArrayList<Object>();
 		invoice = (JSONArray) response.getBody();
@@ -82,7 +83,7 @@ public class PriceTable {
     	
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.to", -1);
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false, mongo);
 
 		ArrayList<Object> pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -121,7 +122,7 @@ public class PriceTable {
     		setQuery.put("documento.destination", destination);
             setQuery.put("documento.agency", "");
     	}
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false, mongo);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -159,7 +160,7 @@ public class PriceTable {
     	setQuery.put("documento.idPriceTable", productId);
         setQuery.put("documento.destination", "");
         setQuery.put("documento.agency", "");
-		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false);
+		response = commons_db.listaCrud("priceTableValue", null, null, userId, setQuery, setSort, false, mongo);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -205,10 +206,10 @@ public class PriceTable {
 	};
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList getCost(String start, String end, String travelId, String productId, String vendorId, String netGross) throws UnknownHostException {
+	public ArrayList getCost(String start, String end, String travelId, String productId, String vendorId, String netGross, MongoClient mongo) throws UnknownHostException {
 
 	    ArrayList result = new ArrayList();
-		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
 		if (travel == null){
 			return null;
 		}
@@ -235,7 +236,7 @@ public class PriceTable {
 
 		BasicDBObject setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
-		ResponseEntity response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+		ResponseEntity response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true, mongo);
 
 		ArrayList<Object> pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -282,7 +283,7 @@ public class PriceTable {
 
 		setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
-		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true, mongo);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -329,7 +330,7 @@ public class PriceTable {
 
 		setSort = new BasicDBObject();
 		setSort.put("documento.from", 1);
-		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true, mongo);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -369,7 +370,7 @@ public class PriceTable {
             setQuery.put("documento.idVendor", "");
 			setQuery.put("documento.agency", "");
     	};
-		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+		response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true, mongo);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -409,7 +410,7 @@ public class PriceTable {
         setQuery.put("documento.destination", "");
         setQuery.put("documento.idVendor", "");
 		setQuery.put("documento.agency", "");
-    	response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true);
+    	response = commons_db.listaCrud("priceTableCost", null, null, null, setQuery, setSort, true, mongo);
 
 		pricesList = new ArrayList<Object>();
 		pricesList = (JSONArray) response.getBody();
@@ -445,10 +446,10 @@ public class PriceTable {
 	};
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public ArrayList getSeasons(String start, String end, String travelId, String productId, String vendorId) throws UnknownHostException {
+    public ArrayList getSeasons(String start, String end, String travelId, String productId, String vendorId, MongoClient mongo) throws UnknownHostException {
 
         ArrayList result = new ArrayList();
-        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
         String destination =  (String) travel.get("destination");
 		String agency =  (String) travel.get("agency");
 
@@ -465,7 +466,7 @@ public class PriceTable {
 
         BasicDBObject setSort = new BasicDBObject();
         setSort.put("documento.from", 1);
-        ResponseEntity response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
+        ResponseEntity response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true, mongo);
 
         ArrayList<Object> pricesList = new ArrayList<Object>();
         pricesList = (JSONArray) response.getBody();
@@ -512,7 +513,7 @@ public class PriceTable {
             setQuery.put("documento.destination", destination);
 			setQuery.put("documento.agency", "");
         };
-        response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
+        response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true, mongo);
 
         pricesList = new ArrayList<Object>();
         pricesList = (JSONArray) response.getBody();
@@ -560,7 +561,7 @@ public class PriceTable {
         setQuery.put("documento.idPriceTable", productId);
 		setQuery.put("documento.destination", "");
 		setQuery.put("documento.agency", "");
-        response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true);
+        response = commons_db.listaCrud("priceTableValue", null, null, null, setQuery, setSort, true, mongo);
 
         pricesList = new ArrayList<Object>();
         pricesList = (JSONArray) response.getBody();

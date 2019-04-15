@@ -6,6 +6,8 @@ import com.casamundo.commons.SendEmailHtml;
 import com.casamundo.commons.TemplateEmail;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
+import com.sun.org.apache.bcel.internal.generic.MONITORENTER;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,9 @@ public class External_Book {
 	Commons commons = new Commons();
 	Invoice invoice = new Invoice();
 
-	public ResponseEntity responseEmail(String alocationId, String invite) throws UnknownHostException {
+	public ResponseEntity responseEmail(String alocationId, String invite, MongoClient mongo) throws UnknownHostException {
 		
-		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId);
+		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId, mongo);
 		if (homestayBook != null) {
 			if (!homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null")) {
 				if (homestayBook.getString("ativo").equals("ativo")) {
@@ -52,12 +54,12 @@ public class External_Book {
 						update.put("field", "confirmWhen");
 						update.put("value", datePattern.format(today));
 						arrayUpdate.add(update);
-						commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
+						commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId,mongo);
 						if (invite.equals("yes")) {
-							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted");
+							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted", mongo);
 							return ResponseEntity.ok().body("Offer successfully accepted.");
 						} else {
-							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused");
+							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused", mongo);
 							return ResponseEntity.ok().body("Offer successfully refused.");
 						}
 					} else {
@@ -75,15 +77,15 @@ public class External_Book {
 		return ResponseEntity.ok().body("The trip does not exist or invalid.");
 	}
 
-	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException {
-		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource);
+	private void emailFamily(String resource, String travelId, String start, String end, String msg, MongoClient mongo) throws UnknownHostException {
+		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource, mongo);
 		if ( !familyDorm.get("roomId").equals(null)) {
-			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRooms", "_id", familyDorm.getString("roomId"));
-			BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRooms", "_id", familyDorm.getString("roomId"), mongo);
+			BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
 			if (!familyRoom.get("familyId").equals(null) && !travel.get("studentId").equals(null)) {
-				BasicDBObject table = commons_db.obterCrudDoc("table", null, "onlyOneRegister");
-				BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
-				BasicDBObject family = commons_db.obterCrudDoc("family", "_id", familyRoom.getString("familyId"));
+				BasicDBObject table = commons_db.obterCrudDoc("table", null, "onlyOneRegister", mongo);
+				BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"), mongo);
+				BasicDBObject family = commons_db.obterCrudDoc("family", "_id", familyRoom.getString("familyId"), mongo);
 				TemplateEmail templateEmail = new TemplateEmail();
 				SendEmailHtml sendEmail = new SendEmailHtml();
 				@SuppressWarnings("unchecked")
@@ -104,7 +106,7 @@ public class External_Book {
 		}
 	};
 
-	public ResponseEntity getAvailable(String type, String start, String end, String city, JSONObject variables) throws IOException {
+	public ResponseEntity getAvailable(String type, String start, String end, String city, JSONObject variables, MongoClient mongo) throws IOException {
 
 
 		ArrayList<BasicDBObject> result = new ArrayList<>();
@@ -136,7 +138,7 @@ public class External_Book {
 				// code block
 		}
 
-		ResponseEntity response = commons_db.listaCrud(collection, "documento.city", city, null, null, null, true);
+		ResponseEntity response = commons_db.listaCrud(collection, "documento.city", city, null, null, null, true, mongo);
 		ArrayList<Object> resources = new ArrayList<Object>();
 		resources = (JSONArray) response.getBody();
 
@@ -146,7 +148,7 @@ public class External_Book {
 				resource.putAll((Map) resources.get(i));
 				BasicDBObject resourceDoc = new BasicDBObject();
 				resourceDoc.putAll((Map) resource.get("documento"));
-				response = commons_db.listaCrud(allocationCollection, idDestino, city, null, null, null, true);
+				response = commons_db.listaCrud(allocationCollection, idDestino, city, null, null, null, true, mongo);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getBody();
 
@@ -157,7 +159,7 @@ public class External_Book {
 						BasicDBObject allocationDoc = new BasicDBObject();
 						allocationDoc.putAll((Map) allocation.get("documento"));
 						if (commons.getDaysInterval(start, end, allocationDoc.getString("start"), allocationDoc.getString("end")).getInt("days") == 0){
-							ArrayList products = invoice.calculaInvoiceAutomatica(null,null,variables);
+							ArrayList products = invoice.calculaInvoiceAutomatica(null,null,variables, mongo);
 						}
 					}
 				}

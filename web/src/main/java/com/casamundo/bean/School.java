@@ -2,6 +2,7 @@ package com.casamundo.bean;
 
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
@@ -14,9 +15,9 @@ public class School {
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ArrayList<Object> lista() throws UnknownHostException {
+	public ArrayList<Object> lista(MongoClient mongo) throws UnknownHostException {
 		BasicDBObject setQuery = new BasicDBObject();
-		ResponseEntity response = commons_db.listaCrud("school", null, null, null, setQuery, null, false);
+		ResponseEntity response = commons_db.listaCrud("school", null, null, null, setQuery, null, false, mongo);
 	
 		ArrayList<Object> resultList = new ArrayList<Object>();
 		ArrayList<Object> arrayList = new ArrayList<Object>();

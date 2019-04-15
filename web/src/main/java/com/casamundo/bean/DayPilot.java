@@ -308,10 +308,6 @@ public class DayPilot {
             contractEnd.putAll((Map) contracts.get((contracts.size() - 1)));
             if (contractStart.get("start") != null && contractStart.get("end") != null && contractEnd.get("start") != null && contractEnd.get("end") != null) {
                 if (commons.comparaData(contractStart.getString("start"), end) || commons.comparaData(startCompare, contractEnd.getString("end"))) {
-//                    BasicDBObject outOffContract = new BasicDBObject();
-//                    outOffContract.put("start", startCompare);
-//                    outOffContract.put("end", endCompare);
-//                    result.add(outOffContract);
                     totalOutOffContract = "true";
                 }
             }
@@ -366,10 +362,6 @@ public class DayPilot {
             }
         }
         if (daysInterval == 0 ){
-//            BasicDBObject outOffContract = new BasicDBObject();
-//            outOffContract.put("start", start);
-//            outOffContract.put("end", end);
-//            result.add(outOffContract);
             totalOutOffContract = "true";
         }else {
             BasicDBObject contractEnd = new BasicDBObject();
@@ -1285,7 +1277,7 @@ public class DayPilot {
 
     }
 
-    public BasicDBObject resizeCheck(BasicDBObject paramsInput, String collection) throws UnknownHostException {
+    public BasicDBObject resizeCheck(BasicDBObject paramsInput, String collection, MongoClient mongo) throws UnknownHostException {
 
 	    BasicDBObject data = new BasicDBObject();
         if (paramsInput.get("data") != null) {
@@ -1308,7 +1300,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.start", setCondition);
 
-            ResponseEntity response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
+            ResponseEntity response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false, mongo);
 
             ArrayList arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1336,7 +1328,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.end", setCondition);
 
-            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
+            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false, mongo);
 
             arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1367,7 +1359,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.start", setCondition);
 
-            ResponseEntity response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
+            ResponseEntity response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false, mongo);
 
             ArrayList arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1397,7 +1389,7 @@ public class DayPilot {
             setCondition.put("$gte", params.getString("newEnd"));
             setQuery.put("documento.end", setCondition);
 
-            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
+            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false, mongo);
 
             arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();
@@ -1426,7 +1418,7 @@ public class DayPilot {
             setCondition.put("$lt", params.getString("newEnd"));
             setQuery.put("documento.end", setCondition);
 
-            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false);
+            response = commons_db.listaCrud(collection, null, null, params.getString("userId"), setQuery, null, false, mongo);
 
             arrayList = new ArrayList<Object>();
             arrayList = (JSONArray) response.getBody();

@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.springframework.http.ResponseEntity;
 
@@ -20,18 +21,18 @@ public class PaymentBank {
 	Commons_DB commons_db = new Commons_DB();
 	PriceTable priceTable = new PriceTable();
 
-	public ArrayList incluir(BasicDBObject doc) throws UnknownHostException {
+	public ArrayList incluir(BasicDBObject doc, MongoClient mongo) throws UnknownHostException {
 
         ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
 
         for (int i = 0; i < paymentsCycles.size(); i++) {
-            BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i));
+            BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i), mongo);
             ArrayList  payments = (ArrayList) paymentCycle.get("payments");
             for (int j = 0; j < payments.size(); j++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) payments.get(j));
-                BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
+                BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"), mongo);
                 Boolean existeResult = false;
                 for (int k = 0; k < paymentsResult.size(); k++) {
                     BasicDBObject paymentResult = new BasicDBObject();
@@ -54,7 +55,7 @@ public class PaymentBank {
         }
 
         doc.put("payments",paymentsResult);
-        ResponseEntity response = commons_db.incluirCrud("paymentBank",doc);
+        ResponseEntity response = commons_db.incluirCrud("paymentBank",doc, mongo);
         String bankListId = (String) response.getBody();
 
         for (int i = 0; i < paymentsCycles.size(); i++) {
@@ -67,13 +68,13 @@ public class PaymentBank {
             update.put("field", "bankListId");
             update.put("value", bankListId);
             arrayUpdate.add(update);
-            commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i));
+            commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i), mongo);
         }
 
         for (int i = 0; i < paymentsResult.size() ; i++) {
             BasicDBObject paymentResult = new BasicDBObject();
             paymentResult.putAll((Map) paymentsResult.get(i));
-            BasicDBObject vendor = commons_db.obterCrudDoc("family","_id",paymentResult.getString("vendorId"));
+            BasicDBObject vendor = commons_db.obterCrudDoc("family","_id",paymentResult.getString("vendorId"), mongo);
             if (vendor != null){
                 paymentResult.put("name",vendor.getString("familyName"));
                 paymentResult.put("financialInstitution",vendor.getString("payment_financialInstitution"));
@@ -83,7 +84,7 @@ public class PaymentBank {
                 paymentResult.put("vendorType","family");
             }
             if (vendor == null) {
-                vendor = commons_db.obterCrudDoc("vendor", "_id", paymentResult.getString("vendorId"));
+                vendor = commons_db.obterCrudDoc("vendor", "_id", paymentResult.getString("vendorId"), mongo);
                 if (vendor != null) {
                     paymentResult.put("name", vendor.getString("name"));
                     paymentResult.put("financialInstitution", vendor.getString("financialInst"));
@@ -94,7 +95,7 @@ public class PaymentBank {
                 }
             }
             if (vendor == null) {
-                vendor = commons_db.obterCrudDoc("driver", "_id", paymentResult.getString("vendorId"));
+                vendor = commons_db.obterCrudDoc("driver", "_id", paymentResult.getString("vendorId"), mongo);
                 if (vendor != null) {
                     paymentResult.put("name", vendor.getString("name"));
                     paymentResult.put("financialInstitution", vendor.getString("financialInst"));
@@ -109,25 +110,25 @@ public class PaymentBank {
         return paymentsResult;
 	}
 
-    public ArrayList lista(String userId) throws UnknownHostException {
+    public ArrayList lista(String userId, MongoClient mongo) throws UnknownHostException {
 
-        ResponseEntity response = commons_db.listaCrud("paymentBank",null, null, userId, null, null, false);
+        ResponseEntity response = commons_db.listaCrud("paymentBank",null, null, userId, null, null, false, mongo);
         ArrayList<Object> paymentsBank = new ArrayList<Object>();
         paymentsBank = (JSONArray) response.getBody();
         return paymentsBank;
     }
 
-    public ArrayList listaPayments(String paymentBankId) throws UnknownHostException {
+    public ArrayList listaPayments(String paymentBankId, MongoClient mongo) throws UnknownHostException {
 
         ArrayList <BasicDBObject> paymentsBankResult = new ArrayList<>();
-        BasicDBObject paymentBank = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId);
+        BasicDBObject paymentBank = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId, mongo);
 
         ArrayList <BasicDBObject> payments = (ArrayList<BasicDBObject>) paymentBank.get("payments");
         if (payments != null) {
             for (int j = 0; j < payments.size(); j++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) payments.get(j));
-                BasicDBObject vendor = commons_db.obterCrudDoc("family", "_id", payment.getString("vendorId"));
+                BasicDBObject vendor = commons_db.obterCrudDoc("family", "_id", payment.getString("vendorId"), mongo);
                 if (vendor != null) {
                     payment.put("name", vendor.getString("familyName"));
                     payment.put("financialInstitution", vendor.getString("payment_financialInstitution"));
@@ -137,7 +138,7 @@ public class PaymentBank {
                     payment.put("vendorType", "family");
                 }
                 if (vendor == null) {
-                    vendor = commons_db.obterCrudDoc("vendor", "_id", payment.getString("vendorId"));
+                    vendor = commons_db.obterCrudDoc("vendor", "_id", payment.getString("vendorId"), mongo);
                     if (vendor != null) {
                         payment.put("name", vendor.getString("name"));
                         payment.put("financialInstitution", vendor.getString("financialInst"));
@@ -148,7 +149,7 @@ public class PaymentBank {
                     }
                 }
                 if (vendor == null) {
-                    vendor = commons_db.obterCrudDoc("driver", "_id", payment.getString("vendorId"));
+                    vendor = commons_db.obterCrudDoc("driver", "_id", payment.getString("vendorId"), mongo);
                     if (vendor != null) {
                         payment.put("name", vendor.getString("name"));
                         payment.put("financialInstitution", vendor.getString("financialInst"));
@@ -164,11 +165,11 @@ public class PaymentBank {
         return payments;
     }
 
-    public ResponseEntity atualiza(BasicDBObject doc) throws UnknownHostException {
+    public ResponseEntity atualiza(BasicDBObject doc, MongoClient mongo) throws UnknownHostException {
 
         String bankListId = doc.getString("_id");
 
-        ResponseEntity response  = commons_db.listaCrud("paymentCycles", "documento.bankListId", bankListId, null, null, null, false);
+        ResponseEntity response  = commons_db.listaCrud("paymentCycles", "documento.bankListId", bankListId, null, null, null, false, mongo);
 
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
@@ -186,13 +187,13 @@ public class PaymentBank {
                 update.put("field", "bankListId");
                 update.put("value", "");
                 arrayUpdate.add(update);
-                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentCycle.get("_id").toString());
+                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentCycle.get("_id").toString(), mongo);
             }
         }
 
         ArrayList <BasicDBObject> paymentCycles = (ArrayList<BasicDBObject>) doc.get("paymentCycles");
         if (paymentCycles == null ){
-            response = commons_db.removerCrud("paymentBank","_id",bankListId, null);
+            response = commons_db.removerCrud("paymentBank","_id",bankListId, null, mongo);
             return response;
         }else {
             ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
@@ -206,13 +207,13 @@ public class PaymentBank {
                 update.put("field", "bankListId");
                 update.put("value", bankListId);
                 arrayUpdate.add(update);
-                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", String.valueOf(paymentCycles.get(i)));
-                BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", String.valueOf(paymentCycles.get(i)));
+                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", String.valueOf(paymentCycles.get(i)), mongo);
+                BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", String.valueOf(paymentCycles.get(i)), mongo);
                 ArrayList  payments = (ArrayList) paymentCycle.get("payments");
                 for (int j = 0; j < payments.size(); j++) {
                     BasicDBObject payment = new BasicDBObject();
                     payment.putAll((Map) payments.get(j));
-                    BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
+                    BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"), mongo);
                     Boolean existeResult = false;
                     for (int k = 0; k < paymentsResult.size(); k++) {
                         BasicDBObject paymentResult = new BasicDBObject();
@@ -240,23 +241,23 @@ public class PaymentBank {
             update.put("field", "documento");
             update.put("value", doc);
             arrayUpdate.add(update);
-            response = commons_db.atualizarCrud("paymentBank",arrayUpdate,"_id",bankListId);
+            response = commons_db.atualizarCrud("paymentBank",arrayUpdate,"_id",bankListId, mongo);
             return response;
         }
     }
 
-    public Boolean atualizaPagamento(String paymentBankId) throws UnknownHostException {
+    public Boolean atualizaPagamento(String paymentBankId, MongoClient mongo) throws UnknownHostException {
 
-        BasicDBObject doc = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId);
+        BasicDBObject doc = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId, mongo);
         ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
         for (int i = 0; i < paymentsCycles.size(); i++) {
-            BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i));
+            BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i), mongo);
             ArrayList  payments = (ArrayList) paymentCycle.get("payments");
             for (int j = 0; j < payments.size(); j++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) payments.get(j));
-                BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"));
+                BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"), mongo);
                 if (paymentDoc != null) {
                     paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
                     paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
@@ -288,7 +289,7 @@ public class PaymentBank {
                     update.put("field", "documento");
                     update.put("value", paymentDoc);
                     arrayUpdate.add(update);
-                    commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentDoc.getString("_id"));
+                    commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentDoc.getString("_id"), mongo);
                 }
             }
             paymentCycle.put("status","payed");
@@ -298,7 +299,7 @@ public class PaymentBank {
             update.put("field", "documento");
             update.put("value", paymentCycle);
             arrayUpdate.add(update);
-            commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i));
+            commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i), mongo);
 
             doc.put("status","payed");
             arrayUpdate = new ArrayList<BasicDBObject>();
@@ -306,15 +307,15 @@ public class PaymentBank {
             update.put("field", "documento");
             update.put("value", doc);
             arrayUpdate.add(update);
-            commons_db.atualizarCrud("paymentBank", arrayUpdate, "_id", paymentBankId);
+            commons_db.atualizarCrud("paymentBank", arrayUpdate, "_id", paymentBankId, mongo);
         }
 
         return true;
     }
 
-    public ResponseEntity delete(String bankListId) throws UnknownHostException {
+    public ResponseEntity delete(String bankListId, MongoClient mongo) throws UnknownHostException {
 
-        ResponseEntity response  = commons_db.listaCrud("paymentCycles", "documento.bankListId", bankListId, null, null, null, false);
+        ResponseEntity response  = commons_db.listaCrud("paymentCycles", "documento.bankListId", bankListId, null, null, null, false, mongo);
 
         ArrayList<Object> paymentsCycles = new ArrayList<Object>();
         paymentsCycles = (JSONArray) response.getBody();
@@ -332,11 +333,11 @@ public class PaymentBank {
                 update.put("field", "bankListId");
                 update.put("value", "");
                 arrayUpdate.add(update);
-                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentCycle.get("_id").toString());
+                commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentCycle.get("_id").toString(), mongo);
             }
         }
 
-        return commons_db.removerCrud("paymentBank","_id",bankListId, null);
+        return commons_db.removerCrud("paymentBank","_id",bankListId, null, mongo);
     }
 
 }

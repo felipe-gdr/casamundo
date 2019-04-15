@@ -3,6 +3,7 @@ package com.casamundo.bean;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.json.simple.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ public class Student {
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public BasicDBObject getAllocation(String studentId, String userId) throws UnknownHostException {
+	public BasicDBObject getAllocation(String studentId, String userId, MongoClient mongo) throws UnknownHostException {
 
-		ResponseEntity response =  commons_db.listaCrud("travel", "documento.studentId", studentId, userId, null, null, false);
+		ResponseEntity response =  commons_db.listaCrud("travel", "documento.studentId", studentId, userId, null, null, false, mongo);
 
 		ArrayList<Object> allocationsHomeStay = new ArrayList<Object>();
 		ArrayList<Object> allocationsShared = new ArrayList<Object>();
@@ -36,7 +37,7 @@ public class Student {
 			doc.putAll((Map) travel.get("documento"));
 			String bookType = doc.getString("accControl");
 			if (bookType.equals("homestay")){
-				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null, null,false);
+				response =  commons_db.listaCrud("homestayBook", "documento.studentId", travelId, userId, null, null,false, mongo);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getBody();
 				for (int j = 0; j < allocations.size(); j++) {
@@ -46,7 +47,7 @@ public class Student {
 				};
 			}
 			if (bookType.equals("shared")){
-				response =  commons_db.listaCrud("sharedBook", "documento.studentId", travelId, userId, null, null, false);
+				response =  commons_db.listaCrud("sharedBook", "documento.studentId", travelId, userId, null, null, false, mongo);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getBody();
 				for (int j = 0; j < allocations.size(); j++) {
@@ -56,7 +57,7 @@ public class Student {
 				};
 			}
 			if (bookType.equals("suite")){
-				response =  commons_db.listaCrud("suiteBook", "documento.studentId", travelId, userId, null, null,false);
+				response =  commons_db.listaCrud("suiteBook", "documento.studentId", travelId, userId, null, null,false, mongo);
 				ArrayList<Object> allocations = new ArrayList<Object>();
 				allocations = (JSONArray) response.getBody();
 				for (int j = 0; j < allocations.size(); j++) {
@@ -75,12 +76,12 @@ public class Student {
 
 	};
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public BasicDBObject lista(Map<String, String> params) throws UnknownHostException {
+	public BasicDBObject lista(Map<String, String> params, MongoClient mongo) throws UnknownHostException {
 
 		BasicDBObject result = new BasicDBObject();
 		result.put("draw", params.get("draw"));
 
-        ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
+        ResponseEntity response = commons_db.listaCrudSkip("student", "documento.companyId", params.get("companyId"), params.get("usuarioId"), null, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params, mongo);
 		BasicDBObject retorno = new BasicDBObject();
 		if ((response.getStatusCode() == HttpStatus.OK)) {
 			retorno.putAll((Map) response.getBody());

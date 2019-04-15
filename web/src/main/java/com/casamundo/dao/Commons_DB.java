@@ -5,6 +5,7 @@ import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
@@ -15,6 +16,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
 public class Commons_DB {
@@ -24,8 +26,12 @@ public class Commons_DB {
     private static final String HOST = System.getProperty("mongodb.host");
 
     @SuppressWarnings({"rawtypes"})
-    public ResponseEntity obterCrud(String collectionName, String key, String value) throws UnknownHostException, MongoException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity obterCrud(String collectionName, String key, String value, MongoClient mongo) throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -46,20 +52,30 @@ public class Commons_DB {
                 doc.putAll((Map) cursor.first().get("documento"));
                 documento.put("documento", doc);
                 documento.put("_id", cursor.first().get("_id").toString());
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return ResponseEntity.ok().body(documento);
             } else {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return ResponseEntity.badRequest().build();
             }
         } else {
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.badRequest().build();
         }
     }
 
-    public ResponseEntity obterId(String collectionName) throws UnknownHostException, MongoException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity obterId(String collectionName, MongoClient mongo) throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -67,17 +83,25 @@ public class Commons_DB {
             long id = collection.count();
             id = id++;
             String idS = '"' + Long.toString(id) + '"';
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.ok().body(idS);
         } else {
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.badRequest().build();
         }
     }
 
     @SuppressWarnings({"rawtypes"})
-    public BasicDBObject obterCrudDoc(String collectionName, String key, String value) throws MongoException {
-        MongoClient mongo = getMongoClient();
+    public BasicDBObject obterCrudDoc(String collectionName, String key, String value, MongoClient mongo) throws MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -88,7 +112,9 @@ public class Commons_DB {
                 BasicDBObject documento = new BasicDBObject();
                 documento.putAll((Map) cursor.first().get("documento"));
                 documento.put("_id", cursor.first().get("_id").toString());
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return documento;
             }
         } else {
@@ -105,10 +131,14 @@ public class Commons_DB {
             BasicDBObject documento = new BasicDBObject();
             documento.putAll((Map) cursor.first().get("documento"));
             documento.put("_id", cursor.first().get("_id").toString());
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return documento;
         }
-        mongo.close();
+        if (fechaMongo) {
+            mongo.close();
+        }
         return null;
     }
 
@@ -194,8 +224,12 @@ public class Commons_DB {
     }
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc) throws MongoException, UnknownHostException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity incluirCrud(String collectionName, BasicDBObject doc, MongoClient mongo) throws MongoException, UnknownHostException {
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -211,30 +245,48 @@ public class Commons_DB {
         insert.putAll((Map) documentoFinal);
         collection.insertOne(insert);
         insert.put("_id", insert.get("_id").toString());
-        trigger(collectionName,insert.get("_id").toString(), mongo);
-        mongo.close();
+        if (fechaMongo) {
+            mongo.close();
+        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                trigger(collectionName,insert.get("_id").toString(), null);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        });
         return ResponseEntity.ok().body(insert.get("_id").toString());
     }
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-    public ResponseEntity atualizarCrud(String collectionName, Object updateInput, String key, String valueInp) throws UnknownHostException, MongoException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity atualizarCrud(String collectionName, Object updateInput, String key, String valueInp, MongoClient mongo) throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
         BasicDBObject objDocumento = new BasicDBObject();
-        ResponseEntity response = obterCrud(collectionName, key, valueInp);
+        ResponseEntity response = obterCrud(collectionName, key, valueInp, mongo);
+        String triggerId = null;
         if ((response.getStatusCode() == HttpStatus.OK)) {
             BasicDBObject cursor = new BasicDBObject();
             cursor.putAll((Map) response.getBody());
+            triggerId = cursor.getString("_id");
             if (cursor != null) {
                 objDocumento.putAll((Map) cursor.get("documento"));
             } else {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return ResponseEntity.ok().body("false");
             }
         } else {
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.ok().body("false");
         }
 
@@ -286,7 +338,6 @@ public class Commons_DB {
             doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
             BasicDBObject setQuery = new BasicDBObject();
             String id = null;
-            id = null;
             if (key.equals("_id")) {
                 ObjectId idObj = new ObjectId(valueInp);
                 setQuery = new BasicDBObject(key, idObj);
@@ -294,22 +345,36 @@ public class Commons_DB {
 
             } else {
                 setQuery = new BasicDBObject(key, valueInp);
+
             }
             Document objDocumentoUpdate = new Document();
             objDocumentoUpdate.putAll((Map) doc);
             collection.replaceOne(setQuery, objDocumentoUpdate);
-            if (id != null){
-                trigger(collectionName, id, mongo);
+            if (triggerId != null){
+                String finalId = triggerId;
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        trigger(collectionName, finalId, null);
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         }
-        mongo.close();
+        if (fechaMongo) {
+            mongo.close();
+        }
         return ResponseEntity.ok().body("true");
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public ResponseEntity listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate) throws MongoException {
+    public ResponseEntity listaCrud(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate, MongoClient mongo) throws MongoException {
 
-        MongoClient mongo = getMongoClient();
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -328,25 +393,33 @@ public class Commons_DB {
             setSort = setSortInput;
         }
 
-        BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
+        BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName, mongo);
 
         BasicDBObject user = new BasicDBObject();
         if (setup != null && !onlyPrivate) {
             if (userId == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
-            user = obterCrudDoc("usuarios", "_id", userId);
+            user = obterCrudDoc("usuarios", "_id", userId, mongo);
             if (user == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
             if (user.get("company") == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
             if (user.get("city") == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
         }
@@ -399,10 +472,14 @@ public class Commons_DB {
                     documentos.add(doc);
                 }
             }
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.ok().body(documentos);
         } else {
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.ok().body(documentos);
         }
     };
@@ -448,7 +525,7 @@ public class Commons_DB {
                 }
                 return null;
             }
-            user = obterCrudDoc("usuarios", "_id", userId);
+            user = obterCrudDoc("usuarios", "_id", userId, mongo);
             if (user == null) {
                 if (fechaMongo) {
                     mongo.close();
@@ -530,8 +607,11 @@ public class Commons_DB {
     };
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public ResponseEntity listaCrudSkip(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate, Integer start, Integer length, Map<String, String> params) throws UnknownHostException, MongoException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity listaCrudSkip(String collectionName, String key, String value, String userId, BasicDBObject setQueryInput, BasicDBObject setSortInput, Boolean onlyPrivate, Integer start, Integer length, Map<String, String> params, MongoClient mongo) throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -549,25 +629,33 @@ public class Commons_DB {
 //            setSort = setSortInput;
 //        }
 
-        BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName);
+        BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName, mongo);
 
         BasicDBObject user = new BasicDBObject();
         if (setup != null && !onlyPrivate) {
             if (userId == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
-            user = obterCrudDoc("usuarios", "_id", userId);
+            user = obterCrudDoc("usuarios", "_id", userId, mongo);
             if (user == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
             if (user.get("company") == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
             if (user.get("city") == null) {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return null;
             }
         }
@@ -701,7 +789,9 @@ public class Commons_DB {
                     documentos.add(doc);
                 }
             }
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             BasicDBObject result = new BasicDBObject();
             result.put("count", count);
             result.put("countFiltered", countFiltered);
@@ -713,7 +803,9 @@ public class Commons_DB {
             result.put("documentos", documentos);
             return ResponseEntity.ok().body(result);
         } else {
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             BasicDBObject result = new BasicDBObject();
             result.put("count", count);
             result.put("countFiltered", countFiltered);
@@ -850,8 +942,13 @@ public class Commons_DB {
         }
     }
 
-    public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput) throws UnknownHostException, MongoException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity removerCrud(String collectionName, String key, String value, BasicDBObject setQueryInput, MongoClient mongo) throws UnknownHostException, MongoException {
+
+        Boolean fechaMongo = false;
+        if (mongo == null) {
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -863,15 +960,21 @@ public class Commons_DB {
         }
         collection.deleteMany(setQuery);
 
-        mongo.close();
+        if (fechaMongo) {
+            mongo.close();
+        }
 
         return ResponseEntity.ok().body("true");
     }
 
 
     @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-    public ResponseEntity arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item) throws UnknownHostException, MongoException {
-        MongoClient mongo = getMongoClient();
+    public ResponseEntity arrayCrud(String collectionName, String key, String value, String type, String field, String indexInp, Object item, MongoClient mongo) throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
 
@@ -885,18 +988,22 @@ public class Commons_DB {
             mongo.close();
             return ResponseEntity.ok().body("false");
         }
-        ResponseEntity response = obterCrud(collectionName, key, value);
+        ResponseEntity response = obterCrud(collectionName, key, value, mongo);
         if ((response.getStatusCode() == HttpStatus.OK)) {
             BasicDBObject cursor = new BasicDBObject();
             cursor.putAll((Map) response.getBody());
             if (cursor != null) {
                 objDocumento.putAll((Map) cursor.get("documento"));
             } else {
-                mongo.close();
+                if (fechaMongo) {
+                    mongo.close();
+                }
                 return ResponseEntity.ok().body("false");
             }
         } else {
-            mongo.close();
+            if (fechaMongo) {
+                mongo.close();
+            }
             return ResponseEntity.ok().body("false");
         }
 
@@ -910,7 +1017,9 @@ public class Commons_DB {
                 ArrayList docUpdate = (ArrayList) objDocumento.get(field);
                 if (!indexInp.equals(null)) {
                     if (index > docUpdate.size()) {
-                        mongo.close();
+                        if (fechaMongo) {
+                            mongo.close();
+                        }
                         return ResponseEntity.ok().body("false");
                     }
                 }
@@ -963,14 +1072,16 @@ public class Commons_DB {
 
         }
 
-        mongo.close();
+        if (fechaMongo) {
+            mongo.close();
+        }
         return ResponseEntity.ok().body("true");
     }
 
 
-    public String getNumber(String nameNumber, String nameYear) throws UnknownHostException, MongoException {
+    public String getNumber(String nameNumber, String nameYear, MongoClient mongo) throws UnknownHostException, MongoException {
 
-        BasicDBObject obj = obterCrudDoc("setup", "documento.setupKey", nameNumber);
+        BasicDBObject obj = obterCrudDoc("setup", "documento.setupKey", nameNumber, mongo);
         int number = 1;
         if (obj != null) {
             String oldNumber = obj.getString("setupValue");
@@ -978,7 +1089,7 @@ public class Commons_DB {
         }
 
         String year = "2017";
-        obj = obterCrudDoc("setup", "documento.setupKey", nameYear);
+        obj = obterCrudDoc("setup", "documento.setupKey", nameYear, mongo);
         if (obj != null) {
             year = obj.getString("setupValue");
         }
@@ -988,7 +1099,7 @@ public class Commons_DB {
         update.put("field", "setupValue");
         update.put("value", Integer.toString(number));
         arrayUpdate.add(update);
-        atualizarCrud("setup", arrayUpdate, "documento.setupKey", nameNumber);
+        atualizarCrud("setup", arrayUpdate, "documento.setupKey", nameNumber, mongo);
         String result = Integer.toString(number) + "/" + year;
         return result;
 
@@ -1000,6 +1111,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
         BasicDBObject result = new BasicDBObject();
         switch (collectionName) {
@@ -1050,6 +1162,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1083,6 +1196,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1118,6 +1232,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1152,6 +1267,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1187,6 +1303,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1237,6 +1354,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1272,6 +1390,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1312,6 +1431,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1350,6 +1470,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1447,49 +1568,6 @@ public class Commons_DB {
             docObj.put("age", "0");
         }
 
-/*
-        String collecion = "homebook";
-        switch (docObj.getString("accControl")) {
-            case "homestay":
-                collecion = "homestayBook";
-                break;
-            case "shared":
-                collecion = "sharedBook";
-                break;
-            case "suite":
-                collecion = "suiteBook";
-                break;
-            default:
-                collecion = "homestayBook";
-        }
-
-        BasicDBObject dataAllocate = dataAllocate(docObj, collecion, mongo);
-        int daysAllocated = dataAllocate.getInt("daysAllocated");
-        int allocations = dataAllocate.getInt("allocations");
-
-        int daysTrip = 0;
-        if (accomodation.get("checkIn") != null && accomodation.get("checkOut") != null) {
-            daysTrip = commons.difDate(accomodation.getString("checkIn"), accomodation.getString("checkOut"));
-        }
-
-        String status = "Available";
-        String nextCheckIn = "N/A";
-        if (daysAllocated >= daysTrip) {
-            if (allocations > 1) {
-                status = "Multiple";
-            } else {
-                status = dataAllocate.getString("status");
-            }
-        } else {
-            if (daysAllocated != 0) {
-                status = "Partial";
-                nextCheckIn = dataAllocate.getString("nextCheckIn");
-            }
-        }
-        atualiza = setObjeto(docObj,"status", status, atualiza);
-        atualiza = setObjeto(docObj,"nextCheckIn", nextCheckIn, atualiza);
-        atualiza = setObjeto(docObj,"uniqueAlocId", dataAllocate.getString("uniqueAlocId"), atualiza);
-*/
         if (atualiza) {
             docObj.remove("_id");
             doc.remove("_id");
@@ -1513,6 +1591,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1549,6 +1628,7 @@ public class Commons_DB {
         Boolean fechaMongo = false;
         if (mongo == null) {
             mongo = getMongoClient();
+            fechaMongo = true;
         }
 
         BasicDBObject docObj = new BasicDBObject();
@@ -1806,6 +1886,11 @@ public class Commons_DB {
             return false;
         }
 
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+            fechaMongo = true;
+        }
         ArrayList<Object> triggers = (ArrayList<Object>) triggerObj.get("triggers");
 
         for (int i = 0; i < triggers.size(); i++) {
@@ -1894,7 +1979,7 @@ public class Commons_DB {
                                 if (triggerObj.get("triggersExternal") != null) {
                                     ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
                                     for (int k = 0; k < triggersExternal.size(); k++) {
-                                        triggedDoc = obterCrudDoc(trigger.getString("collection"),"_id", setQuery.getString("_id"));
+                                        triggedDoc = obterCrudDoc(trigger.getString("collection"),"_id", setQuery.getString("_id"), mongo);
                                         BasicDBObject triggerExternal = new BasicDBObject();
                                         triggerExternal.putAll((Map) triggersExternal.get(k));
                                         if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null) {
@@ -1912,6 +1997,9 @@ public class Commons_DB {
                     }
                 }
             }
+        }
+        if (fechaMongo){
+            mongo.close();
         }
         return true;
     }
@@ -2053,7 +2141,7 @@ public class Commons_DB {
         }
     }
 
-    public static MongoClient getMongoClient() {
+    public  MongoClient getMongoClient() {
         return new MongoClient(HOST);
     }
     

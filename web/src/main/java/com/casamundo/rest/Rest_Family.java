@@ -5,6 +5,7 @@ import com.casamundo.bean.Student;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,10 @@ public class Rest_Family {
     @RequestMapping(value = "/lista", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public BasicDBObject lista( @RequestParam Map<String, String> params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
 
-		return family.lista(params);
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = family.lista(params, mongo);
+		mongo.close();
+		return response;
 
 	};
 };

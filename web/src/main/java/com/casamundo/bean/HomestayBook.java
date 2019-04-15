@@ -5,6 +5,7 @@ import com.casamundo.commons.SendEmailHtml;
 import com.casamundo.commons.TemplateEmail;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import org.springframework.http.ResponseEntity;
 
 import java.net.UnknownHostException;
@@ -17,9 +18,9 @@ public class HomestayBook {
 	Commons_DB commons_db = new Commons_DB();
 	Commons commons = new Commons();
 
-	public ResponseEntity responseEmail(String alocationId, String invite) throws UnknownHostException {
+	public ResponseEntity responseEmail(String alocationId, String invite, MongoClient mongo) throws UnknownHostException {
 		
-		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId);
+		BasicDBObject homestayBook = commons_db.obterCrudDoc("homestayBook", "_id", alocationId, mongo);
 		if (homestayBook != null) {
 			if (!homestayBook.get("ativo").equals(null) && !homestayBook.get("invite").equals("null")) {
 				if (homestayBook.getString("ativo").equals("ativo")) {
@@ -45,12 +46,12 @@ public class HomestayBook {
 						update.put("field", "confirmWhen");
 						update.put("value", datePattern.format(today));
 						arrayUpdate.add(update);
-						commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId);
+						commons_db.atualizarCrud("homestayBook", arrayUpdate, "_id", alocationId, mongo);
 						if (invite.equals("yes")) {
-							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted");
+							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "accepted", mongo);
 							return ResponseEntity.ok().body("Offer successfully accepted.");
 						} else {
-							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused");
+							emailFamily(homestayBook.getString("resource"), homestayBook.getString("studentId"), homestayBook.getString("start").substring(0, 10), homestayBook.getString("end").substring(0, 10), "recused", mongo);
 							return ResponseEntity.ok().body("Offer successfully refused.");
 						}
 					} else {
@@ -68,15 +69,15 @@ public class HomestayBook {
 		return ResponseEntity.ok().body("The trip does not exist or invalid.");
 	}
 
-	private void emailFamily(String resource, String travelId, String start, String end, String msg) throws UnknownHostException {
-		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource);
+	private void emailFamily(String resource, String travelId, String start, String end, String msg, MongoClient mongo) throws UnknownHostException {
+		BasicDBObject familyDorm = commons_db.obterCrudDoc("familyDorm", "documento.id", resource, mongo);
 		if ( !familyDorm.get("roomId").equals(null)) {
-			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRooms", "_id", familyDorm.getString("roomId"));
-			BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId);
+			BasicDBObject familyRoom = commons_db.obterCrudDoc("familyRooms", "_id", familyDorm.getString("roomId"), mongo);
+			BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
 			if (!familyRoom.get("familyId").equals(null) && !travel.get("studentId").equals(null)) {
-				BasicDBObject table = commons_db.obterCrudDoc("table", null, "onlyOneRegister");
-				BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"));
-				BasicDBObject family = commons_db.obterCrudDoc("family", "_id", familyRoom.getString("familyId"));
+				BasicDBObject table = commons_db.obterCrudDoc("table", null, "onlyOneRegister", mongo);
+				BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"), mongo);
+				BasicDBObject family = commons_db.obterCrudDoc("family", "_id", familyRoom.getString("familyId"), mongo);
 				TemplateEmail templateEmail = new TemplateEmail();
 				SendEmailHtml sendEmail = new SendEmailHtml();
 				@SuppressWarnings("unchecked")

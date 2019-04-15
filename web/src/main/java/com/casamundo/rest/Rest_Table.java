@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.casamundo.bean.Table;
+import com.mongodb.*;
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoException;
 
 @RestController
 @RequestMapping("/table")
@@ -34,7 +29,10 @@ public class Rest_Table {
 	@GetMapping(value = "/obter", produces = "application/json")
 	public BasicDBObject Obter() throws UnknownHostException {
 
-		return table.obterTable();
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = table.obterTable(mongo);
+		mongo.close();
+		return response;
 	};
 
 }
