@@ -40,31 +40,20 @@ public class Invoice {
         BasicDBObject documento = new BasicDBObject();
         documento.putAll((Map) doc);
 
+        documento = completaCampos(documento, mongo);
+
         ResponseEntity response = commons_db.incluirCrud("invoice", documento, mongo);
         String invoiceId = "";
 
         if (response.getStatusCode() == HttpStatus.OK) {
             invoiceId = (String) response.getBody();
             if (invoiceId != null) {
-                atualiza(documento, invoiceId, false, false, mongo);
+                ArrayList<Object> productsResult = new ArrayList<Object>();
+                productsResult = (ArrayList) documento.get("products");
+                estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId, mongo);
+                payment.managementCostsBooking(documento.getString("trip"), invoiceId,  false, false, mongo);
             }
         }
-/*
-        BasicDBObject setQuery = new BasicDBObject();
-        setQuery.put("documento.vendorId", null);
-        setQuery.put("documento.invoiceId", invoiceId);
-        response = commons_db.listaCrud("payment", null, null, null, setQuery, null, false, mongo);
-        ArrayList<Object> payments = new ArrayList<Object>();
-        payments = (JSONArray) response.getBody();
-        if (payments != null) {
-            if (payments.size() > 0) {
-                commons_db.removerCrud("invoice", "_id", invoiceId, null);
-                commons_db.removerCrud("payment", "documento.invoiceId", invoiceId, null);
-                commons_db.removerCrud("estimated", "documento.invoiceId", invoiceId, null);
-                return null;
-            }
-        }
-*/
         return response;
     }
 
@@ -74,94 +63,104 @@ public class Invoice {
 		BasicDBObject documento = new BasicDBObject();
 		documento.putAll((Map) doc);
 
-		BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"), mongo);
+		documento = completaCampos(documento, mongo);
 
-		BasicDBObject accomodation = new BasicDBObject();
+        ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+        BasicDBObject update = new BasicDBObject();
+        update.put("field", "documento");
+        update.put("value", documento);
+        arrayUpdate.add(update);
+        ResponseEntity response = commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoiceId, mongo);
 
-        if (travel.get("accomodation") != null){
+        if (response.getStatusCode() == HttpStatus.OK) {
+            ArrayList<Object> productsResult = new ArrayList<Object>();
+            productsResult = (ArrayList) documento.get("products");
+            estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId, mongo);
+            payment.managementCostsBooking(documento.getString("trip"), invoiceId,  atualiza, book, mongo);
+        };
+        return response;
+
+	}
+
+    private BasicDBObject completaCampos(BasicDBObject documento, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"), mongo);
+
+        BasicDBObject accomodation = new BasicDBObject();
+
+        if (travel.get("accomodation") != null) {
             accomodation.putAll((Map) travel.get("accomodation"));
-			BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
-			documento.put("weeks", weeksDays.get("weeks"));
-			documento.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
-			documento.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
-			documento.put("checkIn", accomodation.get("checkIn"));
-			documento.put("checkOut", accomodation.get("checkOut"));
+            BasicDBObject weeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"), travel.getString("accControl"));
+            documento.put("weeks", weeksDays.get("weeks"));
+            documento.put("extraNightsEntrada", weeksDays.get("extraNightsEntrada"));
+            documento.put("extraNightsSaida", weeksDays.get("extraNightsSaida"));
+            documento.put("checkIn", accomodation.get("checkIn"));
+            documento.put("checkOut", accomodation.get("checkOut"));
             documento.put("city", travel.getString("destination"));
-            documento.put("nameCity", travel.getString("destinationName") );
-            documento.put("nameAgency", travel.getString("agencyName") );
-			BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
+            documento.put("nameCity", travel.getString("destinationName"));
+            documento.put("nameAgency", travel.getString("agencyName"));
+            BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"), travel.getString("accControl"));
             ArrayList<Object> products = (ArrayList<Object>) documento.get("products");
-			ArrayList<Object> productsResult = new ArrayList<Object>();
+            ArrayList<Object> productsResult = new ArrayList<Object>();
 
-			for (int i = 0; i < products.size(); i++) {
-				BasicDBObject product = new BasicDBObject();
-				product.putAll((Map) products.get(i));
-				BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"), mongo);
-				ArrayList<Object> dates = new ArrayList<Object>();
-				ArrayList<BasicDBObject> seasons = new ArrayList<>();
-				if (productDoc.getString("charging").equals("week") && numberWeeksDays.get("startWeeks") != "") {
-					seasons = priceTable.getSeasons(numberWeeksDays.get("startWeeks").toString(), numberWeeksDays.get("endWeeks").toString(), documento.getString("trip"), product.getString("id"), null, mongo);
-					for (BasicDBObject season : seasons) {
-						BasicDBObject date = new BasicDBObject();
-						date.put("start", season.getString("start"));
-						date.put("end", season.getString("end"));
-						dates.add(date);
-					}
-				}
-				if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsEntrada") != "") {
-					if (!weeksDays.get("extraNightsEntrada").equals("")) {
-						seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsEntrada").toString(), numberWeeksDays.get("endExtraNightsEntrada").toString(), documento.getString("trip"), product.getString("id"), null, mongo);
-						for (BasicDBObject season : seasons) {
-							BasicDBObject date = new BasicDBObject();
-							date.put("start", season.getString("start"));
-							date.put("end", season.getString("end"));
-							dates.add(date);
-						}
-					}
-				}
-				if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsSaida") != "") {
-					if (!weeksDays.get("extraNightsSaida").equals("") && numberWeeksDays.get("startExtraNightsSaida") != "") {
-						seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsSaida").toString(), numberWeeksDays.get("endExtraNightsSaida").toString(), documento.getString("trip"), product.getString("id"), null, mongo);
-						for (BasicDBObject season : seasons) {
-							BasicDBObject date = new BasicDBObject();
-							date.put("start", season.getString("start"));
-							date.put("end", season.getString("end"));
-							dates.add(date);
-						}
-					}
-				}
-				if (productDoc.getString("charging").equals("unique")) {
-					seasons = priceTable.getSeasons(accomodation.getString("checkIn"), accomodation.getString("checkOut"), documento.getString("trip"), product.getString("id"), null, mongo);
-					for (BasicDBObject season : seasons) {
-						BasicDBObject date = new BasicDBObject();
-						date.put("start", season.getString("start"));
-						date.put("end", season.getString("end"));
-						dates.add(date);
-					}
-				}
-				product.put("dates", dates);
-				product.put("charging", productDoc.getString("charging"));
-				productsResult.add(product);
-			}
-			documento.put("products", productsResult);
+            for (int i = 0; i < products.size(); i++) {
+                BasicDBObject product = new BasicDBObject();
+                product.putAll((Map) products.get(i));
+                BasicDBObject productDoc = commons_db.obterCrudDoc("priceTable", "_id", product.getString("id"), mongo);
+                ArrayList<Object> dates = new ArrayList<Object>();
+                ArrayList<BasicDBObject> seasons = new ArrayList<>();
+                if (productDoc.getString("charging").equals("week") && numberWeeksDays.get("startWeeks") != "") {
+                    seasons = priceTable.getSeasons(numberWeeksDays.get("startWeeks").toString(), numberWeeksDays.get("endWeeks").toString(), documento.getString("trip"), product.getString("id"), null, mongo);
+                    for (BasicDBObject season : seasons) {
+                        BasicDBObject date = new BasicDBObject();
+                        date.put("start", season.getString("start"));
+                        date.put("end", season.getString("end"));
+                        dates.add(date);
+                    }
+                }
+                if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsEntrada") != "") {
+                    if (!weeksDays.get("extraNightsEntrada").equals("")) {
+                        seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsEntrada").toString(), numberWeeksDays.get("endExtraNightsEntrada").toString(), documento.getString("trip"), product.getString("id"), null, mongo);
+                        for (BasicDBObject season : seasons) {
+                            BasicDBObject date = new BasicDBObject();
+                            date.put("start", season.getString("start"));
+                            date.put("end", season.getString("end"));
+                            dates.add(date);
+                        }
+                    }
+                }
+                if (productDoc.getString("charging").equals("eNight") && numberWeeksDays.get("startExtraNightsSaida") != "") {
+                    if (!weeksDays.get("extraNightsSaida").equals("") && numberWeeksDays.get("startExtraNightsSaida") != "") {
+                        seasons = priceTable.getSeasons(numberWeeksDays.get("startExtraNightsSaida").toString(), numberWeeksDays.get("endExtraNightsSaida").toString(), documento.getString("trip"), product.getString("id"), null, mongo);
+                        for (BasicDBObject season : seasons) {
+                            BasicDBObject date = new BasicDBObject();
+                            date.put("start", season.getString("start"));
+                            date.put("end", season.getString("end"));
+                            dates.add(date);
+                        }
+                    }
+                }
+                if (productDoc.getString("charging").equals("unique")) {
+                    seasons = priceTable.getSeasons(accomodation.getString("checkIn"), accomodation.getString("checkOut"), documento.getString("trip"), product.getString("id"), null, mongo);
+                    for (BasicDBObject season : seasons) {
+                        BasicDBObject date = new BasicDBObject();
+                        date.put("start", season.getString("start"));
+                        date.put("end", season.getString("end"));
+                        dates.add(date);
+                    }
+                }
+                product.put("dates", dates);
+                product.put("charging", productDoc.getString("charging"));
+                productsResult.add(product);
+            }
+            documento.put("products", productsResult);
 
-            ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
-            BasicDBObject update = new BasicDBObject();
-            update.put("field", "documento");
-            update.put("value", documento);
-            arrayUpdate.add(update);
-			ResponseEntity response = commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoiceId, mongo);
+        }
+        return documento;
 
-			if (response.getStatusCode() == HttpStatus.OK) {
-                estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId, mongo);
-                payment.managementCostsBooking(documento.getString("trip"), invoiceId,  atualiza, book, mongo);
-			};
-			return response;
-		}
+    }
 
-		return null;
-
-	};
+    ;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ArrayList calculaInvoiceAutomatica(String travelId, String userId, JSONObject accomodationInput, MongoClient mongo) throws IOException  {
