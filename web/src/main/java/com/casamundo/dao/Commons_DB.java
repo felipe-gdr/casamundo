@@ -2007,7 +2007,7 @@ public class Commons_DB {
                                 }
                             }
                             triggedDocSalva = triggerExternalDoc;
-                            triggerExternalDoc = triggerCollection(triggerExternalDoc, triggerExternalDoc.getString("collection"), mongo);
+                            triggerExternalDoc = triggerCollection(triggerExternalDoc, triggerExternal.getString("collection"), mongo);
                             if (triggerExternalDoc != triggedDocSalva){
                                 atualiza = true;
                             }
