@@ -248,13 +248,14 @@ public class Commons_DB {
         if (fechaMongo) {
             mongo.close();
         }
-        CompletableFuture.runAsync(() -> {
-            try {
-                trigger(collectionName,insert.get("_id").toString(), null);
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-        });
+        trigger(collectionName,insert.get("_id").toString(), mongo);
+//        CompletableFuture.runAsync(() -> {
+//            try {
+//                trigger(collectionName,insert.get("_id").toString(), null);
+//            } catch (UnknownHostException e) {
+//                e.printStackTrace();
+//            }
+//        });
         return ResponseEntity.ok().body(insert.get("_id").toString());
     }
 
@@ -352,13 +353,14 @@ public class Commons_DB {
             collection.replaceOne(setQuery, objDocumentoUpdate);
             if (triggerId != null){
                 String finalId = triggerId;
-                CompletableFuture.runAsync(() -> {
-                    try {
-                        trigger(collectionName, finalId, null);
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    }
-                });
+//                CompletableFuture.runAsync(() -> {
+//                    try {
+//                        trigger(collectionName, finalId, null);
+//                    } catch (UnknownHostException e) {
+//                        e.printStackTrace();
+//                    }
+//                });
+                trigger(collectionName, finalId, mongo);
             }
         }
         if (fechaMongo) {
