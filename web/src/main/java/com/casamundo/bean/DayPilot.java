@@ -410,7 +410,7 @@ public class DayPilot {
 
 	    Boolean existeId = false;
         for (BasicDBObject listDorm: resultListDorm){
-            if (listDorm.get("id").equals(docObj.get("id"))){
+            if (listDorm.get("id").equals(docObj.get("resource"))){
                 existeId = true;
                 break;
             }
@@ -780,7 +780,7 @@ public class DayPilot {
 
         Boolean existeId = false;
         for (BasicDBObject listDorm: resultListDorm){
-            if (listDorm.get("id").equals(docObj.get("id"))){
+            if (listDorm.get("id").equals(docObj.get("resource"))){
                 existeId = true;
                 break;
             }
@@ -1159,7 +1159,7 @@ public class DayPilot {
 
         Boolean existeId = false;
         for (BasicDBObject listDorm: resultListDorm){
-            if (listDorm.get("id").equals(docObj.get("id"))){
+            if (listDorm.get("id").equals(docObj.get("resource"))){
                 existeId = true;
                 break;
             }

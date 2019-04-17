@@ -1902,8 +1902,8 @@ public class Commons_DB {
                     ArrayList<Object> triggeds = new ArrayList<Object>();
                     triggeds = (JSONArray) response.getBody();
                     if (triggeds != null) {
-                        ArrayList<Object> fields = (ArrayList<Object>) trigger.get("fields");
                         for (int j = 0; j < triggeds.size(); j++) {
+                            ArrayList<Object> fields = (ArrayList<Object>) trigger.get("fields");
                             BasicDBObject trigged = new BasicDBObject();
                             trigged.putAll((Map) triggeds.get(j));
                             BasicDBObject triggedDoc = new BasicDBObject();
@@ -1919,23 +1919,7 @@ public class Commons_DB {
                                         if (field.getString("fixed") != null) {
                                             triggedDoc.put(field.getString("destiny"), field.get("value"));
                                         } else {
-                                            if (group(doc, field, "Origin", "origin") instanceof ArrayList) {
-                                                ArrayList docUpdate = (ArrayList) group(doc, field, "Origin", "origin");
-                                                triggedDoc.remove(field.getString("destiny"));
-                                                JSONArray arrayField = new JSONArray();
-                                                for (int z = 0; z < docUpdate.size(); z++) {
-                                                    if (docUpdate.get(z) instanceof String) {
-                                                        arrayField.add(docUpdate.get(z));
-                                                    } else {
-                                                        BasicDBObject docUpdateItem = new BasicDBObject();
-                                                        docUpdateItem.putAll((Map) docUpdate.get(z));
-                                                        arrayField.add(docUpdateItem);
-                                                    }
-                                                }
-                                                triggedDoc.put(field.getString("destiny"), arrayField);
-                                            }else {
-                                                triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
-                                            }
+                                            triggedDoc = atualizaField(doc, triggedDoc, field);
                                         }
                                         atualiza = true;
                                     }
@@ -1943,29 +1927,41 @@ public class Commons_DB {
                                     if (field.getString("fixed") != null) {
                                         triggedDoc.put(field.getString("destiny"), field.get("value"));
                                     } else {
-                                        if (group(doc, field, "Origin", "origin") instanceof ArrayList) {
-                                            ArrayList docUpdate = (ArrayList) group(doc, field, "Origin", "origin");
-                                            triggedDoc.remove(field.getString("destiny"));
-                                            JSONArray arrayField = new JSONArray();
-                                            for (int z = 0; z < docUpdate.size(); z++) {
-                                                if (docUpdate.get(z) instanceof String) {
-                                                    arrayField.add(docUpdate.get(z));
-                                                } else {
-                                                    BasicDBObject docUpdateItem = new BasicDBObject();
-                                                    docUpdateItem.putAll((Map) docUpdate.get(z));
-                                                    arrayField.add(docUpdateItem);
-                                                }
-                                            }
-                                            triggedDoc.put(field.getString("destiny"), arrayField);
-                                        }else {
-                                            triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
-                                        }
+                                        triggedDoc = atualizaField(doc, triggedDoc, field);
                                     }
                                     atualiza = true;
                                 }
                             }
-                            if (collectionName.equals(trigger.getString("collection"))) {
-                                atualiza = true;
+                            if (triggerObj.get("triggersExternal") != null) {
+                                ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
+                                for (int k = 0; k < triggersExternal.size(); k++) {
+                                    BasicDBObject triggerExternal = new BasicDBObject();
+                                    triggerExternal.putAll((Map) triggersExternal.get(k));
+                                    if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null && triggerExternal.get("fields") != null) {
+                                        if (triggedDoc.get(triggerExternal.getString("idOrigin")) != null) {
+                                            if (!triggedDoc.get(triggerExternal.getString("idOrigin")).equals("")) {
+                                                BasicDBObject triggerExternalDoc = obterCrudDoc(triggerExternal.getString("collection"),"_id", triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
+                                                if (triggerExternalDoc != null){
+                                                    fields = (ArrayList<Object>) triggerExternal.get("fields");
+                                                    for (int w = 0; w < fields.size(); w++) {
+                                                        BasicDBObject field = new BasicDBObject();
+                                                        field.putAll((Map) fields.get(w));
+                                                        if (group(triggedDoc, field, "Destiny", "destiny") != null) {
+                                                            if (!group(triggedDoc, field, "Destiny", "destiny").equals(group(triggerExternalDoc, field, "Origin", "origin"))) {
+                                                                triggedDoc = atualizaField(triggerExternalDoc, triggedDoc, field);
+                                                                atualiza = true;
+                                                            }
+                                                        } else {
+                                                            triggedDoc = atualizaField(triggerExternalDoc, triggedDoc, field);
+                                                            atualiza = true;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
                             }
                             triggedDoc = triggerCollection(triggedDoc, trigger.getString("collection"), mongo);
                             if (atualiza) {
@@ -1975,23 +1971,6 @@ public class Commons_DB {
                                 triggedDoc.remove("_id");
                                 trigged.put("documento", triggedDoc);
                                 atualizarCrudTrigger(trigger.getString("collection"), trigged, setQuery, mongo);
-                                triggedDoc.put("_id", idObj);
-                                if (triggerObj.get("triggersExternal") != null) {
-                                    ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
-                                    for (int k = 0; k < triggersExternal.size(); k++) {
-                                        triggedDoc = obterCrudDoc(trigger.getString("collection"),"_id", setQuery.getString("_id"), mongo);
-                                        BasicDBObject triggerExternal = new BasicDBObject();
-                                        triggerExternal.putAll((Map) triggersExternal.get(k));
-                                        if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null) {
-                                            if (triggedDoc.get(triggerExternal.getString("idOrigin")) != null) {
-                                                if (!triggedDoc.get(triggerExternal.getString("idOrigin")).equals("")) {
-                                                    trigger(triggerExternal.getString("collection"), triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                }
                             }
                         }
                     }
@@ -2003,6 +1982,30 @@ public class Commons_DB {
         }
         return true;
     }
+
+    private BasicDBObject atualizaField(BasicDBObject doc, BasicDBObject triggedDoc, BasicDBObject field) {
+
+        if (group(doc, field, "Origin", "origin") instanceof ArrayList) {
+            ArrayList docUpdate = (ArrayList) group(doc, field, "Origin", "origin");
+            triggedDoc.remove(field.getString("destiny"));
+            JSONArray arrayField = new JSONArray();
+            for (int z = 0; z < docUpdate.size(); z++) {
+                if (docUpdate.get(z) instanceof String) {
+                    arrayField.add(docUpdate.get(z));
+                } else {
+                    BasicDBObject docUpdateItem = new BasicDBObject();
+                    docUpdateItem.putAll((Map) docUpdate.get(z));
+                    arrayField.add(docUpdateItem);
+                }
+            }
+            triggedDoc.put(field.getString("destiny"), arrayField);
+        }else {
+            triggedDoc.put(field.getString("destiny"), group(doc, field, "Origin", "origin"));
+        }
+
+        return triggedDoc;
+    }
+
 
     private BasicDBObject triggerCollectionBefore(BasicDBObject triggedDoc, String collection, MongoClient mongo) throws UnknownHostException {
 
