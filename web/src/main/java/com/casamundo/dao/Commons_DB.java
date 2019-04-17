@@ -1847,6 +1847,7 @@ public class Commons_DB {
         MongoDatabase db = getDatabase(mongo);
         MongoCollection<Document> collection = db.getCollection(collectionName);
         doc.put("lastTriggerChange", commons.todaysDate("yyyy-mm-dd"));
+        doc.put("lastChange", commons.todaysDate("yyyy-mm-dd-time"));
         Document docUpdate = new Document();
         docUpdate.putAll((Map) doc);
         collection.replaceOne(setQuery, docUpdate);
@@ -1877,6 +1878,9 @@ public class Commons_DB {
 
     public Boolean trigger(String collectionName, String id, MongoClient mongo) throws UnknownHostException {
 
+        if (collectionName.equals("payment")){
+            String a = "";
+        }
         BasicDBObject triggerObj = obterCrudDocQuery("triggers", "documento.collection", collectionName, mongo);
         if (triggerObj == null){
             return false;
@@ -1896,7 +1900,7 @@ public class Commons_DB {
         for (int i = 0; i < triggers.size(); i++) {
             BasicDBObject trigger = new BasicDBObject();
             trigger.putAll((Map) triggers.get(i));
-            if (doc.get(trigger.get("idOrigin")) != null){
+            if (doc.get(trigger.get("idOrigin")) != null) {
                 if (doc.get(trigger.get("idOrigin")) != null && !doc.get(trigger.getString("idOrigin")).equals("")) {
                     ResponseEntity response = listaCrudQuery(trigger.getString("collection"), trigger.getString("idDestiny"), doc.getString(trigger.getString("idOrigin")), null, null, null, true, mongo);
                     ArrayList<Object> triggeds = new ArrayList<Object>();
@@ -1932,37 +1936,6 @@ public class Commons_DB {
                                     atualiza = true;
                                 }
                             }
-                            if (triggerObj.get("triggersExternal") != null) {
-                                ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
-                                for (int k = 0; k < triggersExternal.size(); k++) {
-                                    BasicDBObject triggerExternal = new BasicDBObject();
-                                    triggerExternal.putAll((Map) triggersExternal.get(k));
-                                    if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null && triggerExternal.get("fields") != null) {
-                                        if (triggedDoc.get(triggerExternal.getString("idOrigin")) != null) {
-                                            if (!triggedDoc.get(triggerExternal.getString("idOrigin")).equals("")) {
-                                                BasicDBObject triggerExternalDoc = obterCrudDoc(triggerExternal.getString("collection"),"_id", triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
-                                                if (triggerExternalDoc != null){
-                                                    fields = (ArrayList<Object>) triggerExternal.get("fields");
-                                                    for (int w = 0; w < fields.size(); w++) {
-                                                        BasicDBObject field = new BasicDBObject();
-                                                        field.putAll((Map) fields.get(w));
-                                                        if (group(triggedDoc, field, "Destiny", "destiny") != null) {
-                                                            if (!group(triggedDoc, field, "Destiny", "destiny").equals(group(triggerExternalDoc, field, "Origin", "origin"))) {
-                                                                triggedDoc = atualizaField(triggerExternalDoc, triggedDoc, field);
-                                                                atualiza = true;
-                                                            }
-                                                        } else {
-                                                            triggedDoc = atualizaField(triggerExternalDoc, triggedDoc, field);
-                                                            atualiza = true;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                }
-                            }
                             triggedDoc = triggerCollection(triggedDoc, trigger.getString("collection"), mongo);
                             if (atualiza) {
                                 BasicDBObject setQuery = montaSetQuery(trigged.getString("_id"));
@@ -1975,6 +1948,59 @@ public class Commons_DB {
                         }
                     }
                 }
+            }
+        }
+        if (triggerObj.get("triggersExternal") != null) {
+            ArrayList<Object> triggersExternal = (ArrayList<Object>) triggerObj.get("triggersExternal");
+            BasicDBObject triggedDoc = new BasicDBObject();
+            triggedDoc.putAll((Map) doc);
+            Boolean atualiza = false;
+            for (int k = 0; k < triggersExternal.size(); k++) {
+                BasicDBObject triggerExternal = new BasicDBObject();
+                triggerExternal.putAll((Map) triggersExternal.get(k));
+                if (triggerExternal.get("collection") != null && triggerExternal.getString("idOrigin") != null && triggerExternal.get("fields") != null) {
+                    if (triggedDoc.get(triggerExternal.getString("idOrigin")) != null) {
+                        if (!triggedDoc.get(triggerExternal.getString("idOrigin")).equals("")) {
+                            BasicDBObject triggerExternalDoc = new BasicDBObject();
+                            if (collectionName.equals(triggerExternal.getString("collection"))){
+                                triggerExternalDoc = triggedDoc;
+                            }else {
+                                triggerExternalDoc = obterCrudDoc(triggerExternal.getString("collection"), "_id", triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
+                            }
+                            if (triggerExternalDoc != null){
+                                ArrayList<Object> fields = (ArrayList<Object>) triggerExternal.get("fields");
+                                for (int w = 0; w < fields.size(); w++) {
+                                    BasicDBObject field = new BasicDBObject();
+                                    field.putAll((Map) fields.get(w));
+                                    if (group(triggedDoc, field, "Destiny", "destiny") != null) {
+                                        if (!group(triggedDoc, field, "Destiny", "destiny").equals(group(triggerExternalDoc, field, "Origin", "origin"))) {
+                                            if (field.getString("fixed") != null) {
+                                                triggedDoc.put(field.getString("destiny"), field.get("value"));
+                                            } else {
+                                                triggedDoc = atualizaField(triggerExternalDoc, triggedDoc, field);
+                                            }
+                                            atualiza = true;
+                                        }
+                                    } else {
+                                        if (field.getString("fixed") != null) {
+                                            triggedDoc.put(field.getString("destiny"), field.get("value"));
+                                        } else {
+                                            triggedDoc = atualizaField(triggerExternalDoc, triggedDoc, field);
+                                        }
+                                        atualiza = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (atualiza) {
+                BasicDBObject setQuery = montaSetQuery(triggedDoc.getString("_id"));
+                triggedDoc.remove("_id");
+                BasicDBObject triggerDocObj = new BasicDBObject();
+                triggerDocObj.put("documento", triggedDoc);
+                atualizarCrudTrigger(collectionName, triggerDocObj, setQuery, mongo);
             }
         }
         if (fechaMongo){

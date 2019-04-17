@@ -163,18 +163,30 @@ public class Invoice {
     ;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList calculaInvoiceAutomatica(String travelId, String userId, JSONObject accomodationInput, MongoClient mongo) throws IOException  {
+	public ArrayList calculaInvoiceAutomatica(String travelId, String userId, JSONObject variables, MongoClient mongo) throws IOException  {
 
-
-		if (travelId.equals(null)) {
+		if (travelId.equals(null) && variables.equals(null)) {
 			return null;
 		}
-        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
-        BasicDBObject student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"), mongo);
-        BasicDBObject accomodation = new BasicDBObject();
-        accomodation.putAll((Map) travel.get("accomodation"));
+        BasicDBObject travel = new BasicDBObject();
+        BasicDBObject student = new BasicDBObject();
 
-        BasicDBObject numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"),travel.getString("accControl"));
+        if (variables == null) {
+            travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
+            student = commons_db.obterCrudDoc("student", "_id", travel.getString("studentId"), mongo);
+        }
+
+        BasicDBObject accomodation = new BasicDBObject();
+        if (variables == null) {
+            accomodation.putAll((Map) travel.get("accomodation"));
+        }
+
+        BasicDBObject numberWeeksDays = new BasicDBObject();
+        if (variables == null) {
+            numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"), travel.getString("accControl"));
+        }else{
+            numberWeeksDays = commons.numberWeeks(variables.get("start").toString(), variables.get("end").toString(), variables.get("accControl").toString());
+        }
 
 		ArrayList<BasicDBObject> resultArray = new ArrayList<BasicDBObject>();
 
@@ -187,7 +199,11 @@ public class Invoice {
             ArrayList<BasicDBObject> dates = new ArrayList<BasicDBObject>();
             ArrayList <BasicDBObject> seasons = new ArrayList<>();
             if (productDoc.getString("charging").equals("unique")) {
-                seasons = priceTable.getSeasons(accomodation.getString("checkIn"),accomodation.getString("checkOut"), travelId,product.getString("_id"),travel.getString("agency"), mongo);
+                if (variables == null) {
+                    seasons = priceTable.getSeasons(accomodation.getString("checkIn"), accomodation.getString("checkOut"), travelId, product.getString("_id"), travel.getString("agency"), mongo);
+                }else{
+                    seasons = priceTable.getSeasons(variables.get("start").toString(), variables.get("end").toString(), null, product.getString("_id"), null, mongo);
+                }
                 if (seasons.size() > 0){
                     BasicDBObject date = new BasicDBObject();
                     date.put("start", seasons.get(0).getString("start"));
@@ -235,14 +251,25 @@ public class Invoice {
                 }
             };
             BasicDBObject variaveis = new BasicDBObject();
-            variaveis.putAll((Map) travel.get("accomodation"));
+            if (variables == null) {
+                variaveis.putAll((Map) travel.get("accomodation"));
+            }else{
+                variaveis.putAll((Map) variables);
+            }
 
             Integer totalWeeks = 0;
             Integer totalDays = 0;
             Integer totalWeeksUnderage = 0;
             Integer totalDaysUnderage = 0;
             Double totalValue = 0.0;
-            String studentAge = commons.calcNewYear(student.getString("birthday"), 18);
+            String studentAge = "0";
+            if (variables == null) {
+                studentAge = commons.calcNewYear(student.getString("birthday"), 18);
+            }else{
+                if (variables.get("studentAge") != null) {
+                    studentAge = variables.get("studentAge").toString();
+                }
+            }
             for (BasicDBObject date:dates) {
                 if (date.getString("type").equals("extraNights")) {
                     int days = commons.difDate(date.getString("start"), date.getString("end"));
@@ -262,17 +289,25 @@ public class Invoice {
                 }else{
                     variaveis.put("weeks", "0");
                 }
-				variaveis.put("accControl", travel.getString("accControl"));
-                variaveis.put("extension", travel.get("extension"));
-				variaveis.put("airportPickup", travel.getString("airportPickup"));
-				variaveis.put("airportDropoff", travel.getString("airportDropoff"));
-                variaveis.put("echeckIn", travel.getString("echeckIn"));
-                variaveis.put("lcheckOut", travel.getString("lcheckOut"));
-                variaveis.put("value", date.get("value"));
-                if (commons.calcAgeData(student.getString("birthday"), accomodation.getString("checkIn")) < 18){
-                    variaveis.put("underage", "yes");
+                if (variables == null) {
+                    variaveis.put("accControl", travel.getString("accControl"));
+                    variaveis.put("extension", travel.get("extension"));
+                    variaveis.put("airportPickup", travel.getString("airportPickup"));
+                    variaveis.put("airportDropoff", travel.getString("airportDropoff"));
+                    variaveis.put("echeckIn", travel.getString("echeckIn"));
+                    variaveis.put("lcheckOut", travel.getString("lcheckOut"));
+                    variaveis.put("value", date.get("value"));
+                    if (commons.calcAgeData(student.getString("birthday"), accomodation.getString("checkIn")) < 18){
+                        variaveis.put("underage", "yes");
+                    }else{
+                        variaveis.put("underage", "no");
+                    }
                 }else{
-                    variaveis.put("underage", "no");
+                    if (Integer.valueOf(studentAge) < 18){
+                        variaveis.put("underage", "yes");
+                    }else{
+                        variaveis.put("underage", "no");
+                    }
                 }
                 variaveis.put("weeksUnderage", "0");
                 int daysTrip = commons.difDate(date.getString("start"), date.getString("end"));
@@ -323,19 +358,27 @@ public class Invoice {
                 Double value = 0.0;
                 if (productDoc.get("formula") != null ) {
 					if (!productDoc.getString("formula").equals("")) {
-						Map<String, Object> variables = variaveis;
-						value = new FormulaCalculator(productDoc.getString("formula"), variables).calculate();
+						Map<String, Object> variablesFormula = variaveis;
+						value = new FormulaCalculator(productDoc.getString("formula"), variablesFormula).calculate();
 					}
                 }
                 totalValue = value + totalValue;
                 if (value != 0.0) {
-//                    productDoc.put("date", date);
-//                    productDoc.put("extraNights", variaveis.getString("extraNights"));
-//                    productDoc.put("weeks", variaveis.getString("weeks"));
-//                    productDoc.put("value", Double.toString(value));
-					productDoc.put("accControl", travel.getString("accControl"));
-					productDoc.put("airportPickup", travel.getString("airportPickup"));
-					productDoc.put("airportDropoff", travel.getString("airportDropoff"));
+                    if (variables == null) {
+                        productDoc.put("accControl", travel.getString("accControl"));
+                        productDoc.put("airportPickup", travel.getString("airportPickup"));
+                        productDoc.put("airportDropoff", travel.getString("airportDropoff"));
+                    }else{
+                        if (variables.get("accControl") != null ) {
+                            productDoc.put("accControl", variables.get("accControl").toString());
+                        }
+                        if (variables.get("airportPickup") != null){
+                            productDoc.put("airportPickup", variables.get("airportPickup").toString());
+                        }
+                        if (variables.get("airportDropoff") != null){
+                            productDoc.put("airportDropoff", variables.get("airportDropoff").toString());
+                        }
+                    }
                 }
             }
             if (totalValue != 0.0) {

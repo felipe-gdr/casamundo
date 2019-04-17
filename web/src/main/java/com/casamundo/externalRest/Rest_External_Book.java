@@ -104,37 +104,28 @@ public class Rest_External_Book {
 		type = "homestayBook", "suiteBook" or "sharedBook"
 	*/
 
-	@RequestMapping(value = "/getAvailable", produces = "application/json")
-	public ResponseEntity getBook(@RequestParam("type") String type,
-								  @RequestParam("start") String start,
-								  @RequestParam("end") String end,
-								  @RequestParam("city") String city,
-								  @RequestParam("variables") JSONObject variables
-								 ) throws IOException {
+	@PostMapping(value = "/getAvailable", consumes = "application/json")
+	public ResponseEntity getAvailable(@RequestBody JSONObject queryParam) throws IOException, MongoException  {
 
-		if (!type.equals("homestayBook") && !type.equals("suiteBook") && !type.equals("sharedBook") ){
-			return ResponseEntity.badRequest().build();
-		}
-		if (!commons.checkData(start) || !commons.checkData(end) ){
-			return ResponseEntity.badRequest().build();
-		}
-		if (!commons.comparaData(end, start)){
+
+		if (queryParam.get("city") == null || queryParam.get("checkIn") == null || queryParam.get("checkOut") == null || queryParam.get("accControl") == null){
 			return ResponseEntity.badRequest().build();
 		}
 
 		try {
-			ObjectId idObj = new ObjectId(city);
+			ObjectId idObj = new ObjectId(queryParam.get("city").toString());
 		}catch (Exception ex){
 			return ResponseEntity.badRequest().build();
 		};
 
 		MongoClient mongo = commons_db.getMongoClient();
-		if (commons_db.obterCrudDoc("city","_id", city, mongo) == null){
+		if (commons_db.obterCrudDoc("city","_id", queryParam.get("city").toString(), mongo) == null){
 			mongo.close();
 			return ResponseEntity.badRequest().build();
 		}
 
-		ResponseEntity response = book.getAvailable(type, start, end,city, variables, mongo);
+		ResponseEntity response = book.getAvailable(queryParam.get("accControl").toString(), queryParam.get("checkIn").toString(), queryParam.get("checkIn").toString(), queryParam.get("city").toString(), queryParam, mongo);
+
 		mongo.close();
 		return response;
 	};
