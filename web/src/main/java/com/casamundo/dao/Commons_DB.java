@@ -1915,8 +1915,12 @@ public class Commons_DB {
                             BasicDBObject triggedDoc = new BasicDBObject();
                             triggedDoc.putAll((Map) trigged.get("documento"));
                             triggedDoc.put("_id", trigged.getString("_id"));
-                            triggedDoc = triggerCollectionBefore(triggedDoc, trigger.getString("collection"), mongo);
                             Boolean atualiza = false;
+                            BasicDBObject triggedDocSalva = triggedDoc;
+                            triggedDoc = triggerCollectionBefore(triggedDoc, trigger.getString("collection"), mongo);
+                            if (triggedDoc != triggedDocSalva){
+                                atualiza = true;
+                            }
                             for (int w = 0; w < fields.size(); w++) {
                                 BasicDBObject field = new BasicDBObject();
                                 field.putAll((Map) fields.get(w));
@@ -1938,7 +1942,11 @@ public class Commons_DB {
                                     atualiza = true;
                                 }
                             }
+                            triggedDocSalva = triggedDoc;
                             triggedDoc = triggerCollection(triggedDoc, trigger.getString("collection"), mongo);
+                            if (triggedDoc != triggedDocSalva){
+                                atualiza = true;
+                            }
                             if (atualiza) {
                                 BasicDBObject setQuery = montaSetQuery(trigged.getString("_id"));
                                 trigged.remove("_id");
@@ -1969,6 +1977,11 @@ public class Commons_DB {
                             }else {
                                 triggerExternalDoc = obterCrudDoc(triggerExternal.getString("collection"), "_id", triggedDoc.getString(triggerExternal.getString("idOrigin")), mongo);
                             }
+                            BasicDBObject triggedDocSalva = triggerExternalDoc;
+                            triggerExternalDoc = triggerCollectionBefore(triggerExternalDoc, triggerExternal.getString("collection"), mongo);
+                            if (triggerExternalDoc != triggedDocSalva){
+                                atualiza = true;
+                            }
                             if (triggerExternalDoc != null){
                                 ArrayList<Object> fields = (ArrayList<Object>) triggerExternal.get("fields");
                                 for (int w = 0; w < fields.size(); w++) {
@@ -1992,6 +2005,11 @@ public class Commons_DB {
                                         atualiza = true;
                                     }
                                 }
+                            }
+                            triggedDocSalva = triggerExternalDoc;
+                            triggerExternalDoc = triggerCollection(triggerExternalDoc, triggerExternalDoc.getString("collection"), mongo);
+                            if (triggerExternalDoc != triggedDocSalva){
+                                atualiza = true;
                             }
                         }
                     }
