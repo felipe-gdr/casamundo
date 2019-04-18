@@ -165,7 +165,7 @@ public class Invoice {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ArrayList calculaInvoiceAutomatica(String travelId, String userId, JSONObject variables, MongoClient mongo) throws IOException  {
 
-		if (travelId.equals(null) && variables.equals(null)) {
+		if (travelId != null && variables != null) {
 			return null;
 		}
         BasicDBObject travel = new BasicDBObject();
@@ -185,7 +185,7 @@ public class Invoice {
         if (variables == null) {
             numberWeeksDays = commons.numberWeeks(accomodation.getString("checkIn"), accomodation.getString("checkOut"), travel.getString("accControl"));
         }else{
-            numberWeeksDays = commons.numberWeeks(variables.get("start").toString(), variables.get("end").toString(), variables.get("accControl").toString());
+            numberWeeksDays = commons.numberWeeks(variables.get("checkIn").toString(), variables.get("checkOut").toString(), variables.get("accControl").toString());
         }
 
 		ArrayList<BasicDBObject> resultArray = new ArrayList<BasicDBObject>();
@@ -202,7 +202,7 @@ public class Invoice {
                 if (variables == null) {
                     seasons = priceTable.getSeasons(accomodation.getString("checkIn"), accomodation.getString("checkOut"), travelId, product.getString("_id"), travel.getString("agency"), mongo);
                 }else{
-                    seasons = priceTable.getSeasons(variables.get("start").toString(), variables.get("end").toString(), null, product.getString("_id"), null, mongo);
+                    seasons = priceTable.getSeasons(variables.get("checkIn").toString(), variables.get("checkOut").toString(), null, product.getString("_id"), null, mongo);
                 }
                 if (seasons.size() > 0){
                     BasicDBObject date = new BasicDBObject();
@@ -262,13 +262,11 @@ public class Invoice {
             Integer totalWeeksUnderage = 0;
             Integer totalDaysUnderage = 0;
             Double totalValue = 0.0;
-            String studentAge = "0";
+            String studentAge = "19";
             if (variables == null) {
                 studentAge = commons.calcNewYear(student.getString("birthday"), 18);
             }else{
-                if (variables.get("studentAge") != null) {
-                    studentAge = variables.get("studentAge").toString();
-                }
+                studentAge = commons.calcNewYear(variables.get("birthday").toString(), 18);
             }
             for (BasicDBObject date:dates) {
                 if (date.getString("type").equals("extraNights")) {
@@ -303,7 +301,14 @@ public class Invoice {
                         variaveis.put("underage", "no");
                     }
                 }else{
-                    if (Integer.valueOf(studentAge) < 18){
+                    variaveis.put("accControl", variables.get("accControl"));
+                    variaveis.put("extension", variables.get("extension"));
+                    variaveis.put("airportPickup", variables.get("airportPickup"));
+                    variaveis.put("airportDropoff", variables.get("airportDropoff"));
+                    variaveis.put("echeckIn", variables.get("echeckIn"));
+                    variaveis.put("lcheckOut", variables.get("lcheckOut"));
+                    variaveis.put("value", date.get("value"));
+                    if (commons.calcAgeData(variables.get("birthday").toString(), variables.get("checkIn").toString()) < 18){
                         variaveis.put("underage", "yes");
                     }else{
                         variaveis.put("underage", "no");

@@ -28,9 +28,6 @@ public class External_Book {
 
 	public ResponseEntity getAvailable(String type, String start, String end, String city, JSONObject variables, MongoClient mongo) throws IOException {
 
-
-		ArrayList<BasicDBObject> result = new ArrayList<>();
-
 		String collectionBase = "";
 		String collectionAlloc = type;
 		switch(type) {
@@ -53,6 +50,7 @@ public class External_Book {
 		resources = (JSONArray) response.getBody();
 
 		if (resources != null) {
+			Boolean temRecurso = false;
 			for (int i = 0; i < resources.size(); i++) {
 				BasicDBObject resource = new BasicDBObject();
 				resource.putAll((Map) resources.get(i));
@@ -68,13 +66,16 @@ public class External_Book {
 						BasicDBObject allocationDoc = new BasicDBObject();
 						allocationDoc.putAll((Map) allocation.get("documento"));
 						if (commons.getDaysInterval(start, end, allocationDoc.getString("start"), allocationDoc.getString("end")).getInt("days") == 0){
-							ArrayList products = invoice.calculaInvoiceAutomatica(null,null,variables, mongo);
+							temRecurso = true;
 						}
 					}
 				}
 			}
+			ArrayList products = invoice.calculaInvoiceAutomatica(null,null,variables, mongo);
+			return ResponseEntity.ok().body(products);
 		}
-		return null;
+		return ResponseEntity.ok().body("No available resource");
+
 
 
 	}

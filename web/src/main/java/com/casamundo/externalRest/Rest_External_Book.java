@@ -108,7 +108,7 @@ public class Rest_External_Book {
 	public ResponseEntity getAvailable(@RequestBody JSONObject queryParam) throws IOException, MongoException  {
 
 
-		if (queryParam.get("city") == null || queryParam.get("checkIn") == null || queryParam.get("checkOut") == null || queryParam.get("accControl") == null){
+		if (queryParam.get("city") == null || queryParam.get("checkIn") == null || queryParam.get("checkOut") == null || queryParam.get("accControl") == null  || queryParam.get("birthday") == null){
 			return ResponseEntity.badRequest().build();
 		}
 

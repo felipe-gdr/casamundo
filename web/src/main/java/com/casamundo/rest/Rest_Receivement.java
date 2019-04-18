@@ -41,7 +41,7 @@ public class Rest_Receivement {
 			String receiveId = (String) response.getBody();
 			ArrayList<Object> invoices = new ArrayList<Object>();
 			invoices = (ArrayList<Object>) documento.get("invoices");
-			invoice.atualizarReceivementsInvoice(receiveId, true, invoices, mongo);
+			invoice.atualizarReceivementsInvoice(receiveId, false, invoices, mongo);
 		};
 		return response;
 

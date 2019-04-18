@@ -75,29 +75,33 @@ public class DayPilot {
                 if (contracts != null) {
                     outOffContractsDoc = getOutOffContract(start, end, contracts);
                     outOffContracts = (ArrayList<Object>) outOffContractsDoc.get("outOffContracts");
-                    if (!outOffContractsDoc.getString("totalOutOffContract").equals("true")){
-                        for (int j = 0; j < outOffContracts.size(); j++) {
-                            BasicDBObject outOffContract = new BasicDBObject();
-                            outOffContract.putAll((Map) outOffContracts.get(j));
-                            resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
-                        }
-                        result.put("dorm",docObj.getString("bedNumber"));
-                        result.put("room",docObj.getString("roomNumber"));
-                        result.put("fName",docObj.getString("familyName"));
-                        result.put("id",docObj.getString("id"));
-                        result.put("name","<a href=\"#\" data-toggle=\"modal\" data-target=\"#famHist\" data-item=\"" + docObj.get("familyId") + "\">" + docObj.get("familyName") + "</a>");
-                        result.put("_id",docObj.getString("familyId"));
-                        result.put("familyName",docObj.getString("familyName"));
-                        ArrayList columns = new ArrayList();
-                        BasicDBObject column = new BasicDBObject();
-                        column.put("html",docObj.getString("roomNumber"));
-                        columns.add(column);
-                        column = new BasicDBObject();
-                        column.put("html",docObj.getString("bedNumber"));
-                        columns.add(column);
-                        result.put("columns",columns);
-                        resultListDorm.add(result);
+                    for (int j = 0; j < outOffContracts.size(); j++) {
+                        BasicDBObject outOffContract = new BasicDBObject();
+                        outOffContract.putAll((Map) outOffContracts.get(j));
+                        resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
                     }
+                    result.put("dorm",docObj.getString("bedNumber"));
+                    result.put("room",docObj.getString("roomNumber"));
+                    result.put("fName",docObj.getString("familyName"));
+                    result.put("id",docObj.getString("id"));
+                    result.put("name","<a href=\"#\" data-toggle=\"modal\" data-target=\"#famHist\" data-item=\"" + docObj.get("familyId") + "\">" + docObj.get("familyName") + "</a>");
+                    result.put("_id",docObj.getString("familyId"));
+                    result.put("familyName",docObj.getString("familyName"));
+                    ArrayList columns = new ArrayList();
+                    BasicDBObject column = new BasicDBObject();
+                    column.put("html",docObj.getString("roomNumber"));
+                    columns.add(column);
+                    column = new BasicDBObject();
+                    column.put("html",docObj.getString("bedNumber"));
+                    columns.add(column);
+                    result.put("columns",columns);
+                    resultListDorm.add(result);
+                }
+                ArrayList<Object> ouOffContracts = (ArrayList<Object>) docObj.get("outOfContracts");
+                for (int j = 0; j < ouOffContracts.size(); j++) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.putAll((Map) ouOffContracts.get(j));
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
                 }
             }
         }
@@ -300,85 +304,35 @@ public class DayPilot {
         String startCompare = start;
         String endCompare = end;
 
-        String totalOutOffContract = "false";
-        if (contracts.size() > 0){
-            BasicDBObject contractStart = new BasicDBObject();
+        BasicDBObject contractStart = new BasicDBObject();
+        if (contracts.size() > 0) {
             contractStart.putAll((Map) contracts.get(0));
-            BasicDBObject contractEnd = new BasicDBObject();
-            contractEnd.putAll((Map) contracts.get((contracts.size() - 1)));
-            if (contractStart.get("start") != null && contractStart.get("end") != null && contractEnd.get("start") != null && contractEnd.get("end") != null) {
-                if (commons.comparaData(contractStart.getString("start"), end) || commons.comparaData(startCompare, contractEnd.getString("end"))) {
-                    totalOutOffContract = "true";
-                }
-            }
-
-        }
-
-        int daysInterval = 0;
-        for (int i = 0; i < contracts.size() ; i++) {
-            BasicDBObject contract = new BasicDBObject();
-            contract.putAll((Map) contracts.get(i));
-            if (contract.get("start") != null && contract.get("end") != null){
-                if (commons.comparaData(contract.getString("start"), startCompare) && commons.comparaData(endCompare, contract.getString("start"))){
-                    BasicDBObject outOffContract = new BasicDBObject();
-                    if (startCompare.equals(start)) {
-                        outOffContract.put("start", startCompare);
-                    }else{
-                        outOffContract.put("start", commons.calcNewDate(startCompare,1));
-                    }
-                    outOffContract.put("end", contract.getString("start"));
-                    resultArray.add(outOffContract);
-                    if (commons.comparaData(endCompare, contract.getString("end"))){
-                        startCompare = contract.getString("end");
-                    }else{
-                        startCompare = endCompare;
-                    }
-                }
-                if (commons.comparaData(contract.getString("end"), startCompare) && commons.comparaData(startCompare, contract.getString("start"))){
-                    BasicDBObject outOffContract = new BasicDBObject();
-                    outOffContract.put("start", commons.calcNewDate(contract.getString("end"), 1));
-                    if ((i + 1) < contracts.size()){
-                        BasicDBObject nextContract = new BasicDBObject();
-                        nextContract.putAll((Map) contracts.get(i + 1));
-                        if (nextContract.get("start") != null && nextContract.get("end") != null) {
-                            if (commons.comparaData(nextContract.getString("start"), end)) {
-                                outOffContract.put("end", end);
-                            }else{
-                                outOffContract.put("end", nextContract.getString("start"));
-                            }
-                        }
-                        resultArray.add(outOffContract);
-                        if (commons.comparaData(endCompare, nextContract.getString("end"))){
-                            startCompare = nextContract.getString("end");
-                        }else{
-                            startCompare = endCompare;
-                        }
-                    }
-                }
-                if (commons.comparaData(contract.getString("end"), startCompare)){
-                    startCompare = contract.getString("end");
-                }
-                daysInterval = daysInterval + commons.getDaysInterval(start, end, contract.getString("start"), contract.getString("end")).getInt("days");
-            }
-        }
-        if (daysInterval == 0 ){
-            totalOutOffContract = "true";
+        };
+        BasicDBObject contractEnd = new BasicDBObject();
+        if (contracts.size() > 1) {
+            contractEnd.putAll((Map) contracts.get(contracts.size() - 1));
         }else {
-            BasicDBObject contractEnd = new BasicDBObject();
-            contractEnd.putAll((Map) contracts.get((contracts.size() - 1)));
-            if (contractEnd.get("start") != null && contractEnd.get("end") != null) {
-                if (commons.comparaData(end, contractEnd.getString("end")) && commons.comparaData(commons.calcNewDate(contractEnd.getString("end"), + 1), startCompare)) {
-                    BasicDBObject outOffContract = new BasicDBObject();
-                    outOffContract.put("start", commons.calcNewDate(contractEnd.getString("end"), 1));
-                    outOffContract.put("end", end);
-                    resultArray.add(outOffContract);
-                }
+            contractStart.putAll((Map) contracts.get(0));
+        }
+        if (contractStart.get("start") != null && contractStart.get("end") != null) {
+            if (commons.comparaData(contractStart.getString("start"), startCompare)) {
+                BasicDBObject outOffContract = new BasicDBObject();
+                outOffContract.put("start", startCompare);
+                outOffContract.put("end", contractStart.getString("start"));
+                resultArray.add(outOffContract);
+            }
+        }
+        if (contractEnd.get("start") != null && contractEnd.get("end") != null) {
+            if (commons.comparaData(endCompare, contractEnd.getString("end"))) {
+                BasicDBObject outOffContract = new BasicDBObject();
+                outOffContract.put("start", commons.calcNewDate(contractEnd.getString("end"), 1));
+                outOffContract.put("end", end);
+                resultArray.add(outOffContract);
             }
         }
 
         BasicDBObject result = new BasicDBObject();
         result.put("outOffContracts", resultArray);
-        result.put("totalOutOffContract", totalOutOffContract);
 	    return result;
     }
 
@@ -407,17 +361,17 @@ public class DayPilot {
 
     }
     private ArrayList<BasicDBObject> montaBookHomeStay(ArrayList<BasicDBObject> resultListDorm, ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
-
-	    Boolean existeId = false;
-        for (BasicDBObject listDorm: resultListDorm){
-            if (listDorm.get("id").equals(docObj.get("resource"))){
-                existeId = true;
-                break;
-            }
-        }
-        if (!existeId){
-            return resultListBook;
-        }
+//
+//	    Boolean existeId = false;
+//        for (BasicDBObject listDorm: resultListDorm){
+//            if (listDorm.get("id").equals(docObj.get("resource"))){
+//                existeId = true;
+//                break;
+//            }
+//        }
+//        if (!existeId){
+//            return resultListBook;
+//        }
 	    BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
         if (docObj.get("studentId") != null) {
@@ -550,49 +504,54 @@ public class DayPilot {
                 if (contracts != null) {
                     outOffContractsDoc = getOutOffContract(start, end, contracts);
                     outOffContracts = (ArrayList<Object>) outOffContractsDoc.get("outOffContracts");
-                    if (!outOffContractsDoc.getString("totalOutOffContract").equals("true")) {
-                        for (int j = 0; j < outOffContracts.size(); j++) {
-                            BasicDBObject outOffContract = new BasicDBObject();
-                            outOffContract.putAll((Map) outOffContracts.get(j));
-                            resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
-                        }
-                        result.put("id", docObj.getString("id"));
-                        result.put("buildName", docObj.getString("buildName"));
-                        result.put("unit", docObj.getString("unit"));
-                        result.put("room", docObj.getString("roomNumber"));
-                        result.put("dorm", docObj.getString("bedNumber"));
-                        result.put("name", docObj.getString("buildName"));
-                        result.put("resource", docObj.getString("id"));
-                        result.put("resourceType", docObj.getString("bed"));
-                        result.put("_id", docObj.get("_id"));
-                        result.put("vendorName", docObj.getString("vendorName"));
-                        ArrayList columns = new ArrayList();
-                        BasicDBObject column = new BasicDBObject();
-                        column.put("html", docObj.getString("unit"));
-                        columns.add(column);
-                        column = new BasicDBObject();
-                        column.put("html", docObj.getString("apType"));
-                        columns.add(column);
-                        column = new BasicDBObject();
-                        column.put("html", docObj.getString("roomNumber"));
-                        columns.add(column);
-                        column = new BasicDBObject();
-                        column.put("html", docObj.getString("bedNumber"));
-                        columns.add(column);
-                        result.put("columns", columns);
-                        resultListDorm.add(result);
+                    for (int j = 0; j < outOffContracts.size(); j++) {
+                        BasicDBObject outOffContract = new BasicDBObject();
+                        outOffContract.putAll((Map) outOffContracts.get(j));
+                        resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
+                    }
+                    result.put("id", docObj.getString("id"));
+                    result.put("buildName", docObj.getString("buildName"));
+                    result.put("unit", docObj.getString("unit"));
+                    result.put("room", docObj.getString("roomNumber"));
+                    result.put("dorm", docObj.getString("bedNumber"));
+                    result.put("name", docObj.getString("buildName"));
+                    result.put("resource", docObj.getString("id"));
+                    result.put("resourceType", docObj.getString("bed"));
+                    result.put("_id", docObj.get("_id"));
+                    result.put("vendorName", docObj.getString("vendorName"));
+                    ArrayList columns = new ArrayList();
+                    BasicDBObject column = new BasicDBObject();
+                    column.put("html", docObj.getString("unit"));
+                    columns.add(column);
+                    column = new BasicDBObject();
+                    column.put("html", docObj.getString("apType"));
+                    columns.add(column);
+                    column = new BasicDBObject();
+                    column.put("html", docObj.getString("roomNumber"));
+                    columns.add(column);
+                    column = new BasicDBObject();
+                    column.put("html", docObj.getString("bedNumber"));
+                    columns.add(column);
+                    result.put("columns", columns);
+                    resultListDorm.add(result);
 
-                        ArrayList suitePeriods = new ArrayList();
-                        BasicDBObject apartment = commons_db.obterCrudDocQuery("apartment", "_id", docObj.getString("apartmentId"), mongo);
-                        if (apartment.get("suitePeriods") != null) {
-                            suitePeriods = (ArrayList) apartment.get("suitePeriods");
-                            for (Object suitePeriod : suitePeriods) {
-                                BasicDBObject suitePeriodObj = new BasicDBObject();
-                                suitePeriodObj.putAll((Map) suitePeriod);
-                                resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suite Period", "P");
-                            }
+                    ArrayList suitePeriods = new ArrayList();
+                    BasicDBObject apartment = commons_db.obterCrudDocQuery("apartment", "_id", docObj.getString("apartmentId"), mongo);
+                    if (apartment.get("suitePeriods") != null) {
+                        suitePeriods = (ArrayList) apartment.get("suitePeriods");
+                        for (Object suitePeriod : suitePeriods) {
+                            BasicDBObject suitePeriodObj = new BasicDBObject();
+                            suitePeriodObj.putAll((Map) suitePeriod);
+                            resultListEventI = montaEventShared(resultListEventI, docObj, suitePeriodObj.getString("start"), suitePeriodObj.getString("end"), "Suite Period", "P");
                         }
                     }
+                }
+                BasicDBObject apartment = commons_db.obterCrudDoc("apartment", "_id", docObj.getString("apartmentId"), mongo);
+                ArrayList<Object> ouOffContracts = (ArrayList<Object>) apartment.get("outOfContracts");
+                for (int j = 0; j < ouOffContracts.size(); j++) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.putAll((Map) ouOffContracts.get(j));
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
                 }
             }
         }
@@ -777,17 +736,17 @@ public class DayPilot {
 
     }
     private ArrayList<BasicDBObject> montaBookShared(ArrayList<BasicDBObject> resultListDorm, ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
-
-        Boolean existeId = false;
-        for (BasicDBObject listDorm: resultListDorm){
-            if (listDorm.get("id").equals(docObj.get("resource"))){
-                existeId = true;
-                break;
-            }
-        }
-        if (existeId) {
-            return resultListBook;
-        }
+//
+//        Boolean existeId = false;
+//        for (BasicDBObject listDorm: resultListDorm){
+//            if (listDorm.get("id").equals(docObj.get("resource"))){
+//                existeId = true;
+//                break;
+//            }
+//        }
+//        if (existeId) {
+//            return resultListBook;
+//        }
         BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
         if (docObj.get("studentId") != null) {
@@ -937,38 +896,42 @@ public class DayPilot {
                 if (contracts != null) {
                     outOffContractsDoc = getOutOffContract(start, end, contracts);
                     outOffContracts = (ArrayList<Object>) outOffContractsDoc.get("outOffContracts");
-                    if (!outOffContractsDoc.getString("totalOutOffContract").equals("true")) {
-                        for (int j = 0; j < outOffContracts.size(); j++) {
-                            BasicDBObject outOffContract = new BasicDBObject();
-                            outOffContract.putAll((Map) outOffContracts.get(j));
-                            resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
-                        }
-                        result.put("id", docObj.getString("id"));
-                        result.put("buildName", docObj.getString("buildName"));
-                        result.put("name", docObj.getString("buildName"));
-                        result.put("unit", docObj.getString("unit"));
-                        result.put("resource", docObj.getString("id"));
-                        result.put("resourceType", "ap");
-                        result.put("_id", doc.get("_id"));
-                        result.put("vendorName", docObj.getString("vendorName"));
-                        ArrayList columns = new ArrayList();
-                        BasicDBObject column = new BasicDBObject();
-                        column.put("html", docObj.getString("unit"));
-                        columns.add(column);
-                        column = new BasicDBObject();
-                        column.put("html", docObj.getString("apType"));
-                        columns.add(column);
-                        result.put("columns", columns);
-                        resultListDorm.add(result);
-
-                        ArrayList<BasicDBObject> sharedPeriods = new ArrayList();
-                        sharedPeriods = (ArrayList) docObj.get("sharedPeriods");
-                        for (Object sharedPeriod : sharedPeriods) {
-                            BasicDBObject sharedPeriodObj = new BasicDBObject();
-                            sharedPeriodObj.putAll((Map) sharedPeriod);
-                            resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriodObj.getString("start"), sharedPeriodObj.getString("end"), "Shared Period", "P");
-                        }
+                    for (int j = 0; j < outOffContracts.size(); j++) {
+                        BasicDBObject outOffContract = new BasicDBObject();
+                        outOffContract.putAll((Map) outOffContracts.get(j));
+                        resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
                     }
+                    result.put("id", docObj.getString("id"));
+                    result.put("buildName", docObj.getString("buildName"));
+                    result.put("name", docObj.getString("buildName"));
+                    result.put("unit", docObj.getString("unit"));
+                    result.put("resource", docObj.getString("id"));
+                    result.put("resourceType", "ap");
+                    result.put("_id", doc.get("_id"));
+                    result.put("vendorName", docObj.getString("vendorName"));
+                    ArrayList columns = new ArrayList();
+                    BasicDBObject column = new BasicDBObject();
+                    column.put("html", docObj.getString("unit"));
+                    columns.add(column);
+                    column = new BasicDBObject();
+                    column.put("html", docObj.getString("apType"));
+                    columns.add(column);
+                    result.put("columns", columns);
+                    resultListDorm.add(result);
+
+                    ArrayList<BasicDBObject> sharedPeriods = new ArrayList();
+                    sharedPeriods = (ArrayList) docObj.get("sharedPeriods");
+                    for (Object sharedPeriod : sharedPeriods) {
+                        BasicDBObject sharedPeriodObj = new BasicDBObject();
+                        sharedPeriodObj.putAll((Map) sharedPeriod);
+                        resultListEventI = montaEventSuit(resultListEventI, docObj, sharedPeriodObj.getString("start"), sharedPeriodObj.getString("end"), "Shared Period", "P");
+                    }
+                }
+                ArrayList<Object> ouOffContracts = (ArrayList<Object>) docObj.get("outOfContracts");
+                for (int j = 0; j < ouOffContracts.size(); j++) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.putAll((Map) ouOffContracts.get(j));
+                    resultListEventII = montaEventSuit(resultListEventII, docObj, outOffContract.getString("start"), outOffContract.getString("end"), "Out of contract", "O");
                 }
             }
         }
@@ -1156,17 +1119,17 @@ public class DayPilot {
     }
 
     private ArrayList<BasicDBObject> montaBookSuit(ArrayList<BasicDBObject> resultListDorm, ArrayList<BasicDBObject> resultListBook, BasicDBObject docObj, MongoClient mongo) throws UnknownHostException {
-
-        Boolean existeId = false;
-        for (BasicDBObject listDorm: resultListDorm){
-            if (listDorm.get("id").equals(docObj.get("resource"))){
-                existeId = true;
-                break;
-            }
-        }
-        if (existeId) {
-            return resultListBook;
-        }
+//
+//        Boolean existeId = false;
+//        for (BasicDBObject listDorm: resultListDorm){
+//            if (listDorm.get("id").equals(docObj.get("resource"))){
+//                existeId = true;
+//                break;
+//            }
+//        }
+//        if (existeId) {
+//            return resultListBook;
+//        }
         BasicDBObject travel = new BasicDBObject();
         BasicDBObject accomodation = new BasicDBObject();
         if (docObj.get("studentId") != null) {
@@ -1236,17 +1199,25 @@ public class DayPilot {
         if(docObj.getString("occHome").equals("twin")){
             backColor = "#ff8b2c";
         }else{
-            if(docObj.getString("gender").equals("Male")){
-                if(docObj.getString("occHome").equals("shared")){
-                    backColor = "#D5E6F9";
-                }else{
-                    backColor = "#D5F9D5";
+            if (docObj.get("gender") != null) {
+                if (docObj.getString("gender").equals("Male")) {
+                    if (docObj.getString("occHome").equals("shared")) {
+                        backColor = "#D5E6F9";
+                    } else {
+                        backColor = "#D5F9D5";
+                    }
+                } else {
+                    if (docObj.getString("occHome").equals("shared")) {
+                        backColor = "#ffc0c0";
+                    } else {
+                        backColor = "#f00";
+                    }
                 }
             }else{
-                if(docObj.getString("occHome").equals("shared")){
-                    backColor =  "#ffc0c0";
-                }else{
-                    backColor =  "#f00";
+                if (docObj.getString("occHome").equals("shared")) {
+                    backColor = "#D5E6F9";
+                } else {
+                    backColor = "#D5F9D5";
                 }
             }
         }

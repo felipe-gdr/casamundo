@@ -449,7 +449,10 @@ public class PriceTable {
     public ArrayList getSeasons(String start, String end, String travelId, String productId, String vendorId, MongoClient mongo) throws UnknownHostException {
 
         ArrayList result = new ArrayList();
-        BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
+		BasicDBObject travel = new BasicDBObject();
+		if (travelId != null) {
+			travel = commons_db.obterCrudDoc("travel", "_id", travelId, mongo);
+		};
         String destination =  (String) travel.get("destination");
 		String agency =  (String) travel.get("agency");
 
