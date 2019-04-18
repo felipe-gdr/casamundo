@@ -50,8 +50,14 @@ public class Rest_Book {
 
 		MongoClient mongo = new MongoClient();
 		if (queryParam.get("collection") != null ){
+			Object status = queryParam.get("status");
+			queryParam.remove("status");
 			ResponseEntity result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get(
 					"update"), queryParam.get("key").toString(), queryParam.get("value").toString(), mongo);
+			if (status != null ){
+				mongo.close();
+				return result;
+			}
 			BasicDBObject book = commons_db.obterCrudDoc(queryParam.get ("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString(), mongo);
 			if (book != null) {
 				payment.managementCostsBooking(book.getString("studentId"), null, false, true, mongo);

@@ -690,7 +690,7 @@ public class Payment {
 
     private ArrayList<BasicDBObject> atualizaPayment(String travelId, MongoClient mongo) throws UnknownHostException {
 
-	    ResponseEntity response = commons_db.listaCrud("payments", "documento.trip", travelId, null, null, null, true, mongo);
+	    ResponseEntity response = commons_db.listaCrud("payment", "documento.travelId", travelId, null, null, null, true, mongo);
         ArrayList<Object> payments = new ArrayList<Object>();
         payments = (JSONArray) response.getBody();
         ArrayList<BasicDBObject> debits = new ArrayList<BasicDBObject>();

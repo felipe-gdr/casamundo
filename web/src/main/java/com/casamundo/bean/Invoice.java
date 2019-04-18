@@ -434,10 +434,12 @@ public class Invoice {
                     if ((valuePayedObj - valuePayed) == 0.0) {
                         invoiceObj.put("valuePayed", "0.0");
                         invoiceObj.put("paid", "unpaid");
+                        invoiceObj.put("balanceDue", Float.toString(total));
                     } else {
                         valuePayedObj = valuePayedObj - valuePayed;
                         invoiceObj.put("valuePayed", Float.toString(valuePayedObj));
                         invoiceObj.put("paid", "partial");
+                        invoiceObj.put("balanceDue", Float.toString(total - valuePayedObj));
                     }
                 }else {
                    if ((valuePayedObj + valuePayed) >= total) {
