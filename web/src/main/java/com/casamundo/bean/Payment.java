@@ -521,13 +521,13 @@ public class Payment {
                                                         if (BigDecimal.valueOf(Double.valueOf(itemCost.getString("totalAmount"))).compareTo(BigDecimal.valueOf(Double.valueOf(debit.getString("totalDebit")) - Double.valueOf(debit.getString("usedDebit")))) < 0) {
                                                             itemCost.put("payedAmount", itemCost.getString("totalAmount"));
                                                             itemCost.put("payedDays", itemCost.getString("days"));
-                                                            itemCost.put("status", "payed");
+                                                            itemCost.put("status", "paid");
                                                             debits.get(z).put("usedDebit", Double.toString(Double.valueOf(itemCost.getString("totalAmount"))) + Double.toString(Double.valueOf(debits.get(z).getString("usedDebit"))));
                                                             debits.get(z).put("usedDaysDebit", Integer.toString(Integer.valueOf(itemCost.getString("days")) + Integer.valueOf(debit.getString("usedDaysDebit"))));
                                                         } else {
                                                             itemCost.put("payedAmount", Double.toString(Double.valueOf(itemCost.getString("totalAmount")) - (Double.valueOf(debit.getString("totalDebit")) - Double.valueOf(debit.getString("usedDebit")))));
                                                             itemCost.put("payedDays", Integer.toString(Integer.valueOf(itemCost.getString("days")) - (Integer.valueOf(debit.getString("totalDaysDebit")) - Integer.valueOf(debit.getString("usedDaysDebit")))));
-                                                            itemCost.put("status", "partialPayed");
+                                                            itemCost.put("status", "partialPaid");
                                                             debits.get(z).put("usedDebit", debit.getString("totalDebit"));
                                                             debits.get(z).put("usedDaysDebit", debit.getString("totalDaysDebit"));
                                                         }

@@ -440,13 +440,15 @@ public class Invoice {
                         invoiceObj.put("paid", "partial");
                     }
                 }else {
-                    if ((valuePayedObj + valuePayed) >= total) {
+                   if ((valuePayedObj + valuePayed) >= total) {
                         invoiceObj.put("valuePayed", Float.toString(total));
                         invoiceObj.put("paid", "paid");
+                        invoiceObj.put("balanceDue", "0.00");
                     } else {
                         valuePayedObj = valuePayedObj + valuePayed;
                         invoiceObj.put("valuePayed", Float.toString(valuePayedObj));
                         invoiceObj.put("paid", "partial");
+                        invoiceObj.put("balanceDue", Float.toString(total - valuePayedObj));
                     }
                 }
 			}
