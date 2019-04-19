@@ -305,6 +305,19 @@ public class DayPilot {
         String endCompare = end;
 
         BasicDBObject contractStart = new BasicDBObject();
+        if (contracts.size() == 1) {
+            if (contractStart.get("start") != null && contractStart.get("end") != null) {
+                if (commons.comparaData(startCompare, contractStart.getString("end")) || commons.comparaData(contractStart.getString("start"), endCompare)) {
+                    BasicDBObject outOffContract = new BasicDBObject();
+                    outOffContract.put("start", startCompare);
+                    outOffContract.put("end", endCompare);
+                    resultArray.add(outOffContract);
+                    BasicDBObject result = new BasicDBObject();
+                    result.put("outOffContracts", resultArray);
+                    return result;
+                }
+            }
+        }
         if (contracts.size() > 0) {
             contractStart.putAll((Map) contracts.get(0));
         };
