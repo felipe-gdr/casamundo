@@ -25,10 +25,10 @@ public class Payment {
 		
 		BasicDBObject setQuery = new BasicDBObject();
 		BasicDBObject setSort = new BasicDBObject();
+        setSort.put("documento.vendorId", -1);
 		setSort.put("documento.controlDatePayment", -1);
 		setQuery.put("documento.accControl", accControl);
 		BasicDBObject setCondition = new BasicDBObject();
-        BasicDBObject setConditionLastDayPayment = new BasicDBObject();
         int daysPeriodStart = 0;
         int daysPeriodEnd = 0;
 		if (date != null) {
@@ -63,8 +63,8 @@ public class Payment {
 		setQuery.put("documento.extension", "false");
         setQuery.put("documento.status", "pending");
 
-		ArrayList result = new JSONArray();
-		result = getPayments(userId, setQuery, setSort, result, date, mongo);
+		ArrayList results = new JSONArray();
+		results = getPayments(userId, setQuery, setSort, results, date, mongo);
 
 		setQuery.put("documento.extension", "true");
 		
@@ -73,9 +73,47 @@ public class Payment {
         }
 		setQuery.put("documento.controlDatePayment", setCondition);
 
-		result = getPayments(userId, setQuery, setSort, result, date, mongo);
+		results = getPayments(userId, setQuery, setSort, results, date, mongo);
+
+        int i = 0;
+		while (i < results.size()) {
+            BasicDBObject payment = new BasicDBObject();
+            payment.putAll((Map) results.get(i));
+            BasicDBObject paymentDoc = new BasicDBObject();
+            paymentDoc.putAll((Map) payment.get("documento"));
+            double totalPayment = 0.00;
+            String vendorId = paymentDoc.getString("vendorId");
+            while ( vendorId.equals(paymentDoc.getString("vendorId"))){
+                if (paymentDoc.get("balance") != null ) {
+                    totalPayment =totalPayment + Float.valueOf(paymentDoc.getString("balanceDue"));
+                }
+                i++;
+                if (i < results.size()){
+                    payment = new BasicDBObject();
+                    payment.putAll((Map) results.get(i));
+                    paymentDoc = new BasicDBObject();
+                    paymentDoc.putAll((Map) payment.get("documento"));
+                }else{
+                    vendorId = "";
+                }
+            }
+            setQuery = new BasicDBObject();
+            setQuery.put("vendorId", paymentDoc.get("vendorId"));
+            setQuery.put("status", paymentDoc.get("debitpending"));
+            ResponseEntity response = commons_db.listaCrud("payment",null, null, null, setQuery, null, false, mongo);
+            ArrayList<Object> debits = new ArrayList<Object>();
+            debits = (JSONArray) response.getBody();
+            if (debits != null) {
+                for (int w = 0; i < debits.size(); w++) {
+                    BasicDBObject debit = new BasicDBObject();
+                    debit.putAll((Map) debits.get(w));
+                    BasicDBObject debitDoc = new BasicDBObject();
+                    debitDoc.putAll((Map) debit.get("documento"));
+                }
+            }
+        }
 		
-		return result;
+		return results;
 
 	}
 
@@ -709,18 +747,24 @@ public class Payment {
                     commons_db.removerCrud("payment", "_id", payment.getString("_id"), null, mongo);
                 } else {
                     paymentDoc.put("_id", payment.get("_id"));
-                    paymentDoc.put("debit", "true");
-                    paymentDoc.put("totalDebit", paymentDoc.get("payedAmount"));
-                    paymentDoc.put("totalDaysDebit", paymentDoc.get("payedDays"));
-                    paymentDoc.put("usedDebit", "0.0");
-                    paymentDoc.put("usedDaysDebit", "0");
+                    paymentDoc.put("status", "changedtodebit");
                     payment.put("documento", paymentDoc);
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
                     update.put("field", "documento");
-                    update.put("value", payment);
+                    update.put("value", paymentDoc);
                     arrayUpdate.add(update);
                     response = commons_db.atualizarCrud("payment", arrayUpdate, "_id", payment.getString("_id"), mongo);
+                    paymentDoc.remove("_id");
+                    paymentDoc.put("status", "debitpending");
+                    paymentDoc.put("debit", "true");
+                    paymentDoc.put("totalDebit", paymentDoc.get("payedAmount"));
+                    paymentDoc.put("totalDaysDebit", paymentDoc.get("payedDays"));
+                    paymentDoc.put("payedDays", "0");
+                    paymentDoc.put("payedAmount", "0.0");
+                    commons_db.incluirCrud("payment",paymentDoc, mongo);
+                    payment.put("documento", paymentDoc);
+
                     debits.add(paymentDoc);
                 }
             }
@@ -891,27 +935,6 @@ public class Payment {
                 ++i;
             }
         }
-/*
-        response = commons_db.listaCrudSkip("estimated", "documento.companyId", params.get("companyId"), params.get("usuarioId"), setQuery, null, false, Integer.parseInt(params.get("start")),Integer.parseInt(params.get("length")), params);
-        retorno = new BasicDBObject();
-        if ((response.getStatusCode() == HttpStatus.OK)) {
-            retorno.putAll((Map) response.getBody());
-        };
-
-        ArrayList<Object> estimateds = new ArrayList<>();
-        if (retorno != null) {
-            estimateds = (ArrayList<Object>) retorno.get("documentos");
-            countFiltered =  Integer.toString(Integer.valueOf(retorno.getString("countFiltered")) + Integer.valueOf(countFiltered));
-            count =  Integer.toString(Integer.valueOf(retorno.getString("count")) + Integer.valueOf(count));
-            int w = 0;
-            while (retorno.get("yadcf_data_" + w) != null){
-                result.put("yadcf_data_" + i, retorno.get("yadcf_data_" + w));
-                ++i;
-                ++w;
-            }
-        }
-        ArrayList<Object> finalResult = commons.addArray(payments, estimateds);
-*/
         ArrayList<Object> finalResult = payments;
         result.put("data", finalResult);
         result.put("recordsFiltered", countFiltered);

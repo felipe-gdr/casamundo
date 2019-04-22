@@ -305,6 +305,17 @@ public class DayPilot {
         String endCompare = end;
 
         BasicDBObject contractStart = new BasicDBObject();
+        if (contracts.size() > 0) {
+            contractStart.putAll((Map) contracts.get(0));
+        };
+        BasicDBObject contractEnd = new BasicDBObject();
+        if (contracts.size() > 1) {
+            contractEnd.putAll((Map) contracts.get(contracts.size() - 1));
+        }else {
+            if (contracts.size() > 0) {
+                contractEnd.putAll((Map) contracts.get(0));
+            }
+        }
         if (contracts.size() == 1) {
             if (contractStart.get("start") != null && contractStart.get("end") != null) {
                 if (commons.comparaData(startCompare, contractStart.getString("end")) || commons.comparaData(contractStart.getString("start"), endCompare)) {
@@ -317,15 +328,6 @@ public class DayPilot {
                     return result;
                 }
             }
-        }
-        if (contracts.size() > 0) {
-            contractStart.putAll((Map) contracts.get(0));
-        };
-        BasicDBObject contractEnd = new BasicDBObject();
-        if (contracts.size() > 1) {
-            contractEnd.putAll((Map) contracts.get(contracts.size() - 1));
-        }else {
-            contractStart.putAll((Map) contracts.get(0));
         }
         if (contractStart.get("start") != null && contractStart.get("end") != null) {
             if (commons.comparaData(contractStart.getString("start"), startCompare)) {
