@@ -94,7 +94,11 @@ public class PaymentCycles {
                 arrayUpdate = new ArrayList<BasicDBObject>();
                 update = new BasicDBObject();
                 update.put("field", "status");
-                update.put("value", "processing");
+                if (payment.getString("debit").equals("true")){
+                    update.put("value", "debitprocessing");
+                }else {
+                    update.put("value", "processing");
+                }
                 arrayUpdate.add(update);
                 update = new BasicDBObject();
                 update.put("field", "cycleId");

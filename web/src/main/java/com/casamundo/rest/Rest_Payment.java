@@ -81,7 +81,7 @@ public class Rest_Payment {
 
 		if (cycleId != null) {
 			MongoClient mongo = commons_db.getMongoClient();
-			ArrayList<BasicDBObject> response = payment.getProcessig(userId, cycleId, mongo);
+			ArrayList<BasicDBObject> response = payment.getProcessing(userId, cycleId, mongo);
 			return response;
 		}
 		return null;

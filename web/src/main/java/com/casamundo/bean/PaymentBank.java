@@ -23,7 +23,7 @@ public class PaymentBank {
 
 	public ArrayList incluir(BasicDBObject doc, MongoClient mongo) throws UnknownHostException {
 
-        ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
+        ArrayList<Object> paymentsResult = new ArrayList<>();
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
 
         for (int i = 0; i < paymentsCycles.size(); i++) {
@@ -39,7 +39,8 @@ public class PaymentBank {
                     paymentResult.putAll((Map) paymentsResult.get(k));
                     if (paymentResult.getString("vendorId").equals(paymentDoc.getString("vendorId"))){
                         existeResult = true;
-                        BigDecimal total = BigDecimal.valueOf(Double.parseDouble(paymentResult.getString("payValue")) + Double.parseDouble(paymentDoc.getString("payValue")));
+                        BigDecimal total = BigDecimal.valueOf(0.0);
+                            total = BigDecimal.valueOf(Double.parseDouble(paymentResult.getString("payValue")) + Double.parseDouble(paymentDoc.getString("payValue")));
                         total = total.setScale(2, RoundingMode.CEILING);
                         paymentResult.put("payValue", total.toString());
                         paymentsResult.set(k,paymentResult);
@@ -54,6 +55,13 @@ public class PaymentBank {
             }
         }
 
+        for (int i = 0; i < paymentsResult.size() ; i++) {
+            BasicDBObject paymentResult = new BasicDBObject();
+            paymentResult.putAll((Map) paymentsResult.get(i));
+            if (Double.valueOf(paymentResult.getString("payValue")) == 0.00){
+                commons.removeObjeto(paymentsResult,paymentResult);
+            }
+        }
         doc.put("payments",paymentsResult);
         ResponseEntity response = commons_db.incluirCrud("paymentBank",doc, mongo);
         String bankListId = (String) response.getBody();
@@ -120,7 +128,6 @@ public class PaymentBank {
 
     public ArrayList listaPayments(String paymentBankId, MongoClient mongo) throws UnknownHostException {
 
-        ArrayList <BasicDBObject> paymentsBankResult = new ArrayList<>();
         BasicDBObject paymentBank = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId, mongo);
 
         ArrayList <BasicDBObject> payments = (ArrayList<BasicDBObject>) paymentBank.get("payments");
@@ -246,9 +253,8 @@ public class PaymentBank {
         }
     }
 
-    public Boolean atualizaPagamento(String paymentBankId, MongoClient mongo) throws UnknownHostException {
+    public Boolean atualizaPagamento(String paymentBankId, BasicDBObject doc, MongoClient mongo) throws UnknownHostException {
 
-        BasicDBObject doc = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId, mongo);
         ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
         for (int i = 0; i < paymentsCycles.size(); i++) {
@@ -262,9 +268,25 @@ public class PaymentBank {
                     paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
                     paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
                     if (Double.parseDouble(paymentDoc.getString("payedAmount")) >= Double.parseDouble(paymentDoc.getString("totalAmount"))) {
-                        paymentDoc.put("status", "payed");
+                        if (paymentDoc.get("debit") != null){
+                            if (paymentDoc.getString("debit").equals("true")){
+                                paymentDoc.put("status", "reverted");
+                            }else{
+                                paymentDoc.put("status", "paid");
+                            }
+                        }else{
+                            paymentDoc.put("status", "paid");
+                        }
                     } else {
-                        paymentDoc.put("status", "pending");
+                        if (paymentDoc.get("debit") != null){
+                            if (paymentDoc.getString("debit").equals("true")){
+                                paymentDoc.put("status", "debitpending");
+                            }else{
+                                paymentDoc.put("status", "pending");
+                            }
+                        }else{
+                            paymentDoc.put("status", "pending");
+                        }
                         paymentDoc.put("extension", "true");
                     }
                     if (paymentDoc.get("sugestLastDatePayment") != null) {
@@ -292,7 +314,7 @@ public class PaymentBank {
                     commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentDoc.getString("_id"), mongo);
                 }
             }
-            paymentCycle.put("status","payed");
+            paymentCycle.put("status","paid");
             paymentCycle.remove("_id");
             ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
             BasicDBObject update = new BasicDBObject();
@@ -301,7 +323,7 @@ public class PaymentBank {
             arrayUpdate.add(update);
             commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i), mongo);
 
-            doc.put("status","payed");
+            doc.put("status","paid");
             arrayUpdate = new ArrayList<BasicDBObject>();
             update = new BasicDBObject();
             update.put("field", "documento");

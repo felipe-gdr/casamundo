@@ -37,7 +37,11 @@ public class Rest_PaymentBank {
     public Boolean atualizarPagamento(@RequestBody String paymentBankId) throws UnknownHostException, MongoException  {
 
         MongoClient mongo = new MongoClient();
-        Boolean response =paymentBank.atualizaPagamento(paymentBankId, mongo);
+        BasicDBObject doc = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId, mongo);
+        Boolean response = false;
+        if (doc != null) {
+            response = paymentBank.atualizaPagamento(paymentBankId, doc, mongo);
+        }
         mongo.close();;
         return response;
     };
