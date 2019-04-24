@@ -100,12 +100,35 @@ public class Rest_External_Book {
 	};
 
 	@SuppressWarnings("rawtypes")
-	/* 	format start/end aaaa-mm-dd
-		type = "homestayBook", "suiteBook" or "sharedBook"
-	*/
 
 	@PostMapping(value = "/getAvailable", consumes = "application/json")
 	public ResponseEntity getAvailable(@RequestBody JSONObject queryParam) throws IOException, MongoException  {
+
+
+		if (queryParam.get("city") == null || queryParam.get("checkIn") == null || queryParam.get("checkOut") == null || queryParam.get("accControl") == null  || queryParam.get("birthday") == null){
+			return ResponseEntity.badRequest().body("missing fields");
+		}
+
+		try {
+			ObjectId idObj = new ObjectId(queryParam.get("city").toString());
+		}catch (Exception ex){
+			return ResponseEntity.badRequest().body("city must be id object");
+		};
+
+		MongoClient mongo = commons_db.getMongoClient();
+		if (commons_db.obterCrudDoc("city","_id", queryParam.get("city").toString(), mongo) == null){
+			mongo.close();
+			return ResponseEntity.badRequest().body("inexistent city");
+		}
+
+		ResponseEntity response = book.getAvailable(queryParam.get("accControl").toString(), queryParam.get("checkIn").toString(), queryParam.get("checkIn").toString(), queryParam.get("city").toString(), queryParam, mongo);
+
+		mongo.close();
+		return response;
+	};
+
+	@PostMapping(value = "/setBook", consumes = "application/json")
+	public ResponseEntity setBook(@RequestBody JSONObject queryParam) throws IOException, MongoException  {
 
 
 		if (queryParam.get("city") == null || queryParam.get("checkIn") == null || queryParam.get("checkOut") == null || queryParam.get("accControl") == null  || queryParam.get("birthday") == null){

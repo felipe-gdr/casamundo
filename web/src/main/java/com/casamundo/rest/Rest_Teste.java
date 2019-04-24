@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
@@ -19,6 +20,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 @RestController
 @RequestMapping("/teste")
@@ -54,17 +58,15 @@ public class Rest_Teste {
     };
 
 	@SuppressWarnings("unchecked")
-	@GetMapping(value = "/trigger", produces = "application/json")
-	public ResponseEntity trigger(
-			@RequestParam(value = "collectionName") String collectionName,
-			@RequestParam(value = "id") String id
+	@GetMapping(value = "/getCoordinates", produces = "application/json")
+	public String[] getCoordinates(
+			@RequestParam(value = "address") String address,
+			@RequestParam(value = "county") String county
 
 
-	) throws UnknownHostException {
-		MongoClient mongo = commons_db.getMongoClient();
-		commons_db.trigger(collectionName, id, mongo);
-		mongo.close();
-		return null;
+	) throws IOException, ParserConfigurationException, SAXException {
+		return commons.getCoordinates(address, county);
+
 	};
 
 	Block<Document> printBlock = new Block<Document>() {

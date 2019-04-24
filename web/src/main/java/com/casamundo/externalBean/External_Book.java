@@ -29,16 +29,19 @@ public class External_Book {
 	public ResponseEntity getAvailable(String type, String start, String end, String city, JSONObject variables, MongoClient mongo) throws IOException {
 
 		String collectionBase = "";
-		String collectionAlloc = type;
+		String collectionAlloc = "";
 		switch(type) {
-			case "homestayBook":
+			case "homestay":
 				collectionBase = "familyDorm";
+				collectionAlloc = "homestayBook";
 				break;
-			case "suiteBook":
+			case "suite":
 				collectionBase = "dorm";
+				collectionAlloc = "suiteBook";
 				break;
-			case "sharedBook":
+			case "shared":
 				collectionBase = "dorm";
+				collectionAlloc = "sharedBook";
 				break;
 			default:
 				// code block
@@ -75,9 +78,6 @@ public class External_Book {
 			return ResponseEntity.ok().body(products);
 		}
 		return ResponseEntity.ok().body("No available resource");
-
-
-
 	}
 
 }

@@ -127,12 +127,14 @@ public class FormulaCalculator extends FormulaBaseVisitor<Value> {
         final String variableName = ctx.name.getText();
 
         if (variables.containsKey(variableName)) {
-            String value = variables.get(variableName).toString();
+            if (variables.get(variableName) != null) {
+                String value = variables.get(variableName).toString();
 
-            try {
-                return DoubleValue.of(value);
-            } catch (NumberFormatException e) {
-                return StringValue.of(value);
+                try {
+                    return DoubleValue.of(value);
+                } catch (NumberFormatException e) {
+                    return StringValue.of(value);
+                }
             }
         }
 

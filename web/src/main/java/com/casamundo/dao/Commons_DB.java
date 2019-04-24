@@ -293,44 +293,7 @@ public class Commons_DB {
 
         if (objDocumento != null) {
             String companyId = (String) objDocumento.get("companyId");
-            List arrayUpdate = (List) updateInput;
-            for (int i = 0; i < arrayUpdate.size(); i++) {
-                BasicDBObject setUpdate = new BasicDBObject();
-                setUpdate.putAll((Map) arrayUpdate.get(i));
-                Object value = setUpdate.get("value");
-                if (value instanceof String) {
-                    String docUpdate = setUpdate.get("value").toString();
-                    objDocumento.remove(setUpdate.get("field"));
-                    objDocumento.put((String) setUpdate.get("field"), docUpdate);
-                } else {
-                    if (value instanceof ArrayList) {
-                        ArrayList docUpdate = (ArrayList) setUpdate.get("value");
-                        objDocumento.remove(setUpdate.get("field"));
-                        JSONArray arrayField = new JSONArray();
-                        for (int j = 0; j < docUpdate.size(); j++) {
-                            if (docUpdate.get(j) instanceof String) {
-                                arrayField.add(docUpdate.get(j));
-                            } else {
-                                BasicDBObject docUpdateItem = new BasicDBObject();
-                                docUpdateItem.putAll((Map) docUpdate.get(j));
-                                arrayField.add(docUpdateItem);
-                            }
-                        }
-
-                        objDocumento.put((String) setUpdate.get("field"), arrayField);
-                    } else {
-                        BasicDBObject docUpdate = new BasicDBObject();
-                        docUpdate.putAll((Map) setUpdate.get("value"));
-                        if (setUpdate.get("field").equals("documento")) {
-                            objDocumento.clear();
-                            objDocumento.putAll((Map) docUpdate);
-                        } else {
-                            objDocumento.remove(setUpdate.get("field"));
-                            objDocumento.put((String) setUpdate.get("field"), docUpdate);
-                        }
-                    }
-                }
-            }
+            objDocumento = montaDocumento(updateInput,objDocumento);
 
             BasicDBObject doc = new BasicDBObject();
 
@@ -367,6 +330,49 @@ public class Commons_DB {
             mongo.close();
         }
         return ResponseEntity.ok().body("true");
+    }
+
+    public BasicDBObject montaDocumento(Object updateInput, BasicDBObject objDocumento) {
+
+        List arrayUpdate = (List) updateInput;
+        for (int i = 0; i < arrayUpdate.size(); i++) {
+            BasicDBObject setUpdate = new BasicDBObject();
+            setUpdate.putAll((Map) arrayUpdate.get(i));
+            Object value = setUpdate.get("value");
+            if (value instanceof String) {
+                String docUpdate = setUpdate.get("value").toString();
+                objDocumento.remove(setUpdate.get("field"));
+                objDocumento.put((String) setUpdate.get("field"), docUpdate);
+            } else {
+                if (value instanceof ArrayList) {
+                    ArrayList docUpdate = (ArrayList) setUpdate.get("value");
+                    objDocumento.remove(setUpdate.get("field"));
+                    JSONArray arrayField = new JSONArray();
+                    for (int j = 0; j < docUpdate.size(); j++) {
+                        if (docUpdate.get(j) instanceof String) {
+                            arrayField.add(docUpdate.get(j));
+                        } else {
+                            BasicDBObject docUpdateItem = new BasicDBObject();
+                            docUpdateItem.putAll((Map) docUpdate.get(j));
+                            arrayField.add(docUpdateItem);
+                        }
+                    }
+
+                    objDocumento.put((String) setUpdate.get("field"), arrayField);
+                } else {
+                    BasicDBObject docUpdate = new BasicDBObject();
+                    docUpdate.putAll((Map) setUpdate.get("value"));
+                    if (setUpdate.get("field").equals("documento")) {
+                        objDocumento.clear();
+                        objDocumento.putAll((Map) docUpdate);
+                    } else {
+                        objDocumento.remove(setUpdate.get("field"));
+                        objDocumento.put((String) setUpdate.get("field"), docUpdate);
+                    }
+                }
+            }
+        }
+        return objDocumento;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

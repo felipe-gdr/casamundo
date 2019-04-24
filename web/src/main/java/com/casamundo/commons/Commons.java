@@ -1,10 +1,13 @@
 package com.casamundo.commons;
 
 import com.mongodb.BasicDBObject;
+import io.restassured.path.json.JsonPath;
 import org.json.simple.JSONObject;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -12,9 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.IOException;
 import java.io.InputStream;
+import io.restassured.response.Response;
 import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static io.restassured.RestAssured.given;
 
 public class Commons {
 		
@@ -744,5 +750,30 @@ public class Commons {
 			return false;
 		}
 		return true;
+	}
+	public String[] getCoordinates(String address, String county) throws IOException, ParserConfigurationException, SAXException {
+
+		address = address.replace(",", "+");
+		address = address.replace(" ", "+");
+		county = county.replace(" ", "");
+
+		String fullAddress = address+"+"+county;
+		System.out.println(fullAddress);
+
+		URL url = new URL("http://maps.google.com/maps/api/geocode/json?address="+fullAddress+"&sensor=false");
+
+		Response res =
+				given().
+				when().
+				get(url);
+		JsonPath jp = new JsonPath(res.asString());
+		String lat = jp.get("results.geometry.location.lat").toString();
+		String lng = jp.get("results.geometry.location.lng").toString();
+
+		String[] location = new String[2];
+		location[0] = lat;
+		location[1] = lng;
+
+		return location;
 	}
 };

@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Invoice {
@@ -58,25 +59,26 @@ public class Invoice {
     }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ResponseEntity atualiza(BasicDBObject doc, String invoiceId, Boolean atualiza, Boolean book, MongoClient mongo) throws UnknownHostException  {
+	public ResponseEntity atualiza(JSONObject queryParam, Boolean atualiza, Boolean book, MongoClient mongo) throws UnknownHostException  {
 
-		BasicDBObject documento = new BasicDBObject();
-		documento.putAll((Map) doc);
+
+		BasicDBObject documento = commons_db.obterCrudDoc("invoice","_id",queryParam.get("value").toString(),mongo);
+        documento = commons_db.montaDocumento(queryParam.get("update"),documento);
 
 		documento = completaCampos(documento, mongo);
 
-        ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+        List arrayUpdate = arrayUpdate = new ArrayList<BasicDBObject>();
         BasicDBObject update = new BasicDBObject();
         update.put("field", "documento");
         update.put("value", documento);
         arrayUpdate.add(update);
-        ResponseEntity response = commons_db.atualizarCrud("invoice", arrayUpdate, "_id", invoiceId, mongo);
+        ResponseEntity response = commons_db.atualizarCrud("invoice", arrayUpdate, "_id", queryParam.get("value").toString(), mongo);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             ArrayList<Object> productsResult = new ArrayList<Object>();
             productsResult = (ArrayList) documento.get("products");
-            estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId, mongo);
-            payment.managementCostsBooking(documento.getString("trip"), invoiceId,  atualiza, book, mongo);
+            estimated.criarCosts(productsResult, documento.getString("trip"), queryParam.get("value").toString(), mongo);
+            payment.managementCostsBooking(documento.getString("trip"), queryParam.get("value").toString(),  atualiza, book, mongo);
         };
         return response;
 
@@ -397,6 +399,15 @@ public class Invoice {
                 }
                 productDoc.put("value", Double.toString(totalValue));
                 productDoc.put("dates", dates);
+                productDoc.remove("group");
+                productDoc.remove("index");
+                productDoc.remove("valid");
+                productDoc.remove("formula");
+                productDoc.remove("companyId");
+                productDoc.remove("vendorId");
+                productDoc.remove("ativo");
+                productDoc.remove("serviceNr");
+                product.remove("lastChange");
                 product.put("documento", productDoc);
                 resultArray.add(product);
             };

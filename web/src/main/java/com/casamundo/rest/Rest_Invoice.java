@@ -44,12 +44,7 @@ public class Rest_Invoice {
 		MongoClient mongo = commons_db.getMongoClient();
 		String collection = (String) queryParam.get("collection");
 		if (collection != null ){
-            List arrayUpdate = (List) queryParam.get("update");
-            BasicDBObject update = new BasicDBObject();
-            update.putAll((Map) arrayUpdate.get(0));
-            BasicDBObject doc = new BasicDBObject();
-            doc.putAll((Map) update.get("value"));
-            invoice.atualiza(doc, queryParam.get("value").toString(), true, false, mongo);
+            invoice.atualiza(queryParam, true, false, mongo);
             mongo.close();
 			return ResponseEntity.ok().body("true");
 		}else{
