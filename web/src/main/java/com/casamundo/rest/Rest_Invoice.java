@@ -52,6 +52,21 @@ public class Rest_Invoice {
 		}
 	};
 
+	@RequestMapping(value = "/calculanoiteextra", produces = "application/json")
+	public ResponseEntity estorna(
+			@RequestParam ("invoiceId") String invoiceId
+	) throws UnknownHostException, MongoException {
+
+		MongoClient mongo = commons_db.getMongoClient();
+		if (invoiceId != null ){
+			invoice.estorna(invoiceId, mongo);
+			mongo.close();
+			return ResponseEntity.ok().body("true");
+		}else{
+			return ResponseEntity.badRequest().build();
+		}
+	};
+
 	@RequestMapping(value = "/get/number", produces = "application/json")
 	public String numberInvoice() throws UnknownHostException, MongoException{
 		MongoClient mongo = commons_db.getMongoClient();
@@ -83,15 +98,6 @@ public class Rest_Invoice {
 		return response;
 
 	};
-
-	@RequestMapping(value = "/calculanoiteextra", produces = "application/json")
-	public BasicDBObject testaData(
-			@RequestParam ("start") String start,
-			@RequestParam ("end") String end
-	) throws UnknownHostException, MongoException {
-		return commons.numberWeeks(start, end, "homestay");
-	};
-
 
 };
 

@@ -19,7 +19,7 @@ public class DayPilot {
     Commons commons = new Commons();
     Commons_DB commons_db = new Commons_DB();
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"rawtypes" })
 	public BasicDBObject montaHomeStay(String companyId, String userId, String start, String end, String city, String filtroIdI, String filtroIdII, MongoClient mongo) throws UnknownHostException {
 
         ArrayList<BasicDBObject> resultListBook = new ArrayList<BasicDBObject>();

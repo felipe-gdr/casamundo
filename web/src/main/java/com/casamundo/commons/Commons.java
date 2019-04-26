@@ -2,25 +2,26 @@ package com.casamundo.commons;
 
 import com.mongodb.BasicDBObject;
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.json.simple.JSONObject;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.io.IOException;
-import java.io.InputStream;
-import io.restassured.response.Response;
-import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.given;
+
 
 public class Commons {
 		

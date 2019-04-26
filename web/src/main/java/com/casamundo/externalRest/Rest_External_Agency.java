@@ -19,8 +19,8 @@ public class Rest_External_Agency {
 	External_Agency agency = new External_Agency();
 	Commons_DB commons_db = new Commons_DB();
 
-	@GetMapping(value = "/lista", produces = "application/json")
-	public ResponseEntity ObterAgencies() throws UnknownHostException, MongoException {
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity obterAgencies() throws UnknownHostException, MongoException {
 		MongoClient mongo = commons_db.getMongoClient();
 		ResponseEntity response = agency.listaAgency(mongo);
 		mongo.close();

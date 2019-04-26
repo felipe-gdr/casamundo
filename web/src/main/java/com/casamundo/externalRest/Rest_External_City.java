@@ -19,8 +19,8 @@ public class Rest_External_City {
 	Commons_DB commons_db = new Commons_DB();
 
 	@SuppressWarnings("unchecked")
-	@GetMapping(value = "/lista", produces = "application/json")
-	public ResponseEntity ObterAgencies() throws UnknownHostException {
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity obterAgencies() throws UnknownHostException {
 		MongoClient mongo = commons_db.getMongoClient();
 		ResponseEntity response = city.lista(mongo);
 		mongo.close();

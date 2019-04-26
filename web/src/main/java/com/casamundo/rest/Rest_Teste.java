@@ -2,15 +2,19 @@ package com.casamundo.rest;
 
 import com.casamundo.bean.Table;
 import com.casamundo.commons.Commons;
+import com.casamundo.externalBean.External_Agency;
+import com.casamundo.externalBean.External_Book;
+import com.casamundo.geolocalization.GeocodingException;
+import com.casamundo.geolocalization.GeocodingImpl;
 import com.casamundo.dao.Commons_DB;
+import com.google.gson.JsonObject;
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
 import org.bson.Document;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
@@ -20,9 +24,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 @RestController
 @RequestMapping("/teste")
@@ -31,6 +32,8 @@ public class Rest_Teste {
 	Commons commons = new Commons();
 	Commons_DB commons_db = new Commons_DB();
 	Table table = new Table();
+	External_Book book = new External_Book();
+	GeocodingImpl geocoding = new GeocodingImpl();
 
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/teste", produces = "application/json")
@@ -59,14 +62,26 @@ public class Rest_Teste {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/getCoordinates", produces = "application/json")
-	public String[] getCoordinates(
-			@RequestParam(value = "address") String address,
-			@RequestParam(value = "county") String county
+	public BasicDBObject getCoordinates(
+			@RequestParam(value = "address") String address
 
 
-	) throws IOException, ParserConfigurationException, SAXException {
-		return commons.getCoordinates(address, county);
+	) throws GeocodingException {
 
+		JsonObject result = geocoding.getLatLng(address);
+
+
+		return null;
+
+	};
+	@SuppressWarnings("rawtypes")
+	@PostMapping(value = "/testejson", consumes = "application/json")
+	public ResponseEntity testaJson(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException {
+
+		MongoClient mongo = commons_db.getMongoClient();
+		Boolean result = book.camposObrigatorios(queryParam, "necessaryFieldsTrip", mongo);
+		mongo.close();
+		return ResponseEntity.ok().body(result);
 	};
 
 	Block<Document> printBlock = new Block<Document>() {

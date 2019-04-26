@@ -84,6 +84,37 @@ public class Invoice {
 
 	}
 
+    public void estorna(String invoiceId, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject docOrigin = commons_db.obterCrudDoc("invoice","_id",invoiceId.toString(),mongo);
+
+        BasicDBObject docNew = docOrigin;
+        ArrayList<Object> products = (ArrayList<Object>) docOrigin.get("products");
+
+        for (int i = 0; i < products.size(); i++) {
+            BasicDBObject product = new BasicDBObject();
+            product.putAll((Map) products.get(i));
+            product.put("valueNet", Double.toString(Double.valueOf(product.getString("valueNet")) * -1));
+            product.put("valueGross", Double.toString(Double.valueOf(product.getString("valueNet")) * -1));
+            products.set(i, product);
+        }
+
+        docNew.put("originInvoiceId", docOrigin.get("_id"));
+        docNew.put("status", "creditPending");
+
+        ResponseEntity response = commons_db.incluirCrud("invoice", docNew, mongo);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            invoiceId = (String) response.getBody();
+            if (invoiceId != null) {
+                ArrayList<Object> productsResult = new ArrayList<Object>();
+                productsResult = (ArrayList) docOrigin.get("products");
+                estimated.criarCosts(productsResult, docOrigin.getString("trip"), invoiceId, mongo);
+                payment.managementCostsBooking(docOrigin.getString("trip"), invoiceId,  false, false, mongo);
+            }
+        }
+
+    }
     private BasicDBObject completaCampos(BasicDBObject documento, MongoClient mongo) throws UnknownHostException {
 
         BasicDBObject travel = commons_db.obterCrudDoc("travel", "_id", documento.getString("trip"), mongo);
