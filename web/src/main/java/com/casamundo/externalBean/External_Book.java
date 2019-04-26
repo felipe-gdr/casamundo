@@ -19,6 +19,49 @@ public class External_Book {
 	Commons commons = new Commons();
 	Invoice invoice = new Invoice();
 
+
+	public ResponseEntity obter(String idBook, MongoClient mongo) {
+
+		BasicDBObject book = commons_db.obterCrudDoc("travel", "_id", idBook, mongo);
+		if (book != null){
+			BasicDBObject result = new BasicDBObject();
+			result.put("documento", book);
+			return ResponseEntity.ok().body(result);
+		}
+		return ResponseEntity.badRequest().build();
+	}
+
+	public ResponseEntity lista(String idCity, MongoClient mongo) {
+
+		BasicDBObject book = commons_db.obterCrudDoc("travel", "documento.city", idCity, mongo);
+		if (book != null){
+			BasicDBObject result = new BasicDBObject();
+			result.put("documento", book);
+			return ResponseEntity.ok().body(result);
+		}
+
+		return ResponseEntity.badRequest().build();
+	}
+
+	public ResponseEntity atualizar(JSONObject queryParam, MongoClient mongo) throws UnknownHostException {
+		ArrayList<BasicDBObject> arrayUpdate = commons.montaArrayUpdate(queryParam);
+		return commons_db.atualizarCrud("travel", arrayUpdate, "_id", queryParam.get("idTravel").toString(), mongo);
+	}
+
+	public ResponseEntity deletar(String idBook) throws UnknownHostException {
+		MongoClient mongo = commons_db.getMongoClient();
+		if (idBook != null ){
+			BasicDBObject book = commons_db.obterCrudDoc("travel", "_id", idBook, mongo);
+			if (book != null){
+				ResponseEntity result = commons_db.removerCrud("homestayBook","_id",idBook, null, mongo);
+				mongo.close();
+				return ResponseEntity.ok().body("ok");
+			}
+		}
+		mongo.close();
+		return ResponseEntity.badRequest().build();
+	}
+
 	public ResponseEntity getAvailable(String type, String start, String end, String city, org.json.simple.JSONObject variables, MongoClient mongo) throws IOException {
 
 		String collectionBase = "";
@@ -39,7 +82,6 @@ public class External_Book {
 			default:
 				// code block
 		}
-
 
 		ResponseEntity response = commons_db.listaCrud(collectionBase, "documento.city", city, null, null, null, true, mongo);
 		ArrayList<Object> resources = new ArrayList<Object>();
@@ -71,89 +113,6 @@ public class External_Book {
 			return ResponseEntity.ok().body(products);
 		}
 		return ResponseEntity.ok().body("No available resource");
-	}
-
-	public ResponseEntity deletar(String idBook) throws UnknownHostException {
-		MongoClient mongo = commons_db.getMongoClient();
-		if (idBook != null ){
-			BasicDBObject book = commons_db.obterCrudDoc("homestayBook", "_id", idBook, mongo);
-			if (book != null){
-				ResponseEntity result = commons_db.removerCrud("homestayBook","_id",idBook, null, mongo);
-				mongo.close();
-				return ResponseEntity.ok().body("ok");
-			}
-			book = commons_db.obterCrudDoc("suiteBook", "_id", idBook, mongo);
-			if (book != null){
-				if (book != null){
-					ResponseEntity result = commons_db.removerCrud("suiteBook","_id",idBook, null, mongo);
-					mongo.close();
-					return ResponseEntity.ok().body("ok");
-				}
-			}
-			book = commons_db.obterCrudDoc("sharedBook", "_id", idBook, mongo);
-			if (book != null){
-				if (book != null){
-					ResponseEntity result = commons_db.removerCrud("suiteBook","_id",idBook, null, mongo);
-					mongo.close();
-					return ResponseEntity.ok().body("ok");
-				}
-			}
-		}
-		mongo.close();
-		return ResponseEntity.badRequest().build();
-	}
-
-	public ResponseEntity obter(String idBook, MongoClient mongo) {
-
-		BasicDBObject book = commons_db.obterCrudDoc("homestayBook", "_id", idBook, mongo);
-		if (book != null){
-			BasicDBObject result = new BasicDBObject();
-			result.put("documento", book);
-			result.put("collection", "homestayBook");
-			return ResponseEntity.ok().body(result);
-		}
-		book = commons_db.obterCrudDoc("suiteBook", "_id", idBook, mongo);
-		if (book != null){
-			BasicDBObject result = new BasicDBObject();
-			result.put("documento", book);
-			result.put("collection", "suiteBook");
-			return ResponseEntity.ok().body(result);
-		}
-		book = commons_db.obterCrudDoc("sharedBook", "_id", idBook, mongo);
-		if (book != null){
-			BasicDBObject result = new BasicDBObject();
-			result.put("documento", book);
-			result.put("collection", "sharedBook");
-			return ResponseEntity.ok().body(result);
-		}
-		return ResponseEntity.badRequest().build();
-	}
-
-	public ResponseEntity lista(String idCity, MongoClient mongo) {
-
-		BasicDBObject book = commons_db.obterCrudDoc("homestayBook", "documento.city", idCity, mongo);
-		if (book != null){
-			BasicDBObject result = new BasicDBObject();
-			result.put("documento", book);
-			result.put("collection", "homestayBook");
-			return ResponseEntity.ok().body(result);
-		}
-		book = commons_db.obterCrudDoc("suiteBook", "documento.city", idCity, mongo);
-		if (book != null){
-			BasicDBObject result = new BasicDBObject();
-			result.put("documento", book);
-			result.put("collection", "suiteBook");
-			return ResponseEntity.ok().body(result);
-		}
-		book = commons_db.obterCrudDoc("sharedBook", "documento.city", idCity, mongo);
-		if (book != null){
-			BasicDBObject result = new BasicDBObject();
-			result.put("documento", book);
-			result.put("collection", "sharedBook");
-			return ResponseEntity.ok().body(result);
-		}
-
-		return ResponseEntity.badRequest().build();
 	}
 
 	public boolean camposValidos(org.json.simple.JSONObject queryParam, String type, MongoClient mongo) {

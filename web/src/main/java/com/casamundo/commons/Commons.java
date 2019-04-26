@@ -777,4 +777,24 @@ public class Commons {
 
 		return location;
 	}
+
+    public ArrayList<BasicDBObject> montaArrayUpdate(JSONObject queryParam) {
+
+		org.json.JSONObject reader = new org.json.JSONObject(queryParam);
+		Iterator  iteratorObj = reader.keys();
+		ArrayList<String> getAllKeys =new ArrayList<String>();
+		while (iteratorObj.hasNext())
+		{
+			getAllKeys.add((String)iteratorObj.next());
+		}
+
+		ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
+		for (String keyField : getAllKeys) {
+			BasicDBObject update = new BasicDBObject();
+			update.put("field", keyField);
+			update.put("value", queryParam.get(keyField));
+			arrayUpdate.add(update);
+		}
+		return arrayUpdate;
+    }
 };

@@ -54,29 +54,20 @@ public class Rest_External_Book {
 	@PostMapping(value = "/update", consumes = "application/json")
 	public ResponseEntity atualizar(@RequestBody JSONObject queryParam) throws UnknownHostException, MongoException  {
 
+
+		if (queryParam.get("idTravel") == null ) {
+			return ResponseEntity.badRequest().body("missing travel key");
+		}
+
 		MongoClient mongo = commons_db.getMongoClient();
 		if (!book.camposValidos(queryParam,"validFieldsTrip", mongo)){
 			mongo.close();
 			return ResponseEntity.badRequest().body("invalid fields");
 		}
-		if (!book.camposObrigatorios(queryParam, "necessaryFieldsTrip", mongo)){
-			mongo.close();
-			return ResponseEntity.badRequest().body("invalid fields");
-		}
 
-		if (queryParam.get("collection") != null ){
-			ResponseEntity result = commons_db.atualizarCrud(queryParam.get ("collection").toString(), queryParam.get(
-					"update"), queryParam.get("key").toString(), queryParam.get("value").toString(), mongo);
-			BasicDBObject book = commons_db.obterCrudDoc(queryParam.get ("collection").toString(), queryParam.get("key").toString(), queryParam.get("value").toString(), mongo);
-			if (book != null) {
-				payment.managementCostsBooking(book.getString("studentId"), null, false, true, mongo);
-			}
-			mongo.close();
-			return result;
-		}else{
-			mongo.close();
-			return ResponseEntity.badRequest().build();
-		}
+		ResponseEntity result = book.atualizar(queryParam, mongo);
+		mongo.close();
+		return result;
 	};
 
 
@@ -149,6 +140,14 @@ public class Rest_External_Book {
 		};
 
 		MongoClient mongo = commons_db.getMongoClient();
+		if (!book.camposValidos(queryParam,"validFieldsTrip", mongo)){
+			mongo.close();
+			return ResponseEntity.badRequest().body("invalid fields");
+		}
+		if (!book.camposObrigatorios(queryParam, "necessaryFieldsTrip", mongo)){
+			mongo.close();
+			return ResponseEntity.badRequest().body("missing fields");
+		}
 		if (commons_db.obterCrudDoc("city","_id", queryParam.get("city").toString(), mongo) == null){
 			mongo.close();
 			return ResponseEntity.badRequest().body("inexistent city");
@@ -174,15 +173,32 @@ public class Rest_External_Book {
 		};
 
 		MongoClient mongo = commons_db.getMongoClient();
+
+		if (!book.camposValidos(queryParam,"validFieldsTrip", mongo)){
+			mongo.close();
+			return ResponseEntity.badRequest().body("invalid fields");
+		}
+		if (!book.camposObrigatorios(queryParam, "necessaryFieldsTrip", mongo)){
+			mongo.close();
+			return ResponseEntity.badRequest().body("missing fields trip");
+		}
+		if (!book.camposValidos(queryParam,"validFieldsStudent", mongo)){
+			mongo.close();
+			return ResponseEntity.badRequest().body("invalid fields");
+		}
+		if (!book.camposObrigatorios(queryParam, "necessaryFieldsStudent", mongo)){
+			mongo.close();
+			return ResponseEntity.badRequest().body("missing fields student");
+		}
+
 		if (commons_db.obterCrudDoc("city","_id", queryParam.get("city").toString(), mongo) == null){
 			mongo.close();
 			return ResponseEntity.badRequest().body("inexistent city");
 		}
 
-		ResponseEntity response = book.getAvailable(queryParam.get("accControl").toString(), queryParam.get("checkIn").toString(), queryParam.get("checkIn").toString(), queryParam.get("city").toString(), queryParam, mongo);
 
 		mongo.close();
-		return response;
+		return null;
 	};
 
 };
