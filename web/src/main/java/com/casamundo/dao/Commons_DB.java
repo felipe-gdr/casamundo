@@ -1501,7 +1501,7 @@ public class Commons_DB {
         if (docObj.get("total") != null &&  docObj.get("valuePayed") != null){
             balanceDue = Float.toString(Float.valueOf(docObj.getString("total")) - Float.valueOf(docObj.getString("valuePayed")));
         }
-        atualiza = setObjeto(docObj, "balanceDue", total, atualiza);
+        atualiza = setObjeto(docObj, "balanceDue", balanceDue, atualiza);
 
         if (atualiza) {
             docObj.remove("_id");
