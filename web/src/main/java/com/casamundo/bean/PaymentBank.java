@@ -253,9 +253,9 @@ public class PaymentBank {
         }
     }
 
-    public Boolean atualizaPagamento(String paymentBankId, BasicDBObject doc, MongoClient mongo) throws UnknownHostException {
+    public Boolean atualizaPagamento(String paymentBankId, BasicDBObject doc, Object vendorsFailIn, MongoClient mongo) throws UnknownHostException {
 
-        ArrayList <BasicDBObject> paymentsResult = new ArrayList<>();
+        ArrayList <String> vendorsFail = (ArrayList<String>) vendorsFailIn;;
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
         for (int i = 0; i < paymentsCycles.size(); i++) {
             BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i), mongo);
@@ -265,31 +265,39 @@ public class PaymentBank {
                 payment.putAll((Map) payments.get(j));
                 BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"), mongo);
                 if (paymentDoc != null) {
-                    paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
-                    paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
-                    if (Double.parseDouble(paymentDoc.getString("payedAmount")) >= Double.parseDouble(paymentDoc.getString("totalAmount"))) {
-                        if (paymentDoc.get("debit") != null){
-                            if (paymentDoc.getString("debit").equals("true")){
-                                paymentDoc.put("status", "reverted");
-                            }else{
+                    if (commons.testaElementoArray(paymentDoc.getString("vendorId"), vendorsFail)){
+                        paymentDoc.put("status", "pending");
+                        paymentDoc.put("payedAmount", "0.0");
+                        paymentDoc.put("payedDays", "0");
+                        paymentDoc.remove("cycleId");
+                        paymentDoc.remove("payValue");
+                    }else {
+                        paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
+                        paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
+                        if (Double.parseDouble(paymentDoc.getString("payedAmount")) >= Double.parseDouble(paymentDoc.getString("totalAmount"))) {
+                            if (paymentDoc.get("debit") != null) {
+                                if (paymentDoc.getString("debit").equals("true")) {
+                                    paymentDoc.put("status", "reverted");
+                                } else {
+                                    paymentDoc.put("status", "paid");
+                                }
+                            } else {
                                 paymentDoc.put("status", "paid");
                             }
-                        }else{
-                            paymentDoc.put("status", "paid");
-                        }
-                    } else {
-                        if (paymentDoc.get("debit") != null){
-                            if (paymentDoc.getString("debit").equals("true")){
-                                paymentDoc.put("status", "debitpending");
-                            }else{
+                        } else {
+                            if (paymentDoc.get("debit") != null) {
+                                if (paymentDoc.getString("debit").equals("true")) {
+                                    paymentDoc.put("status", "debitpending");
+                                } else {
+                                    paymentDoc.put("status", "pending");
+                                }
+                            } else {
                                 paymentDoc.put("status", "pending");
                             }
-                        }else{
-                            paymentDoc.put("status", "pending");
+                            paymentDoc.put("extension", "true");
                         }
-                        paymentDoc.put("extension", "true");
                     }
-                    if (paymentDoc.get("sugestLastDatePayment") != null) {
+/*                    if (paymentDoc.get("sugestLastDatePayment") != null) {
                         paymentDoc.put("lastDayPayment", paymentDoc.getString("sugestLastDatePayment"));
                         paymentDoc.put("controlDatePayment", paymentDoc.getString("sugestLastDatePayment"));
                     }else {
@@ -306,6 +314,7 @@ public class PaymentBank {
                             }
                         }
                     }
+*/
                     ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
                     BasicDBObject update = new BasicDBObject();
                     update.put("field", "documento");

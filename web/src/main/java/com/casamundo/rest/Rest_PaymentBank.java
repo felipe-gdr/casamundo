@@ -34,13 +34,16 @@ public class Rest_PaymentBank {
 
     @SuppressWarnings("rawtypes")
     @PostMapping(value = "/atualizar/pagamento", consumes = "application/json")
-    public Boolean atualizarPagamento(@RequestBody String paymentBankId) throws UnknownHostException, MongoException  {
+    public Boolean atualizarPagamento(@RequestBody BasicDBObject doc) throws UnknownHostException, MongoException  {
 
         MongoClient mongo = new MongoClient();
-        BasicDBObject doc = commons_db.obterCrudDoc("paymentBank", "_id", paymentBankId, mongo);
+        if (doc.get("paymentBankId") == null){
+            return false;
+        }
+        BasicDBObject paymentBankDoc = commons_db.obterCrudDoc("paymentBank", "_id", doc.getString("paymentBankId"), mongo);
         Boolean response = false;
-        if (doc != null) {
-            response = paymentBank.atualizaPagamento(paymentBankId, doc, mongo);
+        if (paymentBankDoc != null) {
+            response = paymentBank.atualizaPagamento(doc.getString("paymentBankId"), paymentBankDoc, doc.get("vendorsFail"), mongo);
         }
         mongo.close();;
         return response;

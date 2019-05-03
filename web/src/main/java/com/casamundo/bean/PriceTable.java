@@ -490,19 +490,27 @@ public class PriceTable {
                         resultItem.put("end", commons.calcNewDate((String) priceListDoc.get("to"), 1));
                     }
                     result.add(resultItem);
-                }else{
-                    if (commons.verifyInterval (commons.calcNewDate(end, -1), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
-                        BasicDBObject resultItem = new BasicDBObject();
-                        resultItem.put("value", priceListDoc.get("net"));
-                        resultItem.put("start", start);
-                        resultItem.put("end", end);
-                        if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
-                            start = commons.calcNewDate((String) priceListDoc.get("from"), 1);
-                            resultItem.put("start", (String) priceListDoc.get("from"));
-                        }
-                        result.add(resultItem);
-                    }
-                }
+                }else {
+					if (commons.verifyInterval(commons.calcNewDate(end, -1), (String) priceListDoc.get("from"), (String) priceListDoc.get("to"))) {
+						BasicDBObject resultItem = new BasicDBObject();
+						resultItem.put("value", priceListDoc.get("net"));
+						resultItem.put("start", start);
+						resultItem.put("end", end);
+						if (commons.convertDateInt(priceListDoc.getString("from")) > commons.convertDateInt(start)) {
+							start = commons.calcNewDate((String) priceListDoc.get("from"), 1);
+							resultItem.put("start", (String) priceListDoc.get("from"));
+						}
+						result.add(resultItem);
+					} else {
+						if (commons.comparaData(priceListDoc.getString("from"), start) && commons.comparaData(end, priceListDoc.getString("to"))) {
+							BasicDBObject resultItem = new BasicDBObject();
+							resultItem.put("value", priceListDoc.get("net"));
+							resultItem.put("start", priceListDoc.getString("from"));
+							resultItem.put("end", priceListDoc.getString("to"));
+							result.add(resultItem);
+						}
+					}
+				}
             };
         };
 
@@ -522,7 +530,6 @@ public class PriceTable {
         pricesList = (JSONArray) response.getBody();
 
         BasicDBObject resultFirstDestiny = new BasicDBObject();
-
 
         if (pricesList != null) {
             for (int i = 0; i < pricesList.size(); i++) {
@@ -551,7 +558,15 @@ public class PriceTable {
                             resultItem.put("start", (String) priceListDoc.get("from"));
                         }
                         result.add(resultItem);
-                    }
+					} else {
+						if (commons.comparaData(priceListDoc.getString("from"), start) && commons.comparaData(end, priceListDoc.getString("to"))) {
+							BasicDBObject resultItem = new BasicDBObject();
+							resultItem.put("value", priceListDoc.get("net"));
+							resultItem.put("start", priceListDoc.getString("from"));
+							resultItem.put("end", priceListDoc.getString("to"));
+							result.add(resultItem);
+						}
+					}
                 };
             };
         };
@@ -599,7 +614,15 @@ public class PriceTable {
                             resultItem.put("start", (String) priceListDoc.get("from"));
                         }
                         result.add(resultItem);
-                    }
+					} else {
+						if (commons.comparaData(priceListDoc.getString("from"), start) && commons.comparaData(end, priceListDoc.getString("to"))) {
+							BasicDBObject resultItem = new BasicDBObject();
+							resultItem.put("value", priceListDoc.get("net"));
+							resultItem.put("start", priceListDoc.getString("from"));
+							resultItem.put("end", priceListDoc.getString("to"));
+							result.add(resultItem);
+						}
+					}
                 };
             };
         };

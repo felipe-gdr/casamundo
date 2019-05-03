@@ -5,7 +5,7 @@ import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.mongodb.client.model.IndexOptions;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
@@ -16,7 +16,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
 public class Commons_DB {
@@ -826,9 +825,255 @@ public class Commons_DB {
             return ResponseEntity.ok().body(result);
         }
     }
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public ResponseEntity listaCrudSkipB(String collectionName,
+                                         String key,
+                                         String value,
+                                         String userId,
+                                         BasicDBObject setQueryInput,
+                                         BasicDBObject setSortInput,
+                                         Boolean onlyPrivate,
+                                         Integer start,
+                                         Integer length,
+                                         BasicDBObject params,
+                                         MongoClient mongo)
+            throws UnknownHostException, MongoException {
+        Boolean fechaMongo = false;
+        if (mongo == null){
+            mongo = getMongoClient();
+        }
+        MongoDatabase db = getDatabase(mongo);
+        MongoCollection<Document> collection = db.getCollection(collectionName);
+
+        BasicDBObject setQuery = new BasicDBObject();
+        if (key != null) {
+            setQuery.put(key, value);
+        }
+
+        if (setQueryInput != null) {
+            setQuery = setQueryInput;
+        }
+        BasicDBObject setSort = new BasicDBObject();
+
+//        if (setSortInput != null) {
+//            setSort = setSortInput;
+//        }
+
+        BasicDBObject setup = obterCrudDoc("setup", "documento.setupKey", collectionName, mongo);
+
+        BasicDBObject user = new BasicDBObject();
+        if (setup != null && !onlyPrivate) {
+            if (userId == null) {
+                if (fechaMongo) {
+                    mongo.close();
+                }
+                return null;
+            }
+            user = obterCrudDoc("usuarios", "_id", userId, mongo);
+            if (user == null) {
+                if (fechaMongo) {
+                    mongo.close();
+                }
+                return null;
+            }
+            if (user.get("company") == null) {
+                if (fechaMongo) {
+                    mongo.close();
+                }
+                return null;
+            }
+            if (user.get("city") == null) {
+                if (fechaMongo) {
+                    mongo.close();
+                }
+                return null;
+            }
+        }
+
+        String companyTable = null;
+        String cityTable = null;
+
+        if (setup != null) {
+            companyTable = (String) setup.get("company");
+            cityTable = (String) setup.get("city");
+        }
+
+        if (companyTable != null) {
+            setQuery.put("documento." + companyTable, user.get("company"));
+        }
+
+
+        long count = 0;
+
+        ArrayList<ArrayList<String>> listas = new ArrayList<>();
+        FindIterable<Document> cursor = collection.find(setQuery);
+        if (cursor.first() != null) {
+            for (Document current : cursor) {
+                BasicDBObject docObj = new BasicDBObject();
+                docObj.putAll((Map) current.get("documento"));
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) current);
+                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
+                montaDropDownFiltersB(collectionName, docObj, listas, params);
+                count++;
+            }
+        }
+
+        BasicDBList or = new BasicDBList();
+        Boolean temClause = false;
+        if (params.get("columns") != null) {
+            ArrayList<Object> columns = (ArrayList<Object>) params.get("columns");
+            for (int i = 0; i < columns.size(); i++) {
+                BasicDBObject column = new BasicDBObject();
+                column.putAll((Map) columns.get(i));
+                if (column.getString("searchable").equals("true")) {
+                    if (column.get("search") != null) {
+                        BasicDBObject search = new BasicDBObject();
+                        search.putAll((Map) column.get("search"));
+                        if (!search.get("value").equals("")) {
+                            Pattern regex = Pattern.compile(search.getString("value"), Pattern.CASE_INSENSITIVE);
+                            DBObject clause = new BasicDBObject(column.getString("data"), regex);
+                            or.add(clause);
+                            temClause = true;
+                        }
+                    }
+                    if (column.get("search") != null) {
+                        BasicDBObject search = new BasicDBObject();
+                        search.putAll((Map) column.get("search"));
+                        int pos = search.getString("value").indexOf("-yadcf_delim-");
+                        if (!search.getString("value").equals("") && pos < 0) {
+                            Pattern regex = Pattern.compile(search.getString("value"), Pattern.CASE_INSENSITIVE);
+                            setQuery.put(column.getString("data"), regex);
+                        } else {
+                            if (pos >= 0) {
+                                String from = "0";
+                                String to = "99999999999999999999999";
+                                if (pos > 0) {
+                                    from = search.getString("value").substring(0, pos);
+                                }
+                                if (pos + 13 < search.getString("value").length()) {
+                                    to = search.getString("value").substring(pos + 13);
+                                }
+                                BasicDBObject setCondition = new BasicDBObject();
+                                setCondition.put("$gte", from);
+                                setCondition.put("$lte", to);
+                                setQuery.put(column.getString("data"), setCondition);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        if (temClause) {
+            setQuery.put("$or", or);
+        }
+
+        if (params.get("order") != null) {
+            ArrayList<Object> orders = (ArrayList<Object>) params.get("order");
+            ArrayList<Object> columns = (ArrayList<Object>) params.get("columns");
+            for (int i = 0; i < orders.size(); i++) {
+                BasicDBObject order = new BasicDBObject();
+                order.putAll((Map) orders.get(i));
+                if (order.get("column") != null && order.get("dir") != null) {
+                    BasicDBObject column = new BasicDBObject();
+                    column.putAll((Map) columns.get(Integer.valueOf(order.getString("column"))));
+                    if (order.getString("dir").equals("asc")) {
+                        setSort.put(column.getString("data"), 1);
+                    } else {
+                        setSort.put(column.getString("data"), -1);
+                    }
+                }
+            }
+        }
+
+        cursor = collection.find(setQuery);
+        if (cursor.first() != null) {
+            for (Document current : cursor) {
+                BasicDBObject docObj = new BasicDBObject();
+                docObj.putAll((Map) current.get("documento"));
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) current);
+                doc = triggerDinamicData(doc, collectionName, montaSetQuery(doc.getString("_id")), mongo);
+                montaDropDownB(collectionName, docObj, listas, params);
+            }
+        }
+
+        long countFiltered = collection.countDocuments(setQuery);
+
+        //cursor = (FindIterable<Document>) collection.find(new Document("$text", new Document("$search", setQuery).append("$caseSensitive", new Boolean(true)).append("$diacriticSensitive", new Boolean(true)))).iterator();
+
+        cursor = collection.find(setQuery).sort(setSort);
+        if (length != -1) {
+            cursor.skip(start);
+            cursor.limit(length);
+        }
+        JSONArray documentos = new JSONArray();
+        if (cursor.first() != null) {
+            ArrayList cityUser = (ArrayList) user.get("city");
+            for (Document current : cursor) {
+                BasicDBObject docObj = new BasicDBObject();
+                docObj.putAll((Map) current.get("documento"));
+                BasicDBObject doc = new BasicDBObject();
+                doc.putAll((Map) current);
+                doc.put("_id", current.get("_id").toString());
+                if (cityTable != null) {
+                    Object object = docObj.get(cityTable);
+                    if (object != null) {
+                        if (object instanceof String) {
+                            if (commons.testaElementoArray(object.toString(), cityUser)) {
+                                documentos.add(doc);
+                            }
+                        } else {
+                            if (object instanceof ArrayList) {
+                                ArrayList cityDoc = (ArrayList) docObj.get(cityTable);
+                                if (commons.testaArray(cityUser, cityDoc)) {
+                                    documentos.add(doc);
+                                }
+                            } else {
+                                documentos.add(doc);
+                            }
+                        }
+                    }
+                } else {
+                    documentos.add(doc);
+                }
+            }
+            if (fechaMongo) {
+                mongo.close();
+            }
+            BasicDBObject result = new BasicDBObject();
+            result.put("count", count);
+            result.put("countFiltered", countFiltered);
+            int i = 0;
+            for (ArrayList lista : listas) {
+                result.put("yadcf_data_" + i, lista);
+                ++i;
+            }
+            result.put("documentos", documentos);
+            return ResponseEntity.ok().body(result);
+        } else {
+            if (fechaMongo) {
+                mongo.close();
+            }
+            BasicDBObject result = new BasicDBObject();
+            result.put("count", count);
+            result.put("countFiltered", countFiltered);
+            int i = 0;
+            for (ArrayList lista : listas) {
+                result.put("yadcf_data_" + i, lista);
+                ++i;
+            }
+            result.put("documentos", documentos);
+            return ResponseEntity.ok().body(result);
+        }
+    }
 
     private void montaDropDownFilters(String collectionName, BasicDBObject docObj, ArrayList<ArrayList<String>> listas, Map<String, String> params) {
+
         int i = 0;
+
         while (params.get("columns[" + i + "][data]") != null) {
             if (listas.size() < (i + 1)) {
                 listas.add(new ArrayList<>());
@@ -895,6 +1140,88 @@ public class Commons_DB {
                 }
             }
             ++i;
+        }
+    }
+
+    private void montaDropDownFiltersB(String collectionName, BasicDBObject docObj, ArrayList<ArrayList<String>> listas, BasicDBObject params) {
+
+        if (params.get("columns") != null) {
+            ArrayList<Object> columns = (ArrayList<Object>) params.get("columns");
+            for (int i = 0; i < columns.size(); i++) {
+                BasicDBObject column = new BasicDBObject();
+                column.putAll((Map) columns.get(i));
+                if (listas.size() < (i + 1)) {
+                    listas.add(new ArrayList<>());
+                }
+                if (column.get("search") != "") {
+                    BasicDBObject search = new BasicDBObject();
+                    search.putAll((Map) column.get("search"));
+                    if (!search.get("value").equals("") && column.get("data") != null) {
+                        if (column.getString("data").length() > 9 && !column.get("name").equals("notPop")) {
+                            if (!commons.testaElementoArray(docObj.getString(column.getString("data").substring(10)), listas.get(i))) {
+                                if (!docObj.getString(column.getString("data").substring(10)).equals("")) {
+                                    listas.get(i).add(docObj.getString(column.getString("data").substring(10)));
+                                }
+                            }
+                        }
+                        if (collectionName.equals("travel")) {
+                            BasicDBObject accomodation = new BasicDBObject();
+                            if (docObj.get("accomodation") != null) {
+                                accomodation.putAll((Map) docObj.get("accomodation"));
+                                if (column.getString("data").length() > 23) {
+                                    if (accomodation.get(column.getString("data").substring(23)) != null) {
+                                        if (!commons.testaElementoArray(accomodation.getString(column.getString("data").substring(23)), listas.get(i))) {
+                                            if (!accomodation.getString(column.getString("data").substring(23)).equals("")) {
+                                                listas.get(i).add(accomodation.getString(column.getString("data").substring(23)));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void montaDropDownB(String collectionName, BasicDBObject docObj, ArrayList<ArrayList<String>> listas,  BasicDBObject params) {
+
+        if (params.get("columns") != null) {
+            ArrayList<Object> columns = (ArrayList<Object>) params.get("columns");
+            for (int i = 0; i < columns.size(); i++) {
+                BasicDBObject column = new BasicDBObject();
+                column.putAll((Map) columns.get(i));
+                BasicDBObject search = new BasicDBObject();
+                search.putAll((Map) column.get("search"));
+                if (search.get("value") == "") {
+                    if (column.getString("data").length() > 9 && !column.getString("name").equals("notPop")) {
+                        if (docObj.get(column.getString("data").substring(10)) != null) {
+                            if (!commons.testaElementoArray(docObj.getString(column.getString("data").substring(10)), listas.get(i))) {
+                                if (!docObj.getString(column.getString("data").substring(10)).equals("")) {
+                                    listas.get(i).add(docObj.getString(column.getString("data").substring(10)));
+                                }
+                            }
+                        }
+                        if (collectionName.equals("travel")) {
+                            BasicDBObject accomodation = new BasicDBObject();
+                            if (docObj.get("accomodation") != null) {
+                                accomodation.putAll((Map) docObj.get("accomodation"));
+                                if (column.getString("data").length() > 23) {
+                                    if (accomodation.get(column.getString("data").substring(23)) != null) {
+                                        if (!commons.testaElementoArray(accomodation.getString(column.getString("data").substring(23)), listas.get(i))) {
+                                            if (!accomodation.getString(column.getString("data").substring(23)).equals("")) {
+                                                listas.get(i).add(accomodation.getString(column.getString("data").substring(23)));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -557,7 +557,7 @@ public class Payment {
                                                     int cycles = difDays / 28;
                                                     itemCost.put("controlDatePayment", commons.calcNewDate(accomodation.getString("checkIn").substring(0, 10), cycles * 28));
                                                 }
-                                                // quando a data do produto nao for igual a do checin da viagem ele sera tratado como extensao na regra de pagamento
+                                                // quando a data do produto nao for igual a do checkin da viagem ele sera tratado como extensao na regra de pagamento
                                                 if (!cost.getString("start").substring(0, 10).equals(vendor.getString("start").substring(0, 10))) {
                                                     itemCost.put("extension", "true");
                                                 }
@@ -568,15 +568,64 @@ public class Payment {
                                                         value = Double.parseDouble(cost.getString("value"));
                                                     }
                                                 }
-                                                BigDecimal amountValue = BigDecimal.valueOf(days * value);
-                                                amountValue = amountValue.setScale(2, RoundingMode.CEILING);
-                                                itemCost.put("itemAmount", amountValue.toString());
+                                                BigDecimal totalAmount = BigDecimal.valueOf(days * value);
+                                                totalAmount = totalAmount.setScale(2, RoundingMode.CEILING);
+                                                itemCost.put("itemAmount", totalAmount.toString());
                                                 itemCost.put("days", Integer.toString(days));
-                                                itemCost.put("totalAmount", amountValue.toString());
+                                                itemCost.put("totalAmount", totalAmount.toString());
                                                 itemCost.put("notes", notes);
-                                                if (value != 0.0 && amountValue.intValue() > 0) {
-                                                    itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment", mongo));
-                                                    commons_db.incluirCrud("payment", itemCost, mongo);
+                                                if (value != 0.0 && totalAmount.intValue() > 0) {
+                                                    int difDays = commons.difDate(itemCost.getString("controlDatePayment"), cost.getString("end").substring(0, 10));
+                                                    int cycles = difDays / 28;
+                                                    if (cycles < 1) {
+                                                        itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment", mongo));
+                                                        commons_db.incluirCrud("payment", itemCost, mongo);
+                                                    }else{
+                                                        String controlDatePayment = itemCost.getString("controlDatePayment");
+                                                        String start = cost.getString("start").substring(0, 10);
+                                                        BigDecimal totalAmountCalc = BigDecimal.valueOf(0.0);
+                                                        int totalDays = commons.difDate(cost.getString("start").substring(0, 10), cost.getString("end").substring(0, 10));
+                                                        days = 28;
+                                                        int daysCalc = 28;
+                                                        itemCost.put("days", Integer.toString(days));
+                                                        BigDecimal amountValue = BigDecimal.valueOf(days * value);
+                                                        amountValue = amountValue.setScale(2, RoundingMode.CEILING);
+                                                        itemCost.put("totalAmount", amountValue.toString());
+                                                        itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment", mongo));
+                                                        itemCost.put("end", commons.calcNewDate(start,28));
+                                                        start = itemCost.getString("end");
+                                                        commons_db.incluirCrud("payment", itemCost, mongo);
+                                                        totalAmountCalc = totalAmountCalc.add(amountValue);
+                                                        for (int k = 1; k < cycles; k++) {
+                                                            days = 28;
+                                                            daysCalc = daysCalc + days;
+                                                            itemCost.put("controlDatePayment", commons.calcNewDate(controlDatePayment, 28));
+                                                            itemCost.put("lastDayPayment", commons.calcNewDate(controlDatePayment, 28));
+                                                            controlDatePayment = itemCost.getString("controlDatePayment");
+                                                            itemCost.put("days", Integer.toString(days));
+                                                            amountValue = BigDecimal.valueOf(days * value);
+                                                            amountValue = amountValue.setScale(2, RoundingMode.CEILING);
+                                                            itemCost.put("totalAmount", amountValue.toString());
+                                                            itemCost.put("start", start);
+                                                            itemCost.put("end", commons.calcNewDate(start,28));
+                                                            start = itemCost.getString("end");
+                                                            itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment", mongo));
+                                                            commons_db.incluirCrud("payment", itemCost, mongo);
+                                                        }
+                                                        if (totalDays != daysCalc) {
+                                                            days = totalDays - daysCalc;
+                                                            itemCost.put("days", Integer.toString(days));
+                                                            amountValue = BigDecimal.valueOf(days * value);
+                                                            amountValue = amountValue.setScale(2, RoundingMode.CEILING);
+                                                            itemCost.put("controlDatePayment", commons.calcNewDate(controlDatePayment, 28));
+                                                            itemCost.put("lastDayPayment", commons.calcNewDate(controlDatePayment, 28));
+                                                            itemCost.put("totalAmount", amountValue.toString());
+                                                            itemCost.put("start", start);
+                                                            itemCost.put("end", cost.getString("end"));
+                                                            itemCost.put("number", commons_db.getNumber("numberPayment", "yearNumberPayment", mongo));
+                                                            commons_db.incluirCrud("payment", itemCost, mongo);
+                                                        }
+                                                    }
                                                     if (productDoc.get("group") != null) {
                                                         groups.add(productDoc.getString("group"));
                                                     }

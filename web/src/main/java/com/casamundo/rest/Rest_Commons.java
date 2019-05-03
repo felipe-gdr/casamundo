@@ -4,11 +4,15 @@ import com.casamundo.bean.Invoice;
 import com.casamundo.commons.Commons;
 import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import org.json.simple.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
 import java.util.Map;
 
 @RestController
@@ -48,4 +52,16 @@ public class Rest_Commons {
 		variaveis.putAll((Map) queryParam.get("variaveis"));
 		return invoice.testaFormla(formula,variaveis);
 	};
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/listadatatable", consumes = "application/json")
+	public BasicDBObject listadatatable(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException, UnsupportedEncodingException {
+
+		MongoClient mongo = commons_db.getMongoClient();
+		BasicDBObject response = commons.listaDatatable(params,mongo);
+		mongo.close();
+		return response;
+
+	};
+
 };

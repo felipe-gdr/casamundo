@@ -1,9 +1,13 @@
 package com.casamundo.commons;
 
+import com.casamundo.dao.Commons_DB;
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,6 +16,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -24,7 +29,7 @@ import static io.restassured.RestAssured.given;
 
 
 public class Commons {
-		
+
 	public Boolean verifyInterval (String date, String initInterval, String endInterval){
 	
 		DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
@@ -796,5 +801,50 @@ public class Commons {
 			arrayUpdate.add(update);
 		}
 		return arrayUpdate;
+    }
+
+    public BasicDBObject listaDatatable(BasicDBObject params, MongoClient mongo) throws UnknownHostException {
+
+		if (params.get("companyId") == null || params.get("usuarioId") == null){
+			return null;
+		}
+
+		if (params.get("companyId").equals("") || params.get("usuarioId").equals("")){
+			return null;
+		}
+
+		BasicDBObject setQuery = new BasicDBObject();
+		if (params.get("setQuery") != null) {
+			ArrayList<Object> setQueries = (ArrayList<Object>) params.get("setQuery");
+			for (int i = 0; i < setQueries.size(); i++) {
+				BasicDBObject query = new BasicDBObject();
+				query.putAll((Map) setQueries.get(i));
+				setQuery.put(query.getString("key"), query.getString("value"));
+			}
+		}
+
+		BasicDBObject result = new BasicDBObject();
+		result.put("draw", params.get("draw"));
+
+		Commons_DB commons_db = new Commons_DB();
+		ResponseEntity response = commons_db.listaCrudSkipB(params.getString("collection"), "documento.companyId", params.getString("companyId"), params.getString("usuarioId"), setQuery, null, false, Integer.parseInt(params.getString("start")),Integer.parseInt(params.getString("length")), params, mongo);
+		BasicDBObject retorno = new BasicDBObject();
+		if ((response.getStatusCode() == HttpStatus.OK)) {
+			retorno.putAll((Map) response.getBody());
+		};
+
+		if (retorno != null) {
+			ArrayList<Object> invoices = (ArrayList<Object>) retorno.get("documentos");
+			result.put("data", invoices);
+			result.put("recordsFiltered", retorno.get("countFiltered"));
+			result.put("recordsTotal", retorno.get("count"));
+			int i = 0;
+			while (retorno.get("yadcf_data_" + i) != null){
+				result.put("yadcf_data_" + i, retorno.get("yadcf_data_" + i));
+				++i;
+			}
+		}
+		return result;
+
     }
 };
