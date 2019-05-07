@@ -977,4 +977,24 @@ public class Payment {
 
         return result;
     }
+
+    public void transfer(BasicDBObject payment, MongoClient mongo) throws UnknownHostException {
+
+        payment.put("status","paid");
+        String paymentId = payment.getString("_id");
+        payment.remove("_id");
+        commons_db.atualizarCrud("payment",payment, "_id", paymentId, mongo);
+
+        BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", payment.getString("cycleId"), mongo);
+        ArrayList <String> paymentsCycles = (ArrayList<String>) paymentCycle.get("vendorsFail");
+        paymentsCycles = commons.removeString(paymentsCycles, payment.getString("vendirId"));
+        if (paymentsCycles.isEmpty()){
+            paymentCycle.put("vendorsFail", "paid");
+        }
+        paymentCycle.put("", paymentsCycles);
+        String paymentCycleId = paymentCycle.getString("_id");
+        paymentCycle.remove("_id");
+        commons_db.atualizarCrud("paymentCycles",paymentCycleId, "_id", paymentId, mongo);
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.casamundo.dao;
 
 import com.casamundo.commons.Commons;
+import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -12,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Commons_DB {
@@ -1025,9 +1024,11 @@ public class Commons_DB {
                 doc.put("_id", current.get("_id").toString());
                 Boolean addDocument = true;
                 if (params.get("allocation") != null){
-                    if (!getAvailable(doc.getString("_id"),params.getString("checkIn"), params.getString("checkOut"), mongo)){
+                    BasicDBObject available = getAvailable(doc.getString("_id"),params.getString("checkIn"), params.getString("checkOut"), mongo);
+                    if (!available.getBoolean("available")){
                         addDocument = false;
                     }
+                    doc.put("daysAvailable", available.getBoolean("daysAvailable"));
                 }
                 if (cityTable != null) {
                     Object object = docObj.get(cityTable);
@@ -1236,7 +1237,7 @@ public class Commons_DB {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Boolean getAvailable(String familyId, String start, String end, MongoClient mongo) throws UnknownHostException {
+    public BasicDBObject getAvailable(String familyId, String start, String end, MongoClient mongo) throws UnknownHostException {
 
         BasicDBObject result = new BasicDBObject();
         ArrayList<BasicDBObject> resultArray = new ArrayList<BasicDBObject>();
@@ -1286,7 +1287,9 @@ public class Commons_DB {
             }
         }
 
-        return commons.testaElementoArray("0", allocations);
+        result.put("available",commons.testaElementoArray("0", allocations));
+        result.put("daysAvailable", commons.countElements("0", allocations));
+        return result;
 
     }
 

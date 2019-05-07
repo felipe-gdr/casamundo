@@ -58,4 +58,7 @@ public class Travel {
 
 	}
 
+    public void revert(BasicDBObject travelDoc, MongoClient mongo) {
+
+    }
 }

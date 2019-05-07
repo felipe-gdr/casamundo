@@ -87,7 +87,8 @@ public class Rest_DayPilot {
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping(value = "/resize/check/homestay", consumes = "application/json")
-	public BasicDBObject resizeCheckHomestay(@RequestBody BasicDBObject params) throws UnknownHostException, MongoException  {
+	public BasicDBObject resizeCheckHomestay(@RequestBody BasicDBObject params
+	) throws UnknownHostException, MongoException  {
 
 		if (params != null) {
 			MongoClient mongo = commons_db.getMongoClient();

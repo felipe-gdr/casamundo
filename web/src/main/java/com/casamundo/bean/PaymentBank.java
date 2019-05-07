@@ -261,6 +261,10 @@ public class PaymentBank {
             BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i), mongo);
             Boolean temFails = false;
             ArrayList  payments = (ArrayList) paymentCycle.get("payments");
+            ArrayList <String> vendorsFailCycle = new ArrayList<>();
+            if (paymentCycle.get("payments") != null){
+                vendorsFailCycle = (ArrayList) paymentCycle.get("vendorsFail");
+            }
             for (int j = 0; j < payments.size(); j++) {
                 BasicDBObject payment = new BasicDBObject();
                 payment.putAll((Map) payments.get(j));
@@ -270,9 +274,7 @@ public class PaymentBank {
                         paymentDoc.put("status", "transfer");
                         paymentDoc.put("payedAmount", "0.0");
                         paymentDoc.put("payedDays", "0");
-                        paymentDoc.remove("cycleId");
-                        paymentDoc.remove("payValue");
-                        commons.removeString(vendorsFail,paymentDoc.getString("vendorId"));
+                        vendorsFailCycle.add(paymentDoc.getString("vendorId"));
                         temFails = true;
 
                     }else {
@@ -333,6 +335,7 @@ public class PaymentBank {
                 paymentCycle.put("status", "paid");
             }
             paymentCycle.remove("_id");
+            paymentCycle.put("vendorsFail", vendorsFailCycle);
             ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
             BasicDBObject update = new BasicDBObject();
             update.put("field", "documento");

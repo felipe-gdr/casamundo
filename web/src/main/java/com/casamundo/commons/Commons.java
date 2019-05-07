@@ -334,6 +334,17 @@ public class Commons {
 		return false;
 	};
 
+	public int countElements(String elemento, ArrayList<String> array) {
+
+		int result = 0;
+		for (int w = 0; w < array.size(); w++) {
+			if (array.get(w).toString().equals(elemento)) {
+				result++;
+			};
+		};
+		return result;
+	};
+
 	public Boolean testaElementoArrayObject(BasicDBObject elemento, ArrayList<BasicDBObject> array) {
 
 		for (int w = 0; w < array.size(); w++) {

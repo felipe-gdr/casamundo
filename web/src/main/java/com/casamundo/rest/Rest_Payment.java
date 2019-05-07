@@ -107,6 +107,24 @@ public class Rest_Payment {
 
 	}
 
+	@RequestMapping(value = "/transfer", produces = "application/json")
+	public Boolean transfer(
+			@RequestParam(value = "paymentId", required=false) String paymentId
+			) throws UnknownHostException, MongoException {
+
+		MongoClient mongo = commons_db.getMongoClient();
+		if (paymentId != null ) {
+			BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", paymentId, mongo);
+			if (payment != null) {
+				payment.transfer(paymentDoc, mongo);
+				mongo.close();
+				return true;
+			}
+		}
+		mongo.close();
+		return false;
+	}
+
 	@RequestMapping(value = "/getCostDriver", produces = "application/json")
 	public BasicDBObject getCostDriver(
 			@RequestParam(value = "driverId", required=false) String driverId,

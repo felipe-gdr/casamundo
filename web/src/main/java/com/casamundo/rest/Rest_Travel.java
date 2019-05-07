@@ -8,10 +8,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
@@ -35,5 +32,18 @@ public class Rest_Travel {
 		return response;
 
 	};
+
+	@RequestMapping(value = "/revert", produces = "application/json")
+	@PostMapping(value = "/resize/check/homestay", consumes = "application/json")
+	public BasicDBObject transfer(@RequestBody BasicDBObject doc
+	) throws  MongoException  {
+
+		MongoClient mongo = commons_db.getMongoClient();
+		if (doc != null ) {
+			return null;
+		}
+		mongo.close();
+		return null;
+	}
 
 };
