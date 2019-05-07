@@ -2,7 +2,6 @@ package com.casamundo.rest;
 
 import com.casamundo.bean.Table;
 import com.casamundo.commons.Commons;
-import com.casamundo.externalBean.External_Agency;
 import com.casamundo.externalBean.External_Book;
 import com.casamundo.geolocalization.GeocodingException;
 import com.casamundo.geolocalization.GeocodingImpl;
@@ -48,16 +47,13 @@ public class Rest_Teste {
 
     @SuppressWarnings("unchecked")
     @GetMapping(value = "/teste2", produces = "application/json")
-    public ResponseEntity teste2(
-			@RequestParam(value = "collectionName") String collectionName
+    public int teste2(
+			@RequestParam(value = "date1") String date1,
+			@RequestParam(value = "date2") String date2
 
 			) throws UnknownHostException {
-        MongoClient mongo = commons_db.getMongoClient();
-        MongoDatabase database = mongo.getDatabase("documento");
-        MongoCollection<Document> collection = database.getCollection(collectionName);
-		mongo.close();
 
-        return commons_db.teste(0, 50,collectionName);
+        return commons.getRelativeDay(date1,date2);
     };
 
 	@SuppressWarnings("unchecked")

@@ -5,7 +5,6 @@ import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.IndexOptions;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
@@ -855,6 +854,12 @@ public class Commons_DB {
         }
         BasicDBObject setSort = new BasicDBObject();
 
+        if (params.get("allocation") != null){
+            if (params.getString("checkIn") == null || params.getString("checkOut") == null){
+                return  null;
+            }
+        }
+
 //        if (setSortInput != null) {
 //            setSort = setSortInput;
 //        }
@@ -1018,25 +1023,30 @@ public class Commons_DB {
                 BasicDBObject doc = new BasicDBObject();
                 doc.putAll((Map) current);
                 doc.put("_id", current.get("_id").toString());
+                Boolean addDocument = true;
+                if (params.get("allocation") != null){
+                    if (!getAvailable(doc.getString("_id"),params.getString("checkIn"), params.getString("checkOut"), mongo)){
+                        addDocument = false;
+                    }
+                }
                 if (cityTable != null) {
                     Object object = docObj.get(cityTable);
                     if (object != null) {
                         if (object instanceof String) {
-                            if (commons.testaElementoArray(object.toString(), cityUser)) {
-                                documentos.add(doc);
+                            if (!commons.testaElementoArray(object.toString(), cityUser)) {
+                                addDocument = false;
                             }
                         } else {
                             if (object instanceof ArrayList) {
                                 ArrayList cityDoc = (ArrayList) docObj.get(cityTable);
-                                if (commons.testaArray(cityUser, cityDoc)) {
-                                    documentos.add(doc);
+                                if (!commons.testaArray(cityUser, cityDoc)) {
+                                    addDocument = false;
                                 }
-                            } else {
-                                documentos.add(doc);
                             }
                         }
                     }
-                } else {
+                }
+                if (addDocument) {
                     documentos.add(doc);
                 }
             }
@@ -1225,6 +1235,60 @@ public class Commons_DB {
         }
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Boolean getAvailable(String familyId, String start, String end, MongoClient mongo) throws UnknownHostException {
+
+        BasicDBObject result = new BasicDBObject();
+        ArrayList<BasicDBObject> resultArray = new ArrayList<BasicDBObject>();
+
+        ResponseEntity response = listaCrud("familyDorm", "ddocumento.familyId", familyId, null, null, null, true, mongo);
+
+        BasicDBObject setQuery = new BasicDBObject();
+        BasicDBObject setCondition = new BasicDBObject();
+        setCondition.put("$gte", start);
+        setCondition.put("$lte", end);
+        setQuery.put("documento.checkIn", setCondition);
+
+        ArrayList<String> allocations = new ArrayList<String>();
+
+        String date = start;
+        while (commons.comparaData(end,date)){
+            allocations.add("0");
+            date = commons.calcNewDate(date, 1);
+        }
+
+        ArrayList<Object> dorms = new ArrayList<Object>();
+        dorms = (JSONArray) response.getBody();
+        HttpStatus a = response.getStatusCode();
+        if (dorms != null) {
+            for (int i = 0; i < dorms.size(); i++) {
+                BasicDBObject dorm = new BasicDBObject();
+                dorm.putAll((Map) dorms.get(i));
+                BasicDBObject dormDoc = new BasicDBObject();
+                dormDoc.putAll((Map) dorm.get("documento"));
+                setQuery.put("documento.resource", dormDoc.getString("id") );
+                ResponseEntity responseBook = listaCrud("hemostayBook", null, null, null, setQuery, null, true, mongo);
+                ArrayList<Object> books = new ArrayList<Object>();
+                books = (JSONArray) responseBook.getBody();
+                if (books != null) {
+                    for (int j = 0; j < books.size(); j++) {
+                        BasicDBObject book = new BasicDBObject();
+                        book.putAll((Map) books.get(j));
+                        BasicDBObject bookDoc = new BasicDBObject();
+                        bookDoc.putAll((Map) book.get("documento"));
+                        date = start;
+                        while (commons.comparaData(end,date)){
+                            allocations.set(commons.getRelativeDay(date, start), "1");
+                            date = commons.calcNewDate(date, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        return commons.testaElementoArray("0", allocations);
+
+    }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public ResponseEntity teste(int start, int length, String collectionName) throws UnknownHostException, MongoException {

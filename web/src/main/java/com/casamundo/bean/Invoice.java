@@ -52,7 +52,13 @@ public class Invoice {
                 ArrayList<Object> productsResult = new ArrayList<Object>();
                 productsResult = (ArrayList) documento.get("products");
                 estimated.criarCosts(productsResult, documento.getString("trip"), invoiceId, mongo);
-                payment.managementCostsBooking(documento.getString("trip"), invoiceId,  false, false, mongo);
+                if (documento.get("typeInvoice") != null){
+                    if (documento.getString("typeInvoice").equals("invoice")) {
+                        payment.managementCostsBooking(documento.getString("trip"), invoiceId, false, false, mongo);
+                    }
+                }else{
+                        payment.managementCostsBooking(documento.getString("trip"), invoiceId,  false, false, mongo);
+                }
             }
         }
         return response;
@@ -78,7 +84,13 @@ public class Invoice {
             ArrayList<Object> productsResult = new ArrayList<Object>();
             productsResult = (ArrayList) documento.get("products");
             estimated.criarCosts(productsResult, documento.getString("trip"), queryParam.get("value").toString(), mongo);
-            payment.managementCostsBooking(documento.getString("trip"), queryParam.get("value").toString(),  atualiza, book, mongo);
+            if (documento.get("typeInvoice") != null){
+                if (documento.getString("typeInvoice").equals("invoice")) {
+                    payment.managementCostsBooking(documento.getString("trip"), queryParam.get("value").toString(),  atualiza, book, mongo);
+                }
+            }else{
+                payment.managementCostsBooking(documento.getString("trip"), queryParam.get("value").toString(),  atualiza, book, mongo);
+            }
         };
         return response;
 

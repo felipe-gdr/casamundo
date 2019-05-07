@@ -559,7 +559,23 @@ public class Commons {
 
 	};
 
-    public BasicDBObject getDaysInterval(String start, String end, String start1, String end1) {
+
+	public int convertDateIntDay(String date) {
+
+		return difDate("1970-01-01", date);
+	};
+
+
+	public int getRelativeDay(String date1, String date2){
+
+		int a = convertDateIntDay(date1);
+		int b = convertDateIntDay(date2);
+		return convertDateIntDay(date2) - convertDateIntDay(date1);
+
+	};
+
+
+	public BasicDBObject getDaysInterval(String start, String end, String start1, String end1) {
         BasicDBObject result = new BasicDBObject();
         result.put ("days",0);
         result.put("start", start);

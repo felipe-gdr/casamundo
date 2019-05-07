@@ -255,10 +255,11 @@ public class PaymentBank {
 
     public Boolean atualizaPagamento(String paymentBankId, BasicDBObject doc, Object vendorsFailIn, MongoClient mongo) throws UnknownHostException {
 
-        ArrayList <String> vendorsFail = (ArrayList<String>) vendorsFailIn;;
+        ArrayList <String> vendorsFail = (ArrayList<String>) vendorsFailIn;
         ArrayList <String> paymentsCycles = (ArrayList<String>) doc.get("paymentCycles");
         for (int i = 0; i < paymentsCycles.size(); i++) {
             BasicDBObject paymentCycle = commons_db.obterCrudDoc("paymentCycles", "_id", paymentsCycles.get(i), mongo);
+            Boolean temFails = false;
             ArrayList  payments = (ArrayList) paymentCycle.get("payments");
             for (int j = 0; j < payments.size(); j++) {
                 BasicDBObject payment = new BasicDBObject();
@@ -266,11 +267,14 @@ public class PaymentBank {
                 BasicDBObject paymentDoc = commons_db.obterCrudDoc("payment", "_id", payment.getString("id"), mongo);
                 if (paymentDoc != null) {
                     if (commons.testaElementoArray(paymentDoc.getString("vendorId"), vendorsFail)){
-                        paymentDoc.put("status", "pending");
+                        paymentDoc.put("status", "transfer");
                         paymentDoc.put("payedAmount", "0.0");
                         paymentDoc.put("payedDays", "0");
                         paymentDoc.remove("cycleId");
                         paymentDoc.remove("payValue");
+                        commons.removeString(vendorsFail,paymentDoc.getString("vendorId"));
+                        temFails = true;
+
                     }else {
                         paymentDoc.put("payedAmount", Double.toString(Double.parseDouble(paymentDoc.getString("payedAmount")) + Double.parseDouble(paymentDoc.getString("payValue"))));
                         paymentDoc.put("payedDays", Integer.toString(Integer.parseInt(paymentDoc.getString("payedDays")) + Integer.parseInt(paymentDoc.getString("payDays"))));
@@ -323,13 +327,18 @@ public class PaymentBank {
                     commons_db.atualizarCrud("payment", arrayUpdate, "_id", paymentDoc.getString("_id"), mongo);
                 }
             }
-            paymentCycle.put("status","paid");
+            if (temFails){
+                paymentCycle.put("status","partial");
+            }else {
+                paymentCycle.put("status", "paid");
+            }
             paymentCycle.remove("_id");
             ArrayList<BasicDBObject> arrayUpdate = new ArrayList<BasicDBObject>();
             BasicDBObject update = new BasicDBObject();
             update.put("field", "documento");
             update.put("value", paymentCycle);
             arrayUpdate.add(update);
+
             commons_db.atualizarCrud("paymentCycles", arrayUpdate, "_id", paymentsCycles.get(i), mongo);
 
             doc.put("status","paid");

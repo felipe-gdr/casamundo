@@ -39,6 +39,7 @@ public class PriceTable {
 				BasicDBObject jsonResult = new BasicDBObject();
 				jsonResult.put("_id", price.get("_id"));
 				jsonResult.put("name", priceDoc.get("name"));
+				jsonResult.put("description", priceDoc.get("description"));
 				jsonResult.put("gross", priceValue.get("gross"));
 				jsonResult.put("net", priceValue.get("net"));
 				jsonResult.put("status", priceValue.get("status"));
