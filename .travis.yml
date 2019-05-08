@@ -1,0 +1,17 @@
+language: java
+script:
+- mvn clean package
+before_deploy:
+- mvn package -DskipTests
+deploy:
+  provider: elasticbeanstalk
+  file: web/target/casamundo-web.var
+  access_key_id: AKIATAMN4JXMX7BEPJ6X
+  secret_access_key:
+    secure: xJEiLTRBF6pfvY18q8jb9ohx0kosdrhX0QsNgVueq1BFvHIrcOLKAgQUrS2lkbqB+seGnTDBmr8UC9SFirx7K0I5MYk1AJuiiHr6IAgRshBFS7+iCGWRFoCIyz4RHigSuLGVDNUZzOL9TF7edtn+LSZvkHPxnzzE2sO9xPqktYKxkWm8ZcklfHaYmnAVyj3uEVjkjRrrkQehkUEg1eF20FcQ0wvmv4AMr4JXsMF6NndIkqtVlLstmpdP70tyVU7+MeHPhtD/uVZYeIHKufvvSuUbMuFAJvbB93qVc2rzV36qwVPjuHOQc0joC3qOfq/hS7G5LJNgcY7WB3dTZwuglj+3mLlAQ55q9O/crZjnPtbLKrM5N/0gcYAIx6v+CP51oCk1cw00sWTZI9OjPl+aBK2mypOhGFUoaYieA/zxIc362F7/FJCgnT1h+Bw6OGfoAhUWZb/mQqQjtXiZ4OO3lEBqwdbCKqFePUmmDqKhfCpBvLGOw12MGkp2XHk5cCktvAzYDjYaj3Qpi06dWqdhEDahWltS0nkf+XcGaoG+e7zmsALdYkXle+agwyEBWdiBrzSWWhdDgioxYT5z6AnLtzpwUJjiXxkaxoLwJuW1cjbOwuNFLVqg0D1RZnE1OapisQFiuvKatLpYbty83bLb3y1JXT6WcZxVK2uS49kSO90=
+  region: us-west-2
+  app: Casamundo
+  env: Casamundo-staging
+  on:
+    repo: felipe-gdr/casamundo
+    branch: CASA-52_mvn-release
