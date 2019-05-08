@@ -27,4 +27,9 @@ public class Rest_Agency {
 		mongo.close();
 		return response;
 	}
+
+	@GetMapping(value = "/test", produces = "application/json")
+	public String test() throws UnknownHostException, MongoException {
+		return "Hello world!";
+	}
 }
