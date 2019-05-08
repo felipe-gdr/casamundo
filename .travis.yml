@@ -12,6 +12,7 @@ deploy:
   region: us-west-2
   app: Casamundo
   env: Casamundo-staging
+  bucket_name: casamundo-backend-deploys
   on:
     repo: felipe-gdr/casamundo
     branch: CASA-52_mvn-release
